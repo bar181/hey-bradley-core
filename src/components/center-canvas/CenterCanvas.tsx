@@ -11,7 +11,7 @@ export function CenterCanvas() {
   return (
     <div className="h-full flex flex-col">
       <TabBar />
-      <div className="flex-1 overflow-auto p-4">
+      <div className="flex-1 overflow-auto bg-hb-bg p-4">
         {activeTab === 'REALITY' && <RealityTab />}
         {activeTab === 'DATA' && <DataTab />}
         {activeTab === 'XAI_DOCS' && <XAIDocsTab />}

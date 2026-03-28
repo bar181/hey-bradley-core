@@ -1,4 +1,4 @@
-import { Monitor, Tablet, Smartphone } from 'lucide-react'
+import { Monitor, Tablet, Smartphone, Clock } from 'lucide-react'
 import { ModeToggle } from './ModeToggle'
 
 export function TopBar() {
@@ -7,7 +7,7 @@ export function TopBar() {
       {/* Left: Logo + project name */}
       <div className="flex items-center gap-3">
         <span className="font-mono font-bold text-hb-accent text-lg">HB</span>
-        <span className="font-ui text-sm text-hb-text-primary">Untitled Project</span>
+        <span className="text-sm text-hb-text-secondary">Untitled Project</span>
       </div>
 
       {/* Center: Mode toggles + Version badge */}
@@ -29,7 +29,13 @@ export function TopBar() {
         <button className="p-1 text-hb-text-muted hover:text-hb-text-primary transition-colors">
           <Smartphone size={16} />
         </button>
-        <button className="ml-2 border border-hb-border text-hb-text-secondary font-mono text-xs uppercase px-3 py-1 rounded hover:bg-hb-surface transition-colors">
+        <button
+          className="p-1 text-hb-text-muted hover:text-hb-text-primary transition-colors opacity-50 cursor-not-allowed"
+          title="Change History (coming soon)"
+        >
+          <Clock size={16} />
+        </button>
+        <button className="ml-2 border border-hb-border text-hb-text-secondary font-mono text-xs uppercase px-3 py-1 rounded hover:bg-hb-surface-hover transition-colors">
           Share
         </button>
       </div>

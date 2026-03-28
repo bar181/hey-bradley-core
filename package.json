@@ -1,7 +1,15 @@
 {
-  "name": "app",
+  "name": "hey-bradley-core",
   "private": true,
   "version": "0.0.0",
+  "description": "Hey Bradley — A voice-first specification platform for marketing websites. Harvard ALM Capstone 2026.",
+  "author": "Bradley Ross <bar181@yahoo.com> (https://github.com/bar181)",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/bar181/hey-bradley-core",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bar181/hey-bradley-core"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
