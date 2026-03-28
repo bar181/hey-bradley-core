@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Bradley — The Vision — Hey Bradley Wiki</title>
+<style>
+  /* ── Reset & Base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0b0f1a;
+    --surface: #131825;
+    --surface-2: #1a2035;
+    --border: #2a3050;
+    --text: #e2e8f0;
+    --text-muted: #95a0b8;
+    --accent: #6c8cff;
+    --accent-glow: rgba(108, 140, 255, 0.25);
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --cyan: #22d3ee;
+    --purple: #a78bfa;
+    --radius: 12px;
+  }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── Layout ── */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    padding: 72px 0 48px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, rgba(167, 139, 250, 0.12) 40%, transparent 70%);
+    animation: hero-pulse 6s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes hero-pulse {
+    0%, 100% { opacity: 0.35; transform: translateX(-50%) scale(1); }
+    50%      { opacity: 0.55; transform: translateX(-50%) scale(1.06); }
+  }
+  .hero h1 {
+    font-size: 2.75rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #fff 30%, var(--accent) 70%, var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: hero-fade-in 1s ease-out;
+    position: relative;
+  }
+  @keyframes hero-fade-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero .subtitle {
+    margin-top: 12px;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    position: relative;
+    animation: hero-fade-in 1.2s ease-out;
+  }
+
+  /* ── Badges ── */
+  .badges {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+    position: relative;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .badge:hover { box-shadow: 0 0 12px rgba(108, 140, 255, 0.15); transition: box-shadow 0.3s; }
+  .badge.module  { border-color: var(--accent); color: var(--accent); }
+  .badge.algo    { border-color: var(--cyan);   color: var(--cyan); }
+  .badge.perf    { border-color: var(--green);  color: var(--green); }
+  .badge.ai      { border-color: var(--purple); color: var(--purple); }
+  .badge.design  { border-color: #e8772e;       color: #e8772e; }
+  .badge.phase   { border-color: var(--cyan);   color: var(--cyan); background: rgba(34, 211, 238, 0.08); }
+
+  /* ── Highlight Strip ── */
+  .highlights {
+    margin-top: 20px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    text-align: center;
+    position: relative;
+  }
+  .highlights strong { color: var(--text); }
+
+  /* ── Key Takeaway (Hero) ── */
+  .key-takeaway {
+    background: linear-gradient(135deg, rgba(108, 140, 255, 0.08), rgba(167, 139, 250, 0.08));
+    border: 1px solid rgba(108, 140, 255, 0.3);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-top: 24px;
+    text-align: left;
+    position: relative;
+  }
+  .key-takeaway h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .key-takeaway p { font-size: 0.95rem; color: var(--text); line-height: 1.6; }
+
+  /* ── Section Cards ── */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    margin-top: 32px;
+    animation: card-in 0.6s ease-out both;
+    transition: border-color 0.3s;
+  }
+  .section:hover { border-color: rgba(108, 140, 255, 0.3); }
+  .section:nth-child(2) { animation-delay: 0.1s; }
+  .section:nth-child(3) { animation-delay: 0.15s; }
+  .section:nth-child(4) { animation-delay: 0.2s; }
+  .section:nth-child(5) { animation-delay: 0.25s; }
+  .section:nth-child(6) { animation-delay: 0.3s; }
+  .section:nth-child(7) { animation-delay: 0.35s; }
+  .section:nth-child(8) { animation-delay: 0.4s; }
+  .section:nth-child(9) { animation-delay: 0.45s; }
+  .section:nth-child(10) { animation-delay: 0.5s; }
+  @keyframes card-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .section h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section h2 .icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .section p, .section li {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+  .section p + p { margin-top: 12px; }
+
+  /* ── Callout Boxes ── */
+  .callout {
+    margin-top: 16px;
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    border-left: 4px solid var(--accent);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  .callout strong { color: var(--text); }
+  .callout.warn    { border-left-color: var(--amber); }
+  .callout.success { border-left-color: var(--green); }
+
+  /* ── Comparison Table ── */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .compare-col {
+    background: var(--surface-2);
+    border-radius: var(--radius);
+    padding: 20px;
+    border: 1px solid var(--border);
+  }
+  .compare-col h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+  .compare-col.traditional h3 { color: var(--text-muted); }
+  .compare-col.novel h3 { color: var(--green); }
+  .compare-col ul { list-style: none; padding: 0; }
+  .compare-col li {
+    padding: 6px 0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-col li:last-child { border-bottom: none; }
+  .metric-highlight {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .metric-highlight.slow { background: rgba(248, 113, 113, 0.15); color: var(--red); }
+  .metric-highlight.fast { background: rgba(74, 222, 128, 0.15); color: var(--green); }
+
+  /* ── Core Details ── */
+  .detail-step {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .detail-step:last-child { border-bottom: none; }
+  .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--accent-glow);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-content h4 { font-size: 0.95rem; margin-bottom: 4px; }
+  .step-content p { font-size: 0.88rem; }
+
+  /* ── Related Features ── */
+  .related-list { list-style: none; padding: 0; }
+  .related-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+  .related-list li:last-child { border-bottom: none; }
+  .related-name {
+    font-weight: 600;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* ── Chart Area ── */
+  .chart-container {
+    margin-top: 16px;
+    background: var(--surface-2);
+    border-radius: var(--radius);
+    padding: 24px;
+    border: 1px solid var(--border);
+  }
+  .bar-chart { display: flex; flex-direction: column; gap: 12px; }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .bar-label {
+    width: 150px;
+    font-size: 0.82rem;
+    text-align: right;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+  .bar-track {
+    flex: 1;
+    height: 28px;
+    background: var(--bg);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #fff;
+    animation: bar-grow 1.5s ease-out both;
+    overflow: visible;
+    white-space: nowrap;
+    min-width: fit-content;
+  }
+  @keyframes bar-grow { from { width: 0; } }
+  .bar-fill.accent  { background: linear-gradient(90deg, var(--accent), #8ba4ff); }
+  .bar-fill.green   { background: linear-gradient(90deg, #16a34a, var(--green)); }
+  .bar-fill.amber   { background: linear-gradient(90deg, #d97706, var(--amber)); }
+  .bar-fill.red     { background: linear-gradient(90deg, #dc2626, var(--red)); }
+  .bar-fill.cyan    { background: linear-gradient(90deg, #0891b2, var(--cyan)); }
+  .bar-fill.purple  { background: linear-gradient(90deg, #7c3aed, var(--purple)); }
+
+  /* ── SVG Diagram Area ── */
+  .diagram-wrap { margin-top: 16px; text-align: center; }
+  .diagram-wrap svg { max-width: 100%; height: auto; }
+
+  /* ── Data Tables ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    font-size: 0.85rem;
+  }
+  .data-table th {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--border);
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .data-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+  .data-table tr:hover td { color: var(--text); }
+
+  /* ── Domain Tags (for cross-domain tables) ── */
+  .domain-tag {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    margin-right: 4px;
+  }
+  .domain-tag.module { background: rgba(108, 140, 255, 0.15); color: var(--accent); }
+  .domain-tag.algo   { background: rgba(34, 211, 238, 0.15);  color: var(--cyan); }
+  .domain-tag.perf   { background: rgba(74, 222, 128, 0.15);  color: var(--green); }
+  .domain-tag.warn   { background: rgba(251, 191, 36, 0.15);  color: var(--amber); }
+  .domain-tag.err    { background: rgba(248, 113, 113, 0.15); color: var(--red); }
+  .domain-tag.ai     { background: rgba(167, 139, 250, 0.15); color: var(--purple); }
+
+  /* ── Don Miller Narrative Article ── */
+  .article-wrap {
+    margin-top: 12px;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--text);
+  }
+  .article-wrap p { margin-bottom: 1rem; }
+  .article-wrap p:first-child::first-letter {
+    font-size: 3.2rem;
+    float: left;
+    line-height: 0.82;
+    padding-right: 8px;
+    padding-top: 4px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .article-wrap blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 10px 18px;
+    margin: 1rem 0;
+    font-style: italic;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+  }
+  .article-byline {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .article-nav {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .article-nav a {
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    transition: all 0.2s;
+  }
+  .article-nav a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .quality-stamp {
+    margin-top: 12px;
+    font-size: 0.75rem;
+    color: var(--accent);
+    font-style: italic;
+    opacity: 0.8;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 2rem; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .container { padding: 0 16px 60px; }
+    .bar-label { width: 100px; font-size: 0.75rem; }
+    .data-table { font-size: 0.75rem; }
+    .data-table th, .data-table td { padding: 6px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 1: HERO
+       ════════════════════════════════════════════════════════ -->
+  <header class="hero">
+    <h1>Hey Bradley &mdash; The Vision</h1>
+    <p class="subtitle">A voice-first specification platform that builds websites while writing enterprise docs</p>
+
+    <div class="badges">
+      <span class="badge module">JSON-Driven</span>
+      <span class="badge design">Warm Precision</span>
+      <span class="badge ai">Voice-First</span>
+      <span class="badge algo">AISP Specs</span>
+    </div>
+
+    <div class="highlights">
+      <strong>Two outputs: live preview + enterprise specs</strong> &middot; 8 section types cover 60&ndash;70% of marketing sites &middot; &lt; 30 seconds to first result
+    </div>
+
+    <div class="key-takeaway">
+      <h3>Why this matters</h3>
+      <p>Hey Bradley is a JSON-driven marketing website specification platform &mdash; NOT a website builder. It produces two outputs simultaneously: a live visual preview the user interacts with, and enterprise-grade <a href="03-aisp-protocol.guide.html" target="_self">AISP</a> specification documents the user exports. The pipeline is: Ideation &rarr; Hey Bradley &rarr; Specs + JSON &rarr; Claude Code &rarr; Production Site. This open-core MVP (Apache licensed) is Bradley Ross's Harvard ALM Digital Media Design capstone, designed to demonstrate that specification-driven development with AI agents can produce enterprise-quality output.</p>
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 2: WHAT IT IS (Plain Language)
+       ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:var(--accent-glow);">&#128161;</span> What It Is</h2>
+    <p>
+      A smart whiteboard that listens to what you want, shows you a website preview in real-time, and secretly writes detailed technical specifications behind the scenes. You describe your marketing website &mdash; pick a style, choose sections, type or speak your content &mdash; and Hey Bradley produces both a beautiful preview AND a specification package that AI tools like Claude Code can turn into a production website. It bridges the gap between &ldquo;I want a website&rdquo; and &ldquo;here are the exact specs to build it.&rdquo;
+    </p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 3: ANALOGY
+       ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(251,191,36,0.15);">&#128279;</span> Think of It Like&hellip;</h2>
+    <p>
+      Think of it like an architect who sketches your dream house in real-time as you describe it, while simultaneously writing the complete construction blueprints in the background. When you&rsquo;re done talking, you walk away with both a 3D model to show your family AND a blueprint package that any builder can use to construct the exact house you described. Hey Bradley is that architect &mdash; except for marketing websites, and the &ldquo;builder&rdquo; is an AI agent like Claude Code.
+    </p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 4: TRADITIONAL vs NOVEL
+       ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(74,222,128,0.15);">&#9889;</span> Traditional vs Our Approach</h2>
+    <div class="compare-grid">
+      <div class="compare-col traditional">
+        <h3>Traditional</h3>
+        <ul>
+          <li>Hire designer &rarr; wireframes &rarr; specs &rarr; developer &rarr; website <span class="metric-highlight slow">weeks/months</span></li>
+          <li>Natural language briefs with 40&ndash;65% ambiguity</li>
+          <li>Separate tools for design, docs, and code</li>
+          <li>Non-technical users can&rsquo;t participate in spec creation</li>
+        </ul>
+      </div>
+      <div class="compare-col novel">
+        <h3>Our Approach</h3>
+        <ul>
+          <li>Click a vibe &rarr; see website instantly <span class="metric-highlight fast">&lt; 30 seconds</span></li>
+          <li>AISP specs with &lt; 2% ambiguity generated automatically</li>
+          <li>Single platform: preview + data + specs + workflow</li>
+          <li>&ldquo;Grandson shows grandma&rdquo; &mdash; anyone can use Draft mode</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">
+      <strong>Trade-off acknowledged.</strong> Hey Bradley covers ~60&ndash;70% of marketing websites (landing pages, agency sites, SaaS pages) but intentionally excludes e-commerce, blogs, dashboards, and web apps. It is a specification platform, not a full website builder &mdash; it feeds builders like Claude Code rather than replacing them. If you need a Shopify store or a blog CMS, Hey Bradley is not the right tool.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 5: CORE DETAILS (How-To Guide Style)
+       ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(108,140,255,0.15);">&#128214;</span> How It Works</h2>
+    <div class="detail-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Pick a Vibe</h4>
+        <p>Choose from preset themes (Warm, Ocean, Forest) that cascade across 15+ JSON nodes with a single click. The entire site preview updates instantly. Even non-technical users (&ldquo;grandma&rdquo;) can do this in Draft mode. Each vibe defines colors, typography, and section style overrides &mdash; one click transforms the entire look and feel.</p>
+      </div>
+    </div>
+    <div class="detail-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Build with Sections</h4>
+        <p>Add, remove, and reorder 8 section types: Hero, Features, Pricing, CTA, Footer, Testimonials, FAQ, and Value Props. Each section type has 3&ndash;5 visual variants. In Draft mode, you pick from visual cards. In Expert mode, you get a full CSS property inspector with direct control over layout, content, and style values.</p>
+      </div>
+    </div>
+    <div class="detail-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>See Everything at Once</h4>
+        <p>Four center tabs show different views of the same data: REALITY (live preview), DATA (raw JSON with syntax highlighting), XAI DOCS (auto-generated <a href="03-aisp-protocol.guide.html" target="_self">AISP</a> specs), and WORKFLOW (AI pipeline visualization). Toggle between DRAFT (simple) and EXPERT (full control) at any time &mdash; the data never changes, only the controls do.</p>
+      </div>
+    </div>
+    <div class="detail-step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Talk to It</h4>
+        <p>In Listen Mode, a theatrical dark overlay with a pulsing red orb appears. Speak naturally and the AI translates your words into website changes every ~15 seconds. The site builds itself as you talk &mdash; this is the &ldquo;aha moment&rdquo; that demonstrates voice-first specification creation is not just possible but intuitive.</p>
+      </div>
+    </div>
+    <div class="detail-step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>Export Specs</h4>
+        <p>Download a complete specification package: AISP-formatted specs, JSON config, and human-readable documentation. Paste the output into Claude Code to generate a production-ready website that matches your preview exactly. The JSON is the single source of truth &mdash; what you see IS what gets specified.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 6: SVG DIAGRAM — The Hey Bradley Pipeline
+       ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(167,139,250,0.15);">&#128506;</span> The Hey Bradley Pipeline</h2>
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 820 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;margin-top:12px;">
+        <rect width="820" height="200" rx="12" fill="#1a2035"/>
+        <!-- Step 1: User Intent -->
+        <rect x="20" y="40" width="200" height="120" rx="10" fill="#131825" stroke="#6c8cff" stroke-width="1.5"/>
+        <text x="120" y="70" text-anchor="middle" fill="#6c8cff" font-size="13" font-weight="700">User Intent</text>
+        <text x="120" y="95" text-anchor="middle" fill="#95a0b8" font-size="11">Vibe, sections,</text>
+        <text x="120" y="112" text-anchor="middle" fill="#95a0b8" font-size="11">voice, or text</text>
+        <!-- Animated arrow 1 -->
+        <line x1="228" y1="100" x2="288" y2="100" stroke="#4ade80" stroke-width="2" stroke-dasharray="6,3">
+          <animate attributeName="stroke-dashoffset" from="18" to="0" dur="1.5s" repeatCount="indefinite"/>
+        </line>
+        <polygon points="285,94 297,100 285,106" fill="#4ade80"/>
+        <!-- Step 2: Hey Bradley -->
+        <rect x="300" y="40" width="200" height="120" rx="10" fill="#131825" stroke="#e8772e" stroke-width="1.5"/>
+        <text x="400" y="70" text-anchor="middle" fill="#e8772e" font-size="13" font-weight="700">Hey Bradley</text>
+        <text x="400" y="95" text-anchor="middle" fill="#95a0b8" font-size="11">JSON + Preview</text>
+        <text x="400" y="112" text-anchor="middle" fill="#95a0b8" font-size="11">+ Specs</text>
+        <!-- Animated arrow 2 -->
+        <line x1="508" y1="100" x2="568" y2="100" stroke="#4ade80" stroke-width="2" stroke-dasharray="6,3">
+          <animate attributeName="stroke-dashoffset" from="18" to="0" dur="1.5s" repeatCount="indefinite"/>
+        </line>
+        <polygon points="565,94 577,100 565,106" fill="#4ade80"/>
+        <!-- Step 3: Production Site -->
+        <rect x="580" y="40" width="220" height="120" rx="10" fill="#131825" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="690" y="70" text-anchor="middle" fill="#a78bfa" font-size="13" font-weight="700">Production Site</text>
+        <text x="690" y="95" text-anchor="middle" fill="#95a0b8" font-size="11">Claude Code &rarr;</text>
+        <text x="690" y="112" text-anchor="middle" fill="#95a0b8" font-size="11">deployed website</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 7: VISUALIZATIONS (Bar Chart)
+       ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(34,211,238,0.15);">&#128202;</span> Coverage &amp; Speed at a Glance</h2>
+    <p>How Hey Bradley compares to traditional specification workflows across coverage, speed, precision, and timeline.</p>
+    <div class="chart-container">
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label">Marketing Sites Covered</div>
+          <div class="bar-track">
+            <div class="bar-fill green" style="width: 65%;">60&ndash;70%</div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Time to First Preview</div>
+          <div class="bar-track">
+            <div class="bar-fill accent" style="width: 95%;">&lt; 30 seconds</div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Spec Ambiguity</div>
+          <div class="bar-track">
+            <div class="bar-fill cyan" style="width: 98%;">&lt; 2% with AISP</div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Traditional Process</div>
+          <div class="bar-track">
+            <div class="bar-fill red" style="width: 20%;">Weeks to months</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="callout success">
+      <strong>Under 30 seconds to first meaningful result.</strong> Click a vibe, see your website. Toggle to Expert for full control. Toggle to Listen for voice-driven building. The spec writes itself.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 8: DON MILLER NARRATIVE ARTICLE
+       ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(249,112,102,0.15);">&#9997;</span> The Whiteboard That Writes Its Own Blueprint</h2>
+    <div class="article-wrap">
+      <p>Every website begins with a conversation. Someone describes what they want &mdash; &ldquo;clean, modern, maybe some orange accents, definitely a pricing table&rdquo; &mdash; and then that description enters a translation pipeline that almost always breaks. A designer interprets the brief into wireframes, making dozens of assumptions. A developer interprets the wireframes into code, making dozens more. By the time the site launches, the original vision has been translated three times, and each translation introduced its own errors, ambiguities, and creative drift. The client looks at the final result and says, &ldquo;That&rsquo;s not what I meant.&rdquo; Everyone involved did their job. The system itself is the problem.</p>
+
+      <p>Hey Bradley eliminates the translation layers entirely. You speak or click, and the system simultaneously shows you what it understood (the live preview) and writes the technical specification (the AISP documents). There is no designer interpretation step. There is no developer interpretation step. The JSON configuration is the single source of truth &mdash; what you see IS what gets specified. When you export that specification package and paste it into Claude Code, the production website matches your preview because both were generated from the same data. Bradley Ross, a Harvard graduate student with 25+ years of enterprise architecture experience, designed this system as proof that the gap between human intent and machine execution can be closed &mdash; not with better communication skills, but with better architecture.</p>
+
+      <p>The open-core MVP demonstrates that enterprise-grade specification can be invisible &mdash; happening behind the scenes while the user simply builds what they imagine. When a grandmother can click three buttons and unknowingly produce an AISP specification that Claude Code can turn into a production website, the future of software development is not just faster. It is fundamentally more human. The hardest technical work disappears behind the simplest possible interface, and the result is not a compromise &mdash; it is a complete specification package that meets enterprise standards.</p>
+
+      <blockquote>&ldquo;The best technology disappears &mdash; it does the hard work while you do the creative work.&rdquo;</blockquote>
+    </div>
+    <div class="article-byline">
+      Bradley Ross &middot; Harvard ALM Digital Media Design Capstone, May 2026
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 9: RELATED FEATURES
+       ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(108,140,255,0.15);">&#128279;</span> Related Features</h2>
+    <ul class="related-list">
+      <li><span class="related-name"><a href="01-agentic-development.guide.html" target="_self">Agentic Development</a></span> The AI swarm system building Hey Bradley &mdash; multi-agent orchestration powering the development workflow</li>
+      <li><span class="related-name"><a href="03-aisp-protocol.guide.html" target="_self">AISP Protocol</a></span> The specification language powering the XAI Docs tab &mdash; reduces ambiguity from 40&ndash;65% to under 2%</li>
+      <li><span class="related-name"><a href="04-phase-1-core-builder.guide.html" target="_self">Phase 1: Core Builder</a></span> The first implementation level &mdash; shell, hero section, JSON core loop, and Listen mode visual</li>
+    </ul>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 10: ADDITIONAL DETAILS
+       ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(248,113,113,0.15);">&#128206;</span> Additional Details</h2>
+    <p>
+      <strong>Tech stack:</strong> Vite + React 18 + TypeScript + Tailwind CSS + shadcn/ui + Zustand + Zod. The architecture follows Domain-Driven Design with four bounded contexts: Builder (UI rendering), Intelligence (LLM and voice), Specification (doc generation), and Persistence (storage).
+    </p>
+    <p>
+      <strong>Design system:</strong> &ldquo;Warm Precision&rdquo; &mdash; cream backgrounds (<code>#faf8f5</code>), orange accent (<code>#e8772e</code>), monospace labels (JetBrains Mono), warm dark brown text (<code>#2d1f12</code>). Listen mode switches to a theatrical dark overlay (<code>#0a0a0f</code>) with a pulsing red orb (<code>#ef4444</code>).
+    </p>
+    <p>
+      <strong>Four user personas:</strong> Grandson (non-technical, Draft + Build), Framer User (power user, Expert + Build), Dad (needs specs for Claude Code, Expert + Build), and Enterprise (needs AISP precision, Expert + Listen).
+    </p>
+    <p>
+      <strong>Subject matter expert advisors:</strong> Reuven Cohen and Bence Csernak.
+    </p>
+    <p>
+      <strong>License:</strong> Open-core under Apache license &mdash; MVP level.
+    </p>
+    <div class="callout warn">
+      <strong>Important distinction.</strong> Hey Bradley is a specification platform, not a website builder. It does not host websites, manage domains, or provide CMS functionality. It produces specifications that feed into production tools like Claude Code. If you need hosting, domain management, or content management, you will need a separate service downstream.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       FOOTER
+       ════════════════════════════════════════════════════════ -->
+  <div class="footer">
+    Part of the <a href="hey-bradley-wiki.guide.html" target="_self">Hey Bradley Wiki</a> &middot; hey-bradley-core &middot; Generated 2026-03-28
+    <div class="article-nav">
+      <a href="01-agentic-development.guide.html" target="_self">&larr; Agentic Development</a>
+      <a href="03-aisp-protocol.guide.html" target="_self">AISP Protocol &rarr;</a>
+    </div>
+    <div class="quality-stamp">Content describes the Hey Bradley MVP vision from the open-core capstone project</div>
+  </div>
+
+</div>
+</body>
+</html>
