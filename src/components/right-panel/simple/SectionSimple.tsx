@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Image as ImageIcon } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { Toggle } from '@/components/shared/Toggle'
 import { SegmentedControl } from '@/components/shared/SegmentedControl'
@@ -98,12 +99,20 @@ export function SectionSimple({ sectionId: _sectionId }: SectionSimpleProps) {
             <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
               IMAGE
             </span>
-            <button
-              type="button"
-              className="bg-hb-surface border border-dashed border-hb-border rounded-lg px-3 py-3 w-full text-sm text-hb-text-muted text-center hover:border-hb-text-muted transition-colors"
-            >
-              Select image...
-            </button>
+            <div className="mt-1">
+              <div className="flex items-center gap-3 p-3 bg-hb-surface rounded-lg border border-hb-border">
+                <div className="w-12 h-12 rounded-lg bg-slate-700/50 flex items-center justify-center flex-shrink-0">
+                  <ImageIcon size={20} className="text-slate-500" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm text-hb-text-secondary">No image selected</p>
+                  <p className="text-[11px] text-hb-text-muted mt-0.5">PNG, JPG up to 5MB</p>
+                </div>
+                <button className="px-3 py-1.5 text-[11px] font-mono uppercase text-hb-text-secondary border border-hb-border rounded-md hover:text-hb-text-primary hover:border-hb-text-muted transition-colors">
+                  Browse
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </RightAccordion>

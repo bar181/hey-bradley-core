@@ -48,7 +48,7 @@ export function LeftPanel() {
         <div
           role="button"
           tabIndex={0}
-          className="mt-2 px-3 py-2 flex items-center gap-2 text-sm text-hb-text-muted hover:text-hb-text-secondary cursor-pointer transition-colors border border-dashed border-hb-border rounded-md hover:border-hb-text-muted"
+          className="mt-3 mx-1 border-2 border-dashed border-slate-700/50 rounded-lg text-slate-500 hover:border-slate-500 hover:text-slate-300 transition-colors py-3 flex justify-center items-center gap-2 text-sm cursor-pointer"
         >
           <Plus size={14} />
           <span>Add Section</span>

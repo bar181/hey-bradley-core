@@ -108,7 +108,91 @@ Each entry should follow this format:
 - plans/implementation/level-1-core-builder/screenshots/phase-1.1-shell.png
 
 **Next steps:**
-- Phase 1.1: Hero + JSON Core Loop (configStore, Zod schemas, HeroCentered, bidirectional DATA tab sync)
+- Design pivot to dark theme
+- UX architecture redesign (unified panels)
+
+### 2026-03-28 — Phase 1.0 — Design Pivot: Warm Cream → Dark Precision
+**Status:** COMPLETED
+**What was done:**
+- Pivoted entire design system from warm cream (#faf8f5/#e8772e) to dark slate (#0f172a/#3b82f6)
+- Rewrote all 15 components with dark theme tokens
+- Updated tailwind.config.js with new hb-* color palette
+- Created ADR document: adr-design-pivot.md
+- Built stunning hero preview (radial gradient, glassmorphism badge, gradient headline)
+
+**Decision made:**
+- ADR-009b (Warm Light Chrome) superseded by Dark Precision
+- Inspired by Vercel, Linear, Supabase Studio, Cursor IDE
+- Red orb will look cinematic on dark bg instead of like an error on cream
+
+**What worked:**
+- 5 parallel agents rebuilt all components in ~2 minutes
+- Dark theme immediately elevated the visual quality
+
+**What didn't work:**
+- N/A — clean transition
+
+**Artifacts created:**
+- plans/implementation/level-1-core-builder/adr-design-pivot.md
+- Updated tailwind.config.js, src/index.css, all component files
+
+### 2026-03-28 — Phase 1.0 — UX Architecture Redesign: Unified Panels
+**Status:** COMPLETED
+**What was done:**
+- Replaced DRAFT/EXPERT toggle with SIMPLE/EXPERT tabs in right panel
+- Left panel: flat clickable navigation list (Theme row + section rows + Add Section)
+- Chat input + Listen toggle pinned at bottom of left panel (always visible)
+- Right panel: 5-accordion hierarchy (Design, Content, Components, Section Options, Component Options)
+- Context-driven: clicking Theme vs Hero shows different accordion content
+- Accordion state resets to sensible defaults on context switch (theme→style open, section→content open)
+- RAW AISP SPEC viewer in Expert tab for sections
+
+**Decision made:**
+- Removed ComplexityMode (DRAFT/EXPERT) from uiStore entirely
+- Added: rightPanelTab, selectedContext, rightAccordions, toggleRightAccordion
+- History tab → TopBar clock icon (placeholder for Phase 7.2)
+- Left panel = pure navigation, right panel = all configuration
+
+**What worked:**
+- 5 parallel agents (left, right-structure, right-content, topbar, attribution)
+- Context-aware accordion defaults prevent empty/broken states
+- Clean separation: navigation (left) vs configuration (right)
+
+**What didn't work:**
+- N/A
+
+**Artifacts created:**
+- src/components/left-panel/LeftPanel.tsx, SectionsSection.tsx
+- src/components/right-panel/RightPanel.tsx, RightPanelTabBar.tsx, RightAccordion.tsx
+- src/components/right-panel/SimpleTab.tsx, ExpertTab.tsx
+- src/components/right-panel/simple/ThemeSimple.tsx, SectionSimple.tsx
+- src/components/right-panel/expert/ThemeExpert.tsx, SectionExpert.tsx
+- src/components/shared/Toggle.tsx, SegmentedControl.tsx
+
+### 2026-03-28 — Phase 1.0 — Polish Sprint (P0-P3)
+**Status:** COMPLETED
+**What was done:**
+- P0: Hero overhauled to premium SaaS quality (radial gradient, glassmorphism, tight typography, trust bar)
+- P1: Palette icon on Theme row verified present
+- P2: "+ Add Section" styled as dashed dropzone
+- P2: Premium image placeholder (thumbnail + browse button) in both SectionSimple and SectionExpert
+- P3: Design bible (04.design-bible.md) fully updated: Warm Cream → Dark Slate permanently
+
+**Decision made:**
+- Vibe preset colors (Warm orange, Ocean blue, Forest green) remain as USER theme options — only builder chrome changed
+- Accessibility dialog spec (07.accessibility-button.md) queued for Phase 1.3
+
+**What worked:**
+- 3 parallel agents (hero, UI mechanics, documentation)
+- Hero now looks like Vercel/Linear quality
+
+**Artifacts created:**
+- Updated: RealityTab.tsx, LeftPanel.tsx, SectionSimple.tsx, SectionExpert.tsx
+- Updated: plans/intial-plans/04.design-bible.md
+- Created: plans/implementation/level-1-core-builder/phase-1.3-backlog.md
+
+**Next steps:**
+- Phase 1.1: Hero + JSON Core Loop (configStore, Zod schemas, HeroCentered wired to store, bidirectional DATA tab)
 
 ---
 
