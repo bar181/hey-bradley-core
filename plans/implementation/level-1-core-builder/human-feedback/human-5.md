@@ -1,267 +1,357 @@
-# Hey Bradley — Swarm Directive: Data Tab Overhaul + Quality Self-Check Protocol
+# Hey Bradley — Swarm Directive: Level 1 Core Builder / Human-5
 
-**Priority:** P0 — BLOCKING  
-**Phase:** 1.2b (hotfix before continuing Phase 1.2)  
-**Issue:** Data Tab syntax highlighting is rendering raw HTML class names as visible text. This is a ship-stopping bug.
-
----
-
-## 1. THE BUG (Image 1 — Current State)
-
-The Data Tab is dumping raw CSS class strings into the output:
-
-```
-400">"text-blue-400">400">"spec": 400">"text-blue-400">400">"aisp-1.2",
-```
-
-**Root cause:** The swarm wrote a custom regex-based syntax highlighter that injects HTML `<span>` tags as raw strings instead of rendering them as React nodes. The `dangerouslySetInnerHTML` or string interpolation approach is outputting the markup as text.
-
-**Impact:** The Data Tab — which is the "engineering credibility" centerpiece of Hey Bradley — looks completely broken. This is visible to anyone who clicks the DATA tab. It must be fixed before any other Phase 1.2 work proceeds.
+**Phase:** L1 Core Builder — JSON Scaffolding, Themes, & Layout  
+**Priority:** P0 — Foundation of the entire system  
+**Label:** `L1-human-5`
 
 ---
 
-## 2. THE FIX: CodeMirror Implementation
+## 1. BACKLOG STRUCTURE
 
-### 2.1 Dependency (Requires Human Approval per Doc 5 §5.3)
+The swarm must use a **two-tier planning system:**
 
-```bash
-npm install @uiw/react-codemirror @codemirror/lang-json @codemirror/theme-one-dark
-```
+**Phase level** = fixed Definition of Done checklist. These are the requirements that must be met to close the phase. They don't change mid-phase.
 
-**Justification:** `@uiw/react-codemirror` is a thin React wrapper around CodeMirror 6 — the same editor engine used by Chrome DevTools, Firefox DevTools, and Replit. It provides syntax highlighting, code folding, JSON linting, and edit handling out of the box. Custom regex highlighters are fragile and will break again. This is the correct tool.
-
-**Note:** Doc 5 §5.3 previously listed `monaco-editor` as forbidden (too heavy at ~4MB). CodeMirror 6 is ~150KB and purpose-built for embedded editors. This is a different class of tool. Add `@uiw/react-codemirror`, `@codemirror/lang-json`, and `@codemirror/theme-one-dark` to the approved dependency list.
-
-### 2.2 Data Tab Rebuild — `src/components/center-canvas/DataTab.tsx`
-
-**Match Image 2 (the target mockup).** The Data Tab has three layers:
-
-**Layer 1: Header**
-```
-┌──────────────────────────────────────────────────────────────┐
-│  Project Data Schema                              ● LIVE    │
-│  Synchronized Single Source of Truth (SSOT)                  │
-│  [📋 Copy All]  [↓ Export JSON]                              │
-├──────────────────────────────────────────────────────────────┤
-│  VERSION 1.0.0   SECTIONS 3   TOTAL 1,360   LINES 62       │
-└──────────────────────────────────────────────────────────────┘
-```
-
-- Title: "Project Data Schema" — DM Sans 16px 600
-- Subtitle: "Synchronized Single Source of Truth (SSOT)" — DM Sans 12px, text-muted
-- LIVE indicator: green pulsing dot + "LIVE" text — indicates real-time sync with configStore
-- Metadata bar: version, section count, total chars, line count — Mono 11px uppercase
-
-**Layer 2: Collapsible Section Blocks**
-
-Instead of one giant JSON editor, split the JSON into semantic sections that users can expand/collapse:
+**Sub-phase level** = agile operational backlogs. Tasks, sequencing, and implementation details are dynamic — the swarm can adjust based on what they learn.
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│ ∨ ✦ THEME                                8 lines · 107 chars 📋│
-│ ┌──────────────────────────────────────────────────────────┐ │
-│ │ {                                                        │ │
-│ │   "mode": "dark",                                        │ │
-│ │   "colors": { "from": "#0f172a", ... }                   │ │
-│ │ }                                                        │ │
-│ └──────────────────────────────────────────────────────────┘ │
-│                                                              │
-│ ∨ ★ HERO SECTION                        28 lines · 547 chars 📋│
-│ ┌──────────────────────────────────────────────────────────┐ │
-│ │ {                                                        │ │
-│ │   "id": "hero-01",                                       │ │
-│ │   "type": "hero",                                        │ │
-│ │   ...                                                    │ │
-│ │ }                                                        │ │
-│ └──────────────────────────────────────────────────────────┘ │
-│                                                              │
-│ › → CALL TO ACTION                      16 lines · 341 chars 📋│
-└──────────────────────────────────────────────────────────────┘
+backlog/
+├── requirements.md           ← Master L1 checklist (all phases, fixed DoD per phase)
+├── phase-1.0/                ← COMPLETE
+│   ├── plan.md
+│   ├── tasks.md
+│   └── log.md
+├── phase-1.1/                ← COMPLETE
+│   ├── plan.md
+│   ├── tasks.md
+│   └── log.md
+├── phase-1.2/                ← NEXT: JSON Templates + Smoke Test
+│   ├── plan.md               ← Created by swarm from this directive
+│   ├── tasks.md              ← Dynamic, updated as work progresses
+│   └── log.md                ← Filled on completion
+├── phase-1.3/                ← AFTER 1.2: Themes + Layout
+│   ├── plan.md
+│   └── tasks.md
+├── phase-1.4/                ← Listen Mode Visual
+├── phase-1.5/                ← XAI Docs + Workflow Tabs
+└── phase-1.6/                ← Hero Polish + Accessibility Dialog
 ```
 
-Each section block:
-- Header: section icon + name (uppercase, monospace) + line/char count + copy button
-- Body: CodeMirror instance (or formatted JSON) with dark background
-- Collapsible: click header to expand/collapse
-- Copy button: copies that section's JSON to clipboard
+### 1.1 Master Requirements (`backlog/requirements.md`)
 
-**Layer 3: Full Edit Mode**
+This file contains the **phase-level DoD** for all L1 phases. It is the authority. Each phase has a fixed checklist of 5-8 criteria. The swarm cannot close a phase until all criteria are met.
 
-An "EDIT" button in the header toggles the entire Data Tab into a single full-height CodeMirror editor showing the complete JSON. This is the bidirectional editing mode.
+```markdown
+# Level 1: Core Builder — Phase Requirements
 
-### 2.3 Bidirectional Sync (THE CRITICAL LOOP)
+## Phase 1.0: Shell & Navigation [COMPLETE]
+- [x] Three-panel layout renders
+- [x] LISTEN/BUILD toggle works
+- [x] All 4 center tabs navigable
+- [x] Status bar renders
+- [x] Left panel flat list with chat/listen pinned at bottom
 
-```typescript
-// READ: Editor displays current configStore state
-const jsonString = JSON.stringify(configStore.getState().config, null, 2);
+## Phase 1.1: Hero + JSON Core Loop [COMPLETE]
+- [x] Zod schemas defined
+- [x] configStore with applyPatch and CRUD
+- [x] Hero renders from JSON
+- [x] Data Tab with CodeMirror (no raw HTML)
+- [x] Right panel controls → JSON → preview loop
+- [x] Playwright 5/5 passing
 
-// WRITE: On change, validate before updating
-const handleChange = (newValue: string) => {
-  try {
-    const parsed = JSON.parse(newValue);
-    const result = masterConfigSchema.safeParse(parsed);
-    if (result.success) {
-      configStore.getState().loadConfig(result.data);
-      setValidationError(null);
-    } else {
-      setValidationError(result.error.format());
-      // Do NOT update configStore — show error indicator instead
-    }
-  } catch (e) {
-    setValidationError('Invalid JSON syntax');
-    // Do NOT update configStore — user is still typing
-  }
-};
+## Phase 1.2: JSON Templates & Smoke Test [NEXT]
+- [ ] JSON templates folder with README
+- [ ] template-config.json (all possible options for site, theme, hero)
+- [ ] default-config.json (Hey Bradley example content)
+- [ ] Smoke test: right panel toggle → JSON updates → preview updates
+- [ ] ADRs 012-016 written
+- [ ] Favicon + title "Hey Bradley — Designer Mode"
+
+## Phase 1.3: Themes & Layout [PLANNED]
+- [ ] 3 theme presets selectable (Modern Dark, Clean Light, Bold Gradient)
+- [ ] Selecting theme updates: site settings, theme config, layout defaults, hero styling
+- [ ] Copy stays fixed (Hey Bradley example) — copy editing deferred
+- [ ] Theme selection in right panel SIMPLE tab works
+- [ ] JSON in Data Tab reflects theme changes
+
+## Phase 1.4: Listen Mode Visual [PLANNED]
+- [ ] Red orb overlay renders on LISTEN toggle
+- [ ] Dark transition (300ms fade)
+- [ ] START LISTENING button
+- [ ] Orb pulse animation
+
+## Phase 1.5: XAI Docs + Workflow Tabs [PLANNED]
+- [ ] XAI Docs HUMAN view renders from JSON
+- [ ] XAI Docs AISP view renders @aisp format
+- [ ] Workflow pipeline stepper (mock data)
+- [ ] COPY/EXPORT buttons on XAI Docs
+
+## Phase 1.6: Hero Polish + Accessibility [PLANNED]
+- [ ] All 5 hero variants
+- [ ] Responsive preview toggles
+- [ ] Undo/redo wiring
+- [ ] LocalStorage persistence
+- [ ] Accessibility settings dialog (Doc 07)
 ```
-
-**Key rules:**
-- Never update configStore with invalid JSON (prevents Reality tab crash mid-edit)
-- Show validation status: green "Valid" or red error message with Zod details
-- Debounce onChange by 500ms (user is typing, don't parse every keystroke)
-- When configStore updates from OTHER sources (right panel controls), the editor reflects it instantly
-
-### 2.4 Implementation Steps
-
-| # | Task | File |
-|---|------|------|
-| 1 | Install `@uiw/react-codemirror`, `@codemirror/lang-json`, `@codemirror/theme-one-dark` | `package.json` |
-| 2 | Delete the broken custom syntax highlighter | `DataTab.tsx` |
-| 3 | Build header with title, LIVE indicator, Copy All, Export JSON, metadata bar | `DataTab.tsx` |
-| 4 | Build collapsible section blocks (read-only view mode) | `DataTab.tsx` |
-| 5 | Build full edit mode with CodeMirror (toggled by EDIT button) | `DataTab.tsx` |
-| 6 | Wire bidirectional sync with Zod validation + debounce | `DataTab.tsx` |
-| 7 | Run Playwright screenshot of Data Tab — verify NO raw HTML strings visible | Verification |
 
 ---
 
-## 3. QUALITY SELF-CHECK PROTOCOL (New Swarm Requirement)
+## 2. STRATEGIC CONTEXT
 
-**This bug should never have shipped.** An agent that runs `npx vite build` and gets zero errors still shipped a Data Tab that renders garbage. Build passing ≠ UI working. The swarm needs a visual quality gate.
+Everything in Hey Bradley flows through JSON:
 
-### 3.1 The Problem
-
-Agents currently verify:
-- `npx tsc --noEmit` — zero TypeScript errors ✅
-- `npx vite build` — clean production build ✅
-- But they **never look at what they built** ❌
-
-A syntax highlighter that dumps raw class names is technically valid TypeScript and builds fine. The bug is purely visual — and no agent caught it because no agent checked the visual output.
-
-### 3.2 The Fix: Playwright Visual Smoke Tests
-
-After every phase completion, the integration-agent must run Playwright screenshots and do a basic sanity check. Add this to the verification step:
-
-**File:** `tests/visual-smoke.spec.ts`
-
-```typescript
-import { test, expect } from '@playwright/test';
-
-test('Data Tab renders valid JSON without raw HTML', async ({ page }) => {
-  await page.goto('http://localhost:5173');
-  
-  // Navigate to Data Tab
-  await page.click('text=DATA');
-  await page.waitForTimeout(1000);
-  
-  // Screenshot
-  await page.screenshot({ path: 'screenshots/data-tab.png', fullPage: true });
-  
-  // CRITICAL: Check that no raw HTML class names are visible
-  const bodyText = await page.textContent('body');
-  expect(bodyText).not.toContain('text-blue-400');
-  expect(bodyText).not.toContain('class=');
-  expect(bodyText).not.toContain('400">');
-  
-  // Check that actual JSON content IS visible
-  expect(bodyText).toContain('"spec"');
-  expect(bodyText).toContain('"aisp-1.2"');
-  expect(bodyText).toContain('"sections"');
-});
-
-test('Reality Tab renders hero section', async ({ page }) => {
-  await page.goto('http://localhost:5173');
-  
-  // Should see the hero headline
-  const heroText = await page.textContent('body');
-  expect(heroText).toContain('Ship Code at the Speed of Thought');
-  
-  // Screenshot
-  await page.screenshot({ path: 'screenshots/reality-tab.png', fullPage: true });
-});
-
-test('Right panel controls update preview', async ({ page }) => {
-  await page.goto('http://localhost:5173');
-  
-  // Click Hero in left panel
-  await page.click('text=Hero');
-  
-  // Find headline input and change it
-  const headlineInput = page.locator('input[value*="Ship Code"]').first();
-  if (await headlineInput.isVisible()) {
-    await headlineInput.fill('New Test Headline');
-    await page.waitForTimeout(500);
-    
-    // Verify preview updated
-    const previewText = await page.textContent('[data-testid="reality-tab"]');
-    expect(previewText).toContain('New Test Headline');
-  }
-  
-  await page.screenshot({ path: 'screenshots/hero-edit.png', fullPage: true });
-});
-
-test('No broken UI elements visible', async ({ page }) => {
-  await page.goto('http://localhost:5173');
-  
-  // Check all 4 tabs render without errors
-  for (const tab of ['REALITY', 'DATA', 'XAI DOCS', 'WORKFLOW']) {
-    await page.click(`text=${tab}`);
-    await page.waitForTimeout(500);
-    
-    // No error boundaries should be showing
-    const errorText = await page.textContent('body');
-    expect(errorText).not.toContain('Something went wrong');
-    expect(errorText).not.toContain('Error');
-    
-    await page.screenshot({ path: `screenshots/tab-${tab.toLowerCase().replace(' ', '-')}.png` });
-  }
-});
+```
+INPUTS (many)                    GROUND TRUTH         OUTPUTS (many)
+─────────────────               ──────────────        ────────────────
+Click buttons      ─┐                                ┌→ Reality preview
+Right panel controls─┤                               ├→ Data tab (JSON)
+Chat (text → LLM)   ─┤→ JSON diff → merge → JSON ──┤→ XAI Docs (specs)
+Listen (voice → LLM) ─┤                              ├→ Workflow pipeline
+Upload JSON (future) ─┤                               ├→ Export package
+Edit JSON directly   ─┘                               └→ AISP spec
 ```
 
-### 3.3 Self-Enhancement Checklist
-
-After every phase, before requesting human review, the swarm must:
-
-| # | Check | Method | Catches |
-|---|-------|--------|---------|
-| 1 | TypeScript compiles | `npx tsc --noEmit` | Type errors |
-| 2 | Production builds | `npx vite build` | Bundle errors |
-| 3 | Visual smoke tests pass | `npx playwright test` | Raw HTML in output, broken renders, missing content |
-| 4 | Screenshot review | Agent examines screenshots in `screenshots/` | Layout breaks, empty states, visual garbage |
-| 5 | No placeholder/lorem text in production views | Grep for "lorem", "placeholder", "TODO" in rendered output | Forgotten dev artifacts |
-| 6 | All tabs navigable | Playwright clicks each tab, verifies content | Dead tabs, crash on navigate |
-| 7 | Bidirectional sync test | Change a control → verify DATA tab JSON updates. Edit JSON → verify preview updates. | Broken sync loop |
-
-### 3.4 The Rule (Add to Doc 5 Cardinal Sins)
-
-> **Cardinal Sin #13: Shipping visible UI without running a Playwright visual check.** If an agent completes a UI task and does not capture and examine a screenshot, the PR is rejected. Build passing is necessary but not sufficient. The agent must verify the rendered output looks correct.
+**Phase 1.2 proves this loop works with real data. Phase 1.3 proves themes cascade through it correctly. Everything after that builds on this foundation.**
 
 ---
 
-## 4. SUMMARY FOR SWARM
+## 3. PHASE 1.2: JSON TEMPLATES & SMOKE TEST
+
+### 3.1 Goal
+
+Create the canonical JSON structure (template + default), prove the right panel → JSON → preview loop works with a smoke test, and establish the ADRs that govern JSON decisions going forward.
+
+### 3.2 Deliverables
+
+**A. JSON Templates Folder**
 
 ```
-IMMEDIATE (before any Phase 1.2 work):
-1. Get human approval for @uiw/react-codemirror dependency
-2. Rip out broken custom syntax highlighter
-3. Rebuild DataTab.tsx matching Image 2 mockup:
-   - Header with "Project Data Schema" + LIVE indicator
-   - Collapsible section blocks with metadata
-   - Full edit mode with CodeMirror
-   - Bidirectional sync with Zod validation
-4. Run Playwright smoke test — verify zero raw HTML in output
-5. Add visual-smoke.spec.ts to test suite
-
-THEN continue Phase 1.2 (Listen mode, XAI Docs, Workflow pipeline)
+src/data/
+├── README.md                    ← Documents the JSON structure, levels, and how to extend
+├── template-config.json         ← ALL possible options (superset) — grows with each phase
+└── default-config.json          ← Hey Bradley example content (minimum viable starting config)
 ```
 
-This is a blocking fix. Do not proceed to Phase 1.2 features until the Data Tab renders clean JSON without any raw HTML artifacts.
+**`README.md` must explain:**
+- The three-level hierarchy: site → theme → sections[].components[]
+- Where each setting lives and why (the decision tree from §3.3)
+- How to add a new section type (what keys are required)
+- How the template relates to the default (template ⊇ default)
+
+**B. Template Config (`template-config.json`)**
+
+Contains every possible key for the three levels currently supported. Not the full JSON — the swarm determines the exact shape based on research and ADR decisions. But it must include:
+
+| Level | Required Keys |
+|-------|--------------|
+| **site** | title, description, author, domain, project, version, spec |
+| **theme** | preset, mode, colors (primary, secondary, accent, background, text, muted), typography (fontFamily, headingWeight, baseSize), spacing (sectionPadding, containerWidth), borderRadius |
+| **sections[hero]** | type, id, enabled, order, variant, layout (display, direction, align, gap, padding, maxWidth), content (heading, subheading, cta), style (background, color, fontFamily, borderRadius), components[] with all hero components (eyebrowBadge, headline, subtitle, primaryButton, secondaryButton, heroImage, trustBadges) |
+
+Each component in `components[]` has: `id`, `type`, `enabled`, `props` (component-specific).
+
+**C. Default Config (`default-config.json`)**
+
+Uses **Hey Bradley** as the example content:
+- Site: title="Hey Bradley", author="Bradley Ross", project="hey-bradley"
+- Theme: preset="modern-dark", mode="dark", current blue/purple palette
+- Hero: the current "Ship Code at the Speed of Thought" content with all current components
+
+**The default config must render the current Reality tab preview exactly.** It is the ground truth.
+
+**D. Smoke Test**
+
+A Playwright test that proves the full loop:
+
+```
+1. Load app
+2. Click Hero in left panel
+3. Change headline text in right panel SIMPLE tab
+4. Verify: Data Tab JSON contains the new headline
+5. Verify: Reality Tab preview shows the new headline
+6. Change a toggle (e.g., disable Trust Badges)
+7. Verify: JSON reflects enabled: false
+8. Verify: Preview no longer shows trust badges
+```
+
+This is the **single most important test in the entire project.** If this loop breaks, nothing works.
+
+**E. ADRs (5 required)**
+
+| ADR | Decision Topic |
+|-----|---------------|
+| ADR-012 | Three-level JSON hierarchy (site → theme → sections → components) |
+| ADR-013 | Section enabled/order lives on the section object (self-contained for LLM patching) |
+| ADR-014 | Template JSON is superset of default JSON |
+| ADR-015 | JSON diff as universal update format (all inputs produce diffs, all go through applyPatch) |
+| ADR-016 | Component-level configuration (id, type, enabled, props per component within a section) |
+
+Save to `docs/adrs/`. The swarm has created only 1 ADR across all of Phase 1. This is a process gap — architectural decisions are being made inside component files where no future agent can find them.
+
+**F. Favicon & Title**
+
+- Favicon: HB logo, orange on transparent, 32x32 + 16x16
+- Title: `<title>Hey Bradley — Designer Mode</title>`
+- Meta description tag
+- Will be made dynamic later (reading from `site.title`)
+
+### 3.3 Where Settings Live (Decision Tree)
+
+The swarm must use this to determine JSON placement:
+
+```
+Affects the entire page?        → site level    (title, author, domain)
+Affects all sections equally?   → theme level   (colors, fonts, spacing, mode)
+Affects one section's structure? → section level (variant, layout, enabled, order)
+Affects one element in a section? → component level (button text, image src, badge style)
+```
+
+### 3.4 Swarm Execution
+
+| Agent | Tasks |
+|-------|-------|
+| **research-agent** | Study Framer/Webflow/Builder.io JSON patterns. Write `docs/research/json-hierarchy-research.md`. Draft ADRs 012-016. |
+| **schema-agent** | Create `src/data/README.md`, `template-config.json`, `default-config.json`. Update Zod schemas if needed. |
+| **integration-agent** | Wire default-config.json as the initial configStore state. Verify Data Tab renders new structure. Verify right panel controls still work. |
+| **test-agent** | Write Playwright smoke test for full loop. Create favicon + title. Run all tests. |
+
+**Order:** research-agent first (ADRs inform schema decisions) → schema-agent + test-agent parallel → integration-agent last
+
+### 3.5 What Phase 1.2 Does NOT Do
+
+- Does NOT add new section types (Features and CTA stay as stubs)
+- Does NOT add copy editing features (text stays as Hey Bradley example)
+- Does NOT add theme switching (that's Phase 1.3)
+- Does NOT add JSON upload or JSON editor validation (deferred to Phase 1.6+)
+- Does NOT change the hero visual design (polish deferred to Phase 1.6)
+
+---
+
+## 4. PHASE 1.3: THEMES & LAYOUT (After 1.2)
+
+### 4.1 Goal
+
+Create 3 theme presets. Changing the theme updates site settings, theme config, layout defaults, and hero styling — all through JSON. Copy stays fixed (Hey Bradley content).
+
+### 4.2 The 3 Themes
+
+| Theme | Mode | Colors | Font | Target |
+|-------|------|--------|------|--------|
+| **Modern Dark** | dark | Blue/purple gradient, slate bg | Inter | Current default — tech, SaaS |
+| **Clean Light** | light | Warm cream bg, orange accent | DM Sans | Professional, consulting |
+| **Bold Gradient** | dark | Vibrant gradient (teal→purple), dark bg | Space Grotesk | Startup, launch page |
+
+### 4.3 What Theme Selection Updates
+
+When a user selects a theme in the right panel (SIMPLE tab → STYLE accordion), the system calls `configStore.applyVibe(themeName)` which cascades:
+
+| JSON Path | What Changes |
+|-----------|-------------|
+| `theme.preset` | Theme name |
+| `theme.mode` | light or dark |
+| `theme.colors.*` | Full color palette (primary, secondary, accent, bg, text, muted) |
+| `theme.typography.fontFamily` | Font family |
+| `theme.spacing.*` | Section padding defaults |
+| `sections[hero].style.background` | Hero background to match theme |
+| `sections[hero].style.color` | Hero text color to match theme |
+| `sections[hero].layout.*` | Layout defaults for the theme (some themes may have wider padding) |
+
+**Copy does NOT change.** The headline is still "Ship Code at the Speed of Thought" regardless of theme. Copy editing is a separate concern, deferred to L2.
+
+### 4.4 Deliverables
+
+- 3 theme preset files: `src/data/themes/modern-dark.json`, `clean-light.json`, `bold-gradient.json`
+- `applyVibe` method on configStore that deep-merges a theme preset
+- Right panel SIMPLE tab → STYLE accordion shows 3 clickable preset cards
+- Clicking a preset: JSON updates → Data Tab reflects → Preview re-renders with new colors/fonts/layout
+- Playwright test: select each theme, verify JSON + preview changes
+
+### 4.5 What Phase 1.3 Does NOT Do
+
+- Does NOT add additional themes beyond 3
+- Does NOT add custom color picking (just preset selection)
+- Does NOT allow per-section theme overrides (global only)
+- Does NOT add hero copy editing
+
+---
+
+## 5. REMAINING L1 PHASES (High-Level DoD Only)
+
+### Phase 1.4: Listen Mode Visual
+- Red orb overlay with pulse animation
+- Dark background transition
+- START LISTENING button
+- No actual STT or LLM — purely visual
+
+### Phase 1.5: XAI Docs + Workflow Tabs
+- XAI Docs HUMAN view generated from current JSON
+- XAI Docs AISP view in `@aisp` format
+- Workflow pipeline stepper with mock data (6 steps)
+- Live stream log placeholder
+
+### Phase 1.6: Hero Polish + Accessibility
+- All 5 hero variants (centered, split, overlay, full-image, minimal)
+- Responsive preview toggles (mobile/tablet/desktop)
+- Undo/redo keyboard shortcuts
+- LocalStorage auto-save via IProjectRepository
+- Master Settings dialog (Doc 07 — accessibility)
+- JSON upload + validation (template schema enforcement)
+
+### L1 Exit Gate
+**All Phase 1.0-1.6 DoD criteria met. Human review. Then proceed to L2 (Full Site Builder — 8 section types).**
+
+---
+
+## 6. PHASE DEPENDENCY GRAPH
+
+```
+Phase 1.2 (JSON Templates + Smoke Test)  ← YOU ARE HERE
+    ↓
+Phase 1.3 (3 Themes + Layout)
+    ↓
+Phase 1.4 + 1.5 (parallel: Listen Visual + XAI Docs/Workflow)
+    ↓
+Phase 1.6 (Hero Polish + Accessibility + JSON Upload)
+    ↓
+HUMAN REVIEW GATE
+    ↓
+Level 2: Full Site Builder
+```
+
+---
+
+## 7. AISP SPECIFICATION
+
+```aisp
+⟦
+  Ω := { Define L1 Core Builder phased execution with two-tier planning }
+  Σ := { PhaseDoD:{id:𝕊, criteria:[Criterion], status:{"planned"|"active"|"complete"}}, SubPhase:{plan:Doc, tasks:Doc, log:Doc, agile:𝔹}, BacklogStructure:{master:"requirements.md", phases:["phase-{n}/"]} }
+  Γ := { R1: phase_level DoD is fixed (no mid-phase changes), R2: sub_phase tasks are agile (dynamic), R3: Phase1.2: JSON_templates + smoke_test(panel→JSON→preview), R4: Phase1.3: 3_themes + cascade(site,theme,layout,hero), R5: copy_deferred to L2, R6: ∀ phase_complete : all DoD criteria met + Playwright passing }
+  Λ := { structure:="backlog/phase-{n}/", phases:=[1.2,1.3,1.4,1.5,1.6], adr_required:=[012,013,014,015,016] }
+  Ε := { V1: VERIFY panel_toggle→JSON→preview loop, V2: VERIFY 3 themes produce valid JSON, V3: VERIFY phase DoD checklist exists before work begins, V4: VERIFY 5 ADRs written }
+⟧
+```
+
+---
+
+## 8. VERIFICATION FOR PHASE 1.2
+
+| # | Check | Method |
+|---|-------|--------|
+| 1 | `default-config.json` validates against Zod schema | Unit test |
+| 2 | `template-config.json` validates against Zod schema | Unit test |
+| 3 | Template ⊇ Default (superset check) | Unit test |
+| 4 | Data Tab renders new JSON structure | Playwright screenshot |
+| 5 | Smoke test: right panel change → JSON → preview | Playwright |
+| 6 | ADRs 012-016 exist in `docs/adrs/` | File check |
+| 7 | Favicon renders in browser tab | Visual |
+| 8 | Title shows "Hey Bradley — Designer Mode" | Visual |
+| 9 | `src/data/README.md` documents the JSON hierarchy | File check |
+| 10 | Zero TypeScript errors + clean build | `npx tsc --noEmit && npx vite build` |
+| 11 | All existing Playwright tests still pass | `npx playwright test` |
+
+---
+
+*End of Directive L1-human-5 v2*
+
+*Phase level = fixed DoD. Sub-phase level = agile. The JSON is the product. Themes cascade through it. Copy comes later.*

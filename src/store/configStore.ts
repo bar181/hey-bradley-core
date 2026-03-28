@@ -71,6 +71,7 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       content: {},
       style: { background: '#0f172a', color: '#f8fafc' },
       enabled: true,
+      components: [],
     }
     const sections = [...config.sections]
     const insertAt = afterIndex !== undefined ? afterIndex + 1 : sections.length

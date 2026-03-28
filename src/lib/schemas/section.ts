@@ -9,18 +9,48 @@ export const sectionTypeSchema = z.enum([
 
 export type SectionType = z.infer<typeof sectionTypeSchema>
 
+// ---------------------------------------------------------------------------
+// Component schema (ADR-016)
+// ---------------------------------------------------------------------------
+
+export const componentSchema = z.object({
+  id: z.string(),
+  type: z.string(),
+  enabled: z.boolean().default(true),
+  order: z.number().default(0),
+  props: z.record(z.string(), z.unknown()).default(() => ({})),
+})
+
+export type Component = z.infer<typeof componentSchema>
+
+// ---------------------------------------------------------------------------
+// Legacy content schemas (kept for Phase 1 backward compatibility)
+// ---------------------------------------------------------------------------
+
+const HEADING_DEFAULTS = {
+  text: 'Ship Code at the Speed of Thought',
+  level: 1,
+  size: '48px',
+  weight: 700,
+} as const
+
+const CTA_DEFAULTS = {
+  text: 'Get Started',
+  url: '#pricing',
+} as const
+
 export const heroContentSchema = z.object({
   heading: z.object({
-    text: z.string().default('Ship Code at the Speed of Thought'),
-    level: z.number().default(1),
-    size: z.string().default('48px'),
-    weight: z.number().default(700),
-  }).default({}),
+    text: z.string().default(HEADING_DEFAULTS.text),
+    level: z.number().default(HEADING_DEFAULTS.level),
+    size: z.string().default(HEADING_DEFAULTS.size),
+    weight: z.number().default(HEADING_DEFAULTS.weight),
+  }).default(() => ({ ...HEADING_DEFAULTS })),
   subheading: z.string().default('Build AI-native experiences that transform how we create.'),
   cta: z.object({
-    text: z.string().default('Get Started'),
-    url: z.string().default('#pricing'),
-  }).default({}),
+    text: z.string().default(CTA_DEFAULTS.text),
+    url: z.string().default(CTA_DEFAULTS.url),
+  }).default(() => ({ ...CTA_DEFAULTS })),
   secondaryCta: z.object({
     text: z.string().default('View my work'),
     url: z.string().default('#about'),
@@ -49,7 +79,7 @@ export const featuresContentSchema = z.object({
     icon: z.string().default(''),
     title: z.string(),
     description: z.string().optional(),
-  })).default([]),
+  })).default(() => []),
 })
 
 export const ctaContentSchema = z.object({
@@ -61,14 +91,93 @@ export const ctaContentSchema = z.object({
   }),
 })
 
+// ---------------------------------------------------------------------------
+// Section schema (supports both legacy content and new components[])
+// ---------------------------------------------------------------------------
+
 export const sectionSchema = z.object({
   type: sectionTypeSchema,
   id: z.string(),
+  enabled: z.boolean().default(true),
+  order: z.number().optional(),
   variant: z.string().optional(),
   layout: layoutSchema,
-  content: z.record(z.unknown()).default({}),
+  content: z.record(z.string(), z.unknown()).default(() => ({})),
   style: styleSchema,
-  enabled: z.boolean().default(true),
+  components: z.array(componentSchema).default(() => []),
 })
 
 export type Section = z.infer<typeof sectionSchema>
+
+// ---------------------------------------------------------------------------
+// Compatibility helper: derive HeroContent from components[]
+// ---------------------------------------------------------------------------
+
+function findComponent(components: Component[], id: string): Component | undefined {
+  return components.find((c) => c.id === id)
+}
+
+/**
+ * Derives a legacy HeroContent object from a section's components[] array.
+ * Used during Phase 1 so existing renderers (HeroCentered, SectionSimple,
+ * SectionExpert) can read from the new structure without rewrite.
+ */
+export function componentsToHeroContent(components: Component[]): HeroContent {
+  const eyebrow = findComponent(components, 'eyebrow')
+  const headline = findComponent(components, 'headline')
+  const subtitle = findComponent(components, 'subtitle')
+  const primaryCta = findComponent(components, 'primaryCta')
+  const secondaryCta = findComponent(components, 'secondaryCta')
+  const heroImage = findComponent(components, 'heroImage')
+  const trustBadges = findComponent(components, 'trustBadges')
+
+  return {
+    heading: {
+      text: (headline?.props?.text as string) ?? HEADING_DEFAULTS.text,
+      level: (headline?.props?.level as number) ?? HEADING_DEFAULTS.level,
+      size: (headline?.props?.size as string) ?? HEADING_DEFAULTS.size,
+      weight: (headline?.props?.weight as number) ?? HEADING_DEFAULTS.weight,
+    },
+    subheading: (subtitle?.props?.text as string) ?? '',
+    cta: {
+      text: (primaryCta?.props?.text as string) ?? CTA_DEFAULTS.text,
+      url: (primaryCta?.props?.url as string) ?? CTA_DEFAULTS.url,
+    },
+    secondaryCta: secondaryCta
+      ? {
+          text: (secondaryCta.props?.text as string) ?? '',
+          url: (secondaryCta.props?.url as string) ?? '',
+        }
+      : undefined,
+    badge: eyebrow
+      ? {
+          text: (eyebrow.props?.text as string) ?? '',
+          show: eyebrow.enabled,
+        }
+      : undefined,
+    image: heroImage
+      ? {
+          url: (heroImage.props?.url as string) ?? '',
+          alt: (heroImage.props?.alt as string) ?? '',
+          show: heroImage.enabled,
+        }
+      : undefined,
+    trustBadges: trustBadges
+      ? {
+          text: (trustBadges.props?.text as string) ?? '',
+          show: trustBadges.enabled,
+        }
+      : undefined,
+  }
+}
+
+/**
+ * Resolves hero content from a section. Prefers components[] (new structure),
+ * falls back to content (legacy structure).
+ */
+export function resolveHeroContent(section: Section): HeroContent {
+  if (section.components.length > 0) {
+    return componentsToHeroContent(section.components)
+  }
+  return section.content as HeroContent
+}

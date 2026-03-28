@@ -1,12 +1,13 @@
 import { Sparkles } from 'lucide-react'
-import type { Section, HeroContent } from '@/lib/schemas'
+import type { Section } from '@/lib/schemas'
+import { resolveHeroContent } from '@/lib/schemas'
 
 interface HeroCenteredProps {
   section: Section
 }
 
 export function HeroCentered({ section }: HeroCenteredProps) {
-  const hero = section.content as HeroContent
+  const hero = resolveHeroContent(section)
 
   return (
     <section

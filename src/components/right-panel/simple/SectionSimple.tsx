@@ -5,7 +5,8 @@ import { Toggle } from '@/components/shared/Toggle'
 import { SegmentedControl } from '@/components/shared/SegmentedControl'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
-import type { HeroContent } from '@/lib/schemas'
+import { resolveHeroContent } from '@/lib/schemas'
+import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
 
 const sectionPresets = [
   { name: 'Modern' },
@@ -33,20 +34,20 @@ export function SectionSimple({ sectionId }: SectionSimpleProps) {
 
   if (!section) return null
 
-  const hero = section.content as HeroContent
+  const hero = resolveHeroContent(section)
 
   const eyebrowBadge = hero.badge?.show ?? true
   const heroImage = hero.image?.show ?? false
   const trustBadges = hero.trustBadges?.show ?? true
 
   const setEyebrowBadge = (val: boolean) => {
-    setSectionConfig(sectionId, { content: { badge: { show: val } } })
+    setSectionConfig(sectionId, { components: setComponentEnabled(section, 'eyebrow', val) })
   }
   const setHeroImage = (val: boolean) => {
-    setSectionConfig(sectionId, { content: { image: { show: val } } })
+    setSectionConfig(sectionId, { components: setComponentEnabled(section, 'heroImage', val) })
   }
   const setTrustBadges = (val: boolean) => {
-    setSectionConfig(sectionId, { content: { trustBadges: { show: val } } })
+    setSectionConfig(sectionId, { components: setComponentEnabled(section, 'trustBadges', val) })
   }
 
   const components = [
@@ -95,7 +96,7 @@ export function SectionSimple({ sectionId }: SectionSimpleProps) {
             <textarea
               value={hero.heading?.text ?? ''}
               onChange={(e) =>
-                setSectionConfig(sectionId, { content: { heading: { text: e.target.value } } })
+                setSectionConfig(sectionId, { components: updateComponentProps(section, 'headline', { text: e.target.value }) })
               }
               className="bg-hb-surface border border-hb-border rounded-lg px-3 py-2 text-sm font-ui text-hb-text-primary w-full h-14 resize-none"
             />
@@ -107,7 +108,7 @@ export function SectionSimple({ sectionId }: SectionSimpleProps) {
             <textarea
               value={hero.subheading ?? ''}
               onChange={(e) =>
-                setSectionConfig(sectionId, { content: { subheading: e.target.value } })
+                setSectionConfig(sectionId, { components: updateComponentProps(section, 'subtitle', { text: e.target.value }) })
               }
               className="bg-hb-surface border border-hb-border rounded-lg px-3 py-2 text-sm font-ui text-hb-text-primary w-full h-10 resize-none"
             />
@@ -120,7 +121,7 @@ export function SectionSimple({ sectionId }: SectionSimpleProps) {
               type="text"
               value={hero.cta?.text ?? ''}
               onChange={(e) =>
-                setSectionConfig(sectionId, { content: { cta: { text: e.target.value } } })
+                setSectionConfig(sectionId, { components: updateComponentProps(section, 'primaryCta', { text: e.target.value }) })
               }
               className="bg-hb-surface border border-hb-border rounded-lg px-3 py-2 text-sm font-ui text-hb-text-primary w-full"
             />

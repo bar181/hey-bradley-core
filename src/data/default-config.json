@@ -1,48 +1,55 @@
 {
-  "spec": "aisp-1.2",
-  "page": "index",
-  "version": "1.0.0-RC1",
+  "site": {
+    "title": "Hey Bradley",
+    "description": "A voice-first specification platform for marketing websites",
+    "author": "Bradley Ross",
+    "email": "bar181@yahoo.com",
+    "domain": "heybradley.com",
+    "project": "hey-bradley",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2"
+  },
+  "theme": {
+    "preset": "modern-dark",
+    "mode": "dark",
+    "colors": {
+      "primary": "#3b82f6",
+      "secondary": "#8b5cf6",
+      "accent": "#22d3ee",
+      "background": "#0a0a0f",
+      "surface": "#1e293b",
+      "text": "#f8fafc",
+      "muted": "#94a3b8",
+      "border": "#334155"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Inter",
+      "headingWeight": 800,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "64px",
+      "containerMaxWidth": "1280px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "12px"
+  },
   "sections": [
     {
       "type": "hero",
       "id": "hero-01",
+      "enabled": true,
+      "order": 0,
       "variant": "centered",
       "layout": {
         "display": "flex",
         "direction": "column",
         "align": "center",
         "gap": "24px",
-        "padding": "64px"
-      },
-      "content": {
-        "heading": {
-          "text": "Ship Code at the Speed of Thought",
-          "level": 1,
-          "size": "48px",
-          "weight": 700
-        },
-        "subheading": "Build AI-native experiences that transform how we create.",
-        "cta": {
-          "text": "Get Started",
-          "url": "#pricing"
-        },
-        "secondaryCta": {
-          "text": "View my work",
-          "url": "#about"
-        },
-        "badge": {
-          "text": "Hey Bradley 2.0 is Live",
-          "show": true
-        },
-        "image": {
-          "url": "",
-          "alt": "",
-          "show": false
-        },
-        "trustBadges": {
-          "text": "Trusted by 214 institutions",
-          "show": true
-        }
+        "padding": "64px",
+        "maxWidth": "1280px"
       },
       "style": {
         "background": "#0a0a0f",
@@ -50,54 +57,43 @@
         "fontFamily": "Inter",
         "borderRadius": "0px"
       },
-      "enabled": true
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "Hey Bradley 2.0 is Live", "icon": "sparkles" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Ship Code at the Speed of Thought", "level": 1, "size": "48px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Build AI-native experiences that transform how we create." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "Get Started", "url": "#pricing", "style": "filled", "size": "lg" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4, "props": { "text": "View my work", "url": "#about", "style": "ghost", "size": "lg" } },
+        { "id": "heroImage", "type": "image", "enabled": false, "order": 5, "props": { "url": "", "alt": "", "aspect": "16:9" } },
+        { "id": "trustBadges", "type": "trust", "enabled": true, "order": 6, "props": { "text": "Trusted by 214 institutions" } }
+      ]
     },
     {
       "type": "features",
       "id": "features-01",
-      "layout": {
-        "display": "grid",
-        "columns": 3,
-        "gap": "32px",
-        "padding": "48px"
-      },
-      "content": {
-        "title": "Features",
-        "items": [
-          { "id": "f1", "icon": "\u26a1", "title": "Lightning Fast", "description": "Build and deploy in seconds, not days." },
-          { "id": "f2", "icon": "\ud83c\udfaf", "title": "Precise Specs", "description": "AISP specifications with under 2% ambiguity." },
-          { "id": "f3", "icon": "\ud83d\udd12", "title": "Enterprise Ready", "description": "Production-grade output from day one." }
-        ]
-      },
-      "style": {
-        "background": "#0f172a",
-        "color": "#f8fafc"
-      },
-      "enabled": true
+      "enabled": true,
+      "order": 1,
+      "variant": "grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "48px" },
+      "style": { "background": "#0f172a", "color": "#f8fafc" },
+      "components": [
+        { "id": "f1", "type": "feature-card", "enabled": true, "order": 0, "props": { "icon": "\u26a1", "title": "Lightning Fast", "description": "Build and deploy in seconds, not days." } },
+        { "id": "f2", "type": "feature-card", "enabled": true, "order": 1, "props": { "icon": "\ud83c\udfaf", "title": "Precise Specs", "description": "AISP specifications with under 2% ambiguity." } },
+        { "id": "f3", "type": "feature-card", "enabled": true, "order": 2, "props": { "icon": "\ud83d\udd12", "title": "Enterprise Ready", "description": "Production-grade output from day one." } }
+      ]
     },
     {
       "type": "cta",
       "id": "cta-01",
-      "layout": {
-        "display": "flex",
-        "direction": "column",
-        "align": "center",
-        "padding": "48px",
-        "gap": "16px"
-      },
-      "content": {
-        "heading": "Ready to build something amazing?",
-        "subheading": "Start building your next project with Hey Bradley.",
-        "button": {
-          "text": "Launch Now",
-          "url": "#signup"
-        }
-      },
-      "style": {
-        "background": "#1e293b",
-        "color": "#f8fafc"
-      },
-      "enabled": true
+      "enabled": true,
+      "order": 2,
+      "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "48px", "gap": "16px" },
+      "style": { "background": "#1e293b", "color": "#f8fafc" },
+      "components": [
+        { "id": "heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Ready to build something amazing?", "level": 2, "size": "32px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 1, "props": { "text": "Start building your next project with Hey Bradley." } },
+        { "id": "button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Launch Now", "url": "#signup", "style": "filled", "size": "lg" } }
+      ]
     }
   ]
 }

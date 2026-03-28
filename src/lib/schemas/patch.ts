@@ -11,7 +11,7 @@ export type PatchSource =
   | 'vibe'
 
 export const patchEnvelopeSchema = z.object({
-  patch: z.record(z.unknown()),
+  patch: z.record(z.string(), z.unknown()),
   source: z.string(),
   timestamp: z.number().optional(),
 })

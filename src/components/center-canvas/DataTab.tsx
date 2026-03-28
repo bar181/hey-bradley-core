@@ -249,7 +249,7 @@ export function DataTab() {
 
         {/* Metadata bar */}
         <div className="flex items-center gap-6 font-mono text-[11px] uppercase tracking-wide text-hb-text-muted">
-          <span>VERSION {config.version}</span>
+          <span>VERSION {config.site.version}</span>
           <span>SECTIONS {config.sections.length}</span>
           <span>TOTAL {totalChars.toLocaleString()}</span>
           <span>LINES {totalLines}</span>
