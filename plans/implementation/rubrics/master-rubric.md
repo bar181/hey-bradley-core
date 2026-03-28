@@ -45,12 +45,13 @@ This rubric provides a comprehensive quality assessment of the entire Hey Bradle
 | C1 | JSON as single source of truth | 15% | 0 | 0.0 | All state in configStore, no hidden state |
 | C2 | Zod schema coverage | 10% | 0 | 0.0 | All data types have Zod schemas |
 | C3 | DDD boundary enforcement | 10% | 0 | 0.0 | Import firewall respected |
-| C4 | Performance (< 100ms render) | 15% | 0 | 0.0 | Config change → visual update fast |
+| C4 | Performance (< 100ms render) | 10% | 0 | 0.0 | Config change → visual update fast |
 | C5 | Zero console errors | 10% | 0 | 0.0 | Clean console in all modes |
 | C6 | TypeScript strictness (no any/ts-ignore) | 10% | 0 | 0.0 | Strict mode, proper typing |
-| C7 | Test coverage (Playwright e2e) | 15% | 0 | 0.0 | All critical paths tested |
+| C7 | Test coverage (Playwright e2e) | 10% | 0 | 0.0 | All critical paths tested |
 | C8 | Approved dependencies only | 5% | 0 | 0.0 | No unapproved packages |
 | C9 | Storage abstraction (IProjectRepository) | 10% | 0 | 0.0 | LocalStorage → Supabase swap |
+| C10 | Visual quality gate (Playwright smoke tests pass) | 10% | 0 | 0.0 | Playwright visual smoke tests gate each phase |
 | **Total** | | **100%** | | **0.0** | |
 
 ### D. AISP / Specification Quality

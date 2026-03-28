@@ -1,89 +1,79 @@
-import { useState, useCallback, useRef, useEffect } from 'react'
+import { useState, useCallback, useMemo, useRef, useEffect } from 'react'
 import { useConfigStore } from '../../store/configStore'
 import { masterConfigSchema } from '../../lib/schemas'
+import CodeMirror from '@uiw/react-codemirror'
+import { json } from '@codemirror/lang-json'
+import { oneDark } from '@codemirror/theme-one-dark'
+import {
+  Copy,
+  Download,
+  ChevronDown,
+  ChevronRight,
+  Palette,
+  Star,
+  Grid3X3,
+  ArrowRight,
+  Pencil,
+  X,
+  type LucideIcon,
+} from 'lucide-react'
 
-function colorize(line: string): string {
-  return line
-    .replace(/"([^"]+)"(?=\s*:)/g, '<span class="text-blue-400">"$1"</span>')
-    .replace(/"([^"]*)"/g, '<span class="text-green-400">"$1"</span>')
-    .replace(/\b(\d+\.?\d*)\b/g, '<span class="text-amber-400">$1</span>')
-    .replace(/\b(true|false)\b/g, '<span class="text-purple-400">$1</span>')
-    .replace(/\bnull\b/g, '<span class="text-slate-500">null</span>')
+const SECTION_ICONS: Record<string, LucideIcon> = {
+  hero: Star,
+  features: Grid3X3,
+  cta: ArrowRight,
 }
 
-function highlightJSON(json: string): React.ReactNode[] {
-  const lines = json.split('\n')
-  return lines.map((line, i) => (
-    <div key={i} className="flex">
-      <span className="w-8 text-right text-slate-600 select-none border-r border-hb-border pr-2 mr-3 flex-shrink-0">
-        {i + 1}
-      </span>
-      <span dangerouslySetInnerHTML={{ __html: colorize(line) }} />
-    </div>
-  ))
-}
+const DEBOUNCE_MS = 500
 
 export function DataTab() {
   const config = useConfigStore((s) => s.config)
   const loadConfig = useConfigStore((s) => s.loadConfig)
 
-  const [editing, setEditing] = useState(false)
-  const [editText, setEditText] = useState('')
-  const [error, setError] = useState<string | null>(null)
-  const [copied, setCopied] = useState(false)
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const [isEditing, setIsEditing] = useState(false)
+  const [editValue, setEditValue] = useState('')
+  const [validationError, setValidationError] = useState<string | null>(null)
+  const [validationOk, setValidationOk] = useState(false)
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({ hero: true })
+  const [copiedKey, setCopiedKey] = useState<string | null>(null)
 
-  const jsonString = JSON.stringify(config, null, 2)
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  useEffect(() => {
-    if (editing && textareaRef.current) {
-      textareaRef.current.focus()
-    }
-  }, [editing])
+  const jsonString = useMemo(() => JSON.stringify(config, null, 2), [config])
 
-  const handleEdit = useCallback(() => {
-    setEditText(jsonString)
-    setError(null)
-    setEditing(true)
-  }, [jsonString])
+  // Theme block: top-level config minus sections
+  const themeData = useMemo(() => {
+    const { sections: _sections, ...rest } = config
+    return rest
+  }, [config])
 
-  const handleCancel = useCallback(() => {
-    setEditing(false)
-    setError(null)
-  }, [])
+  const themeJson = useMemo(() => JSON.stringify(themeData, null, 2), [themeData])
 
-  const handleSave = useCallback(() => {
-    try {
-      const parsed = JSON.parse(editText)
-      const result = masterConfigSchema.safeParse(parsed)
-      if (result.success) {
-        loadConfig(result.data)
-        setEditing(false)
-        setError(null)
-      } else {
-        const issues = result.error.issues.map((i) => i.message).join('; ')
-        setError(`Validation failed: ${issues}`)
-      }
-    } catch (e) {
-      setError(`Invalid JSON: ${(e as Error).message}`)
-    }
-  }, [editText, loadConfig])
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-        e.preventDefault()
-        handleSave()
-      }
-    },
-    [handleSave]
+  // Section blocks
+  const sectionBlocks = useMemo(
+    () =>
+      config.sections.map((section) => ({
+        key: section.id ?? section.type,
+        name: section.type,
+        json: JSON.stringify(section, null, 2),
+      })),
+    [config.sections]
   )
 
-  const handleCopy = useCallback(() => {
-    navigator.clipboard.writeText(jsonString)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1500)
-  }, [jsonString])
+  // Metadata
+  const totalChars = jsonString.length
+  const totalLines = jsonString.split('\n').length
+
+  // ── Copy helpers ──
+  const copyToClipboard = useCallback((text: string, key: string) => {
+    navigator.clipboard.writeText(text)
+    setCopiedKey(key)
+    setTimeout(() => setCopiedKey(null), 1500)
+  }, [])
+
+  const handleCopyAll = useCallback(() => {
+    copyToClipboard(jsonString, '__all__')
+  }, [jsonString, copyToClipboard])
 
   const handleExport = useCallback(() => {
     const blob = new Blob([jsonString], { type: 'application/json' })
@@ -95,63 +85,253 @@ export function DataTab() {
     URL.revokeObjectURL(url)
   }, [jsonString])
 
-  const buttonClass =
-    'font-mono text-[11px] uppercase text-hb-text-muted hover:text-hb-accent border border-hb-border rounded px-2.5 py-1 transition-colors'
+  // ── Toggle sections ──
+  const toggleSection = useCallback((key: string) => {
+    setExpandedSections((prev) => ({ ...prev, [key]: !prev[key] }))
+  }, [])
+
+  // ── Edit mode ──
+  const enterEdit = useCallback(() => {
+    setEditValue(jsonString)
+    setValidationError(null)
+    setValidationOk(true)
+    setIsEditing(true)
+  }, [jsonString])
+
+  const cancelEdit = useCallback(() => {
+    setIsEditing(false)
+    setValidationError(null)
+    setValidationOk(false)
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+  }, [])
+
+  const handleEditorChange = useCallback(
+    (value: string) => {
+      setEditValue(value)
+      if (debounceRef.current) clearTimeout(debounceRef.current)
+      debounceRef.current = setTimeout(() => {
+        try {
+          const parsed = JSON.parse(value)
+          const result = masterConfigSchema.safeParse(parsed)
+          if (result.success) {
+            loadConfig(result.data)
+            setValidationError(null)
+            setValidationOk(true)
+          } else {
+            const issues = result.error.issues.map((i) => i.message).join('; ')
+            setValidationError(`Validation: ${issues}`)
+            setValidationOk(false)
+          }
+        } catch (e) {
+          setValidationError(`JSON: ${(e as Error).message}`)
+          setValidationOk(false)
+        }
+      }, DEBOUNCE_MS)
+    },
+    [loadConfig]
+  )
+
+  // Cleanup debounce on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current)
+    }
+  }, [])
+
+  const ghostBtn =
+    'inline-flex items-center gap-1.5 font-mono text-[11px] uppercase text-hb-text-muted hover:text-hb-accent border border-hb-border rounded px-2.5 py-1 transition-colors'
+
+  const lineCount = (s: string) => s.split('\n').length
+  const charCount = (s: string) => s.length
+
+  // ── Section header renderer ──
+  function SectionHeader({
+    sectionKey,
+    name,
+    jsonStr,
+    icon: Icon,
+    expanded,
+  }: {
+    sectionKey: string
+    name: string
+    jsonStr: string
+    icon: LucideIcon
+    expanded: boolean
+  }) {
+    return (
+      <div className="flex items-center justify-between w-full">
+        <button
+          onClick={() => toggleSection(sectionKey)}
+          className="flex items-center gap-2 flex-1 py-2.5 px-3 hover:bg-hb-surface-hover rounded-md transition-colors"
+        >
+          {expanded ? (
+            <ChevronDown size={14} className="text-hb-text-muted" />
+          ) : (
+            <ChevronRight size={14} className="text-hb-text-muted" />
+          )}
+          <Icon size={14} className="text-hb-text-muted" />
+          <span className="font-mono text-[11px] uppercase tracking-[0.05em] text-hb-text-primary font-medium">
+            {name}
+          </span>
+        </button>
+        <div className="flex items-center gap-3 pr-3">
+          <span className="font-mono text-[11px] text-hb-text-muted">
+            {lineCount(jsonStr)} lines &middot; {charCount(jsonStr)} chars
+          </span>
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              copyToClipboard(jsonStr, sectionKey)
+            }}
+            className="text-hb-text-muted hover:text-hb-text-secondary transition-colors"
+            title="Copy section"
+          >
+            {copiedKey === sectionKey ? (
+              <span className="font-mono text-[10px] text-hb-success">OK</span>
+            ) : (
+              <Copy size={14} />
+            )}
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className="space-y-0">
-      {/* Top bar */}
-      <div className="flex justify-between items-center mb-3">
-        <span className="font-mono text-[11px] uppercase tracking-wide text-hb-text-muted">
-          DATA
-        </span>
-        <div className="flex gap-2">
-          <button className={buttonClass} onClick={handleCopy}>
-            {copied ? 'Copied!' : 'COPY'}
-          </button>
-          <button className={buttonClass} onClick={handleExport}>
-            EXPORT
-          </button>
-          {editing ? (
-            <>
-              <button className={buttonClass} onClick={handleCancel}>
+    <div className="flex flex-col h-full space-y-0">
+      {/* ── Layer 1: Header ── */}
+      <div className="space-y-3 mb-4">
+        {/* Title row */}
+        <div className="flex items-start justify-between">
+          <div>
+            <h2 className="text-base font-semibold text-hb-text-primary">
+              Project Data Schema
+            </h2>
+            <p className="text-xs text-hb-text-muted">
+              Synchronized Single Source of Truth (SSOT)
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            {/* LIVE indicator */}
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-hb-success animate-pulse" />
+              <span className="text-xs text-hb-success font-mono uppercase">LIVE</span>
+            </div>
+            {/* EDIT toggle */}
+            {isEditing ? (
+              <button className={ghostBtn} onClick={cancelEdit}>
+                <X size={12} />
                 CANCEL
               </button>
-              <button className={buttonClass} onClick={handleSave}>
-                SAVE
+            ) : (
+              <button className={ghostBtn} onClick={enterEdit}>
+                <Pencil size={12} />
+                EDIT
               </button>
-            </>
-          ) : (
-            <button className={buttonClass} onClick={handleEdit}>
-              EDIT
-            </button>
-          )}
+            )}
+          </div>
+        </div>
+
+        {/* Action buttons */}
+        <div className="flex items-center gap-2">
+          <button className={ghostBtn} onClick={handleCopyAll}>
+            <Copy size={12} />
+            {copiedKey === '__all__' ? 'COPIED!' : 'COPY ALL'}
+          </button>
+          <button className={ghostBtn} onClick={handleExport}>
+            <Download size={12} />
+            EXPORT JSON
+          </button>
+        </div>
+
+        {/* Divider */}
+        <div className="border-t border-hb-border" />
+
+        {/* Metadata bar */}
+        <div className="flex items-center gap-6 font-mono text-[11px] uppercase tracking-wide text-hb-text-muted">
+          <span>VERSION {config.version}</span>
+          <span>SECTIONS {config.sections.length}</span>
+          <span>TOTAL {totalChars.toLocaleString()}</span>
+          <span>LINES {totalLines}</span>
         </div>
       </div>
 
-      {/* Content area */}
-      <div className="bg-hb-surface rounded-lg overflow-auto">
-        {editing ? (
-          <div className="p-4">
-            <textarea
-              ref={textareaRef}
-              className="w-full h-[500px] bg-hb-surface font-mono text-[13px] leading-relaxed text-slate-200 resize-y border border-hb-border rounded p-3 outline-none focus:border-hb-accent"
-              value={editText}
-              onChange={(e) => setEditText(e.target.value)}
-              onBlur={handleSave}
-              onKeyDown={handleKeyDown}
-              spellCheck={false}
+      {/* ── Layer 2 / 3: Content ── */}
+      {isEditing ? (
+        /* ── Edit Mode: Full CodeMirror editor ── */
+        <div className="flex-1 flex flex-col min-h-0">
+          <div className="flex-1 min-h-0 rounded-lg overflow-hidden border border-hb-border">
+            <CodeMirror
+              value={editValue}
+              height="100%"
+              extensions={[json()]}
+              theme={oneDark}
+              onChange={handleEditorChange}
+              className="h-full"
             />
-            {error && (
-              <p className="text-hb-error text-xs mt-2">{error}</p>
+          </div>
+          <div className="mt-2 h-5">
+            {validationOk && !validationError && (
+              <span className="font-mono text-xs text-hb-success">
+                &#10003; Valid
+              </span>
+            )}
+            {validationError && (
+              <span className="font-mono text-xs text-hb-error">
+                {validationError}
+              </span>
             )}
           </div>
-        ) : (
-          <pre className="font-mono text-[13px] leading-relaxed p-4">
-            {highlightJSON(jsonString)}
-          </pre>
-        )}
-      </div>
+        </div>
+      ) : (
+        /* ── Read Mode: Collapsible sections ── */
+        <div className="flex-1 overflow-auto space-y-1">
+          {/* Theme block */}
+          <div className="rounded-lg border border-hb-border overflow-hidden">
+            <SectionHeader
+              sectionKey="theme"
+              name="Theme"
+              jsonStr={themeJson}
+              icon={Palette}
+              expanded={expandedSections['theme'] ?? false}
+            />
+            {expandedSections['theme'] && (
+              <div className="bg-hb-bg rounded-b-lg px-4 py-3">
+                <pre className="font-mono text-[13px] text-hb-text-secondary whitespace-pre overflow-x-auto">
+                  {themeJson}
+                </pre>
+              </div>
+            )}
+          </div>
+
+          {/* Section blocks */}
+          {sectionBlocks.map((block) => {
+            const Icon = SECTION_ICONS[block.name] ?? ArrowRight
+            const expanded = expandedSections[block.name] ?? false
+            return (
+              <div
+                key={block.key}
+                className="rounded-lg border border-hb-border overflow-hidden"
+              >
+                <SectionHeader
+                  sectionKey={block.name}
+                  name={block.name}
+                  jsonStr={block.json}
+                  icon={Icon}
+                  expanded={expanded}
+                />
+                {expanded && (
+                  <div className="bg-hb-bg rounded-b-lg px-4 py-3">
+                    <pre className="font-mono text-[13px] text-hb-text-secondary whitespace-pre overflow-x-auto">
+                      {block.json}
+                    </pre>
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }

@@ -30,6 +30,9 @@
 - Section navigator in left panel
 - Full-page preview mode
 - Expert mode shows section-specific property inspectors
+- Every new section type (Features, Pricing, etc.) must have a corresponding JSON content schema in src/lib/schemas/
+- Section templates must render purely from props (no hardcoded values)
+- Adding a section via UI must produce valid JSON that appears immediately in DATA tab
 
 **Research Requirements:**
 - @dnd-kit/core + @dnd-kit/sortable API for drag-and-drop reorder

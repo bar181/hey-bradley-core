@@ -1,80 +1,9 @@
 import { create } from 'zustand'
 import { deepMerge } from '@/lib/deepMerge'
 import type { MasterConfig, Section, SectionType, PatchSource } from '@/lib/schemas'
-import { heroContentSchema } from '@/lib/schemas'
+import defaultConfig from '@/data/default-config.json'
 
-const DEFAULT_HERO_CONTENT = heroContentSchema.parse({})
-
-const DEFAULT_CONFIG: MasterConfig = {
-  spec: 'aisp-1.2',
-  page: 'index',
-  version: '1.0.0-RC1',
-  sections: [
-    {
-      type: 'hero',
-      id: 'hero-01',
-      variant: 'centered',
-      layout: {
-        display: 'flex',
-        direction: 'column',
-        align: 'center',
-        gap: '24px',
-        padding: '64px',
-      },
-      content: DEFAULT_HERO_CONTENT as unknown as Record<string, unknown>,
-      style: {
-        background: '#0a0a0f',
-        color: '#f8fafc',
-        fontFamily: 'Inter',
-        borderRadius: '0px',
-      },
-      enabled: true,
-    },
-    {
-      type: 'features',
-      id: 'features-01',
-      layout: {
-        display: 'grid',
-        columns: 3,
-        gap: '32px',
-        padding: '48px',
-      },
-      content: {
-        title: 'Features',
-        items: [
-          { id: 'f1', icon: '⚡', title: 'Fast' },
-          { id: 'f2', icon: '🎯', title: 'Precise' },
-          { id: 'f3', icon: '🔒', title: 'Secure' },
-        ],
-      },
-      style: {
-        background: '#0f172a',
-        color: '#f8fafc',
-      },
-      enabled: true,
-    },
-    {
-      type: 'cta',
-      id: 'cta-01',
-      layout: {
-        display: 'flex',
-        direction: 'column',
-        align: 'center',
-        padding: '32px',
-        gap: '16px',
-      },
-      content: {
-        heading: 'Ready to start?',
-        button: { text: 'Launch Now', url: '#signup' },
-      },
-      style: {
-        background: '#3b82f6',
-        color: '#ffffff',
-      },
-      enabled: true,
-    },
-  ],
-}
+const DEFAULT_CONFIG: MasterConfig = defaultConfig as unknown as MasterConfig
 
 const HISTORY_LIMIT = 100
 

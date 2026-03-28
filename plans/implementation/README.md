@@ -494,6 +494,18 @@ An end-of-phase review that uses **Playwright** for automated UI/UX/functionalit
 
 ---
 
+## 10.1 Quality Gates (Mandatory After Every UI Change)
+
+| # | Check | Command | Catches |
+|---|-------|---------|---------|
+| 1 | TypeScript compiles | `npx tsc --noEmit` | Type errors |
+| 2 | Production builds | `npx vite build` | Bundle errors |
+| 3 | Visual smoke tests | `npx playwright test` | Raw HTML, broken renders |
+| 4 | Screenshot review | Check `tests/screenshots/` | Layout breaks |
+| 5 | Bidirectional sync | Change control → verify JSON updates | Broken data loop |
+
+---
+
 ## 11. NEXT STEPS
 
 1. **Begin Level 1, Phase 0: Scaffold & Tooling**

@@ -1,0 +1,103 @@
+{
+  "spec": "aisp-1.2",
+  "page": "index",
+  "version": "1.0.0-RC1",
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "64px"
+      },
+      "content": {
+        "heading": {
+          "text": "Ship Code at the Speed of Thought",
+          "level": 1,
+          "size": "48px",
+          "weight": 700
+        },
+        "subheading": "Build AI-native experiences that transform how we create.",
+        "cta": {
+          "text": "Get Started",
+          "url": "#pricing"
+        },
+        "secondaryCta": {
+          "text": "View my work",
+          "url": "#about"
+        },
+        "badge": {
+          "text": "Hey Bradley 2.0 is Live",
+          "show": true
+        },
+        "image": {
+          "url": "",
+          "alt": "",
+          "show": false
+        },
+        "trustBadges": {
+          "text": "Trusted by 214 institutions",
+          "show": true
+        }
+      },
+      "style": {
+        "background": "#0a0a0f",
+        "color": "#f8fafc",
+        "fontFamily": "Inter",
+        "borderRadius": "0px"
+      },
+      "enabled": true
+    },
+    {
+      "type": "features",
+      "id": "features-01",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "48px"
+      },
+      "content": {
+        "title": "Features",
+        "items": [
+          { "id": "f1", "icon": "\u26a1", "title": "Lightning Fast", "description": "Build and deploy in seconds, not days." },
+          { "id": "f2", "icon": "\ud83c\udfaf", "title": "Precise Specs", "description": "AISP specifications with under 2% ambiguity." },
+          { "id": "f3", "icon": "\ud83d\udd12", "title": "Enterprise Ready", "description": "Production-grade output from day one." }
+        ]
+      },
+      "style": {
+        "background": "#0f172a",
+        "color": "#f8fafc"
+      },
+      "enabled": true
+    },
+    {
+      "type": "cta",
+      "id": "cta-01",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "48px",
+        "gap": "16px"
+      },
+      "content": {
+        "heading": "Ready to build something amazing?",
+        "subheading": "Start building your next project with Hey Bradley.",
+        "button": {
+          "text": "Launch Now",
+          "url": "#signup"
+        }
+      },
+      "style": {
+        "background": "#1e293b",
+        "color": "#f8fafc"
+      },
+      "enabled": true
+    }
+  ]
+}

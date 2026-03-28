@@ -253,6 +253,27 @@ Each entry should follow this format:
 **Next steps:**
 - Phase 1.2: All tabs content + Listen Mode visual (red orb)
 
+### 2026-03-28 — Phase 1.1 Hotfix — Data Tab P0 Bug: Raw HTML in Output
+**Status:** IN PROGRESS
+**What was done:**
+- Identified P0 bug: DataTab custom regex syntax highlighter renders raw HTML class names as visible text
+- Root cause: dangerouslySetInnerHTML with a broken colorize() function that outputs `<span class="text-blue-400">` as literal text
+- Decision: Replace custom highlighter with CodeMirror 6 (@uiw/react-codemirror)
+- Installing CodeMirror 6 packages (approved — ~150KB, not monaco at ~4MB)
+- Rebuilding DataTab with collapsible section blocks matching mockup design
+- Creating ADR-010 (JSON as SSOT reinforced) and ADR-011 (Visual Quality Gate)
+- Adding Playwright visual smoke tests as mandatory quality gate
+- Adding Cardinal Sin #13 to Swarm Protocol
+
+**Decision made:**
+- Custom regex highlighters banned going forward — use CodeMirror for any code display
+- Playwright visual smoke tests now MANDATORY after every UI task
+- DataTab redesigned as "Project Data Schema" with collapsible per-section blocks
+
+**What didn't work:**
+- The original custom regex colorize() function — completely broken, shipped without visual verification
+- This bug exposed that build passing ≠ UI working — led to ADR-011
+
 ---
 
 ## Phase 1.2 — All Tabs + Listen Mode Visual

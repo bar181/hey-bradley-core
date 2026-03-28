@@ -12,6 +12,9 @@
 - Copy/export buttons work for both views
 - Specs update live when config changes
 - Generated specs are accurate and useful
+- Spec templates generate content FROM configStore JSON (not from UI state)
+- Changing JSON in DATA tab → spec documents update in real-time
+- AISP Crystal Atom format generated from the same JSON that drives the preview
 
 **Research Requirements:**
 - Template literal function patterns for spec generation

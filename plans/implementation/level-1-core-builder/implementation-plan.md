@@ -118,6 +118,9 @@ Hey Bradley is a JSON-driven marketing website specification platform built as a
 **Unblocks:** Phase 1.3
 **CAPSTONE DEMO CHECKPOINT** — Must be visually stunning.
 
+**Prerequisite:** Data Tab must render clean JSON without raw HTML artifacts (Phase 1.1 hotfix).
+**Quality Gate:** All Playwright visual smoke tests must pass before Phase 1.2 is marked complete.
+
 ### Definition of Done
 
 - XAI DOCS shows HUMAN view with structured spec text
@@ -128,6 +131,10 @@ Hey Bradley is a JSON-driven marketing website specification platform built as a
 - Features and CTA sections visible in REALITY tab
 - Section click-to-select with dashed orange border
 - All tests pass
+- XAI DOCS tab generates content FROM configStore (not hardcoded)
+- WORKFLOW tab reads pipeline state from configStore metadata
+- Listen mode visual test: Playwright verifies dark overlay + red orb render
+- No raw HTML, class names, or debug artifacts in any tab
 
 ### Research Requirements
 
