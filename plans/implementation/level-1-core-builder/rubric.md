@@ -14,26 +14,28 @@
 
 ## Phase 1.0 — Shell & Navigation Scorecard
 
+_Updated 2026-03-28 after Playwright test run (18/18 passed)_
+
 | # | Requirement | Score (0-4) | Notes |
 |---|------------|-------------|-------|
-| 1.0.1 | Vite + React + TS + Tailwind + shadcn scaffold runs | 4 | Build passes, dev server runs clean |
+| 1.0.1 | Vite + React + TS + Tailwind + shadcn scaffold runs | 4 | Build passes, dev server runs clean, zero errors |
 | 1.0.2 | Path aliases (`@/*`) configured | 4 | tsconfig + vite.config both configured |
-| 1.0.3 | AppShell with top bar (logo, project name, version badge) | 3 | HB logo, "Untitled Project", V1.0.0-RC1 badge all render |
-| 1.0.4 | ModeToggle (LISTEN/BUILD + DRAFT/EXPERT pill toggles) | 3 | Both toggles work, orange active state, orb indicator on LISTEN |
-| 1.0.5 | PanelLayout (three resizable panels, warm cream handles) | 3 | Resizable, collapsible, subtle hover handles |
-| 1.0.6 | TabBar (REALITY, DATA, XAI DOCS, WORKFLOW) with active styling | 3 | All 4 tabs navigate, orange underline on active |
-| 1.0.7 | StatusBar (monospace, READY/MODE indicators) | 3 | Green dot + "READY AISP SPEC V1.2", dynamic MODE display |
-| 1.0.8 | ChatInput (mic + text + send) | 3 | Mic icon, placeholder text, send button — visual only |
-| 1.0.9 | Draft left panel placeholder (vibe cards, section list) | 3 | 3 vibes with colored dots, Warm selected, section list with arrows |
-| 1.0.10 | Expert left panel placeholder (accordion property inspector) | 3 | LAYOUT expanded with property rows, CONTENT/STYLE/SECTIONS collapsed |
-| 1.0.11 | Draft right panel placeholder (headline input, layout selector) | 3 | HERO header, headline input, 3 layout icons, "More options" link |
-| 1.0.12 | Expert right panel placeholder (layout/content/style sections) | 3 | Direction/align/padding/gap controls, headline/subtitle textareas, color swatches |
-| 1.0.13 | All 4 tab placeholders render correctly | 3 | Reality (dashed preview), Data (mock JSON), XAI Docs (HUMAN/AISP toggle), Workflow (6 pipeline steps) |
-| 1.0.14 | Warm cream design system applied (#faf8f5 bg, #e8772e accent) | 3 | Correct colors, DM Sans + JetBrains Mono fonts, monospace labels |
-| 1.0.15 | Zero console errors | 3 | Clean build, no TypeScript errors |
-| 1.0.16 | Looks like a real product (wow factor) | 3 | Warm precision aesthetic achieved — needs human review for final 4 |
+| 1.0.3 | AppShell with top bar (logo, project name, version badge) | 3 | HB logo, "Untitled Project", version badge all render |
+| 1.0.4 | ModeToggle (LISTEN/BUILD toggle) | 4 | LISTEN/BUILD toggle works; DRAFT/EXPERT removed, replaced by SIMPLE/EXPERT tabs in right panel |
+| 1.0.5 | PanelLayout (three resizable panels, dark slate handles) | 4 | Three data-panel elements detected, resizable, collapsible |
+| 1.0.6 | TabBar (REALITY, DATA, XAI DOCS, WORKFLOW) with active styling | 4 | All 4 tabs navigable and clickable (verified by Playwright) |
+| 1.0.7 | StatusBar (monospace, READY indicator) | 3 | READY indicator visible, monospace styling |
+| 1.0.8 | ChatInput (mic + text + send) | 3 | Input with placeholder visible, mic and send button functional |
+| 1.0.9 | Left panel navigation (Theme + section list) | 4 | Flat navigation: Theme row + Hero/Features/CTA rows, click updates right panel |
+| 1.0.10 | Right panel SIMPLE tab (section configuration) | 3 | SIMPLE/EXPERT tabs present, section config renders on selection |
+| 1.0.11 | Right panel EXPERT tab (AISP/spec viewer) | 3 | Expert tab shows AISP/spec viewer content |
+| 1.0.12 | Left-to-right panel context wiring | 3 | Clicking Theme or Hero in left panel updates right panel content |
+| 1.0.13 | All 4 tab placeholders render correctly | 3 | Reality (hero preview), Data, XAI Docs, Workflow all render |
+| 1.0.14 | Dark Precision design system (slate-900 bg, blue-500 accent) | 4 | rgb(15,23,42) confirmed by Playwright; replaced warm cream per design pivot |
+| 1.0.15 | Zero console errors | 4 | No pageerror events during full navigation walkthrough |
+| 1.0.16 | Looks like a real product (wow factor) | 3 | Dark precision aesthetic achieved — needs human review for final 4 |
 
-**Phase 1.0 Total: 50 / 64** (avg 3.1 — meets requirements, pending human review for "exceeds")
+**Phase 1.0 Total: 55 / 64** (avg 3.4 — meets/exceeds requirements)
 
 ---
 
@@ -106,13 +108,15 @@
 
 | Metric | Target | Actual | Status |
 |--------|--------|--------|--------|
-| Total requirements scored | 54/54 | 0/54 | NOT STARTED |
-| Maximum possible score | 216 | 0 | NOT STARTED |
-| Average quality score | >= 3.0 | 0.0 | NOT STARTED |
-| Console errors | 0 | — | NOT STARTED |
-| Performance (render < 100ms) | Yes | — | NOT STARTED |
-| Visual polish (designer approval) | Yes | — | NOT STARTED |
-| Playwright tests passing | 100% | — | NOT STARTED |
+| Phase 1.0 requirements scored | 16/16 | 16/16 | COMPLETE |
+| Phase 1.0 score | 64 | 55 | 86% (avg 3.4) |
+| Total requirements scored | 54/54 | 16/54 | Phase 1.0 done |
+| Maximum possible score | 216 | 55 | Phase 1.0 done |
+| Average quality score | >= 3.0 | 3.4 | PASSING |
+| Console errors | 0 | 0 | PASSING |
+| Performance (render < 100ms) | Yes | — | Phase 1.1 |
+| Visual polish (designer approval) | Yes | — | Pending human review |
+| Playwright tests passing (Phase 1.0) | 100% | 18/18 (100%) | PASSING |
 
 ---
 

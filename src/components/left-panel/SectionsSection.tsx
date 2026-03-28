@@ -1,39 +1,54 @@
 import { useState } from 'react'
-import { Star, Grid3X3, ArrowRight, Eye, EyeOff, ChevronUp, ChevronDown } from 'lucide-react'
+import { Star, Grid3X3, ArrowRight, Eye, EyeOff, ChevronUp, ChevronDown, type LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { useUIStore } from '@/store/uiStore'
+import { useConfigStore } from '@/store/configStore'
 
-const initialSections = [
-  { id: 'hero-01', name: 'Hero', icon: Star, visible: true },
-  { id: 'features-01', name: 'Features', icon: Grid3X3, visible: true },
-  { id: 'cta-01', name: 'Call to Action', icon: ArrowRight, visible: true },
-]
+const sectionIconMap: Record<string, LucideIcon> = {
+  hero: Star,
+  features: Grid3X3,
+  cta: ArrowRight,
+}
+
+const sectionNameMap: Record<string, string> = {
+  hero: 'Hero',
+  features: 'Features',
+  cta: 'Call to Action',
+  pricing: 'Pricing',
+  footer: 'Footer',
+  testimonials: 'Testimonials',
+  faq: 'FAQ',
+  value_props: 'Value Props',
+}
 
 export function SectionsSection() {
-  const [sections, setSections] = useState(initialSections)
+  const sections = useConfigStore((s) => s.config.sections)
+  const toggleSectionEnabled = useConfigStore((s) => s.toggleSectionEnabled)
+  const [localOrder, setLocalOrder] = useState<string[] | null>(null)
   const selectedContext = useUIStore((s) => s.selectedContext)
   const setSelectedContext = useUIStore((s) => s.setSelectedContext)
 
-  const toggleVisibility = (id: string) => {
-    setSections((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, visible: !s.visible } : s))
-    )
-  }
+  // Use localOrder for reordering if set, otherwise use configStore order
+  const orderedSections = localOrder
+    ? localOrder
+        .map((id) => sections.find((s) => s.id === id))
+        .filter(Boolean)
+    : sections
 
   const moveSection = (index: number, direction: 'up' | 'down') => {
     const target = direction === 'up' ? index - 1 : index + 1
-    if (target < 0 || target >= sections.length) return
-    setSections((prev) => {
-      const next = [...prev]
-      ;[next[index], next[target]] = [next[target], next[index]]
-      return next
-    })
+    if (target < 0 || target >= orderedSections.length) return
+    const currentIds = orderedSections.map((s) => s!.id)
+    const next = [...currentIds]
+    ;[next[index], next[target]] = [next[target], next[index]]
+    setLocalOrder(next)
   }
 
   return (
     <div className="flex flex-col gap-1">
-      {sections.map((section, index) => {
-        const Icon = section.icon
+      {orderedSections.map((section, index) => {
+        if (!section) return null
+        const Icon = sectionIconMap[section.type] ?? Star
         const isSelected =
           selectedContext?.type === 'section' &&
           selectedContext.sectionId === section.id
@@ -60,17 +75,17 @@ export function SectionsSection() {
           >
             <Icon size={14} className="text-hb-text-muted" />
             <span className="text-sm text-hb-text-primary flex-1">
-              {section.name}
+              {sectionNameMap[section.type] ?? section.type}
             </span>
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation()
-                toggleVisibility(section.id)
+                toggleSectionEnabled(section.id)
               }}
               className="text-hb-text-muted hover:text-hb-text-secondary transition-colors"
             >
-              {section.visible ? <Eye size={14} /> : <EyeOff size={14} />}
+              {section.enabled ? <Eye size={14} /> : <EyeOff size={14} />}
             </button>
             <button
               type="button"

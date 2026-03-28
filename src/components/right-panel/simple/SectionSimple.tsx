@@ -4,6 +4,8 @@ import { cn } from '@/lib/cn'
 import { Toggle } from '@/components/shared/Toggle'
 import { SegmentedControl } from '@/components/shared/SegmentedControl'
 import { RightAccordion } from '../RightAccordion'
+import { useConfigStore } from '@/store/configStore'
+import type { HeroContent } from '@/lib/schemas'
 
 const sectionPresets = [
   { name: 'Modern' },
@@ -16,17 +18,36 @@ interface SectionSimpleProps {
   sectionId: string
 }
 
-export function SectionSimple({ sectionId: _sectionId }: SectionSimpleProps) {
+export function SectionSimple({ sectionId }: SectionSimpleProps) {
+  const config = useConfigStore((s) => s.config)
+  const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
+  const section = config.sections.find((s) => s.id === sectionId)
+
   const [selectedPreset, setSelectedPreset] = useState('Modern')
-  const [eyebrowBadge, setEyebrowBadge] = useState(true)
   const [primaryButton, setPrimaryButton] = useState(true)
   const [secondaryButton, setSecondaryButton] = useState(true)
-  const [heroImage, setHeroImage] = useState(false)
-  const [trustBadges, setTrustBadges] = useState(true)
   const [width, setWidth] = useState('Full')
   const [aspect, setAspect] = useState('16:9')
   const [buttonStyle, setButtonStyle] = useState('Filled')
   const [buttonSize, setButtonSize] = useState('M')
+
+  if (!section) return null
+
+  const hero = section.content as HeroContent
+
+  const eyebrowBadge = hero.badge?.show ?? true
+  const heroImage = hero.image?.show ?? false
+  const trustBadges = hero.trustBadges?.show ?? true
+
+  const setEyebrowBadge = (val: boolean) => {
+    setSectionConfig(sectionId, { content: { badge: { show: val } } })
+  }
+  const setHeroImage = (val: boolean) => {
+    setSectionConfig(sectionId, { content: { image: { show: val } } })
+  }
+  const setTrustBadges = (val: boolean) => {
+    setSectionConfig(sectionId, { content: { trustBadges: { show: val } } })
+  }
 
   const components = [
     { label: 'Eyebrow Badge', enabled: eyebrowBadge, onChange: setEyebrowBadge },
@@ -72,7 +93,10 @@ export function SectionSimple({ sectionId: _sectionId }: SectionSimpleProps) {
               HEADLINE
             </span>
             <textarea
-              defaultValue="Ship Code at the Speed of Thought"
+              value={hero.heading?.text ?? ''}
+              onChange={(e) =>
+                setSectionConfig(sectionId, { content: { heading: { text: e.target.value } } })
+              }
               className="bg-hb-surface border border-hb-border rounded-lg px-3 py-2 text-sm font-ui text-hb-text-primary w-full h-14 resize-none"
             />
           </div>
@@ -81,7 +105,10 @@ export function SectionSimple({ sectionId: _sectionId }: SectionSimpleProps) {
               SUBTITLE
             </span>
             <textarea
-              defaultValue="Build AI-native experiences that transform how we create."
+              value={hero.subheading ?? ''}
+              onChange={(e) =>
+                setSectionConfig(sectionId, { content: { subheading: e.target.value } })
+              }
               className="bg-hb-surface border border-hb-border rounded-lg px-3 py-2 text-sm font-ui text-hb-text-primary w-full h-10 resize-none"
             />
           </div>
@@ -91,7 +118,10 @@ export function SectionSimple({ sectionId: _sectionId }: SectionSimpleProps) {
             </span>
             <input
               type="text"
-              defaultValue="Get Started"
+              value={hero.cta?.text ?? ''}
+              onChange={(e) =>
+                setSectionConfig(sectionId, { content: { cta: { text: e.target.value } } })
+              }
               className="bg-hb-surface border border-hb-border rounded-lg px-3 py-2 text-sm font-ui text-hb-text-primary w-full"
             />
           </div>

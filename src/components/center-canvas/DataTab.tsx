@@ -1,106 +1,156 @@
-import { cn } from '../../lib/cn'
+import { useState, useCallback, useRef, useEffect } from 'react'
+import { useConfigStore } from '../../store/configStore'
+import { masterConfigSchema } from '../../lib/schemas'
 
-const jsonLines = [
-  { line: '{', indent: 0 },
-  { line: null, indent: 1, key: '"spec"', value: '"aisp-1.2"', type: 'string' as const, comma: true },
-  { line: null, indent: 1, key: '"page"', value: '"index"', type: 'string' as const, comma: true },
-  { line: null, indent: 1, key: '"version"', value: '"1.0.0-RC1"', type: 'string' as const, comma: true },
-  { line: null, indent: 1, key: '"sections"', value: '[', type: 'bracket' as const, comma: false },
-  { line: null, indent: 2, value: '{', type: 'bracket' as const, comma: false },
-  { line: null, indent: 3, key: '"id"', value: '"hero"', type: 'string' as const, comma: true },
-  { line: null, indent: 3, key: '"type"', value: '"layout.stack"', type: 'string' as const, comma: true },
-  { line: null, indent: 3, key: '"priority"', value: '1', type: 'number' as const, comma: true },
-  { line: null, indent: 3, key: '"content"', value: '{', type: 'bracket' as const, comma: false },
-  { line: null, indent: 4, key: '"headline"', value: '"Ship Code at the Speed of Thought"', type: 'string' as const, comma: true },
-  { line: null, indent: 4, key: '"subtitle"', value: '"Build AI-native experiences"', type: 'string' as const, comma: true },
-  { line: null, indent: 4, key: '"cta_primary"', value: '"Get Started"', type: 'string' as const, comma: true },
-  { line: null, indent: 4, key: '"cta_secondary"', value: '"View my work"', type: 'string' as const, comma: false },
-  { line: null, indent: 3, value: '}', type: 'bracket' as const, comma: true },
-  { line: null, indent: 3, key: '"style"', value: '{', type: 'bracket' as const, comma: false },
-  { line: null, indent: 4, key: '"gap"', value: '"2u"', type: 'string' as const, comma: true },
-  { line: null, indent: 4, key: '"padding"', value: '"4u"', type: 'string' as const, comma: true },
-  { line: null, indent: 4, key: '"maxWidth"', value: '1200', type: 'number' as const, comma: true },
-  { line: null, indent: 4, key: '"breakpoint"', value: '"md:6col lg:12col"', type: 'string' as const, comma: false },
-  { line: null, indent: 3, value: '}', type: 'bracket' as const, comma: false },
-  { line: null, indent: 2, value: '}', type: 'bracket' as const, comma: false },
-  { line: null, indent: 1, value: ']', type: 'bracket' as const, comma: false },
-  { line: '}', indent: 0 },
-]
+function colorize(line: string): string {
+  return line
+    .replace(/"([^"]+)"(?=\s*:)/g, '<span class="text-blue-400">"$1"</span>')
+    .replace(/"([^"]*)"/g, '<span class="text-green-400">"$1"</span>')
+    .replace(/\b(\d+\.?\d*)\b/g, '<span class="text-amber-400">$1</span>')
+    .replace(/\b(true|false)\b/g, '<span class="text-purple-400">$1</span>')
+    .replace(/\bnull\b/g, '<span class="text-slate-500">null</span>')
+}
 
-function renderLine(entry: (typeof jsonLines)[number], lineNum: number) {
-  const indent = '  '.repeat(entry.indent)
-
-  if (entry.line !== undefined && entry.line !== null) {
-    return (
-      <div key={lineNum} className="flex">
-        <span className="inline-block w-8 select-none pr-4 text-right text-hb-text-muted">
-          {lineNum}
-        </span>
-        <span className="text-hb-text-muted">{indent}{entry.line}</span>
-      </div>
-    )
-  }
-
-  if (entry.key) {
-    return (
-      <div key={lineNum} className="flex">
-        <span className="inline-block w-8 select-none pr-4 text-right text-hb-text-muted">
-          {lineNum}
-        </span>
-        <span>
-          <span className="text-hb-text-muted">{indent}</span>
-          <span className="text-hb-accent">{entry.key}</span>
-          <span className="text-hb-text-muted">: </span>
-          <span
-            className={cn(
-              entry.type === 'string' && 'text-hb-success',
-              entry.type === 'number' && 'text-hb-warning',
-              entry.type === 'bracket' && 'text-hb-text-muted'
-            )}
-          >
-            {entry.value}
-          </span>
-          {entry.comma && <span className="text-hb-text-muted">,</span>}
-        </span>
-      </div>
-    )
-  }
-
-  return (
-    <div key={lineNum} className="flex">
-      <span className="inline-block w-8 select-none pr-4 text-right text-hb-text-muted">
-        {lineNum}
+function highlightJSON(json: string): React.ReactNode[] {
+  const lines = json.split('\n')
+  return lines.map((line, i) => (
+    <div key={i} className="flex">
+      <span className="w-8 text-right text-slate-600 select-none border-r border-hb-border pr-2 mr-3 flex-shrink-0">
+        {i + 1}
       </span>
-      <span className="text-hb-text-muted">
-        {indent}{entry.value}{entry.comma ? ',' : ''}
-      </span>
+      <span dangerouslySetInnerHTML={{ __html: colorize(line) }} />
     </div>
-  )
+  ))
 }
 
 export function DataTab() {
+  const config = useConfigStore((s) => s.config)
+  const loadConfig = useConfigStore((s) => s.loadConfig)
+
+  const [editing, setEditing] = useState(false)
+  const [editText, setEditText] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const [copied, setCopied] = useState(false)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const jsonString = JSON.stringify(config, null, 2)
+
+  useEffect(() => {
+    if (editing && textareaRef.current) {
+      textareaRef.current.focus()
+    }
+  }, [editing])
+
+  const handleEdit = useCallback(() => {
+    setEditText(jsonString)
+    setError(null)
+    setEditing(true)
+  }, [jsonString])
+
+  const handleCancel = useCallback(() => {
+    setEditing(false)
+    setError(null)
+  }, [])
+
+  const handleSave = useCallback(() => {
+    try {
+      const parsed = JSON.parse(editText)
+      const result = masterConfigSchema.safeParse(parsed)
+      if (result.success) {
+        loadConfig(result.data)
+        setEditing(false)
+        setError(null)
+      } else {
+        const issues = result.error.issues.map((i) => i.message).join('; ')
+        setError(`Validation failed: ${issues}`)
+      }
+    } catch (e) {
+      setError(`Invalid JSON: ${(e as Error).message}`)
+    }
+  }, [editText, loadConfig])
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault()
+        handleSave()
+      }
+    },
+    [handleSave]
+  )
+
+  const handleCopy = useCallback(() => {
+    navigator.clipboard.writeText(jsonString)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1500)
+  }, [jsonString])
+
+  const handleExport = useCallback(() => {
+    const blob = new Blob([jsonString], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'config.json'
+    a.click()
+    URL.revokeObjectURL(url)
+  }, [jsonString])
+
+  const buttonClass =
+    'font-mono text-[11px] uppercase text-hb-text-muted hover:text-hb-accent border border-hb-border rounded px-2.5 py-1 transition-colors'
+
   return (
     <div className="space-y-0">
       {/* Top bar */}
-      <div className="flex items-center justify-between rounded-t-lg border border-hb-border bg-hb-surface px-4 py-2">
-        <span className="font-mono text-xs font-medium uppercase tracking-wider text-hb-text-muted">
+      <div className="flex justify-between items-center mb-3">
+        <span className="font-mono text-[11px] uppercase tracking-wide text-hb-text-muted">
           DATA
         </span>
         <div className="flex gap-2">
-          <button className="rounded border border-hb-border px-2 py-0.5 font-mono text-xs text-hb-text-muted transition-colors hover:text-hb-accent">
-            COPY
+          <button className={buttonClass} onClick={handleCopy}>
+            {copied ? 'Copied!' : 'COPY'}
           </button>
-          <button className="rounded border border-hb-border px-2 py-0.5 font-mono text-xs text-hb-text-muted transition-colors hover:text-hb-accent">
+          <button className={buttonClass} onClick={handleExport}>
             EXPORT
           </button>
+          {editing ? (
+            <>
+              <button className={buttonClass} onClick={handleCancel}>
+                CANCEL
+              </button>
+              <button className={buttonClass} onClick={handleSave}>
+                SAVE
+              </button>
+            </>
+          ) : (
+            <button className={buttonClass} onClick={handleEdit}>
+              EDIT
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Code area */}
-      <div className="rounded-b-lg border border-t-0 border-hb-border bg-hb-surface p-4">
-        <pre className="font-mono text-sm leading-relaxed">
-          {jsonLines.map((entry, i) => renderLine(entry, i + 1))}
-        </pre>
+      {/* Content area */}
+      <div className="bg-hb-surface rounded-lg overflow-auto">
+        {editing ? (
+          <div className="p-4">
+            <textarea
+              ref={textareaRef}
+              className="w-full h-[500px] bg-hb-surface font-mono text-[13px] leading-relaxed text-slate-200 resize-y border border-hb-border rounded p-3 outline-none focus:border-hb-accent"
+              value={editText}
+              onChange={(e) => setEditText(e.target.value)}
+              onBlur={handleSave}
+              onKeyDown={handleKeyDown}
+              spellCheck={false}
+            />
+            {error && (
+              <p className="text-hb-error text-xs mt-2">{error}</p>
+            )}
+          </div>
+        ) : (
+          <pre className="font-mono text-[13px] leading-relaxed p-4">
+            {highlightJSON(jsonString)}
+          </pre>
+        )}
       </div>
     </div>
   )

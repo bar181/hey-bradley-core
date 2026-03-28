@@ -14,6 +14,8 @@ import { cn } from '@/lib/cn'
 import { Toggle } from '@/components/shared/Toggle'
 import { SegmentedControl } from '@/components/shared/SegmentedControl'
 import { RightAccordion } from '../RightAccordion'
+import { useConfigStore } from '@/store/configStore'
+import type { HeroContent } from '@/lib/schemas'
 
 const sectionPresets = [
   { name: 'Modern' },
@@ -39,23 +41,45 @@ interface SectionExpertProps {
   sectionId: string
 }
 
-export function SectionExpert({ sectionId: _sectionId }: SectionExpertProps) {
+export function SectionExpert({ sectionId }: SectionExpertProps) {
+  const config = useConfigStore((s) => s.config)
+  const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
+  const section = config.sections.find((s) => s.id === sectionId)
+
   const [selectedPreset, setSelectedPreset] = useState('Modern')
-  const [headline, setHeadline] = useState('Ship Code at the Speed of Thought')
-  const [subtitle, setSubtitle] = useState('Build AI-native experiences that transform how we create.')
-  const [ctaText, setCtaText] = useState('Get Started')
   const [headingLevel, setHeadingLevel] = useState('H1')
-  const [eyebrowBadge, setEyebrowBadge] = useState(true)
   const [primaryButton, setPrimaryButton] = useState(true)
   const [secondaryButton, setSecondaryButton] = useState(true)
-  const [heroImage, setHeroImage] = useState(false)
-  const [trustBadges, setTrustBadges] = useState(true)
   const [selectedAlign, setSelectedAlign] = useState('center')
   const [width, setWidth] = useState('Full')
   const [aspect, setAspect] = useState('16:9')
   const [buttonStyle, setButtonStyle] = useState('Filled')
   const [buttonSize, setButtonSize] = useState('M')
   const [badgePosition, setBadgePosition] = useState('Top')
+
+  if (!section) return null
+
+  const hero = section.content as HeroContent
+
+  const headline = hero.heading?.text ?? ''
+  const subtitle = hero.subheading ?? ''
+  const ctaText = hero.cta?.text ?? ''
+  const padding = (section.layout as Record<string, unknown>)?.padding as string ?? '64px'
+  const gap = (section.layout as Record<string, unknown>)?.gap as string ?? '24px'
+
+  const eyebrowBadge = hero.badge?.show ?? true
+  const heroImage = hero.image?.show ?? false
+  const trustBadges = hero.trustBadges?.show ?? true
+
+  const setEyebrowBadge = (val: boolean) => {
+    setSectionConfig(sectionId, { content: { badge: { show: val } } })
+  }
+  const setHeroImage = (val: boolean) => {
+    setSectionConfig(sectionId, { content: { image: { show: val } } })
+  }
+  const setTrustBadges = (val: boolean) => {
+    setSectionConfig(sectionId, { content: { trustBadges: { show: val } } })
+  }
 
   const components = [
     {
@@ -139,7 +163,9 @@ export function SectionExpert({ sectionId: _sectionId }: SectionExpertProps) {
             </span>
             <textarea
               value={headline}
-              onChange={(e) => setHeadline(e.target.value)}
+              onChange={(e) =>
+                setSectionConfig(sectionId, { content: { heading: { text: e.target.value } } })
+              }
               className="bg-hb-surface border border-hb-border rounded-lg px-3 py-2 text-sm font-ui text-hb-text-primary w-full h-14 resize-none"
             />
             <div className="text-[10px] text-hb-text-muted text-right">
@@ -152,7 +178,9 @@ export function SectionExpert({ sectionId: _sectionId }: SectionExpertProps) {
             </span>
             <textarea
               value={subtitle}
-              onChange={(e) => setSubtitle(e.target.value)}
+              onChange={(e) =>
+                setSectionConfig(sectionId, { content: { subheading: e.target.value } } )
+              }
               className="bg-hb-surface border border-hb-border rounded-lg px-3 py-2 text-sm font-ui text-hb-text-primary w-full h-10 resize-none"
             />
             <div className="text-[10px] text-hb-text-muted text-right">
@@ -166,7 +194,9 @@ export function SectionExpert({ sectionId: _sectionId }: SectionExpertProps) {
             <input
               type="text"
               value={ctaText}
-              onChange={(e) => setCtaText(e.target.value)}
+              onChange={(e) =>
+                setSectionConfig(sectionId, { content: { cta: { text: e.target.value } } })
+              }
               className="bg-hb-surface border border-hb-border rounded-lg px-3 py-2 text-sm font-ui text-hb-text-primary w-full"
             />
             <div className="text-[10px] text-hb-text-muted text-right">
@@ -277,7 +307,10 @@ export function SectionExpert({ sectionId: _sectionId }: SectionExpertProps) {
             </span>
             <input
               type="text"
-              defaultValue="64px"
+              value={padding}
+              onChange={(e) =>
+                setSectionConfig(sectionId, { layout: { padding: e.target.value } })
+              }
               className="font-mono text-xs bg-hb-surface border border-hb-border rounded px-2 py-1 w-16 text-right text-hb-text-primary"
             />
           </div>
@@ -288,7 +321,10 @@ export function SectionExpert({ sectionId: _sectionId }: SectionExpertProps) {
             </span>
             <input
               type="text"
-              defaultValue="24px"
+              value={gap}
+              onChange={(e) =>
+                setSectionConfig(sectionId, { layout: { gap: e.target.value } })
+              }
               className="font-mono text-xs bg-hb-surface border border-hb-border rounded px-2 py-1 w-16 text-right text-hb-text-primary"
             />
           </div>

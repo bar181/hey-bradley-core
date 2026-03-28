@@ -198,7 +198,60 @@ Each entry should follow this format:
 
 ## Phase 1.1 — Hero + JSON Core Loop
 
-_(No entries yet)_
+### 2026-03-28 — Phase 1.1 — Zod Schemas + configStore + deepMerge
+**Status:** COMPLETED
+**What was done:**
+- Created 6 Zod schema files: layout, style, section (with heroContent, featuresContent, ctaContent), masterConfig, patch, index barrel
+- All types exported via z.infer (no manual interface duplication per Swarm Protocol §3.1)
+- Created configStore (Zustand) with: applyPatch, setSectionConfig, addSection, removeSection, reorderSections, toggleSectionEnabled, undo/redo (100-state history), loadConfig, resetToDefaults
+- Created deepMerge utility implementing ADR-007 rules: objects deep merge, arrays replace, null deletes, undefined skips
+- Default config has 3 sections: hero-01, features-01, cta-01
+
+**Decision made:**
+- Section content stored as Record<string, unknown> in the generic schema, cast to specific types (HeroContent) at render time
+- Undo/redo built directly into configStore (not separate middleware) for simplicity
+- crypto.randomUUID() used for section ID generation (no uuid package)
+
+**What worked:**
+- Zod .default({}) on nested objects enables heroContentSchema.parse({}) to produce full defaults
+- TypeScript compiles clean with all schemas
+
+**What didn't work:**
+- Initial heroContentSchema had required nested objects without .default({}) causing runtime parse errors — fixed by adding .default({}) to heading and cta objects
+
+### 2026-03-28 — Phase 1.1 — HeroCentered + RealityTab + DataTab + Panel Wiring
+**Status:** COMPLETED
+**What was done:**
+- Created HeroCentered template (src/templates/hero/HeroCentered.tsx) — renders from Section props with inline styles from JSON
+- Rewrote RealityTab to render sections from configStore (filters by enabled, routes hero type to HeroCentered, others get placeholders)
+- Rewrote DataTab with bidirectional JSON editing: live syntax highlighting, edit mode with Zod validation, COPY/EXPORT buttons
+- Wired SectionsSection eye toggle to configStore.toggleSectionEnabled
+- Wired SectionSimple headline/subtitle/CTA/component toggles to configStore.setSectionConfig
+- Wired SectionExpert headline/subtitle/padding/gap to configStore.setSectionConfig
+
+**Decision made:**
+- DataTab uses custom regex-based syntax highlighter (no external library) — colorize function wraps JSON tokens in styled spans
+- dangerouslySetInnerHTML acceptable for JSON.stringify output (controlled input, no user HTML)
+- AISP viewer in Expert tab remains static for now — will be wired to live generation in Phase 1.2
+
+**What worked:**
+- 3 parallel agents (hero, data-tab, wire) completed all work simultaneously
+- configStore → RealityTab rendering works: sections appear/disappear based on enabled state
+- DataTab shows live JSON that updates when any control changes
+
+**What didn't work:**
+- Zod schema parse error (.default({}) missing) caused blank white screen — fixed quickly
+- Hero gradient text not rendering visually (text-transparent bg-clip-text) — minor CSS issue for polish
+
+**Artifacts created:**
+- src/lib/schemas/layout.ts, style.ts, section.ts, masterConfig.ts, patch.ts, index.ts
+- src/lib/deepMerge.ts
+- src/store/configStore.ts
+- src/templates/hero/HeroCentered.tsx (new)
+- Updated: RealityTab.tsx, DataTab.tsx, SectionsSection.tsx, SectionSimple.tsx, SectionExpert.tsx
+
+**Next steps:**
+- Phase 1.2: All tabs content + Listen Mode visual (red orb)
 
 ---
 
