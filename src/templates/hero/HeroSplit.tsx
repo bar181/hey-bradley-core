@@ -2,13 +2,11 @@ import { Sparkles } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import type { Section } from '@/lib/schemas'
 import { resolveHeroContent } from '@/lib/schemas'
-import { useConfigStore } from '@/store/configStore'
-import { resolveColors } from '@/lib/resolveColors'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 
 export function HeroSplit({ section }: { section: Section }) {
   const hero = resolveHeroContent(section)
-  const theme = useConfigStore((s) => s.config.theme)
-  const colors = resolveColors(theme)
   const imageComp = section.components.find((c) => c.id === 'heroImage')
   const imageUrl = imageComp?.enabled ? (imageComp?.props?.url as string) || '' : ''
   const imageAlt = (imageComp?.props?.alt as string) || ''
@@ -19,11 +17,10 @@ export function HeroSplit({ section }: { section: Section }) {
     <section
       style={{
         background: section.style.background,
-        color: section.style.color,
         padding: section.layout.padding,
-        fontFamily: section.style.fontFamily,
+        fontFamily: 'var(--theme-font)',
       }}
-      className="min-h-[500px] flex items-center"
+      className="min-h-[500px] flex items-center text-theme-text"
     >
       <div
         className="w-full flex items-center gap-12"
@@ -32,60 +29,50 @@ export function HeroSplit({ section }: { section: Section }) {
         {/* Text column */}
         <div className={cn('flex-1 flex flex-col gap-6', imageOnLeft && 'order-2')}>
           {hero.badge?.show && (
-            <span
-              className="inline-flex items-center gap-1.5 rounded-full border border-current/10 bg-current/5 px-4 py-1.5 text-sm backdrop-blur-xl w-fit"
-              style={{ color: `${section.style.color}cc` }}
+            <Badge
+              variant="outline"
+              className="border-white/10 bg-white/5 text-theme-muted px-4 py-1.5 text-sm backdrop-blur-xl w-fit"
             >
               <Sparkles size={14} />
               {hero.badge.text}
-            </span>
+            </Badge>
           )}
 
           <h1
-            className="text-4xl md:text-5xl font-bold tracking-tight leading-[1.15]"
+            className="text-4xl md:text-5xl font-bold tracking-tight leading-[1.15] text-theme-text"
             style={{ fontWeight: hero.heading.weight }}
           >
             {hero.heading.text}
           </h1>
 
-          <p
-            className="text-lg leading-relaxed max-w-lg"
-            style={{ color: `${section.style.color}99` }}
-          >
+          <p className="text-lg leading-relaxed max-w-lg text-theme-muted">
             {hero.subheading}
           </p>
 
           {(hero.cta.show !== false || hero.secondaryCta) && (
             <div className="flex items-center gap-3">
               {hero.cta.show !== false && (
-                <a
-                  href={hero.cta.url}
-                  className="px-6 py-2.5 rounded-lg font-semibold text-sm text-white transition-all hover:opacity-90"
-                  style={{ backgroundColor: colors.accentPrimary }}
+                <Button
+                  className="bg-theme-accent text-theme-bg hover:opacity-90 px-6 py-2.5 text-sm font-semibold rounded-lg"
+                  render={<a href={hero.cta.url} />}
                 >
                   {hero.cta.text}
-                </a>
+                </Button>
               )}
               {hero.secondaryCta && (
-                <a
-                  href={hero.secondaryCta.url}
-                  className="px-6 py-2.5 rounded-lg font-semibold text-sm border transition-all"
-                  style={{
-                    borderColor: `${section.style.color}20`,
-                    color: `${section.style.color}cc`,
-                  }}
+                <Button
+                  variant="outline"
+                  className="border-white/10 text-theme-text hover:bg-white/10 px-6 py-2.5 text-sm font-semibold rounded-lg"
+                  render={<a href={hero.secondaryCta.url} />}
                 >
                   {hero.secondaryCta.text}
-                </a>
+                </Button>
               )}
             </div>
           )}
 
           {hero.trustBadges?.show && (
-            <p
-              className="text-xs font-medium uppercase tracking-wider mt-4"
-              style={{ color: `${section.style.color}40` }}
-            >
+            <p className="text-xs font-medium uppercase tracking-wider mt-4 text-theme-muted/40">
               {hero.trustBadges.text}
             </p>
           )}
@@ -97,8 +84,7 @@ export function HeroSplit({ section }: { section: Section }) {
             <img
               src={imageUrl}
               alt={imageAlt}
-              className="w-full rounded-xl object-cover shadow-2xl"
-              style={{ maxHeight: '500px' }}
+              className="w-full rounded-xl object-cover shadow-2xl max-h-[500px]"
             />
           </div>
         )}

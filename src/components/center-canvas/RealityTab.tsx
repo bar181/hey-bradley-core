@@ -1,5 +1,7 @@
+import { useRef } from 'react'
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore } from '@/store/uiStore'
+import { useThemeVars } from '@/lib/useThemeVars'
 import { HeroCentered } from '@/templates/hero/HeroCentered'
 import { HeroSplit } from '@/templates/hero/HeroSplit'
 import { HeroOverlay } from '@/templates/hero/HeroOverlay'
@@ -17,11 +19,13 @@ const PREVIEW_WIDTH_MAP = {
 export function RealityTab() {
   const sections = useConfigStore((s) => s.config.sections)
   const previewWidth = useUIStore((s) => s.previewWidth)
+  const containerRef = useRef<HTMLDivElement>(null)
+  useThemeVars(containerRef)
 
   if (import.meta.env.DEV) console.log('[preview]', previewWidth)
 
   return (
-    <div className="min-h-full">
+    <div ref={containerRef} className="min-h-full">
       <div
         className="mx-auto transition-all duration-300"
         style={{ maxWidth: PREVIEW_WIDTH_MAP[previewWidth] }}

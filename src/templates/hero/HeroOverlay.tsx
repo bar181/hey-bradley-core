@@ -1,12 +1,10 @@
-import { useConfigStore } from '@/store/configStore'
 import { resolveHeroContent } from '@/lib/schemas'
 import type { Section } from '@/lib/schemas'
 import { Sparkles } from 'lucide-react'
-import { resolveColors } from '@/lib/resolveColors'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 
 export function HeroOverlay({ section }: { section: Section }) {
-  const theme = useConfigStore(s => s.config.theme)
-  const colors = resolveColors(theme)
   const hero = resolveHeroContent(section)
   const bgImageComp = section.components.find(c => c.id === 'backgroundImage')
   const imageComp = bgImageComp?.enabled ? bgImageComp : section.components.find(c => c.id === 'heroImage')
@@ -37,10 +35,13 @@ export function HeroOverlay({ section }: { section: Section }) {
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center text-center px-8" style={{ gap: section.layout.gap, maxWidth: section.layout.maxWidth || '900px' }}>
         {hero.badge?.show && (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-sm text-white/80 backdrop-blur-xl">
+          <Badge
+            variant="outline"
+            className="border-white/20 bg-white/10 text-white/80 px-4 py-1.5 text-sm backdrop-blur-xl"
+          >
             <Sparkles size={14} />
             {hero.badge.text}
-          </span>
+          </Badge>
         )}
 
         <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.1] text-white" style={{ fontWeight: hero.heading.weight }}>
@@ -54,14 +55,21 @@ export function HeroOverlay({ section }: { section: Section }) {
         {(hero.cta.show !== false || hero.secondaryCta) && (
           <div className="flex items-center gap-3 mt-2">
             {hero.cta.show !== false && (
-              <a href={hero.cta.url} className="px-8 py-3 rounded-lg font-semibold text-sm text-white shadow-lg transition-all" style={{ backgroundColor: colors.accentPrimary }}>
+              <Button
+                className="bg-theme-accent text-theme-bg hover:opacity-90 px-8 py-3 text-sm font-semibold rounded-lg shadow-lg"
+                render={<a href={hero.cta.url} />}
+              >
                 {hero.cta.text}
-              </a>
+              </Button>
             )}
             {hero.secondaryCta && (
-              <a href={hero.secondaryCta.url} className="px-8 py-3 rounded-lg font-semibold text-sm text-white/80 border border-white/20 hover:bg-white/10 transition-all">
+              <Button
+                variant="outline"
+                className="border-white/20 text-white/80 hover:bg-white/10 px-8 py-3 text-sm font-semibold rounded-lg"
+                render={<a href={hero.secondaryCta.url} />}
+              >
                 {hero.secondaryCta.text}
-              </a>
+              </Button>
             )}
           </div>
         )}

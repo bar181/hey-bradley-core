@@ -1,8 +1,8 @@
 import { Sparkles } from 'lucide-react'
 import type { Section } from '@/lib/schemas'
 import { resolveHeroContent } from '@/lib/schemas'
-import { useConfigStore } from '@/store/configStore'
-import { resolveColors } from '@/lib/resolveColors'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 
 interface HeroCenteredProps {
   section: Section
@@ -10,8 +10,6 @@ interface HeroCenteredProps {
 
 export function HeroCentered({ section }: HeroCenteredProps) {
   const hero = resolveHeroContent(section)
-  const theme = useConfigStore((s) => s.config.theme)
-  const colors = resolveColors(theme)
   const videoComp = section.components.find(c => c.id === 'heroVideo')
   const videoUrl = videoComp?.enabled ? (videoComp?.props?.url as string) || '' : ''
   const imageComp = section.components.find(c => c.id === 'heroImage')
@@ -22,11 +20,10 @@ export function HeroCentered({ section }: HeroCenteredProps) {
     <section
       style={{
         background: section.style.background,
-        color: section.style.color,
         padding: section.layout.padding,
-        fontFamily: section.style.fontFamily,
+        fontFamily: 'var(--theme-font)',
       }}
-      className="min-h-[500px] flex flex-col items-center justify-center text-center relative overflow-hidden"
+      className="min-h-[500px] flex flex-col items-center justify-center text-center relative overflow-hidden text-theme-text"
     >
       {/* Optional video background */}
       {videoUrl && (
@@ -41,7 +38,7 @@ export function HeroCentered({ section }: HeroCenteredProps) {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse at top, ${colors.accentPrimary}1f 0%, ${colors.accentSecondary}0f 30%, transparent 60%)`,
+          background: `radial-gradient(ellipse at top, var(--theme-accent) / 0.12 0%, var(--theme-accent-secondary) / 0.06 30%, transparent 60%)`,
         }}
       />
 
@@ -51,13 +48,13 @@ export function HeroCentered({ section }: HeroCenteredProps) {
       >
         {/* Badge */}
         {hero.badge?.show && (
-          <span
-            className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm backdrop-blur-xl"
-            style={{ color: `${section.style.color}cc` }}
+          <Badge
+            variant="outline"
+            className="border-white/10 bg-white/5 text-theme-muted px-4 py-1.5 text-sm backdrop-blur-xl"
           >
             <Sparkles size={14} />
             {hero.badge.text}
-          </span>
+          </Badge>
         )}
 
         {/* Heading */}
@@ -72,10 +69,7 @@ export function HeroCentered({ section }: HeroCenteredProps) {
         </h1>
 
         {/* Subheading */}
-        <p
-          className="text-lg md:text-xl max-w-xl leading-relaxed"
-          style={{ color: `${section.style.color}99` }}
-        >
+        <p className="text-lg md:text-xl max-w-xl leading-relaxed text-theme-muted">
           {hero.subheading}
         </p>
 
@@ -83,21 +77,21 @@ export function HeroCentered({ section }: HeroCenteredProps) {
         {(hero.cta.show !== false || hero.secondaryCta) && (
           <div className="flex items-center gap-3 mt-4">
             {hero.cta.show !== false && (
-              <a
-                href={hero.cta.url}
-                style={{ backgroundColor: colors.accentPrimary }}
-                className="hover:opacity-90 text-white px-8 py-3 rounded-lg font-semibold text-sm shadow-lg transition-all"
+              <Button
+                className="bg-theme-accent text-theme-bg hover:opacity-90 px-8 py-3 text-sm font-semibold rounded-lg shadow-lg"
+                render={<a href={hero.cta.url} />}
               >
                 {hero.cta.text}
-              </a>
+              </Button>
             )}
             {hero.secondaryCta && (
-              <a
-                href={hero.secondaryCta.url}
-                className="bg-white/5 hover:bg-white/10 text-white/80 px-8 py-3 rounded-lg font-semibold text-sm border border-white/10 transition-all"
+              <Button
+                variant="outline"
+                className="border-white/10 text-theme-text hover:bg-white/10 px-8 py-3 text-sm font-semibold rounded-lg"
+                render={<a href={hero.secondaryCta.url} />}
               >
                 {hero.secondaryCta.text}
-              </a>
+              </Button>
             )}
           </div>
         )}
@@ -108,18 +102,14 @@ export function HeroCentered({ section }: HeroCenteredProps) {
             <img
               src={imageUrl}
               alt={imageAlt}
-              className="w-full rounded-xl object-cover shadow-2xl"
-              style={{ maxHeight: '500px' }}
+              className="w-full rounded-xl object-cover shadow-2xl max-h-[500px]"
             />
           </div>
         )}
 
         {/* Trust badges */}
         {hero.trustBadges?.show && (
-          <p
-            className="text-[11px] font-semibold uppercase tracking-[0.15em] mt-12"
-            style={{ color: `${section.style.color}40` }}
-          >
+          <p className="text-[11px] font-semibold uppercase tracking-[0.15em] mt-12 text-theme-muted/40">
             {hero.trustBadges.text}
           </p>
         )}
