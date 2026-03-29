@@ -1,43 +1,59 @@
-# Phase 2: System Polish + Section Expansion
+# Phase 2: System Polish + ALL Section Editors + Section CRUD
 
-**North Star:** The builder feels like a real product — not a prototype. Every section is editable, media is browsable, CSS is consistent, and tests prove it works.
+**North Star:** The builder has SIMPLE tab editors for ALL 8 section types. A user can add/remove/reorder sections. The CSS is clean. Media is browsable. The foundation is ready for Phase 3's onboarding page and builder UX.
 
 **Status:** READY TO START
 **Prerequisite:** Phase 1 COMPLETE (2026-03-29)
-**Principle:** Polish before expansion. Consolidate before adding. Test everything.
+**Scope Correction:** Per `human-1.md` — expanded from "CSS cleanup + 3 editors" to "ALL 8 section types + section CRUD"
 
 ---
 
-## Quick Reference
+## Corrected Roadmap
 
-| Document | Purpose |
-|----------|---------|
-| `implementation-plan.md` | Master checklist with sub-phases, DoD, and scoring |
-| `backlog/future-phases.md` | Phase 3-5 + MVP backlog (open core model notes) |
-| `log.md` | Session log (create per session) |
+```
+PHASE 2 (current): System polish + section routing + ALL 8 section editors + CRUD
+PHASE 3: Onboarding page + drag-and-drop + full-page preview + builder UX
+PHASE 4: Specs + presentation mode + accessibility (capstone demo)
+PHASE 5: Expert mode (pro tier)
+PHASE 6+: LLM + auth + enterprise (post-capstone)
+```
 
 ## Sub-Phases
 
-| # | Focus | Priority | Est. Effort |
-|---|-------|----------|-------------|
-| 2.1 | CSS Consolidation | P0 | 1 session |
-| 2.2 | Section Routing + Edit UX | P0 | 1-2 sessions |
-| 2.3 | Media Pickers (image, video, gradient) | P1 | 1-2 sessions |
-| 2.4 | Section Editors (Features, CTA, Footer) | P1 | 2 sessions |
-| 2.5 | Light/Dark Mode | P1 | 1 session |
-| 2.6 | Playwright Testing | P1 | 1 session |
-| 2.7 | Polish (a11y, XAI Docs, Listen, Fonts) | P2 | 2 sessions |
+| # | Focus | Priority | Key Deliverables |
+|---|-------|----------|-----------------|
+| 2.1 | CSS Consolidation | P0 | Kill colors block, one text pattern, zero hardcoded white |
+| 2.2 | Section Routing | P0 | Per-section right panel editor, edit overlay, dropdown |
+| 2.3 | Section Editors (ALL 8) | P0 | SIMPLE tab for: Hero(done), Features, Pricing, CTA, Footer, Testimonials, FAQ, Value Props |
+| 2.4 | Section CRUD | P1 | Add section picker, remove, duplicate, reorder (arrows) |
+| 2.5 | Light/Dark Mode | P1 | Per-theme palette pairs, system preference |
+| 2.6 | Media Pickers | P1 | Image/video dialogs with thumbnails, gradient picker |
+| 2.7 | Playwright + Polish | P2 | Full test suite, Google Fonts loading |
 
-## Key Decisions Needed
+## Key Documents
 
-1. **Section editor pattern:** One generic component driven by JSON schema? Or per-type components (FeatureSimple, CTASimple, etc.)?
-2. **Media picker UX:** Modal dialog? Slide-out panel? Inline expander?
-3. **Light/dark implementation:** Per-theme palette pairs? Or algorithmic light/dark from a single palette?
+| File | Purpose |
+|------|---------|
+| `implementation-plan.md` | Master checklist with all sub-phases and DoD |
+| `human-1.md` | Bradley's scope correction (the authoritative directive) |
+| `backlog/future-phases.md` | Phase 3-6+ roadmap with open core model |
+| `log.md` | Session log |
 
-## Architecture Constraints
+## Architecture Pattern (Per Section Type)
 
-- Build ON Phase 1 — no rewrites, only extensions
-- Section editors use the same 3-accordion pattern: Layout → Style → Content
-- Media picker is a shared dialog used by all section editors
-- All new components use Tailwind + shadcn only (no inline styles for colors)
-- CSS vars are the single source of truth for theme colors (ADR-021)
+```
+src/data/themes/*.json          → section entry with enabled, variant, components[]
+src/templates/{type}/schema.ts  → Zod schema for section content
+src/templates/{type}/{Variant}.tsx → Renderer component
+src/components/right-panel/simple/Section{Type}Simple.tsx → SIMPLE tab editor
+```
+
+## What Phase 2 Does NOT Do
+
+- Onboarding page (Phase 3)
+- Drag-and-drop reorder (Phase 3)
+- Full-page preview mode (Phase 3)
+- Expert tab content (Phase 5)
+- Accessibility dialog (Phase 4)
+- XAI Docs live generation (Phase 4)
+- Login/auth/database (Phase 6+)

@@ -1,118 +1,126 @@
-# Future Phases Backlog — Beyond Phase 2
+# Future Phases Backlog — Corrected Roadmap
 
 **Last Updated:** 2026-03-29
-**Context:** Items deferred from Phase 1 and Phase 2, organized by future phase.
+**Authority:** `human-1.md` corrected the swarm's original plan.
 
 ---
 
-## Phase 3: Full Section Expansion (Grandma Mode)
+## Corrected Phase Sequence
 
-**Goal:** All common website section types editable in SIMPLE tab.
-
-| # | Section | Variants | SIMPLE Tab Content |
-|---|---------|----------|-------------------|
-| 3.1 | Pricing | 2-tier, 3-tier, comparison | Tier name, price, features list, CTA, highlight toggle |
-| 3.2 | Testimonials | cards, single-quote, carousel | Quote text, author name, role, avatar image |
-| 3.3 | FAQ | accordion, two-column | Question/answer pairs, add/remove/reorder |
-| 3.4 | Value Props | icons-text, numbers, stats | Icon picker, value/stat, label, description |
-| 3.5 | Contact | form, info-card | Form fields config, email, phone, address |
-| 3.6 | Gallery | grid, masonry, carousel | Image picker for multiple images, captions |
-| 3.7 | Team | grid, list | Photo, name, role, social links |
-
-**Architecture note:** Each section needs a renderer + SIMPLE tab editor + JSON schema. The pattern established in Phase 2 (Layout → Style → Content) applies to all.
+```
+Phase 1: Core Builder (hero + JSON loop)                    ✅ DONE
+Phase 2: System Polish + ALL 8 Section Editors + CRUD       🔄 CURRENT
+Phase 3: Onboarding + Drag-and-Drop + Builder UX            📅 NEXT
+Phase 4: Specs + Presentation Mode + Accessibility           📅 CAPSTONE
+Phase 5: Expert Mode (Pro tier)                              📅 POST-CAPSTONE
+Phase 6+: LLM + Auth + Enterprise                           📅 FUTURE
+```
 
 ---
 
-## Phase 4: Expert Mode
+## Phase 3: Full Site Builder UX
 
-**Goal:** Advanced controls for power users. Every section gets an EXPERT tab.
+**Goal:** Turn Hey Bradley from a "section editor" into a "website builder." A grandmother can build a 5-section marketing site in 3 minutes.
 
 | # | Feature | Details |
 |---|---------|---------|
-| 4.1 | Expert tab per section type | Per-component property editors (button size/style, image effects, spacing) |
-| 4.2 | AISP viewer per section | Live AISP spec generated per section in expert tab |
-| 4.3 | CSS variable viewer | Show resolved values for all theme vars |
-| 4.4 | Raw JSON editor per section | Inline JSON editing within expert tab |
-| 4.5 | Layout advanced controls | direction, align, justify, gap, padding, margin, max-width |
-| 4.6 | Component-level styling | Per-component color, font size, border radius overrides |
-| 4.7 | Animation controls | Entrance animations, scroll effects (future) |
+| 3.1 | Onboarding page | Theme selection grid at `/`, "describe your site" textarea, "start from scratch" button |
+| 3.2 | Drag-and-drop reorder | @dnd-kit for section reorder in left panel + main preview |
+| 3.3 | Full-page preview | Hide panels, show complete multi-section page with smooth scroll |
+| 3.4 | Builder UX polish | Tooltips, quick actions per section (move/duplicate/delete), first-time hints |
+| 3.5 | Section templates | Pre-built section content per theme (not just empty sections) |
+| 3.6 | Export to static HTML | Download standalone HTML with inlined styles (stretch goal) |
+
+**DoD:** A grandmother selects a theme on the onboarding page, lands in the builder with 5 pre-filled sections, reorders them via drag-and-drop, previews the full page, and exports.
 
 ---
 
-## Phase 5: LLM Integration + Auth
+## Phase 4: Specification Engine + Capstone Demo
 
-**Goal:** The "agentic" part of the Agentic Design Platform. Voice and chat control.
+**Goal:** The "AI-first documentation" capstone story. Specs generate from JSON. Presentation mode for the demo.
 
-| # | Feature | Details | Open Core? |
-|---|---------|---------|------------|
-| 5.1 | Chat mode | Describe changes in natural language → LLM generates JSON patches | Community |
-| 5.2 | Listen mode | Voice-to-spec, real-time preview updates via speech | Community |
-| 5.3 | Supabase auth | Login/signup, user profiles, session management | Community |
-| 5.4 | Cloud persistence | Save projects to Supabase instead of localStorage | Community |
-| 5.5 | Image/video upload | Upload to Supabase storage, thumbnail generation | Community |
-| 5.6 | Project sharing | Share a project URL with others (read-only) | Community |
-| 5.7 | Multi-project support | User can have multiple projects, switch between them | Community |
+| # | Feature | Details |
+|---|---------|---------|
+| 4.1 | XAI Docs HUMAN view | Structured spec generated from current config (North Star, Architecture, Impl Plan) |
+| 4.2 | XAI Docs AISP view | `@aisp` formatted syntax with orange highlighting |
+| 4.3 | Workflow tab | Mock pipeline stepper with animated step progression |
+| 4.4 | Listen mode visual | Red orb, dark overlay, START LISTENING button, pulse animation |
+| 4.5 | Accessibility dialog | Doc 07 spec: appearance, textScale, contrast, reduceMotion, a11yWidget |
+| 4.6 | Presentation mode | Full-screen demo: walkthrough sequence, keyboard navigation, transitions |
+| 4.7 | Demo presets | 3-5 pre-built complete websites for capstone demo |
 
----
-
-## MVP: Presentation Mode (Harvard Capstone Demo)
-
-**Goal:** A "wow" demo mode for the capstone presentation. Can be built at any point.
-
-| # | Feature | Priority | Notes |
-|---|---------|----------|-------|
-| MVP.1 | Full-screen preview mode | P0 | Hide all panels. Just the website. Keyboard/click to navigate sections. |
-| MVP.2 | Section transitions | P1 | Smooth scroll or slide animations between sections |
-| MVP.3 | Demo data presets | P1 | Pre-built complete websites (not just hero) for demo |
-| MVP.4 | Export to static HTML | P2 | Download a standalone HTML file with all styles inlined |
-| MVP.5 | QR code for mobile preview | P2 | Generate a QR code linking to the live preview URL |
+**Note:** Accessibility dialog is here (Phase 4), NOT Phase 2. It's important but doesn't block the builder experience. The capstone demo benefits more from working sections than settings dialogs.
 
 ---
 
-## Phase 6+: Enterprise & Marketplace
+## Phase 5: Expert Mode (Open Core Pro Tier)
 
-**Goal:** Features for the open core business model.
+**Goal:** Advanced controls for power users. Every section gets an EXPERT tab.
 
-### Open Core (Free)
-| Feature | Details |
-|---------|---------|
-| Core builder | SIMPLE tab for all section types |
-| 10 themes | Community themes, open source |
-| Local persistence | localStorage, JSON export/import |
-| Basic LLM chat | Limited chat commands for editing |
+| # | Feature | Open Core |
+|---|---------|-----------|
+| 5.1 | Expert tab per section type | Pro |
+| 5.2 | AISP viewer per section | Pro |
+| 5.3 | CSS variable viewer | Pro |
+| 5.4 | Raw JSON editor per section | Pro |
+| 5.5 | Advanced layout controls (direction, align, gap, padding) | Pro |
+| 5.6 | Component-level styling (per-component overrides) | Pro |
+| 5.7 | Animation controls (entrance, scroll effects) | Pro |
 
-### Pro (Paid)
-| Feature | Details |
-|---------|---------|
-| Expert mode | Full EXPERT tab for all sections |
-| Cloud persistence | Supabase projects with versioning |
-| Custom themes | Create, save, share custom themes |
-| Template marketplace | Browse and install community templates |
-| Advanced LLM | Unlimited chat, voice mode, batch generation |
-| Team collaboration | Share projects with team members |
-| Custom domain | Deploy to custom domain |
-| White label | Remove Hey Bradley branding |
-| Priority support | Direct access to development team |
+---
 
-### Platform (Enterprise)
+## Phase 6+: LLM + Auth + Enterprise (Post-Capstone)
+
+### LLM Integration (Community/Pro)
+| Feature | Tier | Details |
+|---------|------|---------|
+| Chat mode | Community (limited) | Natural language → JSON patches |
+| Voice/Listen mode | Community (limited) | Voice-to-spec, real-time updates |
+| Unlimited LLM | Pro | No rate limits, advanced prompts |
+| Batch generation | Pro | Generate entire multi-section site from description |
+
+### Auth + Database (Pro)
+| Feature | Tier | Details |
+|---------|------|---------|
+| Supabase auth | Pro | Login/signup, user profiles |
+| Cloud persistence | Pro | Save to Supabase, versioning |
+| Image/video upload | Pro | Supabase storage, thumbnails |
+| Project sharing | Pro | Share URL (read-only) |
+| Multi-project | Pro | Multiple projects per user |
+
+### Enterprise
 | Feature | Details |
 |---------|---------|
 | API access | REST API for headless CMS integration |
 | SSO/SAML | Enterprise authentication |
-| Custom AISP rules | Organization-specific specification rules |
+| Custom AISP rules | Org-specific specification rules |
 | Audit log | Track all changes with user attribution |
-| SLA | 99.9% uptime guarantee |
+| White label | Remove Hey Bradley branding |
+| Template marketplace | Community templates + paid themes |
+| Custom domain deployment | Deploy to custom domain |
 
 ---
 
-## Prioritization Framework
+## MVP Milestone (Capstone Demo)
 
-When deciding what to build next:
+The MVP is the Harvard capstone demo. It intersects Phases 3 + 4.
 
-1. **Does it make the grandma demo better?** → High priority
-2. **Does it unblock the capstone presentation?** → High priority
-3. **Does it fix a bug that a user reported?** → High priority
-4. **Does it add a new section type?** → Medium (Phase 3)
-5. **Does it add power-user features?** → Low (Phase 4+)
-6. **Does it require backend infrastructure?** → Low (Phase 5+)
-7. **Is it a business model feature?** → Deferred (Phase 6+)
+**MVP Checklist:**
+- [ ] 8 section types working with SIMPLE editors (Phase 2)
+- [ ] Onboarding page with theme selection (Phase 3)
+- [ ] Full-page preview mode (Phase 3)
+- [ ] Presentation mode for demo defense (Phase 4)
+- [ ] XAI Docs generating specs from JSON (Phase 4)
+- [ ] 3 demo preset websites (Phase 4)
+- [ ] Listen mode visual working (Phase 4)
+
+**Timeline estimate:** Phase 2 (2-3 days) → Phase 3 (2-3 days) → Phase 4 (2-3 days) = ~1 week to MVP.
+
+---
+
+## Prioritization
+
+1. Does it make a grandmother's experience better? → Phase 2-3
+2. Does it make the capstone demo better? → Phase 4
+3. Does it add power-user depth? → Phase 5
+4. Does it require infrastructure? → Phase 6+

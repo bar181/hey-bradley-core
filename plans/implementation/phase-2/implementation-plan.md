@@ -2,138 +2,168 @@
 
 **Last Updated:** 2026-03-29
 **Status:** READY TO START
+**Scope:** Per `human-1.md` — all 8 section types + section CRUD
 
 ---
 
 ## Sub-Phase 2.1 — CSS Consolidation (P0)
 
-**Goal:** One consistent color system. No dual palette/colors. No hardcoded white text.
-**DoD:** Zero inline color styles except gradients. All text colors cascade from section.style.color.
+**Goal:** One color system. No dual palette/colors. Consistent text cascade.
+**DoD:** Zero inline color styles except gradients. All text inherits from section.style.color.
 
 - [ ] Remove `colors` block from all 10 theme JSONs — palette only
-- [ ] Remove `themeColorsSchema` from masterConfig.ts (or mark fully deprecated)
-- [ ] Update `resolveColors.ts` to only read palette (no fallback to colors)
+- [ ] Remove backward-compat from `resolveColors.ts` (palette only, no colors fallback)
+- [ ] Deprecate `themeColorsSchema` in masterConfig.ts
 - [ ] Audit all renderers: `color: section.style.color` on `<section>`, `text-inherit` on children
-- [ ] Remove all `text-theme-text` / `text-theme-muted` from renderers (use inherit + opacity)
-- [ ] Audit: zero `text-white` or `border-white` outside HeroOverlay.tsx
-- [ ] Update `default-config.json` — remove colors block
-- [ ] Update `template-config.json` — remove colors block
-- [ ] Verify: all 10 themes render correctly after migration
-- [ ] Build passes clean
+- [ ] Remove all `text-theme-text` / `text-theme-muted` from renderers
+- [ ] Zero `text-white` or `border-white` outside HeroOverlay
+- [ ] Update default-config.json and template-config.json — remove colors block
+- [ ] Build passes, all 10 themes render correctly
 
 ---
 
-## Sub-Phase 2.2 — Section Routing + Edit UX (P0)
+## Sub-Phase 2.2 — Section Routing (P0)
 
 **Goal:** Right panel shows the correct editor for whichever section is selected.
-**DoD:** Click hero → hero editor. Click features → features editor. Click CTA → CTA editor.
+**DoD:** Click hero → hero editor. Click features → features editor. Every section type routable.
 
-- [ ] Right panel dispatches to per-type editor based on `selectedContext.sectionId` → `section.type`
-- [ ] Create `FeaturesSectionSimple.tsx` — stub with Layout + Content accordions
-- [ ] Create `CTASectionSimple.tsx` — stub with Layout + Content accordions
+- [ ] `SimpleTab.tsx` dispatches to per-type editor based on section.type
 - [ ] Click section in left panel → right panel switches to that section's editor
-- [ ] Click section in main preview → right panel switches (add edit icon hover overlay)
-- [ ] Right panel header shows section type + ID (e.g., "HERO • hero-01")
-- [ ] Section dropdown in right panel header to switch between sections
-- [ ] Un-hide Features and CTA sections in RealityTab (remove hero-only filter)
+- [ ] Click section in main preview → right panel switches (edit icon hover overlay)
+- [ ] Right panel header shows section type + ID
+- [ ] Section dropdown in right panel header to switch sections
+- [ ] Un-hide Features and CTA in RealityTab (remove hero-only filter)
 
 ---
 
-## Sub-Phase 2.3 — Media Pickers (P1)
+## Sub-Phase 2.3 — Section Editors — ALL 8 Types (P0)
 
-**Goal:** Browse and select images/videos from the library instead of pasting URLs.
-**DoD:** Click image field → picker opens → thumbnails grid → click to select → URL inserted.
+**Goal:** Every section type has a SIMPLE tab editor with at minimum: copy inputs + component toggles + variant selector.
+**DoD:** User can edit all content for all sections through the SIMPLE tab.
 
-- [ ] Create shared `MediaPickerDialog.tsx` component (shadcn Dialog)
-- [ ] Image picker mode: shows thumbnails from `media.json` library.images (50 items)
-- [ ] Video picker mode: shows thumbnails/previews from `media.json` library.videos (20 items)
-- [ ] Filter by category (saas, agency, portfolio, etc.)
-- [ ] "Add URL" tab: paste custom URL with preview
-- [ ] On select: updates the component's `props.url` in configStore
-- [ ] Gradient picker for section backgrounds (simple: 5-6 preset gradients + custom angle)
-- [ ] Wire picker buttons into Layout accordion (replace plain URL text inputs)
-- [ ] Image/video upload → deferred to Phase 5 (requires Supabase storage)
+### Per-Section Requirements
+
+Each section needs:
+1. **Zod schema** (`src/templates/{type}/schema.ts`)
+2. **JSON template** (entry in each theme's `sections[]`)
+3. **Renderer** (`src/templates/{type}/{Variant}.tsx`)
+4. **SIMPLE editor** (`src/components/right-panel/simple/Section{Type}Simple.tsx`)
+
+### Hero (DONE — Phase 1)
+- [x] Schema, renderer (4 variants), SIMPLE editor (Layout + Style + Content)
+
+### Features
+- [ ] Schema: title, items[{icon, title, description}]
+- [ ] Renderer: FeaturesGrid (3-col) — already exists
+- [ ] Renderer: FeaturesCards (bordered cards variant)
+- [ ] SIMPLE editor: variant selector, per-card icon/title/description with toggles
+- [ ] Add/remove feature cards (min 2, max 6)
+
+### Pricing
+- [ ] Schema: tiers[{name, price, period, features[], cta, highlighted}]
+- [ ] Renderer: Pricing2Tier, Pricing3Tier
+- [ ] SIMPLE editor: per-tier editing (name, price, features list, CTA button)
+- [ ] Highlighted tier toggle (accent border + recommended badge)
+- [ ] JSON template added to all 10 theme files
+
+### CTA
+- [ ] Schema: heading, subtitle, button{text, url}, background
+- [ ] Renderer: CTASimple — already exists
+- [ ] Renderer: CTASplit (text left, image right)
+- [ ] SIMPLE editor: heading, subtitle, button with toggles
+- [ ] JSON template in themes (already exists)
+
+### Footer
+- [ ] Schema: columns[{heading, links[]}], social[], copyright
+- [ ] Renderer: FooterSimple, FooterMultiCol
+- [ ] SIMPLE editor: column editing, link management, social icons, copyright
+- [ ] JSON template added to all 10 theme files
+
+### Testimonials
+- [ ] Schema: items[{quote, author, role, avatar}]
+- [ ] Renderer: TestimonialsCards, TestimonialSingle
+- [ ] SIMPLE editor: per-testimonial editing (quote, author, role, avatar URL)
+- [ ] Add/remove testimonials
+- [ ] JSON template added to all 10 theme files
+
+### FAQ
+- [ ] Schema: items[{question, answer}]
+- [ ] Renderer: FAQAccordion, FAQTwoCol
+- [ ] SIMPLE editor: Q&A pairs with add/remove
+- [ ] JSON template added to all 10 theme files
+
+### Value Props
+- [ ] Schema: items[{icon, value, label, description}]
+- [ ] Renderer: ValuePropsIcons, ValuePropsNumbers
+- [ ] SIMPLE editor: per-item editing (icon, value/stat, label, description)
+- [ ] JSON template added to all 10 theme files
 
 ---
 
-## Sub-Phase 2.4 — Section Editors (P1)
+## Sub-Phase 2.4 — Section CRUD (P1)
 
-**Goal:** Features, CTA, and Footer sections have SIMPLE tab editors matching the hero pattern.
-**DoD:** Each section type has Layout + Style + Content accordions. Changes update preview.
+**Goal:** Users can add, remove, duplicate, and reorder sections.
+**DoD:** "Add Section" shows a picker with all 8 types. Remove/duplicate/reorder all work.
 
-### Features Editor
-- [ ] Layout accordion: grid columns (2/3/4), card style (flat/bordered/shadow)
-- [ ] Content accordion: per-card editing (icon picker, title, description) with toggle
-- [ ] Add/remove feature cards
-- [ ] FeaturesGrid renderer respects all edits
-
-### CTA Editor
-- [ ] Layout accordion: variant (simple/split), background style
-- [ ] Content accordion: heading, subtitle, button text + URL with toggles
-- [ ] CTASimple renderer respects all edits
-
-### Footer Editor
-- [ ] Layout accordion: column count (1-4), style
-- [ ] Content accordion: links, social icons, copyright text
-- [ ] Create `FooterSimple.tsx` renderer
-- [ ] Create `FooterSectionSimple.tsx` editor
+- [ ] "Add Section" button in left panel opens type picker dialog
+- [ ] Type picker shows all 8 section types with description + preview
+- [ ] Adding a section inserts it below the current selection with default content
+- [ ] Remove section button with confirmation dialog
+- [ ] Duplicate section creates a copy below
+- [ ] Reorder: up/down arrow buttons per section in left panel
+- [ ] Drag-and-drop reorder → deferred to Phase 3 (@dnd-kit)
 
 ---
 
 ## Sub-Phase 2.5 — Light/Dark Mode (P1)
 
-**Goal:** Light/dark toggle actually changes the visual appearance (not just a mode flag).
-**DoD:** Switching to light mode on a dark theme produces a visible light variant.
+**Goal:** Light/dark toggle visually transforms the preview.
+**DoD:** Dark theme → light variant looks good. Light theme → dark variant looks good.
 
-- [ ] Add `lightPalette` to each dark theme JSON (inverted palette)
-- [ ] Add `darkPalette` to each light theme JSON (inverted palette)
-- [ ] `toggleMode()` swaps between palette and lightPalette/darkPalette
-- [ ] Update all section styles when palette swaps (walk sections, update colors)
-- [ ] Detect system preference on first load (`prefers-color-scheme`)
-- [ ] Persist mode preference in localStorage
-
----
-
-## Sub-Phase 2.6 — Playwright Testing (P1)
-
-**Goal:** Automated tests for all Phase 1 + Phase 2 features.
-**DoD:** Full test suite passes. Screenshots for all themes.
-
-- [ ] Theme switch: select each of 10 themes → verify JSON + preview changes
-- [ ] Layout change: select each of 8 layouts → verify variant + component visibility
-- [ ] Copy edit: type in headline → verify JSON + preview updates
-- [ ] Component toggle: toggle each component → verify visual show/hide
-- [ ] Responsive preview: switch device widths → verify canvas width changes
-- [ ] Undo/redo: make changes → undo → verify previous state restored
-- [ ] LocalStorage: make changes → reload → verify state persisted
-- [ ] Export/Import: export JSON → import → verify state matches
-- [ ] Media picker: open picker → select image → verify URL updated
-- [ ] Screenshot all 10 themes (SaaS through Minimalist)
+- [ ] Add `lightPalette` to each dark theme JSON
+- [ ] Add `darkPalette` to each light theme JSON
+- [ ] `toggleMode()` swaps between palette and light/dark alternative
+- [ ] Update section styles when palette swaps
+- [ ] Detect `prefers-color-scheme` on first load
+- [ ] Persist mode in localStorage
 
 ---
 
-## Sub-Phase 2.7 — Polish (P2)
+## Sub-Phase 2.6 — Media Pickers (P1)
 
-**Goal:** Remaining quality items from Phase 1 backlog.
+**Goal:** Browse and select images/videos from the library.
+**DoD:** Click image field → picker opens → select → URL inserted.
 
-- [ ] Accessibility dialog (doc 07 spec): appearance, textScale, contrast, reduceMotion
-- [ ] XAI Docs HUMAN view: generate structured spec from current config
-- [ ] XAI Docs AISP view: generate @aisp formatted syntax
-- [ ] Listen mode visual: red orb render, dark overlay transition, pulse animation
+- [ ] `MediaPickerDialog.tsx` (shadcn Dialog) — shared component
+- [ ] Image mode: thumbnails from media.json (50 images) with category filter
+- [ ] Video mode: video thumbnails/previews (20 videos)
+- [ ] "Add URL" tab for custom URLs with preview
+- [ ] Gradient picker: 5-6 preset gradients + custom angle
+- [ ] Wire into Layout accordion (replace plain URL inputs)
+- [ ] Upload → deferred to Phase 6+ (requires Supabase)
+
+---
+
+## Sub-Phase 2.7 — Playwright + Polish (P2)
+
+**Goal:** Automated tests + remaining quality items.
+
+- [ ] Playwright: theme switch, layout change, copy edit, toggle, responsive
+- [ ] Playwright: section add/remove/reorder
+- [ ] Playwright: screenshots for all 10 themes
 - [ ] Google Fonts dynamic loading from fonts.json URLs
-- [ ] Workflow tab: mock pipeline stepper with simulated progress
-- [ ] Section click-to-select with dashed border in Reality tab
-- [ ] "+ Add Section" dropdown with section type picker
+- [ ] Section highlight on click (dashed border in preview)
 
 ---
 
-## Verification (Phase 2 Complete)
+## Phase 2 Verification (All Complete)
 
-- [ ] All 10 themes render correctly with palette-only colors
-- [ ] 3 section types editable in SIMPLE tab (hero, features, CTA)
-- [ ] Footer section renders and is editable
+- [ ] All 8 section types have renderers + SIMPLE editors
+- [ ] Section routing works (click section → right panel shows correct editor)
+- [ ] Section CRUD works (add/remove/duplicate/reorder)
+- [ ] CSS: palette only, zero colors block, consistent text pattern
+- [ ] Light/dark toggle visually changes preview
 - [ ] Media picker works for images and videos
-- [ ] Light/dark toggle visually changes the preview
-- [ ] Playwright test suite passes (all tests green)
+- [ ] Playwright passes all tests
 - [ ] Build passes clean
-- [ ] Score ≥ 80% on rubric
+- [ ] Score ≥ 80%
