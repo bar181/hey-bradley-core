@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useLayoutEffect } from 'react'
 import { useConfigStore } from '@/store/configStore'
 import { resolveColors } from '@/lib/resolveColors'
 
@@ -13,7 +13,7 @@ import { resolveColors } from '@/lib/resolveColors'
 export function useThemeVars(containerRef: React.RefObject<HTMLElement | null>) {
   const theme = useConfigStore((s) => s.config.theme)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = containerRef.current
     if (!el) return
 
