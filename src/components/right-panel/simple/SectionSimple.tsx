@@ -180,6 +180,7 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
       })
       setSectionConfig(sectionId, {
         variant: layout.variant,
+        layout: { ...section.layout, heroLayout: layout.id },
         components: updatedComponents,
       })
     }, [sectionId, section, setSectionConfig]

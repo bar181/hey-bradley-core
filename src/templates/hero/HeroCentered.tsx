@@ -15,6 +15,9 @@ export function HeroCentered({ section }: HeroCenteredProps) {
   const imageComp = section.components.find(c => c.id === 'heroImage')
   const imageUrl = imageComp?.enabled ? (imageComp?.props?.url as string) || '' : ''
   const imageAlt = (imageComp?.props?.alt as string) || ''
+  // Video renders as background for 'bg-video' layout; inline below for 'video-bottom'
+  const heroLayout = (section.layout as Record<string, unknown>).heroLayout as string | undefined
+  const videoAsBackground = videoUrl && (heroLayout === 'bg-video' || (!heroLayout && !imageUrl))
 
   return (
     <section
@@ -26,8 +29,8 @@ export function HeroCentered({ section }: HeroCenteredProps) {
       }}
       className="min-h-[500px] flex flex-col items-center justify-center text-center relative overflow-hidden"
     >
-      {/* Optional video background */}
-      {videoUrl && (
+      {/* Video as background overlay (only when no inline media) */}
+      {videoAsBackground && (
         <video
           autoPlay muted loop playsInline
           className="absolute inset-0 w-full h-full object-cover opacity-30"
@@ -103,6 +106,17 @@ export function HeroCentered({ section }: HeroCenteredProps) {
               src={imageUrl}
               alt={imageAlt}
               className="w-full rounded-xl object-cover shadow-2xl max-h-[500px]"
+            />
+          </div>
+        )}
+
+        {/* Inline video (below content) — when not used as background */}
+        {videoUrl && !videoAsBackground && (
+          <div className="mt-8 w-full max-w-4xl">
+            <video
+              autoPlay muted loop playsInline
+              className="w-full rounded-xl object-cover shadow-2xl max-h-[500px]"
+              src={videoUrl}
             />
           </div>
         )}
