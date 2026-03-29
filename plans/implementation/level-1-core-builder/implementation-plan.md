@@ -1,7 +1,7 @@
 # Level 1: Core Builder — Master Checklist
 
 **Last Updated:** 2026-03-29
-**Status:** Phase 1.5 COMPLETE, bug fixes remaining
+**Status:** LEVEL 1 COMPLETE — awaiting human review before Level 2
 
 ---
 
@@ -149,7 +149,7 @@
 - [x] Layout preset cards: larger 2-col grid with name + Dark/Light badge — **DONE**
 
 ### Remaining Level 1 Tasks
-- [ ] Font & Color picker component (with light/dark mode support)
+- [x] Font & Color picker: Style accordion with font selector (2-col, rendered in own font), palette selector (6 dots per row), light/dark toggle — **DONE**
 - [ ] Image/video selection dialog with preview gallery → **backlog**
 - [ ] Hero size control (full height vs fit/aspect ratio) → **backlog**
 - [ ] Image/video position control (left/right/top/bottom/none) → **backlog**

@@ -6,7 +6,9 @@ import { useConfigStore } from '@/store/configStore'
 import { resolveHeroContent } from '@/lib/schemas'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
 import { THEME_REGISTRY } from '@/data/themes/index'
-import { Image, Film } from 'lucide-react'
+import { Image, Film, Sun, Moon } from 'lucide-react'
+import { PaletteSelector } from './PaletteSelector'
+import { FontSelector } from './FontSelector'
 
 // ── Compact char indicator ──
 function CharDot({ current, max }: { current: number; max: number }) {
@@ -219,7 +221,49 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
         </div>
       </RightAccordion>
 
-      {/* ─── 2. CONTENT ─── */}
+      {/* ─── 2. STYLE — font, palette, mode ─── */}
+      <RightAccordion id="style" label="Style">
+        <div className="space-y-3">
+          {/* Font selector — rendered in each font */}
+          <FontSelector />
+
+          {/* Palette selector — 5 rows of 6 dots */}
+          <PaletteSelector />
+
+          {/* Light/Dark toggle */}
+          <div>
+            <div className="text-[10px] font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Mode</div>
+            <div className="flex gap-1.5">
+              <button
+                type="button"
+                onClick={() => { if (config.theme.mode === 'dark') useConfigStore.getState().toggleMode() }}
+                className={cn(
+                  'flex-1 flex items-center justify-center gap-1.5 py-2 rounded-md text-xs font-medium border transition-all',
+                  config.theme.mode === 'light'
+                    ? 'bg-hb-accent text-white border-hb-accent'
+                    : 'bg-hb-surface text-hb-text-muted border-hb-border hover:border-hb-accent/40'
+                )}
+              >
+                <Sun size={12} /> Light
+              </button>
+              <button
+                type="button"
+                onClick={() => { if (config.theme.mode === 'light') useConfigStore.getState().toggleMode() }}
+                className={cn(
+                  'flex-1 flex items-center justify-center gap-1.5 py-2 rounded-md text-xs font-medium border transition-all',
+                  config.theme.mode === 'dark'
+                    ? 'bg-hb-accent text-white border-hb-accent'
+                    : 'bg-hb-surface text-hb-text-muted border-hb-border hover:border-hb-accent/40'
+                )}
+              >
+                <Moon size={12} /> Dark
+              </button>
+            </div>
+          </div>
+        </div>
+      </RightAccordion>
+
+      {/* ─── 3. CONTENT ─── */}
       <RightAccordion id="content" label="Content" defaultOpen>
         <div className="space-y-2.5">
           <Field label="Badge" enabled={getEnabled('eyebrow')} onToggle={(v) => handleToggle('eyebrow', v)} charCurrent={(hero.badge?.text ?? '').length} charMax={40}>

@@ -39,7 +39,9 @@ export function PaletteSelector() {
   const allPalettes = [defaultPalette, ...alternatives]
 
   return (
-    <div className="space-y-1 px-1">
+    <div>
+      <div className="text-[10px] font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Palette</div>
+      <div className="space-y-0.5">
       {allPalettes.map((palette, index) => {
         const isActive = currentBgPrimary === palette.bgPrimary && currentAccent === palette.accentPrimary
         const colorSlots = [palette.bgPrimary, palette.bgSecondary, palette.textPrimary, palette.textSecondary, palette.accentPrimary, palette.accentSecondary]
@@ -59,15 +61,16 @@ export function PaletteSelector() {
               {colorSlots.map((c, i) => (
                 <span
                   key={i}
-                  className="w-3 h-3 rounded-full border border-black/10"
+                  className="w-2.5 h-2.5 rounded-full border border-black/10"
                   style={{ backgroundColor: c }}
                 />
               ))}
             </div>
-            <span className="text-[10px] text-hb-text-muted">{palette.name}</span>
+            <span className="text-[9px] text-hb-text-muted">{palette.name}</span>
           </button>
         )
       })}
+      </div>
     </div>
   )
 }

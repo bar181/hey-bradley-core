@@ -2,7 +2,7 @@
 
 **North Star:** A non-technical user (grandma) can pick a theme, edit text, toggle components, preview on mobile, undo mistakes, and export JSON — all through the SIMPLE tab.
 
-**Status:** Phase 1.5 COMPLETE | Remaining: bug fixes + polish
+**Status:** LEVEL 1 COMPLETE | Awaiting human review before Level 2
 **Last Updated:** 2026-03-29
 
 ---

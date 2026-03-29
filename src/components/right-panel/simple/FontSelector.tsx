@@ -8,18 +8,18 @@ export function FontSelector() {
 
   return (
     <div>
-      <div className="text-[10px] font-semibold uppercase tracking-wider text-hb-text-muted mb-2 px-1">Font</div>
-      <div className="flex flex-wrap gap-1.5 px-1">
+      <div className="text-[10px] font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Font</div>
+      <div className="grid grid-cols-2 gap-1">
         {fontsData.fonts.map((font) => (
           <button
             key={font.name}
             type="button"
             onClick={() => applyFont(font.name)}
             className={cn(
-              'px-3 py-1.5 rounded-lg text-[10px] font-medium transition-all border',
+              'px-2.5 py-2 rounded-md text-[11px] font-medium transition-all border text-left',
               currentFont === font.name
-                ? 'bg-hb-accent text-white border-hb-accent'
-                : 'bg-hb-surface text-hb-text-muted border-hb-border hover:border-hb-accent/50'
+                ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
+                : 'bg-hb-surface text-hb-text-muted border-hb-border/50 hover:border-hb-accent/30'
             )}
             style={{ fontFamily: font.name }}
           >
