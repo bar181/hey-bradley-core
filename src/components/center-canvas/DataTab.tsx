@@ -7,6 +7,7 @@ import { oneDark } from '@codemirror/theme-one-dark'
 import {
   Copy,
   Download,
+  Upload,
   ChevronDown,
   ChevronRight,
   Palette,
@@ -36,8 +37,10 @@ export function DataTab() {
   const [validationOk, setValidationOk] = useState(false)
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({ hero: true })
   const [copiedKey, setCopiedKey] = useState<string | null>(null)
+  const [importError, setImportError] = useState<string | null>(null)
 
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const jsonString = useMemo(() => JSON.stringify(config, null, 2), [config])
 
@@ -80,10 +83,41 @@ export function DataTab() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = 'config.json'
+    a.download = 'hey-bradley-project.json'
     a.click()
     URL.revokeObjectURL(url)
+    if (import.meta.env.DEV) console.log('[export] downloaded hey-bradley-project.json', jsonString.length, 'chars')
   }, [jsonString])
+
+  const handleImport = useCallback(() => {
+    fileInputRef.current?.click()
+  }, [])
+
+  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(reader.result as string)
+        const result = masterConfigSchema.safeParse(parsed)
+        if (result.success) {
+          loadConfig(result.data)
+          setImportError(null)
+          if (import.meta.env.DEV) console.log('[import] loaded valid config from file')
+        } else {
+          const issues = result.error.issues.slice(0, 3).map(i => `${i.path.join('.')}: ${i.message}`).join('; ')
+          setImportError(`Invalid config: ${issues}`)
+          if (import.meta.env.DEV) console.warn('[import] validation failed:', result.error.issues)
+        }
+      } catch (err) {
+        setImportError(`Invalid JSON: ${(err as Error).message}`)
+      }
+      // Reset input so same file can be re-imported
+      e.target.value = ''
+    }
+    reader.readAsText(file)
+  }, [loadConfig])
 
   // ── Toggle sections ──
   const toggleSection = useCallback((key: string) => {
@@ -242,7 +276,27 @@ export function DataTab() {
             <Download size={12} />
             EXPORT JSON
           </button>
+          <button className={ghostBtn} onClick={handleImport}>
+            <Upload size={12} />
+            IMPORT JSON
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".json"
+            onChange={handleFileSelect}
+            className="hidden"
+          />
         </div>
+
+        {importError && (
+          <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2 text-xs text-red-400">
+            <span>{importError}</span>
+            <button onClick={() => setImportError(null)} className="text-red-400 hover:text-red-300">
+              <X size={12} />
+            </button>
+          </div>
+        )}
 
         {/* Divider */}
         <div className="border-t border-hb-border" />

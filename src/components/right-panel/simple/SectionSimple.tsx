@@ -161,6 +161,56 @@ export function SectionSimple({ sectionId }: SectionSimpleProps) {
             />
             <CharCount current={(hero.cta?.text ?? '').length} max={CHAR_LIMITS.cta} />
           </div>
+          {/* Image URL — only shown when heroImage is enabled */}
+          {section.components.find(c => c.id === 'heroImage')?.enabled && (
+            <div>
+              <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
+                IMAGE URL
+              </span>
+              <input
+                type="text"
+                value={(section.components.find(c => c.id === 'heroImage')?.props?.url as string) ?? ''}
+                onChange={(e) => {
+                  const url = e.target.value
+                  if (import.meta.env.DEV) console.log('[imageUrl]', url)
+                  const updatedComponents = section.components.map(c =>
+                    c.id === 'heroImage' ? { ...c, props: { ...c.props, url } } : c
+                  )
+                  setSectionConfig(section.id, { components: updatedComponents })
+                }}
+                placeholder="Paste an image URL..."
+                className="bg-hb-surface border border-hb-border rounded-lg px-3 py-2 text-sm font-ui text-hb-text-primary w-full placeholder:text-hb-text-muted/50"
+              />
+              <span className="text-[10px] text-hb-text-muted mt-0.5 block">
+                Paste any image URL (Unsplash, etc.)
+              </span>
+            </div>
+          )}
+          {/* Video URL — only shown when heroVideo is enabled */}
+          {section.components.find(c => c.id === 'heroVideo')?.enabled && (
+            <div>
+              <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
+                VIDEO URL
+              </span>
+              <input
+                type="text"
+                value={(section.components.find(c => c.id === 'heroVideo')?.props?.url as string) ?? ''}
+                onChange={(e) => {
+                  const url = e.target.value
+                  if (import.meta.env.DEV) console.log('[videoUrl]', url)
+                  const updatedComponents = section.components.map(c =>
+                    c.id === 'heroVideo' ? { ...c, props: { ...c.props, url } } : c
+                  )
+                  setSectionConfig(section.id, { components: updatedComponents })
+                }}
+                placeholder="Paste a video URL..."
+                className="bg-hb-surface border border-hb-border rounded-lg px-3 py-2 text-sm font-ui text-hb-text-primary w-full placeholder:text-hb-text-muted/50"
+              />
+              <span className="text-[10px] text-hb-text-muted mt-0.5 block">
+                Paste any MP4 video URL (Pexels, Coverr, etc.)
+              </span>
+            </div>
+          )}
           <div>
             <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
               IMAGE
