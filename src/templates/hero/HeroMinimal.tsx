@@ -1,6 +1,6 @@
 import { resolveHeroContent } from '@/lib/schemas'
 import type { Section } from '@/lib/schemas'
-import { Button } from '@/components/ui/button'
+
 
 export function HeroMinimal({ section }: { section: Section }) {
   const hero = resolveHeroContent(section)
@@ -25,21 +25,20 @@ export function HeroMinimal({ section }: { section: Section }) {
         {(hero.cta.show !== false || hero.secondaryCta) && (
           <div className="flex items-center gap-3 mt-4">
             {hero.cta.show !== false && (
-              <Button
-                className="bg-theme-accent text-theme-bg hover:opacity-90 px-8 py-3 text-sm font-semibold rounded-lg"
-                render={<a href={hero.cta.url} />}
+              <a
+                href={hero.cta.url}
+                className="inline-flex items-center justify-center bg-theme-accent text-theme-bg hover:opacity-90 px-8 py-3 rounded-lg font-semibold text-sm shadow-lg transition-all"
               >
                 {hero.cta.text}
-              </Button>
+              </a>
             )}
             {hero.secondaryCta && (
-              <Button
-                variant="outline"
-                className="border-white/10 text-theme-text hover:bg-white/10 px-8 py-3 text-sm font-semibold rounded-lg"
-                render={<a href={hero.secondaryCta.url} />}
+              <a
+                href={hero.secondaryCta.url}
+                className="inline-flex items-center justify-center border border-theme-text/10 text-theme-text hover:bg-theme-text/10 px-8 py-3 rounded-lg font-semibold text-sm transition-all"
               >
                 {hero.secondaryCta.text}
-              </Button>
+              </a>
             )}
           </div>
         )}

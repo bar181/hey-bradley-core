@@ -1,7 +1,7 @@
 import { Sparkles } from 'lucide-react'
 import type { Section } from '@/lib/schemas'
 import { resolveHeroContent } from '@/lib/schemas'
-import { Button } from '@/components/ui/button'
+
 import { Badge } from '@/components/ui/badge'
 
 interface HeroCenteredProps {
@@ -50,7 +50,7 @@ export function HeroCentered({ section }: HeroCenteredProps) {
         {hero.badge?.show && (
           <Badge
             variant="outline"
-            className="border-white/10 bg-white/5 text-theme-muted px-4 py-1.5 text-sm backdrop-blur-xl"
+            className="border-theme-text/10 bg-theme-text/5 text-theme-muted px-4 py-1.5 text-sm backdrop-blur-xl"
           >
             <Sparkles size={14} />
             {hero.badge.text}
@@ -59,7 +59,7 @@ export function HeroCentered({ section }: HeroCenteredProps) {
 
         {/* Heading */}
         <h1
-          className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1] text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-slate-400"
+          className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1] text-theme-text"
           style={{
             fontSize: hero.heading.size,
             fontWeight: hero.heading.weight,
@@ -77,21 +77,20 @@ export function HeroCentered({ section }: HeroCenteredProps) {
         {(hero.cta.show !== false || hero.secondaryCta) && (
           <div className="flex items-center gap-3 mt-4">
             {hero.cta.show !== false && (
-              <Button
-                className="bg-theme-accent text-theme-bg hover:opacity-90 px-8 py-3 text-sm font-semibold rounded-lg shadow-lg"
-                render={<a href={hero.cta.url} />}
+              <a
+                href={hero.cta.url}
+                className="inline-flex items-center justify-center bg-theme-accent text-theme-bg hover:opacity-90 px-8 py-3 rounded-lg font-semibold text-sm shadow-lg transition-all"
               >
                 {hero.cta.text}
-              </Button>
+              </a>
             )}
             {hero.secondaryCta && (
-              <Button
-                variant="outline"
-                className="border-white/10 text-theme-text hover:bg-white/10 px-8 py-3 text-sm font-semibold rounded-lg"
-                render={<a href={hero.secondaryCta.url} />}
+              <a
+                href={hero.secondaryCta.url}
+                className="inline-flex items-center justify-center border border-theme-text/10 text-theme-text hover:bg-theme-text/10 px-8 py-3 rounded-lg font-semibold text-sm transition-all"
               >
                 {hero.secondaryCta.text}
-              </Button>
+              </a>
             )}
           </div>
         )}

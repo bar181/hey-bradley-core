@@ -1,7 +1,7 @@
 # Level 1: Core Builder — Master Checklist
 
 **Last Updated:** 2026-03-29
-**Status:** Phase 1.3 COMPLETE, Phase 1.4 NEXT
+**Status:** Phase 1.5 COMPLETE, bug fixes remaining
 
 ---
 
@@ -124,6 +124,30 @@
 - [x] JSON export: downloads `hey-bradley-project.json` — 3/4
 - [x] Image URL + Video URL inputs in SIMPLE tab Content — 3/4
 - [x] JSON import with Zod validation + error toast — 3/4
+
+---
+
+## Phase 1.5 — Tailwind + shadcn Migration ✅ COMPLETE
+**Score: est ~36/44 (82%) | Session 10 | Commit: 54cba21**
+
+- [x] shadcn/ui installed (Button, Badge, Switch, Card, Input, Textarea, Accordion) — 4/4
+- [x] ADR-021: CSS custom properties for theme colors — 4/4
+- [x] Tailwind config extended with theme-* CSS var colors — 4/4
+- [x] useThemeVars hook (sets CSS vars on preview container) — 3/4
+- [x] HeroCentered → Tailwind + shadcn — 3/4
+- [x] HeroSplit → Tailwind + shadcn — 3/4
+- [x] HeroOverlay → Tailwind + shadcn — 3/4
+- [x] HeroMinimal → Tailwind + shadcn — 3/4
+- [x] FeaturesGrid → Tailwind + shadcn Card (0 inline styles) — 4/4
+- [x] CTASimple → Tailwind + shadcn Button (0 inline styles) — 4/4
+- [x] SIMPLE tab redesign: toggle-beside-content with shadcn Switch — 3/4
+
+### Remaining Level 1 Bug Fixes
+- [ ] Fix light theme text (white on white) — **in progress**
+- [ ] Fix Button render={<a>} warnings — **in progress**
+- [ ] Mobile hero images visibility
+- [ ] Image/video selection dialog → **backlog**
+- [ ] Section-specific right panel → **backlog**
 
 ---
 

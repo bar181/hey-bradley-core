@@ -350,3 +350,35 @@ _(No entries yet)_
 
 ### Status
 Phase 1.3 is COMPLETE. All themes working. All hotfixes applied. Build passes. Phase 1.4 preflight prepared.
+
+---
+
+## Session 11 — Phase 1.5: Tailwind + shadcn Migration
+
+**Date:** 2026-03-29
+**Phase:** 1.5
+
+### What Was Done
+- Installed shadcn/ui: Button, Badge, Switch, Card, Input, Textarea, Accordion
+- Created ADR-021: CSS Custom Properties for Theme Colors
+- Extended tailwind.config.ts with theme-* CSS variable colors
+- Created useThemeVars hook — syncs palette to CSS vars on preview container
+- Migrated all 4 hero renderers to Tailwind classes + shadcn components
+- Migrated FeaturesGrid and CTASimple (zero inline styles)
+- Redesigned SIMPLE tab: toggle-beside-content with shadcn Switch
+- Fixed attribution (Co-Authored-By: Bradley AISP)
+- All committed and pushed to main
+
+### Design Findings
+- shadcn v4 uses @base-ui/react, NOT @radix-ui. Button doesn't have asChild prop.
+- For link-style CTAs, use plain <a> with Tailwind classes, not <Button render={<a>}>
+- Light themes need text-theme-text (not text-white) to adapt colors
+- HeroCentered gradient text (from-white via-white) breaks on light themes
+- Features and CTA reached zero inline styles — proof the CSS var approach works
+
+### Bugs Found
+| Bug | Severity | Status |
+|-----|----------|--------|
+| Button render={<a>} warning | Medium | Fixing |
+| Light theme white text on white bg | High | Fixing |
+| Mobile hero images hidden | Low | Backlog |

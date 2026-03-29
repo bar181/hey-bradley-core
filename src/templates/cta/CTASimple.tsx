@@ -1,5 +1,5 @@
 import type { Section } from '@/lib/schemas'
-import { Button } from '@/components/ui/button'
+
 
 export function CTASimple({ section }: { section: Section }) {
   const heading = section.components.find((c) => c.id === 'heading')
@@ -20,14 +20,12 @@ export function CTASimple({ section }: { section: Section }) {
           </p>
         )}
         {button?.enabled && (
-          <Button
-            className="mt-4 px-8 py-3 bg-theme-accent text-theme-bg hover:opacity-90"
-            render={
-              <a href={(button.props?.url as string) || '#'} />
-            }
+          <a
+            href={(button.props?.url as string) || '#'}
+            className="inline-flex items-center justify-center mt-4 px-8 py-3 bg-theme-accent text-theme-bg hover:opacity-90 rounded-lg font-semibold text-sm shadow-lg transition-all"
           >
             {(button.props?.text as string) || 'Get Started'}
-          </Button>
+          </a>
         )}
       </div>
     </section>
