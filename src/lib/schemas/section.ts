@@ -50,7 +50,8 @@ export const heroContentSchema = z.object({
   cta: z.object({
     text: z.string().default(CTA_DEFAULTS.text),
     url: z.string().default(CTA_DEFAULTS.url),
-  }).default(() => ({ ...CTA_DEFAULTS })),
+    show: z.boolean().default(true),
+  }).default(() => ({ ...CTA_DEFAULTS, show: true })),
   secondaryCta: z.object({
     text: z.string().default('View my work'),
     url: z.string().default('#about'),
@@ -142,8 +143,9 @@ export function componentsToHeroContent(components: Component[]): HeroContent {
     cta: {
       text: (primaryCta?.props?.text as string) ?? CTA_DEFAULTS.text,
       url: (primaryCta?.props?.url as string) ?? CTA_DEFAULTS.url,
+      show: primaryCta?.enabled ?? true,
     },
-    secondaryCta: secondaryCta
+    secondaryCta: secondaryCta && secondaryCta.enabled
       ? {
           text: (secondaryCta.props?.text as string) ?? '',
           url: (secondaryCta.props?.url as string) ?? '',

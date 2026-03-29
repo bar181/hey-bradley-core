@@ -80,23 +80,27 @@ export function HeroCentered({ section }: HeroCenteredProps) {
         </p>
 
         {/* CTA buttons */}
-        <div className="flex items-center gap-3 mt-4">
-          <a
-            href={hero.cta.url}
-            style={{ backgroundColor: colors.accentPrimary }}
-            className="hover:opacity-90 text-white px-8 py-3 rounded-lg font-semibold text-sm shadow-lg transition-all"
-          >
-            {hero.cta.text}
-          </a>
-          {hero.secondaryCta && (
-            <a
-              href={hero.secondaryCta.url}
-              className="bg-white/5 hover:bg-white/10 text-white/80 px-8 py-3 rounded-lg font-semibold text-sm border border-white/10 transition-all"
-            >
-              {hero.secondaryCta.text}
-            </a>
-          )}
-        </div>
+        {(hero.cta.show !== false || hero.secondaryCta) && (
+          <div className="flex items-center gap-3 mt-4">
+            {hero.cta.show !== false && (
+              <a
+                href={hero.cta.url}
+                style={{ backgroundColor: colors.accentPrimary }}
+                className="hover:opacity-90 text-white px-8 py-3 rounded-lg font-semibold text-sm shadow-lg transition-all"
+              >
+                {hero.cta.text}
+              </a>
+            )}
+            {hero.secondaryCta && (
+              <a
+                href={hero.secondaryCta.url}
+                className="bg-white/5 hover:bg-white/10 text-white/80 px-8 py-3 rounded-lg font-semibold text-sm border border-white/10 transition-all"
+              >
+                {hero.secondaryCta.text}
+              </a>
+            )}
+          </div>
+        )}
 
         {/* Inline hero image (below content) */}
         {imageUrl && (

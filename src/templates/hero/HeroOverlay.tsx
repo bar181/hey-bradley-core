@@ -51,16 +51,20 @@ export function HeroOverlay({ section }: { section: Section }) {
           {hero.subheading}
         </p>
 
-        <div className="flex items-center gap-3 mt-2">
-          <a href={hero.cta.url} className="px-8 py-3 rounded-lg font-semibold text-sm text-white shadow-lg transition-all" style={{ backgroundColor: colors.accentPrimary }}>
-            {hero.cta.text}
-          </a>
-          {hero.secondaryCta && (
-            <a href={hero.secondaryCta.url} className="px-8 py-3 rounded-lg font-semibold text-sm text-white/80 border border-white/20 hover:bg-white/10 transition-all">
-              {hero.secondaryCta.text}
-            </a>
-          )}
-        </div>
+        {(hero.cta.show !== false || hero.secondaryCta) && (
+          <div className="flex items-center gap-3 mt-2">
+            {hero.cta.show !== false && (
+              <a href={hero.cta.url} className="px-8 py-3 rounded-lg font-semibold text-sm text-white shadow-lg transition-all" style={{ backgroundColor: colors.accentPrimary }}>
+                {hero.cta.text}
+              </a>
+            )}
+            {hero.secondaryCta && (
+              <a href={hero.secondaryCta.url} className="px-8 py-3 rounded-lg font-semibold text-sm text-white/80 border border-white/20 hover:bg-white/10 transition-all">
+                {hero.secondaryCta.text}
+              </a>
+            )}
+          </div>
+        )}
 
         {hero.trustBadges?.show && (
           <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-white/40 mt-8">

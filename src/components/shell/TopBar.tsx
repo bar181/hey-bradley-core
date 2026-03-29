@@ -1,7 +1,26 @@
-import { Monitor, Tablet, Smartphone, Clock } from 'lucide-react'
+import { Monitor, Tablet, Smartphone, Clock, Undo2, Redo2 } from 'lucide-react'
 import { ModeToggle } from './ModeToggle'
+import { useConfigStore } from '@/store/configStore'
+import { useUIStore, type PreviewWidth } from '@/store/uiStore'
+
+const DEVICE_BUTTONS: { icon: typeof Monitor; width: PreviewWidth }[] = [
+  { icon: Monitor, width: 'desktop' },
+  { icon: Tablet, width: 'tablet' },
+  { icon: Smartphone, width: 'mobile' },
+]
 
 export function TopBar() {
+  const undo = useConfigStore((s) => s.undo)
+  const redo = useConfigStore((s) => s.redo)
+  const canUndo = useConfigStore((s) => s.canUndo())
+  const canRedo = useConfigStore((s) => s.canRedo())
+  const previewWidth = useUIStore((s) => s.previewWidth)
+  const setPreviewWidth = useUIStore((s) => s.setPreviewWidth)
+
+  const handleDeviceClick = (width: PreviewWidth) => {
+    setPreviewWidth(previewWidth === width ? 'full' : width)
+  }
+
   return (
     <header className="h-12 flex items-center justify-between px-4 bg-hb-bg border-b border-hb-border shrink-0">
       {/* Left: Logo + project name */}
@@ -18,17 +37,39 @@ export function TopBar() {
         </span>
       </div>
 
-      {/* Right: Device toggles + Share */}
+      {/* Right: Undo/Redo + Device toggles + Share */}
       <div className="flex items-center gap-2">
-        <button className="p-1 text-hb-text-muted hover:text-hb-text-primary transition-colors">
-          <Monitor size={16} />
+        <button
+          onClick={undo}
+          disabled={!canUndo}
+          className={`p-1 transition-colors ${canUndo ? 'text-hb-text-muted hover:text-hb-text-primary' : 'opacity-30 cursor-not-allowed text-hb-text-muted'}`}
+          title="Undo (Ctrl+Z)"
+        >
+          <Undo2 size={16} />
         </button>
-        <button className="p-1 text-hb-text-muted hover:text-hb-text-primary transition-colors">
-          <Tablet size={16} />
+        <button
+          onClick={redo}
+          disabled={!canRedo}
+          className={`p-1 transition-colors ${canRedo ? 'text-hb-text-muted hover:text-hb-text-primary' : 'opacity-30 cursor-not-allowed text-hb-text-muted'}`}
+          title="Redo (Ctrl+Shift+Z)"
+        >
+          <Redo2 size={16} />
         </button>
-        <button className="p-1 text-hb-text-muted hover:text-hb-text-primary transition-colors">
-          <Smartphone size={16} />
-        </button>
+        <div className="w-px h-4 bg-hb-border mx-1" />
+        {DEVICE_BUTTONS.map(({ icon: Icon, width }) => (
+          <button
+            key={width}
+            onClick={() => handleDeviceClick(width)}
+            className={`p-1 transition-colors ${
+              previewWidth === width
+                ? 'text-hb-accent'
+                : 'text-hb-text-muted hover:text-hb-text-primary'
+            }`}
+            title={`Preview at ${width}`}
+          >
+            <Icon size={16} />
+          </button>
+        ))}
         <button
           className="p-1 text-hb-text-muted hover:text-hb-text-primary transition-colors opacity-50 cursor-not-allowed"
           title="Change History (coming soon)"

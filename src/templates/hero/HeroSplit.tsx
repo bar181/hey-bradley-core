@@ -55,27 +55,31 @@ export function HeroSplit({ section }: { section: Section }) {
             {hero.subheading}
           </p>
 
-          <div className="flex items-center gap-3">
-            <a
-              href={hero.cta.url}
-              className="px-6 py-2.5 rounded-lg font-semibold text-sm text-white transition-all hover:opacity-90"
-              style={{ backgroundColor: colors.accentPrimary }}
-            >
-              {hero.cta.text}
-            </a>
-            {hero.secondaryCta && (
-              <a
-                href={hero.secondaryCta.url}
-                className="px-6 py-2.5 rounded-lg font-semibold text-sm border transition-all"
-                style={{
-                  borderColor: `${section.style.color}20`,
-                  color: `${section.style.color}cc`,
-                }}
-              >
-                {hero.secondaryCta.text}
-              </a>
-            )}
-          </div>
+          {(hero.cta.show !== false || hero.secondaryCta) && (
+            <div className="flex items-center gap-3">
+              {hero.cta.show !== false && (
+                <a
+                  href={hero.cta.url}
+                  className="px-6 py-2.5 rounded-lg font-semibold text-sm text-white transition-all hover:opacity-90"
+                  style={{ backgroundColor: colors.accentPrimary }}
+                >
+                  {hero.cta.text}
+                </a>
+              )}
+              {hero.secondaryCta && (
+                <a
+                  href={hero.secondaryCta.url}
+                  className="px-6 py-2.5 rounded-lg font-semibold text-sm border transition-all"
+                  style={{
+                    borderColor: `${section.style.color}20`,
+                    color: `${section.style.color}cc`,
+                  }}
+                >
+                  {hero.secondaryCta.text}
+                </a>
+              )}
+            </div>
+          )}
 
           {hero.trustBadges?.show && (
             <p

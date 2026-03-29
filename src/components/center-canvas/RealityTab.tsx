@@ -1,14 +1,31 @@
 import { useConfigStore } from '@/store/configStore'
+import { useUIStore } from '@/store/uiStore'
 import { HeroCentered } from '@/templates/hero/HeroCentered'
 import { HeroSplit } from '@/templates/hero/HeroSplit'
 import { HeroOverlay } from '@/templates/hero/HeroOverlay'
 import { HeroMinimal } from '@/templates/hero/HeroMinimal'
+import { CTASimple } from '@/templates/cta/CTASimple'
+import { FeaturesGrid } from '@/templates/features/FeaturesGrid'
+
+const PREVIEW_WIDTH_MAP = {
+  full: '100%',
+  desktop: '1280px',
+  tablet: '768px',
+  mobile: '375px',
+} as const
 
 export function RealityTab() {
   const sections = useConfigStore((s) => s.config.sections)
+  const previewWidth = useUIStore((s) => s.previewWidth)
+
+  if (import.meta.env.DEV) console.log('[preview]', previewWidth)
 
   return (
     <div className="min-h-full">
+      <div
+        className="mx-auto transition-all duration-300"
+        style={{ maxWidth: PREVIEW_WIDTH_MAP[previewWidth] }}
+      >
       {sections
         .filter((s) => s.enabled)
         .map((section) => {
@@ -24,6 +41,12 @@ export function RealityTab() {
               default:
                 return <HeroCentered key={section.id} section={section} />
             }
+          }
+          if (section.type === 'features') {
+            return <FeaturesGrid key={section.id} section={section} />
+          }
+          if (section.type === 'cta') {
+            return <CTASimple key={section.id} section={section} />
           }
           // Placeholder for other section types
           return (
@@ -41,6 +64,7 @@ export function RealityTab() {
             </div>
           )
         })}
+      </div>
     </div>
   )
 }

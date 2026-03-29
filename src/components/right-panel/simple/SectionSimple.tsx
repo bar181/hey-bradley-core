@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { Image as ImageIcon } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { Toggle } from '@/components/shared/Toggle'
@@ -7,6 +7,27 @@ import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { resolveHeroContent } from '@/lib/schemas'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
+
+const CHAR_LIMITS = {
+  headline: 80,
+  subtitle: 200,
+  cta: 30,
+  badge: 40,
+} as const
+
+function CharCount({ current, max }: { current: number; max: number }) {
+  const ratio = current / max
+  return (
+    <span
+      className={cn(
+        'text-xs mt-0.5 block',
+        ratio > 1 ? 'text-red-400' : ratio > 0.9 ? 'text-amber-400' : 'text-hb-text-muted'
+      )}
+    >
+      {current}/{max} characters
+    </span>
+  )
+}
 
 const sectionPresets = [
   { name: 'Modern' },
@@ -25,8 +46,6 @@ export function SectionSimple({ sectionId }: SectionSimpleProps) {
   const section = config.sections.find((s) => s.id === sectionId)
 
   const [selectedPreset, setSelectedPreset] = useState('Modern')
-  const [primaryButton, setPrimaryButton] = useState(true)
-  const [secondaryButton, setSecondaryButton] = useState(true)
   const [width, setWidth] = useState('Full')
   const [aspect, setAspect] = useState('16:9')
   const [buttonStyle, setButtonStyle] = useState('Filled')
@@ -36,26 +55,33 @@ export function SectionSimple({ sectionId }: SectionSimpleProps) {
 
   const hero = resolveHeroContent(section)
 
+  const updateCopy = useCallback(
+    (componentId: string, text: string) => {
+      if (import.meta.env.DEV) console.log('[copyEdit]', componentId, text)
+      setSectionConfig(sectionId, {
+        components: updateComponentProps(section, componentId, { text }),
+      })
+    },
+    [sectionId, section, setSectionConfig]
+  )
+
   const eyebrowBadge = hero.badge?.show ?? true
   const heroImage = hero.image?.show ?? false
   const trustBadges = hero.trustBadges?.show ?? true
+  const primaryButton = section.components.find((c) => c.id === 'primaryCta')?.enabled ?? true
+  const secondaryButton = section.components.find((c) => c.id === 'secondaryCta')?.enabled ?? true
 
-  const setEyebrowBadge = (val: boolean) => {
-    setSectionConfig(sectionId, { components: setComponentEnabled(section, 'eyebrow', val) })
-  }
-  const setHeroImage = (val: boolean) => {
-    setSectionConfig(sectionId, { components: setComponentEnabled(section, 'heroImage', val) })
-  }
-  const setTrustBadges = (val: boolean) => {
-    setSectionConfig(sectionId, { components: setComponentEnabled(section, 'trustBadges', val) })
+  const handleToggle = (componentId: string) => (val: boolean) => {
+    if (import.meta.env.DEV) console.log('[toggle]', componentId, val)
+    setSectionConfig(sectionId, { components: setComponentEnabled(section, componentId, val) })
   }
 
   const components = [
-    { label: 'Eyebrow Badge', enabled: eyebrowBadge, onChange: setEyebrowBadge },
-    { label: 'Primary Button', enabled: primaryButton, onChange: setPrimaryButton },
-    { label: 'Secondary Button', enabled: secondaryButton, onChange: setSecondaryButton },
-    { label: 'Hero Image', enabled: heroImage, onChange: setHeroImage },
-    { label: 'Trust Badges', enabled: trustBadges, onChange: setTrustBadges },
+    { label: 'Eyebrow Badge', enabled: eyebrowBadge, onChange: handleToggle('eyebrow') },
+    { label: 'Primary Button', enabled: primaryButton, onChange: handleToggle('primaryCta') },
+    { label: 'Secondary Button', enabled: secondaryButton, onChange: handleToggle('secondaryCta') },
+    { label: 'Hero Image', enabled: heroImage, onChange: handleToggle('heroImage') },
+    { label: 'Trust Badges', enabled: trustBadges, onChange: handleToggle('trustBadges') },
   ]
 
   return (
@@ -91,15 +117,26 @@ export function SectionSimple({ sectionId }: SectionSimpleProps) {
         <div className="space-y-3">
           <div>
             <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
+              BADGE TEXT
+            </span>
+            <input
+              type="text"
+              value={hero.badge?.text ?? ''}
+              onChange={(e) => updateCopy('eyebrow', e.target.value)}
+              className="bg-hb-surface border border-hb-border rounded-lg px-3 py-2 text-sm font-ui text-hb-text-primary w-full"
+            />
+            <CharCount current={(hero.badge?.text ?? '').length} max={CHAR_LIMITS.badge} />
+          </div>
+          <div>
+            <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
               HEADLINE
             </span>
             <textarea
               value={hero.heading?.text ?? ''}
-              onChange={(e) =>
-                setSectionConfig(sectionId, { components: updateComponentProps(section, 'headline', { text: e.target.value }) })
-              }
+              onChange={(e) => updateCopy('headline', e.target.value)}
               className="bg-hb-surface border border-hb-border rounded-lg px-3 py-2 text-sm font-ui text-hb-text-primary w-full h-14 resize-none"
             />
+            <CharCount current={(hero.heading?.text ?? '').length} max={CHAR_LIMITS.headline} />
           </div>
           <div>
             <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
@@ -107,11 +144,10 @@ export function SectionSimple({ sectionId }: SectionSimpleProps) {
             </span>
             <textarea
               value={hero.subheading ?? ''}
-              onChange={(e) =>
-                setSectionConfig(sectionId, { components: updateComponentProps(section, 'subtitle', { text: e.target.value }) })
-              }
+              onChange={(e) => updateCopy('subtitle', e.target.value)}
               className="bg-hb-surface border border-hb-border rounded-lg px-3 py-2 text-sm font-ui text-hb-text-primary w-full h-10 resize-none"
             />
+            <CharCount current={(hero.subheading ?? '').length} max={CHAR_LIMITS.subtitle} />
           </div>
           <div>
             <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
@@ -120,11 +156,10 @@ export function SectionSimple({ sectionId }: SectionSimpleProps) {
             <input
               type="text"
               value={hero.cta?.text ?? ''}
-              onChange={(e) =>
-                setSectionConfig(sectionId, { components: updateComponentProps(section, 'primaryCta', { text: e.target.value }) })
-              }
+              onChange={(e) => updateCopy('primaryCta', e.target.value)}
               className="bg-hb-surface border border-hb-border rounded-lg px-3 py-2 text-sm font-ui text-hb-text-primary w-full"
             />
+            <CharCount current={(hero.cta?.text ?? '').length} max={CHAR_LIMITS.cta} />
           </div>
           <div>
             <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">

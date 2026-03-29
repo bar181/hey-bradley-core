@@ -25,16 +25,20 @@ export function HeroMinimal({ section }: { section: Section }) {
           {hero.subheading}
         </p>
 
-        <div className="flex items-center gap-3 mt-4">
-          <a href={hero.cta.url} className="px-8 py-3 rounded-lg font-semibold text-sm transition-all" style={{ backgroundColor: colors.accentPrimary, color: colors.bgPrimary }}>
-            {hero.cta.text}
-          </a>
-          {hero.secondaryCta && (
-            <a href={hero.secondaryCta.url} className="px-8 py-3 rounded-lg font-semibold text-sm border transition-all" style={{ borderColor: `${section.style.color}20`, color: `${section.style.color}cc` }}>
-              {hero.secondaryCta.text}
-            </a>
-          )}
-        </div>
+        {(hero.cta.show !== false || hero.secondaryCta) && (
+          <div className="flex items-center gap-3 mt-4">
+            {hero.cta.show !== false && (
+              <a href={hero.cta.url} className="px-8 py-3 rounded-lg font-semibold text-sm transition-all" style={{ backgroundColor: colors.accentPrimary, color: colors.bgPrimary }}>
+                {hero.cta.text}
+              </a>
+            )}
+            {hero.secondaryCta && (
+              <a href={hero.secondaryCta.url} className="px-8 py-3 rounded-lg font-semibold text-sm border transition-all" style={{ borderColor: `${section.style.color}20`, color: `${section.style.color}cc` }}>
+                {hero.secondaryCta.text}
+              </a>
+            )}
+          </div>
+        )}
 
         {hero.trustBadges?.show && (
           <p className="text-[11px] font-medium uppercase tracking-[0.15em] mt-12" style={{ color: `${section.style.color}30` }}>
