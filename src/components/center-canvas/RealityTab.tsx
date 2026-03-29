@@ -31,7 +31,7 @@ export function RealityTab() {
         style={{ maxWidth: PREVIEW_WIDTH_MAP[previewWidth] }}
       >
       {sections
-        .filter((s) => s.enabled)
+        .filter((s) => s.enabled && s.type === 'hero')
         .map((section) => {
           if (section.type === 'hero') {
             switch (section.variant) {

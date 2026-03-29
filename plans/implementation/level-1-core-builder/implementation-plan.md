@@ -142,12 +142,20 @@
 - [x] CTASimple → Tailwind + shadcn Button (0 inline styles) — 4/4
 - [x] SIMPLE tab redesign: toggle-beside-content with shadcn Switch — 3/4
 
-### Remaining Level 1 Bug Fixes
-- [ ] Fix light theme text (white on white) — **in progress**
-- [ ] Fix Button render={<a>} warnings — **in progress**
-- [ ] Mobile hero images visibility
-- [ ] Image/video selection dialog → **backlog**
-- [ ] Section-specific right panel → **backlog**
+### Bug Fixes Applied
+- [x] Fix light theme text (white on white) — **DONE** (inline color from section.style.color)
+- [x] Fix Button render={<a>} warnings — **DONE** (replaced with plain <a> tags)
+- [x] Hide non-hero sections from preview — **DONE** (hero-only filter in RealityTab)
+- [x] Layout preset cards: larger 2-col grid with name + Dark/Light badge — **DONE**
+
+### Remaining Level 1 Tasks
+- [ ] Font & Color picker component (with light/dark mode support)
+- [ ] Image/video selection dialog with preview gallery → **backlog**
+- [ ] Hero size control (full height vs fit/aspect ratio) → **backlog**
+- [ ] Image/video position control (left/right/top/bottom/none) → **backlog**
+- [ ] Section-specific right panel routing → **backlog**
+- [ ] Right panel dropdown for section selection → **backlog**
+- [ ] Edit icon overlay on main preview sections → **backlog**
 
 ---
 

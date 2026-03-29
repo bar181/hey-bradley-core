@@ -49,39 +49,72 @@ interface ThemeJSON {
   sections: Array<{ style?: { background?: string } }>
 }
 
-function LayoutPreview({ theme }: { theme: ThemeJSON }) {
+function LayoutCard({ theme, selected, onClick }: { theme: ThemeJSON; selected: boolean; onClick: () => void }) {
   const p = theme.theme.palette || { bgPrimary: theme.theme.colors.background, textPrimary: theme.theme.colors.text, accentPrimary: theme.theme.colors.primary }
   const bg = theme.sections[0]?.style?.background || p.bgPrimary
   const v = theme.meta.heroVariant
+  const isDark = ['#0', '#1', '#2', '#3'].some(c => (p.bgPrimary || '').startsWith(c))
 
-  if (v === 'split-right' || v === 'split-left') {
+  // Layout wireframe
+  const wireframe = () => {
+    if (v === 'split-right' || v === 'split-left') {
+      return (
+        <div className="h-14 flex items-center p-2 gap-1.5" style={{ background: bg }}>
+          {v === 'split-left' && <div className="w-8 h-10 rounded bg-current/10" />}
+          <div className="flex-1 space-y-1">
+            <div className="w-10 h-1 rounded-sm bg-current/30" />
+            <div className="w-6 h-1 rounded-sm" style={{ backgroundColor: p.accentPrimary }} />
+          </div>
+          {v === 'split-right' && <div className="w-8 h-10 rounded bg-current/10" />}
+        </div>
+      )
+    }
+    if (v === 'overlay') {
+      return (
+        <div className="h-14 relative flex items-center justify-center" style={{ background: bg }}>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+          <div className="relative space-y-1 text-center">
+            <div className="w-8 h-1 rounded-sm bg-white/40 mx-auto" />
+            <div className="w-5 h-1 rounded-sm mx-auto" style={{ backgroundColor: p.accentPrimary }} />
+          </div>
+        </div>
+      )
+    }
+    if (v === 'minimal') {
+      return (
+        <div className="h-14 flex items-center justify-center" style={{ background: bg }}>
+          <div className="text-[8px] font-bold" style={{ color: p.textPrimary }}>Aa</div>
+        </div>
+      )
+    }
     return (
-      <div className="h-12 flex items-center p-1.5 gap-1" style={{ background: bg }}>
-        {v === 'split-left' && <div className="w-6 h-8 rounded" style={{ backgroundColor: `${p.textPrimary}15` }} />}
-        <div className="flex-1"><div className="w-5 h-1 rounded-sm" style={{ backgroundColor: p.accentPrimary }} /></div>
-        {v === 'split-right' && <div className="w-6 h-8 rounded" style={{ backgroundColor: `${p.textPrimary}15` }} />}
+      <div className="h-14 flex flex-col items-center justify-center gap-1" style={{ background: bg }}>
+        <div className="w-8 h-1 rounded-sm bg-current/30" />
+        <div className="w-5 h-1 rounded-sm" style={{ backgroundColor: p.accentPrimary }} />
       </div>
     )
   }
-  if (v === 'overlay') {
-    return (
-      <div className="h-12 relative flex items-center justify-center" style={{ background: bg }}>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-        <div className="w-5 h-1 rounded-sm relative" style={{ backgroundColor: p.accentPrimary }} />
-      </div>
-    )
-  }
-  if (v === 'minimal') {
-    return (
-      <div className="h-12 flex items-center justify-center" style={{ background: bg }}>
-        <div className="text-[6px] font-bold" style={{ color: p.textPrimary }}>Aa</div>
-      </div>
-    )
-  }
+
   return (
-    <div className="h-12 flex flex-col items-center justify-center" style={{ background: bg }}>
-      <div className="w-5 h-1 rounded-sm" style={{ backgroundColor: p.accentPrimary }} />
-    </div>
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        'rounded-lg border overflow-hidden transition-all text-left w-full',
+        selected ? 'border-hb-accent ring-1 ring-hb-accent/30' : 'border-hb-border/40 hover:border-hb-accent/40'
+      )}
+    >
+      <div style={{ color: p.textPrimary }}>{wireframe()}</div>
+      <div className="px-2 py-1.5 bg-hb-surface flex items-center gap-1.5">
+        <span className="text-[10px] font-medium text-hb-text-primary leading-none">{theme.meta.name}</span>
+        <span className={cn(
+          'text-[8px] px-1 py-0.5 rounded font-medium leading-none',
+          isDark ? 'bg-hb-text-muted/20 text-hb-text-muted' : 'bg-amber-500/15 text-amber-400'
+        )}>
+          {isDark ? 'Dark' : 'Light'}
+        </span>
+      </div>
+    </button>
   )
 }
 
@@ -126,25 +159,17 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
       {/* ─── 1. LAYOUT — theme presets + background + image/video ─── */}
       <RightAccordion id="layout" label="Layout" defaultOpen>
         <div className="space-y-3">
-          {/* Theme layout grid */}
+          {/* Theme layout grid — 2 columns with labels */}
           <div>
-            <div className="text-[9px] font-medium text-hb-text-muted uppercase tracking-wide mb-1">Preset</div>
-            <div className="grid grid-cols-5 gap-1">
+            <div className="text-[9px] font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Preset Layout</div>
+            <div className="grid grid-cols-2 gap-1.5">
               {(THEME_REGISTRY as unknown as ThemeJSON[]).map((t) => (
-                <button
+                <LayoutCard
                   key={t.meta.slug}
-                  type="button"
+                  theme={t}
+                  selected={t.meta.slug === selectedPreset}
                   onClick={() => applyVibe(t.meta.slug)}
-                  className={cn(
-                    'rounded border overflow-hidden transition-all',
-                    t.meta.slug === selectedPreset
-                      ? 'border-hb-accent ring-1 ring-hb-accent/30'
-                      : 'border-hb-border/40 hover:border-hb-accent/40'
-                  )}
-                  title={t.meta.name}
-                >
-                  <LayoutPreview theme={t} />
-                </button>
+                />
               ))}
             </div>
           </div>
