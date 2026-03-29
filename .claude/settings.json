@@ -196,8 +196,8 @@
     ]
   },
   "attribution": {
-    "commit": "Co-Authored-By: claude-flow <ruv@ruv.net>",
-    "pr": "🤖 Generated with [claude-flow](https://github.com/ruvnet/claude-flow)"
+    "commit": "Co-Authored-By: Bradley AISP <bar181@yahoo.com>",
+    "pr": "Built by [Bradley AISP](https://github.com/bar181)"
   },
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",

@@ -184,5 +184,5 @@ npx @claude-flow/cli@latest doctor --fix
 
 ## Support
 
-- Documentation: https://github.com/ruvnet/claude-flow
-- Issues: https://github.com/ruvnet/claude-flow/issues
+- Documentation: https://github.com/bar181/hey-bradley-core
+- Issues: https://github.com/bar181/hey-bradley-core/issues
