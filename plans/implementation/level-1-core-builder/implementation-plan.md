@@ -104,7 +104,8 @@
 
 ---
 
-## Phase 1.4 — Hero Simple Mode Complete 🔄 IN PROGRESS
+## Phase 1.4 — Hero Simple Mode Complete ✅ COMPLETE
+**Score: ~34/40 (est 85%) | Session 10 | Commits: 57c7775, 876c8fd, fd6b8f0**
 
 ### P0 — Must Have
 - [x] Copy editing: headline, subtitle, CTA text, badge text in SIMPLE tab with char counts — 4/4
@@ -119,10 +120,10 @@
 - [x] Features section: real 3-col grid with Lucide icons — 3/4
 - [x] CTA section: real banner with theme-aware button — 3/4
 
-### P2 — Remaining
-- [ ] JSON export: downloads `hey-bradley-project.json` → **1.4**
-- [ ] Image URL input: paste Unsplash URL → image in preview → **1.4**
-- [ ] JSON import with Zod validation → **1.4**
+### P2 — Complete
+- [x] JSON export: downloads `hey-bradley-project.json` — 3/4
+- [x] Image URL + Video URL inputs in SIMPLE tab Content — 3/4
+- [x] JSON import with Zod validation + error toast — 3/4
 
 ---
 
@@ -164,7 +165,7 @@
 | 1.1 | Hero + JSON Core Loop | ✅ COMPLETE |
 | 1.2 | JSON Templates + ADRs + Smoke Test | ✅ COMPLETE |
 | 1.3 | Theme System v3 (10 themes, palette, fonts) | ✅ COMPLETE |
-| 1.4 | Hero Simple Mode Complete | 🔄 NEXT |
-| 2 | System Polish (a11y, Tailwind, XAI, UX) | 📅 PLANNED |
+| 1.4 | Hero Simple Mode Complete | ✅ COMPLETE |
+| 2 | System Polish (a11y, Tailwind, XAI, UX) | 🔄 NEXT (awaiting review) |
 | 3 | Section Expansion (7 sections, grandma mode) | 📅 PLANNED |
 | 4+ | Expert Mode + Advanced | 📅 PLANNED |

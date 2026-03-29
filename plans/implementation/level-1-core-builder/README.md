@@ -1,6 +1,6 @@
 # Level 1: Core Builder — Living Document
 
-**Status:** Phase 1.3 COMPLETE | Phase 1.4 NEXT
+**Status:** Phase 1.4 COMPLETE | Phase 2 NEXT (awaiting human review)
 **Last Updated:** 2026-03-29
 
 ---
@@ -17,7 +17,7 @@
 | 1.1 — Hero + JSON Core Loop | ✅ COMPLETE | 33/48 (69%) |
 | 1.2 — JSON Templates + ADRs + Smoke Test | ✅ COMPLETE | ~38/48 (est) |
 | 1.3 — Theme System v3 | ✅ COMPLETE | ~72/88 (82%) |
-| 1.4 — Hero Simple Mode Complete | 🔄 NEXT | — |
+| 1.4 — Hero Simple Mode Complete | ✅ COMPLETE | ~34/40 (85%) |
 
 ## Key Files
 
