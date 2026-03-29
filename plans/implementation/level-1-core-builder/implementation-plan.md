@@ -104,22 +104,25 @@
 
 ---
 
-## Phase 1.4 — Hero Simple Mode Complete 🔄 NEXT
+## Phase 1.4 — Hero Simple Mode Complete 🔄 IN PROGRESS
 
 ### P0 — Must Have
-- [ ] Copy editing: headline, subtitle, CTA text, badge text in SIMPLE tab with char counts → **1.4**
-- [ ] Component toggles: on/off visually show/hide in ALL 5 hero variants → **1.4**
+- [x] Copy editing: headline, subtitle, CTA text, badge text in SIMPLE tab with char counts — 4/4
+- [x] Component toggles: on/off visually show/hide in ALL 5 hero variants — 4/4 *(5 bugs found and fixed)*
 
 ### P1 — Should Have
-- [ ] Responsive preview: 4 device widths (mobile/tablet/desktop/full) in TopBar → **1.4**
-- [ ] Undo/redo: Ctrl+Z / Ctrl+Shift+Z, 50+ steps, visual indicator → **1.4**
-- [ ] LocalStorage auto-save: debounced 2s, reload persistence, "New Project" reset → **1.4**
+- [x] Responsive preview: 4 device widths (mobile/tablet/desktop/full) in TopBar — 3/4
+- [x] Undo/redo: Ctrl+Z / Ctrl+Shift+Z with TopBar buttons — 3/4
+- [x] LocalStorage auto-save: debounced 2s, reload persistence — 3/4
 
-### P2 — Nice to Have
+### P0 (added during execution)
+- [x] Features section: real 3-col grid with Lucide icons — 3/4
+- [x] CTA section: real banner with theme-aware button — 3/4
+
+### P2 — Remaining
 - [ ] JSON export: downloads `hey-bradley-project.json` → **1.4**
 - [ ] Image URL input: paste Unsplash URL → image in preview → **1.4**
-- [ ] Features section: renders real 3-col grid (not stub text) → **1.4**
-- [ ] CTA section: renders real banner (not stub text) → **1.4**
+- [ ] JSON import with Zod validation → **1.4**
 
 ---
 
