@@ -1,6 +1,7 @@
 import { Sparkles } from 'lucide-react'
 import type { Section } from '@/lib/schemas'
 import { resolveHeroContent } from '@/lib/schemas'
+import { useConfigStore } from '@/store/configStore'
 
 interface HeroCenteredProps {
   section: Section
@@ -8,6 +9,7 @@ interface HeroCenteredProps {
 
 export function HeroCentered({ section }: HeroCenteredProps) {
   const hero = resolveHeroContent(section)
+  const theme = useConfigStore((s) => s.config.theme)
 
   return (
     <section
@@ -22,8 +24,7 @@ export function HeroCentered({ section }: HeroCenteredProps) {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background:
-            'radial-gradient(ellipse at top, rgba(59,130,246,0.12) 0%, rgba(139,92,246,0.06) 30%, transparent 60%)',
+          background: `radial-gradient(ellipse at top, ${theme.colors.primary}1f 0%, ${theme.colors.secondary}0f 30%, transparent 60%)`,
         }}
       />
 
@@ -65,7 +66,8 @@ export function HeroCentered({ section }: HeroCenteredProps) {
         <div className="flex items-center gap-3 mt-4">
           <a
             href={hero.cta.url}
-            className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-lg font-semibold text-sm shadow-lg shadow-blue-600/20 transition-all"
+            style={{ backgroundColor: theme.colors.primary }}
+            className="hover:opacity-90 text-white px-8 py-3 rounded-lg font-semibold text-sm shadow-lg transition-all"
           >
             {hero.cta.text}
           </a>

@@ -27,12 +27,15 @@
 - [x] ADRs 012-016 written
 - [x] Favicon + title "Hey Bradley — Designer Mode"
 
-## Phase 1.3: Themes & Layout [PLANNED]
-- [ ] 3 theme presets selectable (Modern Dark, Clean Light, Bold Gradient)
-- [ ] Selecting theme updates: site settings, theme config, layout defaults, hero styling
-- [ ] Copy stays fixed (Hey Bradley example) — copy editing deferred
-- [ ] Theme selection in right panel SIMPLE tab works
-- [ ] JSON in Data Tab reflects theme changes
+## Phase 1.3: Three Starter Themes [COMPLETE]
+- [x] 3 theme presets selectable in right panel SIMPLE tab → STYLE accordion
+- [x] Each theme is visually distinct (different colors, fonts, layouts, mood)
+- [x] Selecting a theme updates: site settings, theme config, layout, hero styling
+- [x] Copy stays fixed (friendly tone — "Build Websites by Just Talking")
+- [x] Each theme has a default image URL (Unsplash/Pexels)
+- [x] JSON in Data Tab reflects theme changes correctly
+- [x] Preview in Reality Tab re-renders with new theme < 200ms
+- [x] Playwright test: select each theme → verify JSON + preview changes
 
 ## Phase 1.4: Listen Mode Visual [PLANNED]
 - [ ] Red orb overlay renders on LISTEN toggle

@@ -1,5 +1,6 @@
 import { useConfigStore } from '@/store/configStore'
 import { HeroCentered } from '@/templates/hero/HeroCentered'
+import { HeroSplit } from '@/templates/hero/HeroSplit'
 
 export function RealityTab() {
   const sections = useConfigStore((s) => s.config.sections)
@@ -10,6 +11,9 @@ export function RealityTab() {
         .filter((s) => s.enabled)
         .map((section) => {
           if (section.type === 'hero') {
+            if (section.variant === 'split-right' || section.variant === 'split-left') {
+              return <HeroSplit key={section.id} section={section} />
+            }
             return <HeroCentered key={section.id} section={section} />
           }
           // Placeholder for other section types

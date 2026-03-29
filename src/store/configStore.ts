@@ -2,8 +2,17 @@ import { create } from 'zustand'
 import { deepMerge } from '@/lib/deepMerge'
 import type { MasterConfig, Section, SectionType, PatchSource } from '@/lib/schemas'
 import defaultConfig from '@/data/default-config.json'
+import midnightModern from '@/data/themes/midnight-modern.json'
+import warmSunrise from '@/data/themes/warm-sunrise.json'
+import electricGradient from '@/data/themes/electric-gradient.json'
 
 const DEFAULT_CONFIG: MasterConfig = defaultConfig as unknown as MasterConfig
+
+const THEMES: Record<string, Record<string, unknown>> = {
+  'midnight-modern': midnightModern as unknown as Record<string, unknown>,
+  'warm-sunrise': warmSunrise as unknown as Record<string, unknown>,
+  'electric-gradient': electricGradient as unknown as Record<string, unknown>,
+}
 
 const HISTORY_LIMIT = 100
 
@@ -20,6 +29,8 @@ interface ConfigStore {
   removeSection: (sectionId: string) => void
   reorderSections: (newOrder: string[]) => void
   toggleSectionEnabled: (sectionId: string) => void
+
+  applyVibe: (themeName: string) => void
 
   undo: () => void
   redo: () => void
@@ -120,6 +131,72 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       future: [],
       isDirty: true,
     })
+  },
+
+  applyVibe: (themeName) => {
+    const themeData = THEMES[themeName] as
+      | { theme?: Record<string, unknown>; sections?: Array<Record<string, unknown>> }
+      | undefined
+    if (!themeData) return
+    const { config, history } = get()
+    const newHistory = [...history, config].slice(-HISTORY_LIMIT)
+
+    // Merge theme-level config
+    let newConfig = { ...config }
+    if (themeData.theme) {
+      newConfig = {
+        ...newConfig,
+        theme: deepMerge(
+          config.theme as unknown as Record<string, unknown>,
+          themeData.theme
+        ) as unknown as typeof config.theme,
+      }
+    }
+
+    // Merge section overrides by ID, preserving text content
+    if (themeData.sections) {
+      const newSections = config.sections.map((section) => {
+        const override = themeData.sections!.find(
+          (s: Record<string, unknown>) => s.id === section.id
+        )
+        if (!override) return section
+        const merged = { ...section }
+        if (override.variant) merged.variant = override.variant as string
+        if (override.layout)
+          merged.layout = deepMerge(
+            section.layout as unknown as Record<string, unknown>,
+            override.layout as Record<string, unknown>
+          ) as unknown as typeof section.layout
+        if (override.style)
+          merged.style = deepMerge(
+            section.style as unknown as Record<string, unknown>,
+            override.style as Record<string, unknown>
+          ) as unknown as typeof section.style
+        // Merge components by ID — theme files only contain non-text props
+        if (override.components && Array.isArray(override.components)) {
+          merged.components = section.components.map((comp) => {
+            const compOverride = (override.components as Array<Record<string, unknown>>).find(
+              (c) => c.id === comp.id
+            )
+            if (!compOverride) return comp
+            return {
+              ...comp,
+              ...(typeof compOverride.enabled === 'boolean'
+                ? { enabled: compOverride.enabled }
+                : {}),
+              props: {
+                ...comp.props,
+                ...(compOverride.props as Record<string, unknown> | undefined),
+              },
+            }
+          })
+        }
+        return merged
+      })
+      newConfig = { ...newConfig, sections: newSections }
+    }
+
+    set({ config: newConfig as MasterConfig, history: newHistory, future: [], isDirty: true })
   },
 
   undo: () => {

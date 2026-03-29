@@ -59,12 +59,12 @@
       },
       "components": [
         { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "Hey Bradley 2.0 is Live", "icon": "sparkles" } },
-        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Ship Code at the Speed of Thought", "level": 1, "size": "48px", "weight": 700 } },
-        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Build AI-native experiences that transform how we create." } },
-        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "Get Started", "url": "#pricing", "style": "filled", "size": "lg" } },
-        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4, "props": { "text": "View my work", "url": "#about", "style": "ghost", "size": "lg" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Build Websites by Just Talking", "level": 1, "size": "48px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Describe what you want, watch it appear in real-time, and get production-ready specs — all without writing a single line of code." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "Start Building", "url": "#pricing", "style": "filled", "size": "lg" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4, "props": { "text": "See How It Works", "url": "#about", "style": "ghost", "size": "lg" } },
         { "id": "heroImage", "type": "image", "enabled": false, "order": 5, "props": { "url": "", "alt": "", "aspect": "16:9" } },
-        { "id": "trustBadges", "type": "trust", "enabled": true, "order": 6, "props": { "text": "Trusted by 214 institutions" } }
+        { "id": "trustBadges", "type": "trust", "enabled": true, "order": 6, "props": { "text": "Loved by 200+ creators and developers" } }
       ]
     },
     {
