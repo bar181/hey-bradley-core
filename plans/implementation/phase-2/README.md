@@ -1,82 +1,43 @@
 # Phase 2: System Polish + Section Expansion
 
-**Status:** PLANNED — awaiting human review
-**Prerequisite:** Phase 1 COMPLETE
-**Principle:** Grandma-first. Polish before expansion. One text color pattern.
+**North Star:** The builder feels like a real product — not a prototype. Every section is editable, media is browsable, CSS is consistent, and tests prove it works.
+
+**Status:** READY TO START
+**Prerequisite:** Phase 1 COMPLETE (2026-03-29)
+**Principle:** Polish before expansion. Consolidate before adding. Test everything.
 
 ---
 
-## Goal
+## Quick Reference
 
-Make the builder feel like a real product: section-specific editing, media pickers, consistent CSS, automated tests. Then expand to Features, CTA, and Footer sections in SIMPLE tab.
+| Document | Purpose |
+|----------|---------|
+| `implementation-plan.md` | Master checklist with sub-phases, DoD, and scoring |
+| `backlog/future-phases.md` | Phase 3-5 + MVP backlog (open core model notes) |
+| `log.md` | Session log (create per session) |
 
----
+## Sub-Phases
 
-## Phase 2 Checklist
+| # | Focus | Priority | Est. Effort |
+|---|-------|----------|-------------|
+| 2.1 | CSS Consolidation | P0 | 1 session |
+| 2.2 | Section Routing + Edit UX | P0 | 1-2 sessions |
+| 2.3 | Media Pickers (image, video, gradient) | P1 | 1-2 sessions |
+| 2.4 | Section Editors (Features, CTA, Footer) | P1 | 2 sessions |
+| 2.5 | Light/Dark Mode | P1 | 1 session |
+| 2.6 | Playwright Testing | P1 | 1 session |
+| 2.7 | Polish (a11y, XAI Docs, Listen, Fonts) | P2 | 2 sessions |
 
-### 2.1 — CSS Consolidation (P0)
-- [ ] Kill `colors` block in theme JSONs — palette only
-- [ ] One text color pattern: `color: section.style.color` on `<section>`, `text-inherit` children
-- [ ] Remove unused `text-theme-text` / `text-theme-muted` classes from renderers
-- [ ] Audit: zero hardcoded `text-white` or `border-white` outside HeroOverlay
+## Key Decisions Needed
 
-### 2.2 — Section Routing (P0)
-- [ ] Right panel shows editor for the SELECTED section (not always hero)
-- [ ] Click section in left panel → right panel switches context
-- [ ] Click section in main preview → right panel switches (edit icon overlay)
-- [ ] Right panel header dropdown to select section
+1. **Section editor pattern:** One generic component driven by JSON schema? Or per-type components (FeatureSimple, CTASimple, etc.)?
+2. **Media picker UX:** Modal dialog? Slide-out panel? Inline expander?
+3. **Light/dark implementation:** Per-theme palette pairs? Or algorithmic light/dark from a single palette?
 
-### 2.3 — Media Pickers (P1)
-- [ ] Image picker dialog: thumbnail grid from media.json library (50 images)
-- [ ] Video picker dialog: thumbnail grid from media.json library (20 videos)
-- [ ] "Add URL" option in picker dialogs (paste custom URL)
-- [ ] Gradient picker for section backgrounds
-- [ ] Image/video upload → Phase 5 (requires Supabase)
+## Architecture Constraints
 
-### 2.4 — Section Editors (P1)
-- [ ] Features section SIMPLE tab editor (icon, title, description per card)
-- [ ] CTA section SIMPLE tab editor (heading, subtitle, button)
-- [ ] Footer section SIMPLE tab editor (columns, links, copyright)
-
-### 2.5 — Light/Dark Mode (P1)
-- [ ] Per-theme light/dark palette pairs in theme JSONs
-- [ ] toggleMode() swaps palette (not just mode flag)
-- [ ] Preview respects system preference on first load
-
-### 2.6 — Testing (P1)
-- [ ] Extend Playwright: theme switch, layout change, copy edit, toggle, responsive
-- [ ] Playwright screenshots for all 10 themes × 8 layouts
-- [ ] Automated rubric scoring
-
-### 2.7 — Polish (P2)
-- [ ] Accessibility dialog (doc 07 spec)
-- [ ] XAI Docs live generation from config
-- [ ] Listen mode visual polish (red orb, dark overlay)
-- [ ] Google Fonts dynamic loading from fonts.json URLs
-
----
-
-## MVP Backlog (Presentation Mode)
-
-The MVP is a Harvard capstone demo. It needs a "wow" presentation mode.
-
-| Feature | Phase | Priority |
-|---------|-------|----------|
-| Presentation mode: full-screen preview with slide transitions | MVP | P0 |
-| Section expansion: Pricing, Testimonials, FAQ, Value Props | 3 | P0 |
-| Expert tab content for all section types | 4 | P1 |
-| AISP viewer per section in expert tab | 4 | P1 |
-| Chat mode: describe changes in natural language | 5 | P0 |
-| Listen mode: voice-to-spec, real-time preview updates | 5 | P0 |
-| Supabase auth + cloud persistence | 5 | P1 |
-| Image/video upload to cloud storage | 5 | P2 |
-| Template marketplace / theme gallery | 6+ | P2 |
-
----
-
-## Architecture Notes
-
-- Phase 2 builds ON Phase 1 — no rewrites, only extensions
-- Section editors follow the same 3-accordion pattern: Layout → Style → Content
-- Each section type will need its own `SectionSimple` variant (or a generic one driven by JSON schema)
-- Media picker is a shared dialog component used by all section editors
+- Build ON Phase 1 — no rewrites, only extensions
+- Section editors use the same 3-accordion pattern: Layout → Style → Content
+- Media picker is a shared dialog used by all section editors
+- All new components use Tailwind + shadcn only (no inline styles for colors)
+- CSS vars are the single source of truth for theme colors (ADR-021)
