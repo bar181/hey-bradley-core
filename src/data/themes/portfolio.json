@@ -18,16 +18,6 @@
       "accentPrimary": "#e4e4e7",
       "accentSecondary": "#a1a1aa"
     },
-    "colors": {
-      "primary": "#e4e4e7",
-      "secondary": "#a1a1aa",
-      "accent": "#a1a1aa",
-      "background": "#0c0c0c",
-      "surface": "#1a1a1a",
-      "text": "#ffffff",
-      "muted": "#a1a1aa",
-      "border": "#2a2a2a"
-    },
     "alternativePalettes": [
       { "name": "Warm", "bgPrimary": "#1c1917", "bgSecondary": "#292524", "textPrimary": "#fef2f2", "textSecondary": "#d6d3d1", "accentPrimary": "#fca5a5", "accentSecondary": "#f87171" },
       { "name": "Ocean", "bgPrimary": "#0c1220", "bgSecondary": "#1a2332", "textPrimary": "#e0f2fe", "textSecondary": "#7dd3fc", "accentPrimary": "#38bdf8", "accentSecondary": "#0ea5e9" },

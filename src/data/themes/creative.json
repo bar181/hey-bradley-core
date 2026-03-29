@@ -18,16 +18,6 @@
       "accentPrimary": "#f43f5e",
       "accentSecondary": "#ec4899"
     },
-    "colors": {
-      "primary": "#f43f5e",
-      "secondary": "#ec4899",
-      "accent": "#ec4899",
-      "background": "#0a0a0a",
-      "surface": "#171717",
-      "text": "#fafafa",
-      "muted": "#d4d4d4",
-      "border": "#262626"
-    },
     "alternativePalettes": [
       { "name": "Electric", "bgPrimary": "#0a0a1a", "bgSecondary": "#15152a", "textPrimary": "#e0f2fe", "textSecondary": "#93c5fd", "accentPrimary": "#3b82f6", "accentSecondary": "#8b5cf6" },
       { "name": "Acid", "bgPrimary": "#052e16", "bgSecondary": "#14532d", "textPrimary": "#f0fdf4", "textSecondary": "#86efac", "accentPrimary": "#22c55e", "accentSecondary": "#a3e635" },

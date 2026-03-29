@@ -138,7 +138,7 @@ export const themeSchema = z.object({
   preset: z.string().default(''),
   mode: z.enum(['light', 'dark']).default('dark'),
   palette: paletteSchema.optional(),
-  colors: themeColorsSchema.default(() => ({ ...COLORS_DEFAULTS })),
+  colors: themeColorsSchema.optional(),
   alternativePalettes: z.array(alternativePaletteSchema).optional(),
   typography: themeTypographySchema.default(() => ({ ...TYPOGRAPHY_DEFAULTS })),
   spacing: themeSpacingSchema.default(() => ({ ...SPACING_DEFAULTS })),
@@ -156,7 +156,6 @@ export const masterConfigSchema = z.object({
   theme: themeSchema.default(() => ({
     preset: '',
     mode: 'dark' as const,
-    colors: { ...COLORS_DEFAULTS },
     typography: { ...TYPOGRAPHY_DEFAULTS },
     spacing: { ...SPACING_DEFAULTS },
     borderRadius: '12px',

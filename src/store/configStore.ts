@@ -221,7 +221,6 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     const newTheme = {
       ...config.theme,
       palette: { bgPrimary: p.bgPrimary, bgSecondary: p.bgSecondary, textPrimary: p.textPrimary, textSecondary: p.textSecondary, accentPrimary: p.accentPrimary, accentSecondary: p.accentSecondary },
-      colors: { primary: p.accentPrimary, secondary: p.accentSecondary, accent: p.accentSecondary, background: p.bgPrimary, surface: p.bgSecondary, text: p.textPrimary, muted: p.textSecondary, border: p.bgSecondary },
     }
     const newSections = config.sections.map((s) => ({
       ...s,

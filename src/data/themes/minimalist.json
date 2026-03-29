@@ -18,16 +18,6 @@
       "accentPrimary": "#09090b",
       "accentSecondary": "#3f3f46"
     },
-    "colors": {
-      "primary": "#09090b",
-      "secondary": "#3f3f46",
-      "accent": "#3f3f46",
-      "background": "#ffffff",
-      "surface": "#fafafa",
-      "text": "#09090b",
-      "muted": "#71717a",
-      "border": "#e4e4e7"
-    },
     "alternativePalettes": [
       { "name": "Cream", "bgPrimary": "#faf8f5", "bgSecondary": "#f5f0eb", "textPrimary": "#1c1917", "textSecondary": "#78716c", "accentPrimary": "#1c1917", "accentSecondary": "#44403c" },
       { "name": "Ink", "bgPrimary": "#0a0a0a", "bgSecondary": "#171717", "textPrimary": "#fafafa", "textSecondary": "#a3a3a3", "accentPrimary": "#fafafa", "accentSecondary": "#d4d4d4" },

@@ -18,16 +18,6 @@
       "accentPrimary": "#8b5cf6",
       "accentSecondary": "#a78bfa"
     },
-    "colors": {
-      "primary": "#8b5cf6",
-      "secondary": "#a78bfa",
-      "accent": "#a78bfa",
-      "background": "#030712",
-      "surface": "#111827",
-      "text": "#f9fafb",
-      "muted": "#9ca3af",
-      "border": "#1f2937"
-    },
     "alternativePalettes": [
       { "name": "Neon", "bgPrimary": "#0a0a0a", "bgSecondary": "#171717", "textPrimary": "#f0fdf4", "textSecondary": "#86efac", "accentPrimary": "#22c55e", "accentSecondary": "#4ade80" },
       { "name": "Sunset", "bgPrimary": "#0f0506", "bgSecondary": "#1a0b0e", "textPrimary": "#fff1f2", "textSecondary": "#fda4af", "accentPrimary": "#f43f5e", "accentSecondary": "#fb7185" },

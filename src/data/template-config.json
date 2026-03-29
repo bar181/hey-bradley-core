@@ -22,19 +22,6 @@
       "accentPrimary": "",
       "accentSecondary": ""
     },
-    "colors": {
-      "primary": "",
-      "secondary": "",
-      "accent": "",
-      "background": "",
-      "surface": "",
-      "text": "",
-      "muted": "",
-      "border": "",
-      "success": "",
-      "warning": "",
-      "error": ""
-    },
     "alternativePalettes": [],
     "typography": {
       "fontFamily": "",

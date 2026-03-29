@@ -20,16 +20,6 @@
       "accentPrimary": "#6366f1",
       "accentSecondary": "#818cf8"
     },
-    "colors": {
-      "primary": "#6366f1",
-      "secondary": "#818cf8",
-      "accent": "#818cf8",
-      "background": "#0a0a1a",
-      "surface": "#12122a",
-      "text": "#f8fafc",
-      "muted": "#94a3b8",
-      "border": "#1e293b"
-    },
     "typography": {
       "fontFamily": "Inter",
       "headingFamily": "Inter",

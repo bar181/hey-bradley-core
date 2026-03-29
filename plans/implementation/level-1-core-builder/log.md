@@ -382,3 +382,28 @@ Phase 1.3 is COMPLETE. All themes working. All hotfixes applied. Build passes. P
 | Button render={<a>} warning | Medium | Fixing |
 | Light theme white text on white bg | High | Fixing |
 | Mobile hero images hidden | Low | Backlog |
+
+---
+
+## Session 12 — Phase 1 Close-Out
+
+**Date:** 2026-03-29
+**Phase:** Close-out
+
+### What Was Done
+- Separated theme selection (left panel) from hero layout (right panel Layout accordion)
+- Created 8 hero layout presets with wireframe cards (BG Image, BG Video, Minimal, Compact, Image Right, Image Left, Video Below, Image Below)
+- Fixed Video Below rendering (inline video, not background)
+- Added default image/video URLs when enabling media via layout picker
+- Added Style accordion: font picker, palette picker, light/dark toggle
+- Fixed light theme text color (inline section.style.color + text-inherit)
+- Fixed shadcn Button warnings (replaced with plain <a> for CTAs)
+- Wrote Phase 1 close-out review (phase-1-review.md)
+- Updated all planning docs
+- Prepared Phase 2 checklist
+
+### Commits
+2c9b093, c6720c5, c188b0c, 5ca079f, e113722, 54cba21, a1e8937, 83ac9e9, 5f89c9b, 2fd8639
+
+### Status
+Phase 1 is COMPLETE. All documents updated. Phase 2 ready for human review.

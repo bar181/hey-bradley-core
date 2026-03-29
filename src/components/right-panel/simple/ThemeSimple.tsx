@@ -26,7 +26,7 @@ interface ThemeJSON {
       accentPrimary: string
       accentSecondary: string
     }
-    colors: Record<string, string>
+    colors?: Record<string, string>
     typography: { fontFamily: string }
   }
   sections: Array<{
@@ -39,9 +39,9 @@ interface ThemeJSON {
 function ThemePreview({ theme }: { theme: ThemeJSON }) {
   const meta = theme.meta
   const p = theme.theme.palette || {
-    bgPrimary: theme.theme.colors.background,
-    textPrimary: theme.theme.colors.text,
-    accentPrimary: theme.theme.colors.primary,
+    bgPrimary: '#0a0a1a',
+    textPrimary: '#f8fafc',
+    accentPrimary: '#6366f1',
   }
   const heroStyle = theme.sections[0]?.style?.background || p.bgPrimary
   const font = theme.theme.typography.fontFamily

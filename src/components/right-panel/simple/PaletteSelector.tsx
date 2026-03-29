@@ -18,12 +18,12 @@ export function PaletteSelector() {
   const currentBgPrimary = useConfigStore((s) => {
     const t = s.config.theme as Record<string, unknown>
     const p = t.palette as Record<string, string> | undefined
-    return p?.bgPrimary || s.config.theme.colors.background
+    return p?.bgPrimary || '#0a0a1a'
   })
   const currentAccent = useConfigStore((s) => {
     const t = s.config.theme as Record<string, unknown>
     const p = t.palette as Record<string, string> | undefined
-    return p?.accentPrimary || s.config.theme.colors.primary
+    return p?.accentPrimary || '#6366f1'
   })
 
   // Find the current theme's palettes

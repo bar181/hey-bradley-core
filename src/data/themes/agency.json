@@ -18,16 +18,6 @@
       "accentPrimary": "#e63946",
       "accentSecondary": "#1d3557"
     },
-    "colors": {
-      "primary": "#e63946",
-      "secondary": "#1d3557",
-      "accent": "#1d3557",
-      "background": "#ffffff",
-      "surface": "#f8f9fa",
-      "text": "#111827",
-      "muted": "#6b7280",
-      "border": "#e5e7eb"
-    },
     "alternativePalettes": [
       { "name": "Navy", "bgPrimary": "#ffffff", "bgSecondary": "#f1f5f9", "textPrimary": "#0f172a", "textSecondary": "#64748b", "accentPrimary": "#1e40af", "accentSecondary": "#3b82f6" },
       { "name": "Forest", "bgPrimary": "#ffffff", "bgSecondary": "#f0fdf4", "textPrimary": "#14532d", "textSecondary": "#4b5563", "accentPrimary": "#15803d", "accentSecondary": "#22c55e" },

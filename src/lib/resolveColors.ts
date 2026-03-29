@@ -10,11 +10,10 @@ interface ResolvedColors {
 }
 
 /**
- * Bridge function (ADR-019): resolves colors from either the new 6-slot palette
- * or the old 8-slot colors system. Ensures backward compatibility.
+ * Resolves colors from the canonical 6-slot palette.
+ * Falls back to sensible defaults if palette is missing (should never happen with valid config).
  */
 export function resolveColors(theme: Theme): ResolvedColors {
-  // Prefer new palette if it exists
   if (theme.palette) {
     return {
       bgPrimary: theme.palette.bgPrimary,
@@ -25,14 +24,13 @@ export function resolveColors(theme: Theme): ResolvedColors {
       accentSecondary: theme.palette.accentSecondary,
     }
   }
-
-  // Fall back to old colors system
+  // Fallback defaults (should never hit with valid config)
   return {
-    bgPrimary: theme.colors.background,
-    bgSecondary: theme.colors.surface,
-    textPrimary: theme.colors.text,
-    textSecondary: theme.colors.muted,
-    accentPrimary: theme.colors.primary,
-    accentSecondary: theme.colors.secondary,
+    bgPrimary: '#0a0a1a',
+    bgSecondary: '#12122a',
+    textPrimary: '#f8fafc',
+    textSecondary: '#94a3b8',
+    accentPrimary: '#6366f1',
+    accentSecondary: '#818cf8',
   }
 }

@@ -200,6 +200,32 @@
 | 1.2 | JSON Templates + ADRs + Smoke Test | ✅ COMPLETE |
 | 1.3 | Theme System v3 (10 themes, palette, fonts) | ✅ COMPLETE |
 | 1.4 | Hero Simple Mode Complete | ✅ COMPLETE |
-| 2 | System Polish (a11y, Tailwind, XAI, UX) | 🔄 NEXT (awaiting review) |
+| 2 | System Polish (a11y, Tailwind, XAI, UX) | 🔄 NEXT |
 | 3 | Section Expansion (7 sections, grandma mode) | 📅 PLANNED |
 | 4+ | Expert Mode + Advanced | 📅 PLANNED |
+
+---
+
+## Phase 2: System Polish + Section Expansion (NEXT)
+
+See: `/plans/implementation/phase-2/README.md` (to be created)
+
+### Phase 2 Checklist (Preview)
+- [ ] Image picker dialog with thumbnail gallery (50 images from media.json)
+- [ ] Video picker dialog with thumbnail gallery (20 videos from media.json)
+- [ ] Gradient picker for background
+- [ ] Section-specific right panel routing (hero/features/cta each get own editor)
+- [ ] Features section SIMPLE tab editor
+- [ ] CTA section SIMPLE tab editor
+- [ ] Light/dark mode with per-theme palette pairs
+- [ ] Consolidate CSS: kill colors block, palette only, one text color pattern
+- [ ] Extend Playwright tests for all Phase 1 features
+- [ ] Accessibility dialog (doc 07 spec)
+
+### MVP Backlog (Presentation Mode)
+- [ ] Presentation/demo mode — full-screen preview with transitions
+- [ ] Section expansion: Pricing, Footer, Testimonials, FAQ, Value Props
+- [ ] Expert tab content for all sections
+- [ ] XAI Docs live generation
+- [ ] Chat/Listen LLM integration
+- [ ] Supabase auth + cloud persistence
