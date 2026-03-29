@@ -149,65 +149,49 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
 
   applyVibe: (themeName) => {
     const themeData = THEMES[themeName] as
-      | { theme?: Record<string, unknown>; sections?: Array<Record<string, unknown>> }
+      | { theme?: Record<string, unknown>; sections?: Array<{ type?: string; components?: Array<{ id?: string; type?: string; props?: Record<string, unknown> }> }> }
       | undefined
     if (!themeData) return
     const { config, history } = get()
     const newHistory = [...history, config].slice(-HISTORY_LIMIT)
 
-    // Merge theme-level config
-    let newConfig = { ...config }
-    if (themeData.theme) {
-      newConfig = {
-        ...newConfig,
-        theme: deepMerge(
-          config.theme as unknown as Record<string, unknown>,
-          themeData.theme
-        ) as unknown as typeof config.theme,
+    // FULL REPLACEMENT — not merge. Theme IS the new config.
+    // Only preserve: site{} and text/url props from components.
+
+    // Step 1: Extract copy (text + url props) from current config
+    const copyMap: Record<string, Record<string, { text?: string; url?: string }>> = {}
+    for (const section of config.sections) {
+      copyMap[section.type] = {}
+      for (const comp of section.components) {
+        const preserved: { text?: string; url?: string } = {}
+        if (typeof comp.props?.text === 'string') preserved.text = comp.props.text
+        if (typeof comp.props?.url === 'string') preserved.url = comp.props.url
+        if (Object.keys(preserved).length > 0) {
+          copyMap[section.type][comp.id] = preserved
+        }
       }
     }
 
-    // Merge section overrides by ID, preserving text content
-    if (themeData.sections) {
-      const newSections = config.sections.map((section) => {
-        const override = themeData.sections!.find(
-          (s: Record<string, unknown>) => s.id === section.id
-        )
-        if (!override) return section
-        const merged = { ...section }
-        if (override.variant) merged.variant = override.variant as string
-        if (override.layout)
-          merged.layout = deepMerge(
-            section.layout as unknown as Record<string, unknown>,
-            override.layout as Record<string, unknown>
-          ) as unknown as typeof section.layout
-        if (override.style)
-          merged.style = deepMerge(
-            section.style as unknown as Record<string, unknown>,
-            override.style as Record<string, unknown>
-          ) as unknown as typeof section.style
-        // Merge components by ID — theme files only contain non-text props
-        if (override.components && Array.isArray(override.components)) {
-          merged.components = section.components.map((comp) => {
-            const compOverride = (override.components as Array<Record<string, unknown>>).find(
-              (c) => c.id === comp.id
-            )
-            if (!compOverride) return comp
-            return {
-              ...comp,
-              ...(typeof compOverride.enabled === 'boolean'
-                ? { enabled: compOverride.enabled }
-                : {}),
-              props: {
-                ...comp.props,
-                ...(compOverride.props as Record<string, unknown> | undefined),
-              },
-            }
-          })
-        }
-        return merged
-      })
-      newConfig = { ...newConfig, sections: newSections }
+    // Step 2: Build new config from theme template
+    const newConfig = {
+      ...config,
+      theme: themeData.theme ? (themeData.theme as unknown as typeof config.theme) : config.theme,
+      sections: themeData.sections
+        ? (themeData.sections as unknown as Section[]).map((templateSection) => ({
+            ...templateSection,
+            // Inject preserved copy back into matching components
+            components: (templateSection.components || []).map((comp) => {
+              const sectionType = templateSection.type as string
+              const compId = comp.id as string
+              const savedCopy = copyMap[sectionType]?.[compId]
+              if (!savedCopy) return comp
+              return {
+                ...comp,
+                props: { ...(comp.props || {}), ...savedCopy },
+              }
+            }),
+          }))
+        : config.sections,
     }
 
     set({ config: newConfig as MasterConfig, history: newHistory, future: [], isDirty: true })
