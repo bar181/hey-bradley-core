@@ -1,21 +1,40 @@
 import { useState } from 'react'
 import { useUIStore } from '@/store/uiStore'
+import { useConfigStore } from '@/store/configStore'
 import { Toggle } from '@/components/shared/Toggle'
 import { RightPanelTabBar } from './RightPanelTabBar'
 import { SimpleTab } from './SimpleTab'
 import { ExpertTab } from './ExpertTab'
 
+const sectionTypeLabel: Record<string, string> = {
+  hero: 'Hero',
+  features: 'Features',
+  cta: 'Call to Action',
+  pricing: 'Pricing',
+  footer: 'Footer',
+  testimonials: 'Testimonials',
+  faq: 'FAQ',
+  value_props: 'Value Props',
+}
+
 export function RightPanel() {
   const selectedContext = useUIStore((s) => s.selectedContext)
   const rightPanelTab = useUIStore((s) => s.rightPanelTab)
+  const sections = useConfigStore((s) => s.config.sections)
   const [sectionEnabled, setSectionEnabled] = useState(true)
+
+  const sectionMeta = selectedContext?.type === 'section'
+    ? sections.find((s) => s.id === selectedContext.sectionId)
+    : null
 
   const contextLabel =
     selectedContext?.type === 'theme'
       ? 'THEME CONFIGURATION'
-      : selectedContext?.type === 'section'
-        ? `${selectedContext.sectionId.toUpperCase()} SECTION`
-        : null
+      : sectionMeta
+        ? `${sectionTypeLabel[sectionMeta.type] ?? sectionMeta.type} — ${sectionMeta.id}`
+        : selectedContext?.type === 'section'
+          ? `${selectedContext.sectionId.toUpperCase()} SECTION`
+          : null
 
   return (
     <div className="bg-hb-bg h-full flex flex-col overflow-hidden">

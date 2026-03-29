@@ -8,6 +8,11 @@ import { HeroOverlay } from '@/templates/hero/HeroOverlay'
 import { HeroMinimal } from '@/templates/hero/HeroMinimal'
 import { CTASimple } from '@/templates/cta/CTASimple'
 import { FeaturesGrid } from '@/templates/features/FeaturesGrid'
+import { PricingTiers } from '@/templates/pricing/PricingTiers'
+import { FooterSimple } from '@/templates/footer/FooterSimple'
+import { TestimonialsCards } from '@/templates/testimonials/TestimonialsCards'
+import { FAQAccordion } from '@/templates/faq/FAQAccordion'
+import { ValuePropsGrid } from '@/templates/value-props/ValuePropsGrid'
 
 const PREVIEW_WIDTH_MAP = {
   full: '100%',
@@ -31,7 +36,7 @@ export function RealityTab() {
         style={{ maxWidth: PREVIEW_WIDTH_MAP[previewWidth] }}
       >
       {sections
-        .filter((s) => s.enabled && s.type === 'hero')
+        .filter((s) => s.enabled)
         .map((section) => {
           if (section.type === 'hero') {
             switch (section.variant) {
@@ -49,8 +54,23 @@ export function RealityTab() {
           if (section.type === 'features') {
             return <FeaturesGrid key={section.id} section={section} />
           }
+          if (section.type === 'pricing') {
+            return <PricingTiers key={section.id} section={section} />
+          }
           if (section.type === 'cta') {
             return <CTASimple key={section.id} section={section} />
+          }
+          if (section.type === 'footer') {
+            return <FooterSimple key={section.id} section={section} />
+          }
+          if (section.type === 'testimonials') {
+            return <TestimonialsCards key={section.id} section={section} />
+          }
+          if (section.type === 'faq') {
+            return <FAQAccordion key={section.id} section={section} />
+          }
+          if (section.type === 'value_props') {
+            return <ValuePropsGrid key={section.id} section={section} />
           }
           // Placeholder for other section types
           return (

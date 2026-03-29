@@ -3,7 +3,12 @@
     "name": "Agency",
     "slug": "agency",
     "description": "For design studios, creative agencies, and marketing firms",
-    "tags": ["light", "split-right", "bold", "professional"],
+    "tags": [
+      "light",
+      "split-right",
+      "bold",
+      "professional"
+    ],
     "mood": "Professional and bold",
     "heroVariant": "split-right"
   },
@@ -19,10 +24,42 @@
       "accentSecondary": "#1d3557"
     },
     "alternativePalettes": [
-      { "name": "Navy", "bgPrimary": "#ffffff", "bgSecondary": "#f1f5f9", "textPrimary": "#0f172a", "textSecondary": "#64748b", "accentPrimary": "#1e40af", "accentSecondary": "#3b82f6" },
-      { "name": "Forest", "bgPrimary": "#ffffff", "bgSecondary": "#f0fdf4", "textPrimary": "#14532d", "textSecondary": "#4b5563", "accentPrimary": "#15803d", "accentSecondary": "#22c55e" },
-      { "name": "Coral", "bgPrimary": "#fffbeb", "bgSecondary": "#fef3c7", "textPrimary": "#1c1917", "textSecondary": "#78716c", "accentPrimary": "#ea580c", "accentSecondary": "#fb923c" },
-      { "name": "Mono", "bgPrimary": "#ffffff", "bgSecondary": "#f5f5f5", "textPrimary": "#0a0a0a", "textSecondary": "#737373", "accentPrimary": "#171717", "accentSecondary": "#525252" }
+      {
+        "name": "Navy",
+        "bgPrimary": "#ffffff",
+        "bgSecondary": "#f1f5f9",
+        "textPrimary": "#0f172a",
+        "textSecondary": "#64748b",
+        "accentPrimary": "#1e40af",
+        "accentSecondary": "#3b82f6"
+      },
+      {
+        "name": "Forest",
+        "bgPrimary": "#ffffff",
+        "bgSecondary": "#f0fdf4",
+        "textPrimary": "#14532d",
+        "textSecondary": "#4b5563",
+        "accentPrimary": "#15803d",
+        "accentSecondary": "#22c55e"
+      },
+      {
+        "name": "Coral",
+        "bgPrimary": "#fffbeb",
+        "bgSecondary": "#fef3c7",
+        "textPrimary": "#1c1917",
+        "textSecondary": "#78716c",
+        "accentPrimary": "#ea580c",
+        "accentSecondary": "#fb923c"
+      },
+      {
+        "name": "Mono",
+        "bgPrimary": "#ffffff",
+        "bgSecondary": "#f5f5f5",
+        "textPrimary": "#0a0a0a",
+        "textSecondary": "#737373",
+        "accentPrimary": "#171717",
+        "accentSecondary": "#525252"
+      }
     ],
     "typography": {
       "fontFamily": "Plus Jakarta Sans",
@@ -60,15 +97,96 @@
         "borderRadius": "0px"
       },
       "components": [
-        { "id": "eyebrow", "type": "badge", "enabled": false, "order": 0, "props": { "text": "Hey Bradley 2.0 is Live", "icon": "sparkles" } },
-        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Build Websites by Just Talking", "level": 1, "size": "52px", "weight": 800 } },
-        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Describe what you want, watch it appear in real-time, and get production-ready specs." } },
-        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "Start Building", "url": "#pricing", "style": "filled", "size": "lg" } },
-        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4, "props": { "text": "See How It Works", "url": "#about", "style": "outline", "size": "lg" } },
-        { "id": "heroImage", "type": "image", "enabled": true, "order": 5, "props": { "url": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&q=80", "alt": "Creative team collaboration", "aspect": "16:9" } },
-        { "id": "backgroundImage", "type": "image", "enabled": false, "order": 6, "props": {} },
-        { "id": "heroVideo", "type": "video", "enabled": false, "order": 7, "props": {} },
-        { "id": "trustBadges", "type": "trust", "enabled": true, "order": 8, "props": { "text": "Trusted by 200+ agencies worldwide", "show": true } }
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": false,
+          "order": 0,
+          "props": {
+            "text": "Hey Bradley 2.0 is Live",
+            "icon": "sparkles"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Build Websites by Just Talking",
+            "level": 1,
+            "size": "52px",
+            "weight": 800
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Describe what you want, watch it appear in real-time, and get production-ready specs."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Start Building",
+            "url": "#pricing",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "See How It Works",
+            "url": "#about",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "heroImage",
+          "type": "image",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&q=80",
+            "alt": "Creative team collaboration",
+            "aspect": "16:9"
+          }
+        },
+        {
+          "id": "backgroundImage",
+          "type": "image",
+          "enabled": false,
+          "order": 6,
+          "props": {}
+        },
+        {
+          "id": "heroVideo",
+          "type": "video",
+          "enabled": false,
+          "order": 7,
+          "props": {}
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 8,
+          "props": {
+            "text": "Trusted by 200+ agencies worldwide",
+            "show": true
+          }
+        }
       ]
     },
     {
@@ -77,26 +195,417 @@
       "enabled": true,
       "order": 1,
       "variant": "grid",
-      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "64px 24px" },
-      "style": { "background": "#f8f9fa", "color": "#111827" },
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#f8f9fa",
+        "color": "#111827"
+      },
       "components": [
-        { "id": "f1", "type": "feature-card", "enabled": true, "order": 0, "props": { "icon": "zap", "title": "Lightning Fast", "description": "Build and deploy in seconds, not days." } },
-        { "id": "f2", "type": "feature-card", "enabled": true, "order": 1, "props": { "icon": "target", "title": "Precise Specs", "description": "AISP specifications with under 2% ambiguity." } },
-        { "id": "f3", "type": "feature-card", "enabled": true, "order": 2, "props": { "icon": "shield", "title": "Enterprise Ready", "description": "Production-grade output from day one." } }
+        {
+          "id": "f1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "zap",
+            "title": "Lightning Fast",
+            "description": "Build and deploy in seconds, not days."
+          }
+        },
+        {
+          "id": "f2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "target",
+            "title": "Precise Specs",
+            "description": "AISP specifications with under 2% ambiguity."
+          }
+        },
+        {
+          "id": "f3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "shield",
+            "title": "Enterprise Ready",
+            "description": "Production-grade output from day one."
+          }
+        }
+      ]
+    },
+    {
+      "type": "pricing",
+      "id": "pricing-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "3-tier",
+      "layout": {
+        "display": "flex",
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#f8f9fa",
+        "color": "#111827"
+      },
+      "components": [
+        {
+          "id": "tier-1",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "name": "Starter",
+            "price": "$0",
+            "period": "month",
+            "features": "1 project,Basic support,5GB storage",
+            "ctaText": "Get Started",
+            "ctaUrl": "#signup",
+            "highlighted": false
+          }
+        },
+        {
+          "id": "tier-2",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "name": "Pro",
+            "price": "$29",
+            "period": "month",
+            "features": "Unlimited projects,Priority support,50GB storage,Custom domain",
+            "ctaText": "Start Free Trial",
+            "ctaUrl": "#signup",
+            "highlighted": true
+          }
+        },
+        {
+          "id": "tier-3",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "name": "Enterprise",
+            "price": "$99",
+            "period": "month",
+            "features": "Everything in Pro,SSO/SAML,Unlimited storage,Dedicated support,SLA",
+            "ctaText": "Contact Sales",
+            "ctaUrl": "#contact",
+            "highlighted": false
+          }
+        }
       ]
     },
     {
       "type": "cta",
       "id": "cta-01",
       "enabled": true,
-      "order": 2,
+      "order": 3,
       "variant": "simple",
-      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "64px 24px", "gap": "16px" },
-      "style": { "background": "#ffffff", "color": "#111827" },
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "#ffffff",
+        "color": "#111827"
+      },
       "components": [
-        { "id": "heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Ready to build something amazing?", "level": 2, "size": "36px", "weight": 800 } },
-        { "id": "subtitle", "type": "text", "enabled": true, "order": 1, "props": { "text": "Start building your next project with Hey Bradley." } },
-        { "id": "button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Launch Now", "url": "#signup", "style": "filled", "size": "lg" } }
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Ready to build something amazing?",
+            "level": 2,
+            "size": "36px",
+            "weight": 800
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Start building your next project with Hey Bradley."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Launch Now",
+            "url": "#signup",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ]
+    },
+    {
+      "type": "testimonials",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#ffffff",
+        "color": "#111827"
+      },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "This platform transformed how we build websites. The AI-first approach saves us hours every week.",
+            "author": "Sarah Chen",
+            "role": "Head of Design, Acme Inc"
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "The specification engine is a game-changer. We went from vague briefs to precise, actionable specs in minutes.",
+            "author": "Marcus Johnson",
+            "role": "CTO, StartupFlow"
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "I'm not technical at all, and I built my entire personal website in one afternoon. Incredible.",
+            "author": "Emily Rodriguez",
+            "role": "Freelance Writer"
+          }
+        }
+      ]
+    },
+    {
+      "type": "faq",
+      "id": "faq-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "accordion",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "gap": "0",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#f8f9fa",
+        "color": "#111827"
+      },
+      "components": [
+        {
+          "id": "q-1",
+          "type": "faq-item",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "question": "What is Hey Bradley?",
+            "answer": "Hey Bradley is an AI-first website specification platform. Describe what you want, and it builds production-ready specs in real-time."
+          }
+        },
+        {
+          "id": "q-2",
+          "type": "faq-item",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "question": "Do I need coding experience?",
+            "answer": "No! Hey Bradley is designed for everyone. Our grandma test ensures even non-technical users can build beautiful websites."
+          }
+        },
+        {
+          "id": "q-3",
+          "type": "faq-item",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "question": "What output formats are supported?",
+            "answer": "Hey Bradley generates AISP specifications, JSON configurations, and will support HTML export in future versions."
+          }
+        },
+        {
+          "id": "q-4",
+          "type": "faq-item",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "question": "Is there a free tier?",
+            "answer": "Yes! The open core version is completely free with localStorage persistence. Pro features include cloud storage and advanced AI."
+          }
+        },
+        {
+          "id": "q-5",
+          "type": "faq-item",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "question": "How does the AI work?",
+            "answer": "Hey Bradley uses the AI Symbolic Protocol (AISP) to translate natural language into precise, machine-readable specifications with near-zero ambiguity."
+          }
+        }
+      ]
+    },
+    {
+      "type": "value_props",
+      "id": "value-props-01",
+      "enabled": true,
+      "order": 6,
+      "variant": "numbers",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#ffffff",
+        "color": "#111827"
+      },
+      "components": [
+        {
+          "id": "vp-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "500+",
+            "label": "Teams",
+            "description": "Using Hey Bradley worldwide"
+          }
+        },
+        {
+          "id": "vp-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "2%",
+            "label": "Ambiguity",
+            "description": "AISP specifications precision"
+          }
+        },
+        {
+          "id": "vp-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "< 100ms",
+            "label": "Updates",
+            "description": "Real-time preview rendering"
+          }
+        },
+        {
+          "id": "vp-4",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "value": "10",
+            "label": "Themes",
+            "description": "Professional design presets"
+          }
+        }
+      ]
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 7,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#f8f9fa",
+        "color": "#111827"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Hey Bradley"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Product",
+            "links": "Features,Pricing,Templates,Changelog"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Company",
+            "links": "About,Blog,Careers,Contact"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Legal",
+            "links": "Privacy,Terms,Security"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "© 2026 Hey Bradley. All rights reserved."
+          }
+        }
       ]
     }
   ]
