@@ -2,16 +2,30 @@ import { create } from 'zustand'
 import { deepMerge } from '@/lib/deepMerge'
 import type { MasterConfig, Section, SectionType, PatchSource } from '@/lib/schemas'
 import defaultConfig from '@/data/default-config.json'
-import midnightModern from '@/data/themes/midnight-modern.json'
-import warmSunrise from '@/data/themes/warm-sunrise.json'
-import electricGradient from '@/data/themes/electric-gradient.json'
+import stripeFlow from '@/data/themes/stripe-flow.json'
+import notionWarm from '@/data/themes/notion-warm.json'
+import linearSharp from '@/data/themes/linear-sharp.json'
+import loomFriendly from '@/data/themes/loom-friendly.json'
+import vercelPrism from '@/data/themes/vercel-prism.json'
+import naturCalm from '@/data/themes/nature-calm.json'
+import studioBold from '@/data/themes/studio-bold.json'
+import videoAmbient from '@/data/themes/video-ambient.json'
+import pastelPlayful from '@/data/themes/pastel-playful.json'
+import neonTerminal from '@/data/themes/neon-terminal.json'
 
 const DEFAULT_CONFIG: MasterConfig = defaultConfig as unknown as MasterConfig
 
 const THEMES: Record<string, Record<string, unknown>> = {
-  'midnight-modern': midnightModern as unknown as Record<string, unknown>,
-  'warm-sunrise': warmSunrise as unknown as Record<string, unknown>,
-  'electric-gradient': electricGradient as unknown as Record<string, unknown>,
+  'stripe-flow': stripeFlow as unknown as Record<string, unknown>,
+  'notion-warm': notionWarm as unknown as Record<string, unknown>,
+  'linear-sharp': linearSharp as unknown as Record<string, unknown>,
+  'loom-friendly': loomFriendly as unknown as Record<string, unknown>,
+  'vercel-prism': vercelPrism as unknown as Record<string, unknown>,
+  'nature-calm': naturCalm as unknown as Record<string, unknown>,
+  'studio-bold': studioBold as unknown as Record<string, unknown>,
+  'video-ambient': videoAmbient as unknown as Record<string, unknown>,
+  'pastel-playful': pastelPlayful as unknown as Record<string, unknown>,
+  'neon-terminal': neonTerminal as unknown as Record<string, unknown>,
 }
 
 const HISTORY_LIMIT = 100

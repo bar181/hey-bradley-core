@@ -1,0 +1,51 @@
+{
+  "theme": {
+    "preset": "pastel-playful",
+    "mode": "light",
+    "colors": {
+      "primary": "#7c3aed",
+      "secondary": "#ec4899",
+      "accent": "#7c3aed",
+      "background": "#f0e6ff",
+      "surface": "#ffffff",
+      "text": "#2d1b4e",
+      "muted": "#9f8cc0",
+      "border": "#e2d6f5"
+    },
+    "typography": {
+      "fontFamily": "system-ui",
+      "headingFamily": "system-ui",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1280px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "20px"
+  },
+  "sections": [
+    {
+      "id": "hero-01",
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px",
+        "maxWidth": "1280px"
+      },
+      "style": {
+        "background": "#f0e6ff",
+        "color": "#2d1b4e",
+        "fontFamily": "system-ui"
+      },
+      "components": [
+        { "id": "heroImage", "enabled": false, "props": { "url": "", "alt": "" } }
+      ]
+    }
+  ]
+}

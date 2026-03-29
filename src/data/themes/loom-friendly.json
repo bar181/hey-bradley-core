@@ -1,0 +1,51 @@
+{
+  "theme": {
+    "preset": "loom-friendly",
+    "mode": "light",
+    "colors": {
+      "primary": "#625DF5",
+      "secondary": "#ff6b4a",
+      "accent": "#625DF5",
+      "background": "#ffffff",
+      "surface": "#f7f7f7",
+      "text": "#1a1a1a",
+      "muted": "#6b7280",
+      "border": "#e5e7eb"
+    },
+    "typography": {
+      "fontFamily": "system-ui",
+      "headingFamily": "system-ui",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1280px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "16px"
+  },
+  "sections": [
+    {
+      "id": "hero-01",
+      "variant": "split-right",
+      "layout": {
+        "display": "flex",
+        "direction": "row",
+        "align": "center",
+        "gap": "48px",
+        "padding": "80px",
+        "maxWidth": "1280px"
+      },
+      "style": {
+        "background": "#ffffff",
+        "color": "#1a1a1a",
+        "fontFamily": "system-ui"
+      },
+      "components": [
+        { "id": "heroImage", "enabled": true, "props": { "url": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format", "alt": "Team collaboration", "aspect": "16:9" } }
+      ]
+    }
+  ]
+}

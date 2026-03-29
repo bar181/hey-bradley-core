@@ -1,136 +1,68 @@
-import { useState } from 'react'
-import { Plus } from 'lucide-react'
 import { cn } from '@/lib/cn'
-import { SegmentedControl } from '@/components/shared/SegmentedControl'
-import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 
 const themes = [
-  {
-    id: 'midnight-modern',
-    name: 'Midnight Modern',
-    dots: ['#3b82f6', '#8b5cf6', '#60a5fa'],
-    bg: '#0a0a1a',
-    primary: '#3b82f6',
-    textPreview: '#f8fafc',
-  },
-  {
-    id: 'warm-sunrise',
-    name: 'Warm Sunrise',
-    dots: ['#e8772e', '#c44a3a', '#d4a12e'],
-    bg: '#faf8f5',
-    primary: '#e8772e',
-    textPreview: '#2d1f12',
-  },
-  {
-    id: 'electric-gradient',
-    name: 'Electric Gradient',
-    dots: ['#06b6d4', '#8b5cf6', '#22d3ee'],
-    bg: '#0c0a1d',
-    primary: '#06b6d4',
-    textPreview: '#f0f0ff',
-  },
+  { id: 'stripe-flow', name: 'Stripe Flow', tags: 'Dark \u00b7 Gradient', dots: ['#5E46BF', '#1CA8FF', '#80ECFF'], bg: 'linear-gradient(135deg, #0A2540, #1a0a3e, #0A2540)', text: '#ffffff', primary: '#5E46BF' },
+  { id: 'notion-warm', name: 'Notion Warm', tags: 'Light \u00b7 Warm', dots: ['#e16259', '#e8772e', '#faf5ef'], bg: '#faf5ef', text: '#37352f', primary: '#e16259' },
+  { id: 'linear-sharp', name: 'Linear Sharp', tags: 'Dark \u00b7 Minimal', dots: ['#5E6AD2', '#eeeeee', '#000000'], bg: '#000000', text: '#eeeeee', primary: '#5E6AD2' },
+  { id: 'loom-friendly', name: 'Loom Friendly', tags: 'Light \u00b7 Split', dots: ['#625DF5', '#ff6b4a', '#ffffff'], bg: '#ffffff', text: '#1a1a1a', primary: '#625DF5' },
+  { id: 'vercel-prism', name: 'Vercel Prism', tags: 'Dark \u00b7 Dramatic', dots: ['#0070F3', '#7928CA', '#FF0080'], bg: '#000000', text: '#ffffff', primary: '#0070F3' },
+  { id: 'nature-calm', name: 'Nature Calm', tags: 'Dark \u00b7 Nature', dots: ['#22c55e', '#06b6d4', '#1a5c38'], bg: 'linear-gradient(135deg, #0a2e1a, #1a3a2e)', text: '#ffffff', primary: '#22c55e' },
+  { id: 'studio-bold', name: 'Studio Bold', tags: 'Light \u00b7 Bold', dots: ['#e63946', '#1d3557', '#f5f5f0'], bg: '#f5f5f0', text: '#1a1a1a', primary: '#e63946' },
+  { id: 'video-ambient', name: 'Video Ambient', tags: 'Dark \u00b7 Video', dots: ['#8b5cf6', '#06b6d4', '#1a1a2e'], bg: 'linear-gradient(135deg, #0c0a1d, #1a1a2e)', text: '#ffffff', primary: '#8b5cf6' },
+  { id: 'pastel-playful', name: 'Pastel Playful', tags: 'Light \u00b7 Soft', dots: ['#7c3aed', '#ec4899', '#f0e6ff'], bg: '#f0e6ff', text: '#2d1b4e', primary: '#7c3aed' },
+  { id: 'neon-terminal', name: 'Neon Terminal', tags: 'Dark \u00b7 Code', dots: ['#00ff88', '#58a6ff', '#0d1117'], bg: '#0d1117', text: '#c9d1d9', primary: '#00ff88' },
 ]
-
-const paletteColors = ['#3b82f6', '#8b5cf6', '#22d3ee', '#f8fafc', '#0f172a']
 
 export function ThemeSimple() {
   const selectedPreset = useConfigStore((s) => s.config.theme.preset)
   const applyVibe = useConfigStore((s) => s.applyVibe)
-  const [fontFamily, setFontFamily] = useState('DM Sans')
-  const [headingWeight, setHeadingWeight] = useState('Bold')
 
   return (
-    <div>
-      <RightAccordion id="style" label="Style" defaultOpen>
-        <div className="grid grid-cols-1 gap-3">
-          {themes.map((theme) => (
-            <button
-              key={theme.id}
-              type="button"
-              onClick={() => applyVibe(theme.id)}
-              className={cn(
-                'bg-hb-surface rounded-xl border p-3 cursor-pointer text-left transition-all',
-                theme.id === selectedPreset
-                  ? 'border-hb-accent ring-1 ring-hb-accent/30 bg-hb-accent-light'
-                  : 'border-hb-border hover:border-hb-accent'
-              )}
-            >
-              {/* Color dots */}
-              <div className="flex gap-1.5 mb-2">
-                {theme.dots.map((color, i) => (
-                  <div
+    <div className="grid grid-cols-2 gap-2 p-2">
+      {themes.map((t) => {
+        const selected = t.id === selectedPreset
+        return (
+          <button
+            key={t.id}
+            type="button"
+            onClick={() => applyVibe(t.id)}
+            className={cn(
+              'rounded-xl border overflow-hidden transition-all text-left',
+              selected
+                ? 'border-hb-accent ring-2 ring-hb-accent/30'
+                : 'border-hb-border hover:border-hb-accent/50'
+            )}
+          >
+            {/* Mini preview */}
+            <div className="h-24 p-3 flex flex-col justify-end" style={{ background: t.bg }}>
+              {/* Mini headline */}
+              <div
+                className="text-[8px] font-bold leading-tight truncate mb-1"
+                style={{ color: t.text }}
+              >
+                Build Websites by Just Talking
+              </div>
+              {/* Mini CTA */}
+              <div className="w-12 h-3 rounded-sm" style={{ backgroundColor: t.primary }} />
+            </div>
+            {/* Card footer */}
+            <div className="p-2.5 bg-hb-surface">
+              <div className="flex items-center gap-1.5 mb-1">
+                {t.dots.map((c, i) => (
+                  <span
                     key={i}
-                    className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: color }}
+                    className="w-2.5 h-2.5 rounded-full"
+                    style={{ backgroundColor: c }}
                   />
                 ))}
               </div>
-
-              {/* Mini preview */}
-              <div
-                className="h-20 rounded-lg overflow-hidden flex flex-col items-start justify-center px-4 gap-1.5"
-                style={{ backgroundColor: theme.bg }}
-              >
-                <div className="w-16 h-1 rounded bg-white/30" />
-                <div className="w-10 h-1 rounded bg-white/20" />
-                <div
-                  className="w-12 h-3 rounded mt-1"
-                  style={{ backgroundColor: theme.primary }}
-                />
-              </div>
-
-              {/* Theme name */}
-              <span className="text-sm text-hb-text-primary font-medium mt-2 block">
-                {theme.name}
-              </span>
-            </button>
-          ))}
-        </div>
-      </RightAccordion>
-
-      <RightAccordion id="typography" label="Typography">
-        <div className="space-y-3">
-          <div>
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
-              FONT FAMILY
-            </span>
-            <SegmentedControl
-              options={['DM Sans', 'Inter', 'Poppins', 'System']}
-              value={fontFamily}
-              onChange={setFontFamily}
-            />
-          </div>
-          <div>
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
-              HEADING WEIGHT
-            </span>
-            <SegmentedControl
-              options={['Light', 'Normal', 'Bold']}
-              value={headingWeight}
-              onChange={setHeadingWeight}
-            />
-          </div>
-        </div>
-      </RightAccordion>
-
-      <RightAccordion id="colors" label="Colors">
-        <div className="flex gap-2">
-          {paletteColors.map((color) => (
-            <div
-              key={color}
-              className="w-8 h-8 rounded-lg border border-hb-border cursor-pointer hover:ring-2 hover:ring-hb-accent"
-              style={{ backgroundColor: color }}
-            />
-          ))}
-          <button
-            type="button"
-            className="w-8 h-8 rounded-lg border border-dashed border-hb-border flex items-center justify-center text-hb-text-muted hover:text-hb-text-secondary"
-          >
-            <Plus size={14} />
+              <div className="text-xs text-hb-text-primary font-medium">{t.name}</div>
+              <div className="text-[10px] text-hb-text-muted font-mono">{t.tags}</div>
+            </div>
           </button>
-        </div>
-      </RightAccordion>
+        )
+      })}
     </div>
   )
 }

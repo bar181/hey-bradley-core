@@ -1,0 +1,51 @@
+{
+  "theme": {
+    "preset": "stripe-flow",
+    "mode": "dark",
+    "colors": {
+      "primary": "#5E46BF",
+      "secondary": "#1CA8FF",
+      "accent": "#80ECFF",
+      "background": "#0A2540",
+      "surface": "#0f2d4a",
+      "text": "#ffffff",
+      "muted": "#94a3b8",
+      "border": "#1a3a5c"
+    },
+    "typography": {
+      "fontFamily": "system-ui",
+      "headingFamily": "system-ui",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "96px",
+      "containerMaxWidth": "1280px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "12px"
+  },
+  "sections": [
+    {
+      "id": "hero-01",
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "96px",
+        "maxWidth": "1280px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #0A2540 0%, #1a0a3e 30%, #0A2540 60%, #0a2035 100%)",
+        "color": "#ffffff",
+        "fontFamily": "system-ui"
+      },
+      "components": [
+        { "id": "heroImage", "enabled": false, "props": { "url": "", "alt": "" } }
+      ]
+    }
+  ]
+}

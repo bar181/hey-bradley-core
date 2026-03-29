@@ -1,0 +1,51 @@
+{
+  "theme": {
+    "preset": "nature-calm",
+    "mode": "dark",
+    "colors": {
+      "primary": "#22c55e",
+      "secondary": "#06b6d4",
+      "accent": "#22c55e",
+      "background": "#000000",
+      "surface": "#0a1a0a",
+      "text": "#ffffff",
+      "muted": "#94a3b8",
+      "border": "#1a2e1a"
+    },
+    "typography": {
+      "fontFamily": "system-ui",
+      "headingFamily": "system-ui",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1280px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "12px"
+  },
+  "sections": [
+    {
+      "id": "hero-01",
+      "variant": "overlay",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px",
+        "maxWidth": "1280px"
+      },
+      "style": {
+        "background": "#000000",
+        "color": "#ffffff",
+        "fontFamily": "system-ui"
+      },
+      "components": [
+        { "id": "heroImage", "enabled": true, "props": { "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&auto=format", "alt": "Ocean landscape", "aspect": "16:9" } }
+      ]
+    }
+  ]
+}

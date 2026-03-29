@@ -1,0 +1,52 @@
+{
+  "theme": {
+    "preset": "video-ambient",
+    "mode": "dark",
+    "colors": {
+      "primary": "#8b5cf6",
+      "secondary": "#06b6d4",
+      "accent": "#8b5cf6",
+      "background": "#000000",
+      "surface": "#1a1a2e",
+      "text": "#ffffff",
+      "muted": "#a0a0b0",
+      "border": "#2a2a3e"
+    },
+    "typography": {
+      "fontFamily": "system-ui",
+      "headingFamily": "system-ui",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1280px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "12px"
+  },
+  "sections": [
+    {
+      "id": "hero-01",
+      "variant": "overlay",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px",
+        "maxWidth": "1280px"
+      },
+      "style": {
+        "background": "#000000",
+        "color": "#ffffff",
+        "fontFamily": "system-ui"
+      },
+      "components": [
+        { "id": "heroImage", "enabled": false, "props": { "url": "", "alt": "" } },
+        { "id": "heroVideo", "type": "video", "enabled": true, "props": { "url": "https://videos.pexels.com/video-files/3129671/3129671-sd_640_360_30fps.mp4", "poster": "" } }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "theme": {
+    "preset": "studio-bold",
+    "mode": "light",
+    "colors": {
+      "primary": "#e63946",
+      "secondary": "#1d3557",
+      "accent": "#e63946",
+      "background": "#f5f5f0",
+      "surface": "#ffffff",
+      "text": "#1a1a1a",
+      "muted": "#6c757d",
+      "border": "#dee2e6"
+    },
+    "typography": {
+      "fontFamily": "system-ui",
+      "headingFamily": "system-ui",
+      "headingWeight": 800,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1280px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "12px"
+  },
+  "sections": [
+    {
+      "id": "hero-01",
+      "variant": "split-left",
+      "layout": {
+        "display": "flex",
+        "direction": "row-reverse",
+        "align": "center",
+        "gap": "48px",
+        "padding": "80px",
+        "maxWidth": "1280px"
+      },
+      "style": {
+        "background": "#f5f5f0",
+        "color": "#1a1a1a",
+        "fontFamily": "system-ui"
+      },
+      "components": [
+        { "id": "heroImage", "enabled": true, "props": { "url": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format", "alt": "Geometric art", "aspect": "16:9" } }
+      ]
+    }
+  ]
+}
