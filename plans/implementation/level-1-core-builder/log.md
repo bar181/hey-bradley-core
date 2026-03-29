@@ -1,4 +1,4 @@
-# Level 1: Core Builder — Development Log
+# Phase 1: Core Builder — Development Log
 
 > This log tracks all implementation steps, decisions, outcomes, and lessons learned during Level 1.
 > It serves as institutional memory for AI agents working on future phases.

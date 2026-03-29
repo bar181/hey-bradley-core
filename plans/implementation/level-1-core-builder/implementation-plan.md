@@ -1,7 +1,7 @@
-# Level 1: Core Builder — Master Checklist
+# Phase 1: Core Builder — Master Checklist
 
 **Last Updated:** 2026-03-29
-**Status:** LEVEL 1 COMPLETE — awaiting human review before Level 2
+**Status:** PHASE 1 COMPLETE — 2026-03-29
 
 ---
 
