@@ -150,9 +150,11 @@
 
 ### Remaining Level 1 Tasks
 - [x] Font & Color picker: Style accordion with font selector (2-col, rendered in own font), palette selector (6 dots per row), light/dark toggle — **DONE**
-- [ ] Image/video selection dialog with preview gallery → **backlog**
-- [ ] Hero size control (full height vs fit/aspect ratio) → **backlog**
-- [ ] Image/video position control (left/right/top/bottom/none) → **backlog**
+- [ ] Image picker dialog with thumbnail gallery → **Phase 2**
+- [ ] Video picker dialog with thumbnail gallery → **Phase 2**
+- [ ] Gradient picker → **Phase 2**
+- [ ] Image/video URL add dialog → **Phase 2**
+- [ ] Image/video upload → **later phase**
 - [ ] Section-specific right panel routing → **backlog**
 - [ ] Right panel dropdown for section selection → **backlog**
 - [ ] Edit icon overlay on main preview sections → **backlog**

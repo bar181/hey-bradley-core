@@ -5,7 +5,6 @@ import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { resolveHeroContent } from '@/lib/schemas'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
-import { THEME_REGISTRY } from '@/data/themes/index'
 import { Image, Film, Sun, Moon } from 'lucide-react'
 import { PaletteSelector } from './PaletteSelector'
 import { FontSelector } from './FontSelector'
@@ -45,86 +44,81 @@ function Field({
 
 const INPUT = 'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
 
-interface ThemeJSON {
-  meta: { slug: string; name: string; heroVariant: string }
-  theme: { palette?: { bgPrimary: string; textPrimary: string; accentPrimary: string }; colors: Record<string, string> }
-  sections: Array<{ style?: { background?: string } }>
-}
+// ── Hero Layout Presets ──
+// These define HOW the hero content + media is arranged (not theme/colors)
+const HERO_LAYOUTS = [
+  { id: 'bg-image', variant: 'overlay', label: 'BG Image', desc: 'Full height', media: 'backgroundImage', size: 'full' },
+  { id: 'bg-video', variant: 'centered', label: 'BG Video', desc: 'Full height', media: 'heroVideo', size: 'full' },
+  { id: 'minimal-full', variant: 'minimal', label: 'Minimal', desc: 'Full height', media: 'none', size: 'full' },
+  { id: 'compact', variant: 'centered', label: 'Compact', desc: 'Fit size', media: 'none', size: 'fit' },
+  { id: 'image-right', variant: 'split-right', label: 'Image Right', desc: 'Full height', media: 'heroImage', size: 'full' },
+  { id: 'image-left', variant: 'split-left', label: 'Image Left', desc: 'Fit size', media: 'heroImage', size: 'fit' },
+  { id: 'video-bottom', variant: 'centered', label: 'Video Below', desc: 'Fit size', media: 'heroVideo', size: 'fit' },
+  { id: 'image-bottom', variant: 'centered', label: 'Image Below', desc: 'Fit size', media: 'heroImage', size: 'fit' },
+] as const
 
-function LayoutCard({ theme, selected, onClick }: { theme: ThemeJSON; selected: boolean; onClick: () => void }) {
-  const p = theme.theme.palette || { bgPrimary: theme.theme.colors.background, textPrimary: theme.theme.colors.text, accentPrimary: theme.theme.colors.primary }
-  const bg = theme.sections[0]?.style?.background || p.bgPrimary
-  const v = theme.meta.heroVariant
-  const isDark = ['#0', '#1', '#2', '#3'].some(c => (p.bgPrimary || '').startsWith(c))
+function LayoutWireframe({ layout }: { layout: typeof HERO_LAYOUTS[number] }) {
+  const m = layout.media
+  const isFull = layout.size === 'full'
+  const gray = 'bg-hb-text-muted/15'
+  const accent = 'bg-hb-accent/60'
+  const textLine = 'bg-hb-text-muted/30'
 
-  // Layout wireframe
-  const wireframe = () => {
-    if (v === 'split-right' || v === 'split-left') {
-      return (
-        <div className="h-14 flex items-center p-2 gap-1.5" style={{ background: bg }}>
-          {v === 'split-left' && <div className="w-8 h-10 rounded bg-current/10" />}
-          <div className="flex-1 space-y-1">
-            <div className="w-10 h-1 rounded-sm bg-current/30" />
-            <div className="w-6 h-1 rounded-sm" style={{ backgroundColor: p.accentPrimary }} />
-          </div>
-          {v === 'split-right' && <div className="w-8 h-10 rounded bg-current/10" />}
-        </div>
-      )
-    }
-    if (v === 'overlay') {
-      return (
-        <div className="h-14 relative flex items-center justify-center" style={{ background: bg }}>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-          <div className="relative space-y-1 text-center">
-            <div className="w-8 h-1 rounded-sm bg-white/40 mx-auto" />
-            <div className="w-5 h-1 rounded-sm mx-auto" style={{ backgroundColor: p.accentPrimary }} />
-          </div>
-        </div>
-      )
-    }
-    if (v === 'minimal') {
-      return (
-        <div className="h-14 flex items-center justify-center" style={{ background: bg }}>
-          <div className="text-[8px] font-bold" style={{ color: p.textPrimary }}>Aa</div>
-        </div>
-      )
-    }
+  if (m === 'backgroundImage' || (m === 'heroVideo' && layout.id === 'bg-video')) {
+    // Full background with overlay + centered text
     return (
-      <div className="h-14 flex flex-col items-center justify-center gap-1" style={{ background: bg }}>
-        <div className="w-8 h-1 rounded-sm bg-current/30" />
-        <div className="w-5 h-1 rounded-sm" style={{ backgroundColor: p.accentPrimary }} />
+      <div className={cn('relative flex items-center justify-center', isFull ? 'h-16' : 'h-12', gray)}>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+        <div className="relative space-y-0.5 text-center">
+          <div className={cn('w-8 h-0.5 rounded-sm mx-auto', textLine)} />
+          <div className={cn('w-5 h-1 rounded-sm mx-auto', accent)} />
+        </div>
+        <div className="absolute top-0.5 right-0.5 text-[5px] text-hb-text-muted/50">
+          {m === 'heroVideo' ? '▶' : '🖼'}
+        </div>
       </div>
     )
   }
 
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        'rounded-lg border overflow-hidden transition-all text-left w-full',
-        selected ? 'border-hb-accent ring-1 ring-hb-accent/30' : 'border-hb-border/40 hover:border-hb-accent/40'
-      )}
-    >
-      <div style={{ color: p.textPrimary }}>{wireframe()}</div>
-      <div className="px-2 py-1.5 bg-hb-surface flex items-center gap-1.5">
-        <span className="text-[10px] font-medium text-hb-text-primary leading-none">{theme.meta.name}</span>
-        <span className={cn(
-          'text-[8px] px-1 py-0.5 rounded font-medium leading-none',
-          isDark ? 'bg-hb-text-muted/20 text-hb-text-muted' : 'bg-amber-500/15 text-amber-400'
-        )}>
-          {isDark ? 'Dark' : 'Light'}
-        </span>
+  if (m === 'heroImage' && (layout.variant === 'split-right' || layout.variant === 'split-left')) {
+    const imgLeft = layout.variant === 'split-left'
+    return (
+      <div className={cn('flex items-center gap-1 p-1.5', isFull ? 'h-16' : 'h-12')}>
+        {imgLeft && <div className={cn('w-7 flex-shrink-0 rounded', isFull ? 'h-12' : 'h-8', gray)} />}
+        <div className="flex-1 space-y-0.5">
+          <div className={cn('w-8 h-0.5 rounded-sm', textLine)} />
+          <div className={cn('w-5 h-1 rounded-sm', accent)} />
+        </div>
+        {!imgLeft && <div className={cn('w-7 flex-shrink-0 rounded', isFull ? 'h-12' : 'h-8', gray)} />}
       </div>
-    </button>
+    )
+  }
+
+  if (m === 'heroImage' || m === 'heroVideo') {
+    // Media below text
+    return (
+      <div className={cn('flex flex-col items-center justify-center gap-0.5 p-1', isFull ? 'h-16' : 'h-12')}>
+        <div className={cn('w-8 h-0.5 rounded-sm', textLine)} />
+        <div className={cn('w-5 h-1 rounded-sm', accent)} />
+        <div className={cn('w-10 h-3 rounded mt-0.5', gray)}>
+          {m === 'heroVideo' && <span className="text-[4px] text-hb-text-muted/40 flex items-center justify-center h-full">▶</span>}
+        </div>
+      </div>
+    )
+  }
+
+  // No media (minimal / compact)
+  return (
+    <div className={cn('flex flex-col items-center justify-center gap-1', isFull ? 'h-16' : 'h-12')}>
+      <div className={cn('w-10 h-0.5 rounded-sm', textLine)} />
+      <div className={cn('w-6 h-1 rounded-sm', accent)} />
+    </div>
   )
 }
 
 export function SectionSimple({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
   const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
-  const applyVibe = useConfigStore((s) => s.applyVibe)
-  const selectedPreset = useConfigStore((s) => s.config.theme.preset)
   const section = config.sections.find((s) => s.id === sectionId)
 
   if (!section) return null
@@ -156,22 +150,68 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
     }, [sectionId, section, setSectionConfig]
   )
 
+  // Apply a hero layout preset — changes variant + component visibility
+  const applyHeroLayout = useCallback(
+    (layout: typeof HERO_LAYOUTS[number]) => {
+      if (import.meta.env.DEV) console.log('[heroLayout]', layout.id)
+      const mediaMap: Record<string, boolean> = {
+        heroImage: layout.media === 'heroImage',
+        backgroundImage: layout.media === 'backgroundImage',
+        heroVideo: layout.media === 'heroVideo',
+      }
+      const updatedComponents = section.components.map((c) => {
+        if (c.id in mediaMap) return { ...c, enabled: mediaMap[c.id] }
+        return c
+      })
+      setSectionConfig(sectionId, {
+        variant: layout.variant,
+        components: updatedComponents,
+      })
+    }, [sectionId, section, setSectionConfig]
+  )
+
+  // Detect current layout
+  const currentLayoutId = (() => {
+    const v = section.variant || 'centered'
+    const hasImage = getEnabled('heroImage', false)
+    const hasBgImage = getEnabled('backgroundImage', false)
+    const hasVideo = getEnabled('heroVideo', false)
+    if (hasBgImage) return 'bg-image'
+    if (hasVideo && v === 'centered' && !hasImage) return section.components.find(c => c.id === 'heroImage')?.enabled ? 'video-bottom' : 'bg-video'
+    if (v === 'minimal') return 'minimal-full'
+    if (v === 'split-right' && hasImage) return 'image-right'
+    if (v === 'split-left' && hasImage) return 'image-left'
+    if (hasImage) return 'image-bottom'
+    return 'compact'
+  })()
+
   return (
     <div className="divide-y divide-hb-border/30">
       {/* ─── 1. LAYOUT — theme presets + background + image/video ─── */}
       <RightAccordion id="layout" label="Layout" defaultOpen>
         <div className="space-y-3">
-          {/* Theme layout grid — 2 columns with labels */}
+          {/* Hero layout presets — 2 columns */}
           <div>
-            <div className="text-[9px] font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Preset Layout</div>
+            <div className="text-[9px] font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Hero Layout</div>
             <div className="grid grid-cols-2 gap-1.5">
-              {(THEME_REGISTRY as unknown as ThemeJSON[]).map((t) => (
-                <LayoutCard
-                  key={t.meta.slug}
-                  theme={t}
-                  selected={t.meta.slug === selectedPreset}
-                  onClick={() => applyVibe(t.meta.slug)}
-                />
+              {HERO_LAYOUTS.map((layout) => (
+                <button
+                  key={layout.id}
+                  type="button"
+                  onClick={() => applyHeroLayout(layout)}
+                  className={cn(
+                    'rounded-lg border overflow-hidden transition-all text-left',
+                    currentLayoutId === layout.id
+                      ? 'border-hb-accent ring-1 ring-hb-accent/30'
+                      : 'border-hb-border/40 hover:border-hb-accent/40'
+                  )}
+                >
+                  <div className="bg-hb-bg"><LayoutWireframe layout={layout} /></div>
+                  <div className="px-2 py-1 bg-hb-surface">
+                    <div className="text-[9px] font-medium text-hb-text-primary leading-none">{layout.label}</div>
+                    <div className="text-[8px] text-hb-text-muted leading-none mt-0.5">{layout.desc}</div>
+                  </div>
+                </button>
               ))}
             </div>
           </div>
