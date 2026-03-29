@@ -30,3 +30,45 @@
 7. JSON export/import
 8. Accessibility dialog (from 07.accessibility-button.md)
 9. Responsive preview
+
+---
+
+## Phase 1.3e Completion Log (2026-03-29)
+
+### Completed
+- [x] 10 invisible-design themes (SaaS, Agency, Portfolio, Blog, Startup, Personal, Professional, Wellness, Creative, Minimalist)
+- [x] ADRs 017-020 (invisible naming, meta schema, 6-slot palette, component visibility matrix)
+- [x] Research doc: `docs/research/theme-and-hero-research.md`
+- [x] 6-slot palette system with backward compat (`palette` + `colors` in every theme JSON)
+- [x] 4 alternative palettes per theme (50 total in `palettes.json`)
+- [x] `fonts.json` (5 fonts), `media.json` (image/video URLs per theme)
+- [x] Theme registry (`src/data/themes/index.ts`)
+- [x] `resolveColors.ts` bridge function
+- [x] `configStore.ts` — new imports, `applyPalette()`, `applyFont()`, `toggleMode()`
+- [x] Zod schema updated for palette + meta + alternativePalettes
+- [x] ThemeSimple.tsx — 2-column grid, meta-driven, accurate previews
+- [x] PaletteSelector.tsx — 5 rows x 6 dots
+- [x] FontSelector.tsx — 5 font buttons
+- [x] Light/dark toggle
+- [x] Hero renderers use `resolveColors()` (HeroCentered, HeroOverlay, HeroMinimal)
+- [x] Old 10 theme files deleted
+- [x] Build passes clean
+
+### Phase 1.3e Hotfix (2026-03-29)
+- [x] Fixed HeroCentered: now renders inline heroImage below content (was missing)
+- [x] Fixed HeroSplit: uses resolveColors for CTA button (was hardcoded to check bg color)
+- [x] Fixed HeroSplit: checks `enabled` flag on heroImage component
+- [x] ThemeSimple: refactored to accordion layout (Theme Presets, Color Palette, Font, Mode)
+- [x] PaletteSelector: fixed active state detection (compares bgPrimary + accentPrimary)
+- [x] Creative theme: fixed broken video URL (857251 → 1093662)
+- [x] Media library expanded: 50 images + 20 videos in `media.json`
+- [x] Light/dark mode: deferred to Phase 1.4 (placeholder in accordion)
+
+### Debt (carry to Phase 1.4+)
+- [ ] **Light/dark mode toggle** — needs per-theme light/dark palette pairs, not just a mode flag swap
+- [ ] Playwright screenshots for all 10 themes (no Playwright configured yet)
+- [ ] Rubric scoring automation (manual verification only for now)
+- [ ] Custom color palette picker UI (currently fixed 5 options per theme)
+- [ ] Accessibility button overriding font sizes, light/dark, color count
+- [ ] Theme section-level style updates on palette swap (gradients preserved, flat colors updated)
+- [ ] Google Fonts loading (URLs in fonts.json but not dynamically loaded yet)

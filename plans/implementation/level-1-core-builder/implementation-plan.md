@@ -1,233 +1,167 @@
-# Level 1: Core Builder — Implementation Plan
+# Level 1: Core Builder — Master Checklist
 
-## Overview
-
-Level 1 establishes the visual shell, hero section with JSON core loop, all 4 center tabs, Listen Mode visual, and hero polish. This is the foundation — everything must look production-grade from day 1.
-
-Hey Bradley is a JSON-driven marketing website specification platform built as a Harvard capstone project. The core loop is: controls change JSON, JSON drives a live preview, and the JSON tab shows real-time state. Everything flows through a single `MasterConfig` object validated by Zod schemas.
+**Last Updated:** 2026-03-29
+**Status:** Phase 1.3 COMPLETE, Phase 1.4 NEXT
 
 ---
 
-## Phase 1.0 — Shell & Navigation
+## Phase 1.0 — Shell & Navigation ✅ COMPLETE
+**Score: 55/64 (86%) | Sessions 1-3 | Commits: scaffold through dark-pivot**
 
-**Goal:** Vite site running. Every navigation element works. Every page/tab has a placeholder. The shell looks like a finished product.
-**Duration:** Day 1
-**Blocked By:** Phase 0 (Scaffold)
-**Unblocks:** Phase 1.1
-
-### Definition of Done
-
-- Three-panel layout renders with warm cream chrome (`#faf8f5` bg, `#e8772e` accent)
-- LISTEN/BUILD and DRAFT/EXPERT toggles switch UI state
-- All 4 center tabs (REALITY, DATA, XAI DOCS, WORKFLOW) navigable with active styling
-- Status bar shows "READY AISP SPEC V1.2" and "MODE: DRAFT CONNECTED"
-- Chat input bar renders below left panel
-- All content is placeholder/static — no data wiring
-- Zero console errors
-- Looks like a real product, not scaffolding
-
-### Research Requirements
-
-- Review shadcn/ui component library for available primitives (buttons, toggles, tabs)
-- Review `react-resizable-panels` API for three-panel layout (min/max widths, resize handles)
-- Study mockup images in `/plans/screen-caps/` for pixel-accurate implementation
-- Review warm cream design tokens in ADR-009b (`/plans/phases/adr/009b-warm-light-chrome.md`)
-- Review DM Sans and monospace font pairing for UI typography
-
-### Deliverables
-
-| # | Deliverable | File(s) |
-|---|------------|---------|
-| 1 | Vite + React + TS + Tailwind + shadcn scaffold | Project root config |
-| 2 | Path aliases (`@/*`) configured | `tsconfig.json`, `vite.config.ts` |
-| 3 | AppShell with TopBar (logo, project name, version badge) | `src/components/shell/AppShell.tsx`, `TopBar.tsx` |
-| 4 | ModeToggle (LISTEN/BUILD + DRAFT/EXPERT pill toggles) | `src/components/shell/ModeToggle.tsx` |
-| 5 | PanelLayout (three resizable panels, 420/fluid/350 default) | `src/components/shell/PanelLayout.tsx` |
-| 6 | TabBar (REALITY, DATA, XAI DOCS, WORKFLOW) | `src/components/center-canvas/TabBar.tsx` |
-| 7 | StatusBar (monospace, 24px, READY/MODE indicators) | `src/components/shell/StatusBar.tsx` |
-| 8 | ChatInput (mic + text + send) | `src/components/shell/ChatInput.tsx` |
-| 9 | Draft left panel placeholder (vibe cards, section list) | `src/components/left-panel/DraftPanel.tsx` |
-| 10 | Expert left panel placeholder (accordion property inspector) | `src/components/left-panel/ExpertPanel.tsx` |
-| 11 | Draft right panel placeholder (headline input, layout selector) | `src/components/right-panel/DraftContext.tsx` |
-| 12 | Expert right panel placeholder (layout/content/style sections) | `src/components/right-panel/ExpertContext.tsx` |
-| 13 | All 4 tab placeholders (REALITY, DATA, XAI DOCS, WORKFLOW) | `src/components/center-canvas/*Tab.tsx` |
-
-### Key Design References
-
-- **TopBar:** Linear (minimal toolbar), Framer (project name + device toggles)
-- **Mode Toggles:** Raycast (monospace pill toggles)
-- **3-Panel:** VS Code (resizable panels), Cursor (Commander + Canvas + Engine Room)
-- **Status Bar:** VS Code (monospace indicators)
-- **Draft Panel:** Notion (card selection)
-- **Expert Panel:** Framer + Figma (enterprise-density property inspector)
+- [x] Vite + React + TS + Tailwind + shadcn scaffold — 4/4
+- [x] Path aliases (`@/*`) — 4/4
+- [x] AppShell with TopBar (logo, project name, version) — 3/4
+- [x] LISTEN/BUILD toggle — 4/4
+- [x] Three-panel resizable layout — 4/4
+- [x] TabBar (REALITY, DATA, XAI DOCS, WORKFLOW) — 4/4
+- [x] StatusBar (monospace, READY indicator) — 3/4
+- [x] ChatInput (mic + text + send) — 3/4
+- [x] Left panel navigation (Theme + section list) — 4/4
+- [x] Right panel SIMPLE tab — 3/4
+- [x] Right panel EXPERT tab — 3/4
+- [x] Left-to-right panel context wiring — 3/4
+- [x] All 4 tab placeholders render — 3/4
+- [x] Dark Precision design system — 4/4
+- [x] Zero console errors — 4/4
+- [x] Looks like a real product — 3/4
 
 ---
 
-## Phase 1.1 — Hero + JSON Core Loop
+## Phase 1.1 — Hero + JSON Core Loop ✅ COMPLETE
+**Score: 33/48 (69%) | Session 4 | Commits: configStore, schemas, DataTab hotfix**
 
-**Goal:** Hero section renders from JSON. Controls change JSON. JSON tab shows live state. Bidirectional loop works.
-**Duration:** Days 2-3
-**Blocked By:** Phase 1.0
-**Unblocks:** Phase 1.2
-
-### Definition of Done
-
-- Hero section renders in REALITY tab from `configStore`
-- Draft controls update `configStore` and hero re-renders
-- Expert controls update `configStore` and hero re-renders
-- DATA tab shows full JSON with syntax highlighting, live updates
-- Editing JSON in DATA tab validates via Zod and updates hero
-- Preview re-render < 100ms after any change
-- All tests pass
-
-### Research Requirements
-
-- Zustand middleware patterns for undo/redo (100-state history stack)
-- Zod schema design for nested JSON structures (layout, style, content per section)
-- JSON syntax highlighting approaches (custom tokenizer vs library)
-- Deep merge semantics: objects merge, arrays replace, null deletes, undefined skips
-
-### Deliverables
-
-| # | Deliverable | File(s) |
-|---|------------|---------|
-| 1 | Zod schemas (layout, style, section, masterConfig, patch, hero content) | `src/lib/schemas/*.ts`, `src/templates/hero/schema.ts` |
-| 2 | Type exports via `z.infer` (no manual interface duplication) | `src/types/config.ts`, `src/types/sections.ts` |
-| 3 | configStore with full state management | `src/store/configStore.ts` |
-| 4 | Undo middleware (100-state history) | `src/store/undoMiddleware.ts` |
-| 5 | Deep merge utility | `src/lib/deepMerge.ts` |
-| 6 | HeroCentered template (renders from config, CSS values from JSON) | `src/templates/hero/HeroCentered.tsx` |
-| 7 | DataTab with syntax highlighting and bidirectional JSON editing | `src/components/center-canvas/DataTab.tsx` |
-| 8 | Wired Draft panels (VibeCards, SectionList, DraftContext) | `src/components/left-panel/*.tsx`, `right-panel/DraftContext.tsx` |
-| 9 | Wired Expert panels (ProjectExplorer, PropertyInspector, ExpertContext) | `src/components/left-panel/*.tsx`, `right-panel/ExpertContext.tsx` |
-
-### Key Design References
-
-- **JSON Editor:** VS Code (warm syntax highlighting)
-- **Property Inspector:** Framer (enterprise-density rows)
-- **Project Explorer:** VS Code (collapsible tree)
-- **Section Wrapper:** Webflow (click-to-select borders)
+- [x] Zod schemas (layout, style, section, masterConfig, patch) — 4/4
+- [x] configStore (Zustand) — 4/4
+- [x] HeroCentered renders from JSON — 3/4
+- [x] DataTab live JSON display — 1/4 *(rebuilt with CodeMirror, functional)*
+- [x] DataTab JSON editing — 1/4 *(functional but basic)*
+- [x] Draft controls update configStore — 3/4
+- [x] Expert controls update configStore — 3/4
+- [x] Bidirectional sync (JSON ↔ preview) — 2/4
+- [x] Config change → visual update <100ms — 3/4
+- [x] Deep merge utility — 4/4
+- [x] Undo/redo (100 states in store) — 3/4
+- [x] Zero console errors — 2/4
 
 ---
 
-## Phase 1.2 — All Tabs + Listen Mode Visual
+## Phase 1.2 — JSON Templates + ADRs + Smoke Test ✅ COMPLETE
+**Score: ~38/48 (est) | Session 5 | Commits: template-config, ADR-012–016**
 
-**Goal:** All four center tabs have real content. Listen mode has theatrical dark overlay with pulsing red orb.
-**Duration:** Days 3-4
-**Blocked By:** Phase 1.1
-**Unblocks:** Phase 1.3
-**CAPSTONE DEMO CHECKPOINT** — Must be visually stunning.
-
-**Prerequisite:** Data Tab must render clean JSON without raw HTML artifacts (Phase 1.1 hotfix).
-**Quality Gate:** All Playwright visual smoke tests must pass before Phase 1.2 is marked complete.
-
-### Definition of Done
-
-- XAI DOCS shows HUMAN view with structured spec text
-- XAI DOCS AISP view shows `@aisp` formatted syntax with orange highlighting
-- WORKFLOW shows pipeline steps with mock states (completed, active, waiting)
-- Listen toggle produces dark overlay with pulsing red orb
-- The orb effect is visually stunning (3-layer glow, breathing animation)
-- Features and CTA sections visible in REALITY tab
-- Section click-to-select with dashed orange border
-- All tests pass
-- XAI DOCS tab generates content FROM configStore (not hardcoded)
-- WORKFLOW tab reads pipeline state from configStore metadata
-- Listen mode visual test: Playwright verifies dark overlay + red orb render
-- No raw HTML, class names, or debug artifacts in any tab
-
-### Research Requirements
-
-- CSS layered blur/glow techniques for the red orb effect (3-layer construction)
-- CSS animation performance for pulse/breathe effects (`animate-orb-pulse`, `animate-orb-breathe`)
-- AISP spec format reference at `/plans/intial-plans/00.aisp-reference.md`
-- Transition patterns for dark overlay (300ms fade to `#0a0a0f`)
-
-### Deliverables
-
-| # | Deliverable | File(s) |
-|---|------------|---------|
-| 1 | XAIDocsTab with HUMAN/AISP sub-toggle | `src/components/center-canvas/XAIDocsTab.tsx` |
-| 2 | Human docs view (structured spec from config) | `src/contexts/specification/services/specGenerator.ts` |
-| 3 | AISP docs view (formatted `@aisp` syntax) | `src/contexts/specification/services/aispFormatter.ts` |
-| 4 | Spec templates (northStar, architecture, implPlan) | `src/contexts/specification/templates/*.ts` |
-| 5 | WorkflowTab with 6 pipeline steps and status states | `src/components/center-canvas/WorkflowTab.tsx` |
-| 6 | ListenOverlay (dark transition, covers left + center) | `src/components/listen-mode/ListenOverlay.tsx` |
-| 7 | RedOrb (3-layer CSS: solid core, blurred mid-ring, ambient glow) | `src/components/listen-mode/RedOrb.tsx` |
-| 8 | Typewriter (character-by-character, monospace, system brevity) | `src/components/listen-mode/Typewriter.tsx` |
-| 9 | StartListeningButton (centered below orb, pill shape) | `src/components/listen-mode/StartListeningButton.tsx` |
-| 10 | Features section template (3-column card grid) | `src/templates/features/FeaturesGrid3.tsx`, `schema.ts` |
-| 11 | CTA section template (banner with heading + button) | `src/templates/cta/CTASimple.tsx`, `schema.ts` |
-| 12 | Section registry (SectionType to variant to component map) | `src/templates/registry.ts` |
-
-### Key Design References
-
-- **Red Orb:** Apple Siri (ambient glow), Humane AI Pin (pulsing light)
-- **Workflow Pipeline:** Vercel Deploy (sequential steps), GitHub Actions (step states)
-- **XAI Docs Human:** Stripe Docs (clean structured documentation)
-- **XAI Docs AISP:** GitHub Code View (syntax highlighting, line numbers)
-- **Features Grid:** Tailwind UI (3-col feature cards with icons)
-- **CTA Banner:** Linear (bold heading + single CTA button)
+- [x] ADR-012: Three-level JSON hierarchy — 4/4
+- [x] ADR-013: Section self-containment — 4/4
+- [x] ADR-014: Template superset — 4/4
+- [x] ADR-015: JSON diff universal update — 3/4
+- [x] ADR-016: Component-level configuration — 4/4
+- [x] `default-config.json` (starting config) — 3/4
+- [x] `template-config.json` (superset template) — 3/4
+- [x] Component schema with enabled/order/props — 4/4
+- [x] `resolveHeroContent()` compat bridge — 3/4
+- [x] Playwright 8/8 smoke tests — 3/4
+- [x] Favicon + meta tags — 3/4
+- [x] Section types enum (hero, features, pricing, cta, etc.) — 3/4
 
 ---
 
-## Phase 1.3 — Hero Polish + Presets
+## Phase 1.3 — Theme System v3 ✅ COMPLETE
+**Score: ~72/88 (est) | Sessions 6-9 | Commits: 1.3a through 1.3e**
 
-**Goal:** Hero builder is polished and feature-complete. Capstone demo checkpoint ready.
-**Duration:** Days 4-5
-**Blocked By:** Phase 1.2
-**Unblocks:** Level 2
+### 1.3a-d: Theme iterations (8 total)
+- [x] 10 theme JSON files with full structure — 3/4
+- [x] `applyVibe()` full JSON replacement (preserves copy only) — 4/4
+- [x] 4 hero variants working (centered, split, overlay, minimal) — 3/4
+- [x] Theme cards in right panel — 3/4
 
-### Definition of Done
+### 1.3e: Theme system v3 (research → ADRs → build)
+- [x] Research doc: `docs/research/theme-and-hero-research.md` — 3/4
+- [x] ADR-017: Invisible design naming — 4/4
+- [x] ADR-018: Theme meta schema — 4/4
+- [x] ADR-019: 6-slot palette system — 4/4
+- [x] ADR-020: Component visibility matrix — 4/4
+- [x] 10 invisible-design themes (SaaS through Minimalist) — 3/4
+- [x] Component visibility matrix enforced per theme — 3/4
+- [x] 5 layout variants used (centered, split-right, split-left, overlay, minimal) — 4/4
+- [x] `palettes.json` (50 palettes: 5 per theme × 10 themes × 6 slots) — 3/4
+- [x] `fonts.json` (5 fonts with Google Fonts URLs) — 3/4
+- [x] `media.json` (50 images + 20 videos, all URLs verified 200) — 3/4
+- [x] Theme registry `index.ts` — 3/4
+- [x] `resolveColors.ts` bridge (palette ↔ colors backward compat) — 4/4
+- [x] configStore: `applyPalette()`, `applyFont()`, `toggleMode()` — 3/4
+- [x] Zod schema: paletteSchema, themeMetaSchema, alternativePaletteSchema — 4/4
+- [x] ThemeSimple: 2-column grid, accordion layout, meta-driven — 3/4
+- [x] PaletteSelector: 5 rows × 6 dots — 3/4
+- [x] FontSelector: 5 font buttons — 3/4
+- [x] Hero renderers use `resolveColors()` — 3/4
+- [x] 2 video themes (Startup, Creative), 2 bg-image (Portfolio, Wellness), 1 no-image (Minimalist) — 4/4
+- [x] Build passes clean — 4/4
 
-- All 5 hero variants look professional with default config
-- 6-8 preset hero configs (one per vibe variation)
-- Responsive preview toggle works (375px / 768px / 1280px / 100%)
-- Undo/redo works for 50+ steps (Ctrl+Z / Ctrl+Shift+Z)
-- Auto-save persists across page reloads (debounced 2s)
-- JSON export/import works with Zod validation on import
-- Reset to default button with confirmation
-- Capstone demo checkpoint ready
-
-### Research Requirements
-
-- LocalStorage size limits and performance (quota error handling)
-- Debounce strategies for auto-save (2s via `configStore.subscribe()`)
-- Responsive preview iframe/container width constraint approaches
-- IProjectRepository interface pattern for storage abstraction
-
-### Deliverables
-
-| # | Deliverable | File(s) |
-|---|------------|---------|
-| 1 | HeroSplit variant (two-column: content left, image right) | `src/templates/hero/HeroSplit.tsx` |
-| 2 | HeroOverlay variant (background image with text overlay) | `src/templates/hero/HeroOverlay.tsx` |
-| 3 | HeroFullImage variant (full-bleed image, centered text) | `src/templates/hero/HeroFullImage.tsx` |
-| 4 | HeroMinimal variant (text only, maximum whitespace) | `src/templates/hero/HeroMinimal.tsx` |
-| 5 | Persistence layer (IProjectRepository + LocalStorage adapter) | `src/contexts/persistence/interfaces/*.ts`, `adapters/*.ts` |
-| 6 | Undo/redo keyboard shortcuts + responsive preview toggle | Store middleware, device toggle wiring |
-| 7 | JSON export/import/reset + 6-8 preset configs | DATA tab buttons, `src/presets/vibes/*.json` |
-
-### Key Design References
-
-- **Hero Variants:** Tailwind UI, shadcn/ui landing page examples
-- **Responsive Preview:** Framer (device width constraint toggle)
-- **Persistence:** Standard repository pattern with adapter abstraction
+### 1.3 hotfixes
+- [x] HeroCentered: renders inline heroImage below content — 3/4
+- [x] HeroSplit: uses resolveColors, checks enabled flag — 3/4
+- [x] Creative video URL fixed (857251→1093662) — 4/4
+- [x] default-config.json aligned with SaaS theme — 3/4
+- [x] applyVibe: only preserves URL from button components — 4/4
 
 ---
 
-## Timeline Summary
+## Phase 1.4 — Hero Simple Mode Complete 🔄 NEXT
 
-| Phase | Duration | Key Milestone |
-|-------|----------|---------------|
-| 1.0 Shell & Navigation | Day 1 | Product shell renders, all navigation works |
-| 1.1 Hero + JSON Core Loop | Days 2-3 | Bidirectional JSON loop working |
-| 1.2 All Tabs + Listen Mode | Days 3-4 | All tabs populated, red orb stunning |
-| 1.3 Hero Polish + Presets | Days 4-5 | Level 1 complete, capstone checkpoint |
+### P0 — Must Have
+- [ ] Copy editing: headline, subtitle, CTA text, badge text in SIMPLE tab with char counts → **1.4**
+- [ ] Component toggles: on/off visually show/hide in ALL 5 hero variants → **1.4**
 
-## Dependencies
+### P1 — Should Have
+- [ ] Responsive preview: 4 device widths (mobile/tablet/desktop/full) in TopBar → **1.4**
+- [ ] Undo/redo: Ctrl+Z / Ctrl+Shift+Z, 50+ steps, visual indicator → **1.4**
+- [ ] LocalStorage auto-save: debounced 2s, reload persistence, "New Project" reset → **1.4**
 
-- Phase 0 (Scaffold) must be complete before Phase 1.0
-- Each phase depends on the prior phase
-- shadcn/ui, react-resizable-panels, Zustand, and Zod are core dependencies
-- No backend or API dependencies in Level 1 (all client-side)
+### P2 — Nice to Have
+- [ ] JSON export: downloads `hey-bradley-project.json` → **1.4**
+- [ ] Image URL input: paste Unsplash URL → image in preview → **1.4**
+- [ ] Features section: renders real 3-col grid (not stub text) → **1.4**
+- [ ] CTA section: renders real banner (not stub text) → **1.4**
+
+---
+
+## Phase 2+ — Future (Not Phase 1)
+
+| Feature | Phase |
+|---------|-------|
+| Light/dark mode with per-theme palette pairs | 2 |
+| Accessibility dialog (doc 07 spec) | 2 |
+| Tailwind migration for inline styles | 2 |
+| Google Fonts dynamic loading | 2 |
+| XAI Docs live generation (HUMAN + AISP) | 2 |
+| Workflow tab mock pipeline | 2 |
+| Listen mode visual polish (red orb, overlay) | 2 |
+| Responsive preview iframe with device chrome | 2 |
+| Custom color palette picker UI | 2 |
+| Playwright screenshots for all themes | 2 |
+| Features section (grid-3col, grid-4col, alternating) | 3 |
+| Pricing section (2-tier, 3-tier) | 3 |
+| CTA section advanced (split variant) | 3 |
+| Footer section (simple, multi-column) | 3 |
+| Testimonials section | 3 |
+| FAQ section (accordion, two-column) | 3 |
+| Value Props section | 3 |
+| Expert tab content for all sections | 4+ |
+| AISP viewer per section | 4+ |
+| Component-level property editors | 4+ |
+| Chat/Listen mode LLM integration | 5+ |
+| Supabase auth + persistence | 5+ |
+| Template marketplace | 5+ |
+
+---
+
+## Timeline
+
+| Phase | Focus | Status |
+|-------|-------|--------|
+| 1.0 | Shell & Navigation | ✅ COMPLETE |
+| 1.1 | Hero + JSON Core Loop | ✅ COMPLETE |
+| 1.2 | JSON Templates + ADRs + Smoke Test | ✅ COMPLETE |
+| 1.3 | Theme System v3 (10 themes, palette, fonts) | ✅ COMPLETE |
+| 1.4 | Hero Simple Mode Complete | 🔄 NEXT |
+| 2 | System Polish (a11y, Tailwind, XAI, UX) | 📅 PLANNED |
+| 3 | Section Expansion (7 sections, grandma mode) | 📅 PLANNED |
+| 4+ | Expert Mode + Advanced | 📅 PLANNED |

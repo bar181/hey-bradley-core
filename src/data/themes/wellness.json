@@ -1,0 +1,113 @@
+{
+  "meta": {
+    "name": "Wellness",
+    "slug": "wellness",
+    "description": "For health, yoga, meditation, coaching, and wellness brands",
+    "tags": ["dark", "overlay", "calm", "serene"],
+    "mood": "Calm and serene",
+    "heroVariant": "overlay"
+  },
+  "theme": {
+    "preset": "wellness",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0a1a14",
+      "bgSecondary": "#132a1f",
+      "textPrimary": "#f0fdf4",
+      "textSecondary": "#bbf7d0",
+      "accentPrimary": "#22c55e",
+      "accentSecondary": "#4ade80"
+    },
+    "colors": {
+      "primary": "#22c55e",
+      "secondary": "#4ade80",
+      "accent": "#4ade80",
+      "background": "#0a1a14",
+      "surface": "#132a1f",
+      "text": "#f0fdf4",
+      "muted": "#bbf7d0",
+      "border": "#1a3a2a"
+    },
+    "alternativePalettes": [
+      { "name": "Ocean", "bgPrimary": "#0c1220", "bgSecondary": "#1a2332", "textPrimary": "#e0f2fe", "textSecondary": "#7dd3fc", "accentPrimary": "#0ea5e9", "accentSecondary": "#38bdf8" },
+      { "name": "Sand", "bgPrimary": "#1c1917", "bgSecondary": "#292524", "textPrimary": "#fef3c7", "textSecondary": "#d6d3d1", "accentPrimary": "#d97706", "accentSecondary": "#f59e0b" },
+      { "name": "Lavender", "bgPrimary": "#1e1a2e", "bgSecondary": "#2a2540", "textPrimary": "#f5f3ff", "textSecondary": "#c4b5fd", "accentPrimary": "#8b5cf6", "accentSecondary": "#a78bfa" },
+      { "name": "Blush", "bgPrimary": "#1a0b0e", "bgSecondary": "#2a1520", "textPrimary": "#fff1f2", "textSecondary": "#fda4af", "accentPrimary": "#f43f5e", "accentSecondary": "#fb7185" }
+    ],
+    "typography": {
+      "fontFamily": "DM Sans",
+      "headingFamily": "DM Sans",
+      "headingWeight": 600,
+      "baseSize": "17px",
+      "lineHeight": 1.8
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "16px"
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "overlay",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "120px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "#0a1a14",
+        "color": "#f0fdf4",
+        "fontFamily": "DM Sans",
+        "borderRadius": "0px"
+      },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": false, "order": 0, "props": { "text": "Find Your Balance", "icon": "sparkles" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Build Websites by Just Talking", "level": 1, "size": "56px", "weight": 600 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Describe what you want, watch it appear in real-time, and get production-ready specs." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "Begin Your Journey", "url": "#start", "style": "filled", "size": "lg" } },
+        { "id": "secondaryCta", "type": "button", "enabled": false, "order": 4, "props": { "text": "Learn More", "url": "#about", "style": "outline", "size": "lg" } },
+        { "id": "heroImage", "type": "image", "enabled": false, "order": 5, "props": {} },
+        { "id": "backgroundImage", "type": "image", "enabled": true, "order": 6, "props": { "url": "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1920&auto=format&q=80", "alt": "Aerial ocean waves turquoise water", "aspect": "16:9" } },
+        { "id": "heroVideo", "type": "video", "enabled": false, "order": 7, "props": {} },
+        { "id": "trustBadges", "type": "trust", "enabled": true, "order": 8, "props": { "text": "Helping 10,000+ find their path", "show": true } }
+      ]
+    },
+    {
+      "type": "features",
+      "id": "features-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "64px 24px" },
+      "style": { "background": "#132a1f", "color": "#f0fdf4" },
+      "components": [
+        { "id": "f1", "type": "feature-card", "enabled": true, "order": 0, "props": { "icon": "zap", "title": "Lightning Fast", "description": "Build and deploy in seconds, not days." } },
+        { "id": "f2", "type": "feature-card", "enabled": true, "order": 1, "props": { "icon": "target", "title": "Precise Specs", "description": "AISP specifications with under 2% ambiguity." } },
+        { "id": "f3", "type": "feature-card", "enabled": true, "order": 2, "props": { "icon": "shield", "title": "Enterprise Ready", "description": "Production-grade output from day one." } }
+      ]
+    },
+    {
+      "type": "cta",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "64px 24px", "gap": "16px" },
+      "style": { "background": "#0a1a14", "color": "#f0fdf4" },
+      "components": [
+        { "id": "heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Ready to build something amazing?", "level": 2, "size": "36px", "weight": 600 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 1, "props": { "text": "Start building your next project with Hey Bradley." } },
+        { "id": "button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Launch Now", "url": "#signup", "style": "filled", "size": "lg" } }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "meta": {
+    "name": "Creative",
+    "slug": "creative",
+    "description": "For music, entertainment, events, art, and expressive brands",
+    "tags": ["dark", "centered", "video", "bold"],
+    "mood": "Bold and expressive",
+    "heroVariant": "centered"
+  },
+  "theme": {
+    "preset": "creative",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0a0a0a",
+      "bgSecondary": "#171717",
+      "textPrimary": "#fafafa",
+      "textSecondary": "#d4d4d4",
+      "accentPrimary": "#f43f5e",
+      "accentSecondary": "#ec4899"
+    },
+    "colors": {
+      "primary": "#f43f5e",
+      "secondary": "#ec4899",
+      "accent": "#ec4899",
+      "background": "#0a0a0a",
+      "surface": "#171717",
+      "text": "#fafafa",
+      "muted": "#d4d4d4",
+      "border": "#262626"
+    },
+    "alternativePalettes": [
+      { "name": "Electric", "bgPrimary": "#0a0a1a", "bgSecondary": "#15152a", "textPrimary": "#e0f2fe", "textSecondary": "#93c5fd", "accentPrimary": "#3b82f6", "accentSecondary": "#8b5cf6" },
+      { "name": "Acid", "bgPrimary": "#052e16", "bgSecondary": "#14532d", "textPrimary": "#f0fdf4", "textSecondary": "#86efac", "accentPrimary": "#22c55e", "accentSecondary": "#a3e635" },
+      { "name": "Flame", "bgPrimary": "#1c0a00", "bgSecondary": "#2a1500", "textPrimary": "#fff7ed", "textSecondary": "#fdba74", "accentPrimary": "#f97316", "accentSecondary": "#fb923c" },
+      { "name": "Mono", "bgPrimary": "#0a0a0a", "bgSecondary": "#1a1a1a", "textPrimary": "#fafafa", "textSecondary": "#a3a3a3", "accentPrimary": "#fafafa", "accentSecondary": "#d4d4d4" }
+    ],
+    "typography": {
+      "fontFamily": "Space Grotesk",
+      "headingFamily": "Space Grotesk",
+      "headingWeight": 800,
+      "baseSize": "16px",
+      "lineHeight": 1.5
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "0px"
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "120px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "#0a0a0a",
+        "color": "#fafafa",
+        "fontFamily": "Space Grotesk",
+        "borderRadius": "0px"
+      },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "Live Now", "icon": "sparkles", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Build Websites by Just Talking", "level": 1, "size": "72px", "weight": 800 } },
+        { "id": "subtitle", "type": "text", "enabled": false, "order": 2, "props": { "text": "Describe what you want, watch it appear in real-time, and get production-ready specs." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "Experience It", "url": "#experience", "style": "filled", "size": "lg" } },
+        { "id": "secondaryCta", "type": "button", "enabled": false, "order": 4, "props": { "text": "Learn More", "url": "#about", "style": "outline", "size": "lg" } },
+        { "id": "heroImage", "type": "image", "enabled": false, "order": 5, "props": {} },
+        { "id": "backgroundImage", "type": "image", "enabled": false, "order": 6, "props": {} },
+        { "id": "heroVideo", "type": "video", "enabled": true, "order": 7, "props": { "url": "https://videos.pexels.com/video-files/1093662/1093662-hd_1920_1080_30fps.mp4", "autoplay": true, "loop": true, "muted": true } },
+        { "id": "trustBadges", "type": "trust", "enabled": false, "order": 8, "props": { "text": "", "show": false } }
+      ]
+    },
+    {
+      "type": "features",
+      "id": "features-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "64px 24px" },
+      "style": { "background": "#171717", "color": "#fafafa" },
+      "components": [
+        { "id": "f1", "type": "feature-card", "enabled": true, "order": 0, "props": { "icon": "zap", "title": "Lightning Fast", "description": "Build and deploy in seconds, not days." } },
+        { "id": "f2", "type": "feature-card", "enabled": true, "order": 1, "props": { "icon": "target", "title": "Precise Specs", "description": "AISP specifications with under 2% ambiguity." } },
+        { "id": "f3", "type": "feature-card", "enabled": true, "order": 2, "props": { "icon": "shield", "title": "Enterprise Ready", "description": "Production-grade output from day one." } }
+      ]
+    },
+    {
+      "type": "cta",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "64px 24px", "gap": "16px" },
+      "style": { "background": "#0a0a0a", "color": "#fafafa" },
+      "components": [
+        { "id": "heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Ready to build something amazing?", "level": 2, "size": "36px", "weight": 800 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 1, "props": { "text": "Start building your next project with Hey Bradley." } },
+        { "id": "button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Launch Now", "url": "#signup", "style": "filled", "size": "lg" } }
+      ]
+    }
+  ]
+}

@@ -2,11 +2,14 @@ import { useConfigStore } from '@/store/configStore'
 import { resolveHeroContent } from '@/lib/schemas'
 import type { Section } from '@/lib/schemas'
 import { Sparkles } from 'lucide-react'
+import { resolveColors } from '@/lib/resolveColors'
 
 export function HeroOverlay({ section }: { section: Section }) {
   const theme = useConfigStore(s => s.config.theme)
+  const colors = resolveColors(theme)
   const hero = resolveHeroContent(section)
-  const imageComp = section.components.find(c => c.id === 'heroImage')
+  const bgImageComp = section.components.find(c => c.id === 'backgroundImage')
+  const imageComp = bgImageComp?.enabled ? bgImageComp : section.components.find(c => c.id === 'heroImage')
   const videoComp = section.components.find(c => c.id === 'heroVideo')
   const imageUrl = (imageComp?.props?.url as string) || ''
   const videoUrl = (videoComp?.props?.url as string) || ''
@@ -49,7 +52,7 @@ export function HeroOverlay({ section }: { section: Section }) {
         </p>
 
         <div className="flex items-center gap-3 mt-2">
-          <a href={hero.cta.url} className="px-8 py-3 rounded-lg font-semibold text-sm text-white shadow-lg transition-all" style={{ backgroundColor: theme.colors.primary }}>
+          <a href={hero.cta.url} className="px-8 py-3 rounded-lg font-semibold text-sm text-white shadow-lg transition-all" style={{ backgroundColor: colors.accentPrimary }}>
             {hero.cta.text}
           </a>
           {hero.secondaryCta && (

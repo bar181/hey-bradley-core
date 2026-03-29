@@ -2,6 +2,7 @@ import { Sparkles } from 'lucide-react'
 import type { Section } from '@/lib/schemas'
 import { resolveHeroContent } from '@/lib/schemas'
 import { useConfigStore } from '@/store/configStore'
+import { resolveColors } from '@/lib/resolveColors'
 
 interface HeroCenteredProps {
   section: Section
@@ -10,8 +11,12 @@ interface HeroCenteredProps {
 export function HeroCentered({ section }: HeroCenteredProps) {
   const hero = resolveHeroContent(section)
   const theme = useConfigStore((s) => s.config.theme)
+  const colors = resolveColors(theme)
   const videoComp = section.components.find(c => c.id === 'heroVideo')
-  const videoUrl = (videoComp?.props?.url as string) || ''
+  const videoUrl = videoComp?.enabled ? (videoComp?.props?.url as string) || '' : ''
+  const imageComp = section.components.find(c => c.id === 'heroImage')
+  const imageUrl = imageComp?.enabled ? (imageComp?.props?.url as string) || '' : ''
+  const imageAlt = (imageComp?.props?.alt as string) || ''
 
   return (
     <section
@@ -19,11 +24,12 @@ export function HeroCentered({ section }: HeroCenteredProps) {
         background: section.style.background,
         color: section.style.color,
         padding: section.layout.padding,
+        fontFamily: section.style.fontFamily,
       }}
       className="min-h-[500px] flex flex-col items-center justify-center text-center relative overflow-hidden"
     >
       {/* Optional video background */}
-      {videoComp?.enabled && videoUrl && (
+      {videoUrl && (
         <video
           autoPlay muted loop playsInline
           className="absolute inset-0 w-full h-full object-cover opacity-30"
@@ -35,7 +41,7 @@ export function HeroCentered({ section }: HeroCenteredProps) {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse at top, ${theme.colors.primary}1f 0%, ${theme.colors.secondary}0f 30%, transparent 60%)`,
+          background: `radial-gradient(ellipse at top, ${colors.accentPrimary}1f 0%, ${colors.accentSecondary}0f 30%, transparent 60%)`,
         }}
       />
 
@@ -77,7 +83,7 @@ export function HeroCentered({ section }: HeroCenteredProps) {
         <div className="flex items-center gap-3 mt-4">
           <a
             href={hero.cta.url}
-            style={{ backgroundColor: theme.colors.primary }}
+            style={{ backgroundColor: colors.accentPrimary }}
             className="hover:opacity-90 text-white px-8 py-3 rounded-lg font-semibold text-sm shadow-lg transition-all"
           >
             {hero.cta.text}
@@ -91,6 +97,18 @@ export function HeroCentered({ section }: HeroCenteredProps) {
             </a>
           )}
         </div>
+
+        {/* Inline hero image (below content) */}
+        {imageUrl && (
+          <div className="mt-8 w-full max-w-4xl">
+            <img
+              src={imageUrl}
+              alt={imageAlt}
+              className="w-full rounded-xl object-cover shadow-2xl"
+              style={{ maxHeight: '500px' }}
+            />
+          </div>
+        )}
 
         {/* Trust badges */}
         {hero.trustBadges?.show && (

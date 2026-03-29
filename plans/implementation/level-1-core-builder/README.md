@@ -1,46 +1,48 @@
 # Level 1: Core Builder — Living Document
 
-**Phase:** Level 1 — Core Builder
-**Status:** IN PROGRESS (Phase 1.1 complete, hotfix applied)
-**Last Updated:** 2026-03-28, Session 4
+**Status:** Phase 1.3 COMPLETE | Phase 1.4 NEXT
+**Last Updated:** 2026-03-29
 
 ---
 
-## Folder Structure
+## Master Checklist
 
-```
-level-1-core-builder/
-├── README.md                 # THIS FILE — phase overview + living checklist
-├── implementation-plan.md    # Original phase plan (Phases 1.0-1.3)
-├── log.md                    # Session log (every session gets an entry)
-├── rubric.md                 # Quality scorecard (scored after each sub-phase)
-├── retrospective.md          # End-of-phase retrospective (Playwright tests)
-├── backlog/                  # Living backlog items + task trackers
-│   ├── requirements.md       # Living requirements checklist (the source of truth)
-│   └── phase-1.3-backlog.md  # Queued items for Phase 1.3
-├── sessions/                 # Per-session summaries
-│   ├── session-1.md          # Session 1: Scaffold + Shell
-│   ├── session-2.md          # Session 2: Dark pivot + UX redesign
-│   ├── session-3.md          # Session 3: Polish sprint + attribution
-│   └── session-4.md          # Session 4: Phase 1.1 (JSON core loop + hotfix)
-├── human-feedback/           # Bradley's feedback documents
-│   ├── human-1.md through human-5.md
-├── adrs/                     # Architecture Decision Records for this phase
-│   └── adr-design-pivot.md
-└── screenshots/              # Playwright + manual screenshots
-```
+**See: `implementation-plan.md`** — the single source of truth for all Phase 1 items with scores and status.
 
 ## Phase Progress
 
-| Sub-Phase | Status | Session | Score |
-|-----------|--------|---------|-------|
-| Phase 1.0 — Shell & Navigation | COMPLETE | Sessions 1-3 | 55/64 (86%) |
-| Phase 1.1 — Hero + JSON Core Loop | COMPLETE (w/ hotfix) | Session 4 | 33/48 (69%) |
-| Phase 1.2 — All Tabs + Listen Mode | NOT STARTED | — | — |
-| Phase 1.3 — Hero Polish + Presets | NOT STARTED | — | — |
+| Sub-Phase | Status | Score |
+|-----------|--------|-------|
+| 1.0 — Shell & Navigation | ✅ COMPLETE | 55/64 (86%) |
+| 1.1 — Hero + JSON Core Loop | ✅ COMPLETE | 33/48 (69%) |
+| 1.2 — JSON Templates + ADRs + Smoke Test | ✅ COMPLETE | ~38/48 (est) |
+| 1.3 — Theme System v3 | ✅ COMPLETE | ~72/88 (82%) |
+| 1.4 — Hero Simple Mode Complete | 🔄 NEXT | — |
 
-## Quick Links
-- **Current requirements:** `backlog/requirements.md`
-- **Session log:** `log.md`
-- **Quality scores:** `rubric.md`
-- **Human feedback:** `human-feedback/`
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `implementation-plan.md` | Master checklist — ALL items, scores, and future phases |
+| `retrospective.md` | Brutally honest per-phase review |
+| `rubric.md` | Detailed scoring per requirement |
+| `log.md` | Session log |
+| `backlog/` | Per-phase backlog + debt items |
+| `sessions/` | Per-session summaries |
+| `human-feedback/` | Bradley's directives and feedback |
+
+## Architecture
+
+- **JSON-driven**: Everything flows through `MasterConfig` (Zod-validated)
+- **Three-level hierarchy**: site → theme → sections (ADR-012)
+- **Component-level config**: Each UI element has id, type, enabled, order, props (ADR-016)
+- **Full theme replacement**: `applyVibe()` swaps theme + sections, preserves copy only (ADR-018)
+- **6-slot palette**: bgPrimary, bgSecondary, textPrimary, textSecondary, accentPrimary, accentSecondary (ADR-019)
+
+## Quick Commands
+
+```bash
+npm run dev    # Dev server at localhost:5173
+npm run build  # Production build
+npm run lint   # Lint check
+```

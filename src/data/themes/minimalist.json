@@ -1,0 +1,113 @@
+{
+  "meta": {
+    "name": "Minimalist",
+    "slug": "minimalist",
+    "description": "For any website stripped to its essentials — pure typography and whitespace",
+    "tags": ["light", "minimal", "clean", "elegant"],
+    "mood": "Clean and elegant",
+    "heroVariant": "minimal"
+  },
+  "theme": {
+    "preset": "minimalist",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#fafafa",
+      "textPrimary": "#09090b",
+      "textSecondary": "#71717a",
+      "accentPrimary": "#09090b",
+      "accentSecondary": "#3f3f46"
+    },
+    "colors": {
+      "primary": "#09090b",
+      "secondary": "#3f3f46",
+      "accent": "#3f3f46",
+      "background": "#ffffff",
+      "surface": "#fafafa",
+      "text": "#09090b",
+      "muted": "#71717a",
+      "border": "#e4e4e7"
+    },
+    "alternativePalettes": [
+      { "name": "Cream", "bgPrimary": "#faf8f5", "bgSecondary": "#f5f0eb", "textPrimary": "#1c1917", "textSecondary": "#78716c", "accentPrimary": "#1c1917", "accentSecondary": "#44403c" },
+      { "name": "Ink", "bgPrimary": "#0a0a0a", "bgSecondary": "#171717", "textPrimary": "#fafafa", "textSecondary": "#a3a3a3", "accentPrimary": "#fafafa", "accentSecondary": "#d4d4d4" },
+      { "name": "Blue", "bgPrimary": "#f8fafc", "bgSecondary": "#f1f5f9", "textPrimary": "#0f172a", "textSecondary": "#64748b", "accentPrimary": "#0f172a", "accentSecondary": "#334155" },
+      { "name": "Sage", "bgPrimary": "#f6f7f4", "bgSecondary": "#ecede8", "textPrimary": "#1a2e1a", "textSecondary": "#6b7c6b", "accentPrimary": "#1a2e1a", "accentSecondary": "#3d5c3d" }
+    ],
+    "typography": {
+      "fontFamily": "JetBrains Mono",
+      "headingFamily": "JetBrains Mono",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.6
+    },
+    "spacing": {
+      "sectionPadding": "120px",
+      "containerMaxWidth": "800px",
+      "componentGap": "32px"
+    },
+    "borderRadius": "0px"
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "minimal",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "32px",
+        "padding": "160px 24px",
+        "maxWidth": "800px"
+      },
+      "style": {
+        "background": "#ffffff",
+        "color": "#09090b",
+        "fontFamily": "JetBrains Mono",
+        "borderRadius": "0px"
+      },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": false, "order": 0, "props": { "text": "", "icon": "sparkles" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Build Websites by Just Talking", "level": 1, "size": "48px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": false, "order": 2, "props": { "text": "Describe what you want, watch it appear in real-time, and get production-ready specs." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "Start Building", "url": "#start", "style": "filled", "size": "lg" } },
+        { "id": "secondaryCta", "type": "button", "enabled": false, "order": 4, "props": { "text": "", "url": "", "style": "outline", "size": "lg" } },
+        { "id": "heroImage", "type": "image", "enabled": false, "order": 5, "props": {} },
+        { "id": "backgroundImage", "type": "image", "enabled": false, "order": 6, "props": {} },
+        { "id": "heroVideo", "type": "video", "enabled": false, "order": 7, "props": {} },
+        { "id": "trustBadges", "type": "trust", "enabled": false, "order": 8, "props": { "text": "", "show": false } }
+      ]
+    },
+    {
+      "type": "features",
+      "id": "features-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "64px 24px" },
+      "style": { "background": "#fafafa", "color": "#09090b" },
+      "components": [
+        { "id": "f1", "type": "feature-card", "enabled": true, "order": 0, "props": { "icon": "zap", "title": "Lightning Fast", "description": "Build and deploy in seconds, not days." } },
+        { "id": "f2", "type": "feature-card", "enabled": true, "order": 1, "props": { "icon": "target", "title": "Precise Specs", "description": "AISP specifications with under 2% ambiguity." } },
+        { "id": "f3", "type": "feature-card", "enabled": true, "order": 2, "props": { "icon": "shield", "title": "Enterprise Ready", "description": "Production-grade output from day one." } }
+      ]
+    },
+    {
+      "type": "cta",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "120px 24px", "gap": "16px" },
+      "style": { "background": "#ffffff", "color": "#09090b" },
+      "components": [
+        { "id": "heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Ready to build something amazing?", "level": 2, "size": "32px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": false, "order": 1, "props": { "text": "Start building your next project with Hey Bradley." } },
+        { "id": "button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Launch Now", "url": "#signup", "style": "filled", "size": "lg" } }
+      ]
+    }
+  ]
+}

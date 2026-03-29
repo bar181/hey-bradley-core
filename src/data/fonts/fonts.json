@@ -1,0 +1,39 @@
+{
+  "fonts": [
+    {
+      "name": "Inter",
+      "category": "sans-serif",
+      "weights": [400, 500, 600, 700],
+      "url": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
+      "description": "Clean geometric sans-serif, ideal for SaaS and tech"
+    },
+    {
+      "name": "DM Sans",
+      "category": "sans-serif",
+      "weights": [400, 500, 700],
+      "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap",
+      "description": "Friendly rounded sans-serif, great for blogs and personal sites"
+    },
+    {
+      "name": "Space Grotesk",
+      "category": "sans-serif",
+      "weights": [400, 500, 600, 700],
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap",
+      "description": "Modern geometric with character, suits startups and creative"
+    },
+    {
+      "name": "JetBrains Mono",
+      "category": "monospace",
+      "weights": [400, 700],
+      "url": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap",
+      "description": "Developer-friendly monospace, ideal for minimalist and tech"
+    },
+    {
+      "name": "Plus Jakarta Sans",
+      "category": "sans-serif",
+      "weights": [400, 500, 600, 700, 800],
+      "url": "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap",
+      "description": "Premium modern sans-serif, suits professional and agency"
+    }
+  ]
+}

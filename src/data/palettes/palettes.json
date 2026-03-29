@@ -1,0 +1,72 @@
+{
+  "saas": [
+    { "name": "Default", "bgPrimary": "#0a0a1a", "bgSecondary": "#12122a", "textPrimary": "#f8fafc", "textSecondary": "#94a3b8", "accentPrimary": "#6366f1", "accentSecondary": "#818cf8" },
+    { "name": "Blue Steel", "bgPrimary": "#0f172a", "bgSecondary": "#1e293b", "textPrimary": "#f1f5f9", "textSecondary": "#94a3b8", "accentPrimary": "#3b82f6", "accentSecondary": "#60a5fa" },
+    { "name": "Emerald", "bgPrimary": "#022c22", "bgSecondary": "#064e3b", "textPrimary": "#f0fdf4", "textSecondary": "#86efac", "accentPrimary": "#10b981", "accentSecondary": "#34d399" },
+    { "name": "Amber", "bgPrimary": "#1c1917", "bgSecondary": "#292524", "textPrimary": "#fef3c7", "textSecondary": "#d6d3d1", "accentPrimary": "#f59e0b", "accentSecondary": "#fbbf24" },
+    { "name": "Monochrome", "bgPrimary": "#0a0a0a", "bgSecondary": "#171717", "textPrimary": "#fafafa", "textSecondary": "#a3a3a3", "accentPrimary": "#e5e5e5", "accentSecondary": "#d4d4d4" }
+  ],
+  "agency": [
+    { "name": "Default", "bgPrimary": "#ffffff", "bgSecondary": "#f8f9fa", "textPrimary": "#111827", "textSecondary": "#6b7280", "accentPrimary": "#e63946", "accentSecondary": "#1d3557" },
+    { "name": "Navy", "bgPrimary": "#ffffff", "bgSecondary": "#f1f5f9", "textPrimary": "#0f172a", "textSecondary": "#64748b", "accentPrimary": "#1e40af", "accentSecondary": "#3b82f6" },
+    { "name": "Forest", "bgPrimary": "#ffffff", "bgSecondary": "#f0fdf4", "textPrimary": "#14532d", "textSecondary": "#4b5563", "accentPrimary": "#15803d", "accentSecondary": "#22c55e" },
+    { "name": "Coral", "bgPrimary": "#fffbeb", "bgSecondary": "#fef3c7", "textPrimary": "#1c1917", "textSecondary": "#78716c", "accentPrimary": "#ea580c", "accentSecondary": "#fb923c" },
+    { "name": "Mono", "bgPrimary": "#ffffff", "bgSecondary": "#f5f5f5", "textPrimary": "#0a0a0a", "textSecondary": "#737373", "accentPrimary": "#171717", "accentSecondary": "#525252" }
+  ],
+  "portfolio": [
+    { "name": "Default", "bgPrimary": "#0c0c0c", "bgSecondary": "#1a1a1a", "textPrimary": "#ffffff", "textSecondary": "#a1a1aa", "accentPrimary": "#e4e4e7", "accentSecondary": "#a1a1aa" },
+    { "name": "Warm", "bgPrimary": "#1c1917", "bgSecondary": "#292524", "textPrimary": "#fef2f2", "textSecondary": "#d6d3d1", "accentPrimary": "#fca5a5", "accentSecondary": "#f87171" },
+    { "name": "Ocean", "bgPrimary": "#0c1220", "bgSecondary": "#1a2332", "textPrimary": "#e0f2fe", "textSecondary": "#7dd3fc", "accentPrimary": "#38bdf8", "accentSecondary": "#0ea5e9" },
+    { "name": "Gold", "bgPrimary": "#0f0f0f", "bgSecondary": "#1a1a1a", "textPrimary": "#fefce8", "textSecondary": "#a3a3a3", "accentPrimary": "#eab308", "accentSecondary": "#facc15" },
+    { "name": "Purple", "bgPrimary": "#0f0a1e", "bgSecondary": "#1a1530", "textPrimary": "#f5f3ff", "textSecondary": "#c4b5fd", "accentPrimary": "#8b5cf6", "accentSecondary": "#a78bfa" }
+  ],
+  "blog": [
+    { "name": "Default", "bgPrimary": "#faf8f5", "bgSecondary": "#f0ebe3", "textPrimary": "#1c1917", "textSecondary": "#78716c", "accentPrimary": "#b45309", "accentSecondary": "#d97706" },
+    { "name": "Sage", "bgPrimary": "#f6f7f4", "bgSecondary": "#ecede8", "textPrimary": "#1a2e1a", "textSecondary": "#6b7c6b", "accentPrimary": "#4d7c0f", "accentSecondary": "#65a30d" },
+    { "name": "Rose", "bgPrimary": "#fff5f5", "bgSecondary": "#ffe4e6", "textPrimary": "#1c1917", "textSecondary": "#a1a1aa", "accentPrimary": "#be123c", "accentSecondary": "#e11d48" },
+    { "name": "Slate", "bgPrimary": "#f8fafc", "bgSecondary": "#f1f5f9", "textPrimary": "#0f172a", "textSecondary": "#64748b", "accentPrimary": "#334155", "accentSecondary": "#475569" },
+    { "name": "Ink", "bgPrimary": "#fffbeb", "bgSecondary": "#fef3c7", "textPrimary": "#0c0a09", "textSecondary": "#57534e", "accentPrimary": "#0c0a09", "accentSecondary": "#292524" }
+  ],
+  "startup": [
+    { "name": "Default", "bgPrimary": "#030712", "bgSecondary": "#111827", "textPrimary": "#f9fafb", "textSecondary": "#9ca3af", "accentPrimary": "#8b5cf6", "accentSecondary": "#a78bfa" },
+    { "name": "Neon", "bgPrimary": "#0a0a0a", "bgSecondary": "#171717", "textPrimary": "#f0fdf4", "textSecondary": "#86efac", "accentPrimary": "#22c55e", "accentSecondary": "#4ade80" },
+    { "name": "Sunset", "bgPrimary": "#0f0506", "bgSecondary": "#1a0b0e", "textPrimary": "#fff1f2", "textSecondary": "#fda4af", "accentPrimary": "#f43f5e", "accentSecondary": "#fb7185" },
+    { "name": "Cyan", "bgPrimary": "#042f2e", "bgSecondary": "#083344", "textPrimary": "#ecfeff", "textSecondary": "#67e8f9", "accentPrimary": "#06b6d4", "accentSecondary": "#22d3ee" },
+    { "name": "Gold", "bgPrimary": "#0a0a0a", "bgSecondary": "#171717", "textPrimary": "#fefce8", "textSecondary": "#fde68a", "accentPrimary": "#eab308", "accentSecondary": "#facc15" }
+  ],
+  "personal": [
+    { "name": "Default", "bgPrimary": "#ffffff", "bgSecondary": "#f9fafb", "textPrimary": "#111827", "textSecondary": "#6b7280", "accentPrimary": "#4f46e5", "accentSecondary": "#6366f1" },
+    { "name": "Warm", "bgPrimary": "#fffbeb", "bgSecondary": "#fef3c7", "textPrimary": "#1c1917", "textSecondary": "#78716c", "accentPrimary": "#b45309", "accentSecondary": "#d97706" },
+    { "name": "Cool", "bgPrimary": "#f0f9ff", "bgSecondary": "#e0f2fe", "textPrimary": "#0c4a6e", "textSecondary": "#0369a1", "accentPrimary": "#0284c7", "accentSecondary": "#0ea5e9" },
+    { "name": "Rose", "bgPrimary": "#fff1f2", "bgSecondary": "#ffe4e6", "textPrimary": "#1c1917", "textSecondary": "#a1a1aa", "accentPrimary": "#e11d48", "accentSecondary": "#f43f5e" },
+    { "name": "Mono", "bgPrimary": "#fafafa", "bgSecondary": "#f5f5f5", "textPrimary": "#0a0a0a", "textSecondary": "#737373", "accentPrimary": "#171717", "accentSecondary": "#404040" }
+  ],
+  "professional": [
+    { "name": "Default", "bgPrimary": "#ffffff", "bgSecondary": "#f8fafc", "textPrimary": "#0f172a", "textSecondary": "#475569", "accentPrimary": "#1e40af", "accentSecondary": "#2563eb" },
+    { "name": "Charcoal", "bgPrimary": "#f8fafc", "bgSecondary": "#f1f5f9", "textPrimary": "#020617", "textSecondary": "#334155", "accentPrimary": "#0f172a", "accentSecondary": "#1e293b" },
+    { "name": "Teal", "bgPrimary": "#ffffff", "bgSecondary": "#f0fdfa", "textPrimary": "#134e4a", "textSecondary": "#5eead4", "accentPrimary": "#0d9488", "accentSecondary": "#14b8a6" },
+    { "name": "Burgundy", "bgPrimary": "#fefce8", "bgSecondary": "#fef9c3", "textPrimary": "#1c1917", "textSecondary": "#78716c", "accentPrimary": "#9f1239", "accentSecondary": "#be123c" },
+    { "name": "Mono", "bgPrimary": "#ffffff", "bgSecondary": "#fafafa", "textPrimary": "#09090b", "textSecondary": "#71717a", "accentPrimary": "#18181b", "accentSecondary": "#3f3f46" }
+  ],
+  "wellness": [
+    { "name": "Default", "bgPrimary": "#0a1a14", "bgSecondary": "#132a1f", "textPrimary": "#f0fdf4", "textSecondary": "#bbf7d0", "accentPrimary": "#22c55e", "accentSecondary": "#4ade80" },
+    { "name": "Ocean", "bgPrimary": "#0c1220", "bgSecondary": "#1a2332", "textPrimary": "#e0f2fe", "textSecondary": "#7dd3fc", "accentPrimary": "#0ea5e9", "accentSecondary": "#38bdf8" },
+    { "name": "Sand", "bgPrimary": "#1c1917", "bgSecondary": "#292524", "textPrimary": "#fef3c7", "textSecondary": "#d6d3d1", "accentPrimary": "#d97706", "accentSecondary": "#f59e0b" },
+    { "name": "Lavender", "bgPrimary": "#1e1a2e", "bgSecondary": "#2a2540", "textPrimary": "#f5f3ff", "textSecondary": "#c4b5fd", "accentPrimary": "#8b5cf6", "accentSecondary": "#a78bfa" },
+    { "name": "Blush", "bgPrimary": "#1a0b0e", "bgSecondary": "#2a1520", "textPrimary": "#fff1f2", "textSecondary": "#fda4af", "accentPrimary": "#f43f5e", "accentSecondary": "#fb7185" }
+  ],
+  "creative": [
+    { "name": "Default", "bgPrimary": "#0a0a0a", "bgSecondary": "#171717", "textPrimary": "#fafafa", "textSecondary": "#d4d4d4", "accentPrimary": "#f43f5e", "accentSecondary": "#ec4899" },
+    { "name": "Electric", "bgPrimary": "#0a0a1a", "bgSecondary": "#15152a", "textPrimary": "#e0f2fe", "textSecondary": "#93c5fd", "accentPrimary": "#3b82f6", "accentSecondary": "#8b5cf6" },
+    { "name": "Acid", "bgPrimary": "#052e16", "bgSecondary": "#14532d", "textPrimary": "#f0fdf4", "textSecondary": "#86efac", "accentPrimary": "#22c55e", "accentSecondary": "#a3e635" },
+    { "name": "Flame", "bgPrimary": "#1c0a00", "bgSecondary": "#2a1500", "textPrimary": "#fff7ed", "textSecondary": "#fdba74", "accentPrimary": "#f97316", "accentSecondary": "#fb923c" },
+    { "name": "Mono", "bgPrimary": "#0a0a0a", "bgSecondary": "#1a1a1a", "textPrimary": "#fafafa", "textSecondary": "#a3a3a3", "accentPrimary": "#fafafa", "accentSecondary": "#d4d4d4" }
+  ],
+  "minimalist": [
+    { "name": "Default", "bgPrimary": "#ffffff", "bgSecondary": "#fafafa", "textPrimary": "#09090b", "textSecondary": "#71717a", "accentPrimary": "#09090b", "accentSecondary": "#3f3f46" },
+    { "name": "Cream", "bgPrimary": "#faf8f5", "bgSecondary": "#f5f0eb", "textPrimary": "#1c1917", "textSecondary": "#78716c", "accentPrimary": "#1c1917", "accentSecondary": "#44403c" },
+    { "name": "Ink", "bgPrimary": "#0a0a0a", "bgSecondary": "#171717", "textPrimary": "#fafafa", "textSecondary": "#a3a3a3", "accentPrimary": "#fafafa", "accentSecondary": "#d4d4d4" },
+    { "name": "Blue", "bgPrimary": "#f8fafc", "bgSecondary": "#f1f5f9", "textPrimary": "#0f172a", "textSecondary": "#64748b", "accentPrimary": "#0f172a", "accentSecondary": "#334155" },
+    { "name": "Sage", "bgPrimary": "#f6f7f4", "bgSecondary": "#ecede8", "textPrimary": "#1a2e1a", "textSecondary": "#6b7c6b", "accentPrimary": "#1a2e1a", "accentSecondary": "#3d5c3d" }
+  ]
+}

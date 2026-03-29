@@ -2,11 +2,15 @@ import { Sparkles } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import type { Section } from '@/lib/schemas'
 import { resolveHeroContent } from '@/lib/schemas'
+import { useConfigStore } from '@/store/configStore'
+import { resolveColors } from '@/lib/resolveColors'
 
 export function HeroSplit({ section }: { section: Section }) {
   const hero = resolveHeroContent(section)
+  const theme = useConfigStore((s) => s.config.theme)
+  const colors = resolveColors(theme)
   const imageComp = section.components.find((c) => c.id === 'heroImage')
-  const imageUrl = (imageComp?.props?.url as string) || ''
+  const imageUrl = imageComp?.enabled ? (imageComp?.props?.url as string) || '' : ''
   const imageAlt = (imageComp?.props?.alt as string) || ''
 
   const imageOnLeft = section.variant === 'split-left'
@@ -55,10 +59,7 @@ export function HeroSplit({ section }: { section: Section }) {
             <a
               href={hero.cta.url}
               className="px-6 py-2.5 rounded-lg font-semibold text-sm text-white transition-all hover:opacity-90"
-              style={{
-                backgroundColor:
-                  section.style.background === '#faf8f5' ? '#e8772e' : '#3b82f6',
-              }}
+              style={{ backgroundColor: colors.accentPrimary }}
             >
               {hero.cta.text}
             </a>

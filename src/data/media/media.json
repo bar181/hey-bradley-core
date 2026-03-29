@@ -1,0 +1,552 @@
+{
+  "images": {
+    "saas": {
+      "heroImage": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&q=80",
+      "heroImageAlt": "Dashboard analytics dark mode",
+      "backgroundImage": null
+    },
+    "agency": {
+      "heroImage": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&q=80",
+      "heroImageAlt": "Creative team collaboration",
+      "backgroundImage": null
+    },
+    "portfolio": {
+      "heroImage": null,
+      "backgroundImage": "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1920&auto=format&q=80",
+      "backgroundImageAlt": "Modern architecture building"
+    },
+    "blog": {
+      "heroImage": "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&auto=format&q=80",
+      "heroImageAlt": "Writing workspace with coffee and laptop",
+      "backgroundImage": null
+    },
+    "startup": {
+      "heroImage": null,
+      "backgroundImage": null,
+      "backgroundVideo": "https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4",
+      "backgroundVideoAlt": "Abstract particle network motion"
+    },
+    "personal": {
+      "heroImage": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&q=80",
+      "heroImageAlt": "Professional headshot portrait",
+      "backgroundImage": null
+    },
+    "professional": {
+      "heroImage": null,
+      "backgroundImage": null,
+      "note": "No image — clean professional layout"
+    },
+    "wellness": {
+      "heroImage": null,
+      "backgroundImage": "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1920&auto=format&q=80",
+      "backgroundImageAlt": "Aerial ocean waves turquoise water"
+    },
+    "creative": {
+      "heroImage": null,
+      "backgroundImage": null,
+      "backgroundVideo": "https://videos.pexels.com/video-files/1093662/1093662-hd_1920_1080_30fps.mp4",
+      "backgroundVideoAlt": "Colorful abstract light motion"
+    },
+    "minimalist": {
+      "heroImage": null,
+      "backgroundImage": null,
+      "note": "No image — pure typography hero"
+    }
+  },
+  "library": {
+    "images": [
+      {
+        "id": "img-001",
+        "url": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&auto=format&q=80",
+        "alt": "Dashboard UI with analytics metrics",
+        "category": "saas",
+        "tags": ["dashboard", "analytics", "metrics"]
+      },
+      {
+        "id": "img-002",
+        "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1920&auto=format&q=80",
+        "alt": "Analytics dashboard with dark mode charts",
+        "category": "saas",
+        "tags": ["dashboard", "dark", "analytics"]
+      },
+      {
+        "id": "img-003",
+        "url": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1920&auto=format&q=80",
+        "alt": "Code on screen in dark editor",
+        "category": "saas",
+        "tags": ["code", "dark", "developer"]
+      },
+      {
+        "id": "img-004",
+        "url": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1920&auto=format&q=80",
+        "alt": "Laptop with code on wooden desk",
+        "category": "saas",
+        "tags": ["laptop", "code", "workspace"]
+      },
+      {
+        "id": "img-005",
+        "url": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1920&auto=format&q=80",
+        "alt": "Data visualization on large display",
+        "category": "saas",
+        "tags": ["data", "visualization", "display"]
+      },
+      {
+        "id": "img-006",
+        "url": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1920&auto=format&q=80",
+        "alt": "Design studio with creative tools",
+        "category": "agency",
+        "tags": ["design", "studio", "creative"]
+      },
+      {
+        "id": "img-007",
+        "url": "https://images.unsplash.com/photo-1497215842964-222b430dc094?w=1920&auto=format&q=80",
+        "alt": "Creative workspace with natural light",
+        "category": "agency",
+        "tags": ["workspace", "creative", "modern"]
+      },
+      {
+        "id": "img-008",
+        "url": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&auto=format&q=80",
+        "alt": "Team brainstorming around laptop",
+        "category": "agency",
+        "tags": ["team", "brainstorming", "collaboration"]
+      },
+      {
+        "id": "img-009",
+        "url": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&auto=format&q=80",
+        "alt": "Modern office with open floor plan",
+        "category": "agency",
+        "tags": ["office", "modern", "open"]
+      },
+      {
+        "id": "img-010",
+        "url": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1920&auto=format&q=80",
+        "alt": "Portfolio showcase meeting room",
+        "category": "agency",
+        "tags": ["meeting", "portfolio", "presentation"]
+      },
+      {
+        "id": "img-011",
+        "url": "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1920&auto=format&q=80",
+        "alt": "Modern architecture building facade",
+        "category": "portfolio",
+        "tags": ["architecture", "building", "modern"]
+      },
+      {
+        "id": "img-012",
+        "url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&auto=format&q=80",
+        "alt": "Mountain landscape with dramatic clouds",
+        "category": "portfolio",
+        "tags": ["landscape", "mountain", "nature"]
+      },
+      {
+        "id": "img-013",
+        "url": "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=1920&auto=format&q=80",
+        "alt": "Abstract art on gallery wall",
+        "category": "portfolio",
+        "tags": ["abstract", "art", "gallery"]
+      },
+      {
+        "id": "img-014",
+        "url": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1920&auto=format&q=80",
+        "alt": "Urban cityscape from above",
+        "category": "portfolio",
+        "tags": ["urban", "cityscape", "aerial"]
+      },
+      {
+        "id": "img-015",
+        "url": "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=1920&auto=format&q=80",
+        "alt": "Professional studio photography setup",
+        "category": "portfolio",
+        "tags": ["studio", "photography", "professional"]
+      },
+      {
+        "id": "img-016",
+        "url": "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1920&auto=format&q=80",
+        "alt": "Coffee cup and laptop on wooden table",
+        "category": "blog",
+        "tags": ["coffee", "laptop", "writing"]
+      },
+      {
+        "id": "img-017",
+        "url": "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=1920&auto=format&q=80",
+        "alt": "Writing desk with notebook and pen",
+        "category": "blog",
+        "tags": ["writing", "desk", "notebook"]
+      },
+      {
+        "id": "img-018",
+        "url": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=1920&auto=format&q=80",
+        "alt": "Bookshelf filled with colorful books",
+        "category": "blog",
+        "tags": ["books", "bookshelf", "reading"]
+      },
+      {
+        "id": "img-019",
+        "url": "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=1920&auto=format&q=80",
+        "alt": "Library with tall wooden bookshelves",
+        "category": "blog",
+        "tags": ["library", "books", "knowledge"]
+      },
+      {
+        "id": "img-020",
+        "url": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&auto=format&q=80",
+        "alt": "Cozy night sky over mountains",
+        "category": "blog",
+        "tags": ["night", "sky", "stars"]
+      },
+      {
+        "id": "img-021",
+        "url": "https://images.unsplash.com/photo-1517245386032-e4dbab6f8d91?w=1920&auto=format&q=80",
+        "alt": "Rocket launch with smoke trail",
+        "category": "startup",
+        "tags": ["rocket", "launch", "space"]
+      },
+      {
+        "id": "img-022",
+        "url": "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=1920&auto=format&q=80",
+        "alt": "Innovation lab with technology",
+        "category": "startup",
+        "tags": ["innovation", "technology", "lab"]
+      },
+      {
+        "id": "img-023",
+        "url": "https://images.unsplash.com/photo-1531973576160-7125cd663d86?w=1920&auto=format&q=80",
+        "alt": "Conference room with large screens",
+        "category": "startup",
+        "tags": ["conference", "screens", "presentation"]
+      },
+      {
+        "id": "img-024",
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&auto=format&q=80",
+        "alt": "Whiteboard with strategy diagrams",
+        "category": "startup",
+        "tags": ["whiteboard", "strategy", "planning"]
+      },
+      {
+        "id": "img-025",
+        "url": "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1920&auto=format&q=80",
+        "alt": "Pitch meeting with investors",
+        "category": "startup",
+        "tags": ["pitch", "meeting", "business"]
+      },
+      {
+        "id": "img-026",
+        "url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&auto=format&q=80",
+        "alt": "Professional man portrait headshot",
+        "category": "personal",
+        "tags": ["portrait", "man", "professional"]
+      },
+      {
+        "id": "img-027",
+        "url": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=1920&auto=format&q=80",
+        "alt": "Professional woman portrait headshot",
+        "category": "personal",
+        "tags": ["portrait", "woman", "professional"]
+      },
+      {
+        "id": "img-028",
+        "url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=1920&auto=format&q=80",
+        "alt": "Casual portrait with natural lighting",
+        "category": "personal",
+        "tags": ["portrait", "casual", "natural"]
+      },
+      {
+        "id": "img-029",
+        "url": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=1920&auto=format&q=80",
+        "alt": "Creative individual portrait",
+        "category": "personal",
+        "tags": ["portrait", "creative", "individual"]
+      },
+      {
+        "id": "img-030",
+        "url": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=1920&auto=format&q=80",
+        "alt": "Lifestyle portrait with warm tones",
+        "category": "personal",
+        "tags": ["portrait", "lifestyle", "warm"]
+      },
+      {
+        "id": "img-031",
+        "url": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&auto=format&q=80",
+        "alt": "Corporate glass office building",
+        "category": "professional",
+        "tags": ["corporate", "building", "glass"]
+      },
+      {
+        "id": "img-032",
+        "url": "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1920&auto=format&q=80",
+        "alt": "Business handshake in office",
+        "category": "professional",
+        "tags": ["handshake", "business", "deal"]
+      },
+      {
+        "id": "img-033",
+        "url": "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=1920&auto=format&q=80",
+        "alt": "Modern corporate office interior",
+        "category": "professional",
+        "tags": ["office", "modern", "corporate"]
+      },
+      {
+        "id": "img-034",
+        "url": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1920&auto=format&q=80",
+        "alt": "Conference table with documents",
+        "category": "professional",
+        "tags": ["conference", "table", "documents"]
+      },
+      {
+        "id": "img-035",
+        "url": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1920&auto=format&q=80",
+        "alt": "Professional in tailored business suit",
+        "category": "professional",
+        "tags": ["suit", "business", "professional"]
+      },
+      {
+        "id": "img-036",
+        "url": "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1920&auto=format&q=80",
+        "alt": "Aerial view of turquoise ocean waves",
+        "category": "wellness",
+        "tags": ["ocean", "waves", "aerial"]
+      },
+      {
+        "id": "img-037",
+        "url": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&auto=format&q=80",
+        "alt": "Sunlight filtering through forest canopy",
+        "category": "wellness",
+        "tags": ["forest", "sunlight", "nature"]
+      },
+      {
+        "id": "img-038",
+        "url": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1920&auto=format&q=80",
+        "alt": "Yoga practice at sunrise",
+        "category": "wellness",
+        "tags": ["yoga", "sunrise", "meditation"]
+      },
+      {
+        "id": "img-039",
+        "url": "https://images.unsplash.com/photo-1508672019048-805c876b67e2?w=1920&auto=format&q=80",
+        "alt": "Beach meditation at golden hour",
+        "category": "wellness",
+        "tags": ["beach", "meditation", "golden"]
+      },
+      {
+        "id": "img-040",
+        "url": "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=1920&auto=format&q=80",
+        "alt": "Waterfall in lush green landscape",
+        "category": "wellness",
+        "tags": ["waterfall", "nature", "green"]
+      },
+      {
+        "id": "img-041",
+        "url": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1920&auto=format&q=80",
+        "alt": "Concert stage with vibrant lights",
+        "category": "creative",
+        "tags": ["concert", "lights", "stage"]
+      },
+      {
+        "id": "img-042",
+        "url": "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1920&auto=format&q=80",
+        "alt": "Abstract paint splatter artwork",
+        "category": "creative",
+        "tags": ["paint", "abstract", "art"]
+      },
+      {
+        "id": "img-043",
+        "url": "https://images.unsplash.com/photo-1598488035139-bdbb2231cb64?w=1920&auto=format&q=80",
+        "alt": "Music studio with mixing console",
+        "category": "creative",
+        "tags": ["music", "studio", "mixing"]
+      },
+      {
+        "id": "img-044",
+        "url": "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=1920&auto=format&q=80",
+        "alt": "Art gallery with framed works",
+        "category": "creative",
+        "tags": ["gallery", "art", "exhibition"]
+      },
+      {
+        "id": "img-045",
+        "url": "https://images.unsplash.com/photo-1531747056868-e1b570b69a67?w=1920&auto=format&q=80",
+        "alt": "Neon signs glowing in urban night",
+        "category": "creative",
+        "tags": ["neon", "urban", "night"]
+      },
+      {
+        "id": "img-046",
+        "url": "https://images.unsplash.com/photo-1449247709967-d4461a6a6103?w=1920&auto=format&q=80",
+        "alt": "Clean minimal desk with single plant",
+        "category": "minimalist",
+        "tags": ["desk", "clean", "minimal"]
+      },
+      {
+        "id": "img-047",
+        "url": "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=1920&auto=format&q=80",
+        "alt": "Minimal workspace with white tones",
+        "category": "minimalist",
+        "tags": ["workspace", "white", "minimal"]
+      },
+      {
+        "id": "img-048",
+        "url": "https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?w=1920&auto=format&q=80",
+        "alt": "Geometric shapes with clean lines",
+        "category": "minimalist",
+        "tags": ["geometric", "shapes", "abstract"]
+      },
+      {
+        "id": "img-049",
+        "url": "https://images.unsplash.com/photo-1504198266287-1659872e6590?w=1920&auto=format&q=80",
+        "alt": "Single object on plain background",
+        "category": "minimalist",
+        "tags": ["object", "minimal", "single"]
+      },
+      {
+        "id": "img-050",
+        "url": "https://images.unsplash.com/photo-1494597564530-871f2b93ac55?w=1920&auto=format&q=80",
+        "alt": "Architectural detail with minimal lines",
+        "category": "minimalist",
+        "tags": ["architecture", "detail", "lines"]
+      }
+    ],
+    "videos": [
+      {
+        "id": "vid-001",
+        "url": "https://videos.pexels.com/video-files/3129671/3129671-hd_1920_1080_30fps.mp4",
+        "alt": "Abstract particle network animation",
+        "category": "startup",
+        "tags": ["particles", "abstract", "motion"]
+      },
+      {
+        "id": "vid-002",
+        "url": "https://videos.pexels.com/video-files/3571264/3571264-hd_1920_1080_30fps.mp4",
+        "alt": "Futuristic technology grid animation",
+        "category": "startup",
+        "tags": ["technology", "grid", "futuristic"]
+      },
+      {
+        "id": "vid-003",
+        "url": "https://videos.pexels.com/video-files/1093662/1093662-hd_1920_1080_30fps.mp4",
+        "alt": "Colorful abstract light motion",
+        "category": "creative",
+        "tags": ["colorful", "abstract", "motion"]
+      },
+      {
+        "id": "vid-004",
+        "url": "https://videos.pexels.com/video-files/856973/856973-hd_1920_1080_25fps.mp4",
+        "alt": "Vibrant paint swirl animation",
+        "category": "creative",
+        "tags": ["paint", "vibrant", "swirl"]
+      },
+      {
+        "id": "vid-005",
+        "url": "https://videos.pexels.com/video-files/2098989/2098989-hd_1920_1080_30fps.mp4",
+        "alt": "Dashboard interface with data streams",
+        "category": "saas",
+        "tags": ["dashboard", "data", "interface"]
+      },
+      {
+        "id": "vid-006",
+        "url": "https://videos.pexels.com/video-files/2098988/2098988-hd_1920_1080_30fps.mp4",
+        "alt": "Digital code scrolling on screen",
+        "category": "saas",
+        "tags": ["code", "digital", "screen"]
+      },
+      {
+        "id": "vid-007",
+        "url": "https://videos.pexels.com/video-files/3141208/3141208-hd_1920_1080_25fps.mp4",
+        "alt": "Modern office team collaboration",
+        "category": "agency",
+        "tags": ["office", "team", "collaboration"]
+      },
+      {
+        "id": "vid-008",
+        "url": "https://videos.pexels.com/video-files/1409899/1409899-hd_1920_1080_25fps.mp4",
+        "alt": "Creative design process timelapse",
+        "category": "agency",
+        "tags": ["design", "creative", "timelapse"]
+      },
+      {
+        "id": "vid-009",
+        "url": "https://videos.pexels.com/video-files/2278095/2278095-hd_1920_1080_30fps.mp4",
+        "alt": "Camera panning across photo prints",
+        "category": "portfolio",
+        "tags": ["photography", "prints", "gallery"]
+      },
+      {
+        "id": "vid-010",
+        "url": "https://videos.pexels.com/video-files/853848/853848-hd_1920_1080_25fps.mp4",
+        "alt": "Architectural walkthrough of modern space",
+        "category": "portfolio",
+        "tags": ["architecture", "walkthrough", "modern"]
+      },
+      {
+        "id": "vid-011",
+        "url": "https://videos.pexels.com/video-files/856356/856356-hd_1920_1080_25fps.mp4",
+        "alt": "Pages turning in vintage journal",
+        "category": "blog",
+        "tags": ["journal", "pages", "vintage"]
+      },
+      {
+        "id": "vid-012",
+        "url": "https://videos.pexels.com/video-files/856024/856024-hd_1920_1080_30fps.mp4",
+        "alt": "Hands typing on keyboard at desk",
+        "category": "blog",
+        "tags": ["typing", "keyboard", "writing"]
+      },
+      {
+        "id": "vid-013",
+        "url": "https://videos.pexels.com/video-files/1580507/1580507-hd_1920_1080_30fps.mp4",
+        "alt": "Person walking through city streets",
+        "category": "personal",
+        "tags": ["walking", "city", "lifestyle"]
+      },
+      {
+        "id": "vid-014",
+        "url": "https://videos.pexels.com/video-files/855582/855582-hd_1920_1080_30fps.mp4",
+        "alt": "Portrait session with natural light",
+        "category": "personal",
+        "tags": ["portrait", "natural", "light"]
+      },
+      {
+        "id": "vid-015",
+        "url": "https://videos.pexels.com/video-files/3629519/3629519-hd_1920_1080_30fps.mp4",
+        "alt": "Corporate skyline at golden hour",
+        "category": "professional",
+        "tags": ["skyline", "corporate", "golden"]
+      },
+      {
+        "id": "vid-016",
+        "url": "https://videos.pexels.com/video-files/3209211/3209211-hd_1920_1080_25fps.mp4",
+        "alt": "Business meeting in modern boardroom",
+        "category": "professional",
+        "tags": ["meeting", "boardroom", "business"]
+      },
+      {
+        "id": "vid-017",
+        "url": "https://videos.pexels.com/video-files/2795173/2795173-hd_1920_1080_25fps.mp4",
+        "alt": "Ocean waves rolling onto shore",
+        "category": "wellness",
+        "tags": ["ocean", "waves", "shore"]
+      },
+      {
+        "id": "vid-018",
+        "url": "https://videos.pexels.com/video-files/3255275/3255275-hd_1920_1080_25fps.mp4",
+        "alt": "Misty forest morning aerial view",
+        "category": "wellness",
+        "tags": ["forest", "mist", "aerial"]
+      },
+      {
+        "id": "vid-019",
+        "url": "https://videos.pexels.com/video-files/5752729/5752729-hd_1920_1080_30fps.mp4",
+        "alt": "Minimal white space with subtle movement",
+        "category": "minimalist",
+        "tags": ["white", "minimal", "subtle"]
+      },
+      {
+        "id": "vid-020",
+        "url": "https://videos.pexels.com/video-files/856121/856121-hd_1920_1080_30fps.mp4",
+        "alt": "Geometric shapes slowly rotating",
+        "category": "minimalist",
+        "tags": ["geometric", "shapes", "rotation"]
+      }
+    ]
+  }
+}

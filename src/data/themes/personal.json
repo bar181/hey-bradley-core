@@ -1,0 +1,113 @@
+{
+  "meta": {
+    "name": "Personal",
+    "slug": "personal",
+    "description": "For personal brands, resumes, freelancers, and individual portfolios",
+    "tags": ["light", "split-left", "friendly", "authentic"],
+    "mood": "Friendly and authentic",
+    "heroVariant": "split-left"
+  },
+  "theme": {
+    "preset": "personal",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#f9fafb",
+      "textPrimary": "#111827",
+      "textSecondary": "#6b7280",
+      "accentPrimary": "#4f46e5",
+      "accentSecondary": "#6366f1"
+    },
+    "colors": {
+      "primary": "#4f46e5",
+      "secondary": "#6366f1",
+      "accent": "#6366f1",
+      "background": "#ffffff",
+      "surface": "#f9fafb",
+      "text": "#111827",
+      "muted": "#6b7280",
+      "border": "#e5e7eb"
+    },
+    "alternativePalettes": [
+      { "name": "Warm", "bgPrimary": "#fffbeb", "bgSecondary": "#fef3c7", "textPrimary": "#1c1917", "textSecondary": "#78716c", "accentPrimary": "#b45309", "accentSecondary": "#d97706" },
+      { "name": "Cool", "bgPrimary": "#f0f9ff", "bgSecondary": "#e0f2fe", "textPrimary": "#0c4a6e", "textSecondary": "#0369a1", "accentPrimary": "#0284c7", "accentSecondary": "#0ea5e9" },
+      { "name": "Rose", "bgPrimary": "#fff1f2", "bgSecondary": "#ffe4e6", "textPrimary": "#1c1917", "textSecondary": "#a1a1aa", "accentPrimary": "#e11d48", "accentSecondary": "#f43f5e" },
+      { "name": "Mono", "bgPrimary": "#fafafa", "bgSecondary": "#f5f5f5", "textPrimary": "#0a0a0a", "textSecondary": "#737373", "accentPrimary": "#171717", "accentSecondary": "#404040" }
+    ],
+    "typography": {
+      "fontFamily": "DM Sans",
+      "headingFamily": "DM Sans",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "16px"
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "split-left",
+      "layout": {
+        "display": "flex",
+        "direction": "row-reverse",
+        "align": "center",
+        "gap": "48px",
+        "padding": "80px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "#ffffff",
+        "color": "#111827",
+        "fontFamily": "DM Sans",
+        "borderRadius": "0px"
+      },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": false, "order": 0, "props": { "text": "Available for Work", "icon": "sparkles" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Build Websites by Just Talking", "level": 1, "size": "48px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Describe what you want, watch it appear in real-time, and get production-ready specs." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "Get in Touch", "url": "#contact", "style": "filled", "size": "lg" } },
+        { "id": "secondaryCta", "type": "button", "enabled": false, "order": 4, "props": { "text": "View Work", "url": "#work", "style": "outline", "size": "lg" } },
+        { "id": "heroImage", "type": "image", "enabled": true, "order": 5, "props": { "url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&q=80", "alt": "Professional headshot portrait", "aspect": "1:1" } },
+        { "id": "backgroundImage", "type": "image", "enabled": false, "order": 6, "props": {} },
+        { "id": "heroVideo", "type": "video", "enabled": false, "order": 7, "props": {} },
+        { "id": "trustBadges", "type": "trust", "enabled": false, "order": 8, "props": { "text": "", "show": false } }
+      ]
+    },
+    {
+      "type": "features",
+      "id": "features-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "64px 24px" },
+      "style": { "background": "#f9fafb", "color": "#111827" },
+      "components": [
+        { "id": "f1", "type": "feature-card", "enabled": true, "order": 0, "props": { "icon": "zap", "title": "Lightning Fast", "description": "Build and deploy in seconds, not days." } },
+        { "id": "f2", "type": "feature-card", "enabled": true, "order": 1, "props": { "icon": "target", "title": "Precise Specs", "description": "AISP specifications with under 2% ambiguity." } },
+        { "id": "f3", "type": "feature-card", "enabled": true, "order": 2, "props": { "icon": "shield", "title": "Enterprise Ready", "description": "Production-grade output from day one." } }
+      ]
+    },
+    {
+      "type": "cta",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "64px 24px", "gap": "16px" },
+      "style": { "background": "#ffffff", "color": "#111827" },
+      "components": [
+        { "id": "heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Ready to build something amazing?", "level": 2, "size": "36px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 1, "props": { "text": "Start building your next project with Hey Bradley." } },
+        { "id": "button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Launch Now", "url": "#signup", "style": "filled", "size": "lg" } }
+      ]
+    }
+  ]
+}

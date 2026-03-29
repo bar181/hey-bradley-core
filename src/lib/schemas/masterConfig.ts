@@ -94,10 +94,52 @@ export const themeSpacingSchema = z.object({
 
 export type ThemeSpacing = z.infer<typeof themeSpacingSchema>
 
+// ---------------------------------------------------------------------------
+// 6-slot palette (ADR-019)
+// ---------------------------------------------------------------------------
+
+export const paletteSchema = z.object({
+  bgPrimary: z.string(),
+  bgSecondary: z.string(),
+  textPrimary: z.string(),
+  textSecondary: z.string(),
+  accentPrimary: z.string(),
+  accentSecondary: z.string(),
+})
+
+export type Palette = z.infer<typeof paletteSchema>
+
+export const alternativePaletteSchema = paletteSchema.extend({
+  name: z.string(),
+})
+
+export type AlternativePalette = z.infer<typeof alternativePaletteSchema>
+
+// ---------------------------------------------------------------------------
+// Theme meta (ADR-018)
+// ---------------------------------------------------------------------------
+
+export const themeMetaSchema = z.object({
+  name: z.string(),
+  slug: z.string(),
+  description: z.string(),
+  tags: z.array(z.string()),
+  mood: z.string(),
+  heroVariant: z.string(),
+})
+
+export type ThemeMeta = z.infer<typeof themeMetaSchema>
+
+// ---------------------------------------------------------------------------
+// Theme schema (Level 2: visual defaults for all sections)
+// ---------------------------------------------------------------------------
+
 export const themeSchema = z.object({
   preset: z.string().default(''),
   mode: z.enum(['light', 'dark']).default('dark'),
+  palette: paletteSchema.optional(),
   colors: themeColorsSchema.default(() => ({ ...COLORS_DEFAULTS })),
+  alternativePalettes: z.array(alternativePaletteSchema).optional(),
   typography: themeTypographySchema.default(() => ({ ...TYPOGRAPHY_DEFAULTS })),
   spacing: themeSpacingSchema.default(() => ({ ...SPACING_DEFAULTS })),
   borderRadius: z.string().default('12px'),

@@ -285,3 +285,68 @@ _(No entries yet)_
 ## Phase 1.3 — Hero Polish + Presets
 
 _(No entries yet)_
+
+---
+
+## Session 10 — Phase 1.3e: Theme System v3 (Final)
+
+**Date:** 2026-03-29
+**Duration:** ~2 hours
+**Phase:** 1.3e (themes iteration 8 — the last one)
+
+### What Was Done
+
+**Sub-Phase A: Research + ADRs**
+- Web searched top website categories from Webflow/Squarespace/ThemeForest
+- Created `docs/research/theme-and-hero-research.md` (Parts A, B, C)
+- Wrote ADRs 017-020 (invisible naming, meta schema, 6-slot palette, visibility matrix)
+- 5 parallel agents, all completed in ~40s
+
+**Sub-Phase B: JSON Data Architecture**
+- Created 10 new theme JSONs: saas, agency, portfolio, blog, startup, personal, professional, wellness, creative, minimalist
+- Created `palettes.json` (50 palettes), `fonts.json` (5 fonts), `media.json` (50 images + 20 videos)
+- 12 parallel agents, all completed in ~60s
+- All media URLs verified to return HTTP 200
+
+**Sub-Phase C: Schema + Store + Bridge**
+- Updated Zod schema: added paletteSchema, themeMetaSchema, alternativePaletteSchema
+- Created `resolveColors.ts` bridge (palette ↔ colors backward compat)
+- Updated `configStore.ts`: new imports, applyPalette(), applyFont(), toggleMode()
+- Created theme registry `src/data/themes/index.ts`
+- Updated `default-config.json` (preset: "saas", added palette block)
+- Updated `template-config.json` (added palette + alternativePalettes)
+
+**Sub-Phase D: UI Components**
+- Rewrote `ThemeSimple.tsx`: 2-column grid, accordion layout, meta-driven from theme registry
+- Created `PaletteSelector.tsx`: 5 rows × 6 color dots
+- Created `FontSelector.tsx`: 5 font buttons
+- Updated hero renderers to use `resolveColors()`: HeroCentered, HeroOverlay, HeroMinimal, HeroSplit
+
+**Sub-Phase E: Cleanup + Verify**
+- Deleted 10 old theme files (stripe-flow, notion-warm, etc.)
+- Build passes clean
+- Dev server verified at localhost:5173
+
+**Hotfixes (after human review):**
+- Fixed `applyVibe()`: only preserve URL from button components (image URLs are theme identity)
+- Fixed `HeroCentered`: now renders heroImage below content
+- Fixed `HeroSplit`: uses resolveColors for CTA button colors
+- Fixed palette default detection (added palette block to default-config.json)
+- Fixed HeroCentered missing fontFamily in style
+- Replaced broken Creative video URL (857251→1093662)
+- Added console.log for dev debugging (applyVibe, applyPalette, applyFont)
+
+### Commits
+- Phase 1.3e themes + ADRs + data files
+- Phase 1.3e hotfixes (image, font, palette, video)
+
+### Bugs Found
+| Bug | Found By | Root Cause |
+|-----|----------|-----------|
+| Hero images cleared on theme switch | Human review | applyVibe preserved empty URL from default config |
+| Font not updating visually | Human review | HeroCentered missing fontFamily in style |
+| Palette default not highlighted | Human review | default-config.json missing palette block |
+| Creative video 403 | URL verification | Pexels blocked that specific video ID |
+
+### Status
+Phase 1.3 is COMPLETE. All themes working. All hotfixes applied. Build passes. Phase 1.4 preflight prepared.

@@ -2,30 +2,30 @@ import { create } from 'zustand'
 import { deepMerge } from '@/lib/deepMerge'
 import type { MasterConfig, Section, SectionType, PatchSource } from '@/lib/schemas'
 import defaultConfig from '@/data/default-config.json'
-import stripeFlow from '@/data/themes/stripe-flow.json'
-import notionWarm from '@/data/themes/notion-warm.json'
-import linearSharp from '@/data/themes/linear-sharp.json'
-import loomFriendly from '@/data/themes/loom-friendly.json'
-import vercelPrism from '@/data/themes/vercel-prism.json'
-import naturCalm from '@/data/themes/nature-calm.json'
-import studioBold from '@/data/themes/studio-bold.json'
-import videoAmbient from '@/data/themes/video-ambient.json'
-import pastelPlayful from '@/data/themes/pastel-playful.json'
-import neonTerminal from '@/data/themes/neon-terminal.json'
+import saas from '@/data/themes/saas.json'
+import agency from '@/data/themes/agency.json'
+import portfolio from '@/data/themes/portfolio.json'
+import blog from '@/data/themes/blog.json'
+import startup from '@/data/themes/startup.json'
+import personal from '@/data/themes/personal.json'
+import professional from '@/data/themes/professional.json'
+import wellness from '@/data/themes/wellness.json'
+import creative from '@/data/themes/creative.json'
+import minimalist from '@/data/themes/minimalist.json'
 
 const DEFAULT_CONFIG: MasterConfig = defaultConfig as unknown as MasterConfig
 
 const THEMES: Record<string, Record<string, unknown>> = {
-  'stripe-flow': stripeFlow as unknown as Record<string, unknown>,
-  'notion-warm': notionWarm as unknown as Record<string, unknown>,
-  'linear-sharp': linearSharp as unknown as Record<string, unknown>,
-  'loom-friendly': loomFriendly as unknown as Record<string, unknown>,
-  'vercel-prism': vercelPrism as unknown as Record<string, unknown>,
-  'nature-calm': naturCalm as unknown as Record<string, unknown>,
-  'studio-bold': studioBold as unknown as Record<string, unknown>,
-  'video-ambient': videoAmbient as unknown as Record<string, unknown>,
-  'pastel-playful': pastelPlayful as unknown as Record<string, unknown>,
-  'neon-terminal': neonTerminal as unknown as Record<string, unknown>,
+  saas: saas as unknown as Record<string, unknown>,
+  agency: agency as unknown as Record<string, unknown>,
+  portfolio: portfolio as unknown as Record<string, unknown>,
+  blog: blog as unknown as Record<string, unknown>,
+  startup: startup as unknown as Record<string, unknown>,
+  personal: personal as unknown as Record<string, unknown>,
+  professional: professional as unknown as Record<string, unknown>,
+  wellness: wellness as unknown as Record<string, unknown>,
+  creative: creative as unknown as Record<string, unknown>,
+  minimalist: minimalist as unknown as Record<string, unknown>,
 }
 
 const HISTORY_LIMIT = 100
@@ -45,6 +45,9 @@ interface ConfigStore {
   toggleSectionEnabled: (sectionId: string) => void
 
   applyVibe: (themeName: string) => void
+  applyPalette: (paletteIndex: number) => void
+  applyFont: (fontFamily: string) => void
+  toggleMode: () => void
 
   undo: () => void
   redo: () => void
@@ -158,19 +161,22 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     // FULL REPLACEMENT — not merge. Theme IS the new config.
     // Only preserve: site{} and text/url props from components.
 
-    // Step 1: Extract copy (text + url props) from current config
+    // Step 1: Extract user copy (text props from all, url only from buttons)
+    // Image/video URLs are part of theme identity — NOT preserved on switch.
+    const BUTTON_TYPES = new Set(['button'])
     const copyMap: Record<string, Record<string, { text?: string; url?: string }>> = {}
     for (const section of config.sections) {
       copyMap[section.type] = {}
       for (const comp of section.components) {
         const preserved: { text?: string; url?: string } = {}
         if (typeof comp.props?.text === 'string') preserved.text = comp.props.text
-        if (typeof comp.props?.url === 'string') preserved.url = comp.props.url
+        if (typeof comp.props?.url === 'string' && BUTTON_TYPES.has(comp.type)) preserved.url = comp.props.url
         if (Object.keys(preserved).length > 0) {
           copyMap[section.type][comp.id] = preserved
         }
       }
     }
+    if (import.meta.env.DEV) console.log('[applyVibe]', themeName, 'copyMap:', copyMap)
 
     // Step 2: Build new config from theme template
     const newConfig = {
@@ -194,7 +200,56 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
         : config.sections,
     }
 
+    if (import.meta.env.DEV) {
+      const heroSection = (newConfig.sections as Section[])[0]
+      const heroImg = heroSection?.components?.find((c: { id: string }) => c.id === 'heroImage')
+      console.log('[applyVibe] result:', { preset: themeName, heroVariant: heroSection?.variant, heroImageUrl: (heroImg?.props as Record<string, unknown>)?.url, heroImageEnabled: heroImg?.enabled })
+    }
+
     set({ config: newConfig as MasterConfig, history: newHistory, future: [], isDirty: true })
+  },
+
+  applyPalette: (paletteIndex: number) => {
+    const { config, history } = get()
+    const newHistory = [...history, config].slice(-HISTORY_LIMIT)
+    const theme = config.theme as unknown as Record<string, unknown>
+    const alts = (theme.alternativePalettes as Array<Record<string, unknown>>) || []
+    const palette = paletteIndex === 0 ? theme.palette : alts[paletteIndex - 1]
+    if (!palette) { if (import.meta.env.DEV) console.warn('[applyPalette] no palette at index', paletteIndex); return }
+    const p = palette as Record<string, string>
+    if (import.meta.env.DEV) console.log('[applyPalette]', paletteIndex, p)
+    const newTheme = {
+      ...config.theme,
+      palette: { bgPrimary: p.bgPrimary, bgSecondary: p.bgSecondary, textPrimary: p.textPrimary, textSecondary: p.textSecondary, accentPrimary: p.accentPrimary, accentSecondary: p.accentSecondary },
+      colors: { primary: p.accentPrimary, secondary: p.accentSecondary, accent: p.accentSecondary, background: p.bgPrimary, surface: p.bgSecondary, text: p.textPrimary, muted: p.textSecondary, border: p.bgSecondary },
+    }
+    const newSections = config.sections.map((s) => ({
+      ...s,
+      style: { ...s.style, background: s.style?.background?.includes('gradient') ? s.style.background : p.bgPrimary, color: p.textPrimary },
+    }))
+    set({ config: { ...config, theme: newTheme as typeof config.theme, sections: newSections } as MasterConfig, history: newHistory, future: [], isDirty: true })
+  },
+
+  applyFont: (fontFamily: string) => {
+    if (import.meta.env.DEV) console.log('[applyFont]', fontFamily)
+    const { config, history } = get()
+    const newHistory = [...history, config].slice(-HISTORY_LIMIT)
+    const newTheme = {
+      ...config.theme,
+      typography: { ...config.theme.typography, fontFamily, headingFamily: fontFamily },
+    }
+    const newSections = config.sections.map((s) => ({
+      ...s,
+      style: { ...s.style, fontFamily },
+    }))
+    set({ config: { ...config, theme: newTheme, sections: newSections } as MasterConfig, history: newHistory, future: [], isDirty: true })
+  },
+
+  toggleMode: () => {
+    const { config, history } = get()
+    const newHistory = [...history, config].slice(-HISTORY_LIMIT)
+    const newMode = config.theme.mode === 'dark' ? 'light' : 'dark'
+    set({ config: { ...config, theme: { ...config.theme, mode: newMode } } as MasterConfig, history: newHistory, future: [], isDirty: true })
   },
 
   undo: () => {

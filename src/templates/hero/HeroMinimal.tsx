@@ -1,9 +1,11 @@
 import { useConfigStore } from '@/store/configStore'
 import { resolveHeroContent } from '@/lib/schemas'
 import type { Section } from '@/lib/schemas'
+import { resolveColors } from '@/lib/resolveColors'
 
 export function HeroMinimal({ section }: { section: Section }) {
   const theme = useConfigStore(s => s.config.theme)
+  const colors = resolveColors(theme)
   const hero = resolveHeroContent(section)
 
   return (
@@ -24,7 +26,7 @@ export function HeroMinimal({ section }: { section: Section }) {
         </p>
 
         <div className="flex items-center gap-3 mt-4">
-          <a href={hero.cta.url} className="px-8 py-3 rounded-lg font-semibold text-sm transition-all" style={{ backgroundColor: theme.colors.primary, color: '#fff' }}>
+          <a href={hero.cta.url} className="px-8 py-3 rounded-lg font-semibold text-sm transition-all" style={{ backgroundColor: colors.accentPrimary, color: colors.bgPrimary }}>
             {hero.cta.text}
           </a>
           {hero.secondaryCta && (
