@@ -150,7 +150,12 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
     }, [sectionId, section, setSectionConfig]
   )
 
-  // Apply a hero layout preset — changes variant + component visibility
+  // Default media URLs for when a layout enables a media type that has no URL yet
+  const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&q=80'
+  const DEFAULT_BG_IMAGE = 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1920&auto=format&q=80'
+  const DEFAULT_VIDEO = 'https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4'
+
+  // Apply a hero layout preset — changes variant + component visibility + sets default URLs
   const applyHeroLayout = useCallback(
     (layout: typeof HERO_LAYOUTS[number]) => {
       if (import.meta.env.DEV) console.log('[heroLayout]', layout.id)
@@ -160,8 +165,18 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
         heroVideo: layout.media === 'heroVideo',
       }
       const updatedComponents = section.components.map((c) => {
-        if (c.id in mediaMap) return { ...c, enabled: mediaMap[c.id] }
-        return c
+        if (!(c.id in mediaMap)) return c
+        const shouldEnable = mediaMap[c.id]
+        const currentUrl = (c.props?.url as string) || ''
+        // Set default URL if enabling a media component that has no URL
+        if (shouldEnable && !currentUrl) {
+          const defaultUrl =
+            c.id === 'heroImage' ? DEFAULT_IMAGE :
+            c.id === 'backgroundImage' ? DEFAULT_BG_IMAGE :
+            c.id === 'heroVideo' ? DEFAULT_VIDEO : ''
+          return { ...c, enabled: shouldEnable, props: { ...c.props, url: defaultUrl } }
+        }
+        return { ...c, enabled: shouldEnable }
       })
       setSectionConfig(sectionId, {
         variant: layout.variant,
