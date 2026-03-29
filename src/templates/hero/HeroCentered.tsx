@@ -10,6 +10,8 @@ interface HeroCenteredProps {
 export function HeroCentered({ section }: HeroCenteredProps) {
   const hero = resolveHeroContent(section)
   const theme = useConfigStore((s) => s.config.theme)
+  const videoComp = section.components.find(c => c.id === 'heroVideo')
+  const videoUrl = (videoComp?.props?.url as string) || ''
 
   return (
     <section
@@ -20,6 +22,15 @@ export function HeroCentered({ section }: HeroCenteredProps) {
       }}
       className="min-h-[500px] flex flex-col items-center justify-center text-center relative overflow-hidden"
     >
+      {/* Optional video background */}
+      {videoComp?.enabled && videoUrl && (
+        <video
+          autoPlay muted loop playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-30"
+          src={videoUrl}
+        />
+      )}
+
       {/* Radial gradient overlay */}
       <div
         className="absolute inset-0 pointer-events-none"
