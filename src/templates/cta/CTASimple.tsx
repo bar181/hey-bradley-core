@@ -7,7 +7,7 @@ export function CTASimple({ section }: { section: Section }) {
   const button = section.components.find((c) => c.id === 'button')
 
   return (
-    <section className="bg-theme-bg text-theme-text py-20 px-6 text-center">
+    <section className="py-20 px-6 text-center" style={{ background: section.style.background, color: section.style.color }}>
       <div className="max-w-2xl mx-auto flex flex-col items-center gap-4">
         {heading?.enabled && (
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">

@@ -20,10 +20,11 @@ export function HeroCentered({ section }: HeroCenteredProps) {
     <section
       style={{
         background: section.style.background,
+        color: section.style.color,
         padding: section.layout.padding,
         fontFamily: 'var(--theme-font)',
       }}
-      className="min-h-[500px] flex flex-col items-center justify-center text-center relative overflow-hidden text-theme-text"
+      className="min-h-[500px] flex flex-col items-center justify-center text-center relative overflow-hidden"
     >
       {/* Optional video background */}
       {videoUrl && (
@@ -59,7 +60,7 @@ export function HeroCentered({ section }: HeroCenteredProps) {
 
         {/* Heading */}
         <h1
-          className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1] text-theme-text"
+          className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1] text-inherit"
           style={{
             fontSize: hero.heading.size,
             fontWeight: hero.heading.weight,
@@ -87,7 +88,7 @@ export function HeroCentered({ section }: HeroCenteredProps) {
             {hero.secondaryCta && (
               <a
                 href={hero.secondaryCta.url}
-                className="inline-flex items-center justify-center border border-theme-text/10 text-theme-text hover:bg-theme-text/10 px-8 py-3 rounded-lg font-semibold text-sm transition-all"
+                className="inline-flex items-center justify-center border border-theme-text/10 text-inherit hover:bg-theme-text/10 px-8 py-3 rounded-lg font-semibold text-sm transition-all"
               >
                 {hero.secondaryCta.text}
               </a>

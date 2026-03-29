@@ -17,10 +17,11 @@ export function HeroSplit({ section }: { section: Section }) {
     <section
       style={{
         background: section.style.background,
+        color: section.style.color,
         padding: section.layout.padding,
         fontFamily: 'var(--theme-font)',
       }}
-      className="min-h-[500px] flex items-center text-theme-text"
+      className="min-h-[500px] flex items-center"
     >
       <div
         className="w-full flex items-center gap-12"
@@ -39,7 +40,7 @@ export function HeroSplit({ section }: { section: Section }) {
           )}
 
           <h1
-            className="text-4xl md:text-5xl font-bold tracking-tight leading-[1.15] text-theme-text"
+            className="text-4xl md:text-5xl font-bold tracking-tight leading-[1.15] text-inherit"
             style={{ fontWeight: hero.heading.weight }}
           >
             {hero.heading.text}
@@ -62,7 +63,7 @@ export function HeroSplit({ section }: { section: Section }) {
               {hero.secondaryCta && (
                 <a
                   href={hero.secondaryCta.url}
-                  className="inline-flex items-center justify-center border border-theme-text/10 text-theme-text hover:bg-theme-text/10 px-6 py-2.5 rounded-lg font-semibold text-sm transition-all"
+                  className="inline-flex items-center justify-center border border-theme-text/10 text-inherit hover:bg-theme-text/10 px-6 py-2.5 rounded-lg font-semibold text-sm transition-all"
                 >
                   {hero.secondaryCta.text}
                 </a>

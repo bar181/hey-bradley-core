@@ -39,7 +39,7 @@ export function FeaturesGrid({ section }: { section: Section }) {
     .sort((a, b) => a.order - b.order)
 
   return (
-    <section className="bg-theme-surface text-theme-text py-16 px-6">
+    <section className="py-16 px-6" style={{ background: section.style.background, color: section.style.color }}>
       <div className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-8">
         {features.map((feature) => {
           const iconSlug = (feature.props?.icon as string) ?? ''
