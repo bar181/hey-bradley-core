@@ -1,8 +1,6 @@
 import { cn } from '@/lib/cn'
 import { useConfigStore } from '@/store/configStore'
 import { THEME_REGISTRY } from '@/data/themes/index'
-import { PaletteSelector } from './PaletteSelector'
-import { FontSelector } from './FontSelector'
 
 interface ThemeMeta {
   name: string
@@ -116,16 +114,9 @@ export function ThemeSimple() {
         })}
       </div>
 
-      {/* Palette */}
-      <div>
-        <div className="text-[10px] font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Palette</div>
-        <PaletteSelector />
-      </div>
-
-      {/* Font */}
-      <div>
-        <div className="text-[10px] font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Font</div>
-        <FontSelector />
+      {/* Palette + Font → moved to EXPERT tab */}
+      <div className="text-[9px] text-hb-text-muted italic pt-2">
+        Color palette and font options available in Expert tab
       </div>
     </div>
   )

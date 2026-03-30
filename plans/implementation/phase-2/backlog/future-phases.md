@@ -35,6 +35,31 @@ Phase 6+: LLM + Auth + Enterprise                           📅 FUTURE
 
 ---
 
+## Phase 3.5: Navbar Section (New Section Type)
+
+**Goal:** Add a configurable navbar as a section type. Anchors to page sections.
+
+### SIMPLE Tab
+| Option | Details |
+|--------|---------|
+| Links | Auto-generated from enabled sections (anchor links). Toggle which sections appear in nav |
+| Nav color | Color picker for background |
+| Logo | Text input OR image URL |
+| Style | Transparent overlay vs solid background |
+
+### EXPERT Tab
+| Option | Details |
+|--------|---------|
+| Position | Top (default), Left sidebar, Right sidebar, Bottom footer-nav |
+| Behavior | Sticky on scroll, Fixed, Static |
+| Mobile | Hamburger toggle, slide-in, bottom tab bar |
+| Spacing | Padding, gap, max-width |
+| Active indicator | Underline, background, dot, none |
+
+**Architecture:** The navbar reads from `config.sections` to auto-generate anchor links. Each section's `id` becomes the anchor target. The navbar component is rendered outside the section loop (it's a shell element, not a content section).
+
+---
+
 ## Phase 4: Specification Engine + Capstone Demo
 
 **Goal:** The "AI-first documentation" capstone story. Specs generate from JSON. Presentation mode for the demo.
