@@ -42,6 +42,7 @@ interface ConfigStore {
   addSection: (type: SectionType, afterIndex?: number) => void
   removeSection: (sectionId: string) => void
   reorderSections: (newOrder: string[]) => void
+  duplicateSection: (sectionId: string) => void
   toggleSectionEnabled: (sectionId: string) => void
 
   applyVibe: (themeName: string) => void
@@ -134,6 +135,19 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       future: [],
       isDirty: true,
     })
+  },
+
+  duplicateSection: (sectionId) => {
+    const { config, history } = get()
+    const section = config.sections.find((s) => s.id === sectionId)
+    if (!section) return
+    const newHistory = [...history, config].slice(-HISTORY_LIMIT)
+    const newId = `${section.type}-${crypto.randomUUID().slice(0, 8)}`
+    const duplicated = { ...JSON.parse(JSON.stringify(section)), id: newId }
+    const index = config.sections.findIndex((s) => s.id === sectionId)
+    const sections = [...config.sections]
+    sections.splice(index + 1, 0, duplicated)
+    set({ config: { ...config, sections }, history: newHistory, future: [], isDirty: true })
   },
 
   toggleSectionEnabled: (sectionId) => {

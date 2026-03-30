@@ -12,8 +12,8 @@ html, body, #root {
 
 body {
   font-family: 'DM Sans', system-ui, sans-serif;
-  background-color: #0f172a;
-  color: #f8fafc;
+  background-color: #09090b;
+  color: #fafafa;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
