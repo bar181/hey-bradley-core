@@ -29,7 +29,7 @@ function CharDot({ current, max }: { current: number; max: number }) {
   return (
     <span className="flex items-center gap-1 shrink-0" title={`${current}/${max}`}>
       <span className={cn('w-1.5 h-1.5 rounded-full', color)} />
-      <span className="text-[9px] text-hb-text-muted tabular-nums">{current}</span>
+      <span className="text-xs text-hb-text-muted tabular-nums">{current}</span>
     </span>
   )
 }
@@ -56,7 +56,7 @@ function Field({
         {onToggle && (
           <Switch checked={enabled} onCheckedChange={onToggle} className="scale-[0.6] shrink-0" />
         )}
-        <span className="text-[10px] font-medium text-hb-text-muted uppercase tracking-wide flex-1">
+        <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide flex-1">
           {label}
         </span>
         {charCurrent !== undefined && charMax !== undefined && (
@@ -157,7 +157,7 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
       <RightAccordion id={`${sectionId}-layout`} label="Layout" defaultOpen>
         <div className="space-y-3">
           <div>
-            <div className="text-[9px] font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">
+            <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">
               Grid Columns
             </div>
             <div className="flex rounded-lg border border-hb-border overflow-hidden">
@@ -196,7 +196,7 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
               >
                 {/* Card header: number + toggle + remove */}
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-semibold text-hb-text-muted uppercase tracking-wide flex-1">
+                  <span className="text-xs font-semibold text-hb-text-muted uppercase tracking-wide flex-1">
                     Card {idx + 1}
                   </span>
                   <Switch

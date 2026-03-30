@@ -14,7 +14,7 @@ function CharDot({ current, max }: { current: number; max: number }) {
   return (
     <span className="flex items-center gap-1 shrink-0" title={`${current}/${max}`}>
       <span className={cn('w-1.5 h-1.5 rounded-full', color)} />
-      <span className="text-[9px] text-hb-text-muted tabular-nums">{current}</span>
+      <span className="text-xs text-hb-text-muted tabular-nums">{current}</span>
     </span>
   )
 }
@@ -30,7 +30,7 @@ function Field({
     <div className="space-y-1">
       <div className="flex items-center gap-2">
         {onToggle && <Switch checked={enabled} onCheckedChange={onToggle} className="scale-[0.6] shrink-0" />}
-        <span className="text-[10px] font-medium text-hb-text-muted uppercase tracking-wide flex-1">{label}</span>
+        <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide flex-1">{label}</span>
         {charCurrent !== undefined && charMax !== undefined && <CharDot current={charCurrent} max={charMax} />}
       </div>
       <div className={cn(!enabled && 'opacity-25 pointer-events-none')}>{children}</div>
@@ -48,7 +48,7 @@ function ColorPicker({ value, onChange, label }: { value: string; onChange: (c: 
   const [showCustom, setShowCustom] = useState(false)
   return (
     <div className="space-y-1.5">
-      <div className="text-[9px] font-medium text-hb-text-muted uppercase tracking-wide">{label}</div>
+      <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">{label}</div>
       <div className="flex flex-wrap gap-1">
         {PRESET_COLORS.map((c) => (
           <button
@@ -66,7 +66,7 @@ function ColorPicker({ value, onChange, label }: { value: string; onChange: (c: 
         <button
           type="button"
           onClick={() => setShowCustom(!showCustom)}
-          className="w-5 h-5 rounded-md border border-dashed border-hb-border text-[8px] text-hb-text-muted flex items-center justify-center hover:border-hb-accent"
+          className="w-5 h-5 rounded-md border border-dashed border-hb-border text-xs text-hb-text-muted flex items-center justify-center hover:border-hb-accent"
           title="Custom color"
         >
           #
@@ -101,7 +101,7 @@ function HeadingControl({ currentSize, onChangeSize }: { currentSize: string; on
           type="button"
           onClick={() => onChangeSize(h.value, h.weight)}
           className={cn(
-            'px-2 py-1 rounded text-[10px] font-bold border transition-all',
+            'px-2 py-1 rounded text-xs font-bold border transition-all',
             currentSize === h.value
               ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
               : 'bg-hb-surface text-hb-text-muted border-hb-border/50 hover:border-hb-accent/30'
@@ -141,11 +141,11 @@ function LayoutWireframe({ layout }: { layout: typeof HERO_LAYOUTS[number] }) {
 
   if (m === 'backgroundImage' || (m === 'heroVideo' && layout.id === 'bg-video')) {
     return (
-      <div className={cn('relative flex items-center justify-center', isFull ? 'h-14' : 'h-10', gray)}>
+      <div className={cn('relative flex items-center justify-center', isFull ? 'h-20' : 'h-16', gray)}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
         <div className="relative space-y-0.5 text-center">
-          <div className={cn('w-8 h-0.5 rounded-sm mx-auto', textLine)} />
-          <div className={cn('w-5 h-1 rounded-sm mx-auto', accent)} />
+          <div className={cn('w-10 h-0.5 rounded-sm mx-auto', textLine)} />
+          <div className={cn('w-6 h-1.5 rounded-sm mx-auto', accent)} />
         </div>
       </div>
     )
@@ -153,29 +153,29 @@ function LayoutWireframe({ layout }: { layout: typeof HERO_LAYOUTS[number] }) {
   if (m === 'heroImage' && (layout.variant === 'split-right' || layout.variant === 'split-left')) {
     const imgLeft = layout.variant === 'split-left'
     return (
-      <div className={cn('flex items-center gap-1 p-1.5', isFull ? 'h-14' : 'h-10')}>
-        {imgLeft && <div className={cn('w-6 flex-shrink-0 rounded', isFull ? 'h-10' : 'h-7', gray)} />}
+      <div className={cn('flex items-center gap-1.5 p-2', isFull ? 'h-20' : 'h-16')}>
+        {imgLeft && <div className={cn('w-8 flex-shrink-0 rounded', isFull ? 'h-14' : 'h-10', gray)} />}
         <div className="flex-1 space-y-0.5">
-          <div className={cn('w-8 h-0.5 rounded-sm', textLine)} />
-          <div className={cn('w-5 h-1 rounded-sm', accent)} />
+          <div className={cn('w-10 h-0.5 rounded-sm', textLine)} />
+          <div className={cn('w-6 h-1.5 rounded-sm', accent)} />
         </div>
-        {!imgLeft && <div className={cn('w-6 flex-shrink-0 rounded', isFull ? 'h-10' : 'h-7', gray)} />}
+        {!imgLeft && <div className={cn('w-8 flex-shrink-0 rounded', isFull ? 'h-14' : 'h-10', gray)} />}
       </div>
     )
   }
   if (m === 'heroImage' || m === 'heroVideo') {
     return (
-      <div className={cn('flex flex-col items-center justify-center gap-0.5 p-1', isFull ? 'h-14' : 'h-10')}>
-        <div className={cn('w-8 h-0.5 rounded-sm', textLine)} />
-        <div className={cn('w-5 h-1 rounded-sm', accent)} />
-        <div className={cn('w-8 h-2.5 rounded mt-0.5', gray)} />
+      <div className={cn('flex flex-col items-center justify-center gap-0.5 p-1.5', isFull ? 'h-20' : 'h-16')}>
+        <div className={cn('w-10 h-0.5 rounded-sm', textLine)} />
+        <div className={cn('w-6 h-1.5 rounded-sm', accent)} />
+        <div className={cn('w-10 h-3 rounded mt-0.5', gray)} />
       </div>
     )
   }
   return (
-    <div className={cn('flex flex-col items-center justify-center gap-1', isFull ? 'h-14' : 'h-10')}>
-      <div className={cn('w-10 h-0.5 rounded-sm', textLine)} />
-      <div className={cn('w-6 h-1 rounded-sm', accent)} />
+    <div className={cn('flex flex-col items-center justify-center gap-1', isFull ? 'h-20' : 'h-16')}>
+      <div className={cn('w-12 h-0.5 rounded-sm', textLine)} />
+      <div className={cn('w-8 h-1.5 rounded-sm', accent)} />
     </div>
   )
 }
@@ -278,33 +278,35 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
     <div className="divide-y divide-hb-border/30">
       {/* ─── 1. LAYOUT ─── */}
       <RightAccordion id="layout" label="Layout" defaultOpen>
-        <div className="space-y-3">
-          <div>
-            <div className="text-[9px] font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Hero Layout</div>
-            <div className="grid grid-cols-4 gap-1">
-              {HERO_LAYOUTS.map((layout) => (
-                <button
-                  key={layout.id}
-                  type="button"
-                  onClick={() => applyHeroLayout(layout)}
-                  className={cn(
-                    'rounded-md border overflow-hidden transition-all',
-                    currentLayoutId === layout.id
-                      ? 'border-hb-accent ring-1 ring-hb-accent/30'
-                      : 'border-hb-border/30 hover:border-hb-accent/40'
-                  )}
-                  title={`${layout.label} — ${layout.desc}`}
-                >
-                  <div className="bg-hb-bg"><LayoutWireframe layout={layout} /></div>
-                  <div className="px-1 py-0.5 bg-hb-surface">
-                    <div className="text-[7px] font-medium text-hb-text-primary leading-none text-center truncate">{layout.label}</div>
-                  </div>
-                </button>
-              ))}
-            </div>
+        <div>
+          <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Hero Layout</div>
+          <div className="grid grid-cols-2 gap-1.5">
+            {HERO_LAYOUTS.map((layout) => (
+              <button
+                key={layout.id}
+                type="button"
+                onClick={() => applyHeroLayout(layout)}
+                className={cn(
+                  'rounded-md border overflow-hidden transition-all',
+                  currentLayoutId === layout.id
+                    ? 'border-hb-accent ring-1 ring-hb-accent/30'
+                    : 'border-hb-border/30 hover:border-hb-accent/40'
+                )}
+                title={`${layout.label} — ${layout.desc}`}
+              >
+                <div className="bg-hb-bg"><LayoutWireframe layout={layout} /></div>
+                <div className="px-1.5 py-1 bg-hb-surface">
+                  <div className="text-xs font-medium text-hb-text-primary leading-none text-center truncate">{layout.label}</div>
+                </div>
+              </button>
+            ))}
           </div>
+        </div>
+      </RightAccordion>
 
-          {/* Media URLs */}
+      {/* ─── 2. VISUALS — media + background color ─── */}
+      <RightAccordion id="visuals" label="Visuals">
+        <div className="space-y-3">
           {hasComp('heroImage') && (
             <Field label="Image" enabled={getEnabled('heroImage', false)} onToggle={(v) => handleToggle('heroImage', v)}>
               <div className="flex items-center gap-1.5">
@@ -329,10 +331,17 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
               </div>
             </Field>
           )}
+
+          {/* Background Color */}
+          <ColorPicker
+            label="Background Color"
+            value={section.style.background || '#09090b'}
+            onChange={updateBackground}
+          />
         </div>
       </RightAccordion>
 
-      {/* ─── 2. STYLE — typography + colors (section-level, not theme) ─── */}
+      {/* ─── 3. STYLE — typography + colors (section-level, not theme) ─── */}
       <RightAccordion id="style" label="Style">
         <div className="space-y-3">
           {/* Light / Dark toggle */}
@@ -341,7 +350,7 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
               type="button"
               onClick={() => { if (config.theme.mode === 'dark') useConfigStore.getState().toggleMode() }}
               className={cn(
-                'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-[10px] font-medium border transition-all',
+                'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-medium border transition-all',
                 config.theme.mode === 'light'
                   ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
                   : 'bg-hb-surface text-hb-text-muted border-hb-border/50 hover:border-hb-accent/30'
@@ -353,7 +362,7 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
               type="button"
               onClick={() => { if (config.theme.mode === 'light') useConfigStore.getState().toggleMode() }}
               className={cn(
-                'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-[10px] font-medium border transition-all',
+                'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-medium border transition-all',
                 config.theme.mode === 'dark'
                   ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
                   : 'bg-hb-surface text-hb-text-muted border-hb-border/50 hover:border-hb-accent/30'
@@ -365,7 +374,7 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
 
           {/* Heading Size */}
           <div>
-            <div className="text-[9px] font-medium text-hb-text-muted uppercase tracking-wide mb-1.5 flex items-center gap-1">
+            <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5 flex items-center gap-1">
               <Type size={10} /> Heading Size
             </div>
             <HeadingControl
@@ -383,7 +392,7 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
                 updateComponentProp('headline', 'weight', current >= 700 ? 400 : 800)
               }}
               className={cn(
-                'flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[10px] font-medium border transition-all',
+                'flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium border transition-all',
                 ((section.components.find(c => c.id === 'headline')?.props?.weight as number) || 700) >= 700
                   ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
                   : 'bg-hb-surface text-hb-text-muted border-hb-border/50'
@@ -397,18 +406,11 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
                 updateComponentProp('headline', 'size', '56px')
                 updateComponentProp('headline', 'weight', 700)
               }}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[10px] text-hb-text-muted border border-hb-border/50 hover:border-hb-accent/30 transition-all"
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs text-hb-text-muted border border-hb-border/50 hover:border-hb-accent/30 transition-all"
             >
               <RotateCcw size={10} /> Reset
             </button>
           </div>
-
-          {/* Background Color */}
-          <ColorPicker
-            label="Background Color"
-            value={section.style.background || '#09090b'}
-            onChange={updateBackground}
-          />
 
           {/* Text Color */}
           <ColorPicker

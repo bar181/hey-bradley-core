@@ -50,7 +50,7 @@ function ThemePreview({ theme }: { theme: ThemeJSON }) {
       <div className="h-16 flex items-center p-2 gap-1.5" style={{ background: heroStyle, fontFamily: font }}>
         {isLeft && <div className="w-8 h-10 rounded flex-shrink-0" style={{ backgroundColor: `${p.textPrimary}15` }} />}
         <div className="flex-1 min-w-0">
-          <div className="text-[5px] font-bold truncate" style={{ color: p.textPrimary }}>{meta.name}</div>
+          <div className="text-xs font-bold truncate" style={{ color: p.textPrimary }}>{meta.name}</div>
           <div className="w-6 h-1.5 rounded-sm mt-0.5" style={{ backgroundColor: p.accentPrimary }} />
         </div>
         {!isLeft && <div className="w-8 h-10 rounded flex-shrink-0" style={{ backgroundColor: `${p.textPrimary}15` }} />}
@@ -62,7 +62,7 @@ function ThemePreview({ theme }: { theme: ThemeJSON }) {
       <div className="h-16 relative flex items-center justify-center p-2" style={{ background: heroStyle, fontFamily: font }}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
         <div className="relative text-center">
-          <div className="text-[5px] font-bold text-white">{meta.name}</div>
+          <div className="text-xs font-bold text-white">{meta.name}</div>
           <div className="w-6 h-1.5 rounded-sm mx-auto mt-0.5" style={{ backgroundColor: p.accentPrimary }} />
         </div>
       </div>
@@ -71,13 +71,13 @@ function ThemePreview({ theme }: { theme: ThemeJSON }) {
   if (meta.heroVariant === 'minimal') {
     return (
       <div className="h-16 flex items-center justify-center" style={{ background: heroStyle, fontFamily: font }}>
-        <div className="text-[7px] font-bold" style={{ color: p.textPrimary }}>{meta.name}</div>
+        <div className="text-xs font-bold" style={{ color: p.textPrimary }}>{meta.name}</div>
       </div>
     )
   }
   return (
     <div className="h-16 flex flex-col items-center justify-center p-2" style={{ background: heroStyle, fontFamily: font }}>
-      <div className="text-[5px] font-bold text-center" style={{ color: p.textPrimary }}>{meta.name}</div>
+      <div className="text-xs font-bold text-center" style={{ color: p.textPrimary }}>{meta.name}</div>
       <div className="w-7 h-1.5 rounded-sm mt-0.5" style={{ backgroundColor: p.accentPrimary }} />
     </div>
   )
@@ -107,7 +107,7 @@ export function ThemeSimple() {
             >
               <ThemePreview theme={t} />
               <div className="px-1.5 py-1 bg-hb-surface">
-                <div className="text-[9px] text-hb-text-primary font-medium leading-none">{t.meta.name}</div>
+                <div className="text-xs text-hb-text-primary font-medium leading-none">{t.meta.name}</div>
               </div>
             </button>
           )
@@ -115,7 +115,7 @@ export function ThemeSimple() {
       </div>
 
       {/* Palette + Font → moved to EXPERT tab */}
-      <div className="text-[9px] text-hb-text-muted italic pt-2">
+      <div className="text-xs text-hb-text-muted italic pt-2">
         Color palette and font options available in Expert tab
       </div>
     </div>

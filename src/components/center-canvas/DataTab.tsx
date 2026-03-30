@@ -221,7 +221,7 @@ export function DataTab() {
             title="Copy section"
           >
             {copiedKey === sectionKey ? (
-              <span className="font-mono text-[10px] text-hb-success">OK</span>
+              <span className="font-mono text-xs text-hb-success">OK</span>
             ) : (
               <Copy size={14} />
             )}

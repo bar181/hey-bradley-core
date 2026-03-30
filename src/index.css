@@ -24,16 +24,27 @@ body {
     --hb-bg: #1E1E1E;
     --hb-surface: #2e080d;
     --hb-surface-hover: #383535;
-    --hb-border: #383535;
+    --hb-border: #4a4545;
     --hb-text-primary: #F3F3F1;
-    --hb-text-secondary: #b8b5b5;
-    --hb-text-muted: #8a8585;
+    --hb-text-secondary: #c8c5c5;
+    --hb-text-muted: #9a9595;
     --hb-accent: #A51C30;
-    --hb-accent-light: rgba(165, 28, 48, 0.15);
-    --hb-accent-hover: #701321;
+    --hb-accent-light: rgba(165, 28, 48, 0.18);
+    --hb-accent-hover: #C1283E;
     --hb-nav-bg: #2e080d;
   }
   .light-chrome {
+    /* Hey Bradley Chrome — Light Mode (Harvard Brand) */
+    --hb-bg: #F3F3F1;
+    --hb-surface: #ffffff;
+    --hb-surface-hover: #ebe8e6;
+    --hb-border: #d0cbc8;
+    --hb-text-primary: #1E1E1E;
+    --hb-text-secondary: #383535;
+    --hb-text-muted: #6a6565;
+    --hb-accent: #A51C30;
+    --hb-accent-light: rgba(165, 28, 48, 0.10);
+    --hb-accent-hover: #8B1729;
     --hb-nav-bg: #A51C30;
   }
   :root {

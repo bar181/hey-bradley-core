@@ -25,7 +25,7 @@ function Field({
         {onToggle && (
           <Switch checked={enabled} onCheckedChange={onToggle} className="scale-[0.6] shrink-0" />
         )}
-        <span className="text-[10px] font-medium text-hb-text-muted uppercase tracking-wide flex-1">
+        <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide flex-1">
           {label}
         </span>
       </div>

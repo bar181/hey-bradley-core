@@ -53,7 +53,7 @@ export function ValuePropsSectionSimple({ sectionId }: { sectionId: string }) {
                     onCheckedChange={(v) => handleToggle(item.id, v)}
                     className="scale-[0.6] shrink-0"
                   />
-                  <span className="text-[10px] font-medium text-hb-text-muted uppercase tracking-wide">
+                  <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
                     Stat {i + 1}
                   </span>
                 </div>

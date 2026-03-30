@@ -11,7 +11,7 @@ export function CenterCanvas() {
   return (
     <div className="h-full flex flex-col">
       <TabBar />
-      <div className="flex-1 overflow-auto p-4" style={{ backgroundColor: 'var(--hb-surface-hover, #2a2325)' }}>
+      <div className="flex-1 overflow-auto p-4 bg-hb-surface-hover">
         {activeTab === 'REALITY' && <RealityTab />}
         {activeTab === 'DATA' && <DataTab />}
         {activeTab === 'XAI_DOCS' && <XAIDocsTab />}

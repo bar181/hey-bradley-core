@@ -169,7 +169,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
               }
               className="bg-hb-surface border border-hb-border rounded-lg px-3 py-2 text-sm font-ui text-hb-text-primary w-full h-14 resize-none"
             />
-            <div className="text-[10px] text-hb-text-muted text-right">
+            <div className="text-xs text-hb-text-muted text-right">
               {headline.length}/100
             </div>
           </div>
@@ -184,7 +184,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
               }
               className="bg-hb-surface border border-hb-border rounded-lg px-3 py-2 text-sm font-ui text-hb-text-primary w-full h-10 resize-none"
             />
-            <div className="text-[10px] text-hb-text-muted text-right">
+            <div className="text-xs text-hb-text-muted text-right">
               {subtitle.length}/100
             </div>
           </div>
@@ -200,7 +200,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
               }
               className="bg-hb-surface border border-hb-border rounded-lg px-3 py-2 text-sm font-ui text-hb-text-primary w-full"
             />
-            <div className="text-[10px] text-hb-text-muted text-right">
+            <div className="text-xs text-hb-text-muted text-right">
               {ctaText.length}/100
             </div>
           </div>
@@ -251,7 +251,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
                 <Toggle enabled={comp.enabled} onChange={comp.onChange} size="sm" />
               </div>
               {comp.enabled && comp.props && (
-                <div className="font-mono text-[10px] text-hb-text-muted mt-1">
+                <div className="font-mono text-xs text-hb-text-muted mt-1">
                   {comp.props}
                 </div>
               )}

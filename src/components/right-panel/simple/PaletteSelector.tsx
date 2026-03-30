@@ -40,7 +40,7 @@ export function PaletteSelector() {
 
   return (
     <div>
-      <div className="text-[10px] font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Palette</div>
+      <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Palette</div>
       <div className="space-y-0.5">
       {allPalettes.map((palette, index) => {
         const isActive = currentBgPrimary === palette.bgPrimary && currentAccent === palette.accentPrimary
@@ -66,7 +66,7 @@ export function PaletteSelector() {
                 />
               ))}
             </div>
-            <span className="text-[9px] text-hb-text-muted">{palette.name}</span>
+            <span className="text-xs text-hb-text-muted">{palette.name}</span>
           </button>
         )
       })}

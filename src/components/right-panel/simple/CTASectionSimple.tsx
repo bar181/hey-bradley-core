@@ -12,7 +12,7 @@ function CharDot({ current, max }: { current: number; max: number }) {
   return (
     <span className="flex items-center gap-1 shrink-0" title={`${current}/${max}`}>
       <span className={cn('w-1.5 h-1.5 rounded-full', color)} />
-      <span className="text-[9px] text-hb-text-muted tabular-nums">{current}</span>
+      <span className="text-xs text-hb-text-muted tabular-nums">{current}</span>
     </span>
   )
 }
@@ -30,7 +30,7 @@ function Field({
         {onToggle && (
           <Switch checked={enabled} onCheckedChange={onToggle} className="scale-[0.6] shrink-0" />
         )}
-        <span className="text-[10px] font-medium text-hb-text-muted uppercase tracking-wide flex-1">{label}</span>
+        <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide flex-1">{label}</span>
         {charCurrent !== undefined && charMax !== undefined && <CharDot current={charCurrent} max={charMax} />}
       </div>
       <div className={cn(!enabled && 'opacity-25 pointer-events-none')}>{children}</div>

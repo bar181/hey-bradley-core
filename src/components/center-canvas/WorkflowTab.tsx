@@ -67,7 +67,7 @@ export function WorkflowTab() {
 
       {/* Live stream output */}
       <div>
-        <span className="mb-2 inline-block font-mono text-[10px] font-semibold uppercase tracking-widest text-hb-text-muted">
+        <span className="mb-2 inline-block font-mono text-xs font-semibold uppercase tracking-widest text-hb-text-muted">
           LIVE STREAM OUTPUT
         </span>
         <div className="rounded-lg bg-hb-bg p-3">

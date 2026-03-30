@@ -168,7 +168,7 @@ export function SectionsSection() {
               <span className="text-sm text-hb-text-primary truncate">
                 {sectionNameMap[section.type] ?? section.type}
               </span>
-              <span className="text-[10px] text-hb-text-muted truncate">
+              <span className="text-xs text-hb-text-muted truncate">
                 {section.id}
               </span>
             </div>

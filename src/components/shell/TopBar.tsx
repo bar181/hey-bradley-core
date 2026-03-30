@@ -43,7 +43,7 @@ export function TopBar() {
       {/* Center: Mode toggles + Version badge */}
       <div className="flex items-center gap-4">
         <ModeToggle />
-        <span className="bg-white/10 text-white/80 font-mono text-[10px] uppercase font-medium rounded-full px-2 py-0.5">
+        <span className="bg-white/10 text-white/80 font-mono text-xs uppercase font-medium rounded-full px-2 py-0.5">
           V1.0.0-RC1
         </span>
       </div>
