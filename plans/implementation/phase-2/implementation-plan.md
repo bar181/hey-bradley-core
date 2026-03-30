@@ -144,15 +144,27 @@ Each section needs:
 
 ---
 
-## Sub-Phase 2.7 — Playwright + Polish (P2)
+## Sub-Phase 2.7 — Tailwind/shadcn Audit + Playwright + Polish (P2)
 
-**Goal:** Automated tests + remaining quality items.
+**Goal:** Audit JSON data for hardcoded CSS, automate tests, remaining quality.
 
-- [ ] Playwright: theme switch, layout change, copy edit, toggle, responsive
-- [ ] Playwright: section add/remove/reorder
-- [ ] Playwright: screenshots for all 10 themes
+### Tailwind/shadcn Audit
+- [ ] Audit theme JSON `style` blocks — flag hardcoded hex colors that should reference palette
+- [ ] Audit section renderers — no inline `style={{color/background}}` except gradients/dynamic URLs
+- [ ] All interactive elements use shadcn components (Switch, Button, Accordion, Card, Input, Textarea)
+- [ ] All layout uses Tailwind grid/flex classes (no CSS grid via inline styles)
+- [ ] Document pattern: JSON stores semantic tokens, renderers map to Tailwind classes
+
+### Playwright (per living-checklist.md)
+- [ ] Visual agent: screenshots all 10 themes + all 8 sections + all tabs
+- [ ] Functional agent: theme switch, copy edit, toggle, nav, undo, persistence
+- [ ] Integrity agent: no broken renders, no console errors, no white-on-white
+- [ ] Pass criteria: zero P0 failures, fewer than 5 P1 failures
+
+### Polish
 - [ ] Google Fonts dynamic loading from fonts.json URLs
 - [ ] Section highlight on click (dashed border in preview)
+- [ ] Default all non-hero sections to `enabled: false`
 
 ---
 

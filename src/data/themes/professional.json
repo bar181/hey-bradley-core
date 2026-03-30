@@ -188,7 +188,7 @@
     {
       "type": "features",
       "id": "features-01",
-      "enabled": true,
+      "enabled": false,
       "order": 1,
       "variant": "grid",
       "layout": {
@@ -240,7 +240,7 @@
     {
       "type": "pricing",
       "id": "pricing-01",
-      "enabled": true,
+      "enabled": false,
       "order": 2,
       "variant": "3-tier",
       "layout": {
@@ -303,7 +303,7 @@
     {
       "type": "cta",
       "id": "cta-01",
-      "enabled": true,
+      "enabled": false,
       "order": 3,
       "variant": "simple",
       "layout": {
@@ -356,7 +356,7 @@
     {
       "type": "testimonials",
       "id": "testimonials-01",
-      "enabled": true,
+      "enabled": false,
       "order": 4,
       "variant": "cards",
       "layout": {
@@ -408,7 +408,7 @@
     {
       "type": "faq",
       "id": "faq-01",
-      "enabled": true,
+      "enabled": false,
       "order": 5,
       "variant": "accordion",
       "layout": {
@@ -477,7 +477,7 @@
     {
       "type": "value_props",
       "id": "value-props-01",
-      "enabled": true,
+      "enabled": false,
       "order": 6,
       "variant": "numbers",
       "layout": {
@@ -540,7 +540,7 @@
     {
       "type": "footer",
       "id": "footer-01",
-      "enabled": true,
+      "enabled": false,
       "order": 7,
       "variant": "multi-column",
       "layout": {

@@ -53,6 +53,26 @@ Phase 6+: LLM + Auth + Enterprise                           📅 FUTURE
 
 ---
 
+## Phase 4.5: Component-Level Layout Options (Per Section)
+
+**Goal:** Each section's Layout accordion offers component-level visual options — card formats, button styles, image treatments. Research top Tailwind/shadcn patterns.
+
+| Section | Layout Options (Top 4-6 Formats) |
+|---------|----------------------------------|
+| Features | Card: flat, bordered, shadow, image-top. Grid: 2/3/4 cols. Icon position: left/top |
+| Pricing | Card: flat, elevated, gradient-border. Highlight: ring, badge, scale |
+| Testimonials | Card: quote-card, avatar-top, avatar-left. Layout: grid, carousel, single |
+| FAQ | Style: accordion, two-column, plain-list. Divider: line, none |
+| Value Props | Style: big-number, icon-circle, icon-square. Layout: 3/4 cols, horizontal |
+| Footer | Style: centered, multi-column, minimal. Columns: 2/3/4 |
+| CTA | Style: centered, split, gradient-bg, newsletter. Size: compact/full-width |
+
+**Research needed:** Top card component formats from Tailwind UI and shadcn. Each section should offer 4-6 pre-built component layouts (not custom CSS — pick from a curated set).
+
+**Architecture:** Store selected format in `section.layout.componentFormat` (e.g., `"card-bordered"`, `"card-shadow"`). Renderer maps format to Tailwind classes.
+
+---
+
 ## Phase 5: Expert Mode (Open Core Pro Tier)
 
 **Goal:** Advanced controls for power users. Every section gets an EXPERT tab.
