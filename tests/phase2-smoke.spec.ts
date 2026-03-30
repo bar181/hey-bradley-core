@@ -8,7 +8,7 @@ const THEME_NAMES = [
 test.describe('Phase 2 Smoke Tests', () => {
   test.beforeEach(async ({ page }) => {
     // Clear localStorage so we get a fresh state each test
-    await page.goto('/')
+    await page.goto('/builder')
     await page.evaluate(() => localStorage.clear())
     await page.reload()
     await page.waitForTimeout(1500)
@@ -157,7 +157,7 @@ test.describe('Theme Regression', () => {
     const errors: string[] = []
     page.on('pageerror', (e) => errors.push(e.message))
 
-    await page.goto('/')
+    await page.goto('/builder')
     await page.evaluate(() => localStorage.clear())
     await page.reload()
     await page.waitForTimeout(1500)

@@ -1,8 +1,39 @@
 import { test, expect } from '@playwright/test'
 
+test.describe('Onboarding Page', () => {
+  test('onboarding shows 10 theme cards and navigates to builder', async ({ page }) => {
+    await page.goto('/')
+    await page.evaluate(() => localStorage.clear())
+    await page.reload()
+    await page.waitForTimeout(1000)
+
+    // Verify onboarding page renders
+    const bodyText = await page.textContent('body')
+    expect(bodyText).toContain('Hey Bradley')
+    expect(bodyText).toContain('Pick a theme')
+
+    // Verify theme cards exist (at least some theme names visible)
+    for (const theme of ['SaaS', 'Agency', 'Portfolio', 'Minimalist']) {
+      expect(bodyText).toContain(theme)
+    }
+
+    // Click a theme card → should navigate to /builder
+    const saasCard = page.locator('button').filter({ hasText: 'SaaS' }).first()
+    await saasCard.click()
+    await page.waitForTimeout(1000)
+
+    // Verify we're now on the builder page
+    expect(page.url()).toContain('/builder')
+
+    // Verify builder rendered (has the TopBar HB logo)
+    const builderText = await page.textContent('body')
+    expect(builderText).toContain('HB')
+  })
+})
+
 test.describe('Phase 3 Smoke Tests', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/builder')
     await page.evaluate(() => localStorage.clear())
     await page.reload()
     await page.waitForTimeout(1500)

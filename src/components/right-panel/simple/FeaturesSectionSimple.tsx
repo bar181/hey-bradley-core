@@ -156,6 +156,27 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
       {/* ─── 1. LAYOUT ─── */}
       <RightAccordion id={`${sectionId}-layout`} label="Layout" defaultOpen>
         <div className="space-y-3">
+          {/* Variant selector */}
+          <div>
+            <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Style</div>
+            <div className="flex rounded-lg border border-hb-border overflow-hidden">
+              {([{ v: 'grid-3col', label: 'Grid' }, { v: 'cards', label: 'Cards' }] as const).map(({ v, label }) => (
+                <button
+                  key={v}
+                  type="button"
+                  onClick={() => setSectionConfig(sectionId, { variant: v })}
+                  className={cn(
+                    'flex-1 py-1.5 text-xs font-medium transition-colors',
+                    (section.variant || 'grid-3col') === v
+                      ? 'bg-hb-accent text-white'
+                      : 'bg-hb-surface text-hb-text-muted hover:bg-hb-surface-hover',
+                  )}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
           <div>
             <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">
               Grid Columns

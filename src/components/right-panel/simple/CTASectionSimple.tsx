@@ -77,6 +77,30 @@ export function CTASectionSimple({ sectionId }: { sectionId: string }) {
 
   return (
     <div className="divide-y divide-hb-border/30">
+      {/* ─── LAYOUT ─── */}
+      <RightAccordion id={`cta-layout-${sectionId}`} label="Layout" defaultOpen>
+        <div>
+          <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Style</div>
+          <div className="flex rounded-lg border border-hb-border overflow-hidden">
+            {([{ v: 'simple', label: 'Centered' }, { v: 'split', label: 'Split' }] as const).map(({ v, label }) => (
+              <button
+                key={v}
+                type="button"
+                onClick={() => setSectionConfig(sectionId, { variant: v })}
+                className={cn(
+                  'flex-1 py-1.5 text-xs font-medium transition-colors',
+                  (section.variant || 'simple') === v
+                    ? 'bg-hb-accent text-white'
+                    : 'bg-hb-surface text-hb-text-muted hover:bg-hb-surface-hover',
+                )}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </RightAccordion>
+
       {/* ─── CONTENT ─── */}
       <RightAccordion id={`cta-content-${sectionId}`} label="Content" defaultOpen>
         <div className="space-y-2.5">

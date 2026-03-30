@@ -8,11 +8,14 @@ import { HeroOverlay } from '@/templates/hero/HeroOverlay'
 import { HeroMinimal } from '@/templates/hero/HeroMinimal'
 import { NavbarSimple } from '@/templates/navbar/NavbarSimple'
 import { CTASimple } from '@/templates/cta/CTASimple'
+import { CTASplit } from '@/templates/cta/CTASplit'
 import { FeaturesGrid } from '@/templates/features/FeaturesGrid'
+import { FeaturesCards } from '@/templates/features/FeaturesCards'
 import { PricingTiers } from '@/templates/pricing/PricingTiers'
 import { FooterSimple } from '@/templates/footer/FooterSimple'
 import { TestimonialsCards } from '@/templates/testimonials/TestimonialsCards'
 import { FAQAccordion } from '@/templates/faq/FAQAccordion'
+import { FAQTwoCol } from '@/templates/faq/FAQTwoCol'
 import { ValuePropsGrid } from '@/templates/value-props/ValuePropsGrid'
 
 const PREVIEW_WIDTH_MAP = {
@@ -56,13 +59,17 @@ export function RealityTab() {
             }
           }
           if (section.type === 'features') {
-            return <FeaturesGrid key={section.id} section={section} />
+            return section.variant === 'cards'
+              ? <FeaturesCards key={section.id} section={section} />
+              : <FeaturesGrid key={section.id} section={section} />
           }
           if (section.type === 'pricing') {
             return <PricingTiers key={section.id} section={section} />
           }
           if (section.type === 'cta') {
-            return <CTASimple key={section.id} section={section} />
+            return section.variant === 'split'
+              ? <CTASplit key={section.id} section={section} />
+              : <CTASimple key={section.id} section={section} />
           }
           if (section.type === 'footer') {
             return <FooterSimple key={section.id} section={section} />
@@ -71,7 +78,9 @@ export function RealityTab() {
             return <TestimonialsCards key={section.id} section={section} />
           }
           if (section.type === 'faq') {
-            return <FAQAccordion key={section.id} section={section} />
+            return section.variant === 'two-column'
+              ? <FAQTwoCol key={section.id} section={section} />
+              : <FAQAccordion key={section.id} section={section} />
           }
           if (section.type === 'value_props') {
             return <ValuePropsGrid key={section.id} section={section} />
