@@ -5,7 +5,7 @@ import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { resolveHeroContent } from '@/lib/schemas'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
-import { Image, Film, Bold, Type, RotateCcw } from 'lucide-react'
+import { Image, Film, Bold, Type, RotateCcw, Sun, Moon } from 'lucide-react'
 
 // ── Compact char indicator ──
 function CharDot({ current, max }: { current: number; max: number }) {
@@ -335,6 +335,34 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
       {/* ─── 2. STYLE — typography + colors (section-level, not theme) ─── */}
       <RightAccordion id="style" label="Style">
         <div className="space-y-3">
+          {/* Light / Dark toggle */}
+          <div className="flex gap-1.5">
+            <button
+              type="button"
+              onClick={() => { if (config.theme.mode === 'dark') useConfigStore.getState().toggleMode() }}
+              className={cn(
+                'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-[10px] font-medium border transition-all',
+                config.theme.mode === 'light'
+                  ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
+                  : 'bg-hb-surface text-hb-text-muted border-hb-border/50 hover:border-hb-accent/30'
+              )}
+            >
+              <Sun size={10} /> Light
+            </button>
+            <button
+              type="button"
+              onClick={() => { if (config.theme.mode === 'light') useConfigStore.getState().toggleMode() }}
+              className={cn(
+                'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-[10px] font-medium border transition-all',
+                config.theme.mode === 'dark'
+                  ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
+                  : 'bg-hb-surface text-hb-text-muted border-hb-border/50 hover:border-hb-accent/30'
+              )}
+            >
+              <Moon size={10} /> Dark
+            </button>
+          </div>
+
           {/* Heading Size */}
           <div>
             <div className="text-[9px] font-medium text-hb-text-muted uppercase tracking-wide mb-1.5 flex items-center gap-1">

@@ -138,6 +138,8 @@ export const themeSchema = z.object({
   preset: z.string().default(''),
   mode: z.enum(['light', 'dark']).default('dark'),
   palette: paletteSchema.optional(),
+  lightPalette: paletteSchema.optional(),
+  darkPalette: paletteSchema.optional(),
   colors: themeColorsSchema.optional(),
   alternativePalettes: z.array(alternativePaletteSchema).optional(),
   typography: themeTypographySchema.default(() => ({ ...TYPOGRAPHY_DEFAULTS })),

@@ -23,6 +23,14 @@
       "accentPrimary": "#22c55e",
       "accentSecondary": "#4ade80"
     },
+    "lightPalette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#f8fafc",
+      "textPrimary": "#09090b",
+      "textSecondary": "#71717a",
+      "accentPrimary": "#22c55e",
+      "accentSecondary": "#4ade80"
+    },
     "alternativePalettes": [
       {
         "name": "Ocean",

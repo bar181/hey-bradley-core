@@ -23,6 +23,14 @@
       "accentPrimary": "#09090b",
       "accentSecondary": "#3f3f46"
     },
+    "darkPalette": {
+      "bgPrimary": "#09090b",
+      "bgSecondary": "#18181b",
+      "textPrimary": "#fafafa",
+      "textSecondary": "#a1a1aa",
+      "accentPrimary": "#09090b",
+      "accentSecondary": "#3f3f46"
+    },
     "alternativePalettes": [
       {
         "name": "Cream",

@@ -23,6 +23,14 @@
       "accentPrimary": "#4f46e5",
       "accentSecondary": "#6366f1"
     },
+    "darkPalette": {
+      "bgPrimary": "#09090b",
+      "bgSecondary": "#18181b",
+      "textPrimary": "#fafafa",
+      "textSecondary": "#a1a1aa",
+      "accentPrimary": "#4f46e5",
+      "accentSecondary": "#6366f1"
+    },
     "alternativePalettes": [
       {
         "name": "Warm",

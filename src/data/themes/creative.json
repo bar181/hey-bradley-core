@@ -23,6 +23,14 @@
       "accentPrimary": "#f43f5e",
       "accentSecondary": "#ec4899"
     },
+    "lightPalette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#f8fafc",
+      "textPrimary": "#09090b",
+      "textSecondary": "#71717a",
+      "accentPrimary": "#f43f5e",
+      "accentSecondary": "#ec4899"
+    },
     "alternativePalettes": [
       {
         "name": "Electric",

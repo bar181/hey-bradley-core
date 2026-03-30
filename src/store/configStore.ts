@@ -262,7 +262,58 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     const { config, history } = get()
     const newHistory = [...history, config].slice(-HISTORY_LIMIT)
     const newMode = config.theme.mode === 'dark' ? 'light' : 'dark'
-    set({ config: { ...config, theme: { ...config.theme, mode: newMode } } as MasterConfig, history: newHistory, future: [], isDirty: true })
+    const theme = config.theme as Record<string, unknown>
+
+    // Get the alternate palette
+    const altPalette = newMode === 'light'
+      ? (theme.lightPalette as Record<string, string>)
+      : (theme.darkPalette as Record<string, string>)
+
+    if (altPalette) {
+      // Swap: store current palette as the opposite, set new palette
+      const currentPalette = config.theme.palette
+      const updates: Record<string, unknown> = {
+        mode: newMode,
+        palette: altPalette,
+      }
+      // Save current palette as the reverse direction
+      if (newMode === 'light') {
+        updates.darkPalette = currentPalette
+      } else {
+        updates.lightPalette = currentPalette
+      }
+
+      // Update section styles to match new palette
+      const newSections = config.sections.map((s) => ({
+        ...s,
+        style: {
+          ...s.style,
+          background: s.style?.background?.includes('gradient') ? s.style.background : altPalette.bgPrimary,
+          color: altPalette.textPrimary,
+        },
+      }))
+
+      set({
+        config: {
+          ...config,
+          theme: { ...config.theme, ...updates } as typeof config.theme,
+          sections: newSections,
+        } as MasterConfig,
+        history: newHistory,
+        future: [],
+        isDirty: true,
+      })
+    } else {
+      // No alternate palette — just flip the mode flag
+      set({
+        config: { ...config, theme: { ...config.theme, mode: newMode } } as MasterConfig,
+        history: newHistory,
+        future: [],
+        isDirty: true,
+      })
+    }
+
+    if (import.meta.env.DEV) console.log('[toggleMode]', newMode)
   },
 
   undo: () => {

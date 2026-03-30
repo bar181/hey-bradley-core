@@ -23,6 +23,14 @@
       "accentPrimary": "#6366f1",
       "accentSecondary": "#818cf8"
     },
+    "lightPalette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#f8fafc",
+      "textPrimary": "#09090b",
+      "textSecondary": "#71717a",
+      "accentPrimary": "#6366f1",
+      "accentSecondary": "#818cf8"
+    },
     "alternativePalettes": [
       {
         "name": "Blue Steel",
