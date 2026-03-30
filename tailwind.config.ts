@@ -39,24 +39,24 @@ export default {
           foreground: 'var(--card-foreground)',
         },
 
-        // Hey Bradley UI chrome — dark: black + crimson, light: Harvard crimson
+        // Hey Bradley UI chrome — Harvard Brand colors via CSS vars
         hb: {
-          bg: 'var(--hb-bg, #0c0a0a)',
-          surface: 'var(--hb-surface, #1a1517)',
-          'surface-hover': 'var(--hb-surface-hover, #2a2325)',
-          border: 'var(--hb-border, #2a2325)',
+          bg: 'var(--hb-bg, #1E1E1E)',
+          surface: 'var(--hb-surface, #2e080d)',
+          'surface-hover': 'var(--hb-surface-hover, #383535)',
+          border: 'var(--hb-border, #383535)',
           'border-selected': 'var(--hb-accent, #A51C30)',
-          'text-primary': 'var(--hb-text-primary, #faf5f5)',
-          'text-secondary': 'var(--hb-text-secondary, #b8a1a1)',
-          'text-muted': 'var(--hb-text-muted, #8a7070)',
+          'text-primary': 'var(--hb-text-primary, #F3F3F1)',
+          'text-secondary': 'var(--hb-text-secondary, #b8b5b5)',
+          'text-muted': 'var(--hb-text-muted, #8a8585)',
           accent: 'var(--hb-accent, #A51C30)',
-          'accent-light': 'var(--hb-accent-light, rgba(165, 28, 48, 0.12))',
-          'accent-hover': 'var(--hb-accent-hover, #8B1729)',
+          'accent-light': 'var(--hb-accent-light, rgba(165, 28, 48, 0.15))',
+          'accent-hover': 'var(--hb-accent-hover, #701321)',
           success: '#22c55e',
           warning: '#f59e0b',
           error: '#ef4444',
-          'listen-bg': '#0c0a0a',
-          'listen-orb': '#A51C30',
+          'listen-bg': '#1E1E1E',
+          'listen-orb': '#701321',
         },
 
         // Theme preview colors (CSS custom properties set by theme applicator)

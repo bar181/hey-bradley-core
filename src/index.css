@@ -12,39 +12,39 @@ html, body, #root {
 
 body {
   font-family: 'DM Sans', system-ui, sans-serif;
-  background-color: var(--hb-bg, #0c0a0a);
-  color: var(--hb-text-primary, #faf5f5);
+  background-color: var(--hb-bg, #1E1E1E);
+  color: var(--hb-text-primary, #F3F3F1);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 @layer base {
   :root {
-    /* Hey Bradley Chrome — Dark Mode (default) */
-    --hb-bg: #0c0a0a;
-    --hb-surface: #1a1517;
-    --hb-surface-hover: #2a2325;
-    --hb-border: #2a2325;
-    --hb-text-primary: #faf5f5;
-    --hb-text-secondary: #b8a1a1;
-    --hb-text-muted: #8a7070;
+    /* Hey Bradley Chrome — Dark Mode (Harvard Brand) */
+    --hb-bg: #1E1E1E;
+    --hb-surface: #2e080d;
+    --hb-surface-hover: #383535;
+    --hb-border: #383535;
+    --hb-text-primary: #F3F3F1;
+    --hb-text-secondary: #b8b5b5;
+    --hb-text-muted: #8a8585;
     --hb-accent: #A51C30;
-    --hb-accent-light: rgba(165, 28, 48, 0.12);
-    --hb-accent-hover: #8B1729;
-    --hb-nav-bg: #1a0a0e;
+    --hb-accent-light: rgba(165, 28, 48, 0.15);
+    --hb-accent-hover: #701321;
+    --hb-nav-bg: #2e080d;
   }
   .light-chrome {
-    /* Hey Bradley Chrome — Light Mode */
-    --hb-bg: #faf5f5;
+    /* Hey Bradley Chrome — Light Mode (Harvard Brand) */
+    --hb-bg: #F3F3F1;
     --hb-surface: #ffffff;
-    --hb-surface-hover: #f5eded;
-    --hb-border: #e8d5d5;
-    --hb-text-primary: #1a0a0a;
-    --hb-text-secondary: #5a3a3a;
-    --hb-text-muted: #8a6a6a;
+    --hb-surface-hover: #e8e6e4;
+    --hb-border: #d4d0ce;
+    --hb-text-primary: #1E1E1E;
+    --hb-text-secondary: #383535;
+    --hb-text-muted: #8a8585;
     --hb-accent: #A51C30;
     --hb-accent-light: rgba(165, 28, 48, 0.08);
-    --hb-accent-hover: #8B1729;
+    --hb-accent-hover: #2e080d;
     --hb-nav-bg: #A51C30;
   }
   :root {
