@@ -1,11 +1,11 @@
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import { cn } from '@/lib/cn'
 import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { resolveHeroContent } from '@/lib/schemas'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
-import { Image, Film, Bold, Type, RotateCcw, Sun, Moon } from 'lucide-react'
+import { Image, Sun, Moon } from 'lucide-react'
 
 // ── Compact char indicator ──
 function CharDot({ current, max }: { current: number; max: number }) {
@@ -34,82 +34,6 @@ function Field({
         {charCurrent !== undefined && charMax !== undefined && <CharDot current={charCurrent} max={charMax} />}
       </div>
       <div className={cn(!enabled && 'opacity-25 pointer-events-none')}>{children}</div>
-    </div>
-  )
-}
-
-// ── Color Picker (simple) ──
-const PRESET_COLORS = [
-  '#09090b', '#18181b', '#27272a', '#3f3f46', '#71717a', '#a1a1aa', '#d4d4d8', '#fafafa',
-  '#ef4444', '#f97316', '#f59e0b', '#22c55e', '#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899',
-]
-
-function ColorPicker({ value, onChange, label }: { value: string; onChange: (c: string) => void; label: string }) {
-  const [showCustom, setShowCustom] = useState(false)
-  return (
-    <div className="space-y-1.5">
-      <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">{label}</div>
-      <div className="flex flex-wrap gap-1">
-        {PRESET_COLORS.map((c) => (
-          <button
-            key={c}
-            type="button"
-            onClick={() => onChange(c)}
-            className={cn(
-              'w-5 h-5 rounded-md border transition-all',
-              value === c ? 'border-hb-accent ring-1 ring-hb-accent/50 scale-110' : 'border-hb-border/50 hover:scale-105'
-            )}
-            style={{ backgroundColor: c }}
-            title={c}
-          />
-        ))}
-        <button
-          type="button"
-          onClick={() => setShowCustom(!showCustom)}
-          className="w-5 h-5 rounded-md border border-dashed border-hb-border text-xs text-hb-text-muted flex items-center justify-center hover:border-hb-accent"
-          title="Custom color"
-        >
-          #
-        </button>
-      </div>
-      {showCustom && (
-        <input
-          type="color"
-          value={value || '#000000'}
-          onChange={(e) => onChange(e.target.value)}
-          className="w-full h-8 rounded-md border border-hb-border cursor-pointer bg-transparent"
-        />
-      )}
-    </div>
-  )
-}
-
-// ── Heading Level Selector ──
-const HEADING_LEVELS = [
-  { label: 'H1', value: '56px', weight: 800 },
-  { label: 'H2', value: '42px', weight: 700 },
-  { label: 'H3', value: '32px', weight: 600 },
-  { label: 'H4', value: '24px', weight: 600 },
-]
-
-function HeadingControl({ currentSize, onChangeSize }: { currentSize: string; onChangeSize: (size: string, weight: number) => void }) {
-  return (
-    <div className="flex gap-1">
-      {HEADING_LEVELS.map((h) => (
-        <button
-          key={h.label}
-          type="button"
-          onClick={() => onChangeSize(h.value, h.weight)}
-          className={cn(
-            'px-2 py-1 rounded text-xs font-bold border transition-all',
-            currentSize === h.value
-              ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
-              : 'bg-hb-surface text-hb-text-muted border-hb-border/50 hover:border-hb-accent/30'
-          )}
-        >
-          {h.label}
-        </button>
-      ))}
     </div>
   )
 }
@@ -189,56 +113,29 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
 
   const hero = resolveHeroContent(section)
   const getEnabled = (id: string, fallback = true) => section.components.find((c) => c.id === id)?.enabled ?? fallback
-  const hasComp = (id: string) => section.components.some((c) => c.id === id)
 
   const updateCopy = useCallback(
     (componentId: string, text: string) => {
-      if (import.meta.env.DEV) console.log('[copyEdit]', componentId, text)
       setSectionConfig(sectionId, { components: updateComponentProps(section, componentId, { text }) })
     }, [sectionId, section, setSectionConfig]
   )
 
   const handleToggle = useCallback(
     (componentId: string, checked: boolean) => {
-      if (import.meta.env.DEV) console.log('[toggle]', componentId, checked)
       setSectionConfig(sectionId, { components: setComponentEnabled(section, componentId, checked) })
     }, [sectionId, section, setSectionConfig]
   )
 
   const updateUrl = useCallback(
     (componentId: string, url: string) => {
-      if (import.meta.env.DEV) console.log('[urlEdit]', componentId, url)
       setSectionConfig(sectionId, {
         components: section.components.map((c) => c.id === componentId ? { ...c, props: { ...c.props, url } } : c),
       })
     }, [sectionId, section, setSectionConfig]
   )
 
-  const updateComponentProp = useCallback(
-    (componentId: string, propName: string, value: unknown) => {
-      setSectionConfig(sectionId, {
-        components: section.components.map((c) =>
-          c.id === componentId ? { ...c, props: { ...c.props, [propName]: value } } : c
-        ),
-      })
-    }, [sectionId, section, setSectionConfig]
-  )
-
-  const updateBackground = useCallback(
-    (bg: string) => {
-      setSectionConfig(sectionId, { style: { ...section.style, background: bg } })
-    }, [sectionId, section, setSectionConfig]
-  )
-
-  const updateFontColor = useCallback(
-    (color: string) => {
-      setSectionConfig(sectionId, { style: { ...section.style, color } })
-    }, [sectionId, section, setSectionConfig]
-  )
-
   const applyHeroLayout = useCallback(
     (layout: typeof HERO_LAYOUTS[number]) => {
-      if (import.meta.env.DEV) console.log('[heroLayout]', layout.id)
       const mediaMap: Record<string, boolean> = {
         heroImage: layout.media === 'heroImage',
         backgroundImage: layout.media === 'backgroundImage',
@@ -272,7 +169,16 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
     return 'compact'
   })()
 
-  const headlineSize = (section.components.find(c => c.id === 'headline')?.props?.size as string) || '56px'
+  // Find the active media component for the single URL input
+  const activeMediaId = (() => {
+    if (getEnabled('backgroundImage', false)) return 'backgroundImage'
+    if (getEnabled('heroVideo', false)) return 'heroVideo'
+    if (getEnabled('heroImage', false)) return 'heroImage'
+    return null
+  })()
+  const activeMediaUrl = activeMediaId
+    ? (section.components.find((c) => c.id === activeMediaId)?.props?.url as string) ?? ''
+    : ''
 
   return (
     <div className="divide-y divide-hb-border/30">
@@ -304,120 +210,59 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
         </div>
       </RightAccordion>
 
-      {/* ─── 2. VISUALS — media + background color ─── */}
+      {/* ─── 2. VISUALS — single media URL + light/dark ─── */}
       <RightAccordion id="visuals" label="Visuals">
         <div className="space-y-3">
-          {hasComp('heroImage') && (
-            <Field label="Image" enabled={getEnabled('heroImage', false)} onToggle={(v) => handleToggle('heroImage', v)}>
+          {/* Single media URL input */}
+          {activeMediaId && (
+            <div className="space-y-1">
+              <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
+                {activeMediaId === 'heroVideo' ? 'Video URL' : 'Image URL'}
+              </span>
               <div className="flex items-center gap-1.5">
                 <Image size={12} className="text-hb-text-muted shrink-0" />
-                <input type="text" value={(section.components.find((c) => c.id === 'heroImage')?.props?.url as string) ?? ''} onChange={(e) => updateUrl('heroImage', e.target.value)} placeholder="Image URL..." className={cn(INPUT, 'text-xs py-1')} />
+                <input
+                  type="text"
+                  value={activeMediaUrl}
+                  onChange={(e) => updateUrl(activeMediaId, e.target.value)}
+                  placeholder="Paste image or video URL..."
+                  data-testid="hero-media-input"
+                  className={cn(INPUT, 'text-xs py-1')}
+                />
               </div>
-            </Field>
-          )}
-          {hasComp('backgroundImage') && (
-            <Field label="BG Image" enabled={getEnabled('backgroundImage', false)} onToggle={(v) => handleToggle('backgroundImage', v)}>
-              <div className="flex items-center gap-1.5">
-                <Image size={12} className="text-hb-text-muted shrink-0" />
-                <input type="text" value={(section.components.find((c) => c.id === 'backgroundImage')?.props?.url as string) ?? ''} onChange={(e) => updateUrl('backgroundImage', e.target.value)} placeholder="BG image URL..." className={cn(INPUT, 'text-xs py-1')} />
-              </div>
-            </Field>
-          )}
-          {hasComp('heroVideo') && (
-            <Field label="Video" enabled={getEnabled('heroVideo', false)} onToggle={(v) => handleToggle('heroVideo', v)}>
-              <div className="flex items-center gap-1.5">
-                <Film size={12} className="text-hb-text-muted shrink-0" />
-                <input type="text" value={(section.components.find((c) => c.id === 'heroVideo')?.props?.url as string) ?? ''} onChange={(e) => updateUrl('heroVideo', e.target.value)} placeholder="Video URL..." className={cn(INPUT, 'text-xs py-1')} />
-              </div>
-            </Field>
-          )}
-
-          {/* Background Color */}
-          <ColorPicker
-            label="Background Color"
-            value={section.style.background || '#09090b'}
-            onChange={updateBackground}
-          />
-        </div>
-      </RightAccordion>
-
-      {/* ─── 3. STYLE — typography + colors (section-level, not theme) ─── */}
-      <RightAccordion id="style" label="Style">
-        <div className="space-y-3">
-          {/* Light / Dark toggle */}
-          <div className="flex gap-1.5">
-            <button
-              type="button"
-              onClick={() => { if (config.theme.mode === 'dark') useConfigStore.getState().toggleMode() }}
-              className={cn(
-                'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-medium border transition-all',
-                config.theme.mode === 'light'
-                  ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
-                  : 'bg-hb-surface text-hb-text-muted border-hb-border/50 hover:border-hb-accent/30'
-              )}
-            >
-              <Sun size={10} /> Light
-            </button>
-            <button
-              type="button"
-              onClick={() => { if (config.theme.mode === 'light') useConfigStore.getState().toggleMode() }}
-              className={cn(
-                'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-medium border transition-all',
-                config.theme.mode === 'dark'
-                  ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
-                  : 'bg-hb-surface text-hb-text-muted border-hb-border/50 hover:border-hb-accent/30'
-              )}
-            >
-              <Moon size={10} /> Dark
-            </button>
-          </div>
-
-          {/* Heading Size */}
-          <div>
-            <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5 flex items-center gap-1">
-              <Type size={10} /> Heading Size
             </div>
-            <HeadingControl
-              currentSize={headlineSize}
-              onChangeSize={(size, _weight) => updateComponentProp('headline', 'size', size)}
-            />
-          </div>
+          )}
 
-          {/* Bold toggle */}
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => {
-                const current = (section.components.find(c => c.id === 'headline')?.props?.weight as number) || 700
-                updateComponentProp('headline', 'weight', current >= 700 ? 400 : 800)
-              }}
-              className={cn(
-                'flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium border transition-all',
-                ((section.components.find(c => c.id === 'headline')?.props?.weight as number) || 700) >= 700
-                  ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
-                  : 'bg-hb-surface text-hb-text-muted border-hb-border/50'
-              )}
-            >
-              <Bold size={10} /> Bold
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                updateComponentProp('headline', 'size', '56px')
-                updateComponentProp('headline', 'weight', 700)
-              }}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs text-hb-text-muted border border-hb-border/50 hover:border-hb-accent/30 transition-all"
-            >
-              <RotateCcw size={10} /> Reset
-            </button>
+          {/* Light / Dark toggle */}
+          <div>
+            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Mode</span>
+            <div className="flex gap-1.5 mt-1">
+              <button
+                type="button"
+                onClick={() => { if (config.theme.mode !== 'light') useConfigStore.getState().toggleMode() }}
+                className={cn(
+                  'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-medium border transition-all',
+                  config.theme.mode === 'light'
+                    ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
+                    : 'bg-hb-surface text-hb-text-muted border-hb-border/50 hover:border-hb-accent/30'
+                )}
+              >
+                <Sun size={10} /> Light
+              </button>
+              <button
+                type="button"
+                onClick={() => { if (config.theme.mode !== 'dark') useConfigStore.getState().toggleMode() }}
+                className={cn(
+                  'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-medium border transition-all',
+                  config.theme.mode === 'dark'
+                    ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
+                    : 'bg-hb-surface text-hb-text-muted border-hb-border/50 hover:border-hb-accent/30'
+                )}
+              >
+                <Moon size={10} /> Dark
+              </button>
+            </div>
           </div>
-
-          {/* Text Color */}
-          <ColorPicker
-            label="Text Color"
-            value={section.style.color || '#fafafa'}
-            onChange={updateFontColor}
-          />
         </div>
       </RightAccordion>
 

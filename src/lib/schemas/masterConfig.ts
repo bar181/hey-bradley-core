@@ -136,7 +136,7 @@ export type ThemeMeta = z.infer<typeof themeMetaSchema>
 
 export const themeSchema = z.object({
   preset: z.string().default(''),
-  mode: z.enum(['light', 'dark']).default('dark'),
+  mode: z.enum(['light', 'dark', 'auto']).default('dark'),
   palette: paletteSchema.optional(),
   lightPalette: paletteSchema.optional(),
   darkPalette: paletteSchema.optional(),

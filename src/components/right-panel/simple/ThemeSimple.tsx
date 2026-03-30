@@ -1,3 +1,4 @@
+import { Sun, Moon, Circle } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { useConfigStore } from '@/store/configStore'
 import { THEME_REGISTRY } from '@/data/themes/index'
@@ -83,39 +84,88 @@ function ThemePreview({ theme }: { theme: ThemeJSON }) {
   )
 }
 
+const MODE_OPTIONS = [
+  { value: 'light', icon: Sun, label: 'Light' },
+  { value: 'auto', icon: Circle, label: 'Auto' },
+  { value: 'dark', icon: Moon, label: 'Dark' },
+] as const
+
 export function ThemeSimple() {
   const selectedPreset = useConfigStore((s) => s.config.theme.preset)
+  const currentMode = useConfigStore((s) => s.config.theme.mode) || 'dark'
   const applyVibe = useConfigStore((s) => s.applyVibe)
+  const toggleMode = useConfigStore((s) => s.toggleMode)
+  const applyPatch = useConfigStore((s) => s.applyPatch)
+
+  const handleModeChange = (mode: string) => {
+    if (mode === 'auto') {
+      applyPatch({ theme: { mode: 'auto' } }, 'ui')
+    } else if (mode !== currentMode) {
+      if (currentMode === 'auto') {
+        // From auto, set directly
+        applyPatch({ theme: { mode } }, 'ui')
+      } else {
+        toggleMode()
+      }
+    }
+  }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {/* Theme grid — 2 columns, compact */}
-      <div className="grid grid-cols-2 gap-1.5">
-        {(THEME_REGISTRY as unknown as ThemeJSON[]).map((t) => {
-          const selected = t.meta.slug === selectedPreset
-          return (
-            <button
-              key={t.meta.slug}
-              type="button"
-              onClick={() => applyVibe(t.meta.slug)}
-              className={cn(
-                'rounded-md border overflow-hidden transition-all text-left',
-                selected
-                  ? 'border-hb-accent ring-1 ring-hb-accent/30'
-                  : 'border-hb-border/50 hover:border-hb-accent/40'
-              )}
-            >
-              <ThemePreview theme={t} />
-              <div className="px-1.5 py-1 bg-hb-surface">
-                <div className="text-xs text-hb-text-primary font-medium leading-none">{t.meta.name}</div>
-              </div>
-            </button>
-          )
-        })}
+      <div>
+        <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Theme</div>
+        <div className="grid grid-cols-2 gap-1.5">
+          {(THEME_REGISTRY as unknown as ThemeJSON[]).map((t) => {
+            const selected = t.meta.slug === selectedPreset
+            return (
+              <button
+                key={t.meta.slug}
+                type="button"
+                onClick={() => applyVibe(t.meta.slug)}
+                data-theme-card={t.meta.slug}
+                className={cn(
+                  'rounded-md border overflow-hidden transition-all text-left',
+                  selected
+                    ? 'border-hb-accent ring-1 ring-hb-accent/30'
+                    : 'border-hb-border/50 hover:border-hb-accent/40'
+                )}
+              >
+                <ThemePreview theme={t} />
+                <div className="px-1.5 py-1 bg-hb-surface">
+                  <div className="text-xs text-hb-text-primary font-medium leading-none">{t.meta.name}</div>
+                </div>
+              </button>
+            )
+          })}
+        </div>
       </div>
 
-      {/* Palette + Font → moved to EXPERT tab */}
-      <div className="text-xs text-hb-text-muted italic pt-2">
+      {/* Mode toggle — Light / Auto / Dark */}
+      <div>
+        <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Mode</div>
+        <div className="flex rounded-lg border border-hb-border overflow-hidden">
+          {MODE_OPTIONS.map(({ value, icon: Icon, label }) => (
+            <button
+              key={value}
+              type="button"
+              onClick={() => handleModeChange(value)}
+              className={cn(
+                'flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-medium transition-colors',
+                currentMode === value
+                  ? 'bg-hb-accent text-white'
+                  : 'bg-hb-surface text-hb-text-muted hover:bg-hb-surface-hover',
+              )}
+            >
+              <Icon size={12} />
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Palette + Font → EXPERT tab */}
+      <div className="text-xs text-hb-text-muted italic">
         Color palette and font options available in Expert tab
       </div>
     </div>
