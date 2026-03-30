@@ -1,13 +1,11 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { cn } from '@/lib/cn'
 import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { resolveHeroContent } from '@/lib/schemas'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
-import { Image, Film, Sun, Moon } from 'lucide-react'
-import { PaletteSelector } from './PaletteSelector'
-import { FontSelector } from './FontSelector'
+import { Image, Film, Bold, Type, RotateCcw } from 'lucide-react'
 
 // ── Compact char indicator ──
 function CharDot({ current, max }: { current: number; max: number }) {
@@ -21,7 +19,7 @@ function CharDot({ current, max }: { current: number; max: number }) {
   )
 }
 
-// ── Toggle + label + optional char count row ──
+// ── Toggle + label row ──
 function Field({
   label, enabled, onToggle, charCurrent, charMax, children,
 }: {
@@ -31,9 +29,7 @@ function Field({
   return (
     <div className="space-y-1">
       <div className="flex items-center gap-2">
-        {onToggle && (
-          <Switch checked={enabled} onCheckedChange={onToggle} className="scale-[0.6] shrink-0" />
-        )}
+        {onToggle && <Switch checked={enabled} onCheckedChange={onToggle} className="scale-[0.6] shrink-0" />}
         <span className="text-[10px] font-medium text-hb-text-muted uppercase tracking-wide flex-1">{label}</span>
         {charCurrent !== undefined && charMax !== undefined && <CharDot current={charCurrent} max={charMax} />}
       </div>
@@ -42,10 +38,85 @@ function Field({
   )
 }
 
+// ── Color Picker (simple) ──
+const PRESET_COLORS = [
+  '#09090b', '#18181b', '#27272a', '#3f3f46', '#71717a', '#a1a1aa', '#d4d4d8', '#fafafa',
+  '#ef4444', '#f97316', '#f59e0b', '#22c55e', '#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899',
+]
+
+function ColorPicker({ value, onChange, label }: { value: string; onChange: (c: string) => void; label: string }) {
+  const [showCustom, setShowCustom] = useState(false)
+  return (
+    <div className="space-y-1.5">
+      <div className="text-[9px] font-medium text-hb-text-muted uppercase tracking-wide">{label}</div>
+      <div className="flex flex-wrap gap-1">
+        {PRESET_COLORS.map((c) => (
+          <button
+            key={c}
+            type="button"
+            onClick={() => onChange(c)}
+            className={cn(
+              'w-5 h-5 rounded-md border transition-all',
+              value === c ? 'border-hb-accent ring-1 ring-hb-accent/50 scale-110' : 'border-hb-border/50 hover:scale-105'
+            )}
+            style={{ backgroundColor: c }}
+            title={c}
+          />
+        ))}
+        <button
+          type="button"
+          onClick={() => setShowCustom(!showCustom)}
+          className="w-5 h-5 rounded-md border border-dashed border-hb-border text-[8px] text-hb-text-muted flex items-center justify-center hover:border-hb-accent"
+          title="Custom color"
+        >
+          #
+        </button>
+      </div>
+      {showCustom && (
+        <input
+          type="color"
+          value={value || '#000000'}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full h-8 rounded-md border border-hb-border cursor-pointer bg-transparent"
+        />
+      )}
+    </div>
+  )
+}
+
+// ── Heading Level Selector ──
+const HEADING_LEVELS = [
+  { label: 'H1', value: '56px', weight: 800 },
+  { label: 'H2', value: '42px', weight: 700 },
+  { label: 'H3', value: '32px', weight: 600 },
+  { label: 'H4', value: '24px', weight: 600 },
+]
+
+function HeadingControl({ currentSize, onChangeSize }: { currentSize: string; onChangeSize: (size: string, weight: number) => void }) {
+  return (
+    <div className="flex gap-1">
+      {HEADING_LEVELS.map((h) => (
+        <button
+          key={h.label}
+          type="button"
+          onClick={() => onChangeSize(h.value, h.weight)}
+          className={cn(
+            'px-2 py-1 rounded text-[10px] font-bold border transition-all',
+            currentSize === h.value
+              ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
+              : 'bg-hb-surface text-hb-text-muted border-hb-border/50 hover:border-hb-accent/30'
+          )}
+        >
+          {h.label}
+        </button>
+      ))}
+    </div>
+  )
+}
+
 const INPUT = 'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
 
 // ── Hero Layout Presets ──
-// These define HOW the hero content + media is arranged (not theme/colors)
 const HERO_LAYOUTS = [
   { id: 'bg-image', variant: 'overlay', label: 'BG Image', desc: 'Full height', media: 'backgroundImage', size: 'full' },
   { id: 'bg-video', variant: 'centered', label: 'BG Video', desc: 'Full height', media: 'heroVideo', size: 'full' },
@@ -57,6 +128,10 @@ const HERO_LAYOUTS = [
   { id: 'image-bottom', variant: 'centered', label: 'Image Below', desc: 'Fit size', media: 'heroImage', size: 'fit' },
 ] as const
 
+const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&q=80'
+const DEFAULT_BG_IMAGE = 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1920&auto=format&q=80'
+const DEFAULT_VIDEO = 'https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4'
+
 function LayoutWireframe({ layout }: { layout: typeof HERO_LAYOUTS[number] }) {
   const m = layout.media
   const isFull = layout.size === 'full'
@@ -65,51 +140,40 @@ function LayoutWireframe({ layout }: { layout: typeof HERO_LAYOUTS[number] }) {
   const textLine = 'bg-hb-text-muted/30'
 
   if (m === 'backgroundImage' || (m === 'heroVideo' && layout.id === 'bg-video')) {
-    // Full background with overlay + centered text
     return (
-      <div className={cn('relative flex items-center justify-center', isFull ? 'h-16' : 'h-12', gray)}>
+      <div className={cn('relative flex items-center justify-center', isFull ? 'h-14' : 'h-10', gray)}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
         <div className="relative space-y-0.5 text-center">
           <div className={cn('w-8 h-0.5 rounded-sm mx-auto', textLine)} />
           <div className={cn('w-5 h-1 rounded-sm mx-auto', accent)} />
         </div>
-        <div className="absolute top-0.5 right-0.5 text-[5px] text-hb-text-muted/50">
-          {m === 'heroVideo' ? '▶' : '🖼'}
-        </div>
       </div>
     )
   }
-
   if (m === 'heroImage' && (layout.variant === 'split-right' || layout.variant === 'split-left')) {
     const imgLeft = layout.variant === 'split-left'
     return (
-      <div className={cn('flex items-center gap-1 p-1.5', isFull ? 'h-16' : 'h-12')}>
-        {imgLeft && <div className={cn('w-7 flex-shrink-0 rounded', isFull ? 'h-12' : 'h-8', gray)} />}
+      <div className={cn('flex items-center gap-1 p-1.5', isFull ? 'h-14' : 'h-10')}>
+        {imgLeft && <div className={cn('w-6 flex-shrink-0 rounded', isFull ? 'h-10' : 'h-7', gray)} />}
         <div className="flex-1 space-y-0.5">
           <div className={cn('w-8 h-0.5 rounded-sm', textLine)} />
           <div className={cn('w-5 h-1 rounded-sm', accent)} />
         </div>
-        {!imgLeft && <div className={cn('w-7 flex-shrink-0 rounded', isFull ? 'h-12' : 'h-8', gray)} />}
+        {!imgLeft && <div className={cn('w-6 flex-shrink-0 rounded', isFull ? 'h-10' : 'h-7', gray)} />}
       </div>
     )
   }
-
   if (m === 'heroImage' || m === 'heroVideo') {
-    // Media below text
     return (
-      <div className={cn('flex flex-col items-center justify-center gap-0.5 p-1', isFull ? 'h-16' : 'h-12')}>
+      <div className={cn('flex flex-col items-center justify-center gap-0.5 p-1', isFull ? 'h-14' : 'h-10')}>
         <div className={cn('w-8 h-0.5 rounded-sm', textLine)} />
         <div className={cn('w-5 h-1 rounded-sm', accent)} />
-        <div className={cn('w-10 h-3 rounded mt-0.5', gray)}>
-          {m === 'heroVideo' && <span className="text-[4px] text-hb-text-muted/40 flex items-center justify-center h-full">▶</span>}
-        </div>
+        <div className={cn('w-8 h-2.5 rounded mt-0.5', gray)} />
       </div>
     )
   }
-
-  // No media (minimal / compact)
   return (
-    <div className={cn('flex flex-col items-center justify-center gap-1', isFull ? 'h-16' : 'h-12')}>
+    <div className={cn('flex flex-col items-center justify-center gap-1', isFull ? 'h-14' : 'h-10')}>
       <div className={cn('w-10 h-0.5 rounded-sm', textLine)} />
       <div className={cn('w-6 h-1 rounded-sm', accent)} />
     </div>
@@ -150,12 +214,28 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
     }, [sectionId, section, setSectionConfig]
   )
 
-  // Default media URLs for when a layout enables a media type that has no URL yet
-  const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&q=80'
-  const DEFAULT_BG_IMAGE = 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1920&auto=format&q=80'
-  const DEFAULT_VIDEO = 'https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4'
+  const updateComponentProp = useCallback(
+    (componentId: string, propName: string, value: unknown) => {
+      setSectionConfig(sectionId, {
+        components: section.components.map((c) =>
+          c.id === componentId ? { ...c, props: { ...c.props, [propName]: value } } : c
+        ),
+      })
+    }, [sectionId, section, setSectionConfig]
+  )
 
-  // Apply a hero layout preset — changes variant + component visibility + sets default URLs
+  const updateBackground = useCallback(
+    (bg: string) => {
+      setSectionConfig(sectionId, { style: { ...section.style, background: bg } })
+    }, [sectionId, section, setSectionConfig]
+  )
+
+  const updateFontColor = useCallback(
+    (color: string) => {
+      setSectionConfig(sectionId, { style: { ...section.style, color } })
+    }, [sectionId, section, setSectionConfig]
+  )
+
   const applyHeroLayout = useCallback(
     (layout: typeof HERO_LAYOUTS[number]) => {
       if (import.meta.env.DEV) console.log('[heroLayout]', layout.id)
@@ -168,32 +248,23 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
         if (!(c.id in mediaMap)) return c
         const shouldEnable = mediaMap[c.id]
         const currentUrl = (c.props?.url as string) || ''
-        // Set default URL if enabling a media component that has no URL
         if (shouldEnable && !currentUrl) {
-          const defaultUrl =
-            c.id === 'heroImage' ? DEFAULT_IMAGE :
-            c.id === 'backgroundImage' ? DEFAULT_BG_IMAGE :
-            c.id === 'heroVideo' ? DEFAULT_VIDEO : ''
+          const defaultUrl = c.id === 'heroImage' ? DEFAULT_IMAGE : c.id === 'backgroundImage' ? DEFAULT_BG_IMAGE : c.id === 'heroVideo' ? DEFAULT_VIDEO : ''
           return { ...c, enabled: shouldEnable, props: { ...c.props, url: defaultUrl } }
         }
         return { ...c, enabled: shouldEnable }
       })
-      setSectionConfig(sectionId, {
-        variant: layout.variant,
-        layout: { ...section.layout, heroLayout: layout.id },
-        components: updatedComponents,
-      })
+      setSectionConfig(sectionId, { variant: layout.variant, layout: { ...section.layout, heroLayout: layout.id }, components: updatedComponents })
     }, [sectionId, section, setSectionConfig]
   )
 
-  // Detect current layout
   const currentLayoutId = (() => {
     const v = section.variant || 'centered'
     const hasImage = getEnabled('heroImage', false)
     const hasBgImage = getEnabled('backgroundImage', false)
     const hasVideo = getEnabled('heroVideo', false)
     if (hasBgImage) return 'bg-image'
-    if (hasVideo && v === 'centered' && !hasImage) return section.components.find(c => c.id === 'heroImage')?.enabled ? 'video-bottom' : 'bg-video'
+    if (hasVideo && !hasImage) return (section.layout as Record<string, unknown>).heroLayout === 'video-bottom' ? 'video-bottom' : 'bg-video'
     if (v === 'minimal') return 'minimal-full'
     if (v === 'split-right' && hasImage) return 'image-right'
     if (v === 'split-left' && hasImage) return 'image-left'
@@ -201,51 +272,39 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
     return 'compact'
   })()
 
+  const headlineSize = (section.components.find(c => c.id === 'headline')?.props?.size as string) || '56px'
+
   return (
     <div className="divide-y divide-hb-border/30">
-      {/* ─── 1. LAYOUT — theme presets + background + image/video ─── */}
+      {/* ─── 1. LAYOUT ─── */}
       <RightAccordion id="layout" label="Layout" defaultOpen>
         <div className="space-y-3">
-          {/* Hero layout presets — 2 columns */}
           <div>
             <div className="text-[9px] font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Hero Layout</div>
-            <div className="grid grid-cols-2 gap-1.5">
+            <div className="grid grid-cols-4 gap-1">
               {HERO_LAYOUTS.map((layout) => (
                 <button
                   key={layout.id}
                   type="button"
                   onClick={() => applyHeroLayout(layout)}
                   className={cn(
-                    'rounded-lg border overflow-hidden transition-all text-left',
+                    'rounded-md border overflow-hidden transition-all',
                     currentLayoutId === layout.id
                       ? 'border-hb-accent ring-1 ring-hb-accent/30'
-                      : 'border-hb-border/40 hover:border-hb-accent/40'
+                      : 'border-hb-border/30 hover:border-hb-accent/40'
                   )}
+                  title={`${layout.label} — ${layout.desc}`}
                 >
                   <div className="bg-hb-bg"><LayoutWireframe layout={layout} /></div>
-                  <div className="px-2 py-1 bg-hb-surface">
-                    <div className="text-[9px] font-medium text-hb-text-primary leading-none">{layout.label}</div>
-                    <div className="text-[8px] text-hb-text-muted leading-none mt-0.5">{layout.desc}</div>
+                  <div className="px-1 py-0.5 bg-hb-surface">
+                    <div className="text-[7px] font-medium text-hb-text-primary leading-none text-center truncate">{layout.label}</div>
                   </div>
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Background */}
-          <div>
-            <div className="text-[9px] font-medium text-hb-text-muted uppercase tracking-wide mb-1">Background</div>
-            <div className="flex items-center gap-2">
-              <div
-                className="w-6 h-6 rounded border border-hb-border shrink-0"
-                style={{ background: section.style.background }}
-                title="Current background"
-              />
-              <span className="text-[10px] text-hb-text-muted truncate">{section.style.background?.slice(0, 30)}</span>
-            </div>
-          </div>
-
-          {/* Image */}
+          {/* Media URLs */}
           {hasComp('heroImage') && (
             <Field label="Image" enabled={getEnabled('heroImage', false)} onToggle={(v) => handleToggle('heroImage', v)}>
               <div className="flex items-center gap-1.5">
@@ -254,18 +313,14 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
               </div>
             </Field>
           )}
-
-          {/* Background Image */}
           {hasComp('backgroundImage') && (
             <Field label="BG Image" enabled={getEnabled('backgroundImage', false)} onToggle={(v) => handleToggle('backgroundImage', v)}>
               <div className="flex items-center gap-1.5">
                 <Image size={12} className="text-hb-text-muted shrink-0" />
-                <input type="text" value={(section.components.find((c) => c.id === 'backgroundImage')?.props?.url as string) ?? ''} onChange={(e) => updateUrl('backgroundImage', e.target.value)} placeholder="Background image URL..." className={cn(INPUT, 'text-xs py-1')} />
+                <input type="text" value={(section.components.find((c) => c.id === 'backgroundImage')?.props?.url as string) ?? ''} onChange={(e) => updateUrl('backgroundImage', e.target.value)} placeholder="BG image URL..." className={cn(INPUT, 'text-xs py-1')} />
               </div>
             </Field>
           )}
-
-          {/* Video */}
           {hasComp('heroVideo') && (
             <Field label="Video" enabled={getEnabled('heroVideo', false)} onToggle={(v) => handleToggle('heroVideo', v)}>
               <div className="flex items-center gap-1.5">
@@ -277,45 +332,62 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
         </div>
       </RightAccordion>
 
-      {/* ─── 2. STYLE — font, palette, mode ─── */}
+      {/* ─── 2. STYLE — typography + colors (section-level, not theme) ─── */}
       <RightAccordion id="style" label="Style">
         <div className="space-y-3">
-          {/* Font selector — rendered in each font */}
-          <FontSelector />
-
-          {/* Palette selector — 5 rows of 6 dots */}
-          <PaletteSelector />
-
-          {/* Light/Dark toggle */}
+          {/* Heading Size */}
           <div>
-            <div className="text-[10px] font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Mode</div>
-            <div className="flex gap-1.5">
-              <button
-                type="button"
-                onClick={() => { if (config.theme.mode === 'dark') useConfigStore.getState().toggleMode() }}
-                className={cn(
-                  'flex-1 flex items-center justify-center gap-1.5 py-2 rounded-md text-xs font-medium border transition-all',
-                  config.theme.mode === 'light'
-                    ? 'bg-hb-accent text-white border-hb-accent'
-                    : 'bg-hb-surface text-hb-text-muted border-hb-border hover:border-hb-accent/40'
-                )}
-              >
-                <Sun size={12} /> Light
-              </button>
-              <button
-                type="button"
-                onClick={() => { if (config.theme.mode === 'light') useConfigStore.getState().toggleMode() }}
-                className={cn(
-                  'flex-1 flex items-center justify-center gap-1.5 py-2 rounded-md text-xs font-medium border transition-all',
-                  config.theme.mode === 'dark'
-                    ? 'bg-hb-accent text-white border-hb-accent'
-                    : 'bg-hb-surface text-hb-text-muted border-hb-border hover:border-hb-accent/40'
-                )}
-              >
-                <Moon size={12} /> Dark
-              </button>
+            <div className="text-[9px] font-medium text-hb-text-muted uppercase tracking-wide mb-1.5 flex items-center gap-1">
+              <Type size={10} /> Heading Size
             </div>
+            <HeadingControl
+              currentSize={headlineSize}
+              onChangeSize={(size, _weight) => updateComponentProp('headline', 'size', size)}
+            />
           </div>
+
+          {/* Bold toggle */}
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                const current = (section.components.find(c => c.id === 'headline')?.props?.weight as number) || 700
+                updateComponentProp('headline', 'weight', current >= 700 ? 400 : 800)
+              }}
+              className={cn(
+                'flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[10px] font-medium border transition-all',
+                ((section.components.find(c => c.id === 'headline')?.props?.weight as number) || 700) >= 700
+                  ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
+                  : 'bg-hb-surface text-hb-text-muted border-hb-border/50'
+              )}
+            >
+              <Bold size={10} /> Bold
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                updateComponentProp('headline', 'size', '56px')
+                updateComponentProp('headline', 'weight', 700)
+              }}
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[10px] text-hb-text-muted border border-hb-border/50 hover:border-hb-accent/30 transition-all"
+            >
+              <RotateCcw size={10} /> Reset
+            </button>
+          </div>
+
+          {/* Background Color */}
+          <ColorPicker
+            label="Background Color"
+            value={section.style.background || '#09090b'}
+            onChange={updateBackground}
+          />
+
+          {/* Text Color */}
+          <ColorPicker
+            label="Text Color"
+            value={section.style.color || '#fafafa'}
+            onChange={updateFontColor}
+          />
         </div>
       </RightAccordion>
 
