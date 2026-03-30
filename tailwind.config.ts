@@ -39,24 +39,24 @@ export default {
           foreground: 'var(--card-foreground)',
         },
 
-        // Hey Bradley UI chrome — modern dark with violet accent
+        // Hey Bradley UI chrome — dark: black + crimson, light: Harvard crimson
         hb: {
-          bg: '#09090b',
-          surface: '#18181b',
-          'surface-hover': '#27272a',
-          border: '#27272a',
-          'border-selected': '#8b5cf6',
-          'text-primary': '#fafafa',
-          'text-secondary': '#a1a1aa',
-          'text-muted': '#71717a',
-          accent: '#8b5cf6',
-          'accent-light': 'rgba(139, 92, 246, 0.12)',
-          'accent-hover': '#7c3aed',
+          bg: 'var(--hb-bg, #0c0a0a)',
+          surface: 'var(--hb-surface, #1a1517)',
+          'surface-hover': 'var(--hb-surface-hover, #2a2325)',
+          border: 'var(--hb-border, #2a2325)',
+          'border-selected': 'var(--hb-accent, #A51C30)',
+          'text-primary': 'var(--hb-text-primary, #faf5f5)',
+          'text-secondary': 'var(--hb-text-secondary, #b8a1a1)',
+          'text-muted': 'var(--hb-text-muted, #8a7070)',
+          accent: 'var(--hb-accent, #A51C30)',
+          'accent-light': 'var(--hb-accent-light, rgba(165, 28, 48, 0.12))',
+          'accent-hover': 'var(--hb-accent-hover, #8B1729)',
           success: '#22c55e',
           warning: '#f59e0b',
           error: '#ef4444',
-          'listen-bg': '#09090b',
-          'listen-orb': '#ef4444',
+          'listen-bg': '#0c0a0a',
+          'listen-orb': '#A51C30',
         },
 
         // Theme preview colors (CSS custom properties set by theme applicator)
