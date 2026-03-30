@@ -4,7 +4,7 @@
 **Program:** Harvard ALM in Digital Media Design (Capstone)
 **Author:** Bradley Ross
 **Target Completion:** May 2026
-**Status:** Pre-implementation (all planning complete, no source code yet)
+**Status:** Phase 3 COMPLETE. Phase 4 (Canned Demo) next. ~3 days to presentable demo.
 
 ---
 
@@ -506,25 +506,36 @@ An end-of-phase review that uses **Playwright** for automated UI/UX/functionalit
 
 ---
 
-## 11. NEXT STEPS
+## 11. CURRENT STATUS (Updated 2026-03-30)
 
-1. **Begin Level 1, Phase 0: Scaffold & Tooling**
-   - Initialize Vite + React + TypeScript project in `/src`
-   - Install all Level 1 dependencies (Tailwind, shadcn/ui, Zustand, Zod, React Router, etc.)
-   - Configure ESLint, Prettier, path aliases
-   - Set up folder structure matching DDD bounded contexts
+### Completed Phases (Renumbered)
 
-2. **Begin Level 1, Phase 1.0: Shell & Navigation**
-   - Build the AppShell component with warm cream (`#faf8f5`) background
-   - Implement sidebar with mode toggles (BUILD/LISTEN, DRAFT/EXPERT)
-   - Implement toolbar with project name and action buttons
-   - Implement center tab bar (REALITY, DATA, XAI DOCS, WORKFLOW)
-   - Apply DM Sans + JetBrains Mono typography system
-   - Apply orange accent (`#e8772e`) for interactive elements
+| Phase | Focus | Completed | Score |
+|-------|-------|-----------|-------|
+| 1 | Core Builder (hero + JSON loop) | 2026-03-29 | 77% |
+| 2 | System Polish + ALL 8 Section Editors + CRUD | 2026-03-30 | 82% |
+| 3 | Onboarding + Full-Page Preview + Builder UX | 2026-03-30 | 73% |
 
-3. **Validate against human review gate**
-   - After Phase 1.0: "Does it look like a real product?"
-   - Compare against mockups in `/plans/screen-caps/`
+### What Exists Now
+
+- **72+ source files** in `/src` (~13,600 lines of TypeScript/React)
+- **15 section renderers** (4 hero variants + 11 section types)
+- **9 SIMPLE tab editors** with data-testid attributes
+- **10 theme JSON files** with palette, typography, sections
+- **2 routes**: `/` (onboarding) and `/builder` (3-panel editor)
+- **Full-page preview mode** with navbar
+- **10 Playwright smoke tests** (all passing)
+- **Harvard crimson branding** on builder chrome
+
+### Next Steps
+
+```
+Phase 4: Canned Demo (simulated chat/listen, example websites) — ~2 days
+Phase 5: Home Page + Presentation Flow + Vercel Deploy — ~1 day
+Phase 6+: Post-Demo (real AI, auth, database) — after capstone
+```
+
+See `/plans/implementation/phase-4/README.md` for the current phase plan.
 
 ---
 

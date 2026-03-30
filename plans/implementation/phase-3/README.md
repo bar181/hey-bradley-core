@@ -2,7 +2,7 @@
 
 **North Star:** A user lands on Hey Bradley, picks a theme, sees a full multi-section website with navigation, and can customize every section. This is the POC milestone.
 
-**Status:** READY TO START
+**Status:** COMPLETE (2026-03-30)
 **Prerequisite:** Phase 2 COMPLETE (2026-03-30)
 **Authority:** `updated-north-star.md` v4.0.0
 

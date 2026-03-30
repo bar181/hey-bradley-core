@@ -1,8 +1,7 @@
-# Hey Bradley — Master Backlog Classification
+# Hey Bradley — Master Backlog Classification (SUPERSEDED)
 
-**Date:** 2026-03-30
-**Authority:** Updated North Star v4.0.0
-**Target:** Capstone defense (May 2026)
+**Date:** 2026-03-30 | **Superseded by:** `phase-4/backlog-renumbered.md`
+**Note:** Phase numbering was renumbered on 2026-03-30. See Phase 4 folder for current roadmap.
 
 ---
 

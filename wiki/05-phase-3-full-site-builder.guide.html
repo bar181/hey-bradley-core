@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 3: Full Site Builder — Hey Bradley Wiki</title>
+<style>
+  /* ── Reset & Base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0b0f1a;
+    --surface: #131825;
+    --surface-2: #1a2035;
+    --border: #2a3050;
+    --text: #e2e8f0;
+    --text-muted: #95a0b8;
+    --accent: #6c8cff;
+    --accent-glow: rgba(108, 140, 255, 0.25);
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --cyan: #22d3ee;
+    --purple: #a78bfa;
+    --radius: 12px;
+  }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── Layout ── */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    padding: 72px 0 48px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, rgba(167, 139, 250, 0.12) 40%, transparent 70%);
+    animation: hero-pulse 6s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes hero-pulse {
+    0%, 100% { opacity: 0.35; transform: translateX(-50%) scale(1); }
+    50%      { opacity: 0.55; transform: translateX(-50%) scale(1.06); }
+  }
+  .hero h1 {
+    font-size: 2.75rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #fff 30%, var(--accent) 70%, var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: hero-fade-in 1s ease-out;
+    position: relative;
+  }
+  @keyframes hero-fade-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero .subtitle {
+    margin-top: 12px;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    position: relative;
+    animation: hero-fade-in 1.2s ease-out;
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ── Badges ── */
+  .badges {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+    position: relative;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .badge:hover { box-shadow: 0 0 12px rgba(108, 140, 255, 0.15); transition: box-shadow 0.3s; }
+  .badge.module  { border-color: var(--accent); color: var(--accent); }
+  .badge.algo    { border-color: var(--cyan);   color: var(--cyan); }
+  .badge.perf    { border-color: var(--green);  color: var(--green); }
+  .badge.ai      { border-color: var(--purple); color: var(--purple); }
+  .badge.design  { border-color: #e8772e;       color: #e8772e; }
+  .badge.phase   { border-color: var(--cyan);   color: var(--cyan); background: rgba(34, 211, 238, 0.08); }
+
+  /* ── Highlight Strip ── */
+  .highlights {
+    margin-top: 20px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    text-align: center;
+    position: relative;
+  }
+  .highlights strong { color: var(--text); }
+
+  /* ── Key Takeaway (Hero) ── */
+  .key-takeaway {
+    background: linear-gradient(135deg, rgba(108, 140, 255, 0.08), rgba(167, 139, 250, 0.08));
+    border: 1px solid rgba(108, 140, 255, 0.3);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-top: 24px;
+    text-align: left;
+    position: relative;
+  }
+  .key-takeaway h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .key-takeaway p { font-size: 0.95rem; color: var(--text); line-height: 1.6; }
+
+  /* ── Section Cards ── */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    margin-top: 32px;
+    animation: card-in 0.6s ease-out both;
+    transition: border-color 0.3s;
+  }
+  .section:hover { border-color: rgba(108, 140, 255, 0.3); }
+  .section:nth-child(2) { animation-delay: 0.1s; }
+  .section:nth-child(3) { animation-delay: 0.15s; }
+  .section:nth-child(4) { animation-delay: 0.2s; }
+  .section:nth-child(5) { animation-delay: 0.25s; }
+  .section:nth-child(6) { animation-delay: 0.3s; }
+  .section:nth-child(7) { animation-delay: 0.35s; }
+  .section:nth-child(8) { animation-delay: 0.4s; }
+  .section:nth-child(9) { animation-delay: 0.45s; }
+  .section:nth-child(10) { animation-delay: 0.5s; }
+  @keyframes card-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .section h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section h2 .icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .section p, .section li {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+  .section p + p { margin-top: 12px; }
+
+  /* ── Callout Boxes ── */
+  .callout {
+    margin-top: 16px;
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    border-left: 4px solid var(--accent);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  .callout strong { color: var(--text); }
+  .callout.warn    { border-left-color: var(--amber); }
+  .callout.success { border-left-color: var(--green); }
+
+  /* ── Capability Card Grid ── */
+  .cap-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .cap-card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    transition: border-color 0.3s, transform 0.2s;
+  }
+  .cap-card:hover {
+    border-color: rgba(108, 140, 255, 0.4);
+    transform: translateY(-2px);
+  }
+  .cap-card h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cap-card h4 .cap-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+  .cap-card p {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  /* ── Architecture Box ── */
+  .arch-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 12px;
+  }
+  .arch-list li {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    align-items: flex-start;
+  }
+  .arch-list li:last-child { border-bottom: none; }
+  .arch-tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .arch-tag.json   { background: rgba(108, 140, 255, 0.15); color: var(--accent); }
+  .arch-tag.hier   { background: rgba(34, 211, 238, 0.15);  color: var(--cyan); }
+  .arch-tag.comp   { background: rgba(167, 139, 250, 0.15); color: var(--purple); }
+  .arch-tag.css    { background: rgba(74, 222, 128, 0.15);  color: var(--green); }
+  .arch-tag.pal    { background: rgba(251, 191, 36, 0.15);  color: var(--amber); }
+
+  /* ── Data Tables ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    font-size: 0.85rem;
+  }
+  .data-table th {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--border);
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .data-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+  .data-table tr:hover td { color: var(--text); }
+
+  /* ── Domain Tags ── */
+  .domain-tag {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    margin-right: 4px;
+  }
+  .domain-tag.module { background: rgba(108, 140, 255, 0.15); color: var(--accent); }
+  .domain-tag.algo   { background: rgba(34, 211, 238, 0.15);  color: var(--cyan); }
+  .domain-tag.perf   { background: rgba(74, 222, 128, 0.15);  color: var(--green); }
+  .domain-tag.warn   { background: rgba(251, 191, 36, 0.15);  color: var(--amber); }
+  .domain-tag.err    { background: rgba(248, 113, 113, 0.15); color: var(--red); }
+  .domain-tag.ai     { background: rgba(167, 139, 250, 0.15); color: var(--purple); }
+
+  /* ── Benefit List ── */
+  .benefit-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 12px;
+  }
+  .benefit-list li {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    align-items: flex-start;
+  }
+  .benefit-list li:last-child { border-bottom: none; }
+  .benefit-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .benefit-list li strong { color: var(--text); }
+
+  /* ── Chart Area ── */
+  .chart-container {
+    margin-top: 16px;
+    background: var(--surface-2);
+    border-radius: var(--radius);
+    padding: 24px;
+    border: 1px solid var(--border);
+  }
+  .bar-chart { display: flex; flex-direction: column; gap: 12px; }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .bar-label {
+    width: 150px;
+    font-size: 0.82rem;
+    text-align: right;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+  .bar-track {
+    flex: 1;
+    height: 28px;
+    background: var(--bg);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #fff;
+    animation: bar-grow 1.5s ease-out both;
+    overflow: visible;
+    white-space: nowrap;
+    min-width: fit-content;
+  }
+  @keyframes bar-grow { from { width: 0; } }
+  .bar-fill.accent  { background: linear-gradient(90deg, var(--accent), #8ba4ff); }
+  .bar-fill.green   { background: linear-gradient(90deg, #16a34a, var(--green)); }
+  .bar-fill.amber   { background: linear-gradient(90deg, #d97706, var(--amber)); }
+  .bar-fill.red     { background: linear-gradient(90deg, #dc2626, var(--red)); }
+  .bar-fill.cyan    { background: linear-gradient(90deg, #0891b2, var(--cyan)); }
+  .bar-fill.purple  { background: linear-gradient(90deg, #7c3aed, var(--purple)); }
+
+  /* ── SVG Diagram Area ── */
+  .diagram-wrap { margin-top: 16px; text-align: center; }
+  .diagram-wrap svg { max-width: 100%; height: auto; }
+
+  /* ── Don Miller Narrative Article ── */
+  .article-wrap {
+    margin-top: 12px;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--text);
+  }
+  .article-wrap p { margin-bottom: 1rem; }
+  .article-wrap p:first-child::first-letter {
+    font-size: 3.2rem;
+    float: left;
+    line-height: 0.82;
+    padding-right: 8px;
+    padding-top: 4px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .article-wrap blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 10px 18px;
+    margin: 1rem 0;
+    font-style: italic;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+  }
+  .article-byline {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+
+  /* ── Related Features ── */
+  .related-list { list-style: none; padding: 0; }
+  .related-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+  .related-list li:last-child { border-bottom: none; }
+  .related-name {
+    font-weight: 600;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .article-nav {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .article-nav a {
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    transition: all 0.2s;
+  }
+  .article-nav a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .quality-stamp {
+    margin-top: 12px;
+    font-size: 0.75rem;
+    color: var(--accent);
+    font-style: italic;
+    opacity: 0.8;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 2rem; }
+    .cap-grid { grid-template-columns: 1fr; }
+    .container { padding: 0 16px 60px; }
+    .bar-label { width: 100px; font-size: 0.75rem; }
+    .data-table { font-size: 0.75rem; }
+    .data-table th, .data-table td { padding: 6px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ════════════════════════════════════════════════════════
+       HERO
+       ════════════════════════════════════════════════════════ -->
+  <header class="hero">
+    <h1>Phase 3: Full Site Builder</h1>
+    <p class="subtitle">Onboarding page, full-page preview, navbar, font cascade fix, and the complete user flow.</p>
+
+    <div class="badges">
+      <span class="badge phase">Phase 3 Complete</span>
+      <span class="badge module">Onboarding Page</span>
+      <span class="badge algo">Full-Page Preview</span>
+      <span class="badge perf">Navbar</span>
+      <span class="badge ai">3 Variants</span>
+      <span class="badge design">Font Cascade Fix</span>
+    </div>
+
+    <div class="key-takeaway">
+      <h3>Key Takeaway</h3>
+      <p>Phase 3 transformed Hey Bradley from a section editor into a website builder. Users now land on an onboarding page, pick a theme, and see a complete stacked website with navigation. The SIMPLE tab was reduced from 25 controls to 14. Font cascade finally fixed. This is the biggest single-phase quality jump in the project.</p>
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 1: WHAT WAS BUILT
+       ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(74,222,128,0.15);">&#9889;</span> What Was Built</h2>
+    <p>Six major capabilities shipped across Phase 3, turning the builder from a section editor into a full website builder.</p>
+
+    <div class="cap-grid">
+      <div class="cap-card">
+        <h4><span class="cap-icon" style="background:rgba(108,140,255,0.15);color:var(--accent);">&#128065;</span> Full-Page Preview</h4>
+        <p>Preview/Edit toggle hides both panels, stacks all sections into a single scrollable page, and Escape exits back to the editor.</p>
+      </div>
+      <div class="cap-card">
+        <h4><span class="cap-icon" style="background:rgba(167,139,250,0.15);color:var(--purple);">&#9776;</span> Navbar Section</h4>
+        <p>NavbarSimple renderer auto-links from enabled sections with a CTA button. Navigation appears at the top of the full-page preview.</p>
+      </div>
+      <div class="cap-card">
+        <h4><span class="cap-icon" style="background:rgba(74,222,128,0.15);color:var(--green);">&#127968;</span> Onboarding Page</h4>
+        <p>The / route displays 10 theme cards in a clean grid. Click a theme to applyVibe and navigate to /builder. &ldquo;Continue editing&rdquo; resumes the last session.</p>
+      </div>
+      <div class="cap-card">
+        <h4><span class="cap-icon" style="background:rgba(34,211,238,0.15);color:var(--cyan);">&#9997;</span> Font Cascade Fix</h4>
+        <p>All 11 renderers now use var(--theme-font). The font family selection was broken since Phase 1 and finally reaches every section.</p>
+      </div>
+      <div class="cap-card">
+        <h4><span class="cap-icon" style="background:rgba(251,191,36,0.15);color:var(--amber);">&#9638;</span> Second Variants</h4>
+        <p>FeaturesCards, CTASplit, and FAQTwoCol added as alternate layouts. Variant selectors wired into the SIMPLE editors for each section type.</p>
+      </div>
+      <div class="cap-card">
+        <h4><span class="cap-icon" style="background:rgba(108,140,255,0.15);color:var(--accent);">&#9998;</span> SIMPLE Tab Simplification</h4>
+        <p>Hero editor reduced from ~25 controls to ~14. Light/Dark/Auto toggle moved into the Theme section for a cleaner editing experience.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 2: THE USER FLOW
+       ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(108,140,255,0.15);">&#128736;</span> The User Flow</h2>
+    <p>Phase 3 established the complete end-to-end user journey from landing to full-page preview.</p>
+
+    <ul class="benefit-list">
+      <li>
+        <span class="benefit-icon" style="background:rgba(74,222,128,0.15);color:var(--green);">1</span>
+        <span><strong>Land on /</strong> &mdash; see 10 theme cards in a clean grid. Each card shows a preview of the theme&rsquo;s colors and typography.</span>
+      </li>
+      <li>
+        <span class="benefit-icon" style="background:rgba(108,140,255,0.15);color:var(--accent);">2</span>
+        <span><strong>Click a theme</strong> &mdash; applyVibe loads the theme JSON, then navigate to /builder with the selected theme active.</span>
+      </li>
+      <li>
+        <span class="benefit-icon" style="background:rgba(167,139,250,0.15);color:var(--purple);">3</span>
+        <span><strong>3-panel editor</strong> &mdash; left panel (sections list), center (live preview), right panel (SIMPLE/Expert editor) for the selected section.</span>
+      </li>
+      <li>
+        <span class="benefit-icon" style="background:rgba(34,211,238,0.15);color:var(--cyan);">4</span>
+        <span><strong>Click Preview</strong> &mdash; both panels hide, all sections stack into a full scrollable website with the navbar at the top.</span>
+      </li>
+      <li>
+        <span class="benefit-icon" style="background:rgba(251,191,36,0.15);color:var(--amber);">5</span>
+        <span><strong>Press Escape</strong> &mdash; return to the 3-panel editor to continue editing any section.</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 3: PHASE 3 BY THE NUMBERS
+       ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(34,211,238,0.15);">&#128202;</span> Phase 3 By the Numbers</h2>
+    <p>Growth metrics from Phase 2 completion to Phase 3 completion.</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Phase 3 Value</th>
+          <th>Phase 2 Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Section renderers</strong></td>
+          <td>15</td>
+          <td>11</td>
+        </tr>
+        <tr>
+          <td><strong>SIMPLE editors</strong></td>
+          <td>9</td>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td><strong>Routes</strong></td>
+          <td>2</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td><strong>Playwright tests</strong></td>
+          <td>10</td>
+          <td>6</td>
+        </tr>
+        <tr>
+          <td><strong>Hero SIMPLE controls</strong></td>
+          <td>~14</td>
+          <td>~25</td>
+        </tr>
+        <tr>
+          <td><strong>Execution time</strong></td>
+          <td>1 session, ~3 hours</td>
+          <td>&mdash;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 4: SCORE (BAR CHART)
+       ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(74,222,128,0.15);">&#127942;</span> Score</h2>
+    <p>Phase 3 quality and coverage metrics across seven dimensions.</p>
+    <div class="chart-container">
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label">User Flow</div>
+          <div class="bar-track">
+            <div class="bar-fill accent" style="width: 80%;">80%</div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Preview Quality</div>
+          <div class="bar-track">
+            <div class="bar-fill cyan" style="width: 70%;">70%</div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Onboarding Design</div>
+          <div class="bar-track">
+            <div class="bar-fill purple" style="width: 70%;">70%</div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Section Diversity</div>
+          <div class="bar-track">
+            <div class="bar-fill amber" style="width: 60%;">60%</div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">SIMPLE Usability</div>
+          <div class="bar-track">
+            <div class="bar-fill accent" style="width: 80%;">80%</div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Font Cascade</div>
+          <div class="bar-track">
+            <div class="bar-fill green" style="width: 90%;">90%</div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Overall</div>
+          <div class="bar-track">
+            <div class="bar-fill green" style="width: 73%;">73%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 5: KNOWN GAPS
+       ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(251,191,36,0.15);">&#9888;</span> Known Gaps</h2>
+    <p>Issues identified during Phase 3 that remain unresolved.</p>
+
+    <div class="callout warn">
+      <strong>No smooth scroll in preview navbar links.</strong> Clicking a navbar link in full-page preview jumps to the section without a smooth scroll animation.
+    </div>
+    <div class="callout warn">
+      <strong>Only 1-2 variants per non-hero section.</strong> Most section types still have limited layout options. More variants are needed for real design diversity.
+    </div>
+    <div class="callout warn">
+      <strong>Navbar not in all 10 theme JSONs.</strong> Only SaaS and default themes include the navbar section definition. Other themes lack navbar configuration.
+    </div>
+    <div class="callout warn">
+      <strong>No drag-and-drop reorder.</strong> Sections can only be reordered via up/down buttons. Visual drag handles are not yet implemented.
+    </div>
+    <div class="callout warn">
+      <strong>&ldquo;Auto&rdquo; mode is cosmetic only.</strong> The Light/Dark/Auto toggle includes an Auto option, but it does not detect the system color scheme preference.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 6: WHAT'S NEXT — PHASE 4
+       ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(74,222,128,0.15);">&#128640;</span> What&rsquo;s Next &mdash; Phase 4: Canned Demo</h2>
+    <div class="callout success">
+      <strong>Phases renumbered: Phase 4 = Canned Demo</strong> (was old Phase 6-7). The next phase delivers 3-5 example websites, simulated chat, simulated listen mode, and XAI Docs. This is the &ldquo;wow factor&rdquo; phase for capstone.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       FOOTER
+       ════════════════════════════════════════════════════════ -->
+  <div class="footer">
+    Hey Bradley Wiki &middot; Phase 3: Full Site Builder &middot; 2026-03-30
+    <div class="article-nav">
+      <a href="04-phase-2-section-expansion.guide.html" target="_self">&larr; Phase 2: Section Expansion</a>
+      <a href="hey-bradley-wiki.guide.html" target="_self">Wiki Home</a>
+    </div>
+    <div class="quality-stamp">Content describes Phase 3 Full Site Builder including onboarding page, full-page preview, navbar, font cascade fix, 3 new variants, and SIMPLE tab simplification.</div>
+  </div>
+
+</div>
+</body>
+</html>
