@@ -98,7 +98,7 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       id,
       layout: { display: 'flex', gap: '24px', padding: '48px' },
       content: {},
-      style: { background: '#0f172a', color: '#f8fafc' },
+      style: { background: '#1E1E1E', color: '#F3F3F1' },
       enabled: true,
       components: [],
     }

@@ -39,19 +39,20 @@ export default {
           foreground: 'var(--card-foreground)',
         },
 
-        // Hey Bradley UI chrome — Harvard Brand colors via CSS vars
+        // Hey Bradley UI chrome — Harvard Brand colors
+        // Using direct hex values; light mode overrides via .light-chrome CSS class
         hb: {
-          bg: 'var(--hb-bg, #1E1E1E)',
-          surface: 'var(--hb-surface, #2e080d)',
-          'surface-hover': 'var(--hb-surface-hover, #383535)',
-          border: 'var(--hb-border, #383535)',
-          'border-selected': 'var(--hb-accent, #A51C30)',
-          'text-primary': 'var(--hb-text-primary, #F3F3F1)',
-          'text-secondary': 'var(--hb-text-secondary, #b8b5b5)',
-          'text-muted': 'var(--hb-text-muted, #8a8585)',
-          accent: 'var(--hb-accent, #A51C30)',
-          'accent-light': 'var(--hb-accent-light, rgba(165, 28, 48, 0.15))',
-          'accent-hover': 'var(--hb-accent-hover, #701321)',
+          bg: '#1E1E1E',
+          surface: '#2e080d',
+          'surface-hover': '#383535',
+          border: '#383535',
+          'border-selected': '#A51C30',
+          'text-primary': '#F3F3F1',
+          'text-secondary': '#b8b5b5',
+          'text-muted': '#8a8585',
+          accent: '#A51C30',
+          'accent-light': 'rgba(165, 28, 48, 0.15)',
+          'accent-hover': '#701321',
           success: '#22c55e',
           warning: '#f59e0b',
           error: '#ef4444',

@@ -34,17 +34,6 @@ body {
     --hb-nav-bg: #2e080d;
   }
   .light-chrome {
-    /* Hey Bradley Chrome — Light Mode (Harvard Brand) */
-    --hb-bg: #F3F3F1;
-    --hb-surface: #ffffff;
-    --hb-surface-hover: #e8e6e4;
-    --hb-border: #d4d0ce;
-    --hb-text-primary: #1E1E1E;
-    --hb-text-secondary: #383535;
-    --hb-text-muted: #8a8585;
-    --hb-accent: #A51C30;
-    --hb-accent-light: rgba(165, 28, 48, 0.08);
-    --hb-accent-hover: #2e080d;
     --hb-nav-bg: #A51C30;
   }
   :root {
