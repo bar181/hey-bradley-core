@@ -40,7 +40,7 @@ export function RightPanel() {
     <div className="bg-hb-bg h-full flex flex-col overflow-hidden">
       {selectedContext && (
         <div className="px-4 pt-3 pb-2 flex justify-between items-center border-b border-hb-border">
-          <span className="font-mono text-[11px] uppercase tracking-[0.05em] text-hb-text-muted">
+          <span className="font-mono text-xs uppercase tracking-[0.05em] text-hb-text-muted">
             {contextLabel}
           </span>
           {selectedContext.type === 'section' && (

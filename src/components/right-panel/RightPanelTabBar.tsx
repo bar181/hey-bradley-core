@@ -15,7 +15,7 @@ export function RightPanelTabBar() {
           type="button"
           onClick={() => setRightPanelTab(tab)}
           className={cn(
-            'py-2.5 px-3 font-mono text-[11px] uppercase tracking-[0.06em] cursor-pointer transition-colors',
+            'py-2.5 px-3 font-mono text-xs uppercase tracking-[0.06em] cursor-pointer transition-colors',
             tab === rightPanelTab
               ? 'text-hb-accent border-b-2 border-hb-accent -mb-px font-medium'
               : 'text-hb-text-muted hover:text-hb-text-secondary'

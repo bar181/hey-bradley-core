@@ -26,7 +26,7 @@ export function RightAccordion({ id, label, children, defaultOpen = false }: Rig
           'transition-colors hover:bg-hb-surface-hover rounded-md px-1'
         )}
       >
-        <span className="font-mono text-[11px] uppercase tracking-[0.05em] text-hb-text-muted font-medium">
+        <span className="font-mono text-xs uppercase tracking-[0.05em] text-hb-text-muted font-medium">
           {label}
         </span>
         {isOpen ? (

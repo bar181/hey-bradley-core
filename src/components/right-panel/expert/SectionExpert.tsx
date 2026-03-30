@@ -144,10 +144,10 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
             ))}
           </div>
           <div>
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
+            <span className="font-mono text-xs uppercase text-hb-text-muted mb-1.5 block">
               Layout variant
             </span>
-            <div className="bg-hb-surface rounded p-2 font-mono text-[11px] text-hb-text-muted">
+            <div className="bg-hb-surface rounded p-2 font-mono text-xs text-hb-text-muted">
               <div>display: flex</div>
               <div>direction: column</div>
               <div>align: center</div>
@@ -159,7 +159,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
       <RightAccordion id="content" label="Content" defaultOpen>
         <div className="space-y-3">
           <div>
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
+            <span className="font-mono text-xs uppercase text-hb-text-muted mb-1.5 block">
               HEADLINE
             </span>
             <textarea
@@ -174,7 +174,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
             </div>
           </div>
           <div>
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
+            <span className="font-mono text-xs uppercase text-hb-text-muted mb-1.5 block">
               SUBTITLE
             </span>
             <textarea
@@ -189,7 +189,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
             </div>
           </div>
           <div>
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
+            <span className="font-mono text-xs uppercase text-hb-text-muted mb-1.5 block">
               CTA TEXT
             </span>
             <input
@@ -205,7 +205,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
             </div>
           </div>
           <div>
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
+            <span className="font-mono text-xs uppercase text-hb-text-muted mb-1.5 block">
               IMAGE
             </span>
             <div className="mt-1">
@@ -215,16 +215,16 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm text-hb-text-secondary">No image selected</p>
-                  <p className="text-[11px] text-hb-text-muted mt-0.5">PNG, JPG up to 5MB</p>
+                  <p className="text-xs text-hb-text-muted mt-0.5">PNG, JPG up to 5MB</p>
                 </div>
-                <button className="px-3 py-1.5 text-[11px] font-mono uppercase text-hb-text-secondary border border-hb-border rounded-md hover:text-hb-text-primary hover:border-hb-text-muted transition-colors">
+                <button className="px-3 py-1.5 text-xs font-mono uppercase text-hb-text-secondary border border-hb-border rounded-md hover:text-hb-text-primary hover:border-hb-text-muted transition-colors">
                   Browse
                 </button>
               </div>
             </div>
           </div>
           <div>
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
+            <span className="font-mono text-xs uppercase text-hb-text-muted mb-1.5 block">
               HEADING LEVEL
             </span>
             <SegmentedControl
@@ -263,7 +263,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
       <RightAccordion id="sectionOptions" label="Section Options">
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted">
+            <span className="font-mono text-xs uppercase text-hb-text-muted">
               DIRECTION
             </span>
             <div className="flex gap-1">
@@ -280,7 +280,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
           </div>
 
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted">
+            <span className="font-mono text-xs uppercase text-hb-text-muted">
               ALIGN
             </span>
             <div className="flex gap-1">
@@ -303,7 +303,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
           </div>
 
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted">
+            <span className="font-mono text-xs uppercase text-hb-text-muted">
               PADDING
             </span>
             <input
@@ -317,7 +317,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
           </div>
 
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted">
+            <span className="font-mono text-xs uppercase text-hb-text-muted">
               GAP
             </span>
             <input
@@ -331,7 +331,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
           </div>
 
           <div>
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
+            <span className="font-mono text-xs uppercase text-hb-text-muted mb-1.5 block">
               WIDTH
             </span>
             <SegmentedControl
@@ -342,7 +342,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
           </div>
 
           <div>
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
+            <span className="font-mono text-xs uppercase text-hb-text-muted mb-1.5 block">
               ASPECT RATIO
             </span>
             <SegmentedControl
@@ -353,7 +353,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
           </div>
 
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted">
+            <span className="font-mono text-xs uppercase text-hb-text-muted">
               MAX-WIDTH
             </span>
             <input
@@ -368,7 +368,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
       <RightAccordion id="componentOptions" label="Component Options">
         <div className="space-y-3">
           <div>
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
+            <span className="font-mono text-xs uppercase text-hb-text-muted mb-1.5 block">
               BUTTON STYLE
             </span>
             <SegmentedControl
@@ -378,7 +378,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
             />
           </div>
           <div>
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
+            <span className="font-mono text-xs uppercase text-hb-text-muted mb-1.5 block">
               BUTTON SIZE
             </span>
             <SegmentedControl
@@ -388,14 +388,14 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
             />
           </div>
           <div className="flex items-center gap-2">
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted">
+            <span className="font-mono text-xs uppercase text-hb-text-muted">
               BUTTON COLOR
             </span>
             <div className="w-4 h-4 rounded bg-hb-accent border border-hb-border" />
             <span className="font-mono text-xs text-hb-text-muted">accent</span>
           </div>
           <div>
-            <span className="font-mono text-[11px] uppercase text-hb-text-muted mb-1.5 block">
+            <span className="font-mono text-xs uppercase text-hb-text-muted mb-1.5 block">
               BADGE POSITION
             </span>
             <SegmentedControl
@@ -411,7 +411,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
       <div className="border-t border-hb-border my-3" />
 
       <div className="flex items-center justify-between mb-2">
-        <span className="font-mono text-[11px] uppercase text-hb-text-muted">
+        <span className="font-mono text-xs uppercase text-hb-text-muted">
           RAW AISP SPEC
         </span>
         <button

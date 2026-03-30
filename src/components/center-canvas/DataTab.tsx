@@ -173,7 +173,7 @@ export function DataTab() {
   }, [])
 
   const ghostBtn =
-    'inline-flex items-center gap-1.5 font-mono text-[11px] uppercase text-hb-text-muted hover:text-hb-accent border border-hb-border rounded px-2.5 py-1 transition-colors'
+    'inline-flex items-center gap-1.5 font-mono text-xs uppercase text-hb-text-muted hover:text-hb-accent border border-hb-border rounded px-2.5 py-1 transition-colors'
 
   const lineCount = (s: string) => s.split('\n').length
   const charCount = (s: string) => s.length
@@ -204,12 +204,12 @@ export function DataTab() {
             <ChevronRight size={14} className="text-hb-text-muted" />
           )}
           <Icon size={14} className="text-hb-text-muted" />
-          <span className="font-mono text-[11px] uppercase tracking-[0.05em] text-hb-text-primary font-medium">
+          <span className="font-mono text-xs uppercase tracking-[0.05em] text-hb-text-primary font-medium">
             {name}
           </span>
         </button>
         <div className="flex items-center gap-3 pr-3">
-          <span className="font-mono text-[11px] text-hb-text-muted">
+          <span className="font-mono text-xs text-hb-text-muted">
             {lineCount(jsonStr)} lines &middot; {charCount(jsonStr)} chars
           </span>
           <button
@@ -302,7 +302,7 @@ export function DataTab() {
         <div className="border-t border-hb-border" />
 
         {/* Metadata bar */}
-        <div className="flex items-center gap-6 font-mono text-[11px] uppercase tracking-wide text-hb-text-muted">
+        <div className="flex items-center gap-6 font-mono text-xs uppercase tracking-wide text-hb-text-muted">
           <span>VERSION {config.site.version}</span>
           <span>SECTIONS {config.sections.length}</span>
           <span>TOTAL {totalChars.toLocaleString()}</span>

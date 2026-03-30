@@ -34,10 +34,10 @@ export function ThemeExpert() {
         <div>
           {cssVars.map((v) => (
             <div key={v.name} className="flex justify-between items-center py-1.5">
-              <span className="font-mono text-[11px] text-hb-text-muted">{v.name}</span>
+              <span className="font-mono text-xs text-hb-text-muted">{v.name}</span>
               <div className="flex items-center gap-1.5">
                 <div className="w-4 h-4 rounded border border-hb-border" style={{ backgroundColor: v.value }} />
-                <span className="font-mono text-[11px] text-hb-text-secondary">{v.value}</span>
+                <span className="font-mono text-xs text-hb-text-secondary">{v.value}</span>
               </div>
             </div>
           ))}

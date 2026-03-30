@@ -74,7 +74,7 @@ export function HeroOverlay({ section }: { section: Section }) {
         )}
 
         {hero.trustBadges?.show && (
-          <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-white/40 mt-8">
+          <p className="text-xs font-medium uppercase tracking-[0.15em] text-white/40 mt-8">
             {hero.trustBadges.text}
           </p>
         )}

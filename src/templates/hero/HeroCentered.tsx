@@ -123,7 +123,7 @@ export function HeroCentered({ section }: HeroCenteredProps) {
 
         {/* Trust badges */}
         {hero.trustBadges?.show && (
-          <p className="text-[11px] font-semibold uppercase tracking-[0.15em] mt-12 text-theme-muted/40">
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] mt-12 text-theme-muted/40">
             {hero.trustBadges.text}
           </p>
         )}
