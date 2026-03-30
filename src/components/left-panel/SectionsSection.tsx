@@ -15,6 +15,7 @@ import {
   HelpCircle,
   Zap,
   Layout,
+  Navigation,
   type LucideIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/cn'
@@ -23,6 +24,7 @@ import { useConfigStore } from '@/store/configStore'
 import type { SectionType } from '@/lib/schemas/section'
 
 const sectionIconMap: Record<string, LucideIcon> = {
+  navbar: Navigation,
   hero: Star,
   features: Grid3X3,
   cta: ArrowRight,
@@ -34,6 +36,7 @@ const sectionIconMap: Record<string, LucideIcon> = {
 }
 
 const sectionNameMap: Record<string, string> = {
+  navbar: 'Navbar',
   hero: 'Hero',
   features: 'Features',
   cta: 'Call to Action',
@@ -45,6 +48,7 @@ const sectionNameMap: Record<string, string> = {
 }
 
 const sectionDescriptionMap: Record<string, string> = {
+  navbar: 'Navigation bar with logo and links',
   hero: 'Main banner with headline and CTA',
   features: 'Showcase product features',
   pricing: 'Pricing plans and tiers',
@@ -56,6 +60,7 @@ const sectionDescriptionMap: Record<string, string> = {
 }
 
 const SECTION_TYPES: SectionType[] = [
+  'navbar',
   'hero',
   'features',
   'pricing',
@@ -224,12 +229,17 @@ export function SectionsSection() {
                   e.stopPropagation()
                   handleDuplicate(section.id)
                 }}
-                className="p-0.5 text-hb-text-muted opacity-0 group-hover:opacity-100 transition-opacity hover:text-hb-text-secondary"
+                className="p-0.5 text-hb-text-muted opacity-0 group-hover:opacity-100 transition-opacity hover:text-hb-text-secondary focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
               >
                 <Copy size={12} />
               </button>
               <button
                 type="button"
+                aria-label={
+                  confirmDeleteId === section.id
+                    ? 'Click again to confirm delete'
+                    : 'Delete section'
+                }
                 title={
                   confirmDeleteId === section.id
                     ? 'Click again to confirm delete'
@@ -240,7 +250,7 @@ export function SectionsSection() {
                   handleDelete(section.id)
                 }}
                 className={cn(
-                  'p-0.5 opacity-0 group-hover:opacity-100 transition-all',
+                  'p-0.5 opacity-0 group-hover:opacity-100 transition-all focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-hb-accent rounded',
                   confirmDeleteId === section.id
                     ? 'text-red-400 opacity-100 animate-pulse'
                     : 'text-hb-text-muted hover:text-red-400'
@@ -283,7 +293,7 @@ export function SectionsSection() {
                     <span className="text-sm text-hb-text-primary">
                       {sectionNameMap[type]}
                     </span>
-                    <span className="text-[11px] text-hb-text-muted">
+                    <span className="text-xs text-hb-text-muted">
                       {sectionDescriptionMap[type]}
                     </span>
                   </div>

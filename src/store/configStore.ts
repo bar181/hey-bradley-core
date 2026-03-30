@@ -93,15 +93,37 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     const { config, history } = get()
     const newHistory = [...history, config].slice(-HISTORY_LIMIT)
     const id = `${type}-${crypto.randomUUID().slice(0, 8)}`
-    const newSection: Section = {
-      type,
-      id,
-      layout: { display: 'flex', gap: '24px', padding: '48px' },
-      content: {},
-      style: { background: '#1E1E1E', color: '#F3F3F1' },
-      enabled: true,
-      components: [],
-    }
+
+    // Try to pull a template from the current theme's sections
+    const themeName = config.theme?.preset ?? 'saas'
+    const themeData = THEMES[themeName] as { sections?: Array<Record<string, unknown>> } | undefined
+    const templateSection = (themeData?.sections as unknown as Section[] | undefined)
+      ?.find((s) => s.type === type)
+
+    // Fall back to SaaS theme if current theme doesn't have this section type
+    const fallbackSection = templateSection
+      ? undefined
+      : ((THEMES.saas as { sections?: Array<Record<string, unknown>> })?.sections as unknown as Section[] | undefined)
+          ?.find((s) => s.type === type)
+
+    const source = templateSection ?? fallbackSection
+
+    const newSection: Section = source
+      ? {
+          ...JSON.parse(JSON.stringify(source)),
+          id,
+          enabled: true,
+        }
+      : {
+          type,
+          id,
+          layout: { display: 'flex', gap: '24px', padding: '48px' },
+          content: {},
+          style: { background: config.theme.palette?.bgPrimary ?? '#1E1E1E', color: config.theme.palette?.textPrimary ?? '#F3F3F1' },
+          enabled: true,
+          components: [],
+        }
+
     const sections = [...config.sections]
     const insertAt = afterIndex !== undefined ? afterIndex + 1 : sections.length
     sections.splice(insertAt, 0, newSection)

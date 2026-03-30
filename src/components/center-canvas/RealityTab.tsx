@@ -6,6 +6,7 @@ import { HeroCentered } from '@/templates/hero/HeroCentered'
 import { HeroSplit } from '@/templates/hero/HeroSplit'
 import { HeroOverlay } from '@/templates/hero/HeroOverlay'
 import { HeroMinimal } from '@/templates/hero/HeroMinimal'
+import { NavbarSimple } from '@/templates/navbar/NavbarSimple'
 import { CTASimple } from '@/templates/cta/CTASimple'
 import { FeaturesGrid } from '@/templates/features/FeaturesGrid'
 import { PricingTiers } from '@/templates/pricing/PricingTiers'
@@ -38,6 +39,9 @@ export function RealityTab() {
       {sections
         .filter((s) => s.enabled)
         .map((section) => {
+          if (section.type === 'navbar') {
+            return <NavbarSimple key={section.id} section={section} />
+          }
           if (section.type === 'hero') {
             switch (section.variant) {
               case 'split-right':

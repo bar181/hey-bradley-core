@@ -62,6 +62,7 @@ export function FAQSectionSimple({ sectionId }: { sectionId: string }) {
                     value={question}
                     onChange={(e) => updateProp(item.id, 'question', e.target.value)}
                     placeholder="Question..."
+                    data-testid={`faq-question-input-${i}`}
                     className={INPUT}
                   />
                   <textarea
@@ -69,6 +70,7 @@ export function FAQSectionSimple({ sectionId }: { sectionId: string }) {
                     onChange={(e) => updateProp(item.id, 'answer', e.target.value)}
                     rows={3}
                     placeholder="Answer..."
+                    data-testid={`faq-answer-input-${i}`}
                     className={cn(INPUT, 'resize-none leading-snug')}
                   />
                 </div>

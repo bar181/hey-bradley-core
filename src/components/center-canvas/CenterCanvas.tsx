@@ -7,6 +7,15 @@ import { WorkflowTab } from './WorkflowTab'
 
 export function CenterCanvas() {
   const activeTab = useUIStore((s) => s.activeTab)
+  const isPreviewMode = useUIStore((s) => s.isPreviewMode)
+
+  if (isPreviewMode) {
+    return (
+      <div className="h-full overflow-auto">
+        <RealityTab />
+      </div>
+    )
+  }
 
   return (
     <div className="h-full flex flex-col">

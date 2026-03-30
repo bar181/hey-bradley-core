@@ -77,6 +77,7 @@ export function PricingSectionSimple({ sectionId }: { sectionId: string }) {
                     value={name}
                     onChange={(e) => updateProp(tier.id, 'name', e.target.value)}
                     placeholder="e.g. Pro"
+                    data-testid={`pricing-name-input-${tier.id}`}
                     className={cn(INPUT, 'text-xs py-1')}
                   />
                 </div>
@@ -90,6 +91,7 @@ export function PricingSectionSimple({ sectionId }: { sectionId: string }) {
                       value={price}
                       onChange={(e) => updateProp(tier.id, 'price', e.target.value)}
                       placeholder="$29"
+                      data-testid={`pricing-price-input-${tier.id}`}
                       className={cn(INPUT, 'text-xs py-1')}
                     />
                   </div>

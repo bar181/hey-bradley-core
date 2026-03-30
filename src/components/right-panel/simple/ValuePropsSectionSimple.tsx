@@ -63,6 +63,7 @@ export function ValuePropsSectionSimple({ sectionId }: { sectionId: string }) {
                     value={value}
                     onChange={(e) => updateProp(item.id, 'value', e.target.value)}
                     placeholder="e.g. 500+"
+                    data-testid={`valueprop-value-input-${i}`}
                     className={INPUT}
                   />
                   <input
@@ -70,6 +71,7 @@ export function ValuePropsSectionSimple({ sectionId }: { sectionId: string }) {
                     value={label}
                     onChange={(e) => updateProp(item.id, 'label', e.target.value)}
                     placeholder="Label, e.g. Teams"
+                    data-testid={`valueprop-label-input-${i}`}
                     className={INPUT}
                   />
                   <input
@@ -77,6 +79,7 @@ export function ValuePropsSectionSimple({ sectionId }: { sectionId: string }) {
                     value={description}
                     onChange={(e) => updateProp(item.id, 'description', e.target.value)}
                     placeholder="Brief description"
+                    data-testid={`valueprop-description-input-${i}`}
                     className={INPUT}
                   />
                 </div>

@@ -63,6 +63,7 @@ export function TestimonialsSectionSimple({ sectionId }: { sectionId: string }) 
                     onChange={(e) => updateProp(t.id, 'quote', e.target.value)}
                     rows={3}
                     placeholder="Quote text..."
+                    data-testid={`testimonial-quote-input-${i}`}
                     className={cn(INPUT, 'resize-none leading-snug')}
                   />
                   <input
@@ -70,6 +71,7 @@ export function TestimonialsSectionSimple({ sectionId }: { sectionId: string }) 
                     value={author}
                     onChange={(e) => updateProp(t.id, 'author', e.target.value)}
                     placeholder="Author name"
+                    data-testid={`testimonial-author-input-${i}`}
                     className={INPUT}
                   />
                   <input
@@ -77,6 +79,7 @@ export function TestimonialsSectionSimple({ sectionId }: { sectionId: string }) 
                     value={role}
                     onChange={(e) => updateProp(t.id, 'role', e.target.value)}
                     placeholder="Role / Company"
+                    data-testid={`testimonial-role-input-${i}`}
                     className={INPUT}
                   />
                 </div>

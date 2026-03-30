@@ -92,6 +92,7 @@ export function CTASectionSimple({ sectionId }: { sectionId: string }) {
               value={getText('heading')}
               onChange={(e) => updateCopy('heading', e.target.value)}
               placeholder="e.g. Ready to get started?"
+              data-testid="cta-heading-input"
               className={INPUT}
             />
           </Field>
@@ -108,6 +109,7 @@ export function CTASectionSimple({ sectionId }: { sectionId: string }) {
               onChange={(e) => updateCopy('subtitle', e.target.value)}
               rows={2}
               placeholder="e.g. Start building your next project today."
+              data-testid="cta-subtitle-input"
               className={cn(INPUT, 'resize-none leading-snug')}
             />
           </Field>
@@ -125,6 +127,7 @@ export function CTASectionSimple({ sectionId }: { sectionId: string }) {
                 value={getText('button')}
                 onChange={(e) => updateCopy('button', e.target.value)}
                 placeholder="e.g. Get Started"
+                data-testid="cta-button-input"
                 className={INPUT}
               />
               <input

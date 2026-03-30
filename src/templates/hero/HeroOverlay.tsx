@@ -13,7 +13,7 @@ export function HeroOverlay({ section }: { section: Section }) {
   const videoUrl = (videoComp?.props?.url as string) || ''
 
   return (
-    <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden" style={{ fontFamily: 'var(--theme-font)' }}>
       {/* Background image or video */}
       {videoUrl && videoComp?.enabled ? (
         <video

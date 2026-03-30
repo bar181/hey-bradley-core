@@ -14,7 +14,7 @@ export function PricingTiers({ section }: { section: Section }) {
   return (
     <section
       className="py-16 px-6"
-      style={{ background: section.style.background, color: section.style.color }}
+      style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
     >
       <div className="mx-auto max-w-5xl">
         <div

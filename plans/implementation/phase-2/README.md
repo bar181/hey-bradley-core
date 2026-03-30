@@ -2,7 +2,7 @@
 
 **North Star:** The builder has SIMPLE tab editors for ALL 8 section types. A user can add/remove/reorder sections. The CSS is clean. Media is browsable. The foundation is ready for Phase 3's onboarding page and builder UX.
 
-**Status:** READY TO START
+**Status:** COMPLETE (2026-03-30)
 **Prerequisite:** Phase 1 COMPLETE (2026-03-29)
 **Scope Correction:** Per `human-1.md` — expanded from "CSS cleanup + 3 editors" to "ALL 8 section types + section CRUD"
 

@@ -2,6 +2,7 @@ import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from 'reac
 import { CenterCanvas } from '@/components/center-canvas/CenterCanvas'
 import { LeftPanel } from '@/components/left-panel/LeftPanel'
 import { RightPanel } from '@/components/right-panel/RightPanel'
+import { useUIStore } from '@/store/uiStore'
 
 function ResizeHandle() {
   return (
@@ -12,6 +13,16 @@ function ResizeHandle() {
 }
 
 export function PanelLayout() {
+  const isPreviewMode = useUIStore((s) => s.isPreviewMode)
+
+  if (isPreviewMode) {
+    return (
+      <div className="h-full overflow-auto">
+        <CenterCanvas />
+      </div>
+    )
+  }
+
   return (
     <PanelGroup orientation="horizontal">
       <Panel defaultSize={20} minSize={15} collapsible>

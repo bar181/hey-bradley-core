@@ -12,7 +12,7 @@ export function ValuePropsGrid({ section }: { section: Section }) {
   return (
     <section
       className="py-16 px-6"
-      style={{ background: section.style.background, color: section.style.color }}
+      style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
     >
       <div className="mx-auto max-w-6xl grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
         {items.map((item) => {

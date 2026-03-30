@@ -245,6 +245,7 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
                       value={title}
                       onChange={(e) => updateProp(card.id, 'title', e.target.value)}
                       placeholder="Feature title"
+                      data-testid={`features-title-input-${idx}`}
                       className={INPUT}
                     />
                   </Field>
@@ -260,6 +261,7 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
                       value={description}
                       onChange={(e) => updateProp(card.id, 'description', e.target.value)}
                       placeholder="Feature description"
+                      data-testid={`features-description-input-${idx}`}
                       rows={2}
                       className={cn(INPUT, 'resize-none leading-snug')}
                     />

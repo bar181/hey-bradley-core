@@ -12,7 +12,7 @@ export function ModeToggle() {
           key={mode}
           onClick={() => setInteractionMode(mode)}
           className={cn(
-            'px-3 py-1 rounded-full font-mono text-[11px] uppercase tracking-wider transition-colors',
+            'px-3 py-1 rounded-full font-mono text-xs uppercase tracking-wider transition-colors',
             interactionMode === mode
               ? 'bg-hb-accent text-white font-medium'
               : 'text-hb-text-muted hover:text-hb-text-secondary'

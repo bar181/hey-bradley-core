@@ -12,7 +12,7 @@ export function FooterSimple({ section }: { section: Section }) {
   return (
     <footer
       className="px-6 py-12 md:py-16"
-      style={{ background: section.style.background, color: section.style.color }}
+      style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
     >
       <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
         {/* Brand column */}

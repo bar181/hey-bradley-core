@@ -36,6 +36,19 @@
   },
   "sections": [
     {
+      "type": "navbar",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": { "display": "flex", "padding": "0" },
+      "style": { "background": "#0a0a1a", "color": "#f8fafc" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Hey Bradley" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 1, "props": { "text": "Get Started", "url": "#pricing" } }
+      ]
+    },
+    {
       "type": "hero",
       "id": "hero-01",
       "enabled": true,

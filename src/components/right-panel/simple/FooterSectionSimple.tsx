@@ -77,6 +77,7 @@ export function FooterSectionSimple({ sectionId }: { sectionId: string }) {
               value={(brand?.props?.text as string) ?? ''}
               onChange={(e) => updateProp('brand', 'text', e.target.value)}
               placeholder="e.g. Hey Bradley"
+              data-testid="footer-brand-input"
               className={INPUT}
             />
           </Field>
@@ -139,6 +140,7 @@ export function FooterSectionSimple({ sectionId }: { sectionId: string }) {
               value={(copyright?.props?.text as string) ?? ''}
               onChange={(e) => updateProp('copyright', 'text', e.target.value)}
               placeholder="e.g. © 2026 Hey Bradley"
+              data-testid="footer-copyright-input"
               className={INPUT}
             />
           </Field>

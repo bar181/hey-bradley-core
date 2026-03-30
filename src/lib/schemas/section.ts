@@ -3,7 +3,7 @@ import { layoutSchema } from './layout'
 import { styleSchema } from './style'
 
 export const sectionTypeSchema = z.enum([
-  'hero', 'features', 'pricing', 'cta', 'footer',
+  'hero', 'navbar', 'features', 'pricing', 'cta', 'footer',
   'testimonials', 'faq', 'value_props',
 ])
 

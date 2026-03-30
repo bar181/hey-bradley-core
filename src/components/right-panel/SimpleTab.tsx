@@ -9,6 +9,7 @@ import { FooterSectionSimple } from './simple/FooterSectionSimple'
 import { TestimonialsSectionSimple } from './simple/TestimonialsSectionSimple'
 import { FAQSectionSimple } from './simple/FAQSectionSimple'
 import { ValuePropsSectionSimple } from './simple/ValuePropsSectionSimple'
+import { NavbarSectionSimple } from './simple/NavbarSectionSimple'
 
 export function SimpleTab() {
   const selectedContext = useUIStore((s) => s.selectedContext)
@@ -33,6 +34,7 @@ export function SimpleTab() {
 
   switch (section.type) {
     case 'hero': return <SectionSimple sectionId={section.id} />
+    case 'navbar': return <NavbarSectionSimple sectionId={section.id} />
     case 'features': return <FeaturesSectionSimple sectionId={section.id} />
     case 'cta': return <CTASectionSimple sectionId={section.id} />
     case 'pricing': return <PricingSectionSimple sectionId={section.id} />
