@@ -1,0 +1,150 @@
+{
+  "site": {
+    "title": "Sarah Chen Photography",
+    "description": "Capturing moments worth remembering — weddings, portraits, and editorial",
+    "author": "Sarah Chen",
+    "email": "sarah@sarahchenphotography.com",
+    "domain": "sarahchenphotography.com",
+    "project": "sarah-chen-photography",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2"
+  },
+  "theme": {
+    "preset": "portfolio",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0c0c0c",
+      "bgSecondary": "#1a1a1a",
+      "textPrimary": "#ffffff",
+      "textSecondary": "#a1a1aa",
+      "accentPrimary": "#e4e4e7",
+      "accentSecondary": "#a1a1aa"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#fafafa",
+      "textPrimary": "#09090b",
+      "textSecondary": "#71717a",
+      "accentPrimary": "#e4e4e7",
+      "accentSecondary": "#a1a1aa"
+    },
+    "typography": {
+      "fontFamily": "Playfair Display",
+      "headingFamily": "Playfair Display",
+      "headingWeight": 400,
+      "baseSize": "16px",
+      "lineHeight": 1.8
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "4px"
+  },
+  "sections": [
+    {
+      "type": "navbar",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": { "display": "flex", "padding": "0" },
+      "style": { "background": "#0c0c0c", "color": "#ffffff" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Sarah Chen" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 1, "props": { "text": "Book a Session", "url": "#cta" } }
+      ]
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "overlay",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "#0c0c0c",
+        "color": "#ffffff",
+        "fontFamily": "Playfair Display",
+        "borderRadius": "0px"
+      },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": false, "order": 0, "props": { "text": "", "icon": "", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Moments Worth Remembering", "level": 1, "size": "56px", "weight": 400 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Weddings, portraits, and editorial photography in the San Francisco Bay Area. Every frame tells your story." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "View Portfolio", "url": "#features", "style": "filled", "size": "lg" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4, "props": { "text": "Book a Session", "url": "#cta", "style": "outline", "size": "lg" } },
+        { "id": "heroImage", "type": "image", "enabled": true, "order": 5, "props": { "url": "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&auto=format&q=80", "alt": "Wedding photography golden hour", "aspect": "16:9", "position": "below", "shadow": true } },
+        { "id": "backgroundImage", "type": "image", "enabled": false, "order": 6, "props": {} },
+        { "id": "heroVideo", "type": "video", "enabled": false, "order": 7, "props": {} },
+        { "id": "trustBadges", "type": "trust", "enabled": true, "order": 8, "props": { "text": "200+ weddings photographed across California", "show": true } }
+      ]
+    },
+    {
+      "type": "features",
+      "id": "features-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "grid-3col",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "64px 24px" },
+      "style": { "background": "#1a1a1a", "color": "#ffffff" },
+      "components": [
+        { "id": "f1", "type": "feature-card", "enabled": true, "order": 0, "props": { "icon": "heart", "title": "Weddings", "description": "Full-day coverage with a second photographer, drone aerials, and a curated gallery of 400+ edited images." } },
+        { "id": "f2", "type": "feature-card", "enabled": true, "order": 1, "props": { "icon": "camera", "title": "Portraits", "description": "Studio and outdoor sessions for individuals, couples, and families. Includes wardrobe consultation." } },
+        { "id": "f3", "type": "feature-card", "enabled": true, "order": 2, "props": { "icon": "image", "title": "Editorial", "description": "Brand storytelling and magazine-quality shoots for businesses, restaurants, and lifestyle brands." } }
+      ]
+    },
+    {
+      "type": "testimonials",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "cards",
+      "layout": { "display": "grid", "columns": 3, "gap": "24px", "padding": "64px 24px" },
+      "style": { "background": "#0c0c0c", "color": "#ffffff" },
+      "components": [
+        { "id": "t-1", "type": "testimonial", "enabled": true, "order": 0, "props": { "quote": "Sarah captured our wedding day more beautifully than we could have imagined. Every photo makes us relive the magic.", "author": "Emily & David Park", "role": "Wedding at Muir Woods" } },
+        { "id": "t-2", "type": "testimonial", "enabled": true, "order": 1, "props": { "quote": "The most natural, unposed photos I've ever had taken. Sarah has a gift for making you feel comfortable in front of the camera.", "author": "Priya Mehta", "role": "Portrait Session" } },
+        { "id": "t-3", "type": "testimonial", "enabled": true, "order": 2, "props": { "quote": "Our restaurant's website traffic doubled after Sarah shot our new menu and interior. The images sell themselves.", "author": "Marco Rossi", "role": "Owner, Trattoria Bella" } }
+      ]
+    },
+    {
+      "type": "cta",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "64px 24px", "gap": "16px" },
+      "style": { "background": "#1a1a1a", "color": "#ffffff" },
+      "components": [
+        { "id": "heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Let's Create Something Beautiful", "level": 2, "size": "36px", "weight": 400 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 1, "props": { "text": "Currently booking for Fall 2026 and Spring 2027. Reach out to reserve your date." } },
+        { "id": "button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Book a Session", "url": "#contact", "style": "filled", "size": "lg" } }
+      ]
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "multi-column",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "48px 24px" },
+      "style": { "background": "#0c0c0c", "color": "#ffffff" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Sarah Chen Photography" } },
+        { "id": "col-1", "type": "footer-column", "enabled": true, "order": 1, "props": { "heading": "Services", "links": "Weddings,Portraits,Editorial,Events" } },
+        { "id": "col-2", "type": "footer-column", "enabled": true, "order": 2, "props": { "heading": "Info", "links": "About,Pricing,FAQ,Blog" } },
+        { "id": "col-3", "type": "footer-column", "enabled": true, "order": 3, "props": { "heading": "Connect", "links": "Instagram,Pinterest,Contact" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 4, "props": { "text": "© 2026 Sarah Chen Photography. San Francisco, CA." } }
+      ]
+    }
+  ]
+}

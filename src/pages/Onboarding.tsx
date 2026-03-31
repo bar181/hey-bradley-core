@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useConfigStore } from '@/store/configStore'
 import { THEME_REGISTRY } from '@/data/themes/index'
+import { EXAMPLE_SITES } from '@/data/examples'
 
 const STORAGE_KEY = 'hey-bradley-project'
 
@@ -92,6 +93,7 @@ function ThemeCard({ theme, onSelect }: { theme: ThemeJSON; onSelect: () => void
 export function Onboarding() {
   const navigate = useNavigate()
   const applyVibe = useConfigStore((s) => s.applyVibe)
+  const loadConfig = useConfigStore((s) => s.loadConfig)
   const hasSavedProject = typeof window !== 'undefined' && !!localStorage.getItem(STORAGE_KEY)
 
   const handleThemeSelect = (slug: string) => {
@@ -145,6 +147,28 @@ export function Onboarding() {
               onSelect={() => handleThemeSelect(t.meta.slug)}
             />
           ))}
+        </div>
+
+        {/* Try an Example */}
+        <div className="mt-14 sm:mt-16">
+          <div className="text-center mb-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-white/80">Try an Example</h2>
+            <p className="text-sm text-white/40 mt-1">Load a complete website instantly</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            {EXAMPLE_SITES.map((example) => (
+              <button
+                key={example.name}
+                type="button"
+                onClick={() => { loadConfig(example.config); navigate('/builder') }}
+                className="group rounded-xl border border-white/10 overflow-hidden transition-all hover:border-white/30 hover:scale-[1.02] hover:shadow-xl bg-[#131825] text-left p-4"
+              >
+                <div className="text-sm font-semibold text-white group-hover:text-white/90">{example.name}</div>
+                <div className="text-xs text-white/40 mt-1">{example.description}</div>
+                <div className="text-xs text-white/20 mt-2 uppercase tracking-wider">{example.theme} theme</div>
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Start from scratch */}

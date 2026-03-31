@@ -81,3 +81,35 @@
 | `plans/implementation/phase-6/` | NEW — home page + listen simulation phase |
 | `plans/implementation/phase-7/` | NEW — XAI docs + workflow pipeline phase |
 | `plans/implementation/phase-8/` | NEW — deploy + presentation flow phase |
+
+---
+
+## Session 3 — 2026-03-31: Phase 4 Example Websites — COMPLETE
+
+**Duration:** ~45 min
+**Scope:** Create 4 example website JSONs + wire "Try an Example" UI on onboarding
+
+### What Was Done
+
+1. **Created 4 example website JSONs** in `src/data/examples/`:
+   - `bakery.json` — Sweet Spot Bakery (Wellness theme, dark, Georgia font, bread imagery, 6 sections)
+   - `launchpad.json` — LaunchPad AI (SaaS theme, dark, Inter font, tech dashboard, 7 sections)
+   - `photography.json` — Sarah Chen Photography (Portfolio theme, dark, Playfair Display, wedding photo, 6 sections)
+   - `consulting.json` — GreenLeaf Consulting (Professional theme, light, clean corporate, value props, 7 sections)
+
+2. **Created `src/data/examples/index.ts`** — typed registry of all examples with name, description, theme, and config
+
+3. **Added "Try an Example" section to onboarding page** — 4 cards below the theme grid, each with name + description + theme label. Click loads config and navigates to /builder.
+
+4. **Verified all 4 examples load correctly** — screenshots confirm proper rendering, navbar, hero, sections, correct theme colors
+
+### Files Created/Modified
+
+| File | Action |
+|------|--------|
+| `src/data/examples/bakery.json` | CREATE |
+| `src/data/examples/launchpad.json` | CREATE |
+| `src/data/examples/photography.json` | CREATE |
+| `src/data/examples/consulting.json` | CREATE |
+| `src/data/examples/index.ts` | CREATE |
+| `src/pages/Onboarding.tsx` | MODIFY — add example cards + loadConfig import |

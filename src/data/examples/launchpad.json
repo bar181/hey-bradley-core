@@ -1,0 +1,164 @@
+{
+  "site": {
+    "title": "LaunchPad AI",
+    "description": "Ship AI products 10x faster with the modern deployment platform",
+    "author": "LaunchPad AI",
+    "email": "hello@launchpad.ai",
+    "domain": "launchpad.ai",
+    "project": "launchpad-ai",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2"
+  },
+  "theme": {
+    "preset": "saas",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0a0a1a",
+      "bgSecondary": "#12122a",
+      "textPrimary": "#f8fafc",
+      "textSecondary": "#94a3b8",
+      "accentPrimary": "#6366f1",
+      "accentSecondary": "#818cf8"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#f8fafc",
+      "textPrimary": "#09090b",
+      "textSecondary": "#71717a",
+      "accentPrimary": "#6366f1",
+      "accentSecondary": "#818cf8"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Inter",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "12px"
+  },
+  "sections": [
+    {
+      "type": "navbar",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": { "display": "flex", "padding": "0" },
+      "style": { "background": "#0a0a1a", "color": "#f8fafc" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "LaunchPad AI" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 1, "props": { "text": "Start Free Trial", "url": "#pricing" } }
+      ]
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a1a 100%)",
+        "color": "#f8fafc",
+        "fontFamily": "Inter",
+        "borderRadius": "0px"
+      },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "Now in Public Beta", "icon": "sparkles", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Ship AI Products 10x Faster", "level": 1, "size": "56px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "From prototype to production in minutes. LaunchPad handles infrastructure, scaling, and monitoring so you can focus on building." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "Start Free Trial", "url": "#pricing", "style": "filled", "size": "lg" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4, "props": { "text": "Watch Demo", "url": "#features", "style": "outline", "size": "lg" } },
+        { "id": "heroImage", "type": "image", "enabled": true, "order": 5, "props": { "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&q=80", "alt": "AI dashboard analytics", "aspect": "16:9", "position": "below", "shadow": true } },
+        { "id": "backgroundImage", "type": "image", "enabled": false, "order": 6, "props": {} },
+        { "id": "heroVideo", "type": "video", "enabled": false, "order": 7, "props": {} },
+        { "id": "trustBadges", "type": "trust", "enabled": true, "order": 8, "props": { "text": "Trusted by 500+ AI teams worldwide", "show": true } }
+      ]
+    },
+    {
+      "type": "features",
+      "id": "features-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "grid-3col",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "64px 24px" },
+      "style": { "background": "#12122a", "color": "#f8fafc" },
+      "components": [
+        { "id": "f1", "type": "feature-card", "enabled": true, "order": 0, "props": { "icon": "zap", "title": "One-Click Deploy", "description": "Push your model and we handle the rest. Auto-scaling, load balancing, and zero-downtime deploys." } },
+        { "id": "f2", "type": "feature-card", "enabled": true, "order": 1, "props": { "icon": "shield", "title": "Enterprise Security", "description": "SOC2 compliant, end-to-end encryption, and role-based access control out of the box." } },
+        { "id": "f3", "type": "feature-card", "enabled": true, "order": 2, "props": { "icon": "bar-chart", "title": "Real-Time Monitoring", "description": "Track latency, throughput, and costs per inference. Alerts when things go wrong." } }
+      ]
+    },
+    {
+      "type": "pricing",
+      "id": "pricing-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "3-tier",
+      "layout": { "display": "flex", "gap": "24px", "padding": "64px 24px" },
+      "style": { "background": "#0a0a1a", "color": "#f8fafc" },
+      "components": [
+        { "id": "tier-1", "type": "pricing-tier", "enabled": true, "order": 0, "props": { "name": "Hobby", "price": "$0", "period": "month", "features": "1 model,1K requests/day,Community support,Shared GPU", "ctaText": "Get Started", "ctaUrl": "#signup", "highlighted": false } },
+        { "id": "tier-2", "type": "pricing-tier", "enabled": true, "order": 1, "props": { "name": "Pro", "price": "$49", "period": "month", "features": "10 models,100K requests/day,Priority support,Dedicated GPU,Custom domains", "ctaText": "Start Free Trial", "ctaUrl": "#signup", "highlighted": true } },
+        { "id": "tier-3", "type": "pricing-tier", "enabled": true, "order": 2, "props": { "name": "Enterprise", "price": "Custom", "period": "month", "features": "Unlimited models,Unlimited requests,24/7 support,VPC deployment,SLA guarantee,SSO/SAML", "ctaText": "Contact Sales", "ctaUrl": "#contact", "highlighted": false } }
+      ]
+    },
+    {
+      "type": "faq",
+      "id": "faq-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "accordion",
+      "layout": { "display": "flex", "direction": "column", "gap": "0", "padding": "64px 24px" },
+      "style": { "background": "#12122a", "color": "#f8fafc" },
+      "components": [
+        { "id": "q-1", "type": "faq-item", "enabled": true, "order": 0, "props": { "question": "What AI frameworks do you support?", "answer": "We support PyTorch, TensorFlow, Hugging Face Transformers, ONNX, and any containerized model. If it runs in Docker, it runs on LaunchPad." } },
+        { "id": "q-2", "type": "faq-item", "enabled": true, "order": 1, "props": { "question": "How does pricing work?", "answer": "You pay for compute time and requests. The Hobby tier is free forever. Pro includes a generous free tier and scales with usage." } },
+        { "id": "q-3", "type": "faq-item", "enabled": true, "order": 2, "props": { "question": "Can I bring my own cloud?", "answer": "Yes! Enterprise customers can deploy to their own AWS, GCP, or Azure accounts. We manage the orchestration layer." } }
+      ]
+    },
+    {
+      "type": "cta",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "64px 24px", "gap": "16px" },
+      "style": { "background": "#0a0a1a", "color": "#f8fafc" },
+      "components": [
+        { "id": "heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Ready to ship your AI product?", "level": 2, "size": "36px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 1, "props": { "text": "Join 500+ teams who deploy with LaunchPad. Free tier available, no credit card required." } },
+        { "id": "button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Start Free Trial", "url": "#signup", "style": "filled", "size": "lg" } }
+      ]
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "multi-column",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "48px 24px" },
+      "style": { "background": "#12122a", "color": "#f8fafc" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "LaunchPad AI" } },
+        { "id": "col-1", "type": "footer-column", "enabled": true, "order": 1, "props": { "heading": "Product", "links": "Features,Pricing,Docs,Changelog" } },
+        { "id": "col-2", "type": "footer-column", "enabled": true, "order": 2, "props": { "heading": "Company", "links": "About,Blog,Careers,Contact" } },
+        { "id": "col-3", "type": "footer-column", "enabled": true, "order": 3, "props": { "heading": "Legal", "links": "Privacy,Terms,Security,SLA" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 4, "props": { "text": "© 2026 LaunchPad AI. All rights reserved." } }
+      ]
+    }
+  ]
+}

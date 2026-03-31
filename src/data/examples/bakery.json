@@ -1,0 +1,150 @@
+{
+  "site": {
+    "title": "Sweet Spot Bakery",
+    "description": "Artisan bakery serving handcrafted pastries and fresh bread since 2019",
+    "author": "Sweet Spot Bakery",
+    "email": "hello@sweetspotbakery.com",
+    "domain": "sweetspotbakery.com",
+    "project": "sweet-spot-bakery",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2"
+  },
+  "theme": {
+    "preset": "wellness",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0a1a14",
+      "bgSecondary": "#132a1f",
+      "textPrimary": "#f0fdf4",
+      "textSecondary": "#bbf7d0",
+      "accentPrimary": "#22c55e",
+      "accentSecondary": "#4ade80"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#f0fdf4",
+      "textPrimary": "#09090b",
+      "textSecondary": "#6b7280",
+      "accentPrimary": "#22c55e",
+      "accentSecondary": "#4ade80"
+    },
+    "typography": {
+      "fontFamily": "Georgia",
+      "headingFamily": "Georgia",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "16px"
+  },
+  "sections": [
+    {
+      "type": "navbar",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": { "display": "flex", "padding": "0" },
+      "style": { "background": "#0a1a14", "color": "#f0fdf4" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Sweet Spot Bakery" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 1, "props": { "text": "Order Now", "url": "#cta" } }
+      ]
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "overlay",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "#0a1a14",
+        "color": "#f0fdf4",
+        "fontFamily": "Georgia",
+        "borderRadius": "0px"
+      },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "Handcrafted Since 2019", "icon": "sparkles", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Baked with Love, Served with Joy", "level": 1, "size": "56px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Every morning we craft artisan sourdough, buttery croissants, and seasonal pastries using locally sourced ingredients." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "See Our Menu", "url": "#features", "style": "filled", "size": "lg" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4, "props": { "text": "Visit Us", "url": "#cta", "style": "outline", "size": "lg" } },
+        { "id": "heroImage", "type": "image", "enabled": true, "order": 5, "props": { "url": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&auto=format&q=80", "alt": "Freshly baked artisan bread", "aspect": "16:9", "position": "below", "shadow": true } },
+        { "id": "backgroundImage", "type": "image", "enabled": false, "order": 6, "props": {} },
+        { "id": "heroVideo", "type": "video", "enabled": false, "order": 7, "props": {} },
+        { "id": "trustBadges", "type": "trust", "enabled": true, "order": 8, "props": { "text": "Loved by 2,000+ customers in Portland", "show": true } }
+      ]
+    },
+    {
+      "type": "features",
+      "id": "features-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "grid-3col",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "64px 24px" },
+      "style": { "background": "#132a1f", "color": "#f0fdf4" },
+      "components": [
+        { "id": "f1", "type": "feature-card", "enabled": true, "order": 0, "props": { "icon": "wheat", "title": "Artisan Sourdough", "description": "48-hour fermented sourdough made with organic stone-milled flour. Crusty outside, soft inside." } },
+        { "id": "f2", "type": "feature-card", "enabled": true, "order": 1, "props": { "icon": "cake", "title": "French Pastries", "description": "Buttery croissants, pain au chocolat, and seasonal fruit tarts baked fresh every morning." } },
+        { "id": "f3", "type": "feature-card", "enabled": true, "order": 2, "props": { "icon": "coffee", "title": "Custom Cakes", "description": "Wedding cakes, birthday celebrations, and corporate events. Every cake tells your story." } }
+      ]
+    },
+    {
+      "type": "testimonials",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "cards",
+      "layout": { "display": "grid", "columns": 3, "gap": "24px", "padding": "64px 24px" },
+      "style": { "background": "#0a1a14", "color": "#f0fdf4" },
+      "components": [
+        { "id": "t-1", "type": "testimonial", "enabled": true, "order": 0, "props": { "quote": "The sourdough here is the best in Portland. I drive 30 minutes every Saturday just for a loaf.", "author": "Maria Santos", "role": "Regular Customer" } },
+        { "id": "t-2", "type": "testimonial", "enabled": true, "order": 1, "props": { "quote": "They made the most beautiful wedding cake for us. Our guests are still talking about it six months later.", "author": "James & Kate Liu", "role": "Wedding Client" } },
+        { "id": "t-3", "type": "testimonial", "enabled": true, "order": 2, "props": { "quote": "We order pastry platters for every team meeting. Sweet Spot never disappoints — everything is always fresh and gorgeous.", "author": "Rachel Kim", "role": "Office Manager, TechCo" } }
+      ]
+    },
+    {
+      "type": "cta",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "64px 24px", "gap": "16px" },
+      "style": { "background": "#132a1f", "color": "#f0fdf4" },
+      "components": [
+        { "id": "heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Visit Us This Weekend", "level": 2, "size": "36px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 1, "props": { "text": "Open Tuesday through Sunday, 7am to 4pm. 1234 Hawthorne Blvd, Portland OR." } },
+        { "id": "button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Order Online", "url": "#order", "style": "filled", "size": "lg" } }
+      ]
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "multi-column",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "48px 24px" },
+      "style": { "background": "#0a1a14", "color": "#f0fdf4" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Sweet Spot Bakery" } },
+        { "id": "col-1", "type": "footer-column", "enabled": true, "order": 1, "props": { "heading": "Menu", "links": "Bread,Pastries,Cakes,Catering" } },
+        { "id": "col-2", "type": "footer-column", "enabled": true, "order": 2, "props": { "heading": "Visit", "links": "Hours,Location,Parking,Events" } },
+        { "id": "col-3", "type": "footer-column", "enabled": true, "order": 3, "props": { "heading": "Connect", "links": "Instagram,Facebook,Newsletter" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 4, "props": { "text": "© 2026 Sweet Spot Bakery. Handcrafted with love." } }
+      ]
+    }
+  ]
+}
