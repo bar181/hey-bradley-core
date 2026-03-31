@@ -20,32 +20,38 @@ body {
 
 @layer base {
   :root {
-    /* Hey Bradley Chrome — Dark Mode (Harvard Brand) */
-    --hb-bg: #1E1E1E;
-    --hb-surface: #2e080d;
-    --hb-surface-hover: #383535;
-    --hb-border: #4a4545;
-    --hb-text-primary: #F3F3F1;
-    --hb-text-secondary: #c8c5c5;
-    --hb-text-muted: #9a9595;
-    --hb-accent: #A51C30;
-    --hb-accent-light: rgba(165, 28, 48, 0.18);
-    --hb-accent-hover: #C1283E;
-    --hb-nav-bg: #2e080d;
+    /* Hey Bradley Chrome — Dark Mode (Harvard HMS Brand)
+       Primary: Crimson #A51C30, Black #1E1E1E
+       Secondary: Shade #BAC5C6, Parchment #F3F3F1, Slate #8996A0, Mortar #8C8179
+       Accent: Indigo #293352 */
+    --hb-bg: #1E1E1E;              /* Black — main background */
+    --hb-surface: #2e080d;         /* Dark crimson — panel backgrounds */
+    --hb-surface-hover: #383535;   /* Warm grey — hover states */
+    --hb-border: #4a4545;          /* Mid grey — borders */
+    --hb-text-primary: #F3F3F1;    /* Parchment — main text */
+    --hb-text-secondary: #BAC5C6;  /* Shade — secondary text */
+    --hb-text-muted: #8996A0;      /* Slate — muted text */
+    --hb-accent: #A51C30;          /* Crimson — primary accent */
+    --hb-accent-light: rgba(165, 28, 48, 0.18); /* Crimson transparent */
+    --hb-accent-hover: #C1283E;    /* Bright crimson — hover */
+    --hb-nav-bg: #2e080d;          /* Dark crimson — top bar */
   }
   .light-chrome {
-    /* Hey Bradley Chrome — Light Mode (Harvard Brand) */
-    --hb-bg: #F3F3F1;
-    --hb-surface: #ffffff;
-    --hb-surface-hover: #ebe8e6;
-    --hb-border: #d0cbc8;
-    --hb-text-primary: #1E1E1E;
-    --hb-text-secondary: #383535;
-    --hb-text-muted: #6a6565;
-    --hb-accent: #A51C30;
-    --hb-accent-light: rgba(165, 28, 48, 0.10);
-    --hb-accent-hover: #8B1729;
-    --hb-nav-bg: #A51C30;
+    /* Hey Bradley Chrome — Light Mode (Harvard HMS Brand)
+       Primary: Crimson #A51C30, Black #1E1E1E
+       Secondary: Shade #BAC5C6, Parchment #F3F3F1, Slate #8996A0, Mortar #8C8179
+       Accent: Indigo #293352 */
+    --hb-bg: #F3F3F1;              /* Parchment — main background */
+    --hb-surface: #d5dcdd;         /* Shade lightened — panel backgrounds */
+    --hb-surface-hover: #c7d0d1;   /* Shade mid — hover states */
+    --hb-border: #8996A0;          /* Slate — borders */
+    --hb-text-primary: #1E1E1E;    /* Black — main text */
+    --hb-text-secondary: #293352;  /* Indigo — secondary text */
+    --hb-text-muted: #8C8179;      /* Mortar — muted text */
+    --hb-accent: #A51C30;          /* Crimson — primary accent */
+    --hb-accent-light: rgba(165, 28, 48, 0.12); /* Crimson transparent */
+    --hb-accent-hover: #8B1729;    /* Dark crimson — hover */
+    --hb-nav-bg: #A51C30;          /* Crimson — top bar */
   }
   :root {
     --background: oklch(1 0 0);
