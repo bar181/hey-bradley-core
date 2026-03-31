@@ -17,6 +17,7 @@ export function ChatInput() {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
   const [isProcessing, setIsProcessing] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const nextId = useRef(0)
@@ -147,6 +148,8 @@ export function ChatInput() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
           placeholder="Tell Bradley what to build..."
           aria-label="Tell Bradley what to build"
           data-testid="chat-input"
@@ -164,6 +167,13 @@ export function ChatInput() {
           <SendHorizontal size={16} />
         </button>
       </div>
+
+      {/* Command hints — visible when input is empty and focused */}
+      {isFocused && !input && messages.length === 0 && (
+        <div className="px-3 py-1.5 text-xs text-hb-text-muted border-t border-hb-border/50">
+          Try: <span className="text-hb-text-secondary">"dark mode"</span> · <span className="text-hb-text-secondary">"add pricing"</span> · <span className="text-hb-text-secondary">"headline Hello"</span> · <span className="text-hb-text-secondary">"theme agency"</span>
+        </div>
+      )}
     </div>
   )
 }

@@ -164,7 +164,7 @@ export function SectionsSection() {
               'flex items-center gap-2.5 px-3 py-2 rounded-md cursor-pointer transition-colors group',
               isSelected
                 ? 'border-l-[3px] border-hb-accent bg-hb-accent-light'
-                : 'hover:bg-hb-surface-hover',
+                : 'bg-hb-surface hover:bg-hb-surface-hover',
               isDisabled && 'opacity-40'
             )}
           >
@@ -268,7 +268,7 @@ export function SectionsSection() {
         <button
           type="button"
           onClick={() => setShowAddMenu(!showAddMenu)}
-          className="flex items-center justify-center gap-1.5 w-full mt-1 px-3 py-2 rounded-md border border-dashed border-hb-text-muted/30 text-hb-text-muted hover:text-hb-accent hover:border-hb-accent/50 transition-colors text-sm"
+          className="flex items-center justify-center gap-1.5 w-full mt-1 px-3 py-2 rounded-md border border-dashed border-hb-border text-hb-text-muted hover:text-hb-accent hover:border-hb-accent/50 transition-colors text-sm"
         >
           <Plus size={14} />
           Add Section

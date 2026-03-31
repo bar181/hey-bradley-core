@@ -1,4 +1,4 @@
-import { Palette, Plus } from 'lucide-react'
+import { Palette } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { useUIStore } from '@/store/uiStore'
 import { Toggle } from '@/components/shared/Toggle'
@@ -44,15 +44,6 @@ export function LeftPanel() {
         {/* Section rows */}
         <SectionsSection />
 
-        {/* Add Section button */}
-        <div
-          role="button"
-          tabIndex={0}
-          className="mt-3 mx-1 border-2 border-dashed border-slate-700/50 rounded-lg text-slate-500 hover:border-slate-500 hover:text-slate-300 transition-colors py-3 flex justify-center items-center gap-2 text-sm cursor-pointer"
-        >
-          <Plus size={14} />
-          <span>Add Section</span>
-        </div>
       </div>
 
       {/* Bottom: Chat + Listen (pinned, always visible) */}
