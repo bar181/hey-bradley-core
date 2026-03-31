@@ -4,6 +4,9 @@ test.describe('Phase 5: Simulated Chat', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/builder')
     await page.waitForTimeout(2000)
+    // Switch to Chat tab in left panel
+    await page.locator('button:has-text("Chat")').first().click()
+    await page.waitForTimeout(500)
   })
 
   test('send "dark" toggles to dark mode', async ({ page }) => {
