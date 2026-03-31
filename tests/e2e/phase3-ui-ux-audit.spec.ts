@@ -57,8 +57,8 @@ test.describe('1. Onboarding Page (/)', () => {
     const hasPickTheme = await page.getByText(/pick a theme/i).first().isVisible()
     record('Onboarding', 'Shows "Pick a theme"', hasPickTheme, hasPickTheme ? 'Visible' : 'Not found', 'P0')
 
-    // Count theme cards — they are in the grid, each is a <button> with specific structure
-    const themeGrid = page.locator('.grid button[type="button"]')
+    // Count theme cards — they are in the first grid (2-4 columns), each is a <button> with a preview area
+    const themeGrid = page.locator('.grid').first().locator('button[type="button"]')
     const cardCount = await themeGrid.count()
     record('Onboarding', 'Theme card count = 10', cardCount === 10, `Found ${cardCount} cards`, 'P0')
 
