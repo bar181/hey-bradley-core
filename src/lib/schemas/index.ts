@@ -17,13 +17,11 @@ export {
 export {
   siteSchema,
   themeSchema,
-  themeColorsSchema,
   themeTypographySchema,
   themeSpacingSchema,
   masterConfigSchema,
   type Site,
   type Theme,
-  type ThemeColors,
   type ThemeTypography,
   type ThemeSpacing,
   type MasterConfig,

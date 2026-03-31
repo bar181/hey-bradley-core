@@ -25,7 +25,6 @@ interface ThemeJSON {
       accentPrimary: string
       accentSecondary: string
     }
-    colors?: Record<string, string>
     typography: { fontFamily: string }
   }
   sections: Array<{

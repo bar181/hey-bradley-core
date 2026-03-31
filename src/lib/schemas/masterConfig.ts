@@ -35,33 +35,6 @@ export type Site = z.infer<typeof siteSchema>
 // Theme schema (Level 2: visual defaults for all sections)
 // ---------------------------------------------------------------------------
 
-const COLORS_DEFAULTS = {
-  primary: '#3b82f6',
-  secondary: '#8b5cf6',
-  accent: '#22d3ee',
-  background: '#0a0a0f',
-  surface: '#1e293b',
-  text: '#f8fafc',
-  muted: '#94a3b8',
-  border: '#334155',
-}
-
-export const themeColorsSchema = z.object({
-  primary: z.string().default(COLORS_DEFAULTS.primary),
-  secondary: z.string().default(COLORS_DEFAULTS.secondary),
-  accent: z.string().default(COLORS_DEFAULTS.accent),
-  background: z.string().default(COLORS_DEFAULTS.background),
-  surface: z.string().default(COLORS_DEFAULTS.surface),
-  text: z.string().default(COLORS_DEFAULTS.text),
-  muted: z.string().default(COLORS_DEFAULTS.muted),
-  border: z.string().default(COLORS_DEFAULTS.border),
-  success: z.string().optional(),
-  warning: z.string().optional(),
-  error: z.string().optional(),
-})
-
-export type ThemeColors = z.infer<typeof themeColorsSchema>
-
 const TYPOGRAPHY_DEFAULTS = {
   fontFamily: 'Inter',
   headingFamily: 'Inter',
@@ -139,7 +112,6 @@ export const themeSchema = z.object({
   mode: z.enum(['light', 'dark']).default('dark'),
   palette: paletteSchema.optional(),
   alternatePalette: paletteSchema.optional(),
-  colors: themeColorsSchema.optional(),
   alternativePalettes: z.array(alternativePaletteSchema).optional(),
   typography: themeTypographySchema.default(() => ({ ...TYPOGRAPHY_DEFAULTS })),
   spacing: themeSpacingSchema.default(() => ({ ...SPACING_DEFAULTS })),

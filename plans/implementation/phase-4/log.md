@@ -113,3 +113,33 @@
 | `src/data/examples/consulting.json` | CREATE |
 | `src/data/examples/index.ts` | CREATE |
 | `src/pages/Onboarding.tsx` | MODIFY — add example cards + loadConfig import |
+
+---
+
+## Session 4 — 2026-03-31: Phase 4 Close — Audit, Wiki, Dead Code Cleanup
+
+**Duration:** ~30 min
+**Scope:** Brutal honest review, dead code removal, wiki creation, Phase 5 prep
+
+### What Was Done
+
+1. **Technical debt audit** — codebase scanned for dead code, stale references, schema inconsistencies
+2. **Dead code removed:**
+   - `themeColorsSchema` + `ThemeColors` type + `COLORS_DEFAULTS` constant (unused since palette system replaced colors)
+   - `colors: themeColorsSchema.optional()` field from theme schema
+   - `colors?: Record<string, string>` from ThemeSimple local interface
+3. **Fixed onboarding card count test** — scoped selector to first grid to avoid counting example cards
+4. **Phase 4 wiki created** — `wiki/06-phase-4-example-websites.guide.html`
+5. **Memory updated** — north star v5 reflects 8-phase roadmap
+6. **All stale documents checked and updated**
+7. **Phase 5 folder confirmed ready** — README, living-checklist, log all exist
+
+### Blockers Found: NONE
+
+### Technical Debt Remaining
+
+| Item | Severity | Notes |
+|------|----------|-------|
+| 5 pre-existing test failures in loop-smoke/visual-smoke | Low | Navigate to `/` but expect builder UI. Pre-Phase 3 issue. |
+| `alternativePalettes` not paired for both modes | Low | Alt palettes are single-mode only. Phase 9+ concern. |
+| No navbar section in 9 of 10 themes | Low | Only SaaS has navbar in template. Examples have navbars. |
