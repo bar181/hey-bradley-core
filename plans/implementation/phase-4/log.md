@@ -46,3 +46,38 @@
 - Per-section mode overrides
 - Custom color editing for either palette (Expert mode, Phase 6+)
 - `alternativePalettes` array paired for both modes (future)
+
+---
+
+## Session 2 — 2026-03-31: Bug Fix + Phase Restructure
+
+**Duration:** ~30 min
+**Scope:** Fix theme-switch section visibility bug + restructure old Phase 4 into Phases 4-8
+
+### What Was Done
+
+1. **Bug fix: Theme switch preserves section enabled state**
+   - `applyVibe()` in `configStore.ts` now builds an `enabledMap` from the user's current sections
+   - When loading theme template sections, `enabled` is preserved from user state if the section type exists
+   - This means toggling sections on/off in the left panel survives theme switches
+
+2. **Restructured Phase 4 into 5 focused phases:**
+   - **Phase 4:** Example Websites (4 pre-built JSONs + "Try an Example" UI)
+   - **Phase 5:** Simulated Chat (keyword → canned JSON patches, chat history)
+   - **Phase 6:** Home Page + Listen Simulation (splash page + red orb demo)
+   - **Phase 7:** XAI Docs + Workflow Pipeline (live specs, animated pipeline)
+   - **Phase 8:** Deploy + Presentation Flow (Vercel, 15-min walkthrough, polish)
+
+3. **Each phase now has:** README, living-checklist.md, log.md
+   - Phase 6 includes reference pointers to splash page code and screencaps
+
+### Files Changed
+
+| File | Change |
+|------|--------|
+| `src/store/configStore.ts` | `applyVibe()` preserves user's section `enabled` state |
+| `plans/implementation/phase-4/` | README, checklist, backlog rewritten for example-websites-only scope |
+| `plans/implementation/phase-5/` | NEW — simulated chat phase |
+| `plans/implementation/phase-6/` | NEW — home page + listen simulation phase |
+| `plans/implementation/phase-7/` | NEW — XAI docs + workflow pipeline phase |
+| `plans/implementation/phase-8/` | NEW — deploy + presentation flow phase |

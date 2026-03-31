@@ -197,11 +197,13 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     // FULL REPLACEMENT — not merge. Theme IS the new config.
     // Only preserve: site{} and text/url props from components.
 
-    // Step 1: Extract user copy (text props from all, url only from buttons)
+    // Step 1: Extract user copy AND enabled state (text props from all, url only from buttons)
     // Image/video URLs are part of theme identity — NOT preserved on switch.
     const BUTTON_TYPES = new Set(['button'])
     const copyMap: Record<string, Record<string, { text?: string; url?: string }>> = {}
+    const enabledMap: Record<string, boolean> = {}
     for (const section of config.sections) {
+      enabledMap[section.type] = section.enabled
       copyMap[section.type] = {}
       for (const comp of section.components) {
         const preserved: { text?: string; url?: string } = {}
@@ -221,6 +223,8 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       sections: themeData.sections
         ? (themeData.sections as unknown as Section[]).map((templateSection) => ({
             ...templateSection,
+            // Preserve user's show/hide (enabled) state for matching section types
+            enabled: templateSection.type in enabledMap ? enabledMap[templateSection.type] : templateSection.enabled,
             // Inject preserved copy back into matching components
             components: (templateSection.components || []).map((comp) => {
               const sectionType = templateSection.type as string
