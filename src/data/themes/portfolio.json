@@ -23,14 +23,6 @@
       "accentPrimary": "#e4e4e7",
       "accentSecondary": "#a1a1aa"
     },
-    "lightPalette": {
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8fafc",
-      "textPrimary": "#09090b",
-      "textSecondary": "#71717a",
-      "accentPrimary": "#e4e4e7",
-      "accentSecondary": "#a1a1aa"
-    },
     "alternativePalettes": [
       {
         "name": "Warm",
@@ -81,7 +73,15 @@
       "containerMaxWidth": "1200px",
       "componentGap": "24px"
     },
-    "borderRadius": "8px"
+    "borderRadius": "8px",
+    "alternatePalette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#f8fafc",
+      "textPrimary": "#09090b",
+      "textSecondary": "#71717a",
+      "accentPrimary": "#e4e4e7",
+      "accentSecondary": "#a1a1aa"
+    }
   },
   "sections": [
     {

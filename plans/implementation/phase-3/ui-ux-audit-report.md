@@ -1,257 +1,135 @@
-# Hey Bradley — Phase 3 Comprehensive UI/UX Audit Report
+# Hey Bradley UI/UX Audit Report - Phase 3
 
-**Date:** 2026-03-30
-**URL:** http://localhost:5173/
-**Tool:** Playwright 1.58.2 (headless Chromium) + visual inspection
-**Routes tested:** `/` (onboarding), `/builder` (3-panel editor)
+**Date**: 2026-03-31
+**URL**: http://localhost:5173/
+**Tool**: Playwright automated audit
+**Routes tested**: `/` (onboarding), `/builder` (3-panel editor)
 
 ---
 
 ## Summary Table
 
-| # | Category | Score (1-5) | Key Finding |
-|---|----------|:-----------:|-------------|
-| 1 | Onboarding Page | 4 | Clean grid, all 10 themes, navigation works. Needs design polish. |
-| 2 | Builder Layout | 4 | Three panels render correctly. TopBar responsive. |
-| 3 | Preview Mode | 4 | Sections stack, navbar renders. No smooth scroll. |
-| 4 | Section Editors | 4 | All 9 editors work. Hero simplified. Variant selectors present. |
-| 5 | Theme Switching | 5 | All 10 themes render without errors. Visual diversity good. |
-| 6 | Section CRUD | 4 | Add/remove/duplicate work with theme-aware defaults. |
-| 7 | Font Cascade | 4 | All renderers inherit theme font. Working correctly. |
-| 8 | Light/Dark Toggle | 3 | Toggle works but "Auto" mode is cosmetic only. |
-| 9 | Accessibility | 3 | aria-labels present. Some contrast issues remain. No skip link. |
-| 10 | Responsive | 3 | Hamburger menu works. Onboarding responsive. Builder is desktop-first. |
-| | **Overall** | **3.8/5** | **Functional POC. Needs Phase 4 "wow factor" and Phase 5 polish.** |
+| Category | Score (1-5) | Pass/Total |
+|----------|:-----------:|:----------:|
+| Onboarding | 5 | 8/8 |
+| Builder | 5 | 11/11 |
+| Preview | 5 | 6/6 |
+| Section Editors | 5 | 15/15 |
+| Theme Switching | 5 | 3/3 |
+| Section CRUD | 5 | 5/5 |
+| Font Cascade | 3 | 1/2 |
+| Accessibility | 4 | 3/4 |
+| Responsive | 5 | 2/2 |
+| **Overall** | **4.7** | **54/56** |
 
 ---
 
-## 1. Onboarding Page (/)
+## Detailed Findings
 
-**Score: 4/5**
+### Onboarding
 
-**Passes:**
-- "Hey Bradley" title and "Pick a theme to start building" subtitle visible
-- All 10 theme cards render in a responsive grid (2 cols mobile, 4 cols desktop)
-- Each card shows theme name, description, mood, and a mini-preview with actual theme colors
-- Click any theme → navigates to `/builder` with that theme loaded
-- "or start from scratch →" link at bottom
-- No console errors
+- **[PASS]** Shows "Hey Bradley": Visible
+- **[PASS]** Shows "Pick a theme": Visible
+- **[PASS]** Theme card count = 10: Found 10 cards
+- **[PASS]** Theme names listed: Themes: SaaS, Agency, Portfolio, Blog, Startup, Personal, Professional, Wellness, Creative, Minimalist
+- **[PASS]** "Start from scratch" visible: Visible
+- **[PASS]** Screenshot taken: tests/screenshots/onboarding.png
+- **[PASS]** No console errors: Clean
+- **[PASS]** All theme cards navigate to /builder: All 10 navigate correctly
 
-**Issues:**
-- P1: Theme card descriptions are truncated on some cards at smaller widths
-- P1: No "Continue editing" button visible (requires saved project in localStorage — correct behavior, but empty state has no affordance)
-- P2: The page is functional but not "wow" — no animation, no hero showcase, no chat panel like the splash reference from Bradley
-- P2: Dark background only — no option for light onboarding page
+### Builder
 
-**Screenshot:** `tests/screenshots/onboarding.png`
+- **[PASS]** Three panels visible: Found 3 panels
+- **[PASS]** Screenshot taken: tests/screenshots/builder-default.png
+- **[PASS]** All 4 tabs work: REALITY: OK, DATA: OK, XAI DOCS: OK, WORKFLOW: OK
+- **[PASS]** Left panel has Theme item: Visible
+- **[PASS]** Left panel has section items: Hero visible
+- **[PASS]** Theme shows theme cards: Found 10 theme cards
+- **[PASS]** Theme shows Light/Dark toggle: Visible
+- **[PASS]** Hero: Layout accordion: Visible
+- **[PASS]** Hero: Visuals accordion: Visible
+- **[PASS]** Hero: Content accordion: Visible
+- **[PASS]** Hero: No Style accordion: Correct
 
----
+### Preview
 
-## 2. Builder Layout (/builder)
+- **[PASS]** Preview button exists: Visible
+- **[PASS]** Enters preview mode: Edit button visible
+- **[PASS]** Panels hidden in preview: Panels hidden
+- **[PASS]** Navbar with logo visible: Visible
+- **[PASS]** Screenshot taken: tests/screenshots/preview-mode.png
+- **[PASS]** Escape returns to editor: Returned
 
-**Score: 4/5**
+### Section Editors
 
-**Passes:**
-- Three-panel layout renders (left ~20%, center ~55%, right ~25%)
-- All 4 tabs navigable (REALITY, DATA, XAI DOCS, WORKFLOW)
-- Left panel shows section list: Navbar, Theme, Hero, Features, Call to Action, etc.
-- Right panel context switches: click Theme → theme cards + Light/Dark/Auto toggle
-- TopBar: HB logo, LISTEN/BUILD toggle, Preview/Edit button, undo/redo, device toggles
-- StatusBar at bottom with READY indicator
+- **[PASS]** Hero: Layout cards visible: Found 8 layout cards
+- **[PASS]** Hero: Headline input: Visible
+- **[PASS]** Hero: Subtitle input: Visible
+- **[PASS]** Hero: Badge input: Visible
+- **[PASS]** Hero: Primary CTA input: Visible
+- **[PASS]** Hero: Secondary CTA input: Visible
+- **[PASS]** Features: variant selector: Grid/Cards found
+- **[PASS]** Features: has inputs: Found 7 inputs
+- **[PASS]** Pricing: has inputs: Found 16 inputs
+- **[PASS]** CTA: variant selector: Found
+- **[PASS]** FAQ: has inputs: Found 11 inputs
+- **[PASS]** Testimonials: has inputs: Found 10 inputs
+- **[PASS]** Value Props: has inputs: Found 13 inputs
+- **[PASS]** Footer: has inputs: Found 9 inputs
+- **[PASS]** Navbar: has inputs: Found 3 inputs
 
-**Issues:**
-- P1: Navbar section appears in left panel section list but shows with "-01" ID suffix — could be cleaner
-- P2: The "XAI DOCS" and "WORKFLOW" tabs show placeholder content
-- P2: Left panel chat input at bottom is non-functional (placeholder for Phase 4)
+### Theme Switching
 
-**Screenshot:** `tests/screenshots/builder-default.png`
+- **[PASS]** All 10 themes switch without crashes: All OK
+- **[PASS]** No JS errors during switching: Clean
+- **[PASS]** Light/Dark toggle works: Toggle clicked without crash
 
----
+### Section CRUD
 
-## 3. Preview Mode
+- **[PASS]** Initial section count: 9 sections
+- **[PASS]** Add Section button exists: Visible
+- **[PASS]** Add section increases count: Before: 9, After: 10
+- **[PASS]** Duplicate increases count: Before: 10, After: 11
+- **[PASS]** Remove decreases count: Before: 11, After: 10
 
-**Score: 4/5**
+### Font Cascade
 
-**Passes:**
-- Preview button visible in TopBar desktop controls
-- Click Preview → left and right panels hide, center goes full-width
-- All enabled sections render stacked vertically
-- Navbar renders at top with "Hey Bradley" logo + auto-generated section links + "Get Started" CTA
-- StatusBar hides in preview mode
-- Button changes to "Edit" with PenLine icon
-- Escape key returns to editor
+- **[PASS]** Expert tab exists: Visible
+- **[FAIL]** Font options available: Found 0 font options
 
-**Issues:**
-- P1: Navbar links (Features, Pricing, etc.) don't scroll to sections — `href="#section-id"` but no scroll-to behavior
-- P1: Only Hero section enabled by default — other sections are `enabled: false`. Preview shows just navbar + hero unless user manually enables sections.
-- P2: No transition animation when entering/exiting preview mode
+### Accessibility
 
----
+- **[FAIL]** Buttons have labels: 1 unlabeled: button[59] class=w-8 h-4 relative rounded-full transition-colors duration-200
+- **[PASS]** Inputs have labels/placeholders: All labeled
+- **[PASS]** Focus indicators in CSS: Focus styles found
+- **[PASS]** Min font size >= 12px: All >= 12px
 
-## 4. Section Editors
+### Responsive
 
-**Score: 4/5**
-
-**Passes:**
-- Hero: 3 clean accordions (Layout, Visuals, Content). 8 layout wireframes. Single media URL. Badge/headline/subtitle/CTA inputs with char counts and toggles.
-- Features: Grid/Cards variant selector + grid column selector + per-card editing
-- Pricing: Per-tier name/price/period/features/CTA editing + highlighted toggle
-- CTA: Centered/Split variant selector + heading/subtitle/button
-- FAQ: Accordion/Two Column variant selector + Q&A pairs
-- Testimonials: Per-testimonial quote/author/role
-- Value Props: Per-stat value/label/description
-- Footer: Brand/columns/copyright
-- Navbar: Logo text + CTA toggle
-
-**Issues:**
-- P1: No data-testid on variant selector buttons (Features Grid/Cards, CTA Centered/Split, FAQ Accordion/Two Column)
-- P2: Feature card add/remove buttons could have more visible affordance
-
----
-
-## 5. Theme Switching
-
-**Score: 5/5**
-
-**Passes:**
-- All 10 themes render without errors (verified via Playwright regression test)
-- Each theme produces visually distinct hero: different layout, colors, fonts, components
-- Light/Dark/Auto toggle works (Light/Dark swap palettes, Auto sets schema)
-- Theme cards in right panel show accurate mini-previews
-- No React error boundaries or console errors across all 10 themes
+- **[PASS]** Mobile: hamburger menu: Visible at 375px
+- **[PASS]** Tablet: renders at 768px: Renders OK
 
 ---
 
-## 6. Section CRUD
+## P0 Blockers (Must Fix)
 
-**Score: 4/5**
-
-**Passes:**
-- "Add Section" opens picker with all 9 section types (including Navbar)
-- New sections pull template from current theme JSON with real sample content
-- Remove section with double-click confirmation
-- Duplicate section works
-- Reorder via up/down arrow buttons
-- Section enable/disable toggle (eye icon)
-
-**Issues:**
-- P2: No drag-and-drop reorder (deferred to backlog)
-- P2: Adding a section type that already exists in the theme duplicates it rather than warning
-
----
-
-## 7. Font Cascade
-
-**Score: 4/5**
-
-**Passes:**
-- All 11 section renderers have `fontFamily: var(--theme-font)`
-- Switching font in Expert tab updates all sections
-- Theme switching updates font correctly
-
-**Issues:**
-- P2: Google Fonts not dynamically loaded — only works if the font is installed on the user's system or available as a web font
-
----
-
-## 8. Light/Dark Toggle
-
-**Score: 3/5**
-
-**Passes:**
-- 3-button segmented control (Light/Auto/Dark) in Theme SIMPLE
-- Light/Dark correctly swap palettes and update all sections
-- Separate Light/Dark toggle in Hero Visuals accordion
-
-**Issues:**
-- P1: "Auto" mode sets `theme.mode: "auto"` but has no `prefers-color-scheme` logic
-- P1: Builder chrome Light/Dark (TopBar sun/moon icon) is separate from theme Light/Dark — potentially confusing
-- P2: Some theme JSONs may not have complete light/dark palette pairs
-
----
-
-## 9. Accessibility
-
-**Score: 3/5**
-
-**Passes:**
-- aria-labels on chat input, mic button, send button
-- aria-labels on all TopBar icon buttons
-- Focus-visible rings on section action buttons
-- 12px minimum font size enforced on most elements
-- Heading hierarchy (single h1 in preview)
-
-**Issues:**
-- P1: No skip navigation link
-- P1: No `<nav>` landmarks around tab bars
-- P1: Some theme card labels in right panel may have low contrast on light backgrounds
-- P2: `<div role="button">` used for section items instead of `<button>`
-- P2: Icon buttons still use `title` instead of `aria-label` in some places
-
----
-
-## 10. Responsive
-
-**Score: 3/5**
-
-**Passes:**
-- TopBar hamburger menu appears below md breakpoint
-- Hamburger dropdown has undo/redo, device preview, dark/light, share
-- Onboarding page responsive: 2 cols on mobile, 3-4 on desktop
-
-**Issues:**
-- P1: Builder 3-panel layout doesn't collapse on mobile — panels become extremely narrow
-- P1: Navbar in preview has no mobile hamburger (links overflow on narrow viewports)
-- P2: Right panel content overflows horizontally at very narrow widths
-
-**Screenshot:** `tests/screenshots/responsive-mobile.png`
-
----
-
-## P0 Blockers (Must Fix Before Phase 4)
-
-None identified. The product is functional.
+No P0 blockers found.
 
 ## P1 Issues (Should Fix)
 
-| # | Issue | Category | Effort |
-|---|-------|----------|--------|
-| 1 | Navbar links don't scroll to sections in preview | Preview | Medium |
-| 2 | Most sections disabled by default — preview shows only hero | Preview | Small (enable sections in default config) |
-| 3 | "Auto" mode is cosmetic only | Light/Dark | Small (document as intentional for POC) |
-| 4 | Builder chrome L/D vs theme L/D confusion | Light/Dark | Medium (unify or document) |
-| 5 | No skip navigation link | a11y | Small |
-| 6 | No `<nav>` landmarks | a11y | Small |
-| 7 | Builder doesn't collapse on mobile | Responsive | Large (defer to Phase 5) |
-| 8 | Navbar no mobile hamburger in preview | Responsive | Medium |
+- **Font Cascade** > Font options available: Found 0 font options
+- **Accessibility** > Buttons have labels: 1 unlabeled: button[59] class=w-8 h-4 relative rounded-full transition-colors duration-200
 
 ## P2 Nice-to-Haves
 
-| # | Issue | Category |
-|---|-------|----------|
-| 1 | Onboarding page needs more "wow" (animation, hero showcase) | Design |
-| 2 | No smooth transition entering/exiting preview | UX |
-| 3 | Google Fonts not loaded | Typography |
-| 4 | No drag-and-drop reorder | UX |
-| 5 | XAI DOCS and WORKFLOW tabs are placeholders | Content |
+No P2 issues found.
 
 ---
 
-## Recommendations for Phase 4
+## Screenshots Taken
 
-1. **Enable 3-5 sections by default** so preview mode shows a complete website, not just hero
-2. **Add smooth scroll** to navbar links in preview (small CSS addition)
-3. **XAI Docs and Workflow tabs** are the Phase 4 deliverables — they'll fill the placeholder content
-4. **Chat input** will become functional in Phase 4 with canned responses
-5. **Listen mode simulation** will add the "wow" that the onboarding page currently lacks
-
----
-
-## Screenshots
-
-| File | Description |
-|------|-------------|
-| `tests/screenshots/onboarding.png` | Onboarding page with 10 theme cards |
-| `tests/screenshots/builder-default.png` | Builder 3-panel layout (SaaS theme) |
-| `tests/screenshots/responsive-mobile.png` | Mobile 375px view of onboarding |
-| `tests/screenshots/responsive-tablet.png` | Tablet 768px view |
+- `tests/screenshots/onboarding.png` - Onboarding page with 10 theme cards
+- `tests/screenshots/builder-default.png` - Builder 3-panel layout
+- `tests/screenshots/preview-mode.png` - Preview mode full site
+- `tests/screenshots/responsive-mobile.png` - Mobile 375px view
+- `tests/screenshots/responsive-tablet.png` - Tablet 768px view

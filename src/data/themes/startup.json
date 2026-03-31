@@ -23,14 +23,6 @@
       "accentPrimary": "#8b5cf6",
       "accentSecondary": "#a78bfa"
     },
-    "lightPalette": {
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8fafc",
-      "textPrimary": "#09090b",
-      "textSecondary": "#71717a",
-      "accentPrimary": "#8b5cf6",
-      "accentSecondary": "#a78bfa"
-    },
     "alternativePalettes": [
       {
         "name": "Neon",
@@ -81,7 +73,15 @@
       "containerMaxWidth": "1200px",
       "componentGap": "24px"
     },
-    "borderRadius": "16px"
+    "borderRadius": "16px",
+    "alternatePalette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#f8fafc",
+      "textPrimary": "#09090b",
+      "textSecondary": "#71717a",
+      "accentPrimary": "#8b5cf6",
+      "accentSecondary": "#a78bfa"
+    }
   },
   "sections": [
     {

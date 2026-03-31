@@ -20,6 +20,14 @@
       "accentPrimary": "#6366f1",
       "accentSecondary": "#818cf8"
     },
+    "alternatePalette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#f8fafc",
+      "textPrimary": "#09090b",
+      "textSecondary": "#6b7280",
+      "accentPrimary": "#4f46e5",
+      "accentSecondary": "#6366f1"
+    },
     "typography": {
       "fontFamily": "Inter",
       "headingFamily": "Inter",

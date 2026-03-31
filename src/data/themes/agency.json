@@ -23,14 +23,6 @@
       "accentPrimary": "#e63946",
       "accentSecondary": "#1d3557"
     },
-    "darkPalette": {
-      "bgPrimary": "#09090b",
-      "bgSecondary": "#18181b",
-      "textPrimary": "#fafafa",
-      "textSecondary": "#a1a1aa",
-      "accentPrimary": "#e63946",
-      "accentSecondary": "#1d3557"
-    },
     "alternativePalettes": [
       {
         "name": "Navy",
@@ -81,7 +73,15 @@
       "containerMaxWidth": "1280px",
       "componentGap": "24px"
     },
-    "borderRadius": "12px"
+    "borderRadius": "12px",
+    "alternatePalette": {
+      "bgPrimary": "#09090b",
+      "bgSecondary": "#18181b",
+      "textPrimary": "#fafafa",
+      "textSecondary": "#a1a1aa",
+      "accentPrimary": "#e63946",
+      "accentSecondary": "#1d3557"
+    }
   },
   "sections": [
     {

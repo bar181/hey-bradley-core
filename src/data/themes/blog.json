@@ -23,14 +23,6 @@
       "accentPrimary": "#b45309",
       "accentSecondary": "#d97706"
     },
-    "darkPalette": {
-      "bgPrimary": "#09090b",
-      "bgSecondary": "#18181b",
-      "textPrimary": "#fafafa",
-      "textSecondary": "#a1a1aa",
-      "accentPrimary": "#b45309",
-      "accentSecondary": "#d97706"
-    },
     "alternativePalettes": [
       {
         "name": "Sage",
@@ -81,7 +73,15 @@
       "containerMaxWidth": "1200px",
       "componentGap": "24px"
     },
-    "borderRadius": "8px"
+    "borderRadius": "8px",
+    "alternatePalette": {
+      "bgPrimary": "#09090b",
+      "bgSecondary": "#18181b",
+      "textPrimary": "#fafafa",
+      "textSecondary": "#a1a1aa",
+      "accentPrimary": "#b45309",
+      "accentSecondary": "#d97706"
+    }
   },
   "sections": [
     {

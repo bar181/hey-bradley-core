@@ -1,4 +1,4 @@
-import { Sun, Moon, Circle } from 'lucide-react'
+import { Sun, Moon } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { useConfigStore } from '@/store/configStore'
 import { THEME_REGISTRY } from '@/data/themes/index'
@@ -86,7 +86,6 @@ function ThemePreview({ theme }: { theme: ThemeJSON }) {
 
 const MODE_OPTIONS = [
   { value: 'light', icon: Sun, label: 'Light' },
-  { value: 'auto', icon: Circle, label: 'Auto' },
   { value: 'dark', icon: Moon, label: 'Dark' },
 ] as const
 
@@ -95,18 +94,10 @@ export function ThemeSimple() {
   const currentMode = useConfigStore((s) => s.config.theme.mode) || 'dark'
   const applyVibe = useConfigStore((s) => s.applyVibe)
   const toggleMode = useConfigStore((s) => s.toggleMode)
-  const applyPatch = useConfigStore((s) => s.applyPatch)
 
   const handleModeChange = (mode: string) => {
-    if (mode === 'auto') {
-      applyPatch({ theme: { mode: 'auto' } }, 'ui')
-    } else if (mode !== currentMode) {
-      if (currentMode === 'auto') {
-        // From auto, set directly
-        applyPatch({ theme: { mode } }, 'ui')
-      } else {
-        toggleMode()
-      }
+    if (mode !== currentMode) {
+      toggleMode()
     }
   }
 

@@ -23,14 +23,6 @@
       "accentPrimary": "#6366f1",
       "accentSecondary": "#818cf8"
     },
-    "lightPalette": {
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8fafc",
-      "textPrimary": "#09090b",
-      "textSecondary": "#71717a",
-      "accentPrimary": "#6366f1",
-      "accentSecondary": "#818cf8"
-    },
     "alternativePalettes": [
       {
         "name": "Blue Steel",
@@ -81,7 +73,15 @@
       "containerMaxWidth": "1200px",
       "componentGap": "24px"
     },
-    "borderRadius": "12px"
+    "borderRadius": "12px",
+    "alternatePalette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#f8fafc",
+      "textPrimary": "#09090b",
+      "textSecondary": "#71717a",
+      "accentPrimary": "#6366f1",
+      "accentSecondary": "#818cf8"
+    }
   },
   "sections": [
     {
@@ -90,11 +90,34 @@
       "enabled": true,
       "order": -1,
       "variant": "simple",
-      "layout": { "display": "flex", "padding": "0" },
-      "style": { "background": "#0a0a1a", "color": "#f8fafc" },
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#0a0a1a",
+        "color": "#f8fafc"
+      },
       "components": [
-        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Hey Bradley" } },
-        { "id": "cta", "type": "button", "enabled": true, "order": 1, "props": { "text": "Get Started", "url": "#pricing" } }
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Hey Bradley"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Get Started",
+            "url": "#pricing"
+          }
+        }
       ]
     },
     {

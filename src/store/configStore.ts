@@ -287,22 +287,15 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     const theme = config.theme as Record<string, unknown>
 
     // Get the alternate palette
-    const altPalette = newMode === 'light'
-      ? (theme.lightPalette as Record<string, string>)
-      : (theme.darkPalette as Record<string, string>)
+    const altPalette = theme.alternatePalette as Record<string, string> | undefined
 
     if (altPalette) {
-      // Swap: store current palette as the opposite, set new palette
+      // Swap: current palette becomes alternatePalette, alt becomes palette
       const currentPalette = config.theme.palette
       const updates: Record<string, unknown> = {
         mode: newMode,
         palette: altPalette,
-      }
-      // Save current palette as the reverse direction
-      if (newMode === 'light') {
-        updates.darkPalette = currentPalette
-      } else {
-        updates.lightPalette = currentPalette
+        alternatePalette: currentPalette,
       }
 
       // Update section styles to match new palette

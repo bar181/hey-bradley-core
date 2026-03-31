@@ -23,14 +23,6 @@
       "accentPrimary": "#f43f5e",
       "accentSecondary": "#ec4899"
     },
-    "lightPalette": {
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8fafc",
-      "textPrimary": "#09090b",
-      "textSecondary": "#71717a",
-      "accentPrimary": "#f43f5e",
-      "accentSecondary": "#ec4899"
-    },
     "alternativePalettes": [
       {
         "name": "Electric",
@@ -81,7 +73,15 @@
       "containerMaxWidth": "1200px",
       "componentGap": "24px"
     },
-    "borderRadius": "0px"
+    "borderRadius": "0px",
+    "alternatePalette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#f8fafc",
+      "textPrimary": "#09090b",
+      "textSecondary": "#71717a",
+      "accentPrimary": "#f43f5e",
+      "accentSecondary": "#ec4899"
+    }
   },
   "sections": [
     {
