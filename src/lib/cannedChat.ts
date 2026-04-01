@@ -60,12 +60,12 @@ export function parseChatCommand(input: string): ChatResult {
 
   // Dark mode
   if (lower === 'dark' || lower === 'dark mode' || lower === 'make it dark' || lower === 'go dark') {
-    return { response: 'Switching to dark mode...', action: 'toggleMode:dark' }
+    return { response: 'going dark', action: 'toggleMode:dark' }
   }
 
   // Light mode
   if (lower === 'light' || lower === 'light mode' || lower === 'make it light' || lower === 'go light') {
-    return { response: 'Switching to light mode...', action: 'toggleMode:light' }
+    return { response: 'switching to light', action: 'toggleMode:light' }
   }
 
   // Add section
@@ -73,7 +73,7 @@ export function parseChatCommand(input: string): ChatResult {
   if (addMatch) {
     const section = matchSection(addMatch[1])
     if (section) {
-      return { response: `Adding ${section} section...`, action: `addSection:${section}` }
+      return { response: `added ${section}`, action: `addSection:${section}` }
     }
   }
 
@@ -82,7 +82,7 @@ export function parseChatCommand(input: string): ChatResult {
   if (removeMatch) {
     const section = matchSection(removeMatch[1])
     if (section) {
-      return { response: `Removing ${section} section...`, action: `removeSection:${section}` }
+      return { response: `removed ${section}`, action: `removeSection:${section}` }
     }
   }
 
@@ -90,7 +90,7 @@ export function parseChatCommand(input: string): ChatResult {
   const headlineMatch = trimmed.match(/^(?:headline|change headline to|set headline)\s+(.+)/i)
   if (headlineMatch) {
     const text = headlineMatch[1]
-    return { response: `Updated headline to "${text}"`, action: `headline:${text}` }
+    return { response: `updated headline`, action: `headline:${text}` }
   }
 
   // Theme change
@@ -98,13 +98,13 @@ export function parseChatCommand(input: string): ChatResult {
   if (themeMatch) {
     const theme = matchTheme(themeMatch[1])
     if (theme) {
-      return { response: `Applying ${theme} theme...`, action: `applyVibe:${theme}` }
+      return { response: `applying ${theme} theme`, action: `applyVibe:${theme}` }
     }
   }
 
   // Fallback
   return {
-    response: `I understood: "${trimmed}". Try: "dark mode", "add testimonials", or "headline Your New Title"`,
+    response: `hmm, try "dark mode", "add pricing", or "headline Hello"`,
     action: null,
   }
 }

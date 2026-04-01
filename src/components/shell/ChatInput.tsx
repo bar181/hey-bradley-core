@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Mic, SendHorizontal } from 'lucide-react'
+import { SendHorizontal } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { parseChatCommand } from '@/lib/cannedChat'
 import { useConfigStore } from '@/store/configStore'
@@ -12,23 +12,45 @@ export interface ChatMessage {
 }
 
 const MAX_MESSAGES = 20
+const TYPEWRITER_SPEED = 30 // ms per character
 
 export function ChatInput() {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
   const [isProcessing, setIsProcessing] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
+  const [typingText, setTypingText] = useState('')
+  const [typingFull, setTypingFull] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const nextId = useRef(0)
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
+  }, [messages, typingText])
 
-  const addMessage = (role: 'user' | 'bradley', text: string) => {
+  // Typewriter effect
+  useEffect(() => {
+    if (!typingFull) return
+    if (typingText.length >= typingFull.length) {
+      // Done typing — add to messages
+      const id = nextId.current++
+      setMessages((prev) => [...prev.slice(-MAX_MESSAGES + 1), { id, role: 'bradley', text: typingFull + ' \u2713' }])
+      setTypingText('')
+      setTypingFull('')
+      setIsProcessing(false)
+      inputRef.current?.focus()
+      return
+    }
+    const timer = setTimeout(() => {
+      setTypingText(typingFull.slice(0, typingText.length + 1))
+    }, TYPEWRITER_SPEED)
+    return () => clearTimeout(timer)
+  }, [typingText, typingFull])
+
+  const addUserMessage = (text: string) => {
     const id = nextId.current++
-    setMessages((prev) => [...prev.slice(-MAX_MESSAGES + 1), { id, role, text }])
+    setMessages((prev) => [...prev.slice(-MAX_MESSAGES + 1), { id, role: 'user', text }])
   }
 
   const executeAction = (action: string) => {
@@ -43,7 +65,6 @@ export function ChatInput() {
         break
       }
       case 'addSection': {
-        // Find the section and enable it, or add it if not present
         const section = store.config.sections.find((s) => s.type === arg)
         if (section && !section.enabled) {
           store.toggleSectionEnabled(section.id)
@@ -81,17 +102,17 @@ export function ChatInput() {
     const text = input.trim()
     if (!text || isProcessing) return
 
-    addMessage('user', text)
+    addUserMessage(text)
     setInput('')
     setIsProcessing(true)
 
     setTimeout(() => {
       const result = parseChatCommand(text)
       if (result.action) executeAction(result.action)
-      addMessage('bradley', result.response)
-      setIsProcessing(false)
-      inputRef.current?.focus()
-    }, 500)
+      // Start typewriter
+      setTypingText('')
+      setTypingFull(result.response)
+    }, 400)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -103,48 +124,48 @@ export function ChatInput() {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Chat messages — fills available space */}
+      {/* Chat messages — closed captioning style */}
       <div
-        className="flex-1 overflow-y-auto px-3 py-3 space-y-2"
+        className="flex-1 overflow-y-auto px-4 py-3 space-y-1"
         data-testid="chat-messages"
       >
-        {messages.length === 0 && (
-          <div className="text-xs text-hb-text-muted px-3 py-2 rounded-lg bg-hb-surface border border-hb-border/50">
-            Hi! I'm Bradley. Try typing "dark mode", "add pricing", or "headline Hello World" to see me work.
+        {messages.length === 0 && !typingFull && (
+          <div className="text-sm text-hb-text-muted py-2">
+            hi! tell me what to build.
           </div>
         )}
         {messages.map((msg) => (
           <div
             key={msg.id}
             className={cn(
-              'text-xs px-3 py-2 rounded-lg max-w-[90%]',
-              msg.role === 'user'
-                ? 'ml-auto bg-hb-accent/15 text-hb-text-primary'
-                : 'mr-auto bg-hb-surface text-hb-text-muted border border-hb-border/50'
+              'py-1',
+              msg.role === 'user' ? 'text-sm text-hb-text-muted' : 'text-sm text-hb-text-primary'
             )}
             data-testid={msg.role === 'user' ? 'chat-msg-user' : 'chat-msg-bradley'}
           >
+            {msg.role === 'user' && <span className="font-semibold text-hb-text-secondary">you: </span>}
             {msg.text}
           </div>
         ))}
-        {isProcessing && (
-          <div className="mr-auto text-xs px-3 py-2 rounded-lg bg-hb-surface text-hb-text-muted border border-hb-border/50 animate-pulse">
-            Processing...
+        {/* Typewriter in progress */}
+        {typingFull && (
+          <div className="py-1 text-sm text-hb-text-primary" data-testid="chat-msg-bradley">
+            {typingText}
+            <span className="inline-block w-0.5 h-3.5 bg-hb-accent ml-0.5 animate-pulse" />
           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input bar */}
-      <div className="flex items-center gap-2 px-3 py-2 bg-hb-surface border-t border-hb-border">
-        <button
-          type="button"
-          aria-label="Toggle microphone"
-          className="flex items-center justify-center w-8 h-8 rounded-full bg-transparent text-hb-text-muted hover:text-hb-accent transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent"
-        >
-          <Mic size={16} />
-        </button>
+      {/* Hint — when empty and focused */}
+      {isFocused && !input && messages.length === 0 && (
+        <div className="px-4 py-1.5 text-xs text-hb-text-muted border-t border-hb-border/50">
+          try: <span className="text-hb-text-secondary">"dark mode"</span> · <span className="text-hb-text-secondary">"add pricing"</span> · <span className="text-hb-text-secondary">"headline Hello"</span>
+        </div>
+      )}
 
+      {/* Input bar — no mic button */}
+      <div className="flex items-center gap-2 px-3 py-2 border-t border-hb-border bg-hb-surface">
         <input
           ref={inputRef}
           type="text"
@@ -157,26 +178,18 @@ export function ChatInput() {
           aria-label="Tell Bradley what to build"
           data-testid="chat-input"
           disabled={isProcessing}
-          className="flex-1 bg-transparent border-none outline-none font-ui text-sm text-hb-text-primary placeholder:text-hb-text-muted disabled:opacity-50"
+          className="flex-1 bg-transparent border-none outline-none text-sm text-hb-text-primary placeholder:text-hb-text-muted disabled:opacity-50"
         />
-
         <button
           type="button"
           aria-label="Send message"
           onClick={handleSend}
           disabled={isProcessing || !input.trim()}
-          className="flex items-center justify-center w-8 h-8 rounded-full bg-transparent text-hb-text-muted hover:text-hb-accent transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent disabled:opacity-30"
+          className="flex items-center justify-center w-8 h-8 rounded-full text-hb-accent hover:bg-hb-accent/10 transition-colors disabled:opacity-30"
         >
           <SendHorizontal size={16} />
         </button>
       </div>
-
-      {/* Command hints — visible when input is empty and focused */}
-      {isFocused && !input && messages.length === 0 && (
-        <div className="px-3 py-1.5 text-xs text-hb-text-muted border-t border-hb-border/50">
-          Try: <span className="text-hb-text-secondary">"dark mode"</span> · <span className="text-hb-text-secondary">"add pricing"</span> · <span className="text-hb-text-secondary">"headline Hello"</span> · <span className="text-hb-text-secondary">"theme agency"</span>
-        </div>
-      )}
     </div>
   )
 }

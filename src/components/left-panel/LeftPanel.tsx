@@ -63,14 +63,14 @@ export function LeftPanel() {
               }
             }}
             className={cn(
-              'flex items-center gap-2.5 px-3 py-2 rounded-md cursor-pointer transition-colors',
+              'flex items-center gap-2.5 px-3 py-2 rounded-md cursor-pointer transition-colors border border-transparent',
               isThemeSelected
-                ? 'border-l-[3px] border-hb-accent bg-hb-accent-light'
-                : 'bg-hb-surface hover:bg-hb-surface-hover'
+                ? 'bg-hb-accent text-white border-hb-accent'
+                : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-border/50'
             )}
           >
-            <Palette size={14} className="text-hb-text-muted" />
-            <span className="text-sm text-hb-text-primary">Theme</span>
+            <Palette size={14} className={isThemeSelected ? 'text-white/70' : 'text-hb-text-muted'} />
+            <span className={cn('text-sm', isThemeSelected ? 'text-white font-medium' : 'text-hb-text-primary')}>Theme</span>
           </div>
 
           {/* Divider */}

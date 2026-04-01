@@ -40,14 +40,14 @@ body {
        Primary: Crimson #A51C30, Black #1E1E1E
        Secondary: Shade #BAC5C6, Parchment #F3F3F1, Slate #8996A0, Mortar #8C8179
        Accent: Indigo #293352 */
-    --hb-bg: #BAC5C6;              /* Shade — panel backgrounds (visible contrast) */
-    --hb-surface: #F7F5F2;         /* Parchment — surface elements (cards, inputs) */
-    --hb-surface-hover: #EDE9E4;   /* Warm grey — hover states */
-    --hb-border: #D1CBC3;          /* Warm border — visible separation */
-    --hb-text-primary: #1E1E1E;    /* Black — main text */
-    --hb-text-secondary: #374151;  /* Grey-700 — secondary text */
-    --hb-text-muted: #6B7280;      /* Grey-500 — muted text, icons */
-    --hb-accent: #A51C30;          /* Crimson — primary accent */
+    --hb-bg: #F7F5F2;              /* Warm off-white — panel backgrounds */
+    --hb-surface: #FFFFFF;         /* White — cards, inputs, section rows */
+    --hb-surface-hover: #EDE8E2;   /* Warm hover */
+    --hb-border: #D1CBC3;          /* Warm gray — borders, dividers */
+    --hb-text-primary: #1E1E1E;    /* Near black — primary text */
+    --hb-text-secondary: #374151;  /* Gray-700 — labels, secondary */
+    --hb-text-muted: #6B7280;      /* Gray-500 — muted text, icons */
+    --hb-accent: #A51C30;          /* Crimson — interactive elements */
     --hb-accent-light: rgba(165, 28, 48, 0.10); /* Crimson transparent */
     --hb-accent-hover: #8B1729;    /* Dark crimson — hover */
     --hb-nav-bg: #A51C30;          /* Crimson — top bar */

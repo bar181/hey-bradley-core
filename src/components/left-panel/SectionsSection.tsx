@@ -161,19 +161,19 @@ export function SectionsSection() {
               }
             }}
             className={cn(
-              'flex items-center gap-2.5 px-3 py-2 rounded-md cursor-pointer transition-colors group',
+              'flex items-center gap-2.5 px-3 py-2 rounded-md cursor-pointer transition-colors group border border-transparent',
               isSelected
-                ? 'border-l-[3px] border-hb-accent bg-hb-accent-light'
-                : 'bg-hb-surface hover:bg-hb-surface-hover',
+                ? 'bg-hb-accent text-white border-hb-accent'
+                : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-border/50',
               isDisabled && 'opacity-40'
             )}
           >
-            <Icon size={14} className="text-hb-text-muted shrink-0" />
+            <Icon size={14} className={cn('shrink-0', isSelected ? 'text-white/70' : 'text-hb-text-muted')} />
             <div className="flex flex-col flex-1 min-w-0">
-              <span className="text-sm text-hb-text-primary truncate">
+              <span className={cn('text-sm truncate', isSelected ? 'text-white font-medium' : 'text-hb-text-primary')}>
                 {sectionNameMap[section.type] ?? section.type}
               </span>
-              <span className="text-xs text-hb-text-muted truncate">
+              <span className={cn('text-xs truncate', isSelected ? 'text-white/60' : 'text-hb-text-muted')}>
                 {section.id}
               </span>
             </div>
@@ -187,7 +187,7 @@ export function SectionsSection() {
                   e.stopPropagation()
                   toggleSectionEnabled(section.id)
                 }}
-                className="p-0.5 text-hb-text-muted hover:text-hb-text-secondary transition-colors"
+                className={cn('p-0.5 transition-colors', isSelected ? 'text-white/70 hover:text-white' : 'text-hb-text-muted hover:text-hb-text-secondary')}
               >
                 {section.enabled ? <Eye size={13} /> : <EyeOff size={13} />}
               </button>
@@ -268,7 +268,7 @@ export function SectionsSection() {
         <button
           type="button"
           onClick={() => setShowAddMenu(!showAddMenu)}
-          className="flex items-center justify-center gap-1.5 w-full mt-1 px-3 py-2 rounded-md border border-dashed border-hb-border text-hb-text-muted hover:text-hb-accent hover:border-hb-accent/50 transition-colors text-sm"
+          className="flex items-center justify-center gap-1.5 w-full mt-1 px-3 py-2 rounded-md border border-dashed border-hb-border text-hb-accent hover:bg-hb-accent/10 hover:border-hb-accent/50 transition-colors text-sm font-medium"
         >
           <Plus size={14} />
           Add Section

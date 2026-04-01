@@ -24,7 +24,7 @@ test.describe('Phase 5: Simulated Chat', () => {
 
     // Verify Bradley responded
     const bradleyMsg = page.locator('[data-testid="chat-msg-bradley"]').last()
-    await expect(bradleyMsg).toContainText('dark mode')
+    await expect(bradleyMsg).toContainText('dark')
   })
 
   test('send "headline Test Title" updates hero text', async ({ page }) => {
@@ -35,7 +35,7 @@ test.describe('Phase 5: Simulated Chat', () => {
 
     // Verify Bradley responded
     const bradleyMsg = page.locator('[data-testid="chat-msg-bradley"]').last()
-    await expect(bradleyMsg).toContainText('Updated headline')
+    await expect(bradleyMsg).toContainText('updated headline')
 
     // Verify hero text changed in preview
     const heroText = page.locator('text=Hello Playwright').first()
@@ -49,8 +49,8 @@ test.describe('Phase 5: Simulated Chat', () => {
     await page.waitForTimeout(1000)
 
     const bradleyMsg = page.locator('[data-testid="chat-msg-bradley"]').last()
-    await expect(bradleyMsg).toContainText('I understood')
-    await expect(bradleyMsg).toContainText('Try:')
+    await expect(bradleyMsg).toContainText('hmm')
+    await expect(bradleyMsg).toContainText('try')
   })
 
   test('send "add testimonials" enables section', async ({ page }) => {
@@ -60,7 +60,7 @@ test.describe('Phase 5: Simulated Chat', () => {
     await page.waitForTimeout(1000)
 
     const bradleyMsg = page.locator('[data-testid="chat-msg-bradley"]').last()
-    await expect(bradleyMsg).toContainText('Adding testimonials')
+    await expect(bradleyMsg).toContainText('added testimonials')
   })
 
   test('send "theme agency" switches theme', async ({ page }) => {
@@ -70,7 +70,7 @@ test.describe('Phase 5: Simulated Chat', () => {
     await page.waitForTimeout(1000)
 
     const bradleyMsg = page.locator('[data-testid="chat-msg-bradley"]').last()
-    await expect(bradleyMsg).toContainText('Applying agency')
+    await expect(bradleyMsg).toContainText('applying agency')
   })
 
   test('user and bradley messages are visually distinct', async ({ page }) => {
@@ -85,10 +85,10 @@ test.describe('Phase 5: Simulated Chat', () => {
     await expect(userMsg).toBeVisible()
     await expect(bradleyMsg).toBeVisible()
 
-    // They should have different alignment (ml-auto vs mr-auto)
-    const userClass = await userMsg.getAttribute('class') || ''
-    const bradleyClass = await bradleyMsg.getAttribute('class') || ''
-    expect(userClass).toContain('ml-auto')
-    expect(bradleyClass).toContain('mr-auto')
+    // User messages should contain "you:" prefix, Bradley messages should not
+    const userText = await userMsg.textContent() || ''
+    const bradleyText = await bradleyMsg.textContent() || ''
+    expect(userText).toContain('you:')
+    expect(bradleyText).not.toContain('you:')
   })
 })
