@@ -40,8 +40,8 @@ body {
        Primary: Crimson #A51C30, Black #1E1E1E
        Secondary: Shade #BAC5C6, Parchment #F3F3F1, Slate #8996A0, Mortar #8C8179
        Accent: Indigo #293352 */
-    --hb-bg: #F7F5F2;              /* Warm off-white — panel backgrounds */
-    --hb-surface: #FFFFFF;         /* White — cards, inputs, section rows */
+    --hb-bg: #EDE8E2;              /* Harvard cream — panel backgrounds */
+    --hb-surface: #F7F5F2;         /* Parchment — cards, inputs, section rows */
     --hb-surface-hover: #EDE8E2;   /* Warm hover */
     --hb-border: #D1CBC3;          /* Warm gray — borders, dividers */
     --hb-text-primary: #1E1E1E;    /* Near black — primary text */

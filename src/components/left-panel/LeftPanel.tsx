@@ -4,6 +4,7 @@ import { cn } from '@/lib/cn'
 import { useUIStore } from '@/store/uiStore'
 import { SectionsSection } from './SectionsSection'
 import { ChatInput } from '@/components/shell/ChatInput'
+import { ListenTab } from './ListenTab'
 
 type LeftTab = 'builder' | 'chat' | 'listen'
 
@@ -66,7 +67,7 @@ export function LeftPanel() {
               'flex items-center gap-2.5 px-3 py-2 rounded-md cursor-pointer transition-colors border border-transparent',
               isThemeSelected
                 ? 'bg-hb-accent text-white border-hb-accent'
-                : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-border/50'
+                : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-accent/25'
             )}
           >
             <Palette size={14} className={isThemeSelected ? 'text-white/70' : 'text-hb-text-muted'} />
@@ -87,20 +88,7 @@ export function LeftPanel() {
         </div>
       )}
 
-      {activeTab === 'listen' && (
-        <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
-          {/* Listen mode placeholder — will be wired in Phase 6 */}
-          <div className="w-20 h-20 rounded-full bg-hb-accent/20 flex items-center justify-center mb-4 animate-pulse">
-            <div className="w-12 h-12 rounded-full bg-hb-accent/40 flex items-center justify-center">
-              <Mic size={24} className="text-hb-accent" />
-            </div>
-          </div>
-          <h3 className="text-sm font-semibold text-hb-text-primary mb-1">Listen Mode</h3>
-          <p className="text-xs text-hb-text-muted leading-relaxed">
-            Speak to Bradley and watch your website build in real-time. Coming in Phase 6.
-          </p>
-        </div>
-      )}
+      {activeTab === 'listen' && <ListenTab />}
     </div>
   )
 }

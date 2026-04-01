@@ -164,7 +164,7 @@ export function SectionsSection() {
               'flex items-center gap-2.5 px-3 py-2 rounded-md cursor-pointer transition-colors group border border-transparent',
               isSelected
                 ? 'bg-hb-accent text-white border-hb-accent'
-                : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-border/50',
+                : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-accent/25',
               isDisabled && 'opacity-40'
             )}
           >
