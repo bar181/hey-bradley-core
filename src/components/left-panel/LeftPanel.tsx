@@ -17,6 +17,13 @@ export function LeftPanel() {
   const [activeTab, setActiveTab] = useState<LeftTab>('builder')
   const selectedContext = useUIStore((s) => s.selectedContext)
   const setSelectedContext = useUIStore((s) => s.setSelectedContext)
+  const setRightPanelVisible = useUIStore((s) => s.setRightPanelVisible)
+
+  const handleTabChange = (tab: LeftTab) => {
+    setActiveTab(tab)
+    // Hide right panel in Chat/Listen mode, show in Builder
+    setRightPanelVisible(tab === 'builder')
+  }
 
   const isThemeSelected = selectedContext?.type === 'theme'
 
@@ -28,7 +35,7 @@ export function LeftPanel() {
           <button
             key={value}
             type="button"
-            onClick={() => setActiveTab(value)}
+            onClick={() => handleTabChange(value)}
             className={cn(
               'flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-medium transition-colors',
               activeTab === value

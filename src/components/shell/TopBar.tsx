@@ -1,8 +1,9 @@
-import { Monitor, Tablet, Smartphone, Undo2, Redo2, Sun, Moon, Menu, X, Eye, PenLine } from 'lucide-react'
+import { Monitor, Tablet, Smartphone, Undo2, Redo2, Sun, Moon, Menu, X, Eye, PenLine, PanelRightClose, PanelRightOpen } from 'lucide-react'
 import { ModeToggle } from './ModeToggle'
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore, type PreviewWidth } from '@/store/uiStore'
 import { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const DEVICE_BUTTONS: { icon: typeof Monitor; width: PreviewWidth; label: string }[] = [
   { icon: Monitor, width: 'desktop', label: 'Desktop' },
@@ -11,6 +12,7 @@ const DEVICE_BUTTONS: { icon: typeof Monitor; width: PreviewWidth; label: string
 ]
 
 export function TopBar() {
+  const navigate = useNavigate()
   const undo = useConfigStore((s) => s.undo)
   const redo = useConfigStore((s) => s.redo)
   const canUndo = useConfigStore((s) => s.canUndo())
@@ -19,6 +21,8 @@ export function TopBar() {
   const setPreviewWidth = useUIStore((s) => s.setPreviewWidth)
   const isPreviewMode = useUIStore((s) => s.isPreviewMode)
   const setPreviewMode = useUIStore((s) => s.setPreviewMode)
+  const rightPanelVisible = useUIStore((s) => s.rightPanelVisible)
+  const setRightPanelVisible = useUIStore((s) => s.setRightPanelVisible)
 
   // Site chrome dark/light mode
   const [chromeLight, setChromeLight] = useState(false)
@@ -29,7 +33,6 @@ export function TopBar() {
     document.documentElement.classList.toggle('light-chrome', chromeLight)
   }, [chromeLight])
 
-  // Close menu on outside click
   useEffect(() => {
     if (!menuOpen) return
     const handler = (e: MouseEvent) => {
@@ -48,20 +51,21 @@ export function TopBar() {
   return (
     <header
       className="h-12 flex items-center justify-between px-3 sm:px-4 border-b border-hb-border shrink-0 transition-colors relative"
-      style={{ backgroundColor: 'var(--hb-nav-bg, #1a0a0e)' }}
+      style={{ backgroundColor: 'var(--hb-nav-bg, #8C1515)' }}
     >
-      {/* Left: Logo + project name */}
-      <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-        <span className="font-mono font-bold text-white text-lg">HB</span>
-        <span className="text-sm text-white/70 hidden sm:inline">Untitled Project</span>
-      </div>
+      {/* Left: Logo linking to home */}
+      <button
+        type="button"
+        onClick={() => navigate('/')}
+        className="flex items-center gap-2 shrink-0 text-white hover:text-white/80 transition-colors"
+        aria-label="Go to home page"
+      >
+        <span className="font-mono font-bold text-lg">Hey Bradley</span>
+      </button>
 
-      {/* Center: Mode toggles + Version badge — hidden on very small screens */}
-      <div className="flex items-center gap-2 sm:gap-4">
+      {/* Center: Mode toggle (LISTEN / BUILD) */}
+      <div className="flex items-center">
         <ModeToggle />
-        <span className="bg-white/10 text-white/80 font-mono text-xs uppercase font-medium rounded-full px-2 py-0.5 hidden md:inline">
-          V1.0.0-RC1
-        </span>
       </div>
 
       {/* Right: Desktop controls (hidden below md) */}
@@ -110,6 +114,16 @@ export function TopBar() {
           </button>
         ))}
         <div className="w-px h-4 bg-white/20 mx-1" />
+        {/* Toggle right panel */}
+        <button
+          onClick={() => setRightPanelVisible(!rightPanelVisible)}
+          className="p-1 text-white/60 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
+          aria-label={rightPanelVisible ? 'Hide right panel' : 'Show right panel'}
+          title={rightPanelVisible ? 'Hide right panel' : 'Show right panel'}
+        >
+          {rightPanelVisible ? <PanelRightClose size={16} /> : <PanelRightOpen size={16} />}
+        </button>
+        <div className="w-px h-4 bg-white/20 mx-1" />
         <button
           onClick={() => setPreviewMode(!isPreviewMode)}
           className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-mono uppercase tracking-wider transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent ${
@@ -138,16 +152,13 @@ export function TopBar() {
           {menuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
 
-        {/* Dropdown menu */}
         {menuOpen && (
           <div className="absolute top-12 right-0 w-56 bg-hb-surface border border-hb-border rounded-lg shadow-xl z-50 py-2">
-            {/* Undo / Redo */}
             <div className="flex items-center gap-2 px-3 py-2">
               <button
                 onClick={() => { undo(); setMenuOpen(false) }}
                 disabled={!canUndo}
                 className={`flex items-center gap-2 flex-1 px-2 py-1.5 rounded text-sm transition-colors ${canUndo ? 'text-hb-text-primary hover:bg-hb-surface-hover' : 'opacity-30 text-hb-text-muted cursor-not-allowed'}`}
-                aria-label="Undo"
               >
                 <Undo2 size={14} /> Undo
               </button>
@@ -155,15 +166,11 @@ export function TopBar() {
                 onClick={() => { redo(); setMenuOpen(false) }}
                 disabled={!canRedo}
                 className={`flex items-center gap-2 flex-1 px-2 py-1.5 rounded text-sm transition-colors ${canRedo ? 'text-hb-text-primary hover:bg-hb-surface-hover' : 'opacity-30 text-hb-text-muted cursor-not-allowed'}`}
-                aria-label="Redo"
               >
                 <Redo2 size={14} /> Redo
               </button>
             </div>
-
             <div className="h-px bg-hb-border mx-3 my-1" />
-
-            {/* Device preview toggles */}
             <div className="px-3 py-2">
               <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Preview</span>
               <div className="flex gap-1 mt-1.5">
@@ -176,32 +183,25 @@ export function TopBar() {
                         ? 'bg-hb-accent/15 text-hb-accent'
                         : 'text-hb-text-muted hover:bg-hb-surface-hover'
                     }`}
-                    aria-label={`Preview at ${label}`}
                   >
                     <Icon size={14} /> {label}
                   </button>
                 ))}
               </div>
             </div>
-
             <div className="h-px bg-hb-border mx-3 my-1" />
-
-            {/* Dark/Light toggle */}
             <button
               onClick={() => { setChromeLight(!chromeLight); setMenuOpen(false) }}
               className="flex items-center gap-2 w-full px-3 py-2 text-sm text-hb-text-primary hover:bg-hb-surface-hover transition-colors"
-              aria-label={chromeLight ? 'Switch to dark mode' : 'Switch to light mode'}
             >
               {chromeLight ? <Moon size={14} /> : <Sun size={14} />}
               {chromeLight ? 'Dark Mode' : 'Light Mode'}
             </button>
-
-            {/* Share */}
             <button
-              className="flex items-center gap-2 w-full px-3 py-2 text-sm text-hb-text-muted opacity-50 cursor-not-allowed"
-              aria-label="Share project"
+              onClick={() => { setPreviewMode(!isPreviewMode); setMenuOpen(false) }}
+              className="flex items-center gap-2 w-full px-3 py-2 text-sm text-hb-text-primary hover:bg-hb-surface-hover transition-colors"
             >
-              Share
+              {isPreviewMode ? <><PenLine size={14} /> Exit Preview</> : <><Eye size={14} /> Preview Site</>}
             </button>
           </div>
         )}

@@ -14,6 +14,7 @@ function ResizeHandle() {
 
 export function PanelLayout() {
   const isPreviewMode = useUIStore((s) => s.isPreviewMode)
+  const rightPanelVisible = useUIStore((s) => s.rightPanelVisible)
 
   if (isPreviewMode) {
     return (
@@ -33,19 +34,22 @@ export function PanelLayout() {
 
       <ResizeHandle />
 
-      <Panel defaultSize={55} minSize={30}>
+      <Panel defaultSize={rightPanelVisible ? 55 : 80} minSize={30}>
         <div className="bg-hb-bg h-full overflow-hidden">
           <CenterCanvas />
         </div>
       </Panel>
 
-      <ResizeHandle />
-
-      <Panel defaultSize={25} minSize={15} collapsible>
-        <div className="bg-hb-surface h-full overflow-hidden border-l border-hb-border">
-          <RightPanel />
-        </div>
-      </Panel>
+      {rightPanelVisible && (
+        <>
+          <ResizeHandle />
+          <Panel defaultSize={25} minSize={15} collapsible>
+            <div className="bg-hb-surface h-full overflow-hidden border-l border-hb-border">
+              <RightPanel />
+            </div>
+          </Panel>
+        </>
+      )}
     </PanelGroup>
   )
 }

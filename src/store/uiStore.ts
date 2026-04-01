@@ -22,6 +22,7 @@ interface UIStore {
   rightAccordions: Record<string, boolean>
   previewWidth: PreviewWidth
   isPreviewMode: boolean
+  rightPanelVisible: boolean
 
   setInteractionMode: (mode: InteractionMode) => void
   setActiveTab: (tab: ActiveTab) => void
@@ -30,6 +31,7 @@ interface UIStore {
   toggleRightAccordion: (id: string) => void
   setPreviewWidth: (width: PreviewWidth) => void
   setPreviewMode: (active: boolean) => void
+  setRightPanelVisible: (visible: boolean) => void
 }
 
 export const useUIStore = create<UIStore>((set) => ({
@@ -40,10 +42,12 @@ export const useUIStore = create<UIStore>((set) => ({
   rightAccordions: { ...THEME_DEFAULTS },
   previewWidth: 'full',
   isPreviewMode: false,
+  rightPanelVisible: true,
 
   setInteractionMode: (mode) => set({ interactionMode: mode }),
   setPreviewWidth: (width) => set({ previewWidth: width }),
   setPreviewMode: (active) => set({ isPreviewMode: active }),
+  setRightPanelVisible: (visible) => set({ rightPanelVisible: visible }),
   setActiveTab: (tab) => set({ activeTab: tab }),
   setRightPanelTab: (tab) => set({ rightPanelTab: tab }),
   setSelectedContext: (ctx) =>
