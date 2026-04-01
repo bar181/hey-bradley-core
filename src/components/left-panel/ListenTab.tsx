@@ -5,7 +5,8 @@ export function ListenTab() {
   const [pulseSpeed, setPulseSpeed] = useState(3)
   const [blurAmount, setBlurAmount] = useState(40) // px blur for ambient layer
   const [glowOpacity, setGlowOpacity] = useState(15) // % opacity for ambient glow
-  const [coreOpacity, setCoreOpacity] = useState(100) // % opacity for core circle
+  const [coreOpacity, setCoreOpacity] = useState(60) // % opacity for core — lower = more blur, less circle
+  const [coreBlur, setCoreBlur] = useState(12) // px blur on the core itself
   const [maxSize, setMaxSize] = useState(240) // px diameter for ambient layer
   const [showSettings, setShowSettings] = useState(false)
 
@@ -36,15 +37,15 @@ export function ListenTab() {
             animationDelay: `${pulseSpeed * 0.1}s`,
           }}
         />
-        {/* Layer 1: Core */}
+        {/* Layer 1: Core — blurred to look like a glow, not a hard circle */}
         <div
           className="relative rounded-full"
           style={{
             width: Math.max(maxSize * 0.25, 30),
             height: Math.max(maxSize * 0.25, 30),
-            background: 'radial-gradient(circle, #C1283E 0%, #A51C30 50%, #8C1515 100%)',
-            boxShadow: `0 0 ${blurAmount * 0.75}px rgba(165, 28, 48, 0.5), 0 0 ${blurAmount * 1.5}px rgba(165, 28, 48, 0.3)`,
-            opacity: coreOpacity / 100,
+            background: `radial-gradient(circle, rgba(193, 40, 62, ${coreOpacity / 100}) 0%, rgba(165, 28, 48, ${coreOpacity * 0.6 / 100}) 50%, transparent 100%)`,
+            boxShadow: `0 0 ${blurAmount * 0.75}px rgba(165, 28, 48, ${coreOpacity * 0.5 / 100}), 0 0 ${blurAmount * 1.5}px rgba(165, 28, 48, ${coreOpacity * 0.3 / 100})`,
+            filter: `blur(${coreBlur}px)`,
             animation: `orb-pulse ${pulseSpeed}s ease-in-out infinite`,
           }}
         />
@@ -71,6 +72,7 @@ export function ListenTab() {
             <SliderRow label="Blur" value={blurAmount} min={0} max={80} step={1} suffix="px" onChange={setBlurAmount} />
             <SliderRow label="Glow" value={glowOpacity} min={5} max={60} step={1} suffix="%" onChange={setGlowOpacity} />
             <SliderRow label="Core" value={coreOpacity} min={10} max={100} step={5} suffix="%" onChange={setCoreOpacity} />
+            <SliderRow label="Soft" value={coreBlur} min={0} max={40} step={1} suffix="px" onChange={setCoreBlur} />
             <SliderRow label="Size" value={maxSize} min={100} max={400} step={10} suffix="px" onChange={setMaxSize} />
           </div>
         )}
