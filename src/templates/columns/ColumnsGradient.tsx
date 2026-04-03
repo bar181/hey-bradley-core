@@ -35,26 +35,29 @@ export function ColumnsGradient({ section }: { section: Section }) {
           return (
             <div
               key={item.id}
-              className="rounded-xl p-7 transition-all duration-200 hover:shadow-lg"
-              style={{
-                background: 'linear-gradient(135deg, color-mix(in srgb, var(--theme-accent, #6366f1) 20%, transparent) 0%, transparent 100%)',
-                border: `1px solid color-mix(in srgb, ${section.style.color} 10%, transparent)`,
-              }}
+              className="p-px bg-gradient-to-br from-[var(--theme-accent,#6366f1)]/40 via-[var(--theme-accent,#6366f1)]/20 to-transparent rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
             >
-              {Icon && (
-                <div
-                  className="w-11 h-11 rounded-lg flex items-center justify-center mb-5"
-                  style={{ background: 'color-mix(in srgb, var(--theme-accent, #6366f1) 20%, transparent)' }}
-                >
-                  <Icon size={20} style={{ color: 'var(--theme-accent, #6366f1)' }} aria-hidden />
-                </div>
-              )}
-              <h3 className="text-base font-semibold mb-2 tracking-tight">
-                {(item.props?.title as string) || 'Pixel Perfect'}
-              </h3>
-              <p className="text-sm opacity-60 leading-relaxed">
-                {(item.props?.description as string) || 'Every detail polished and professional'}
-              </p>
+              <div
+                className="rounded-2xl p-7 h-full"
+                style={{
+                  background: section.style.background || '#0f172a',
+                }}
+              >
+                {Icon && (
+                  <div
+                    className="w-11 h-11 rounded-lg flex items-center justify-center mb-5"
+                    style={{ background: 'color-mix(in srgb, var(--theme-accent, #6366f1) 20%, transparent)' }}
+                  >
+                    <Icon size={20} style={{ color: 'var(--theme-accent, #6366f1)' }} aria-hidden />
+                  </div>
+                )}
+                <h3 className="text-base font-semibold mb-2 tracking-tight">
+                  {(item.props?.title as string) || 'Pixel Perfect'}
+                </h3>
+                <p className="text-sm opacity-60 leading-relaxed">
+                  {(item.props?.description as string) || 'Every detail polished and professional'}
+                </p>
+              </div>
             </div>
           )
         })}

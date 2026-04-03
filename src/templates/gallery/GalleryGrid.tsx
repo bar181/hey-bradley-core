@@ -40,11 +40,11 @@ export function GalleryGrid({ section }: { section: Section }) {
     >
       <div className={`mx-auto max-w-6xl grid grid-cols-1 ${gridClass} gap-4`}>
         {images.map((img) => (
-          <div key={img.id} className="group relative overflow-hidden rounded-lg aspect-square">
+          <div key={img.id} className="group relative overflow-hidden rounded-2xl aspect-square shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
             <img
               src={img.url}
               alt={img.caption || 'Gallery image'}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
             {img.caption && (
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">

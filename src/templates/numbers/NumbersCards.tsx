@@ -29,7 +29,7 @@ export function NumbersCards({ section }: { section: Section }) {
           return (
             <div
               key={item.id}
-              className="rounded-xl border p-6 text-center space-y-2 transition-colors"
+              className="rounded-2xl border p-6 text-center space-y-2 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
               style={{
                 background: `color-mix(in srgb, ${section.style.color} 5%, transparent)`,
                 borderColor: `color-mix(in srgb, ${section.style.color} 10%, transparent)`,

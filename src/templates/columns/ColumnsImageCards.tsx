@@ -41,7 +41,7 @@ export function ColumnsImageCards({ section }: { section: Section }) {
           return (
             <div
               key={item.id}
-              className="rounded-xl overflow-hidden transition-all duration-200 hover:shadow-xl group"
+              className="rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group"
               style={{
                 background: `color-mix(in srgb, ${section.style.color} 3%, transparent)`,
                 border: `1px solid color-mix(in srgb, ${section.style.color} 15%, transparent)`,

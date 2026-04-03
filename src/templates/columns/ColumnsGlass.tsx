@@ -27,7 +27,13 @@ export function ColumnsGlass({ section }: { section: Section }) {
       className="py-20 px-6"
       style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
     >
-      <div className={`mx-auto max-w-6xl grid grid-cols-1 gap-6 ${GRID_CLASSES[cols] ?? 'md:grid-cols-3'}`}>
+      <div className="relative">
+        {/* Ambient background blobs for glass blur effect */}
+        <div className="absolute top-20 left-10 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-10 right-10 w-48 h-48 bg-blue-500/15 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 bg-indigo-500/10 rounded-full blur-3xl" />
+
+        <div className={`relative mx-auto max-w-6xl grid grid-cols-1 gap-6 ${GRID_CLASSES[cols] ?? 'md:grid-cols-3'}`}>
         {items.map((item) => {
           const iconSlug = (item.props?.icon as string) ?? ''
           const Icon = iconMap[iconSlug]
@@ -35,7 +41,7 @@ export function ColumnsGlass({ section }: { section: Section }) {
           return (
             <div
               key={item.id}
-              className="rounded-xl backdrop-blur-xl p-7 transition-all duration-200 hover:shadow-lg"
+              className="rounded-2xl backdrop-blur-xl p-7 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
               style={{
                 background: `color-mix(in srgb, ${section.style.color} 5%, transparent)`,
                 border: `1px solid color-mix(in srgb, ${section.style.color} 15%, transparent)`,
@@ -58,6 +64,7 @@ export function ColumnsGlass({ section }: { section: Section }) {
             </div>
           )
         })}
+        </div>
       </div>
     </section>
   )

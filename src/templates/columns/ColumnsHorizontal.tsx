@@ -27,7 +27,7 @@ export function ColumnsHorizontal({ section }: { section: Section }) {
           return (
             <div
               key={item.id}
-              className="flex items-start gap-6 rounded-xl p-6 transition-all duration-200"
+              className="flex items-start gap-6 rounded-2xl p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
               style={{
                 background: `color-mix(in srgb, ${section.style.color} 2%, transparent)`,
                 border: `1px solid color-mix(in srgb, ${section.style.color} 15%, transparent)`,

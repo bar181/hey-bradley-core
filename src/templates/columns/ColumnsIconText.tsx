@@ -33,7 +33,11 @@ export function ColumnsIconText({ section }: { section: Section }) {
           const Icon = iconMap[iconSlug]
 
           return (
-            <div key={item.id} className="flex flex-col items-center text-center">
+            <div key={item.id} className="flex flex-col items-center text-center rounded-2xl p-7 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              style={{
+                background: `color-mix(in srgb, ${section.style.color} 3%, transparent)`,
+                border: `1px solid color-mix(in srgb, ${section.style.color} 10%, transparent)`,
+              }}>
               {Icon && (
                 <div
                   className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6"

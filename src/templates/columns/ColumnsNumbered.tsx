@@ -20,7 +20,11 @@ export function ColumnsNumbered({ section }: { section: Section }) {
     >
       <div className={`mx-auto max-w-6xl grid grid-cols-1 gap-10 ${GRID_CLASSES[cols] ?? 'md:grid-cols-3'}`}>
         {items.map((item, idx) => (
-          <div key={item.id} className="space-y-4">
+          <div key={item.id} className="space-y-4 rounded-2xl p-7 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+            style={{
+              background: `color-mix(in srgb, ${section.style.color} 3%, transparent)`,
+              border: `1px solid color-mix(in srgb, ${section.style.color} 10%, transparent)`,
+            }}>
             <span
               className="text-5xl font-bold block tracking-tighter"
               style={{ color: 'var(--theme-accent, #6366f1)', opacity: 0.8 }}

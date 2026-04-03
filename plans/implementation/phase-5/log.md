@@ -84,3 +84,73 @@ Extract `cannedChat.ts` logic into a shared `commandParser.ts` service. Both Cha
 8. **All editors updated with layout card pickers** — each section editor now shows visual variant selection cards
 
 ---
+
+## Session 4 — 2026-04-03: Phase 5D — Blocker Fixes + Verification
+
+**Duration:** Full session
+**Scope:** Fix UX blockers, capture variant screenshots, run scoring reviews
+
+### Delivered
+
+1. **Fixed 8 UX blockers** — Share clipboard, theme-aware colors, auto-scroll, dev tabs hidden, content accordion open, realistic placeholder text, gallery defaults, CTA jargon removed
+2. **Variant screenshots captured** — 50 screenshots across all section types
+3. **Scoring report** — 66/100 (variant quality), 68/100 (UX review v2)
+4. **Multi-persona review** — 54/100 average (Designer 58, Agency 52, Grandma 45, Founder 62)
+
+---
+
+## Session 5 — 2026-04-03: Major Expansion — 15 Sections + Visual Polish
+
+**Duration:** Full session
+**Scope:** Add 5 new section types, fix hardcoded dark-only colors, rename sections, improve empty states
+
+### Delivered
+
+1. **Added 5 new section types** — Image (4 variants), Divider (3 variants), Text (3 variants), Logo Cloud (3 variants), Team (3 variants)
+2. **Fixed 19 templates with hardcoded dark-only colors** — converted to theme-aware `color-mix` patterns
+3. **Renamed "Columns" to "Content Cards"** — clearer non-technical label
+4. **"Add Section" changed to "More Sections" expander** — less intimidating UI pattern
+5. **Right panel empty state** — welcome guidance when no section is selected
+6. **Neutral default content** — "Your Amazing Website Starts Here" replaces developer placeholder text
+7. **Research completed** — common blocks audit, section naming conventions, Tailwind design patterns
+
+### Totals After Session 5
+
+- 15 section types
+- 47 variant renderers
+- 50 images, 10 videos, 6 effects, 10 palettes
+
+### Files Created
+
+**New template renderers:**
+- `src/templates/image/ImageFullWidth.tsx`
+- `src/templates/image/ImageWithText.tsx`
+- `src/templates/image/ImageOverlay.tsx`
+- `src/templates/image/ImageParallax.tsx`
+- `src/templates/divider/DividerLine.tsx`
+- `src/templates/divider/DividerSpace.tsx`
+- `src/templates/divider/DividerDecorative.tsx`
+- `src/templates/text/TextSingle.tsx`
+- `src/templates/text/TextTwoColumn.tsx`
+- `src/templates/text/TextWithSidebar.tsx`
+- `src/templates/logos/LogosSimple.tsx`
+- `src/templates/logos/LogosMarquee.tsx`
+- `src/templates/logos/LogosGrid.tsx`
+- `src/templates/team/TeamCards.tsx`
+- `src/templates/team/TeamGrid.tsx`
+- `src/templates/team/TeamMinimal.tsx`
+
+**New section editors:**
+- `src/components/right-panel/simple/ImageSectionSimple.tsx`
+- `src/components/right-panel/simple/TextSectionSimple.tsx`
+- `src/components/right-panel/simple/LogosSectionSimple.tsx`
+- `src/components/right-panel/simple/TeamSectionSimple.tsx`
+
+**Research and review docs:**
+- `plans/implementation/phase-5/variant-scoring.md`
+- `plans/implementation/phase-5/ui-ux-review-v2.md`
+- `plans/implementation/phase-5/multi-persona-review.md`
+- `plans/implementation/phase-5/redesign-checklist.md`
+- `plans/implementation/phase-5/redo-design-no-jargon.md`
+
+---

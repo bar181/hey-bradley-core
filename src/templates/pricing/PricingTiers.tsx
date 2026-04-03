@@ -37,8 +37,8 @@ export function PricingTiers({ section }: { section: Section }) {
               <div
                 key={tier.id}
                 className={cn(
-                  'relative flex flex-col rounded-xl border p-6',
-                  'bg-theme-surface/60 backdrop-blur-sm',
+                  'relative flex flex-col rounded-2xl border p-6',
+                  'bg-theme-surface/60 backdrop-blur-sm shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl',
                   highlighted
                     ? 'border-theme-accent ring-2 ring-theme-accent/20'
                     : '',
