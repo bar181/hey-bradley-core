@@ -1,6 +1,6 @@
 # Hey Bradley — Implementation Roadmap
 
-**Updated:** 2026-04-03 (Phase 6 close)
+**Updated:** 2026-04-03 (Phase 7 in progress)
 **Capstone:** May 2026
 
 ---
@@ -15,33 +15,66 @@
 | 4 | Splash + Theme Picker + Listen Mode | 2026-04-02 | — |
 | 5 | Visual Polish + Section Expansion (15 types, 47+ variants) | 2026-04-03 | 67% |
 | 6 | Canned Demo + Deploy Prep (demo simulator, AISP output) | 2026-04-03 | 78% |
+| 7 | Final Demo Polish (404, fonts, light mode, error boundary) | 2026-04-03 | — |
 
-## Current: Phase 7 — Final Demo Polish (~2 days)
-
-Focus: Zero rough edges for the 15-minute capstone demo.
-- Welcome page polish + mobile responsive
-- Light mode consistency pass (all 15 sections × 4 light themes)
-- Edge cases + error boundaries
-- Font loading (no FOUT)
-- Playwright full test suite
-- Demo presentation flow rehearsal
-
-## Next: Phase 8 — Capstone Presentation Prep (~1 day)
+## Current: Phase 8 — Capstone Presentation Prep (~1 day)
 
 - Vercel production deploy with og:image, meta tags
 - Demo script + architecture slides
 - README with screenshots + demo link
 - Backup plan for offline demo
 
-## Post-Capstone: Phases 9-12
+## MVP Presentation (Pre-Capstone)
 
-| Phase | Focus | Timeline |
-|-------|-------|----------|
-| 9 | Real LLM Integration (Claude API chat, copy suggestions) | Summer 2026 |
-| 10 | Voice Mode (Web Speech API, continuous listening) | Summer 2026 |
-| 11 | Auth + Database (Supabase, multi-user, project persistence) | Fall 2026 |
-| 12 | Enterprise Specs (AISP validation, export packages, versioning) | Fall 2026 |
+See `/plans/intial-plans/08.mvp-presentation-requirements.md` for full details.
+
+| # | Item | Priority |
+|---|------|----------|
+| M1 | Simplified onboarding (4 starting points + curated examples) | P0 |
+| M2 | 10-12 diverse example sites with JSON configs | P0 |
+| M3 | Kitchen Sink reference page (all sections/variants) | P0 |
+| M4 | Chat/Listen dropdown example selector | P0 |
+| M5 | Progressive build sequences (5-60s demos) | P0 |
+| M6 | Image section advanced config (gradient, Ken Burns, parallax) | P1 |
+| M7 | Theme lock toggle | P1 |
+| M8 | Remaining themes carousel on onboarding | P1 |
+
+## Post-MVP: Open Core
+
+See `/plans/intial-plans/09.post-mvp-open-core.md` for full details.
+
+| # | Focus | Priority |
+|---|-------|----------|
+| PM1 | Claude API chat integration (real LLM commands) | P0 |
+| PM2 | Web Speech API for Listen mode (real voice) | P0 |
+| PM3 | Enhanced visuals (serif fonts, eyebrow labels, fluid typography, generous spacing) | P0 |
+| PM4 | Core pillar spec generation (North Star, Architecture, Implementation, Design Bible) | P0 |
+| PM5 | Chat upload button (images, docs, brand guidelines) | P0 |
+| PM6 | Design lock toggle (layout frozen, content-only editing) | P0 |
+| PM7 | 200-image curated library with style/mood/suitableFor metadata | P0 |
+| PM8 | 30-video library with metadata | P1 |
+| PM9 | Theme upload — brand guidelines extraction via LLM | P1 |
+| PM10 | Spec round-trip validation (spec → LLM → HTML → compare) | P1 |
+| PM11 | Copy suggestion engine (3 alternatives per text element) | P1 |
+
+## Private: Advanced AISP (Intent-Driven)
+
+See `/plans/intial-plans/10.private-advanced-aisp.md` for full details.
+
+| # | Focus | Priority |
+|---|-------|----------|
+| A1 | Intent capture conversation (goals, audience, conversion) | P0 |
+| A2 | Intent-informed copy generation | P0 |
+| A3 | Design rationale annotations in specs | P1 |
+| A4 | Conversion funnel optimization | P1 |
+| A5 | Competitor analysis via LLM | P2 |
+| A6 | Diamond tier AISP (<1% ambiguity, intent-driven) | P0 |
+| A7 | Multi-page spec generation | P2 |
 
 ## Architecture Reference
 
-The original 7-level implementation plan (Levels 1-7, 21 phases) in `/plans/implementation/README.md` remains the long-term vision. Phases 1-8 map to Levels 1-2 of that plan. Levels 3-7 (Specification Engine, Auth/DB, LLM, Voice, Enterprise Specs) are post-capstone.
+- Requirements: `/plans/intial-plans/08-10` (MVP, Post-MVP, Private AISP)
+- Phase plans: `/plans/implementation/phase-N/` directories
+- Original 7-level plan: `/plans/implementation/README.md`
+- No API marketplace or store planned
+- No auth/database in open core phase
