@@ -49,11 +49,34 @@
       "enabled": true,
       "order": -1,
       "variant": "simple",
-      "layout": { "display": "flex", "padding": "0" },
-      "style": { "background": "#0a1a14", "color": "#f0fdf4" },
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#0a1a14",
+        "color": "#f0fdf4"
+      },
       "components": [
-        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Sweet Spot Bakery" } },
-        { "id": "cta", "type": "button", "enabled": true, "order": 1, "props": { "text": "Order Now", "url": "#cta" } }
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Sweet Spot Bakery"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Order Now",
+            "url": "#cta"
+          }
+        }
       ]
     },
     {
@@ -77,15 +100,97 @@
         "borderRadius": "0px"
       },
       "components": [
-        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "Handcrafted Since 2019", "icon": "sparkles", "variant": "pill" } },
-        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Baked with Love, Served with Joy", "level": 1, "size": "56px", "weight": 700 } },
-        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Every morning we craft artisan sourdough, buttery croissants, and seasonal pastries using locally sourced ingredients from Oregon farms." } },
-        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "See Our Menu", "url": "#features", "style": "filled", "size": "lg" } },
-        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4, "props": { "text": "Visit Us", "url": "#cta", "style": "outline", "size": "lg" } },
-        { "id": "heroImage", "type": "image", "enabled": false, "order": 5, "props": {} },
-        { "id": "backgroundImage", "type": "image", "enabled": true, "order": 6, "props": { "url": "https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=1600&auto=format&q=80", "alt": "Warm bakery interior with fresh bread on display", "aspect": "16:9" } },
-        { "id": "heroVideo", "type": "video", "enabled": false, "order": 7, "props": {} },
-        { "id": "trustBadges", "type": "trust", "enabled": true, "order": 8, "props": { "text": "Loved by 2,000+ customers in Portland", "show": true } }
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Handcrafted Since 2019",
+            "icon": "sparkles",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Baked with Love, Served with Joy",
+            "level": 1,
+            "size": "56px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Every morning we craft artisan sourdough, buttery croissants, and seasonal pastries using locally sourced ingredients from Oregon farms."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "See Our Menu",
+            "url": "#features",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Visit Us",
+            "url": "#cta",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "heroImage",
+          "type": "image",
+          "enabled": false,
+          "order": 5,
+          "props": {}
+        },
+        {
+          "id": "backgroundImage",
+          "type": "image",
+          "enabled": true,
+          "order": 6,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=1600&auto=format&q=80",
+            "alt": "Warm bakery interior with fresh bread on display",
+            "aspect": "16:9"
+          }
+        },
+        {
+          "id": "heroVideo",
+          "type": "video",
+          "enabled": false,
+          "order": 7,
+          "props": {}
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 8,
+          "props": {
+            "text": "Loved by 2,000+ customers in Portland",
+            "show": true
+          }
+        }
       ]
     },
     {
@@ -94,13 +199,61 @@
       "enabled": true,
       "order": 1,
       "variant": "image-cards",
-      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "64px 24px" },
-      "style": { "background": "#132a1f", "color": "#f0fdf4" },
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#132a1f",
+        "color": "#f0fdf4"
+      },
       "components": [
-        { "id": "f1", "type": "feature-card", "enabled": true, "order": 0, "props": { "icon": "wheat", "title": "Artisan Sourdough", "description": "48-hour fermented sourdough made with organic stone-milled flour. Crusty outside, impossibly soft inside.", "image": "https://images.unsplash.com/photo-1585478259715-876acc5be8eb?w=600&auto=format&q=80", "imageAlt": "Freshly baked sourdough loaf with golden crust" } },
-        { "id": "f2", "type": "feature-card", "enabled": true, "order": 1, "props": { "icon": "cake", "title": "French Pastries", "description": "Buttery croissants, pain au chocolat, and seasonal fruit tarts baked fresh every morning at 5 AM.", "image": "https://images.unsplash.com/photo-1555507036-ab1f4038024a?w=600&auto=format&q=80", "imageAlt": "Golden croissants fresh from the oven" } },
-        { "id": "f3", "type": "feature-card", "enabled": true, "order": 2, "props": { "icon": "coffee", "title": "Custom Celebration Cakes", "description": "Wedding cakes, birthday creations, and corporate events. Every cake is designed and decorated by hand.", "image": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&auto=format&q=80", "imageAlt": "Elegant multi-tier decorated cake" } }
-      ]
+        {
+          "id": "f1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "wheat",
+            "title": "Artisan Sourdough",
+            "description": "48-hour fermented sourdough made with organic stone-milled flour. Crusty outside, impossibly soft inside.",
+            "image": "https://images.unsplash.com/photo-1585478259715-876acc5be8eb?w=600&auto=format&q=80",
+            "imageAlt": "Freshly baked sourdough loaf with golden crust"
+          }
+        },
+        {
+          "id": "f2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "cake",
+            "title": "French Pastries",
+            "description": "Buttery croissants, pain au chocolat, and seasonal fruit tarts baked fresh every morning at 5 AM.",
+            "image": "https://images.unsplash.com/photo-1555507036-ab1f4038024a?w=600&auto=format&q=80",
+            "imageAlt": "Golden croissants fresh from the oven"
+          }
+        },
+        {
+          "id": "f3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "coffee",
+            "title": "Custom Celebration Cakes",
+            "description": "Wedding cakes, birthday creations, and corporate events. Every cake is designed and decorated by hand.",
+            "image": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&auto=format&q=80",
+            "imageAlt": "Elegant multi-tier decorated cake"
+          }
+        }
+      ],
+      "content": {
+        "heading": "What We Offer",
+        "subheading": "Everything you need to succeed"
+      }
     },
     {
       "type": "quotes",
@@ -108,13 +261,58 @@
       "enabled": true,
       "order": 2,
       "variant": "cards",
-      "layout": { "display": "grid", "columns": 3, "gap": "24px", "padding": "64px 24px" },
-      "style": { "background": "#0a1a14", "color": "#f0fdf4" },
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#0a1a14",
+        "color": "#f0fdf4"
+      },
       "components": [
-        { "id": "t-1", "type": "testimonial", "enabled": true, "order": 0, "props": { "quote": "The sourdough here is the best in Portland. I drive 30 minutes every Saturday just for a loaf — it's that good.", "author": "Maria Santos", "role": "Regular Customer", "rating": 5 } },
-        { "id": "t-2", "type": "testimonial", "enabled": true, "order": 1, "props": { "quote": "They made the most beautiful wedding cake for us. Our guests are still talking about it six months later.", "author": "James & Kate Liu", "role": "Wedding Client", "rating": 5 } },
-        { "id": "t-3", "type": "testimonial", "enabled": true, "order": 2, "props": { "quote": "We order pastry platters for every team meeting. Sweet Spot never disappoints — everything is always fresh and gorgeous.", "author": "Rachel Kim", "role": "Office Manager, TechCo", "rating": 5 } }
-      ]
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "The sourdough here is the best in Portland. I drive 30 minutes every Saturday just for a loaf \u2014 it's that good.",
+            "author": "Maria Santos",
+            "role": "Regular Customer",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "They made the most beautiful wedding cake for us. Our guests are still talking about it six months later.",
+            "author": "James & Kate Liu",
+            "role": "Wedding Client",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "We order pastry platters for every team meeting. Sweet Spot never disappoints \u2014 everything is always fresh and gorgeous.",
+            "author": "Rachel Kim",
+            "role": "Office Manager, TechCo",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "What People Say",
+        "subheading": "Hear from our happy customers"
+      }
     },
     {
       "type": "action",
@@ -122,12 +320,51 @@
       "enabled": true,
       "order": 3,
       "variant": "centered",
-      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "64px 24px", "gap": "16px" },
-      "style": { "background": "#132a1f", "color": "#f0fdf4" },
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "#132a1f",
+        "color": "#f0fdf4"
+      },
       "components": [
-        { "id": "heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Visit Us This Weekend", "level": 2, "size": "36px", "weight": 700 } },
-        { "id": "subtitle", "type": "text", "enabled": true, "order": 1, "props": { "text": "Open Tuesday through Sunday, 7 AM to 4 PM. Walk-ins welcome, or order ahead for guaranteed pickup." } },
-        { "id": "button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Order Online", "url": "#order", "style": "filled", "size": "lg" } }
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Visit Us This Weekend",
+            "level": 2,
+            "size": "36px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Open Tuesday through Sunday, 7 AM to 4 PM. Walk-ins welcome, or order ahead for guaranteed pickup."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Order Online",
+            "url": "#order",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
       ]
     },
     {
@@ -136,14 +373,66 @@
       "enabled": true,
       "order": 4,
       "variant": "counters",
-      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "64px 24px" },
-      "style": { "background": "#0a1a14", "color": "#f0fdf4" },
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#0a1a14",
+        "color": "#f0fdf4"
+      },
       "components": [
-        { "id": "n-1", "type": "value-prop", "enabled": true, "order": 0, "props": { "value": "2,000+", "label": "Happy Customers", "description": "Served weekly" } },
-        { "id": "n-2", "type": "value-prop", "enabled": true, "order": 1, "props": { "value": "6", "label": "Years Running", "description": "Since 2019" } },
-        { "id": "n-3", "type": "value-prop", "enabled": true, "order": 2, "props": { "value": "100%", "label": "Local Ingredients", "description": "Oregon sourced" } },
-        { "id": "n-4", "type": "value-prop", "enabled": true, "order": 3, "props": { "value": "5 AM", "label": "Baked Fresh", "description": "Every morning" } }
-      ]
+        {
+          "id": "n-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "2,000+",
+            "label": "Happy Customers",
+            "description": "Served weekly"
+          }
+        },
+        {
+          "id": "n-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "6",
+            "label": "Years Running",
+            "description": "Since 2019"
+          }
+        },
+        {
+          "id": "n-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "100%",
+            "label": "Local Ingredients",
+            "description": "Oregon sourced"
+          }
+        },
+        {
+          "id": "n-4",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "value": "5 AM",
+            "label": "Baked Fresh",
+            "description": "Every morning"
+          }
+        }
+      ],
+      "content": {
+        "heading": "By The Numbers",
+        "subheading": "Results that speak for themselves"
+      }
     },
     {
       "type": "footer",
@@ -151,14 +440,65 @@
       "enabled": true,
       "order": 5,
       "variant": "multi-column",
-      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "48px 24px" },
-      "style": { "background": "#0a1a14", "color": "#f0fdf4" },
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#0a1a14",
+        "color": "#f0fdf4"
+      },
       "components": [
-        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Sweet Spot Bakery" } },
-        { "id": "col-1", "type": "footer-column", "enabled": true, "order": 1, "props": { "heading": "Menu", "links": "Bread,Pastries,Cakes,Catering" } },
-        { "id": "col-2", "type": "footer-column", "enabled": true, "order": 2, "props": { "heading": "Visit", "links": "Hours,Location,Parking,Events" } },
-        { "id": "col-3", "type": "footer-column", "enabled": true, "order": 3, "props": { "heading": "Connect", "links": "Instagram,Facebook,Newsletter" } },
-        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 4, "props": { "text": "© 2026 Sweet Spot Bakery. Handcrafted with love in Portland, OR." } }
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Sweet Spot Bakery"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Menu",
+            "links": "Bread,Pastries,Cakes,Catering"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Visit",
+            "links": "Hours,Location,Parking,Events"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Connect",
+            "links": "Instagram,Facebook,Newsletter"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "\u00a9 2026 Sweet Spot Bakery. Handcrafted with love in Portland, OR."
+          }
+        }
       ]
     }
   ]

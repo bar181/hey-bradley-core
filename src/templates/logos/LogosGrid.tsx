@@ -30,9 +30,22 @@ export function LogosGrid({ section }: { section: Section }) {
 
   return (
     <section
-      className="py-16 px-6"
+      className="py-10 md:py-16 px-6"
       style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
     >
+      {/* Section heading */}
+      {(section.content as any)?.heading && (
+        <div className="text-center mb-12 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            {(section.content as any).heading}
+          </h2>
+          {(section.content as any)?.subheading && (
+            <p className="text-lg mt-3 opacity-70">
+              {(section.content as any).subheading}
+            </p>
+          )}
+        </div>
+      )}
       <div className={`mx-auto max-w-4xl grid ${gridClass} gap-6`}>
         {logos.map((logo) => (
           <div

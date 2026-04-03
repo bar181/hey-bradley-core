@@ -3,6 +3,7 @@ import { useConfigStore } from '@/store/configStore'
 import { useUIStore } from '@/store/uiStore'
 import type { SectionType } from '@/lib/schemas/section'
 import { useThemeVars } from '@/lib/useThemeVars'
+import { useScrollReveal } from '@/lib/useScrollReveal'
 import { HeroCentered } from '@/templates/hero/HeroCentered'
 import { HeroSplit } from '@/templates/hero/HeroSplit'
 import { HeroOverlay } from '@/templates/hero/HeroOverlay'
@@ -164,6 +165,7 @@ function SectionWrapper({
   children: React.ReactNode
 }) {
   const [hovered, setHovered] = useState(false)
+  const scrollRef = useScrollReveal<HTMLDivElement>()
   const reorderSections = useConfigStore((s) => s.reorderSections)
   const removeSection = useConfigStore((s) => s.removeSection)
   const sections = useConfigStore((s) => s.config.sections)
@@ -183,6 +185,7 @@ function SectionWrapper({
 
   return (
     <div
+      ref={scrollRef}
       data-section-id={section.id}
       className="relative group/section"
       onMouseEnter={() => setHovered(true)}

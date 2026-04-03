@@ -8,18 +8,31 @@ export function QuotesCards({ section }: { section: Section }) {
 
   return (
     <section
-      className="py-16 px-6"
+      className="py-12 md:py-20 px-6"
       style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
     >
+      {/* Section heading */}
+      {(section.content as any)?.heading && (
+        <div className="text-center mb-12 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            {(section.content as any).heading}
+          </h2>
+          {(section.content as any)?.subheading && (
+            <p className="text-lg mt-3 opacity-70">
+              {(section.content as any).subheading}
+            </p>
+          )}
+        </div>
+      )}
       <div className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-6">
-        {testimonials.map((t) => {
+        {testimonials.map((t, idx) => {
           const quote = (t.props?.quote as string) || ''
           const author = (t.props?.author as string) || 'Anonymous'
           const role = (t.props?.role as string) || ''
           const initial = author.charAt(0).toUpperCase()
 
           return (
-            <Card key={t.id} className="bg-theme-surface/80 text-inherit rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" style={{ borderColor: `color-mix(in srgb, ${section.style.color} 8%, transparent)` }}>
+            <Card key={t.id} className="bg-theme-surface/80 text-inherit rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl opacity-0 animate-card-reveal" style={{ animationDelay: `${idx * 100}ms`, borderColor: `color-mix(in srgb, ${section.style.color} 8%, transparent)` }}>
               <CardContent>
                 <blockquote className="text-sm leading-relaxed mb-4 opacity-90">
                   &ldquo;{quote}&rdquo;

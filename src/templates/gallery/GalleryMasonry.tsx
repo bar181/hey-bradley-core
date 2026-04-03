@@ -28,9 +28,22 @@ export function GalleryMasonry({ section }: { section: Section }) {
 
   return (
     <section
-      className="py-16 px-6"
+      className="py-16 md:py-24 px-6"
       style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
     >
+      {/* Section heading */}
+      {(section.content as any)?.heading && (
+        <div className="text-center mb-12 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            {(section.content as any).heading}
+          </h2>
+          {(section.content as any)?.subheading && (
+            <p className="text-lg mt-3 opacity-70">
+              {(section.content as any).subheading}
+            </p>
+          )}
+        </div>
+      )}
       <div className="mx-auto max-w-6xl columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
         {images.map((img, i) => (
           <div

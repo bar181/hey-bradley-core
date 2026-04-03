@@ -22,7 +22,7 @@ export function FooterSimpleBar({ section }: { section: Section }) {
 
   return (
     <footer
-      className="px-6 py-6"
+      className="px-6 py-8 md:py-12"
       style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
     >
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">

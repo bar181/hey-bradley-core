@@ -27,9 +27,22 @@ export function LogosMarquee({ section }: { section: Section }) {
 
   return (
     <section
-      className="py-12 px-0 overflow-hidden"
+      className="py-10 md:py-16 px-0 overflow-hidden"
       style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
     >
+      {/* Section heading */}
+      {(section.content as any)?.heading && (
+        <div className="text-center mb-12 max-w-3xl mx-auto px-6">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            {(section.content as any).heading}
+          </h2>
+          {(section.content as any)?.subheading && (
+            <p className="text-lg mt-3 opacity-70">
+              {(section.content as any).subheading}
+            </p>
+          )}
+        </div>
+      )}
       <style>{`
         @keyframes hb-marquee {
           0% { transform: translateX(0); }

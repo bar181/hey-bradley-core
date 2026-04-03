@@ -83,6 +83,7 @@ export default {
         'orb-breathe': 'orbBreathe 4s ease-in-out infinite',
         'orb-active': 'orbActive 1.2s ease-in-out infinite',
         'fade-in-up': 'fadeInUp 0.6s ease-out both',
+        'card-reveal': 'cardReveal 0.5s ease-out forwards',
       },
       keyframes: {
         orbPulse: {
@@ -99,6 +100,10 @@ export default {
         },
         fadeInUp: {
           '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        cardReveal: {
+          '0%': { opacity: '0', transform: 'translateY(16px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
       },

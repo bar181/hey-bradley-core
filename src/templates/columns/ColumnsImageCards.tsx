@@ -16,11 +16,11 @@ const DEFAULT_IMAGES = [
   'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=400&fit=crop',
 ]
 
-const DEFAULT_TITLES = ['Lightning Fast', 'Pixel Perfect', 'Always Secure']
+const DEFAULT_TITLES = ['Your First Feature', 'Pixel Perfect', 'Always Reliable']
 const DEFAULT_DESCRIPTIONS = [
-  'Go from idea to deployed in 60 seconds',
+  'Describe what makes this special',
   'Every detail polished and professional',
-  'Enterprise-grade security built in',
+  'Built with quality from the start',
 ]
 
 export function ColumnsImageCards({ section }: { section: Section }) {
@@ -31,9 +31,22 @@ export function ColumnsImageCards({ section }: { section: Section }) {
 
   return (
     <section
-      className="py-20 px-6"
+      className="py-16 md:py-24 px-6"
       style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
     >
+      {/* Section heading */}
+      {(section.content as any)?.heading && (
+        <div className="text-center mb-12 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            {(section.content as any).heading}
+          </h2>
+          {(section.content as any)?.subheading && (
+            <p className="text-lg mt-3 opacity-70">
+              {(section.content as any).subheading}
+            </p>
+          )}
+        </div>
+      )}
       <div className={`mx-auto max-w-6xl grid grid-cols-1 gap-7 ${GRID_CLASSES[cols] ?? 'md:grid-cols-3'}`}>
         {items.map((item, idx) => {
           const imageUrl = (item.props?.imageUrl as string) || DEFAULT_IMAGES[idx % DEFAULT_IMAGES.length]
@@ -50,7 +63,7 @@ export function ColumnsImageCards({ section }: { section: Section }) {
               <div className="aspect-video overflow-hidden">
                 <img
                   src={imageUrl}
-                  alt={(item.props?.title as string) || 'Lightning Fast'}
+                  alt={(item.props?.title as string) || 'Your First Feature'}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>

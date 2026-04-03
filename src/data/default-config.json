@@ -1,7 +1,7 @@
 {
   "site": {
     "title": "Hey Bradley",
-    "description": "A voice-first specification platform for marketing websites",
+    "description": "A voice-first platform for building marketing websites",
     "author": "Bradley Ross",
     "email": "bar181@yahoo.com",
     "domain": "heybradley.com",
@@ -49,11 +49,34 @@
       "enabled": true,
       "order": -1,
       "variant": "simple",
-      "layout": { "display": "flex", "padding": "0" },
-      "style": { "background": "#0a0a1a", "color": "#f8fafc" },
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#0a0a1a",
+        "color": "#f8fafc"
+      },
       "components": [
-        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Hey Bradley" } },
-        { "id": "cta", "type": "button", "enabled": true, "order": 1, "props": { "text": "Get Started", "url": "#pricing" } }
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Hey Bradley"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Get Started",
+            "url": "#pricing"
+          }
+        }
       ]
     },
     {
@@ -195,9 +218,9 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "icon": "⚡",
-            "title": "Lightning Fast",
-            "description": "Build and deploy in seconds, not days."
+            "icon": "\u26a1",
+            "title": "Your First Feature",
+            "description": "Describe what makes this special."
           }
         },
         {
@@ -206,7 +229,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "icon": "🎯",
+            "icon": "\ud83c\udfaf",
             "title": "Pixel Perfect",
             "description": "Every detail exactly the way you want it."
           }
@@ -217,12 +240,16 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "icon": "🔒",
+            "icon": "\ud83d\udd12",
             "title": "Enterprise Ready",
-            "description": "Production-grade output from day one."
+            "description": "Built with quality from the start."
           }
         }
-      ]
+      ],
+      "content": {
+        "heading": "What We Offer",
+        "subheading": "Everything you need to succeed"
+      }
     },
     {
       "type": "action",

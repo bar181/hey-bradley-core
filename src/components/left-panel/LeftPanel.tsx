@@ -52,7 +52,7 @@ export function LeftPanel() {
 
       {/* Tab content */}
       {activeTab === 'builder' && (
-        <div className="flex-1 overflow-auto px-3 pt-3 max-w-[300px]" data-builder-panel>
+        <div className="flex-1 overflow-auto px-3 pt-3 max-w-[300px] animate-fade-in-up" data-builder-panel>
           {/* Theme row */}
           <div
             role="button"
@@ -83,12 +83,12 @@ export function LeftPanel() {
       )}
 
       {activeTab === 'chat' && (
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 flex flex-col overflow-hidden animate-fade-in-up">
           <ChatInput />
         </div>
       )}
 
-      {activeTab === 'listen' && <ListenTab />}
+      {activeTab === 'listen' && <div className="animate-fade-in-up flex-1"><ListenTab /></div>}
     </div>
   )
 }

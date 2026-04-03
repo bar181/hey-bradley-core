@@ -11,9 +11,22 @@ export function QuotesSingle({ section }: { section: Section }) {
 
   return (
     <section
-      className="py-24 px-6 text-center"
+      className="py-12 md:py-20 px-6 text-center"
       style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
     >
+      {/* Section heading */}
+      {(section.content as any)?.heading && (
+        <div className="text-center mb-12 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            {(section.content as any).heading}
+          </h2>
+          {(section.content as any)?.subheading && (
+            <p className="text-lg mt-3 opacity-70">
+              {(section.content as any).subheading}
+            </p>
+          )}
+        </div>
+      )}
       <div className="max-w-3xl mx-auto">
         {/* Large quotation mark */}
         <div

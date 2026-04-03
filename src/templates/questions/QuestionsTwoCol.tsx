@@ -7,11 +7,21 @@ export function QuestionsTwoCol({ section }: { section: Section }) {
 
   return (
     <section
-      className="py-16 px-6"
+      className="py-16 md:py-24 px-6"
       style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
     >
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-10">Frequently Asked Questions</h2>
+        {/* Section heading */}
+        <div className="text-center mb-12 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            {(section.content as any)?.heading || 'Common Questions'}
+          </h2>
+          {(section.content as any)?.subheading && (
+            <p className="text-lg mt-3 opacity-70">
+              {(section.content as any).subheading}
+            </p>
+          )}
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {items.map((item) => {
             const question = (item.props?.question as string) || 'Question'

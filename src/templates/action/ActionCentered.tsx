@@ -7,7 +7,7 @@ export function ActionCentered({ section }: { section: Section }) {
 
   return (
     <section
-      className="py-20 px-6 text-center"
+      className="py-16 md:py-24 px-6 text-center"
       style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
     >
       <div className="max-w-2xl mx-auto flex flex-col items-center gap-4">

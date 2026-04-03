@@ -24,19 +24,33 @@ export function ColumnsCards({ section }: { section: Section }) {
 
   return (
     <section
-      className="py-20 px-6"
+      className="py-16 md:py-24 px-6"
       style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
     >
+      {/* Section heading */}
+      {(section.content as any)?.heading && (
+        <div className="text-center mb-12 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            {(section.content as any).heading}
+          </h2>
+          {(section.content as any)?.subheading && (
+            <p className="text-lg mt-3 opacity-70">
+              {(section.content as any).subheading}
+            </p>
+          )}
+        </div>
+      )}
       <div className={`mx-auto max-w-6xl grid grid-cols-1 gap-6 ${GRID_CLASSES[cols] ?? 'md:grid-cols-3'}`}>
-        {items.map((item) => {
+        {items.map((item, idx) => {
           const iconSlug = (item.props?.icon as string) ?? ''
           const Icon = iconMap[iconSlug]
 
           return (
             <div
               key={item.id}
-              className="rounded-2xl p-7 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              className="rounded-2xl p-7 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl opacity-0 animate-card-reveal"
               style={{
+                animationDelay: `${idx * 100}ms`,
                 background: `color-mix(in srgb, ${section.style.color} 3%, transparent)`,
                 border: `1px solid color-mix(in srgb, ${section.style.color} 15%, transparent)`,
               }}
@@ -50,10 +64,10 @@ export function ColumnsCards({ section }: { section: Section }) {
                 </div>
               )}
               <h3 className="text-base font-semibold mb-2 tracking-tight">
-                {(item.props?.title as string) || 'Lightning Fast'}
+                {(item.props?.title as string) || 'Your First Feature'}
               </h3>
               <p className="text-sm opacity-60 leading-relaxed">
-                {(item.props?.description as string) || 'Go from idea to deployed in 60 seconds'}
+                {(item.props?.description as string) || 'Describe what makes this special'}
               </p>
             </div>
           )

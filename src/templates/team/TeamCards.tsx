@@ -29,13 +29,27 @@ export function TeamCards({ section }: { section: Section }) {
 
   return (
     <section
-      className="py-16 px-6"
+      className="py-16 md:py-24 px-6"
       style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
     >
+      {/* Section heading */}
+      {(section.content as any)?.heading && (
+        <div className="text-center mb-12 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            {(section.content as any).heading}
+          </h2>
+          {(section.content as any)?.subheading && (
+            <p className="text-lg mt-3 opacity-70">
+              {(section.content as any).subheading}
+            </p>
+          )}
+        </div>
+      )}
       <div className={`mx-auto max-w-6xl grid grid-cols-1 ${gridClass} gap-8`}>
-        {members.map((member) => (
-          <div key={member.id} className="flex flex-col items-center text-center rounded-2xl p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+        {members.map((member, idx) => (
+          <div key={member.id} className="flex flex-col items-center text-center rounded-2xl p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl opacity-0 animate-card-reveal"
             style={{
+              animationDelay: `${idx * 100}ms`,
               background: `color-mix(in srgb, ${section.style.color} 3%, transparent)`,
               border: `1px solid color-mix(in srgb, ${section.style.color} 10%, transparent)`,
             }}>

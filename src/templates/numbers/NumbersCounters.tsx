@@ -17,17 +17,30 @@ export function NumbersCounters({ section }: { section: Section }) {
 
   return (
     <section
-      className="py-16 px-6"
+      className="py-12 md:py-16 px-6"
       style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
     >
+      {/* Section heading */}
+      {(section.content as any)?.heading && (
+        <div className="text-center mb-12 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            {(section.content as any).heading}
+          </h2>
+          {(section.content as any)?.subheading && (
+            <p className="text-lg mt-3 opacity-70">
+              {(section.content as any).subheading}
+            </p>
+          )}
+        </div>
+      )}
       <div className={`mx-auto max-w-6xl grid grid-cols-1 ${gridClass} gap-8 text-center`}>
-        {items.map((item) => {
+        {items.map((item, idx) => {
           const value = (item.props?.value as string) || '0'
           const label = (item.props?.label as string) || 'Label'
           const description = (item.props?.description as string) || ''
 
           return (
-            <div key={item.id} className="space-y-1">
+            <div key={item.id} className="space-y-1 opacity-0 animate-card-reveal" style={{ animationDelay: `${idx * 100}ms` }}>
               <div className="text-5xl font-extrabold tracking-tight text-theme-accent">
                 {value}
               </div>

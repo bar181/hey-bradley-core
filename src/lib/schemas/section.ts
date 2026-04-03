@@ -29,7 +29,7 @@ export type Component = z.infer<typeof componentSchema>
 // ---------------------------------------------------------------------------
 
 const HEADING_DEFAULTS = {
-  text: 'Ship Code at the Speed of Thought',
+  text: 'Your Amazing Website Starts Here',
   level: 1,
   size: '48px',
   weight: 700,
@@ -47,7 +47,7 @@ export const heroContentSchema = z.object({
     size: z.string().default(HEADING_DEFAULTS.size),
     weight: z.number().default(HEADING_DEFAULTS.weight),
   }).default(() => ({ ...HEADING_DEFAULTS })),
-  subheading: z.string().default('Build AI-native experiences that transform how we create.'),
+  subheading: z.string().default('Create something beautiful in minutes. No coding needed.'),
   cta: z.object({
     text: z.string().default(CTA_DEFAULTS.text),
     url: z.string().default(CTA_DEFAULTS.url),
@@ -58,7 +58,7 @@ export const heroContentSchema = z.object({
     url: z.string().default('#about'),
   }).optional(),
   badge: z.object({
-    text: z.string().default('Hey Bradley 2.0 is Live'),
+    text: z.string().default('Now in Public Beta'),
     show: z.boolean().default(true),
   }).optional(),
   image: z.object({
@@ -67,7 +67,7 @@ export const heroContentSchema = z.object({
     show: z.boolean().default(false),
   }).optional(),
   trustBadges: z.object({
-    text: z.string().default('Trusted by 214 institutions'),
+    text: z.string().default('Trusted by 2,000+ teams worldwide'),
     show: z.boolean().default(true),
   }).optional(),
 })

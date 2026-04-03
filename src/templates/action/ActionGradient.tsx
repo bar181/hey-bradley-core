@@ -7,7 +7,7 @@ export function ActionGradient({ section }: { section: Section }) {
 
   return (
     <section
-      className="py-24 px-6 text-center"
+      className="py-16 md:py-24 px-6 text-center"
       style={{
         background: `linear-gradient(135deg, var(--theme-accent, #6366f1), color-mix(in srgb, var(--theme-accent, #6366f1) 60%, #000))`,
         color: '#fff',

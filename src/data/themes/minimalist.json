@@ -2,7 +2,7 @@
   "meta": {
     "name": "Minimalist",
     "slug": "minimalist",
-    "description": "For any website stripped to its essentials — pure typography and whitespace",
+    "description": "For any website stripped to its essentials \u2014 pure typography and whitespace",
     "tags": [
       "light",
       "minimal",
@@ -133,7 +133,7 @@
           "enabled": false,
           "order": 2,
           "props": {
-            "text": "Describe what you want, watch it appear in real-time, and get production-ready specs."
+            "text": "Describe what you want, watch it appear in real-time, and get beautiful websites."
           }
         },
         {
@@ -217,7 +217,7 @@
           "order": 0,
           "props": {
             "icon": "zap",
-            "title": "Lightning Fast",
+            "title": "Your First Feature",
             "description": "Build and deploy in seconds, not days."
           }
         },
@@ -229,7 +229,7 @@
           "props": {
             "icon": "target",
             "title": "Precise Specs",
-            "description": "AISP specifications with under 2% ambiguity."
+            "description": "Designs with pixel-perfect accuracy."
           }
         },
         {
@@ -243,7 +243,11 @@
             "description": "Production-grade output from day one."
           }
         }
-      ]
+      ],
+      "content": {
+        "heading": "What We Offer",
+        "subheading": "Everything you need to succeed"
+      }
     },
     {
       "type": "pricing",
@@ -306,7 +310,11 @@
             "highlighted": false
           }
         }
-      ]
+      ],
+      "content": {
+        "heading": "Simple Pricing",
+        "subheading": "Choose the plan that works for you"
+      }
     },
     {
       "type": "action",
@@ -411,7 +419,11 @@
             "role": "Freelance Writer"
           }
         }
-      ]
+      ],
+      "content": {
+        "heading": "What People Say",
+        "subheading": "Hear from our happy customers"
+      }
     },
     {
       "type": "questions",
@@ -437,7 +449,7 @@
           "order": 0,
           "props": {
             "question": "What is Hey Bradley?",
-            "answer": "Hey Bradley is an AI-first website specification platform. Describe what you want, and it builds production-ready specs in real-time."
+            "answer": "Hey Bradley helps you build websites visually. Describe what you want and watch it come to life in real-time."
           }
         },
         {
@@ -457,7 +469,7 @@
           "order": 2,
           "props": {
             "question": "What output formats are supported?",
-            "answer": "Hey Bradley generates AISP specifications, JSON configurations, and will support HTML export in future versions."
+            "answer": "Hey Bradley generates website designs and configurations, with HTML export coming in future versions."
           }
         },
         {
@@ -477,10 +489,14 @@
           "order": 4,
           "props": {
             "question": "How does the AI work?",
-            "answer": "Hey Bradley uses the AI Symbolic Protocol (AISP) to translate natural language into precise, machine-readable specifications with near-zero ambiguity."
+            "answer": "Hey Bradley uses advanced AI to translate your natural language descriptions into precise, beautiful website designs."
           }
         }
-      ]
+      ],
+      "content": {
+        "heading": "Common Questions",
+        "subheading": "Everything you need to know"
+      }
     },
     {
       "type": "numbers",
@@ -518,7 +534,7 @@
           "props": {
             "value": "2%",
             "label": "Ambiguity",
-            "description": "AISP specifications precision"
+            "description": "Design accuracy"
           }
         },
         {
@@ -543,7 +559,11 @@
             "description": "Professional design presets"
           }
         }
-      ]
+      ],
+      "content": {
+        "heading": "By The Numbers",
+        "subheading": "Results that speak for themselves"
+      }
     },
     {
       "type": "footer",
@@ -607,7 +627,7 @@
           "enabled": true,
           "order": 4,
           "props": {
-            "text": "© 2026 Hey Bradley. All rights reserved."
+            "text": "\u00a9 2026 Hey Bradley. All rights reserved."
           }
         }
       ]
