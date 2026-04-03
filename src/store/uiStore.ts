@@ -4,6 +4,7 @@ export type InteractionMode = 'LISTEN' | 'BUILD'
 export type RightPanelTab = 'SIMPLE' | 'EXPERT'
 export type ActiveTab = 'REALITY' | 'DATA' | 'XAI_DOCS' | 'WORKFLOW'
 
+export type LeftPanelTab = 'builder' | 'chat' | 'listen'
 export type PreviewWidth = 'full' | 'desktop' | 'tablet' | 'mobile'
 
 export type SelectedContext =
@@ -18,6 +19,7 @@ interface UIStore {
   interactionMode: InteractionMode
   activeTab: ActiveTab
   rightPanelTab: RightPanelTab
+  leftPanelTab: LeftPanelTab
   selectedContext: SelectedContext
   rightAccordions: Record<string, boolean>
   previewWidth: PreviewWidth
@@ -27,6 +29,7 @@ interface UIStore {
   setInteractionMode: (mode: InteractionMode) => void
   setActiveTab: (tab: ActiveTab) => void
   setRightPanelTab: (tab: RightPanelTab) => void
+  setLeftPanelTab: (tab: LeftPanelTab) => void
   setSelectedContext: (ctx: SelectedContext) => void
   toggleRightAccordion: (id: string) => void
   setPreviewWidth: (width: PreviewWidth) => void
@@ -38,6 +41,7 @@ export const useUIStore = create<UIStore>((set) => ({
   interactionMode: 'BUILD',
   activeTab: 'REALITY',
   rightPanelTab: 'SIMPLE',
+  leftPanelTab: 'builder',
   selectedContext: { type: 'theme' },
   rightAccordions: { ...THEME_DEFAULTS },
   previewWidth: 'full',
@@ -50,6 +54,7 @@ export const useUIStore = create<UIStore>((set) => ({
   setRightPanelVisible: (visible) => set({ rightPanelVisible: visible }),
   setActiveTab: (tab) => set({ activeTab: tab }),
   setRightPanelTab: (tab) => set({ rightPanelTab: tab }),
+  setLeftPanelTab: (tab) => set({ leftPanelTab: tab }),
   setSelectedContext: (ctx) =>
     set({
       selectedContext: ctx,

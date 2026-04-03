@@ -1,11 +1,11 @@
 {
   "site": {
-    "title": "Hey Bradley",
-    "description": "A voice-first platform for building marketing websites",
-    "author": "Bradley Ross",
-    "email": "bar181@yahoo.com",
-    "domain": "heybradley.com",
-    "project": "hey-bradley",
+    "title": "Your Website",
+    "description": "A beautiful website built with Hey Bradley",
+    "author": "",
+    "email": "hello@example.com",
+    "domain": "example.com",
+    "project": "my-website",
     "version": "1.0.0-RC1",
     "spec": "aisp-1.2"
   },
@@ -64,7 +64,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "Hey Bradley"
+            "text": "Your Brand"
           }
         },
         {
@@ -106,7 +106,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "Now in Public Beta",
+            "text": "Your Tagline Here",
             "icon": "sparkles",
             "variant": "pill"
           }
@@ -117,7 +117,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Your Amazing Website Starts Here",
+            "text": "Welcome to Your Website",
             "level": 1,
             "size": "56px",
             "weight": 700
@@ -129,7 +129,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "Create something beautiful in minutes. No coding needed."
+            "text": "Describe what makes your business special"
           }
         },
         {
@@ -163,7 +163,7 @@
           "order": 5,
           "props": {
             "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&q=80",
-            "alt": "Dashboard analytics dark mode",
+            "alt": "Hero image",
             "aspect": "16:9",
             "position": "below",
             "shadow": true
@@ -189,7 +189,7 @@
           "enabled": true,
           "order": 8,
           "props": {
-            "text": "Trusted by 2,000+ happy customers",
+            "text": "Trusted by happy customers worldwide",
             "show": true
           }
         }
@@ -274,9 +274,9 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "quote": "We shipped our marketing site in a single afternoon. The spec output alone saved us 20 hours of back-and-forth with our dev team.",
-            "author": "Jamie Nguyen",
-            "role": "Head of Growth, Raycast",
+            "quote": "This product completely transformed the way we work. We saved hours every week and the results speak for themselves.",
+            "author": "Jamie N.",
+            "role": "Head of Growth",
             "rating": 5
           }
         },
@@ -286,9 +286,9 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "quote": "The voice-first workflow is a game-changer. I described what I wanted and had a polished page in minutes.",
-            "author": "Alex Petrov",
-            "role": "Founder, NovaTech",
+            "quote": "The experience was seamless from start to finish. I would recommend this to anyone looking for quality and reliability.",
+            "author": "Alex P.",
+            "role": "Founder",
             "rating": 5
           }
         },
@@ -298,9 +298,9 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "quote": "Finally a builder that outputs real specifications, not just pixels. Our engineering team actually trusts the handoff now.",
-            "author": "Priya Sharma",
-            "role": "VP Engineering, Luma",
+            "quote": "Outstanding quality and attention to detail. Our team has been thoroughly impressed with the results.",
+            "author": "Priya S.",
+            "role": "VP Engineering",
             "rating": 5
           }
         }
@@ -413,7 +413,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Start building your next project with Hey Bradley."
+            "text": "Take the next step and get started today."
           }
         },
         {

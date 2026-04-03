@@ -1,7 +1,8 @@
-import { Monitor, Tablet, Smartphone, Undo2, Redo2, Sun, Moon, Menu, X, Eye, PenLine, PanelRightClose, PanelRightOpen, Check } from 'lucide-react'
+import { Monitor, Tablet, Smartphone, Undo2, Redo2, Sun, Moon, Menu, X, Eye, PenLine, PanelRightClose, PanelRightOpen, Check, ClipboardCopy } from 'lucide-react'
 
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore, type PreviewWidth } from '@/store/uiStore'
+import { generateAISPSpec } from '@/components/center-canvas/XAIDocsTab'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -28,7 +29,17 @@ export function TopBar() {
   const [chromeLight, setChromeLight] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [shareCopied, setShareCopied] = useState(false)
+  const [specCopied, setSpecCopied] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+
+  const handleCopySpec = useCallback(() => {
+    const config = useConfigStore.getState().config
+    const spec = generateAISPSpec(config)
+    navigator.clipboard.writeText(spec).then(() => {
+      setSpecCopied(true)
+      setTimeout(() => setSpecCopied(false), 2000)
+    })
+  }, [])
 
   const handleShare = useCallback(() => {
     navigator.clipboard.writeText(window.location.href).then(() => {
@@ -144,6 +155,14 @@ export function TopBar() {
           {isPreviewMode ? <><PenLine size={14} /> Edit</> : <><Eye size={14} /> Preview</>}
         </button>
         <button
+          onClick={handleCopySpec}
+          className="p-1 text-white/60 hover:text-hb-accent transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
+          aria-label="Copy AISP Spec"
+          title="Copy AISP Spec"
+        >
+          {specCopied ? <Check size={16} className="text-green-400" /> : <ClipboardCopy size={16} />}
+        </button>
+        <button
           onClick={handleShare}
           className="ml-1 border border-white/20 text-white/80 font-mono text-xs uppercase px-3 py-1 rounded hover:bg-white/10 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent flex items-center gap-1"
         >
@@ -212,6 +231,12 @@ export function TopBar() {
               className="flex items-center gap-2 w-full px-3 py-2 text-sm text-hb-text-primary hover:bg-hb-surface-hover transition-colors"
             >
               {isPreviewMode ? <><PenLine size={14} /> Exit Preview</> : <><Eye size={14} /> Preview Site</>}
+            </button>
+            <button
+              onClick={() => { handleCopySpec(); setMenuOpen(false) }}
+              className="flex items-center gap-2 w-full px-3 py-2 text-sm text-hb-text-primary hover:bg-hb-surface-hover transition-colors"
+            >
+              {specCopied ? <><Check size={14} className="text-green-400" /> Spec Copied!</> : <><ClipboardCopy size={14} /> Copy AISP Spec</>}
             </button>
           </div>
         )}

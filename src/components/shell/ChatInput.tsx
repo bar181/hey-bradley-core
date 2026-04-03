@@ -3,6 +3,7 @@ import { SendHorizontal } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { parseChatCommand } from '@/lib/cannedChat'
 import { useConfigStore } from '@/store/configStore'
+import { useUIStore } from '@/store/uiStore'
 import { EXAMPLE_SITES } from '@/data/examples'
 import { buildDemoSequence, runDemo } from '@/lib/demoSimulator'
 import type { SectionType } from '@/lib/schemas'
@@ -72,7 +73,9 @@ export function ChatInput() {
       () => {
         setDemoActive(false)
         const id = nextId.current++
-        setMessages((prev) => [...prev.slice(-MAX_MESSAGES + 1), { id, role: 'bradley', text: 'your site is ready! switch to Builder to customize it.' }])
+        setMessages((prev) => [...prev.slice(-MAX_MESSAGES + 1), { id, role: 'bradley', text: 'your site is ready! switching to Builder now.' }])
+        useUIStore.getState().setLeftPanelTab('builder')
+        useUIStore.getState().setRightPanelVisible(true)
       }
     )
     // Store cleanup ref for cancellation

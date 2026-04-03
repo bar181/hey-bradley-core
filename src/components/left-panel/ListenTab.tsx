@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { Play, Settings, Wand2 } from 'lucide-react'
 import { buildDemoSequence, runDemo } from '@/lib/demoSimulator'
 import { EXAMPLE_SITES } from '@/data/examples'
+import { useUIStore } from '@/store/uiStore'
 
 const DEFAULTS = {
   pulseSpeed: 3, // seconds (3000ms)
@@ -117,6 +118,8 @@ export function ListenTab() {
               simActiveRef.current = false
               setSimActive(false)
               demoCleanupRef.current = null
+              useUIStore.getState().setLeftPanelTab('builder')
+              useUIStore.getState().setRightPanelVisible(true)
             },
           )
         }, 3000)

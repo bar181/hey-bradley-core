@@ -128,7 +128,7 @@ function generateHumanSpec(config: MasterConfig): string {
   return spec.trimEnd() + '\n'
 }
 
-function generateAISPSpec(config: MasterConfig): string {
+export function generateAISPSpec(config: MasterConfig): string {
   const { theme, sections } = config
   const enabled = sections.filter((s) => s.enabled)
   const p = theme.palette

@@ -121,3 +121,34 @@ Added heading/subheading input fields to 8 Simple editors:
 - Phase 6 Loop 2 fixes verified and landed
 
 ---
+
+## Session 3 — 2026-04-03: Loop 1-3 Swarm Execution
+
+### Loop 1 (10 agents, parallel)
+1. Created demoSimulator.ts — timed section reveals with typewriter captions
+2. Chat quick-demo buttons (4 examples in 2-col grid)
+3. Listen "Watch a Demo" wired to real demo simulator + orb burst sync
+4. Left panel narrowed to 320px max-width (was 33% / 300px)
+5. Dev tabs always visible — Preview, Data, Specs, Pipeline (no hidden toggle)
+6. Specs tab highlighted with FileText icon + accent dot
+7. Decorative accent bars above all 31 section headings
+8. Cinematic orb: 4-layer construction, orb-breathe animation, burst growth
+9. Reduced-motion a11y fix for card-reveal animations
+10. Neutral default config copy (removed SaaS jargon)
+11. Example JSON headings updated to vertical-specific copy
+
+### Loop 2 (Review)
+- Integration review: CLEAN — no conflicts, no bugs
+- Build: TypeScript clean, Vite clean
+- Persona spot-check: identified 3 gaps (default branding, no export, no auto-switch)
+
+### Loop 3 (4 agents, parallel)
+1. Default config branding neutralized
+2. Copy AISP Spec button added to TopBar
+3. Demo auto-switch to Builder tab on completion
+4. Living checklist + log updated
+
+### Files Changed
+42+ files in Loop 1, ~8 files in Loop 3
+
+---

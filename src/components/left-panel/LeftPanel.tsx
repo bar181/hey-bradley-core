@@ -1,12 +1,10 @@
-import { useState } from 'react'
 import { Palette, LayoutList, MessageSquare, Mic } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { useUIStore } from '@/store/uiStore'
+import type { LeftPanelTab } from '@/store/uiStore'
 import { SectionsSection } from './SectionsSection'
 import { ChatInput } from '@/components/shell/ChatInput'
 import { ListenTab } from './ListenTab'
-
-type LeftTab = 'builder' | 'chat' | 'listen'
 
 const TABS = [
   { value: 'builder' as const, icon: LayoutList, label: 'Builder' },
@@ -15,13 +13,14 @@ const TABS = [
 ] as const
 
 export function LeftPanel() {
-  const [activeTab, setActiveTab] = useState<LeftTab>('builder')
+  const activeTab = useUIStore((s) => s.leftPanelTab)
+  const setLeftPanelTab = useUIStore((s) => s.setLeftPanelTab)
   const selectedContext = useUIStore((s) => s.selectedContext)
   const setSelectedContext = useUIStore((s) => s.setSelectedContext)
   const setRightPanelVisible = useUIStore((s) => s.setRightPanelVisible)
 
-  const handleTabChange = (tab: LeftTab) => {
-    setActiveTab(tab)
+  const handleTabChange = (tab: LeftPanelTab) => {
+    setLeftPanelTab(tab)
     // Hide right panel in Chat/Listen mode, show in Builder
     setRightPanelVisible(tab === 'builder')
   }

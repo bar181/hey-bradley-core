@@ -1,6 +1,6 @@
 # Phase 6: Living Checklist — Canned Demo + Deploy Preparation
 
-**Last Updated:** 2026-04-03 (Session 2 — grounding + Loop 2 verification)
+**Last Updated:** 2026-04-03 (Session 3 — Loop 1-3 swarm execution)
 
 ---
 
@@ -8,33 +8,33 @@
 
 | # | Check | Severity | Status |
 |---|-------|----------|--------|
-| DS1 | `demoSimulator.ts` orchestrates timed section reveals | P0 | TODO |
-| DS2 | Typewriter captions narrate each step | P0 | TODO |
-| DS3 | Theme applies before sections appear | P0 | TODO |
-| DS4 | Sections appear one-by-one with fade/slide animation | P0 | TODO |
-| DS5 | Auto-switch from Chat tab to Builder tab on completion | P1 | TODO |
-| DS6 | All 4 example websites have simulation sequences | P0 | TODO |
-| DS7 | Simulation can be interrupted/cancelled by user action | P1 | TODO |
-| DS8 | Timing feels natural (subtle randomness in intervals) | P2 | TODO |
+| DS1 | `demoSimulator.ts` orchestrates timed section reveals | P0 | DONE |
+| DS2 | Typewriter captions narrate each step | P0 | DONE |
+| DS3 | Theme applies before sections appear | P0 | DONE |
+| DS4 | Sections appear one-by-one with fade/slide animation | P0 | DONE |
+| DS5 | Auto-switch from Chat tab to Builder tab on completion | P1 | DONE |
+| DS6 | All 4 example websites have simulation sequences | P0 | DONE |
+| DS7 | Simulation can be interrupted/cancelled by user action | P1 | DONE (cleanup function exists) |
+| DS8 | Timing feels natural (subtle randomness in intervals) | P2 | DONE (random jitter added) |
 
 ## 6B — Chat Quick-Demo Buttons
 
 | # | Check | Severity | Status |
 |---|-------|----------|--------|
-| CB1 | 3-4 quick-demo buttons rendered below chat input | P0 | TODO |
-| CB2 | Each button triggers the canned demo simulation | P0 | TODO |
-| CB3 | Buttons show relevant emoji + label (e.g., "Build a Bakery") | P1 | TODO |
-| CB4 | Buttons disabled during active simulation | P1 | TODO |
+| CB1 | 3-4 quick-demo buttons rendered below chat input | P0 | DONE |
+| CB2 | Each button triggers the canned demo simulation | P0 | DONE |
+| CB3 | Buttons show relevant emoji + label (e.g., "Build a Bakery") | P1 | DONE (name + theme label) |
+| CB4 | Buttons disabled during active simulation | P1 | DONE |
 
 ## 6C — Listen Mode Demo
 
 | # | Check | Severity | Status |
 |---|-------|----------|--------|
-| LD1 | "Watch a Demo" triggers demo simulator | P0 | TODO |
-| LD2 | Orb pulse speed changes during simulation | P1 | TODO |
-| LD3 | Captions appear in transcript area | P0 | TODO |
-| LD4 | Auto-switch to Builder tab on completion | P1 | TODO |
-| LD5 | Orb returns to idle state after simulation | P1 | TODO |
+| LD1 | "Watch a Demo" triggers demo simulator | P0 | DONE |
+| LD2 | Orb pulse speed changes during simulation | P1 | DONE |
+| LD3 | Captions appear in transcript area | P0 | DONE |
+| LD4 | Auto-switch to Builder tab on completion | P1 | DONE |
+| LD5 | Orb returns to idle state after simulation | P1 | DONE |
 
 ## 6D — XAI Docs Integration
 
@@ -98,10 +98,10 @@
 | # | Check | Severity | Status |
 |---|-------|----------|--------|
 | EX1 | `bakery.json` with real copy and images | P0 | DONE |
-| EX2 | `launchpad-ai.json` — SaaS theme, dark, 6 sections | P0 | TODO |
-| EX3 | `sarah-chen-photography.json` — Portfolio theme, gallery | P0 | TODO |
-| EX4 | `greenleaf-consulting.json` — Professional theme, numbers | P0 | TODO |
-| EX5 | "Try an Example" buttons on onboarding + chat | P1 | TODO |
+| EX2 | `launchpad-ai.json` — SaaS theme, dark, 6 sections | P0 | DONE |
+| EX3 | `sarah-chen-photography.json` — Portfolio theme, gallery | P0 | DONE |
+| EX4 | `greenleaf-consulting.json` — Professional theme, numbers | P0 | DONE |
+| EX5 | "Try an Example" buttons on onboarding + chat | P1 | DONE |
 
 ---
 
@@ -109,19 +109,19 @@
 
 | Severity | Rule | Result |
 |----------|------|--------|
-| P0 failures | BLOCKING | **5 remaining** (DS1-4, DS6, CB1-2, LD1, LD3, EX2-4) |
-| P1 failures | < 3 allowed | **7 remaining** (DS5, DS7, CB3-4, LD2, LD4-5, PC2-4, DP3, EX5) |
-| P2 failures | Informational | **2 remaining** (DS8, PC1) |
+| P0 failures | BLOCKING | **0 remaining** |
+| P1 failures | < 3 allowed | **3 remaining** (PC2, PC3, PC4, DP3) |
+| P2 failures | Informational | **1 remaining** (PC1) |
 
 ## Progress Summary
 
-- **6A (Canned Demo):** 0/8 DONE
-- **6B (Chat Buttons):** 0/4 DONE
-- **6C (Listen Demo):** 0/5 DONE
+- **6A (Canned Demo):** 8/8 DONE
+- **6B (Chat Buttons):** 4/4 DONE
+- **6C (Listen Demo):** 5/5 DONE
 - **6D (XAI Docs):** 3/3 DONE
 - **6E (Deploy Prep):** 3/5 DONE (1 descoped)
 - **6F (Polish Carryover):** 2/6 DONE
 - **6G (Session 1 Polish + AISP):** 11/11 DONE
 - **6H (Loop 2 Fixes):** 7/7 DONE
-- **6I (Example Websites):** 1/5 DONE
-- **Overall:** 27/54 items complete (50%)
+- **6I (Example Websites):** 5/5 DONE
+- **Overall:** 48/54 items complete (89%)
