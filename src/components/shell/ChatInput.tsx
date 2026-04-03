@@ -3,6 +3,8 @@ import { SendHorizontal } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { parseChatCommand } from '@/lib/cannedChat'
 import { useConfigStore } from '@/store/configStore'
+import { EXAMPLE_SITES } from '@/data/examples'
+import { buildDemoSequence, runDemo } from '@/lib/demoSimulator'
 import type { SectionType } from '@/lib/schemas'
 
 export interface ChatMessage {
@@ -21,9 +23,11 @@ export function ChatInput() {
   const [isFocused, setIsFocused] = useState(false)
   const [typingText, setTypingText] = useState('')
   const [typingFull, setTypingFull] = useState('')
+  const [demoActive, setDemoActive] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const nextId = useRef(0)
+  const demoCleanupRef = useRef<(() => void) | null>(null)
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -47,6 +51,33 @@ export function ChatInput() {
     }, TYPEWRITER_SPEED)
     return () => clearTimeout(timer)
   }, [typingText, typingFull])
+
+  // Cleanup demo on unmount
+  useEffect(() => {
+    return () => {
+      demoCleanupRef.current?.()
+    }
+  }, [])
+
+  const startDemo = (example: typeof EXAMPLE_SITES[0]) => {
+    setDemoActive(true)
+    const sequence = buildDemoSequence(example.config, example.name)
+    const cleanup = runDemo(
+      sequence,
+      (caption) => {
+        // Show caption as a bradley message with typewriter
+        setTypingText('')
+        setTypingFull(caption)
+      },
+      () => {
+        setDemoActive(false)
+        const id = nextId.current++
+        setMessages((prev) => [...prev.slice(-MAX_MESSAGES + 1), { id, role: 'bradley', text: 'your site is ready! switch to Builder to customize it.' }])
+      }
+    )
+    // Store cleanup ref for cancellation
+    demoCleanupRef.current = cleanup
+  }
 
   const addUserMessage = (text: string) => {
     const id = nextId.current++
@@ -129,9 +160,28 @@ export function ChatInput() {
         className="flex-1 overflow-y-auto px-4 py-3 space-y-1"
         data-testid="chat-messages"
       >
-        {messages.length === 0 && !typingFull && (
-          <div className="text-sm text-hb-text-muted py-2">
-            hi! tell me what to build.
+        {messages.length === 0 && !typingFull && !demoActive && (
+          <div className="px-4 py-6 space-y-4">
+            <div className="text-sm text-hb-text-muted py-2">
+              hi! tell me what to build.
+            </div>
+            <div className="space-y-2">
+              <p className="text-xs text-hb-text-muted uppercase tracking-wider font-medium">Quick demos</p>
+              <div className="grid grid-cols-2 gap-2">
+                {EXAMPLE_SITES.map((example) => (
+                  <button
+                    key={example.name}
+                    type="button"
+                    onClick={() => startDemo(example)}
+                    disabled={isProcessing || demoActive}
+                    className="text-left px-3 py-2.5 rounded-lg border border-hb-border bg-hb-surface hover:bg-hb-surface-hover hover:border-hb-accent/30 transition-all text-xs disabled:opacity-40 disabled:cursor-not-allowed group"
+                  >
+                    <span className="font-medium text-hb-text-primary group-hover:text-hb-accent transition-colors">{example.name}</span>
+                    <span className="block text-hb-text-muted mt-0.5 text-[10px]">{example.theme}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         )}
         {messages.map((msg) => (

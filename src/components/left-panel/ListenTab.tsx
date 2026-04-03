@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { Play, Settings, Wand2 } from 'lucide-react'
+import { buildDemoSequence, runDemo } from '@/lib/demoSimulator'
+import { EXAMPLE_SITES } from '@/data/examples'
 
 const DEFAULTS = {
   pulseSpeed: 3, // seconds (3000ms)
@@ -9,9 +11,6 @@ const DEFAULTS = {
   coreBlur: 13,
   maxSize: 400,
 }
-
-const SIM_USER_TEXT = "lets make a website for grandma and her amazing cookies"
-const SIM_AI_TEXT = "updating to light mode, increasing font ... adjusting for a personal website ... updating the hero and features section, removing marketing sections"
 
 export function ListenTab() {
   const [pulseSpeed, setPulseSpeed] = useState(DEFAULTS.pulseSpeed)
@@ -34,6 +33,7 @@ export function ListenTab() {
   const [simPhase, setSimPhase] = useState<'idle' | 'user' | 'ai'>('idle')
   const [simText, setSimText] = useState('')
   const simTimersRef = useRef<ReturnType<typeof setTimeout>[]>([])
+  const demoCleanupRef = useRef<(() => void) | null>(null)
 
   // Helper to track burst timeouts
   const burstTimeout = (fn: () => void, ms: number) => {
@@ -80,48 +80,46 @@ export function ListenTab() {
     }, 10000)
   }, [])
 
-  // Simulate Input: burst + typewriter user text then AI reply
+  // Simulate Input: burst + typewriter user text then demo simulator
   const runSimulateInput = useCallback(() => {
     if (simActiveRef.current || burstActiveRef.current) return
     simActiveRef.current = true
     setSimActive(true)
     runBurstAnimation()
 
+    // Pick a random example site
+    const example = EXAMPLE_SITES[Math.floor(Math.random() * EXAMPLE_SITES.length)]
+    const userText = 'build me a ' + example.name.toLowerCase()
+
     // Phase 1: Typewriter user text
     setSimPhase('user')
     setSimText('')
     let charIdx = 0
     const typeUser = () => {
-      if (charIdx < SIM_USER_TEXT.length) {
-        setSimText(SIM_USER_TEXT.slice(0, charIdx + 1))
+      if (charIdx < userText.length) {
+        setSimText(userText.slice(0, charIdx + 1))
         charIdx++
         const t = setTimeout(typeUser, 40)
         simTimersRef.current.push(t)
       } else {
-        // User text stays 5 seconds then switch to AI
+        // User text stays 3 seconds then start demo simulator
         const t = setTimeout(() => {
-          setSimPhase('ai')
-          setSimText('')
-          let aiIdx = 0
-          const typeAi = () => {
-            if (aiIdx < SIM_AI_TEXT.length) {
-              setSimText(SIM_AI_TEXT.slice(0, aiIdx + 1))
-              aiIdx++
-              const t2 = setTimeout(typeAi, 25)
-              simTimersRef.current.push(t2)
-            } else {
-              // AI text stays 5 seconds then clear
-              const t3 = setTimeout(() => {
-                setSimPhase('idle')
-                setSimText('')
-                simActiveRef.current = false
-                setSimActive(false)
-              }, 5000)
-              simTimersRef.current.push(t3)
-            }
-          }
-          typeAi()
-        }, 5000)
+          const sequence = buildDemoSequence(example.config, example.name)
+          demoCleanupRef.current = runDemo(
+            sequence,
+            (caption) => {
+              setSimPhase('ai')
+              setSimText(caption)
+            },
+            () => {
+              setSimPhase('idle')
+              setSimText('')
+              simActiveRef.current = false
+              setSimActive(false)
+              demoCleanupRef.current = null
+            },
+          )
+        }, 3000)
         simTimersRef.current.push(t)
       }
     }
@@ -134,6 +132,7 @@ export function ListenTab() {
       burstTimersRef.current.forEach(clearTimeout)
       if (burstCountdownRef.current) clearInterval(burstCountdownRef.current)
       simTimersRef.current.forEach(clearTimeout)
+      if (demoCleanupRef.current) demoCleanupRef.current()
     }
   }, [])
 
@@ -189,28 +188,39 @@ export function ListenTab() {
 
       {/* Orb area — fills panel */}
       <div className="flex-1 flex items-center justify-center relative">
+        {/* Layer 4: Outer halo — barely visible, creates depth */}
+        <div
+          className="absolute rounded-full"
+          style={{
+            width: `min(${(burstActive ? maxSize * 1.2 : maxSize) * 1.2}px, 95%)`,
+            height: `min(${(burstActive ? maxSize * 1.2 : maxSize) * 1.2}px, 95%)`,
+            background: `radial-gradient(circle, rgba(165, 28, 48, ${glowOpacity * 0.15 / 100}) 0%, transparent 60%)`,
+            filter: `blur(${blurAmount * 1.5}px)`,
+            animation: `orb-pulse ${pulseSpeed * 1.5}s ease-in-out infinite`,
+          }}
+        />
         {/* Layer 3: Ambient glow — fills 90% of available space */}
         <div
           className="absolute rounded-full transition-all duration-[2000ms] ease-in-out"
           style={{
-            width: `min(${maxSize}px, 90%)`,
-            height: `min(${maxSize}px, 90%)`,
+            width: `min(${(burstActive ? maxSize * 1.2 : maxSize)}px, 90%)`,
+            height: `min(${(burstActive ? maxSize * 1.2 : maxSize)}px, 90%)`,
             maxWidth: '90%',
             background: `radial-gradient(circle, rgba(165, 28, 48, ${glowOpacity / 100}) 0%, transparent 70%)`,
             filter: `blur(${blurAmount}px)`,
             animation: `orb-pulse ${pulseSpeed}s ease-in-out infinite`,
           }}
         />
-        {/* Layer 2: Mid glow */}
+        {/* Layer 2: Mid glow — uses orb-breathe for visual separation */}
         <div
           className="absolute rounded-full transition-all duration-[2000ms] ease-in-out"
           style={{
-            width: `min(${maxSize * 0.58}px, 55%)`,
-            height: `min(${maxSize * 0.58}px, 55%)`,
+            width: `min(${(burstActive ? maxSize * 1.2 : maxSize) * 0.58}px, 55%)`,
+            height: `min(${(burstActive ? maxSize * 1.2 : maxSize) * 0.58}px, 55%)`,
             maxWidth: '55%',
             background: `radial-gradient(circle, rgba(165, 28, 48, ${Math.min(glowOpacity * 2.5, 80) / 100}) 0%, transparent 70%)`,
             filter: `blur(${blurAmount * 0.5}px)`,
-            animation: `orb-pulse ${pulseSpeed}s ease-in-out infinite`,
+            animation: `orb-breathe ${pulseSpeed * 1.2}s ease-in-out infinite`,
             animationDelay: `${pulseSpeed * 0.1}s`,
           }}
         />
@@ -218,8 +228,8 @@ export function ListenTab() {
         <div
           className="relative rounded-full transition-all duration-[2000ms] ease-in-out"
           style={{
-            width: Math.max(maxSize * 0.35, 50),
-            height: Math.max(maxSize * 0.35, 50),
+            width: Math.max((burstActive ? maxSize * 1.2 : maxSize) * 0.35, 50),
+            height: Math.max((burstActive ? maxSize * 1.2 : maxSize) * 0.35, 50),
             background: `radial-gradient(circle, rgba(193, 40, 62, ${coreOpacity / 100}) 0%, rgba(165, 28, 48, ${coreOpacity * 0.6 / 100}) 50%, transparent 100%)`,
             boxShadow: `0 0 ${blurAmount * 0.75}px rgba(165, 28, 48, ${coreOpacity * 0.5 / 100}), 0 0 ${blurAmount * 1.5}px rgba(165, 28, 48, ${coreOpacity * 0.3 / 100})`,
             filter: `blur(${coreBlur}px)`,
@@ -287,8 +297,14 @@ export function ListenTab() {
 
       <style>{`
         @keyframes orb-pulse {
-          0%, 100% { opacity: 0.6; transform: scale(1); }
+          0%, 100% { opacity: 0.55; transform: scale(1); }
+          25% { opacity: 0.75; transform: scale(1.06); }
           50% { opacity: 1; transform: scale(1.15); }
+          75% { opacity: 0.85; transform: scale(1.08); }
+        }
+        @keyframes orb-breathe {
+          0%, 100% { opacity: 0.4; transform: scale(1) rotate(0deg); }
+          50% { opacity: 0.8; transform: scale(1.1) rotate(3deg); }
         }
       `}</style>
     </div>

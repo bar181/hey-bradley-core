@@ -72,6 +72,14 @@ body {
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
+    .animate-card-reveal {
+      opacity: 1 !important;
+      animation: none !important;
+    }
+    .animate-fade-in-up {
+      opacity: 1 !important;
+      animation: none !important;
+    }
   }
   :root {
     --background: oklch(1 0 0);

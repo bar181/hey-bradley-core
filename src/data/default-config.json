@@ -189,7 +189,7 @@
           "enabled": true,
           "order": 8,
           "props": {
-            "text": "Trusted by 2,000+ teams worldwide",
+            "text": "Trusted by 2,000+ happy customers",
             "show": true
           }
         }
@@ -241,14 +241,14 @@
           "order": 2,
           "props": {
             "icon": "\ud83d\udd12",
-            "title": "Enterprise Ready",
+            "title": "Rock Solid",
             "description": "Built with quality from the start."
           }
         }
       ],
       "content": {
-        "heading": "Why Teams Choose Us",
-        "subheading": "Built for speed, designed for scale"
+        "heading": "What We Do",
+        "subheading": "A closer look at what sets us apart"
       }
     },
     {
@@ -307,7 +307,7 @@
       ],
       "content": {
         "heading": "Loved by Builders",
-        "subheading": "See what teams are saying"
+        "subheading": "See what people are saying"
       }
     },
     {
@@ -357,7 +357,7 @@
           "props": {
             "value": "99.9%",
             "label": "Uptime",
-            "description": "Enterprise grade"
+            "description": "Always available"
           }
         },
         {
@@ -374,7 +374,7 @@
       ],
       "content": {
         "heading": "The Numbers Speak",
-        "subheading": "Real results from real teams"
+        "subheading": "Real results from real people"
       }
     },
     {
