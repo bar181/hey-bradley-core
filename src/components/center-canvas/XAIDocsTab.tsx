@@ -74,6 +74,11 @@ function generateHumanSpec(config: MasterConfig): string {
   if (theme.palette) {
     spec += `- **Palette:** bg ${theme.palette.bgPrimary}, accent ${theme.palette.accentPrimary}\n`
   }
+  if (theme.typography?.headingWeight) spec += `- **Heading Weight:** ${theme.typography.headingWeight}\n`
+  if (theme.typography?.baseSize) spec += `- **Base Size:** ${theme.typography.baseSize}\n`
+  if (theme.typography?.lineHeight) spec += `- **Line Height:** ${theme.typography.lineHeight}\n`
+  if ((theme as any).spacing?.sectionPadding) spec += `- **Section Padding:** ${(theme as any).spacing.sectionPadding}\n`
+  if ((theme as any).spacing?.containerMaxWidth) spec += `- **Max Width:** ${(theme as any).spacing.containerMaxWidth}\n`
   spec += `\n`
 
   // Site info
@@ -106,6 +111,10 @@ function generateHumanSpec(config: MasterConfig): string {
     const label = SECTION_LABELS[s.type] || s.type
     spec += `### ${label}\n`
     if (s.variant) spec += `- **Variant:** ${s.variant}\n`
+    if ((s.content as any)?.heading) spec += `- **Heading:** "${(s.content as any).heading}"\n`
+    if ((s.content as any)?.subheading) spec += `- **Subheading:** "${(s.content as any).subheading}"\n`
+    if (s.style?.background) spec += `- **Background:** ${s.style.background}\n`
+    if (s.style?.color) spec += `- **Text Color:** ${s.style.color}\n`
     if (s.layout) {
       const parts: string[] = []
       if (s.layout.display) parts.push(`display: ${s.layout.display}`)
@@ -155,17 +164,23 @@ export function generateAISPSpec(config: MasterConfig): string {
   spec += `    theme := ${theme.preset},\n`
   spec += `    mode := ${theme.mode},\n`
   spec += `    font := "${theme.typography?.fontFamily || 'DM Sans'}",\n`
+  if (theme.typography?.headingWeight) spec += `    headingWeight := ${theme.typography.headingWeight},\n`
+  if (theme.typography?.baseSize) spec += `    baseSize := "${theme.typography.baseSize}",\n`
+  if (theme.typography?.lineHeight) spec += `    lineHeight := ${theme.typography.lineHeight},\n`
+  if (theme.borderRadius) spec += `    borderRadius := "${theme.borderRadius}",\n`
   if (p) {
     spec += `    palette := ⟨${p.bgPrimary}, ${p.bgSecondary}, ${p.textPrimary}, ${p.textSecondary}, ${p.accentPrimary}, ${p.accentSecondary}⟩,\n`
   }
   spec += `    sections := [\n`
   enabled.forEach((s, i) => {
     const comps = (s.components ?? []).filter(c => c.enabled)
-    const compSummary = comps.slice(0, 4).map(c => {
+    const heading = (s.content as any)?.heading
+    const compSummary = comps.map(c => {
       const t = (c.props?.text as string) || (c.props?.name as string) || c.id
-      return `${c.id}:"${t.slice(0, 30)}"`
+      return `${c.id}:"${t}"`
     }).join(', ')
-    spec += `      ⟨${s.type}, ${s.variant || 'default'}, cols:${(s.layout as any)?.columns ?? '-'}, [${compSummary}]⟩${i < enabled.length - 1 ? ',' : ''}\n`
+    const headingNote = heading ? `, heading:"${heading}"` : ''
+    spec += `      ⟨${s.type}, ${s.variant || 'default'}, cols:${(s.layout as any)?.columns ?? '-'}${headingNote}, [${compSummary}]⟩${i < enabled.length - 1 ? ',' : ''}\n`
   })
   spec += `    ]\n`
   spec += `  }\n`
