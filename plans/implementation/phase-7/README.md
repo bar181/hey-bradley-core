@@ -1,51 +1,58 @@
-# Phase 7: XAI Docs + Workflow Pipeline
+# Phase 7: Final Demo Polish
 
-**North Star:** The builder generates real specification documents from the current JSON config, and the workflow pipeline visualizes the simulated AI process.
-
-**Status:** WAITING (after Phase 6)
-**Prerequisite:** Phase 6 COMPLETE (listen simulation works)
-
----
-
-## Phase 7 Goal
-
-Wire the XAI DOCS and WORKFLOW tabs to show live, meaningful content derived from the current project config.
+**Status:** NEXT (after Phase 6 close)
+**Prerequisite:** Phase 6 COMPLETE (98% checklist, score 78+)
+**Target:** 2 days
+**Goal:** Flawless 15-minute capstone demo with zero rough edges
 
 ---
 
-## Deliverables
+## Phase 7 Scope
 
-### XAI Docs Live
-- **HUMAN sub-tab** — Structured spec from current JSON:
-  - Site title, description, theme name, active sections listed
-  - Per-section: type, variant, enabled components, key copy
-- **AISP sub-tab** — `@aisp` formatted output from current JSON
-- Both update live when JSON changes
-- Copy to clipboard button works
-- Export button downloads `.md` file
+Phase 6 delivered all core features. Phase 7 is polish-only — no new features.
 
-### Workflow Pipeline Animation
-- Workflow tab shows 5-6 pipeline steps
-- During listen simulation (Phase 6): steps light up sequentially
-  - Voice Capture → Intent Parsing → AISP Generation → Schema Validation (spinning) → Reality Render → Edge Deploy
-- Timed to match listen typewriter (~2s per step)
-- Steps show green check when complete
+### 7A: Welcome/Splash Page Polish
+- CTA always clickable on all viewports
+- Mobile responsive layout
+- Remove any remaining jargon
+- Smooth transition to /builder
 
----
+### 7B: Light Mode Consistency Pass
+- Verify ALL 15 section types render correctly in light themes (Personal, Blog, Professional, Minimalist)
+- Fix any remaining hardcoded dark-only backgrounds
+- Test all 4 example websites in light mode
 
-## Key Files
+### 7C: Edge Cases + Error Boundaries
+- 404 page
+- Empty state for zero sections
+- Error boundary around template renderers
+- Graceful handling of malformed JSON in Data tab
 
-| File | Action |
-|------|--------|
-| `src/components/center-canvas/XAIDocsTab.tsx` | MODIFY — live spec generation |
-| `src/components/center-canvas/WorkflowTab.tsx` | MODIFY — animated pipeline |
-| `src/lib/generateSpec.ts` | CREATE — JSON → HUMAN spec transformer |
-| `src/lib/generateAISP.ts` | CREATE — JSON → @aisp format transformer |
+### 7D: Font Loading
+- Google Fonts properly loaded for all 5 font options
+- Fallback stack for each font
+- No FOUT (flash of unstyled text)
+
+### 7E: Playwright Full Suite
+- Smoke tests for demo simulator flow
+- Chat quick-demo button interaction test
+- Listen mode demo test
+- Preview mode toggle test
+- Light/dark mode rendering tests
+- All existing 26 tests still passing
+
+### 7F: Demo Presentation Flow
+- Guided 15-minute sequence (see phase-7/human-1.md for full script)
+- Smooth mode transitions
+- No console errors during demo
+- Offline fallback (localStorage persistence already exists)
 
 ---
 
 ## What Phase 7 Does NOT Do
 
-- Real AISP protocol validation (post-demo)
-- Vercel deployment (Phase 8)
-- Presentation walkthrough flow (Phase 8)
+- No new section types or variants
+- No real LLM/voice integration
+- No auth/database
+- No image upload
+- No custom hex color input

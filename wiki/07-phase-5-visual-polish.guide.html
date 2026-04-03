@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 5: Visual Polish — Hey Bradley Wiki</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0b0f1a; --surface: #131825; --surface-2: #1a2035; --border: #2a3050;
+    --text: #e2e8f0; --text-muted: #95a0b8; --accent: #6c8cff;
+    --accent-glow: rgba(108, 140, 255, 0.25); --green: #4ade80; --amber: #fbbf24;
+    --red: #f87171; --cyan: #22d3ee; --purple: #a78bfa; --radius: 12px;
+  }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; }
+  a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+  .hero { position: relative; padding: 72px 0 48px; text-align: center; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -60%; left: 50%; transform: translateX(-50%); width: 700px; height: 700px; background: radial-gradient(circle, var(--accent-glow) 0%, rgba(167,139,250,0.12) 40%, transparent 70%); animation: pulse 6s ease-in-out infinite; pointer-events: none; }
+  @keyframes pulse { 0%,100% { opacity: 0.35; transform: translateX(-50%) scale(1); } 50% { opacity: 0.55; transform: translateX(-50%) scale(1.06); } }
+  .hero h1 { font-size: 2.75rem; font-weight: 800; letter-spacing: -0.03em; background: linear-gradient(135deg, #fff 30%, var(--accent) 70%, var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; position: relative; }
+  .hero .subtitle { margin-top: 12px; font-size: 1.1rem; color: var(--text-muted); position: relative; max-width: 680px; margin-left: auto; margin-right: auto; }
+  .badges { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 24px; position: relative; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border: 1px solid var(--border); background: var(--surface); }
+  .badge.phase { border-color: var(--cyan); color: var(--cyan); background: rgba(34,211,238,0.08); }
+  .badge.module { border-color: var(--accent); color: var(--accent); }
+  .badge.perf { border-color: var(--green); color: var(--green); }
+  .badge.design { border-color: #e8772e; color: #e8772e; }
+  .key-takeaway { background: linear-gradient(135deg, rgba(108,140,255,0.08), rgba(167,139,250,0.08)); border: 1px solid rgba(108,140,255,0.3); border-radius: var(--radius); padding: 20px 24px; margin-top: 24px; text-align: left; position: relative; }
+  .key-takeaway h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin-bottom: 8px; }
+  .key-takeaway p { font-size: 0.95rem; color: var(--text); line-height: 1.6; }
+  .section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-top: 32px; transition: border-color 0.3s; }
+  .section:hover { border-color: rgba(108,140,255,0.3); }
+  .section h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .section h2 .icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+  .section p, .section li { color: var(--text-muted); font-size: 0.95rem; }
+  .cap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+  .cap-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; transition: border-color 0.3s, transform 0.2s; }
+  .cap-card:hover { border-color: rgba(108,140,255,0.4); transform: translateY(-2px); }
+  .cap-card h4 { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .cap-card p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.55; }
+  .data-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 0.85rem; }
+  .data-table th { text-align: left; padding: 10px 12px; border-bottom: 2px solid var(--border); color: var(--text); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+  .data-table tr:hover td { color: var(--text); }
+  .callout { margin-top: 16px; padding: 16px 20px; border-radius: var(--radius); border-left: 4px solid var(--accent); background: var(--surface-2); font-size: 0.9rem; color: var(--text-muted); }
+  .callout strong { color: var(--text); }
+  .callout.success { border-left-color: var(--green); }
+  .callout.warn { border-left-color: var(--amber); }
+  .chart-container { margin-top: 16px; background: var(--surface-2); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border); }
+  .bar-chart { display: flex; flex-direction: column; gap: 12px; }
+  .bar-row { display: flex; align-items: center; gap: 12px; }
+  .bar-label { width: 150px; font-size: 0.82rem; text-align: right; color: var(--text-muted); flex-shrink: 0; }
+  .bar-track { flex: 1; height: 28px; background: var(--bg); border-radius: 6px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; padding-left: 10px; font-size: 0.78rem; font-weight: 700; color: #fff; animation: grow 1.5s ease-out both; min-width: fit-content; white-space: nowrap; }
+  @keyframes grow { from { width: 0; } }
+  .bar-fill.accent { background: linear-gradient(90deg, var(--accent), #8ba4ff); }
+  .bar-fill.green { background: linear-gradient(90deg, #16a34a, var(--green)); }
+  .bar-fill.cyan { background: linear-gradient(90deg, #0891b2, var(--cyan)); }
+  .bar-fill.purple { background: linear-gradient(90deg, #7c3aed, var(--purple)); }
+  .bar-fill.amber { background: linear-gradient(90deg, #d97706, var(--amber)); }
+  .footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+  .article-nav { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 16px; }
+  .article-nav a { padding: 8px 16px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.82rem; color: var(--text-muted); transition: all 0.2s; }
+  .article-nav a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+  .quality-stamp { margin-top: 12px; font-size: 0.75rem; color: var(--accent); font-style: italic; opacity: 0.8; }
+  @media (max-width: 640px) { .hero h1 { font-size: 2rem; } .cap-grid { grid-template-columns: 1fr; } .container { padding: 0 16px 60px; } .bar-label { width: 100px; font-size: 0.75rem; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="hero">
+    <h1>Phase 5: Visual Polish</h1>
+    <p class="subtitle">Expanded section types from 9 to 15, shipped 47+ template variants across 62 files, ImagePicker v2 with 50 images and 10 videos, color palette selector, jargon removal, preview mode, and a full consistency audit.</p>
+    <div class="badges">
+      <span class="badge phase">Phase 5 Complete</span>
+      <span class="badge module">15 Section Types</span>
+      <span class="badge perf">62 Template Files</span>
+      <span class="badge design">10 Palettes</span>
+    </div>
+    <div class="key-takeaway">
+      <h3>Key Takeaway</h3>
+      <p>Phase 5 transformed the builder from a functional prototype into a visually polished product. Every section type gained multiple template variants with theme-aware colors, hover effects, and smooth animations. The ImagePicker was rebuilt with 50 curated images, 10 video backgrounds, and 6 overlay effects. A color palette selector replaced manual hex input. Jargon like &ldquo;vibe&rdquo; was removed in favor of &ldquo;theme.&rdquo; The overall score moved from 65 to 67/100&mdash;incremental, but the visual foundation is now Stripe/Linear quality.</p>
+    </div>
+  </header>
+
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(74,222,128,0.15);">&#9889;</span> What Was Built</h2>
+    <p>Six major capabilities shipped across Phase 5.</p>
+    <div class="cap-grid">
+      <div class="cap-card">
+        <h4>15 Section Types</h4>
+        <p>Expanded from 9 to 15 section types: added Logos, Gallery, Pricing, Numbers, Team, and Value Props. Each section has 3-5 template variants for a total of 47+ visual options.</p>
+      </div>
+      <div class="cap-card">
+        <h4>62 Template Files</h4>
+        <p>Every section type now has multiple variants (Cards, Glass, Gradient, Minimal, Numbered, etc.). Templates use theme-aware colors, consistent spacing, hover animations, and responsive layouts.</p>
+      </div>
+      <div class="cap-card">
+        <h4>ImagePicker v2</h4>
+        <p>Rebuilt image selector with 50 curated stock images across categories (food, tech, nature, people, architecture), 10 video backgrounds, and 6 overlay effects (gradient, dark, light, blur, vignette, color).</p>
+      </div>
+      <div class="cap-card">
+        <h4>Color Palette Selector</h4>
+        <p>10 curated color palettes replace manual hex input. Each palette defines primary, accent, background, surface, and text colors that propagate across all sections and templates.</p>
+      </div>
+      <div class="cap-card">
+        <h4>Jargon Removal</h4>
+        <p>Renamed &ldquo;vibe&rdquo; to &ldquo;theme&rdquo; throughout the codebase and UI. Removed builder jargon from user-facing copy. Labels and descriptions rewritten for clarity.</p>
+      </div>
+      <div class="cap-card">
+        <h4>Preview Mode</h4>
+        <p>Added a full-screen preview mode that hides the builder panels and shows the website as the end user would see it. Toggle on/off with a single button click.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(108,140,255,0.15);">&#128736;</span> Also Shipped</h2>
+    <div class="callout success">
+      <strong>Consistency Audit:</strong> Full audit of all 62 template files. Fixed inconsistent padding, font sizes, border-radius values, and hover states. All templates now share a unified design language.
+    </div>
+    <div class="callout success">
+      <strong>Theme-Aware Colors:</strong> Every template variant reads colors from the active theme/palette. No more hardcoded hex values in template files. Switching themes instantly updates all sections.
+    </div>
+    <div class="callout success">
+      <strong>Example Site Updates:</strong> Updated bakery and other example site JSON files to use the new section types and template variants, showcasing the expanded capabilities.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(167,139,250,0.15);">&#128209;</span> Architecture Decisions</h2>
+    <table class="data-table">
+      <thead><tr><th>ADR</th><th>Decision</th><th>Rationale</th></tr></thead>
+      <tbody>
+        <tr><td><strong>ADR-023</strong></td><td>Template variant architecture</td><td>Each section type gets a folder with multiple variant files (e.g., <code>columns/ColumnsCards.tsx</code>, <code>columns/ColumnsGlass.tsx</code>). Enables per-section variant selection without bloating a single file.</td></tr>
+        <tr><td><strong>ADR-024</strong></td><td>ImagePicker v2 with categories</td><td>Images organized by category with metadata (alt text, dimensions, tags). Videos and effects as separate tabs. Supports future AI image generation integration.</td></tr>
+        <tr><td><strong>ADR-025</strong></td><td>Palette-driven color system</td><td>Palettes define 5 named colors (primary, accent, bg, surface, text). Templates reference palette tokens, not raw hex. Enables one-click theme switching with guaranteed contrast.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(34,211,238,0.15);">&#128202;</span> Phase 5 By the Numbers</h2>
+    <table class="data-table">
+      <thead><tr><th>Metric</th><th>Phase 5 Value</th><th>Phase 4 Value</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Section types</strong></td><td>15</td><td>9</td></tr>
+        <tr><td><strong>Template variants</strong></td><td>47+</td><td>~15</td></tr>
+        <tr><td><strong>Template files</strong></td><td>62</td><td>~20</td></tr>
+        <tr><td><strong>Stock images</strong></td><td>50</td><td>~10</td></tr>
+        <tr><td><strong>Video backgrounds</strong></td><td>10</td><td>0</td></tr>
+        <tr><td><strong>Overlay effects</strong></td><td>6</td><td>0</td></tr>
+        <tr><td><strong>Color palettes</strong></td><td>10</td><td>Manual hex</td></tr>
+        <tr><td><strong>Jargon terms removed</strong></td><td>&ldquo;vibe&rdquo; &rarr; &ldquo;theme&rdquo;</td><td>&mdash;</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(74,222,128,0.15);">&#127942;</span> Score Progression</h2>
+    <div class="chart-container">
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">Phase 4 End</div><div class="bar-track"><div class="bar-fill accent" style="width:65%;">65 / 100</div></div></div>
+        <div class="bar-row"><div class="bar-label">Phase 5 End</div><div class="bar-track"><div class="bar-fill green" style="width:67%;">67 / 100</div></div></div>
+      </div>
+    </div>
+    <div class="callout">
+      <strong>+2 points.</strong> The score increase is modest because Phase 5 focused on depth (more variants, better consistency) rather than new user-facing features. The visual foundation is now solid for the demo simulator in Phase 6.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(108,140,255,0.15);">&#128193;</span> Files Changed</h2>
+    <table class="data-table">
+      <thead><tr><th>Area</th><th>Files</th><th>Summary</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Templates</strong></td><td>40+</td><td>New and updated template variants across columns, gallery, logos, numbers, pricing, questions, quotes, team sections</td></tr>
+        <tr><td><strong>Right Panel</strong></td><td>8</td><td>Simple editor components for FAQ, Features, Gallery, Logos, Pricing, Team, Testimonials, Value Props</td></tr>
+        <tr><td><strong>Data</strong></td><td>2</td><td><code>default-config.json</code>, <code>examples/bakery.json</code> updated with new section types</td></tr>
+        <tr><td><strong>Center Canvas</strong></td><td>1</td><td><code>XAIDocsTab.tsx</code> updated for preview mode</td></tr>
+        <tr><td><strong>Plans</strong></td><td>2</td><td>Living checklist and session log for Phase 5</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(74,222,128,0.15);">&#128640;</span> What&rsquo;s Next &mdash; Phase 6: Canned Demo</h2>
+    <div class="callout success">
+      <strong>Phase 6 delivers the demo simulator.</strong> Timed reveals, chat quick-demo buttons, AISP Platinum spec output, cinematic orb animation, shareable preview URLs, and accessibility improvements. The bridge from &ldquo;builder tool&rdquo; to &ldquo;AI product demo.&rdquo;
+    </div>
+  </div>
+
+  <div class="footer">
+    Hey Bradley Wiki &middot; Phase 5: Visual Polish &middot; 2026-04-01
+    <div class="article-nav">
+      <a href="06-phase-4-example-websites.guide.html">&larr; Phase 4: Example Websites</a>
+      <a href="hey-bradley-wiki.guide.html">Wiki Home</a>
+      <a href="08-phase-6-canned-demo.guide.html">Phase 6: Canned Demo &rarr;</a>
+    </div>
+    <div class="quality-stamp">Content describes Phase 5 Visual Polish including 15 section types, 62 template files, ImagePicker v2, color palette selector, jargon removal, preview mode, consistency audit, and ADRs 023-025.</div>
+  </div>
+
+</div>
+</body>
+</html>

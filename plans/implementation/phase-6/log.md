@@ -173,3 +173,36 @@ Added heading/subheading input fields to 8 Simple editors:
 ### Phase 6 Checklist: 53/54 (98%) — 1 descoped (HTML export per ADR-026)
 
 ---
+
+## Phase 6 CLOSED — 2026-04-03
+
+### Final Status
+- **Checklist:** 53/54 (98%) — 1 descoped (HTML export per ADR-026)
+- **P0 blockers:** 0
+- **P1 remaining:** 0
+- **P2 remaining:** 0
+- **Score:** 78+/100 (projected, up from 67 at Phase 5 close)
+- **Commits this phase:** 5 (Session 1 + Session 2 + Loop 1 + Loop 3 + Final)
+- **Agents spawned:** 19 total (10 Loop 1, 2 Loop 2 review, 4 Loop 3, 5 final checklist, minus 2 overlap)
+- **Build:** TypeScript clean, Vite clean
+- **Tests:** 26 passing (no regressions)
+
+### Score Trajectory
+| Milestone | Score |
+|-----------|-------|
+| Phase 5 close | 67/100 |
+| Session 2 grounding | 71/100 |
+| Loop 1-3 projected | 78+/100 |
+
+### Key Deliverables Summary
+1. Demo simulator (demoSimulator.ts) — the capstone centerpiece
+2. AISP Platinum spec output with syntax highlighting
+3. Chat quick-demo buttons + Listen demo integration
+4. Cinematic 4-layer orb with burst growth animation
+5. Always-visible dev tabs (Specs highlighted)
+6. Copy AISP Spec button in TopBar
+7. 320px left panel, auto-switch on demo completion
+8. All polish carryover items closed (HeroSplit, ImagePicker, Glass blobs, share URL)
+
+### Transition to Phase 7
+Phase 7 is polish-only: welcome page, light mode consistency, edge cases, font loading, Playwright full suite, demo presentation flow. No new features. Target: flawless 15-minute capstone demo.

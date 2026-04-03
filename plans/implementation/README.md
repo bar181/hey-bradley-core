@@ -4,7 +4,7 @@
 **Program:** Harvard ALM in Digital Media Design (Capstone)
 **Author:** Bradley Ross
 **Target Completion:** May 2026
-**Status:** Phase 3 COMPLETE. Phase 4 (Canned Demo) next. ~3 days to presentable demo.
+**Status:** Phase 6 COMPLETE. Phase 7 (Final Demo Polish) next. Capstone demo May 2026.
 
 ---
 
@@ -69,14 +69,17 @@ The repository contains 6 specification documents that define the complete produ
 - **Phase-level plans** fully defined in `/plans/phases/` (6 phase documents + ADR, DDD, testing, and design subdirectories)
 - **Implementation directory structure** scaffolded at `/plans/implementation/` with 7 level folders, rubrics, and testing directories
 
-### What Does NOT Exist Yet
+### What Exists Now
 
-- **No `/src` directory with application code** (directory exists but is empty)
-- No installed dependencies or `node_modules`
-- No running application or deployed preview
-- No tests
-
-**Status: Pre-implementation. All planning is complete. Build has not started.**
+- **100+ source files** in `/src` (~20,000+ lines of TypeScript/React)
+- **15 section types, 47+ variants** (62 template files)
+- **10 themes, 10 palettes, 5 fonts**
+- **4 example websites** (bakery, SaaS, photography, consulting)
+- **Demo simulator** with timed section reveals
+- **AISP Platinum spec generation** (HUMAN + AISP views)
+- **26 Playwright tests** passing
+- **Vercel CI/CD** deployed from main
+- **Persona score: 78+/100**
 
 ---
 
@@ -246,37 +249,7 @@ The foundation. After Level 1, the product should look and feel like a real, pol
 
 ### Dependency Graph
 
-```
-Phase 0 --> 1.0 --> 1.1 --> 1.2 --> 1.3
-                                     |
-                                     v
-                               2.1 --> 2.2 --> 2.3
-                                                |
-                                     +----------+
-                                     |          |
-                                     v          v
-                               3.1 --> 3.2    4.1
-                                                |
-                                     +----------+
-                                     |          |
-                                     v          v
-                                   4.2        4.3
-                                     |
-                                     v
-                               5.1 --> 5.2 --> 5.3 --> 5.4
-                                                         |
-                                                         v
-                                                   6.1 --> 6.2 --> 6.3
-                                                                    |
-                                                                    v
-                                                              7.1 --> 7.2 --> 7.3 --> 7.4
-```
-
-Key observations:
-- Levels 3 and 4 can run in parallel after Level 2 completes (3.1/3.2 and 4.1 are independent branches)
-- Level 5 depends on Level 4 (needs Supabase for rate limiting and storage)
-- Level 6 depends on Level 5 (voice feeds into the LLM pipeline)
-- Level 7 depends on Level 6 (enterprise specs build on the complete feature set)
+Levels 1-3 are sequential. Levels 3 and 4 can run in parallel. Levels 5-7 are sequential and depend on Level 4 (Supabase). See `/plans/intial-plans/03.implementation-plan.md` for the full dependency diagram.
 
 ---
 
@@ -506,36 +479,25 @@ An end-of-phase review that uses **Playwright** for automated UI/UX/functionalit
 
 ---
 
-## 11. CURRENT STATUS (Updated 2026-03-30)
+## 11. CURRENT STATUS (Updated 2026-04-03)
 
-### Completed Phases (Renumbered)
+### Completed Phases
 
 | Phase | Focus | Completed | Score |
 |-------|-------|-----------|-------|
-| 1 | Core Builder (hero + JSON loop) | 2026-03-29 | 77% |
-| 2 | System Polish + ALL 8 Section Editors + CRUD | 2026-03-30 | 82% |
-| 3 | Onboarding + Full-Page Preview + Builder UX | 2026-03-30 | 73% |
-
-### What Exists Now
-
-- **72+ source files** in `/src` (~13,600 lines of TypeScript/React)
-- **15 section renderers** (4 hero variants + 11 section types)
-- **9 SIMPLE tab editors** with data-testid attributes
-- **10 theme JSON files** with palette, typography, sections
-- **2 routes**: `/` (onboarding) and `/builder` (3-panel editor)
-- **Full-page preview mode** with navbar
-- **10 Playwright smoke tests** (all passing)
-- **Harvard crimson branding** on builder chrome
+| 1 | Core Builder | 2026-03-29 | 77% |
+| 2 | System Polish + Section Editors + CRUD | 2026-03-30 | 82% |
+| 3 | Onboarding + Preview + Builder UX | 2026-03-30 | 73% |
+| 4 | Splash + Theme Picker + Listen Mode | 2026-04-02 | — |
+| 5 | Visual Polish + Section Expansion | 2026-04-03 | 67% |
+| 6 | Canned Demo + Deploy Prep | 2026-04-03 | 78% |
 
 ### Next Steps
 
 ```
-Phase 4: Canned Demo (simulated chat/listen, example websites) — ~2 days
-Phase 5: Home Page + Presentation Flow + Vercel Deploy — ~1 day
-Phase 6+: Post-Demo (real AI, auth, database) — after capstone
+Phase 7: Final Demo Polish (welcome page, light mode, edge cases, Playwright) — ~2 days
+Phase 8: Capstone Presentation Prep (slides, Vercel prod deploy, README) — ~1 day
 ```
-
-See `/plans/implementation/phase-4/README.md` for the current phase plan.
 
 ---
 
