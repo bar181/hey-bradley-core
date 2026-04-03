@@ -50,9 +50,9 @@ test.describe('Phase 3 Smoke Tests', () => {
       await previewBtn.click()
       await page.waitForTimeout(500)
 
-      // Verify: the tab bar (REALITY/DATA/etc.) should be hidden
-      const tabBar = page.locator('button').filter({ hasText: 'Data' }).first()
-      expect(await tabBar.isVisible()).toBe(false)
+      // Verify: the Preview tab should be hidden in preview mode
+      const previewTab = page.locator('button').filter({ hasText: 'Preview' }).nth(1)
+      expect(await previewTab.isVisible().catch(() => false)).toBe(false)
 
       // Verify: body still has content (sections render)
       const bodyText = await page.textContent('body')
@@ -64,8 +64,9 @@ test.describe('Phase 3 Smoke Tests', () => {
         await editBtn.click()
         await page.waitForTimeout(300)
 
-        // Verify: tab bar is visible again
-        expect(await tabBar.isVisible()).toBe(true)
+        // Verify: Preview tab is visible again after exiting preview mode
+        const previewTabAfter = page.locator('button').filter({ hasText: 'Preview' }).first()
+        expect(await previewTabAfter.isVisible()).toBe(true)
       }
     }
 

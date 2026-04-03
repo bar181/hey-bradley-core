@@ -35,9 +35,10 @@ export function ColumnsGradient({ section }: { section: Section }) {
           return (
             <div
               key={item.id}
-              className="rounded-xl p-7 transition-all duration-200 hover:shadow-lg border border-white/5"
+              className="rounded-xl p-7 transition-all duration-200 hover:shadow-lg"
               style={{
                 background: 'linear-gradient(135deg, color-mix(in srgb, var(--theme-accent, #6366f1) 20%, transparent) 0%, transparent 100%)',
+                border: '1px solid var(--theme-border, rgba(128,128,128,0.1))',
               }}
             >
               {Icon && (
@@ -49,10 +50,10 @@ export function ColumnsGradient({ section }: { section: Section }) {
                 </div>
               )}
               <h3 className="text-base font-semibold mb-2 tracking-tight">
-                {(item.props?.title as string) || 'Feature'}
+                {(item.props?.title as string) || 'Pixel Perfect'}
               </h3>
               <p className="text-sm opacity-60 leading-relaxed">
-                {(item.props?.description as string) || 'Description'}
+                {(item.props?.description as string) || 'Every detail polished and professional'}
               </p>
             </div>
           )

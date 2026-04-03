@@ -28,7 +28,10 @@ test.describe('JSON Core Loop Smoke Test', () => {
     }
     await page.waitForTimeout(500);
 
-    // 3. Switch to DATA tab and verify JSON contains new headline
+    // 3. Expand dev tabs, switch to DATA tab and verify JSON contains new headline
+    const devToggle1 = page.locator('button[aria-label="Show developer tabs"]').first();
+    if (await devToggle1.isVisible()) await devToggle1.click();
+    await page.waitForTimeout(200);
     const dataTab = page.locator('button').filter({ hasText: 'Data' }).first();
     await dataTab.click();
     await page.waitForTimeout(1000);
@@ -66,7 +69,10 @@ test.describe('JSON Core Loop Smoke Test', () => {
       }
     }
 
-    // 3. Check DATA tab reflects the change
+    // 3. Expand dev tabs, check DATA tab reflects the change
+    const devToggle2 = page.locator('button[aria-label="Show developer tabs"]').first();
+    if (await devToggle2.isVisible()) await devToggle2.click();
+    await page.waitForTimeout(200);
     await page.locator('button').filter({ hasText: 'Data' }).first().click();
     await page.waitForTimeout(500);
     const jsonContent = await page.textContent('body');
@@ -78,6 +84,11 @@ test.describe('JSON Core Loop Smoke Test', () => {
   test('all tabs render without errors', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push(e.message));
+
+    // Expand developer tabs
+    const devToggle = page.locator('button[aria-label="Show developer tabs"]').first();
+    if (await devToggle.isVisible()) await devToggle.click();
+    await page.waitForTimeout(200);
 
     for (const tab of ['Preview', 'Data', 'Specs', 'Pipeline']) {
       const tabBtn = page.locator('button').filter({ hasText: tab }).first();

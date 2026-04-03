@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore } from '@/store/uiStore'
 import type { SectionType } from '@/lib/schemas/section'
@@ -152,6 +152,7 @@ function SectionWrapper({
 
   return (
     <div
+      data-section-id={section.id}
       className="relative group/section"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -226,8 +227,19 @@ const PREVIEW_WIDTH_MAP = {
 export function RealityTab() {
   const sections = useConfigStore((s) => s.config.sections)
   const previewWidth = useUIStore((s) => s.previewWidth)
+  const selectedContext = useUIStore((s) => s.selectedContext)
   const containerRef = useRef<HTMLDivElement>(null)
   useThemeVars(containerRef)
+
+  // Auto-scroll to selected section
+  useEffect(() => {
+    if (selectedContext?.type !== 'section') return
+    const sectionId = selectedContext.sectionId
+    const el = containerRef.current?.querySelector(`[data-section-id="${sectionId}"]`)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+  }, [selectedContext])
 
   if (import.meta.env.DEV) console.log('[preview]', previewWidth)
 

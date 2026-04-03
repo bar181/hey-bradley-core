@@ -35,22 +35,25 @@ export function ColumnsGlass({ section }: { section: Section }) {
           return (
             <div
               key={item.id}
-              className="rounded-xl backdrop-blur-xl border border-white/10 p-7 transition-all duration-200 hover:border-white/20 hover:shadow-lg"
-              style={{ background: 'rgba(255, 255, 255, 0.05)' }}
+              className="rounded-xl backdrop-blur-xl p-7 transition-all duration-200 hover:shadow-lg"
+              style={{
+                background: 'var(--theme-bg-secondary, rgba(255, 255, 255, 0.05))',
+                border: '1px solid var(--theme-border, rgba(128,128,128,0.15))',
+              }}
             >
               {Icon && (
                 <div
                   className="w-11 h-11 rounded-lg flex items-center justify-center mb-5 backdrop-blur-sm"
-                  style={{ background: 'rgba(255, 255, 255, 0.08)' }}
+                  style={{ background: 'var(--theme-bg-secondary, rgba(255, 255, 255, 0.08))' }}
                 >
                   <Icon size={20} style={{ color: 'var(--theme-accent, #6366f1)' }} aria-hidden />
                 </div>
               )}
               <h3 className="text-base font-semibold mb-2 tracking-tight">
-                {(item.props?.title as string) || 'Feature'}
+                {(item.props?.title as string) || 'Always Secure'}
               </h3>
               <p className="text-sm opacity-60 leading-relaxed">
-                {(item.props?.description as string) || 'Description'}
+                {(item.props?.description as string) || 'Enterprise-grade security built in'}
               </p>
             </div>
           )

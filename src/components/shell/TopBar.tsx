@@ -1,8 +1,8 @@
-import { Monitor, Tablet, Smartphone, Undo2, Redo2, Sun, Moon, Menu, X, Eye, PenLine, PanelRightClose, PanelRightOpen } from 'lucide-react'
+import { Monitor, Tablet, Smartphone, Undo2, Redo2, Sun, Moon, Menu, X, Eye, PenLine, PanelRightClose, PanelRightOpen, Check } from 'lucide-react'
 
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore, type PreviewWidth } from '@/store/uiStore'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const DEVICE_BUTTONS: { icon: typeof Monitor; width: PreviewWidth; label: string }[] = [
@@ -27,7 +27,15 @@ export function TopBar() {
   // Site chrome dark/light mode
   const [chromeLight, setChromeLight] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [shareCopied, setShareCopied] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+
+  const handleShare = useCallback(() => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      setShareCopied(true)
+      setTimeout(() => setShareCopied(false), 2000)
+    })
+  }, [])
 
   useEffect(() => {
     document.documentElement.classList.toggle('light-chrome', chromeLight)
@@ -135,8 +143,11 @@ export function TopBar() {
         >
           {isPreviewMode ? <><PenLine size={14} /> Edit</> : <><Eye size={14} /> Preview</>}
         </button>
-        <button className="ml-1 border border-white/20 text-white/80 font-mono text-xs uppercase px-3 py-1 rounded hover:bg-white/10 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent">
-          Share
+        <button
+          onClick={handleShare}
+          className="ml-1 border border-white/20 text-white/80 font-mono text-xs uppercase px-3 py-1 rounded hover:bg-white/10 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent flex items-center gap-1"
+        >
+          {shareCopied ? <><Check size={12} /> Copied!</> : 'Share'}
         </button>
       </div>
 

@@ -28,10 +28,10 @@ export function ColumnsNumbered({ section }: { section: Section }) {
               {String(idx + 1).padStart(2, '0')}
             </span>
             <h3 className="text-lg font-semibold tracking-tight">
-              {(item.props?.title as string) || 'Feature'}
+              {(item.props?.title as string) || 'Lightning Fast'}
             </h3>
             <p className="text-sm opacity-55 leading-relaxed">
-              {(item.props?.description as string) || 'Description'}
+              {(item.props?.description as string) || 'Go from idea to deployed in 60 seconds'}
             </p>
           </div>
         ))}

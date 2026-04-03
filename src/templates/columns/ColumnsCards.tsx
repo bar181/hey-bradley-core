@@ -35,8 +35,11 @@ export function ColumnsCards({ section }: { section: Section }) {
           return (
             <div
               key={item.id}
-              className="rounded-xl border border-white/10 p-7 hover:border-white/20 transition-all duration-200 hover:shadow-lg"
-              style={{ background: 'rgba(255,255,255,0.03)' }}
+              className="rounded-xl p-7 transition-all duration-200 hover:shadow-lg"
+              style={{
+                background: 'var(--theme-bg-secondary, rgba(255,255,255,0.03))',
+                border: '1px solid var(--theme-border, rgba(128,128,128,0.15))',
+              }}
             >
               {Icon && (
                 <div
@@ -47,10 +50,10 @@ export function ColumnsCards({ section }: { section: Section }) {
                 </div>
               )}
               <h3 className="text-base font-semibold mb-2 tracking-tight">
-                {(item.props?.title as string) || 'Feature'}
+                {(item.props?.title as string) || 'Lightning Fast'}
               </h3>
               <p className="text-sm opacity-60 leading-relaxed">
-                {(item.props?.description as string) || 'Description'}
+                {(item.props?.description as string) || 'Go from idea to deployed in 60 seconds'}
               </p>
             </div>
           )

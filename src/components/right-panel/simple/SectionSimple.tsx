@@ -196,8 +196,8 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
         </div>
       </RightAccordion>
 
-      {/* ─── 4. CONTENT (collapsed by default) ─── */}
-      <RightAccordion id="content" label="Content">
+      {/* ─── 4. CONTENT ─── */}
+      <RightAccordion id="content" label="Content" defaultOpen>
         <div className="space-y-2.5">
           <div className="space-y-1">
             <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Title</span>

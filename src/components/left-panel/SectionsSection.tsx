@@ -53,10 +53,10 @@ const sectionNameMap: Record<string, string> = {
 
 const sectionDescriptionMap: Record<string, string> = {
   menu: 'Navigation bar with logo and links',
-  hero: 'Main banner with headline and CTA',
-  columns: 'Showcase product features in columns',
+  hero: 'Main banner with headline and button',
+  columns: 'Showcase features side by side',
   pricing: 'Pricing plans and tiers',
-  action: 'Call-to-action block',
+  action: 'Section with button and message',
   footer: 'Page footer with links',
   quotes: 'Customer testimonials and quotes',
   questions: 'Frequently asked questions',

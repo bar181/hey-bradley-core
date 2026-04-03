@@ -43,10 +43,10 @@ export function ColumnsIconText({ section }: { section: Section }) {
                 </div>
               )}
               <h3 className="text-lg font-semibold mb-3 tracking-tight">
-                {(item.props?.title as string) || 'Feature'}
+                {(item.props?.title as string) || 'Pixel Perfect'}
               </h3>
               <p className="text-sm opacity-55 leading-relaxed max-w-xs">
-                {(item.props?.description as string) || 'Description'}
+                {(item.props?.description as string) || 'Every detail polished and professional'}
               </p>
             </div>
           )

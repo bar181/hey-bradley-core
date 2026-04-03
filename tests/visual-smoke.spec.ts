@@ -7,6 +7,10 @@ test.describe('Visual Smoke Tests', () => {
   });
 
   test('Data Tab renders valid JSON without raw HTML', async ({ page }) => {
+    // Expand developer tabs first
+    const devToggle = page.locator('button[aria-label="Show developer tabs"]').first();
+    if (await devToggle.isVisible()) await devToggle.click();
+    await page.waitForTimeout(300);
     // Navigate to Data Tab
     const dataBtn = page.locator('button').filter({ hasText: 'Data' }).first();
     await dataBtn.click();
@@ -36,6 +40,11 @@ test.describe('Visual Smoke Tests', () => {
   test('All 4 tabs navigable without errors', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push(e.message));
+
+    // Expand developer tabs
+    const devToggle = page.locator('button[aria-label="Show developer tabs"]').first();
+    if (await devToggle.isVisible()) await devToggle.click();
+    await page.waitForTimeout(300);
 
     for (const tabName of ['Preview', 'Data', 'Specs', 'Pipeline']) {
       const tab = page.locator('button').filter({ hasText: tabName }).first();

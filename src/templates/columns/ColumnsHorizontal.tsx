@@ -27,8 +27,11 @@ export function ColumnsHorizontal({ section }: { section: Section }) {
           return (
             <div
               key={item.id}
-              className="flex items-start gap-6 rounded-xl border border-white/10 p-6 hover:border-white/20 transition-all duration-200"
-              style={{ background: 'rgba(255,255,255,0.02)' }}
+              className="flex items-start gap-6 rounded-xl p-6 transition-all duration-200"
+              style={{
+                background: 'var(--theme-bg-secondary, rgba(255,255,255,0.02))',
+                border: '1px solid var(--theme-border, rgba(128,128,128,0.15))',
+              }}
             >
               {Icon && (
                 <div
@@ -40,10 +43,10 @@ export function ColumnsHorizontal({ section }: { section: Section }) {
               )}
               <div className="flex-1 min-w-0">
                 <h3 className="text-base font-semibold mb-1.5 tracking-tight">
-                  {(item.props?.title as string) || 'Feature'}
+                  {(item.props?.title as string) || 'Always Secure'}
                 </h3>
                 <p className="text-sm opacity-55 leading-relaxed">
-                  {(item.props?.description as string) || 'Description'}
+                  {(item.props?.description as string) || 'Enterprise-grade security built in'}
                 </p>
               </div>
             </div>

@@ -22,10 +22,10 @@ export function ColumnsMinimal({ section }: { section: Section }) {
         {items.map((item) => (
           <div key={item.id} className="space-y-3">
             <h3 className="text-lg font-semibold tracking-tight">
-              {(item.props?.title as string) || 'Feature'}
+              {(item.props?.title as string) || 'Lightning Fast'}
             </h3>
             <p className="text-sm opacity-50 leading-relaxed">
-              {(item.props?.description as string) || 'Description'}
+              {(item.props?.description as string) || 'Go from idea to deployed in 60 seconds'}
             </p>
           </div>
         ))}

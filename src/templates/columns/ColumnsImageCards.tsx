@@ -16,6 +16,13 @@ const DEFAULT_IMAGES = [
   'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=400&fit=crop',
 ]
 
+const DEFAULT_TITLES = ['Lightning Fast', 'Pixel Perfect', 'Always Secure']
+const DEFAULT_DESCRIPTIONS = [
+  'Go from idea to deployed in 60 seconds',
+  'Every detail polished and professional',
+  'Enterprise-grade security built in',
+]
+
 export function ColumnsImageCards({ section }: { section: Section }) {
   const cols = (section.layout as any).columns ?? 3
   const items = section.components
@@ -34,22 +41,25 @@ export function ColumnsImageCards({ section }: { section: Section }) {
           return (
             <div
               key={item.id}
-              className="rounded-xl border border-white/10 overflow-hidden hover:border-white/20 transition-all duration-200 hover:shadow-xl group"
-              style={{ background: 'rgba(255,255,255,0.03)' }}
+              className="rounded-xl overflow-hidden transition-all duration-200 hover:shadow-xl group"
+              style={{
+                background: 'var(--theme-bg-secondary, rgba(255,255,255,0.03))',
+                border: '1px solid var(--theme-border, rgba(128,128,128,0.15))',
+              }}
             >
               <div className="aspect-video overflow-hidden">
                 <img
                   src={imageUrl}
-                  alt={(item.props?.title as string) || 'Feature'}
+                  alt={(item.props?.title as string) || 'Lightning Fast'}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
               <div className="p-6">
                 <h3 className="text-base font-semibold mb-2 tracking-tight">
-                  {(item.props?.title as string) || 'Feature'}
+                  {(item.props?.title as string) || DEFAULT_TITLES[idx % DEFAULT_TITLES.length]}
                 </h3>
                 <p className="text-sm opacity-60 leading-relaxed">
-                  {(item.props?.description as string) || 'Description'}
+                  {(item.props?.description as string) || DEFAULT_DESCRIPTIONS[idx % DEFAULT_DESCRIPTIONS.length]}
                 </p>
               </div>
             </div>
