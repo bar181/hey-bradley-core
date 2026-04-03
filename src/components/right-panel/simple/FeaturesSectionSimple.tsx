@@ -4,7 +4,7 @@ import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus, Trash2, Columns2, Columns3, LayoutGrid, Layers } from 'lucide-react'
 
 /* ── Available icons (must match FeaturesGrid iconMap) ── */
 const ICON_OPTIONS = ['zap', 'target', 'shield', 'star', 'rocket', 'code', 'globe', 'lock', 'cpu'] as const
@@ -12,38 +12,33 @@ const ICON_OPTIONS = ['zap', 'target', 'shield', 'star', 'rocket', 'code', 'glob
 const MIN_CARDS = 2
 const MAX_CARDS = 6
 
-const GRID_OPTIONS = [
-  { cols: 2, label: '2' },
-  { cols: 3, label: '3' },
-  { cols: 4, label: '4' },
-] as const
-
 /* ── Shared input class ── */
 const INPUT =
   'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
+
+/* ── Layout cards ── */
+const FEATURES_LAYOUTS = [
+  { v: 'grid-2col', cols: 2, label: '2 Columns', Icon: Columns2 },
+  { v: 'grid-3col', cols: 3, label: '3 Columns', Icon: Columns3 },
+  { v: 'grid-4col', cols: 4, label: '4 Columns', Icon: LayoutGrid },
+  { v: 'cards', cols: 3, label: 'Card Style', Icon: Layers },
+] as const
 
 /* ── Toggle + label row ── */
 function Field({
   label,
   enabled,
-  onToggle,
   children,
 }: {
   label: string
   enabled: boolean
-  onToggle?: (v: boolean) => void
   children: React.ReactNode
 }) {
   return (
     <div className="space-y-1">
-      <div className="flex items-center gap-2">
-        {onToggle && (
-          <Switch checked={enabled} onCheckedChange={onToggle} className="scale-[0.6] shrink-0" />
-        )}
-        <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide flex-1">
-          {label}
-        </span>
-      </div>
+      <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
+        {label}
+      </span>
       <div className={cn(!enabled && 'opacity-25 pointer-events-none')}>{children}</div>
     </div>
   )
@@ -61,15 +56,15 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
     .filter((c) => c.type === 'feature-card')
     .sort((a, b) => a.order - b.order)
 
-  const currentCols = (section.layout as Record<string, unknown>)?.columns ?? 3
+  const currentVariant = section.variant || 'grid-3col'
 
   /* ── Handlers ── */
 
-  const setColumns = useCallback(
-    (cols: number) => {
+  const applyLayout = useCallback(
+    (layout: typeof FEATURES_LAYOUTS[number]) => {
       setSectionConfig(sectionId, {
-        layout: { ...section.layout, columns: cols },
-        variant: `grid-${cols}col`,
+        layout: { ...section.layout, columns: layout.cols },
+        variant: layout.v,
       })
     },
     [sectionId, section, setSectionConfig],
@@ -96,10 +91,8 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
   const addFeature = useCallback(() => {
     if (featureCards.length >= MAX_CARDS) return
     const nextIndex = featureCards.length + 1
-    const newId = `f${nextIndex}`
-    // Avoid id collision
     const existingIds = new Set(section.components.map((c) => c.id))
-    let id = newId
+    let id = `f${nextIndex}`
     let counter = nextIndex
     while (existingIds.has(id)) {
       counter++
@@ -136,55 +129,28 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
     <div className="divide-y divide-hb-border/30">
       {/* ─── 1. LAYOUT ─── */}
       <RightAccordion id={`${sectionId}-layout`} label="Layout" defaultOpen>
-        <div className="space-y-3">
-          {/* Variant selector */}
-          <div>
-            <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Style</div>
-            <div className="flex rounded-lg border border-hb-border overflow-hidden">
-              {([{ v: 'grid-3col', label: 'Simple' }, { v: 'cards', label: 'Card Style' }] as const).map(({ v, label }) => (
-                <button
-                  key={v}
-                  type="button"
-                  onClick={() => setSectionConfig(sectionId, { variant: v })}
-                  className={cn(
-                    'flex-1 py-1.5 text-xs font-medium transition-colors',
-                    (section.variant || 'grid-3col') === v
-                      ? 'bg-hb-accent text-white'
-                      : 'bg-hb-surface text-hb-text-muted hover:bg-hb-surface-hover',
-                  )}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div>
-            <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">
-              Columns
-            </div>
-            <div className="flex rounded-lg border border-hb-border overflow-hidden">
-              {GRID_OPTIONS.map(({ cols, label }) => (
-                <button
-                  key={cols}
-                  type="button"
-                  onClick={() => setColumns(cols)}
-                  className={cn(
-                    'flex-1 py-1.5 text-xs font-medium transition-colors',
-                    currentCols === cols
-                      ? 'bg-hb-accent text-white'
-                      : 'bg-hb-surface text-hb-text-muted hover:bg-hb-surface-hover',
-                  )}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          </div>
+        <div className="grid grid-cols-2 gap-2">
+          {FEATURES_LAYOUTS.map(({ v, label, Icon }) => (
+            <button
+              key={v}
+              type="button"
+              onClick={() => applyLayout(FEATURES_LAYOUTS.find((l) => l.v === v)!)}
+              className={cn(
+                'flex flex-col items-center justify-center gap-1.5 h-16 rounded-lg transition-all',
+                currentVariant === v
+                  ? 'border-2 border-hb-accent bg-hb-accent/5'
+                  : 'border border-hb-border/40 hover:border-hb-accent/30',
+              )}
+            >
+              <Icon size={18} className={currentVariant === v ? 'text-hb-accent' : 'text-hb-text-muted'} />
+              <span className={cn('text-xs font-medium', currentVariant === v ? 'text-hb-accent' : 'text-hb-text-primary')}>{label}</span>
+            </button>
+          ))}
         </div>
       </RightAccordion>
 
       {/* ─── 2. CONTENT ─── */}
-      <RightAccordion id={`${sectionId}-content`} label="Content" defaultOpen>
+      <RightAccordion id={`${sectionId}-content`} label="Content">
         <div className="space-y-3">
           {featureCards.map((card, idx) => {
             const icon = (card.props?.icon as string) ?? ''
@@ -236,10 +202,7 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
                   </Field>
 
                   {/* Title */}
-                  <Field
-                    label="Title"
-                    enabled={card.enabled}
-                  >
+                  <Field label="Title" enabled={card.enabled}>
                     <input
                       type="text"
                       value={title}
@@ -251,10 +214,7 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
                   </Field>
 
                   {/* Description */}
-                  <Field
-                    label="Description"
-                    enabled={card.enabled}
-                  >
+                  <Field label="Description" enabled={card.enabled}>
                     <textarea
                       value={description}
                       onChange={(e) => updateProp(card.id, 'description', e.target.value)}

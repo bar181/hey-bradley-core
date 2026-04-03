@@ -32,7 +32,33 @@ export function PricingSectionSimple({ sectionId }: { sectionId: string }) {
 
   return (
     <div className="divide-y divide-hb-border/30">
-      <RightAccordion id="pricing-content" label="Content" defaultOpen>
+      {/* ─── ELEMENTS ─── */}
+      <RightAccordion id={`pricing-elements-${sectionId}`} label="Elements" defaultOpen>
+        <div className="space-y-2">
+          {tiers.map((tier) => {
+            const name = (tier.props?.name as string) ?? ''
+            const highlighted = Boolean(tier.props?.highlighted)
+            return (
+              <div key={tier.id} className="flex items-center justify-between">
+                <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
+                  {name || tier.id}
+                </span>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[10px] text-hb-text-muted">Featured</span>
+                  <Switch
+                    checked={highlighted}
+                    onCheckedChange={(v) => updateProp(tier.id, 'highlighted', v)}
+                    className="scale-[0.6]"
+                  />
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </RightAccordion>
+
+      {/* ─── CONTENT ─── */}
+      <RightAccordion id={`pricing-content-${sectionId}`} label="Content">
         <div className="space-y-4">
           {tiers.map((tier) => {
             const name = (tier.props?.name as string) ?? ''
@@ -43,7 +69,6 @@ export function PricingSectionSimple({ sectionId }: { sectionId: string }) {
             const ctaUrl = (tier.props?.ctaUrl as string) ?? ''
             const highlighted = Boolean(tier.props?.highlighted)
 
-            // Convert comma-separated to newline-separated for editing
             const featuresDisplay = featuresRaw.split(',').map((f) => f.trim()).filter(Boolean).join('\n')
 
             return (
@@ -54,20 +79,9 @@ export function PricingSectionSimple({ sectionId }: { sectionId: string }) {
                   highlighted ? 'border-hb-accent/50 bg-hb-accent/5' : 'border-hb-border/40',
                 )}
               >
-                {/* Tier header with name + highlighted toggle */}
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
-                    {name || tier.id}
-                  </span>
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-xs text-hb-text-muted">Recommended</span>
-                    <Switch
-                      checked={highlighted}
-                      onCheckedChange={(v) => updateProp(tier.id, 'highlighted', v)}
-                      className="scale-[0.6]"
-                    />
-                  </div>
-                </div>
+                <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
+                  {name || tier.id}
+                </span>
 
                 {/* Tier name */}
                 <div>

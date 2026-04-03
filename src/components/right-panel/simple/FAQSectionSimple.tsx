@@ -4,8 +4,14 @@ import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
+import { ListCollapse, Columns2 } from 'lucide-react'
 
 const INPUT = 'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
+
+const FAQ_LAYOUTS = [
+  { v: 'accordion' as const, label: 'Expandable', Icon: ListCollapse },
+  { v: 'two-column' as const, label: 'Side by Side', Icon: Columns2 },
+]
 
 export function FAQSectionSimple({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
@@ -36,32 +42,34 @@ export function FAQSectionSimple({ sectionId }: { sectionId: string }) {
     [sectionId, section, setSectionConfig],
   )
 
+  const currentVariant = section.variant || 'accordion'
+
   return (
     <div className="divide-y divide-hb-border/30">
+      {/* ─── LAYOUT ─── */}
       <RightAccordion id={`faq-layout-${sectionId}`} label="Layout" defaultOpen>
-        <div>
-          <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Style</div>
-          <div className="flex rounded-lg border border-hb-border overflow-hidden">
-            {([{ v: 'accordion', label: 'Expandable' }, { v: 'two-column', label: 'Side by Side' }] as const).map(({ v, label }) => (
-              <button
-                key={v}
-                type="button"
-                onClick={() => setSectionConfig(sectionId, { variant: v })}
-                className={cn(
-                  'flex-1 py-1.5 text-xs font-medium transition-colors',
-                  (section.variant || 'accordion') === v
-                    ? 'bg-hb-accent text-white'
-                    : 'bg-hb-surface text-hb-text-muted hover:bg-hb-surface-hover',
-                )}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
+        <div className="grid grid-cols-2 gap-2">
+          {FAQ_LAYOUTS.map(({ v, label, Icon }) => (
+            <button
+              key={v}
+              type="button"
+              onClick={() => setSectionConfig(sectionId, { variant: v })}
+              className={cn(
+                'flex flex-col items-center justify-center gap-1.5 h-16 rounded-lg transition-all',
+                currentVariant === v
+                  ? 'border-2 border-hb-accent bg-hb-accent/5'
+                  : 'border border-hb-border/40 hover:border-hb-accent/30',
+              )}
+            >
+              <Icon size={18} className={currentVariant === v ? 'text-hb-accent' : 'text-hb-text-muted'} />
+              <span className={cn('text-xs font-medium', currentVariant === v ? 'text-hb-accent' : 'text-hb-text-primary')}>{label}</span>
+            </button>
+          ))}
         </div>
       </RightAccordion>
 
-      <RightAccordion id={`faq-content-${sectionId}`} label="Content" defaultOpen>
+      {/* ─── CONTENT ─── */}
+      <RightAccordion id={`faq-content-${sectionId}`} label="Content">
         <div className="space-y-3">
           {faqItems.map((item, i) => {
             const question = (item.props?.question as string) ?? ''

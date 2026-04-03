@@ -39,9 +39,27 @@ export function NavbarSectionSimple({ sectionId }: { sectionId: string }) {
 
   return (
     <div className="divide-y divide-hb-border/30">
-      <RightAccordion id={`navbar-content-${sectionId}`} label="Content" defaultOpen>
+      {/* ─── ELEMENTS ─── */}
+      <RightAccordion id={`navbar-elements-${sectionId}`} label="Elements" defaultOpen>
+        <div className="space-y-2">
+          <div className="flex items-center gap-2">
+            <Switch checked onCheckedChange={() => {}} className="scale-[0.6] shrink-0 opacity-50" />
+            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Logo Text</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Switch
+              checked={ctaEnabled}
+              onCheckedChange={(v) => handleToggle('cta', v)}
+              className="scale-[0.6] shrink-0"
+            />
+            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Action Button</span>
+          </div>
+        </div>
+      </RightAccordion>
+
+      {/* ─── CONTENT ─── */}
+      <RightAccordion id={`navbar-content-${sectionId}`} label="Content">
         <div className="space-y-3">
-          {/* Logo text */}
           <div className="space-y-1">
             <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Logo Text</span>
             <input
@@ -54,26 +72,16 @@ export function NavbarSectionSimple({ sectionId }: { sectionId: string }) {
             />
           </div>
 
-          {/* CTA button */}
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <Switch
-                checked={ctaEnabled}
-                onCheckedChange={(v) => handleToggle('cta', v)}
-                className="scale-[0.6] shrink-0"
-              />
-              <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Action Button</span>
-            </div>
-            <div className={cn(!ctaEnabled && 'opacity-25 pointer-events-none')}>
-              <input
-                type="text"
-                value={ctaText}
-                onChange={(e) => updateProp('cta', 'text', e.target.value)}
-                placeholder="e.g. Get Started"
-                data-testid="navbar-cta-input"
-                className={INPUT}
-              />
-            </div>
+          <div className={cn(!ctaEnabled && 'opacity-25 pointer-events-none', 'space-y-1')}>
+            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Action Button</span>
+            <input
+              type="text"
+              value={ctaText}
+              onChange={(e) => updateProp('cta', 'text', e.target.value)}
+              placeholder="e.g. Get Started"
+              data-testid="navbar-cta-input"
+              className={INPUT}
+            />
           </div>
 
           <div className="text-xs text-hb-text-muted">

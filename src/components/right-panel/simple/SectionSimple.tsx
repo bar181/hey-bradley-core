@@ -5,91 +5,33 @@ import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { resolveHeroContent } from '@/lib/schemas'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
-import { Sun, Moon } from 'lucide-react'
+import {
+  Sun, Moon,
+  Image as ImageIcon, PlayCircle, Monitor, LayoutDashboard,
+  PanelRight, PanelLeft, MonitorPlay, ImageDown,
+} from 'lucide-react'
 import { ImagePicker } from './ImagePicker'
-
-// ── Toggle + label row ──
-function Field({
-  label, enabled, onToggle, children,
-}: {
-  label: string; enabled: boolean; onToggle?: (v: boolean) => void
-  children: React.ReactNode
-}) {
-  return (
-    <div className="space-y-1">
-      <div className="flex items-center gap-2">
-        {onToggle && <Switch checked={enabled} onCheckedChange={onToggle} className="scale-[0.6] shrink-0" />}
-        <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide flex-1">{label}</span>
-      </div>
-      <div className={cn(!enabled && 'opacity-25 pointer-events-none')}>{children}</div>
-    </div>
-  )
-}
+import type { LucideIcon } from 'lucide-react'
 
 const INPUT = 'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
 
 // ── Hero Layout Presets ──
-const HERO_LAYOUTS = [
-  { id: 'bg-image', variant: 'overlay', label: 'Full Photo', desc: 'Full height', media: 'backgroundImage', size: 'full' },
-  { id: 'bg-video', variant: 'centered', label: 'Full Video', desc: 'Full height', media: 'heroVideo', size: 'full' },
-  { id: 'minimal-full', variant: 'minimal', label: 'Clean', desc: 'Full height', media: 'none', size: 'full' },
-  { id: 'compact', variant: 'centered', label: 'Simple', desc: 'Fit size', media: 'none', size: 'fit' },
-  { id: 'image-right', variant: 'split-right', label: 'Photo Right', desc: 'Full height', media: 'heroImage', size: 'full' },
-  { id: 'image-left', variant: 'split-left', label: 'Photo Left', desc: 'Fit size', media: 'heroImage', size: 'fit' },
-  { id: 'video-bottom', variant: 'centered', label: 'Video Below', desc: 'Fit size', media: 'heroVideo', size: 'fit' },
-  { id: 'image-bottom', variant: 'centered', label: 'Photo Below', desc: 'Fit size', media: 'heroImage', size: 'fit' },
-] as const
+const HERO_LAYOUTS: ReadonlyArray<{
+  id: string; variant: string; label: string; media: string; size: string; icon: LucideIcon
+}> = [
+  { id: 'bg-image', variant: 'overlay', label: 'Full Photo', media: 'backgroundImage', size: 'full', icon: ImageIcon },
+  { id: 'bg-video', variant: 'centered', label: 'Full Video', media: 'heroVideo', size: 'full', icon: PlayCircle },
+  { id: 'minimal-full', variant: 'minimal', label: 'Clean', media: 'none', size: 'full', icon: Monitor },
+  { id: 'compact', variant: 'centered', label: 'Simple', media: 'none', size: 'fit', icon: LayoutDashboard },
+  { id: 'image-right', variant: 'split-right', label: 'Photo Right', media: 'heroImage', size: 'full', icon: PanelRight },
+  { id: 'image-left', variant: 'split-left', label: 'Photo Left', media: 'heroImage', size: 'fit', icon: PanelLeft },
+  { id: 'video-bottom', variant: 'centered', label: 'Video Below', media: 'heroVideo', size: 'fit', icon: MonitorPlay },
+  { id: 'image-bottom', variant: 'centered', label: 'Photo Below', media: 'heroImage', size: 'fit', icon: ImageDown },
+]
 
 const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&q=80'
 const DEFAULT_BG_IMAGE = 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1920&auto=format&q=80'
 const DEFAULT_VIDEO = 'https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4'
-
-function LayoutWireframe({ layout }: { layout: typeof HERO_LAYOUTS[number] }) {
-  const m = layout.media
-  const gray = 'bg-hb-text-muted/15'
-  const accent = 'bg-hb-accent/60'
-  const textLine = 'bg-hb-text-muted/30'
-
-  if (m === 'backgroundImage' || (m === 'heroVideo' && layout.id === 'bg-video')) {
-    return (
-      <div className={cn('relative flex items-center justify-center h-full w-full', gray)}>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-        <div className="relative space-y-0.5 text-center">
-          <div className={cn('w-10 h-0.5 rounded-sm mx-auto', textLine)} />
-          <div className={cn('w-6 h-1.5 rounded-sm mx-auto', accent)} />
-        </div>
-      </div>
-    )
-  }
-  if (m === 'heroImage' && (layout.variant === 'split-right' || layout.variant === 'split-left')) {
-    const imgLeft = layout.variant === 'split-left'
-    return (
-      <div className="flex items-center gap-1.5 p-2 h-full w-full">
-        {imgLeft && <div className={cn('w-8 flex-shrink-0 rounded h-3/4', gray)} />}
-        <div className="flex-1 space-y-0.5">
-          <div className={cn('w-10 h-0.5 rounded-sm', textLine)} />
-          <div className={cn('w-6 h-1.5 rounded-sm', accent)} />
-        </div>
-        {!imgLeft && <div className={cn('w-8 flex-shrink-0 rounded h-3/4', gray)} />}
-      </div>
-    )
-  }
-  if (m === 'heroImage' || m === 'heroVideo') {
-    return (
-      <div className="flex flex-col items-center justify-center gap-0.5 p-1.5 h-full w-full">
-        <div className={cn('w-10 h-0.5 rounded-sm', textLine)} />
-        <div className={cn('w-6 h-1.5 rounded-sm', accent)} />
-        <div className={cn('w-10 h-3 rounded mt-0.5', gray)} />
-      </div>
-    )
-  }
-  return (
-    <div className="flex flex-col items-center justify-center gap-1 h-full w-full">
-      <div className={cn('w-12 h-0.5 rounded-sm', textLine)} />
-      <div className={cn('w-8 h-1.5 rounded-sm', accent)} />
-    </div>
-  )
-}
 
 export function SectionSimple({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
@@ -171,41 +113,69 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
     <div className="divide-y divide-hb-border/30">
       {/* ─── 1. LAYOUT ─── */}
       <RightAccordion id="layout" label="Layout" defaultOpen>
-        <div>
-          <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Banner Style</div>
-          <div className="grid grid-cols-2 gap-2">
-            {HERO_LAYOUTS.map((layout) => (
+        <div className="grid grid-cols-2 gap-2">
+          {HERO_LAYOUTS.map((layout) => {
+            const LayoutIcon = layout.icon
+            return (
               <button
                 key={layout.id}
                 type="button"
                 onClick={() => applyHeroLayout(layout)}
                 className={cn(
-                  'flex flex-col items-center justify-center gap-1.5 p-3 rounded-lg border-2 transition-all',
+                  'flex flex-col items-center justify-center gap-1.5 h-16 rounded-lg transition-all',
                   currentLayoutId === layout.id
-                    ? 'border-hb-accent bg-hb-accent/5'
-                    : 'border-hb-border/30 hover:border-hb-accent/30'
+                    ? 'border-2 border-hb-accent bg-hb-accent/5'
+                    : 'border border-hb-border/40 hover:border-hb-accent/30'
                 )}
               >
-                <div className="w-full aspect-[4/3] rounded overflow-hidden bg-hb-bg flex items-center justify-center">
-                  <LayoutWireframe layout={layout} />
-                </div>
-                <span className="text-xs font-medium text-hb-text-primary">{layout.label}</span>
+                <LayoutIcon size={20} className={cn(
+                  currentLayoutId === layout.id ? 'text-hb-accent' : 'text-hb-text-muted'
+                )} />
+                <span className="text-[11px] font-medium text-hb-text-primary">{layout.label}</span>
               </button>
-            ))}
+            )
+          })}
+        </div>
+      </RightAccordion>
+
+      {/* ─── 2. ELEMENTS ─── */}
+      <RightAccordion id="elements" label="Elements" defaultOpen>
+        <div className="space-y-2.5">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-medium text-hb-text-primary">Tag Line</span>
+            <Switch checked={getEnabled('eyebrow')} onCheckedChange={(v) => handleToggle('eyebrow', v)} className="scale-[0.7]" />
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-medium text-hb-text-primary">Main Button</span>
+            <Switch checked={getEnabled('primaryCta')} onCheckedChange={(v) => handleToggle('primaryCta', v)} className="scale-[0.7]" />
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-medium text-hb-text-primary">Extra Button</span>
+            <Switch checked={getEnabled('secondaryCta')} onCheckedChange={(v) => handleToggle('secondaryCta', v)} className="scale-[0.7]" />
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-medium text-hb-text-primary">Social Proof</span>
+            <Switch checked={getEnabled('trustBadges')} onCheckedChange={(v) => handleToggle('trustBadges', v)} className="scale-[0.7]" />
           </div>
         </div>
       </RightAccordion>
 
-      {/* ─── 2. VISUALS — single media URL + light/dark ─── */}
-      <RightAccordion id="visuals" label="Visuals">
+      {/* ─── 3. MEDIA ─── */}
+      <RightAccordion id="media" label="Media" defaultOpen>
         <div className="space-y-3">
-          {/* Media picker */}
           {activeMediaId && activeMediaId !== 'heroVideo' && (
-            <ImagePicker
-              value={activeMediaUrl}
-              onChange={(url) => updateUrl(activeMediaId, url)}
-              label="Choose a Photo"
-            />
+            <>
+              {activeMediaUrl && (
+                <div className="w-full h-20 rounded-md overflow-hidden border border-hb-border/30">
+                  <img src={activeMediaUrl} alt="Current media" className="w-full h-full object-cover" />
+                </div>
+              )}
+              <ImagePicker
+                value={activeMediaUrl}
+                onChange={(url) => updateUrl(activeMediaId, url)}
+                label="Choose a Photo"
+              />
+            </>
           )}
           {activeMediaId === 'heroVideo' && (
             <div className="space-y-1">
@@ -220,66 +190,77 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
               />
             </div>
           )}
+          {!activeMediaId && (
+            <p className="text-xs text-hb-text-muted">Select a layout with media to configure images or video.</p>
+          )}
+        </div>
+      </RightAccordion>
 
-          {/* Light / Dark toggle */}
-          <div>
-            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Mode</span>
-            <div className="flex gap-1.5 mt-1">
-              <button
-                type="button"
-                onClick={() => { if (config.theme.mode !== 'light') useConfigStore.getState().toggleMode() }}
-                className={cn(
-                  'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-medium border transition-all',
-                  config.theme.mode === 'light'
-                    ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
-                    : 'bg-hb-surface text-hb-text-muted border-hb-border/50 hover:border-hb-accent/30'
-                )}
-              >
-                <Sun size={10} /> Light
-              </button>
-              <button
-                type="button"
-                onClick={() => { if (config.theme.mode !== 'dark') useConfigStore.getState().toggleMode() }}
-                className={cn(
-                  'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-medium border transition-all',
-                  config.theme.mode === 'dark'
-                    ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
-                    : 'bg-hb-surface text-hb-text-muted border-hb-border/50 hover:border-hb-accent/30'
-                )}
-              >
-                <Moon size={10} /> Dark
-              </button>
-            </div>
+      {/* ─── 4. CONTENT (collapsed by default) ─── */}
+      <RightAccordion id="content" label="Content">
+        <div className="space-y-2.5">
+          <div className="space-y-1">
+            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Title</span>
+            <textarea data-testid="hero-headline-input" value={hero.heading?.text ?? ''} onChange={(e) => updateCopy('headline', e.target.value)} rows={2} className={cn(INPUT, 'resize-none leading-snug')} />
+          </div>
+
+          <div className="space-y-1">
+            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Description</span>
+            <textarea data-testid="hero-subtitle-input" value={hero.subheading ?? ''} onChange={(e) => updateCopy('subtitle', e.target.value)} rows={3} className={cn(INPUT, 'resize-none leading-snug')} />
+          </div>
+
+          <div className="space-y-1">
+            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Tag Line</span>
+            <input data-testid="hero-badge-input" type="text" value={hero.badge?.text ?? ''} onChange={(e) => updateCopy('eyebrow', e.target.value)} placeholder="e.g. New Release" className={INPUT} />
+          </div>
+
+          <div className="space-y-1">
+            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Main Button</span>
+            <input data-testid="hero-primary-cta-input" type="text" value={hero.cta?.text ?? ''} onChange={(e) => updateCopy('primaryCta', e.target.value)} placeholder="e.g. Get Started" className={INPUT} />
+          </div>
+
+          <div className="space-y-1">
+            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Extra Button</span>
+            <input data-testid="hero-secondary-cta-input" type="text" value={hero.secondaryCta?.text ?? ''} onChange={(e) => updateCopy('secondaryCta', e.target.value)} placeholder="e.g. Learn More" className={INPUT} />
+          </div>
+
+          <div className="space-y-1">
+            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Social Proof</span>
+            <input data-testid="hero-trust-input" type="text" value={hero.trustBadges?.text ?? ''} onChange={(e) => updateCopy('trustBadges', e.target.value)} placeholder="e.g. Trusted by 500+ teams" className={INPUT} />
           </div>
         </div>
       </RightAccordion>
 
-      {/* ─── 3. CONTENT ─── */}
-      <RightAccordion id="content" label="Content" defaultOpen>
-        <div className="space-y-2.5">
-          <Field label="Tag Line" enabled={getEnabled('eyebrow')} onToggle={(v) => handleToggle('eyebrow', v)}>
-            <input data-testid="hero-badge-input" type="text" value={hero.badge?.text ?? ''} onChange={(e) => updateCopy('eyebrow', e.target.value)} placeholder="e.g. New Release" className={INPUT} />
-          </Field>
-
-          <Field label="Title" enabled={true}>
-            <textarea data-testid="hero-headline-input" value={hero.heading?.text ?? ''} onChange={(e) => updateCopy('headline', e.target.value)} rows={2} className={cn(INPUT, 'resize-none leading-snug')} />
-          </Field>
-
-          <Field label="Description" enabled={getEnabled('subtitle')} onToggle={(v) => handleToggle('subtitle', v)}>
-            <textarea data-testid="hero-subtitle-input" value={hero.subheading ?? ''} onChange={(e) => updateCopy('subtitle', e.target.value)} rows={3} className={cn(INPUT, 'resize-none leading-snug')} />
-          </Field>
-
-          <Field label="Main Button" enabled={getEnabled('primaryCta')} onToggle={(v) => handleToggle('primaryCta', v)}>
-            <input data-testid="hero-primary-cta-input" type="text" value={hero.cta?.text ?? ''} onChange={(e) => updateCopy('primaryCta', e.target.value)} placeholder="e.g. Get Started" className={INPUT} />
-          </Field>
-
-          <Field label="Extra Button" enabled={getEnabled('secondaryCta')} onToggle={(v) => handleToggle('secondaryCta', v)}>
-            <input data-testid="hero-secondary-cta-input" type="text" value={hero.secondaryCta?.text ?? ''} onChange={(e) => updateCopy('secondaryCta', e.target.value)} placeholder="e.g. Learn More" className={INPUT} />
-          </Field>
-
-          <Field label="Social Proof" enabled={getEnabled('trustBadges')} onToggle={(v) => handleToggle('trustBadges', v)}>
-            <input data-testid="hero-trust-input" type="text" value={hero.trustBadges?.text ?? ''} onChange={(e) => updateCopy('trustBadges', e.target.value)} placeholder="e.g. Trusted by 500+ teams" className={INPUT} />
-          </Field>
+      {/* ─── 5. VISUALS ─── */}
+      <RightAccordion id="visuals" label="Visuals">
+        <div>
+          <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Mode</span>
+          <div className="flex gap-1.5 mt-1">
+            <button
+              type="button"
+              onClick={() => { if (config.theme.mode !== 'light') useConfigStore.getState().toggleMode() }}
+              className={cn(
+                'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-medium border transition-all',
+                config.theme.mode === 'light'
+                  ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
+                  : 'bg-hb-surface text-hb-text-muted border-hb-border/50 hover:border-hb-accent/30'
+              )}
+            >
+              <Sun size={10} /> Light
+            </button>
+            <button
+              type="button"
+              onClick={() => { if (config.theme.mode !== 'dark') useConfigStore.getState().toggleMode() }}
+              className={cn(
+                'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-medium border transition-all',
+                config.theme.mode === 'dark'
+                  ? 'bg-hb-accent/15 text-hb-accent border-hb-accent/40'
+                  : 'bg-hb-surface text-hb-text-muted border-hb-border/50 hover:border-hb-accent/30'
+              )}
+            >
+              <Moon size={10} /> Dark
+            </button>
+          </div>
         </div>
       </RightAccordion>
     </div>

@@ -4,28 +4,14 @@ import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
-
-// ── Toggle + label row ──
-function Field({
-  label, enabled, onToggle, children,
-}: {
-  label: string; enabled: boolean; onToggle?: (v: boolean) => void
-  children: React.ReactNode
-}) {
-  return (
-    <div className="space-y-1">
-      <div className="flex items-center gap-2">
-        {onToggle && (
-          <Switch checked={enabled} onCheckedChange={onToggle} className="scale-[0.6] shrink-0" />
-        )}
-        <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide flex-1">{label}</span>
-      </div>
-      <div className={cn(!enabled && 'opacity-25 pointer-events-none')}>{children}</div>
-    </div>
-  )
-}
+import { AlignCenter, Columns2 } from 'lucide-react'
 
 const INPUT = 'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
+
+const CTA_LAYOUTS = [
+  { v: 'simple' as const, label: 'Centered', Icon: AlignCenter },
+  { v: 'split' as const, label: 'Side by Side', Icon: Columns2 },
+]
 
 export function CTASectionSimple({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
@@ -62,40 +48,57 @@ export function CTASectionSimple({ sectionId }: { sectionId: string }) {
     }, [sectionId, section, setSectionConfig]
   )
 
+  const currentVariant = section.variant || 'simple'
+
   return (
     <div className="divide-y divide-hb-border/30">
       {/* ─── LAYOUT ─── */}
       <RightAccordion id={`cta-layout-${sectionId}`} label="Layout" defaultOpen>
-        <div>
-          <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Style</div>
-          <div className="flex rounded-lg border border-hb-border overflow-hidden">
-            {([{ v: 'simple', label: 'Centered' }, { v: 'split', label: 'Side by Side' }] as const).map(({ v, label }) => (
-              <button
-                key={v}
-                type="button"
-                onClick={() => setSectionConfig(sectionId, { variant: v })}
-                className={cn(
-                  'flex-1 py-1.5 text-xs font-medium transition-colors',
-                  (section.variant || 'simple') === v
-                    ? 'bg-hb-accent text-white'
-                    : 'bg-hb-surface text-hb-text-muted hover:bg-hb-surface-hover',
-                )}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
+        <div className="grid grid-cols-2 gap-2">
+          {CTA_LAYOUTS.map(({ v, label, Icon }) => (
+            <button
+              key={v}
+              type="button"
+              onClick={() => setSectionConfig(sectionId, { variant: v })}
+              className={cn(
+                'flex flex-col items-center justify-center gap-1.5 h-16 rounded-lg transition-all',
+                currentVariant === v
+                  ? 'border-2 border-hb-accent bg-hb-accent/5'
+                  : 'border border-hb-border/40 hover:border-hb-accent/30',
+              )}
+            >
+              <Icon size={18} className={currentVariant === v ? 'text-hb-accent' : 'text-hb-text-muted'} />
+              <span className={cn('text-xs font-medium', currentVariant === v ? 'text-hb-accent' : 'text-hb-text-primary')}>{label}</span>
+            </button>
+          ))}
+        </div>
+      </RightAccordion>
+
+      {/* ─── ELEMENTS ─── */}
+      <RightAccordion id={`cta-elements-${sectionId}`} label="Elements" defaultOpen>
+        <div className="space-y-2">
+          {([
+            { id: 'heading', label: 'Heading' },
+            { id: 'subtitle', label: 'Subtitle' },
+            { id: 'button', label: 'Button' },
+          ] as const).map(({ id, label }) => (
+            <div key={id} className="flex items-center gap-2">
+              <Switch
+                checked={getEnabled(id)}
+                onCheckedChange={(v) => handleToggle(id, v)}
+                className="scale-[0.6] shrink-0"
+              />
+              <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">{label}</span>
+            </div>
+          ))}
         </div>
       </RightAccordion>
 
       {/* ─── CONTENT ─── */}
-      <RightAccordion id={`cta-content-${sectionId}`} label="Content" defaultOpen>
+      <RightAccordion id={`cta-content-${sectionId}`} label="Content">
         <div className="space-y-2.5">
-          <Field
-            label="Heading"
-            enabled={getEnabled('heading')}
-            onToggle={(v) => handleToggle('heading', v)}
-          >
+          <div className={cn(!getEnabled('heading') && 'opacity-25 pointer-events-none', 'space-y-1')}>
+            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Heading</span>
             <input
               type="text"
               value={getText('heading')}
@@ -104,13 +107,10 @@ export function CTASectionSimple({ sectionId }: { sectionId: string }) {
               data-testid="cta-heading-input"
               className={INPUT}
             />
-          </Field>
+          </div>
 
-          <Field
-            label="Subtitle"
-            enabled={getEnabled('subtitle')}
-            onToggle={(v) => handleToggle('subtitle', v)}
-          >
+          <div className={cn(!getEnabled('subtitle') && 'opacity-25 pointer-events-none', 'space-y-1')}>
+            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Subtitle</span>
             <textarea
               value={getText('subtitle')}
               onChange={(e) => updateCopy('subtitle', e.target.value)}
@@ -119,31 +119,26 @@ export function CTASectionSimple({ sectionId }: { sectionId: string }) {
               data-testid="cta-subtitle-input"
               className={cn(INPUT, 'resize-none leading-snug')}
             />
-          </Field>
+          </div>
 
-          <Field
-            label="Button"
-            enabled={getEnabled('button')}
-            onToggle={(v) => handleToggle('button', v)}
-          >
-            <div className="space-y-1.5">
-              <input
-                type="text"
-                value={getText('button')}
-                onChange={(e) => updateCopy('button', e.target.value)}
-                placeholder="e.g. Get Started"
-                data-testid="cta-button-input"
-                className={INPUT}
-              />
-              <input
-                type="text"
-                value={getUrl('button')}
-                onChange={(e) => updateUrl('button', e.target.value)}
-                placeholder="Link (where button goes)"
-                className={cn(INPUT, 'text-xs py-1')}
-              />
-            </div>
-          </Field>
+          <div className={cn(!getEnabled('button') && 'opacity-25 pointer-events-none', 'space-y-1')}>
+            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Button</span>
+            <input
+              type="text"
+              value={getText('button')}
+              onChange={(e) => updateCopy('button', e.target.value)}
+              placeholder="e.g. Get Started"
+              data-testid="cta-button-input"
+              className={INPUT}
+            />
+            <input
+              type="text"
+              value={getUrl('button')}
+              onChange={(e) => updateUrl('button', e.target.value)}
+              placeholder="Link (where button goes)"
+              className={cn(INPUT, 'text-xs py-1')}
+            />
+          </div>
         </div>
       </RightAccordion>
     </div>

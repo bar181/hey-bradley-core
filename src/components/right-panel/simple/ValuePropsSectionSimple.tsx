@@ -38,7 +38,26 @@ export function ValuePropsSectionSimple({ sectionId }: { sectionId: string }) {
 
   return (
     <div className="divide-y divide-hb-border/30">
-      <RightAccordion id={`vp-content-${sectionId}`} label="Content" defaultOpen>
+      {/* ─── ELEMENTS ─── */}
+      <RightAccordion id={`vp-elements-${sectionId}`} label="Elements" defaultOpen>
+        <div className="space-y-2">
+          {valueProps.map((item, i) => (
+            <div key={item.id} className="flex items-center gap-2">
+              <Switch
+                checked={item.enabled}
+                onCheckedChange={(v) => handleToggle(item.id, v)}
+                className="scale-[0.6] shrink-0"
+              />
+              <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
+                Number {i + 1}
+              </span>
+            </div>
+          ))}
+        </div>
+      </RightAccordion>
+
+      {/* ─── CONTENT ─── */}
+      <RightAccordion id={`vp-content-${sectionId}`} label="Content">
         <div className="space-y-3">
           {valueProps.map((item, i) => {
             const value = (item.props?.value as string) ?? ''
@@ -46,43 +65,34 @@ export function ValuePropsSectionSimple({ sectionId }: { sectionId: string }) {
             const description = (item.props?.description as string) ?? ''
 
             return (
-              <div key={item.id} className="space-y-1.5">
-                <div className="flex items-center gap-2">
-                  <Switch
-                    checked={item.enabled}
-                    onCheckedChange={(v) => handleToggle(item.id, v)}
-                    className="scale-[0.6] shrink-0"
-                  />
-                  <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
-                    Number {i + 1}
-                  </span>
-                </div>
-                <div className={cn(!item.enabled && 'opacity-25 pointer-events-none', 'space-y-1.5')}>
-                  <input
-                    type="text"
-                    value={value}
-                    onChange={(e) => updateProp(item.id, 'value', e.target.value)}
-                    placeholder="e.g. 500+"
-                    data-testid={`valueprop-value-input-${i}`}
-                    className={INPUT}
-                  />
-                  <input
-                    type="text"
-                    value={label}
-                    onChange={(e) => updateProp(item.id, 'label', e.target.value)}
-                    placeholder="Label, e.g. Teams"
-                    data-testid={`valueprop-label-input-${i}`}
-                    className={INPUT}
-                  />
-                  <input
-                    type="text"
-                    value={description}
-                    onChange={(e) => updateProp(item.id, 'description', e.target.value)}
-                    placeholder="Brief description"
-                    data-testid={`valueprop-description-input-${i}`}
-                    className={INPUT}
-                  />
-                </div>
+              <div key={item.id} className={cn(!item.enabled && 'opacity-25 pointer-events-none', 'space-y-1.5')}>
+                <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
+                  Number {i + 1}
+                </span>
+                <input
+                  type="text"
+                  value={value}
+                  onChange={(e) => updateProp(item.id, 'value', e.target.value)}
+                  placeholder="e.g. 500+"
+                  data-testid={`valueprop-value-input-${i}`}
+                  className={INPUT}
+                />
+                <input
+                  type="text"
+                  value={label}
+                  onChange={(e) => updateProp(item.id, 'label', e.target.value)}
+                  placeholder="Label, e.g. Teams"
+                  data-testid={`valueprop-label-input-${i}`}
+                  className={INPUT}
+                />
+                <input
+                  type="text"
+                  value={description}
+                  onChange={(e) => updateProp(item.id, 'description', e.target.value)}
+                  placeholder="Brief description"
+                  data-testid={`valueprop-description-input-${i}`}
+                  className={INPUT}
+                />
               </div>
             )
           })}

@@ -38,7 +38,26 @@ export function TestimonialsSectionSimple({ sectionId }: { sectionId: string }) 
 
   return (
     <div className="divide-y divide-hb-border/30">
-      <RightAccordion id={`testimonials-content-${sectionId}`} label="Content" defaultOpen>
+      {/* ─── ELEMENTS ─── */}
+      <RightAccordion id={`testimonials-elements-${sectionId}`} label="Elements" defaultOpen>
+        <div className="space-y-2">
+          {testimonials.map((t, i) => (
+            <div key={t.id} className="flex items-center gap-2">
+              <Switch
+                checked={t.enabled}
+                onCheckedChange={(v) => handleToggle(t.id, v)}
+                className="scale-[0.6] shrink-0"
+              />
+              <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
+                Review {i + 1}
+              </span>
+            </div>
+          ))}
+        </div>
+      </RightAccordion>
+
+      {/* ─── CONTENT ─── */}
+      <RightAccordion id={`testimonials-content-${sectionId}`} label="Content">
         <div className="space-y-3">
           {testimonials.map((t, i) => {
             const quote = (t.props?.quote as string) ?? ''
@@ -46,43 +65,34 @@ export function TestimonialsSectionSimple({ sectionId }: { sectionId: string }) 
             const role = (t.props?.role as string) ?? ''
 
             return (
-              <div key={t.id} className="space-y-1.5">
-                <div className="flex items-center gap-2">
-                  <Switch
-                    checked={t.enabled}
-                    onCheckedChange={(v) => handleToggle(t.id, v)}
-                    className="scale-[0.6] shrink-0"
-                  />
-                  <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
-                    Review {i + 1}
-                  </span>
-                </div>
-                <div className={cn(!t.enabled && 'opacity-25 pointer-events-none', 'space-y-1.5')}>
-                  <textarea
-                    value={quote}
-                    onChange={(e) => updateProp(t.id, 'quote', e.target.value)}
-                    rows={3}
-                    placeholder="What did they say?"
-                    data-testid={`testimonial-quote-input-${i}`}
-                    className={cn(INPUT, 'resize-none leading-snug')}
-                  />
-                  <input
-                    type="text"
-                    value={author}
-                    onChange={(e) => updateProp(t.id, 'author', e.target.value)}
-                    placeholder="Person's name"
-                    data-testid={`testimonial-author-input-${i}`}
-                    className={INPUT}
-                  />
-                  <input
-                    type="text"
-                    value={role}
-                    onChange={(e) => updateProp(t.id, 'role', e.target.value)}
-                    placeholder="Their title or company"
-                    data-testid={`testimonial-role-input-${i}`}
-                    className={INPUT}
-                  />
-                </div>
+              <div key={t.id} className={cn(!t.enabled && 'opacity-25 pointer-events-none', 'space-y-1.5')}>
+                <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
+                  Review {i + 1}
+                </span>
+                <textarea
+                  value={quote}
+                  onChange={(e) => updateProp(t.id, 'quote', e.target.value)}
+                  rows={3}
+                  placeholder="What did they say?"
+                  data-testid={`testimonial-quote-input-${i}`}
+                  className={cn(INPUT, 'resize-none leading-snug')}
+                />
+                <input
+                  type="text"
+                  value={author}
+                  onChange={(e) => updateProp(t.id, 'author', e.target.value)}
+                  placeholder="Person's name"
+                  data-testid={`testimonial-author-input-${i}`}
+                  className={INPUT}
+                />
+                <input
+                  type="text"
+                  value={role}
+                  onChange={(e) => updateProp(t.id, 'role', e.target.value)}
+                  placeholder="Their title or company"
+                  data-testid={`testimonial-role-input-${i}`}
+                  className={INPUT}
+                />
               </div>
             )
           })}
