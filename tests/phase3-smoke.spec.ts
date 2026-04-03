@@ -51,7 +51,7 @@ test.describe('Phase 3 Smoke Tests', () => {
       await page.waitForTimeout(500)
 
       // Verify: the tab bar (REALITY/DATA/etc.) should be hidden
-      const tabBar = page.locator('button').filter({ hasText: 'DATA' }).first()
+      const tabBar = page.locator('button').filter({ hasText: 'Data' }).first()
       expect(await tabBar.isVisible()).toBe(false)
 
       // Verify: body still has content (sections render)

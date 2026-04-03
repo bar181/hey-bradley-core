@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
 import {
   Star,
   Grid3X3,
@@ -85,18 +85,6 @@ export function SectionsSection() {
   const [showAddMenu, setShowAddMenu] = useState(false)
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
   const [showHidden, setShowHidden] = useState(false)
-  const addMenuRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (!showAddMenu) return
-    const handler = (e: MouseEvent) => {
-      if (addMenuRef.current && !addMenuRef.current.contains(e.target as Node)) {
-        setShowAddMenu(false)
-      }
-    }
-    document.addEventListener('mousedown', handler)
-    return () => document.removeEventListener('mousedown', handler)
-  }, [showAddMenu])
 
   const orderedSections = localOrder
     ? localOrder
@@ -283,8 +271,8 @@ export function SectionsSection() {
         </div>
       )}
 
-      {/* Add Section button */}
-      <div className="relative" ref={addMenuRef}>
+      {/* Add Section button + inline accordion */}
+      <div>
         <button
           type="button"
           onClick={() => setShowAddMenu(!showAddMenu)}
@@ -294,8 +282,11 @@ export function SectionsSection() {
           Add Section
         </button>
 
-        {showAddMenu && (
-          <div className="absolute left-0 right-0 bottom-full mb-1 z-50 bg-hb-surface border border-hb-border rounded-lg shadow-xl overflow-hidden max-h-[320px] overflow-y-auto">
+        <div
+          className="overflow-hidden transition-all duration-300 ease-in-out"
+          style={{ maxHeight: showAddMenu ? '400px' : '0' }}
+        >
+          <div className="mt-1 rounded-lg border border-hb-border bg-hb-surface overflow-y-auto max-h-[320px]">
             {SECTION_TYPES.map((type) => {
               const Icon = sectionIconMap[type] ?? Star
               return (
@@ -321,7 +312,7 @@ export function SectionsSection() {
               )
             })}
           </div>
-        )}
+        </div>
       </div>
     </div>
   )

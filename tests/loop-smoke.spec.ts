@@ -8,7 +8,7 @@ test.describe('JSON Core Loop Smoke Test', () => {
 
   test('right panel text change → JSON updates → preview updates', async ({ page }) => {
     // 1. Click Hero in left panel
-    await page.locator('text=Main Banner').first().click();
+    await page.locator('[role="button"]').filter({ hasText: 'Main Banner' }).first().click();
     await page.waitForTimeout(500);
 
     // 2. Find and clear the headline textarea, type new text
@@ -29,7 +29,7 @@ test.describe('JSON Core Loop Smoke Test', () => {
     await page.waitForTimeout(500);
 
     // 3. Switch to DATA tab and verify JSON contains new headline
-    const dataTab = page.locator('button').filter({ hasText: 'DATA' }).first();
+    const dataTab = page.locator('button').filter({ hasText: 'Data' }).first();
     await dataTab.click();
     await page.waitForTimeout(1000);
 
@@ -37,7 +37,7 @@ test.describe('JSON Core Loop Smoke Test', () => {
     expect(dataContent).toContain('Test Headline Change');
 
     // 4. Switch back to REALITY and verify preview shows new headline
-    const realityTab = page.locator('button').filter({ hasText: 'REALITY' }).first();
+    const realityTab = page.locator('button').filter({ hasText: 'Preview' }).first();
     await realityTab.click();
     await page.waitForTimeout(500);
 
@@ -48,42 +48,29 @@ test.describe('JSON Core Loop Smoke Test', () => {
   });
 
   test('component toggle → JSON updates → preview updates', async ({ page }) => {
-    // 1. Click Hero in left panel
-    await page.locator('text=Main Banner').first().click();
+    // 1. Click Main Banner in left panel (use Builder tab)
+    const builderTab = page.locator('button').filter({ hasText: 'Builder' }).first();
+    await builderTab.click();
+    await page.waitForTimeout(300);
+
+    await page.locator('[role="button"]').filter({ hasText: 'Main Banner' }).first().click();
     await page.waitForTimeout(500);
 
-    // 2. Verify trust badges text is visible in preview initially
-    const realityTab = page.locator('button').filter({ hasText: 'REALITY' }).first();
-    await realityTab.click();
-    await page.waitForTimeout(500);
-    let previewText = await page.textContent('body');
-    const hasTrustBadges = previewText?.includes('214') || previewText?.includes('Trusted');
-
-    // 3. If trust badges are visible, toggle them off
-    if (hasTrustBadges) {
-      // Go back to Hero controls
-      await page.locator('text=Main Banner').first().click();
-      await page.waitForTimeout(300);
-
-      // Find the Trust Badges toggle - look for the toggle near "Trust Badges" text
-      const trustBadgesRow = page.locator('text=Trust Badges').first();
-      if (await trustBadgesRow.count() > 0) {
-        // Click the toggle button near the Trust Badges label
-        const toggleButton = trustBadgesRow.locator('..').locator('button').first();
-        if (await toggleButton.count() > 0) {
-          await toggleButton.click();
-        }
+    // 2. Toggle Social Proof off if the switch exists
+    const socialProofLabel = page.locator('text=Social Proof').first();
+    if (await socialProofLabel.count() > 0) {
+      const switchBtn = socialProofLabel.locator('..').locator('button[role="switch"]').first();
+      if (await switchBtn.count() > 0) {
+        await switchBtn.click();
+        await page.waitForTimeout(300);
       }
-      await page.waitForTimeout(500);
-
-      // 4. Check DATA tab reflects the change
-      await page.locator('button').filter({ hasText: 'DATA' }).first().click();
-      await page.waitForTimeout(500);
-      const jsonContent = await page.textContent('body');
-      // The enabled status should have changed somewhere in the JSON
-      // Just verify the JSON is valid and renders
-      expect(jsonContent).toContain('hero');
     }
+
+    // 3. Check DATA tab reflects the change
+    await page.locator('button').filter({ hasText: 'Data' }).first().click();
+    await page.waitForTimeout(500);
+    const jsonContent = await page.textContent('body');
+    expect(jsonContent).toContain('hero');
 
     await page.screenshot({ path: 'tests/screenshots/smoke-toggle.png' });
   });
@@ -92,7 +79,7 @@ test.describe('JSON Core Loop Smoke Test', () => {
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push(e.message));
 
-    for (const tab of ['REALITY', 'DATA', 'XAI DOCS', 'WORKFLOW']) {
+    for (const tab of ['Preview', 'Data', 'Specs', 'Pipeline']) {
       const tabBtn = page.locator('button').filter({ hasText: tab }).first();
       if (await tabBtn.count() > 0) {
         await tabBtn.click();

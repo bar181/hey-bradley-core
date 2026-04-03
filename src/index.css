@@ -40,23 +40,29 @@ body {
        Primary: Crimson #A51C30, Black #1E1E1E
        Secondary: Shade #BAC5C6, Parchment #F3F3F1, Slate #8996A0, Mortar #8C8179
        Accent: Indigo #293352 */
-    --hb-bg: #EDE8E2;              /* Harvard cream — panel backgrounds */
-    --hb-surface: #F7F5F2;         /* Parchment — cards, inputs, section rows */
-    --hb-surface-hover: #EDE8E2;   /* Warm hover */
-    --hb-border: #D1CBC3;          /* Warm gray — borders, dividers */
-    --hb-text-primary: #1E1E1E;    /* Near black — primary text */
-    --hb-text-secondary: #374151;  /* Gray-700 — labels, secondary */
-    --hb-text-muted: #6B7280;      /* Gray-500 — muted text, icons */
-    --hb-accent: #A51C30;          /* Crimson — interactive elements */
-    --hb-accent-light: rgba(165, 28, 48, 0.10); /* Crimson transparent */
-    --hb-accent-hover: #8B1729;    /* Dark crimson — hover */
-    --hb-nav-bg: #A51C30;          /* Crimson — top bar */
-    --hb-button-border: #8B1729;   /* Dark crimson — button border */
+    --hb-bg: #F5F3F0;              /* Warmer off-white — main bg */
+    --hb-surface: #FFFFFF;          /* Pure white — cards, panels */
+    --hb-surface-hover: #F9F8F6;   /* Very subtle warm hover */
+    --hb-border: #E5E1DC;          /* Softer warm border */
+    --hb-text-primary: #1A1A1A;    /* Near black */
+    --hb-text-secondary: #4B5563;  /* Gray-600 */
+    --hb-text-muted: #9CA3AF;      /* Gray-400 */
+    --hb-accent: #A51C30;          /* Crimson stays */
+    --hb-accent-light: rgba(165, 28, 48, 0.08);
+    --hb-accent-hover: #8B1729;
+    --hb-nav-bg: #A51C30;          /* Crimson nav stays */
   }
-  /* Light mode: thin dark crimson border on builder panel section rows and add button */
-  .light-chrome [data-builder-panel] [role="button"],
-  .light-chrome [data-builder-panel] > .relative > button {
-    border: 1px solid var(--hb-button-border, #8B1729);
+  /* Light mode: clean input styling */
+  .light-chrome input,
+  .light-chrome textarea,
+  .light-chrome select {
+    background-color: #FFFFFF;
+    border-color: #E5E1DC;
+  }
+  .light-chrome input:focus,
+  .light-chrome textarea:focus,
+  .light-chrome select:focus {
+    border-color: var(--hb-accent);
   }
 
   /* Reduced motion: disable animations */

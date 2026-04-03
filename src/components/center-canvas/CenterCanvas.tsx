@@ -1,3 +1,4 @@
+import { cn } from '../../lib/cn'
 import { useUIStore } from '../../store/uiStore'
 import { TabBar } from './TabBar'
 import { RealityTab } from './RealityTab'
@@ -20,7 +21,7 @@ export function CenterCanvas() {
   return (
     <div className="h-full flex flex-col">
       <TabBar />
-      <div className="flex-1 overflow-auto p-4 bg-hb-surface-hover">
+      <div className={cn('flex-1 overflow-auto', activeTab === 'REALITY' ? 'bg-hb-bg' : 'p-4 bg-hb-surface-hover')}>
         {activeTab === 'REALITY' && <RealityTab />}
         {activeTab === 'DATA' && <DataTab />}
         {activeTab === 'XAI_DOCS' && <XAIDocsTab />}

@@ -136,7 +136,7 @@ test.describe('2. Builder Page (/builder)', () => {
   test('all 4 tabs work', async ({ page }) => {
     await goToBuilder(page)
 
-    const tabs = ['REALITY', 'DATA', 'XAI DOCS', 'WORKFLOW']
+    const tabs = ['Preview', 'Data', 'Specs', 'Pipeline']
     const tabResults: string[] = []
 
     for (const tab of tabs) {

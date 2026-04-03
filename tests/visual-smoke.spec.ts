@@ -8,7 +8,7 @@ test.describe('Visual Smoke Tests', () => {
 
   test('Data Tab renders valid JSON without raw HTML', async ({ page }) => {
     // Navigate to Data Tab
-    const dataBtn = page.locator('button').filter({ hasText: 'DATA' }).first();
+    const dataBtn = page.locator('button').filter({ hasText: 'Data' }).first();
     await dataBtn.click();
     await page.waitForTimeout(1000);
 
@@ -37,7 +37,7 @@ test.describe('Visual Smoke Tests', () => {
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push(e.message));
 
-    for (const tabName of ['REALITY', 'DATA', 'XAI DOCS', 'WORKFLOW']) {
+    for (const tabName of ['Preview', 'Data', 'Specs', 'Pipeline']) {
       const tab = page.locator('button').filter({ hasText: tabName }).first();
       if (await tab.count() > 0) {
         await tab.click();
