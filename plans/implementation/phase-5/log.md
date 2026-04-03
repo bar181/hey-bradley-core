@@ -154,3 +154,26 @@ Extract `cannedChat.ts` logic into a shared `commandParser.ts` service. Both Cha
 - `plans/implementation/phase-5/redo-design-no-jargon.md`
 
 ---
+
+## Session 6 — 2026-04-03: Final Polish + Phase Close
+
+### What Was Done
+- Visual consistency audit: fixed invisible Card text, logo opacity
+- Preview mode: hidden TopBar, full-height heroes, fade-in animations, edge-to-edge
+- Example sites: 4 JSONs updated with new section types, real images, appropriate variants
+- Tailwind polish: hover translate, shadows, glass blobs, gradient borders, rounded-2xl
+- Consistency screenshots: all 15 sections in dark + light mode
+- Phase 5 closed with retrospective
+
+### Phase 5 Final Totals
+
+- 15 section types
+- 47+ variant renderers (62 template files)
+- 50 images, 10 videos, 6 effects, 10 palettes
+- Persona score: 65/100 average (Designer 68, Agency Owner 64, Grandma 58, Founder 70)
+- 86 total commits in repository
+- 26 tests passing
+
+### Phase 5 Status: COMPLETED
+
+---
