@@ -4,13 +4,15 @@ import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
-import { ListCollapse, Columns2 } from 'lucide-react'
+import { ListCollapse, Columns2, LayoutGrid, ListOrdered } from 'lucide-react'
 
 const INPUT = 'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
 
 const FAQ_LAYOUTS = [
   { v: 'accordion' as const, label: 'Expandable', Icon: ListCollapse },
   { v: 'two-column' as const, label: 'Side by Side', Icon: Columns2 },
+  { v: 'cards' as const, label: 'Cards', Icon: LayoutGrid },
+  { v: 'numbered' as const, label: 'Numbered', Icon: ListOrdered },
 ]
 
 export function FAQSectionSimple({ sectionId }: { sectionId: string }) {

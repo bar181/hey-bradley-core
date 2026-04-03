@@ -10,6 +10,7 @@ import { TestimonialsSectionSimple } from './simple/TestimonialsSectionSimple'
 import { FAQSectionSimple } from './simple/FAQSectionSimple'
 import { ValuePropsSectionSimple } from './simple/ValuePropsSectionSimple'
 import { NavbarSectionSimple } from './simple/NavbarSectionSimple'
+import { GallerySectionSimple } from './simple/GallerySectionSimple'
 
 export function SimpleTab() {
   const selectedContext = useUIStore((s) => s.selectedContext)
@@ -42,6 +43,7 @@ export function SimpleTab() {
     case 'quotes': return <TestimonialsSectionSimple sectionId={section.id} />
     case 'questions': return <FAQSectionSimple sectionId={section.id} />
     case 'numbers': return <ValuePropsSectionSimple sectionId={section.id} />
+    case 'gallery': return <GallerySectionSimple sectionId={section.id} />
     default: return <SectionSimple sectionId={section.id} />
   }
 }

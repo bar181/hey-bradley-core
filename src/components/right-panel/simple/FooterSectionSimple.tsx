@@ -4,9 +4,16 @@ import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
+import { Columns3, Minus, AlignCenter } from 'lucide-react'
 
 const INPUT =
   'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
+
+const FOOTER_LAYOUTS = [
+  { v: 'multi-column', label: 'Multi-Column', Icon: Columns3 },
+  { v: 'simple-bar', label: 'Simple Bar', Icon: Minus },
+  { v: 'minimal', label: 'Minimal', Icon: AlignCenter },
+] as const
 
 export function FooterSectionSimple({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
@@ -15,8 +22,17 @@ export function FooterSectionSimple({ sectionId }: { sectionId: string }) {
 
   if (!section) return null
 
+  const currentVariant = section.variant || 'multi-column'
+
   const getComp = (id: string) => section.components.find((c) => c.id === id)
   const getEnabled = (id: string) => getComp(id)?.enabled ?? true
+
+  const applyLayout = useCallback(
+    (variant: string) => {
+      setSectionConfig(sectionId, { variant })
+    },
+    [sectionId, setSectionConfig],
+  )
 
   const updateProp = useCallback(
     (componentId: string, key: string, value: string) => {
@@ -40,8 +56,30 @@ export function FooterSectionSimple({ sectionId }: { sectionId: string }) {
 
   return (
     <div className="divide-y divide-hb-border/30">
+      {/* ─── LAYOUT ─── */}
+      <RightAccordion id={`footer-layout-${sectionId}`} label="Layout" defaultOpen>
+        <div className="grid grid-cols-3 gap-2">
+          {FOOTER_LAYOUTS.map(({ v, label, Icon }) => (
+            <button
+              key={v}
+              type="button"
+              onClick={() => applyLayout(v)}
+              className={cn(
+                'flex flex-col items-center justify-center gap-1.5 h-16 rounded-lg transition-all',
+                currentVariant === v
+                  ? 'border-2 border-hb-accent bg-hb-accent/5'
+                  : 'border border-hb-border/40 hover:border-hb-accent/30',
+              )}
+            >
+              <Icon size={18} className={currentVariant === v ? 'text-hb-accent' : 'text-hb-text-muted'} />
+              <span className={cn('text-[11px] font-medium', currentVariant === v ? 'text-hb-accent' : 'text-hb-text-primary')}>{label}</span>
+            </button>
+          ))}
+        </div>
+      </RightAccordion>
+
       {/* ─── ELEMENTS ─── */}
-      <RightAccordion id={`footer-elements-${sectionId}`} label="Elements" defaultOpen>
+      <RightAccordion id={`footer-elements-${sectionId}`} label="Elements">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <Switch

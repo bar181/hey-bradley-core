@@ -4,7 +4,10 @@ import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
-import { Plus, Trash2, Columns2, Columns3, LayoutGrid, Layers } from 'lucide-react'
+import {
+  Plus, Trash2, LayoutGrid, ImageIcon, Sparkles,
+  AlignLeft, Hash, Rows3, Palette, GlassWater,
+} from 'lucide-react'
 
 /* ── Available icons (must match FeaturesGrid iconMap) ── */
 const ICON_OPTIONS = ['zap', 'target', 'shield', 'star', 'rocket', 'code', 'globe', 'lock', 'cpu'] as const
@@ -18,10 +21,14 @@ const INPUT =
 
 /* ── Layout cards ── */
 const FEATURES_LAYOUTS = [
-  { v: 'grid-2col', cols: 2, label: '2 Columns', Icon: Columns2 },
-  { v: 'grid-3col', cols: 3, label: '3 Columns', Icon: Columns3 },
-  { v: 'grid-4col', cols: 4, label: '4 Columns', Icon: LayoutGrid },
-  { v: 'cards', cols: 3, label: 'Card Style', Icon: Layers },
+  { v: 'cards', cols: 3, label: 'Cards', Icon: LayoutGrid },
+  { v: 'image-cards', cols: 3, label: 'Image Cards', Icon: ImageIcon },
+  { v: 'icon-text', cols: 3, label: 'Icon + Text', Icon: Sparkles },
+  { v: 'minimal', cols: 3, label: 'Minimal', Icon: AlignLeft },
+  { v: 'numbered', cols: 3, label: 'Numbered', Icon: Hash },
+  { v: 'horizontal', cols: 3, label: 'Horizontal', Icon: Rows3 },
+  { v: 'gradient', cols: 3, label: 'Gradient', Icon: Palette },
+  { v: 'glass', cols: 3, label: 'Glass', Icon: GlassWater },
 ] as const
 
 /* ── Toggle + label row ── */
@@ -56,7 +63,7 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
     .filter((c) => c.type === 'feature-card')
     .sort((a, b) => a.order - b.order)
 
-  const currentVariant = section.variant || 'grid-3col'
+  const currentVariant = section.variant || 'cards'
 
   /* ── Handlers ── */
 

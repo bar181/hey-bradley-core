@@ -8,16 +8,39 @@ import { HeroSplit } from '@/templates/hero/HeroSplit'
 import { HeroOverlay } from '@/templates/hero/HeroOverlay'
 import { HeroMinimal } from '@/templates/hero/HeroMinimal'
 import { NavbarSimple } from '@/templates/navbar/NavbarSimple'
-import { CTASimple } from '@/templates/cta/CTASimple'
-import { CTASplit } from '@/templates/cta/CTASplit'
-import { FeaturesGrid } from '@/templates/features/FeaturesGrid'
-import { FeaturesCards } from '@/templates/features/FeaturesCards'
+import { ActionCentered } from '@/templates/action/ActionCentered'
+import { ActionSplit } from '@/templates/action/ActionSplit'
+import { ActionGradient } from '@/templates/action/ActionGradient'
+import { ActionNewsletter } from '@/templates/action/ActionNewsletter'
+import { ColumnsCards } from '@/templates/columns/ColumnsCards'
+import { ColumnsImageCards } from '@/templates/columns/ColumnsImageCards'
+import { ColumnsIconText } from '@/templates/columns/ColumnsIconText'
+import { ColumnsMinimal } from '@/templates/columns/ColumnsMinimal'
+import { ColumnsNumbered } from '@/templates/columns/ColumnsNumbered'
+import { ColumnsHorizontal } from '@/templates/columns/ColumnsHorizontal'
+import { ColumnsGradient } from '@/templates/columns/ColumnsGradient'
+import { ColumnsGlass } from '@/templates/columns/ColumnsGlass'
 import { PricingTiers } from '@/templates/pricing/PricingTiers'
 import { FooterSimple } from '@/templates/footer/FooterSimple'
-import { TestimonialsCards } from '@/templates/testimonials/TestimonialsCards'
-import { FAQAccordion } from '@/templates/faq/FAQAccordion'
-import { FAQTwoCol } from '@/templates/faq/FAQTwoCol'
-import { ValuePropsGrid } from '@/templates/value-props/ValuePropsGrid'
+import { QuotesCards } from '@/templates/quotes/QuotesCards'
+import { QuotesSingle } from '@/templates/quotes/QuotesSingle'
+import { QuotesStars } from '@/templates/quotes/QuotesStars'
+import { QuotesMinimal } from '@/templates/quotes/QuotesMinimal'
+import { QuestionsAccordion } from '@/templates/questions/QuestionsAccordion'
+import { QuestionsTwoCol } from '@/templates/questions/QuestionsTwoCol'
+import { QuestionsCards } from '@/templates/questions/QuestionsCards'
+import { QuestionsNumbered } from '@/templates/questions/QuestionsNumbered'
+import { NumbersCounters } from '@/templates/numbers/NumbersCounters'
+import { NumbersIcons } from '@/templates/numbers/NumbersIcons'
+import { NumbersCards } from '@/templates/numbers/NumbersCards'
+import { NumbersGradient } from '@/templates/numbers/NumbersGradient'
+import { FooterMultiColumn } from '@/templates/footer/FooterMultiColumn'
+import { FooterSimpleBar } from '@/templates/footer/FooterSimpleBar'
+import { FooterMinimal } from '@/templates/footer/FooterMinimal'
+import { GalleryGrid } from '@/templates/gallery/GalleryGrid'
+import { GalleryMasonry } from '@/templates/gallery/GalleryMasonry'
+import { GalleryCarousel } from '@/templates/gallery/GalleryCarousel'
+import { GalleryFullWidth } from '@/templates/gallery/GalleryFullWidth'
 import {
   Star,
   Grid3X3,
@@ -258,31 +281,103 @@ function renderSection(section: ReturnType<typeof useConfigStore.getState>['conf
     }
   }
   if (section.type === 'columns') {
-    return section.variant === 'cards'
-      ? <FeaturesCards section={section} />
-      : <FeaturesGrid section={section} />
+    switch (section.variant) {
+      case 'cards':
+        return <ColumnsCards section={section} />
+      case 'image-cards':
+        return <ColumnsImageCards section={section} />
+      case 'icon-text':
+        return <ColumnsIconText section={section} />
+      case 'minimal':
+        return <ColumnsMinimal section={section} />
+      case 'numbered':
+        return <ColumnsNumbered section={section} />
+      case 'horizontal':
+        return <ColumnsHorizontal section={section} />
+      case 'gradient':
+        return <ColumnsGradient section={section} />
+      case 'glass':
+        return <ColumnsGlass section={section} />
+      default:
+        return <ColumnsCards section={section} />
+    }
   }
   if (section.type === 'pricing') {
     return <PricingTiers section={section} />
   }
   if (section.type === 'action') {
-    return section.variant === 'split'
-      ? <CTASplit section={section} />
-      : <CTASimple section={section} />
+    switch (section.variant) {
+      case 'split':
+        return <ActionSplit section={section} />
+      case 'gradient':
+        return <ActionGradient section={section} />
+      case 'newsletter':
+        return <ActionNewsletter section={section} />
+      default:
+        return <ActionCentered section={section} />
+    }
   }
   if (section.type === 'footer') {
-    return <FooterSimple section={section} />
+    switch (section.variant) {
+      case 'multi-column':
+        return <FooterMultiColumn section={section} />
+      case 'simple-bar':
+        return <FooterSimpleBar section={section} />
+      case 'minimal':
+        return <FooterMinimal section={section} />
+      default:
+        return <FooterSimple section={section} />
+    }
   }
   if (section.type === 'quotes') {
-    return <TestimonialsCards section={section} />
+    switch (section.variant) {
+      case 'single':
+        return <QuotesSingle section={section} />
+      case 'stars':
+        return <QuotesStars section={section} />
+      case 'minimal':
+        return <QuotesMinimal section={section} />
+      default:
+        return <QuotesCards section={section} />
+    }
   }
   if (section.type === 'questions') {
-    return section.variant === 'two-column'
-      ? <FAQTwoCol section={section} />
-      : <FAQAccordion section={section} />
+    switch (section.variant) {
+      case 'two-column':
+        return <QuestionsTwoCol section={section} />
+      case 'cards':
+        return <QuestionsCards section={section} />
+      case 'numbered':
+        return <QuestionsNumbered section={section} />
+      default:
+        return <QuestionsAccordion section={section} />
+    }
   }
   if (section.type === 'numbers') {
-    return <ValuePropsGrid section={section} />
+    switch (section.variant) {
+      case 'counters':
+        return <NumbersCounters section={section} />
+      case 'icons':
+        return <NumbersIcons section={section} />
+      case 'cards':
+        return <NumbersCards section={section} />
+      case 'gradient':
+        return <NumbersGradient section={section} />
+      default:
+        return <NumbersCounters section={section} />
+    }
+  }
+  if (section.type === 'gallery') {
+    switch (section.variant) {
+      case 'masonry':
+        return <GalleryMasonry section={section} />
+      case 'carousel':
+        return <GalleryCarousel section={section} />
+      case 'full-width':
+        return <GalleryFullWidth section={section} />
+      default:
+        return <GalleryGrid section={section} />
+    }
   }
   return (
     <div

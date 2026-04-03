@@ -4,13 +4,15 @@ import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
-import { AlignCenter, Columns2 } from 'lucide-react'
+import { AlignCenter, Columns2, Sparkles, Mail } from 'lucide-react'
 
 const INPUT = 'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
 
 const CTA_LAYOUTS = [
   { v: 'simple' as const, label: 'Centered', Icon: AlignCenter },
   { v: 'split' as const, label: 'Side by Side', Icon: Columns2 },
+  { v: 'gradient' as const, label: 'Gradient', Icon: Sparkles },
+  { v: 'newsletter' as const, label: 'Newsletter', Icon: Mail },
 ]
 
 export function CTASectionSimple({ sectionId }: { sectionId: string }) {

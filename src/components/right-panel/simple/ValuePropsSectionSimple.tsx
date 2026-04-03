@@ -4,8 +4,16 @@ import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
+import { Hash, Sparkles, CreditCard, Palette } from 'lucide-react'
 
 const INPUT = 'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
+
+const NUMBERS_LAYOUTS = [
+  { v: 'counters', label: 'Counters', Icon: Hash },
+  { v: 'icons', label: 'Icons', Icon: Sparkles },
+  { v: 'cards', label: 'Cards', Icon: CreditCard },
+  { v: 'gradient', label: 'Gradient', Icon: Palette },
+] as const
 
 export function ValuePropsSectionSimple({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
@@ -14,9 +22,18 @@ export function ValuePropsSectionSimple({ sectionId }: { sectionId: string }) {
 
   if (!section) return null
 
+  const currentVariant = section.variant || 'counters'
+
   const valueProps = section.components
     .filter((c) => c.type === 'value-prop')
     .sort((a, b) => a.order - b.order)
+
+  const applyLayout = useCallback(
+    (variant: string) => {
+      setSectionConfig(sectionId, { variant })
+    },
+    [sectionId, setSectionConfig],
+  )
 
   const updateProp = useCallback(
     (componentId: string, key: string, value: string) => {
@@ -38,8 +55,30 @@ export function ValuePropsSectionSimple({ sectionId }: { sectionId: string }) {
 
   return (
     <div className="divide-y divide-hb-border/30">
+      {/* ─── LAYOUT ─── */}
+      <RightAccordion id={`vp-layout-${sectionId}`} label="Layout" defaultOpen>
+        <div className="grid grid-cols-2 gap-2">
+          {NUMBERS_LAYOUTS.map(({ v, label, Icon }) => (
+            <button
+              key={v}
+              type="button"
+              onClick={() => applyLayout(v)}
+              className={cn(
+                'flex flex-col items-center justify-center gap-1.5 h-16 rounded-lg transition-all',
+                currentVariant === v
+                  ? 'border-2 border-hb-accent bg-hb-accent/5'
+                  : 'border border-hb-border/40 hover:border-hb-accent/30',
+              )}
+            >
+              <Icon size={18} className={currentVariant === v ? 'text-hb-accent' : 'text-hb-text-muted'} />
+              <span className={cn('text-xs font-medium', currentVariant === v ? 'text-hb-accent' : 'text-hb-text-primary')}>{label}</span>
+            </button>
+          ))}
+        </div>
+      </RightAccordion>
+
       {/* ─── ELEMENTS ─── */}
-      <RightAccordion id={`vp-elements-${sectionId}`} label="Elements" defaultOpen>
+      <RightAccordion id={`vp-elements-${sectionId}`} label="Elements">
         <div className="space-y-2">
           {valueProps.map((item, i) => (
             <div key={item.id} className="flex items-center gap-2">
