@@ -26,13 +26,19 @@ test.describe('Phase 2 Smoke Tests', () => {
     // Get initial body text
     const initialText = await page.textContent('body')
 
+    // Expand theme dropdown (click the dropdown button in the right panel)
+    const themeDropdown = page.locator('button').filter({ hasText: /SaaS|Agency|Portfolio/ }).first()
+    if (await themeDropdown.count() > 0) {
+      await themeDropdown.click()
+      await page.waitForTimeout(300)
+    }
+
     // Click Agency theme card
     const agencyCard = page.locator('[data-theme-card]').filter({ hasText: 'Agency' }).first()
     if (await agencyCard.count() > 0) {
       await agencyCard.click()
       await page.waitForTimeout(500)
     } else {
-      // Try clicking by text
       await page.locator('text=Agency').first().click()
       await page.waitForTimeout(500)
     }
@@ -100,7 +106,7 @@ test.describe('Phase 2 Smoke Tests', () => {
   // ── Test 4: Edit headline in hero editor updates preview ──
   test('editing hero headline updates preview', async ({ page }) => {
     // Click Hero in left panel
-    await page.locator('[role="button"]').filter({ hasText: 'Hero' }).first().click()
+    await page.locator('[role="button"]').filter({ hasText: 'Main Banner' }).first().click()
     await page.waitForTimeout(500)
 
     // Expand Content accordion if needed
@@ -125,7 +131,7 @@ test.describe('Phase 2 Smoke Tests', () => {
   // ── Test 5: Toggle component visibility ──
   test('toggling eyebrow badge changes preview', async ({ page }) => {
     // Click Hero
-    await page.locator('[role="button"]').filter({ hasText: 'Hero' }).first().click()
+    await page.locator('[role="button"]').filter({ hasText: 'Main Banner' }).first().click()
     await page.waitForTimeout(500)
 
     // Expand Content accordion

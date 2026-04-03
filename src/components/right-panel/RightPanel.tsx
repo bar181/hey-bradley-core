@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useUIStore } from '@/store/uiStore'
 import { useConfigStore } from '@/store/configStore'
 import { Toggle } from '@/components/shared/Toggle'
@@ -7,21 +6,22 @@ import { SimpleTab } from './SimpleTab'
 import { ExpertTab } from './ExpertTab'
 
 const sectionTypeLabel: Record<string, string> = {
-  hero: 'Hero',
+  hero: 'Main Banner',
   features: 'Features',
-  cta: 'Call to Action',
+  cta: 'Action Block',
   pricing: 'Pricing',
   footer: 'Footer',
-  testimonials: 'Testimonials',
+  testimonials: 'Reviews',
   faq: 'FAQ',
-  value_props: 'Value Props',
+  value_props: 'Highlights',
+  navbar: 'Top Menu',
 }
 
 export function RightPanel() {
   const selectedContext = useUIStore((s) => s.selectedContext)
   const rightPanelTab = useUIStore((s) => s.rightPanelTab)
   const sections = useConfigStore((s) => s.config.sections)
-  const [sectionEnabled, setSectionEnabled] = useState(true)
+  const toggleSectionEnabled = useConfigStore((s) => s.toggleSectionEnabled)
 
   const sectionMeta = selectedContext?.type === 'section'
     ? sections.find((s) => s.id === selectedContext.sectionId)
@@ -29,12 +29,10 @@ export function RightPanel() {
 
   const contextLabel =
     selectedContext?.type === 'theme'
-      ? 'THEME CONFIGURATION'
+      ? 'THEME'
       : sectionMeta
-        ? `${sectionTypeLabel[sectionMeta.type] ?? sectionMeta.type} — ${sectionMeta.id}`
-        : selectedContext?.type === 'section'
-          ? `${selectedContext.sectionId.toUpperCase()} SECTION`
-          : null
+        ? sectionTypeLabel[sectionMeta.type] ?? sectionMeta.type
+        : null
 
   return (
     <div className="bg-hb-bg h-full flex flex-col overflow-hidden">
@@ -43,8 +41,12 @@ export function RightPanel() {
           <span className="font-mono text-xs uppercase tracking-[0.05em] text-hb-text-muted">
             {contextLabel}
           </span>
-          {selectedContext.type === 'section' && (
-            <Toggle enabled={sectionEnabled} onChange={setSectionEnabled} size="sm" />
+          {selectedContext.type === 'section' && sectionMeta && (
+            <Toggle
+              enabled={sectionMeta.enabled}
+              onChange={() => toggleSectionEnabled(sectionMeta.id)}
+              size="sm"
+            />
           )}
         </div>
       )}

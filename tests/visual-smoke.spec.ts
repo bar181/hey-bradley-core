@@ -56,8 +56,8 @@ test.describe('Visual Smoke Tests', () => {
     let rightText = await page.textContent('body');
     expect(rightText).toContain('THEME');
 
-    // Click Hero
-    await page.locator('text=Hero').first().click();
+    // Click Main Banner (was Hero)
+    await page.locator('text=Main Banner').first().click();
     await page.waitForTimeout(300);
     rightText = await page.textContent('body');
     expect(rightText).toContain('Headline');

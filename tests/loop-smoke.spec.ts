@@ -8,7 +8,7 @@ test.describe('JSON Core Loop Smoke Test', () => {
 
   test('right panel text change → JSON updates → preview updates', async ({ page }) => {
     // 1. Click Hero in left panel
-    await page.locator('text=Hero').first().click();
+    await page.locator('text=Main Banner').first().click();
     await page.waitForTimeout(500);
 
     // 2. Find and clear the headline textarea, type new text
@@ -49,7 +49,7 @@ test.describe('JSON Core Loop Smoke Test', () => {
 
   test('component toggle → JSON updates → preview updates', async ({ page }) => {
     // 1. Click Hero in left panel
-    await page.locator('text=Hero').first().click();
+    await page.locator('text=Main Banner').first().click();
     await page.waitForTimeout(500);
 
     // 2. Verify trust badges text is visible in preview initially
@@ -62,7 +62,7 @@ test.describe('JSON Core Loop Smoke Test', () => {
     // 3. If trust badges are visible, toggle them off
     if (hasTrustBadges) {
       // Go back to Hero controls
-      await page.locator('text=Hero').first().click();
+      await page.locator('text=Main Banner').first().click();
       await page.waitForTimeout(300);
 
       // Find the Trust Badges toggle - look for the toggle near "Trust Badges" text

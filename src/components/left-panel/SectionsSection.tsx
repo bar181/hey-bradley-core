@@ -16,6 +16,7 @@ import {
   Zap,
   Layout,
   Navigation,
+  ChevronRight,
   type LucideIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/cn'
@@ -36,15 +37,15 @@ const sectionIconMap: Record<string, LucideIcon> = {
 }
 
 const sectionNameMap: Record<string, string> = {
-  navbar: 'Navbar',
-  hero: 'Hero',
+  navbar: 'Top Menu',
+  hero: 'Main Banner',
   features: 'Features',
-  cta: 'Call to Action',
+  cta: 'Action Block',
   pricing: 'Pricing',
   footer: 'Footer',
-  testimonials: 'Testimonials',
+  testimonials: 'Reviews',
   faq: 'FAQ',
-  value_props: 'Value Props',
+  value_props: 'Highlights',
 }
 
 const sectionDescriptionMap: Record<string, string> = {
@@ -83,9 +84,9 @@ export function SectionsSection() {
   const setSelectedContext = useUIStore((s) => s.setSelectedContext)
   const [showAddMenu, setShowAddMenu] = useState(false)
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
+  const [showHidden, setShowHidden] = useState(false)
   const addMenuRef = useRef<HTMLDivElement>(null)
 
-  // Close add menu on outside click
   useEffect(() => {
     if (!showAddMenu) return
     const handler = (e: MouseEvent) => {
@@ -97,12 +98,14 @@ export function SectionsSection() {
     return () => document.removeEventListener('mousedown', handler)
   }, [showAddMenu])
 
-  // Use localOrder for reordering if set, otherwise use configStore order
   const orderedSections = localOrder
     ? localOrder
         .map((id) => sections.find((s) => s.id === id))
         .filter(Boolean)
     : sections
+
+  const enabledSections = orderedSections.filter((s): s is NonNullable<typeof s> => !!s?.enabled)
+  const hiddenSections = orderedSections.filter((s): s is NonNullable<typeof s> => !!s && !s.enabled)
 
   const moveSection = (index: number, direction: 'up' | 'down') => {
     const target = direction === 'up' ? index - 1 : index + 1
@@ -123,11 +126,9 @@ export function SectionsSection() {
     if (confirmDeleteId === sectionId) {
       removeSection(sectionId)
       setConfirmDeleteId(null)
-      // Clear local order so it re-syncs
       setLocalOrder(null)
     } else {
       setConfirmDeleteId(sectionId)
-      // Auto-clear confirmation after 3 seconds
       setTimeout(() => setConfirmDeleteId(null), 3000)
     }
   }
@@ -137,131 +138,150 @@ export function SectionsSection() {
     setLocalOrder(null)
   }
 
-  return (
-    <div className="flex flex-col gap-1">
-      {orderedSections.map((section, index) => {
-        if (!section) return null
-        const Icon = sectionIconMap[section.type] ?? Star
-        const isSelected =
-          selectedContext?.type === 'section' &&
-          selectedContext.sectionId === section.id
-        const isDisabled = !section.enabled
+  const renderSectionRow = (section: typeof sections[0], index: number) => {
+    if (!section) return null
+    const Icon = sectionIconMap[section.type] ?? Star
+    const isSelected =
+      selectedContext?.type === 'section' &&
+      selectedContext.sectionId === section.id
+    const isDisabled = !section.enabled
 
-        return (
-          <div
-            key={section.id}
-            role="button"
-            tabIndex={0}
-            onClick={() =>
-              setSelectedContext({ type: 'section', sectionId: section.id })
-            }
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                setSelectedContext({ type: 'section', sectionId: section.id })
-              }
+    return (
+      <div
+        key={section.id}
+        role="button"
+        tabIndex={0}
+        onClick={() =>
+          setSelectedContext({ type: 'section', sectionId: section.id })
+        }
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            setSelectedContext({ type: 'section', sectionId: section.id })
+          }
+        }}
+        className={cn(
+          'flex items-center gap-2.5 px-3 py-2 rounded-md cursor-pointer transition-colors group border border-transparent',
+          isSelected
+            ? 'bg-hb-accent text-white border-hb-accent'
+            : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-accent/25',
+          isDisabled && 'opacity-40'
+        )}
+      >
+        <Icon size={14} className={cn('shrink-0', isSelected ? 'text-white/70' : 'text-hb-text-muted')} />
+        <span className={cn('text-sm flex-1 min-w-0 truncate', isSelected ? 'text-white font-medium' : 'text-hb-text-primary')}>
+          {sectionNameMap[section.type] ?? section.type}
+        </span>
+
+        {/* Action buttons */}
+        <div className="flex items-center gap-0.5 shrink-0">
+          <button
+            type="button"
+            title={section.enabled ? 'Hide section' : 'Show section'}
+            onClick={(e) => {
+              e.stopPropagation()
+              toggleSectionEnabled(section.id)
             }}
+            className={cn('p-0.5 transition-colors', isSelected ? 'text-white/70 hover:text-white' : 'text-hb-text-muted hover:text-hb-text-secondary')}
+          >
+            {section.enabled ? <Eye size={13} /> : <EyeOff size={13} />}
+          </button>
+          <button
+            type="button"
+            title="Move up"
+            onClick={(e) => {
+              e.stopPropagation()
+              moveSection(index, 'up')
+            }}
+            disabled={index === 0}
             className={cn(
-              'flex items-center gap-2.5 px-3 py-2 rounded-md cursor-pointer transition-colors group border border-transparent',
-              isSelected
-                ? 'bg-hb-accent text-white border-hb-accent'
-                : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-accent/25',
-              isDisabled && 'opacity-40'
+              'p-0.5 text-hb-text-muted opacity-0 group-hover:opacity-100 transition-opacity',
+              index === 0 && 'cursor-not-allowed group-hover:opacity-30'
             )}
           >
-            <Icon size={14} className={cn('shrink-0', isSelected ? 'text-white/70' : 'text-hb-text-muted')} />
-            <div className="flex flex-col flex-1 min-w-0">
-              <span className={cn('text-sm truncate', isSelected ? 'text-white font-medium' : 'text-hb-text-primary')}>
-                {sectionNameMap[section.type] ?? section.type}
-              </span>
-              <span className={cn('text-xs truncate', isSelected ? 'text-white/60' : 'text-hb-text-muted')}>
-                {section.id}
-              </span>
-            </div>
+            <ChevronUp size={12} />
+          </button>
+          <button
+            type="button"
+            title="Move down"
+            onClick={(e) => {
+              e.stopPropagation()
+              moveSection(index, 'down')
+            }}
+            disabled={index === orderedSections.length - 1}
+            className={cn(
+              'p-0.5 text-hb-text-muted opacity-0 group-hover:opacity-100 transition-opacity',
+              index === orderedSections.length - 1 &&
+                'cursor-not-allowed group-hover:opacity-30'
+            )}
+          >
+            <ChevronDown size={12} />
+          </button>
+          <button
+            type="button"
+            title="Duplicate section"
+            onClick={(e) => {
+              e.stopPropagation()
+              handleDuplicate(section.id)
+            }}
+            className="p-0.5 text-hb-text-muted opacity-0 group-hover:opacity-100 transition-opacity hover:text-hb-text-secondary focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
+          >
+            <Copy size={12} />
+          </button>
+          <button
+            type="button"
+            aria-label={
+              confirmDeleteId === section.id
+                ? 'Click again to confirm delete'
+                : 'Delete section'
+            }
+            title={
+              confirmDeleteId === section.id
+                ? 'Click again to confirm delete'
+                : 'Delete section'
+            }
+            onClick={(e) => {
+              e.stopPropagation()
+              handleDelete(section.id)
+            }}
+            className={cn(
+              'p-0.5 opacity-0 group-hover:opacity-100 transition-all focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-hb-accent rounded',
+              confirmDeleteId === section.id
+                ? 'text-red-400 opacity-100 animate-pulse'
+                : 'text-hb-text-muted hover:text-red-400'
+            )}
+          >
+            <Trash2 size={12} />
+          </button>
+        </div>
+      </div>
+    )
+  }
 
-            {/* Action buttons */}
-            <div className="flex items-center gap-0.5 shrink-0">
-              <button
-                type="button"
-                title={section.enabled ? 'Disable section' : 'Enable section'}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  toggleSectionEnabled(section.id)
-                }}
-                className={cn('p-0.5 transition-colors', isSelected ? 'text-white/70 hover:text-white' : 'text-hb-text-muted hover:text-hb-text-secondary')}
-              >
-                {section.enabled ? <Eye size={13} /> : <EyeOff size={13} />}
-              </button>
-              <button
-                type="button"
-                title="Move up"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  moveSection(index, 'up')
-                }}
-                disabled={index === 0}
-                className={cn(
-                  'p-0.5 text-hb-text-muted opacity-0 group-hover:opacity-100 transition-opacity',
-                  index === 0 && 'cursor-not-allowed group-hover:opacity-30'
-                )}
-              >
-                <ChevronUp size={12} />
-              </button>
-              <button
-                type="button"
-                title="Move down"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  moveSection(index, 'down')
-                }}
-                disabled={index === orderedSections.length - 1}
-                className={cn(
-                  'p-0.5 text-hb-text-muted opacity-0 group-hover:opacity-100 transition-opacity',
-                  index === orderedSections.length - 1 &&
-                    'cursor-not-allowed group-hover:opacity-30'
-                )}
-              >
-                <ChevronDown size={12} />
-              </button>
-              <button
-                type="button"
-                title="Duplicate section"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  handleDuplicate(section.id)
-                }}
-                className="p-0.5 text-hb-text-muted opacity-0 group-hover:opacity-100 transition-opacity hover:text-hb-text-secondary focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
-              >
-                <Copy size={12} />
-              </button>
-              <button
-                type="button"
-                aria-label={
-                  confirmDeleteId === section.id
-                    ? 'Click again to confirm delete'
-                    : 'Delete section'
-                }
-                title={
-                  confirmDeleteId === section.id
-                    ? 'Click again to confirm delete'
-                    : 'Delete section'
-                }
-                onClick={(e) => {
-                  e.stopPropagation()
-                  handleDelete(section.id)
-                }}
-                className={cn(
-                  'p-0.5 opacity-0 group-hover:opacity-100 transition-all focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-hb-accent rounded',
-                  confirmDeleteId === section.id
-                    ? 'text-red-400 opacity-100 animate-pulse'
-                    : 'text-hb-text-muted hover:text-red-400'
-                )}
-              >
-                <Trash2 size={12} />
-              </button>
+  return (
+    <div className="flex flex-col gap-1">
+      {/* Enabled sections */}
+      {enabledSections.map((section, index) => renderSectionRow(section, index))}
+
+      {/* Hidden sections — collapsible */}
+      {hiddenSections.length > 0 && (
+        <div className="mt-1">
+          <button
+            type="button"
+            onClick={() => setShowHidden(!showHidden)}
+            className="flex items-center gap-1.5 w-full px-3 py-1.5 text-xs text-hb-text-muted hover:text-hb-text-secondary transition-colors"
+          >
+            <ChevronRight size={12} className={cn('transition-transform', showHidden && 'rotate-90')} />
+            {hiddenSections.length} hidden section{hiddenSections.length > 1 ? 's' : ''}
+          </button>
+          {showHidden && (
+            <div className="flex flex-col gap-1 mt-1">
+              {hiddenSections.map((section, index) =>
+                renderSectionRow(section, enabledSections.length + index)
+              )}
             </div>
-          </div>
-        )
-      })}
+          )}
+        </div>
+      )}
 
       {/* Add Section button */}
       <div className="relative" ref={addMenuRef}>

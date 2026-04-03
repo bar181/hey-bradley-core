@@ -165,7 +165,7 @@ test.describe('2. Builder Page (/builder)', () => {
     const hasTheme = await themeItem.isVisible()
 
     // Hero section row
-    const heroItem = page.locator('[role="button"]').filter({ hasText: 'Hero' }).first()
+    const heroItem = page.locator('[role="button"]').filter({ hasText: 'Main Banner' }).first()
     const hasHero = await heroItem.isVisible()
 
     record('Builder', 'Left panel has Theme item', hasTheme, hasTheme ? 'Visible' : 'Not found', 'P1')
@@ -200,7 +200,7 @@ test.describe('2. Builder Page (/builder)', () => {
     await goToBuilder(page)
 
     // Click Hero in left panel
-    const heroItem = page.locator('[role="button"]').filter({ hasText: 'Hero' }).first()
+    const heroItem = page.locator('[role="button"]').filter({ hasText: 'Main Banner' }).first()
     await heroItem.click()
     await page.waitForTimeout(300)
 
@@ -282,7 +282,7 @@ test.describe('4. Section Editors', () => {
     await goToBuilder(page)
 
     // Click Hero section in left panel
-    const heroItem = page.locator('[role="button"]').filter({ hasText: 'Hero' }).first()
+    const heroItem = page.locator('[role="button"]').filter({ hasText: 'Main Banner' }).first()
     if (await heroItem.isVisible()) await heroItem.click()
     await page.waitForTimeout(500)
 
