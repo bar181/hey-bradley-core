@@ -27,8 +27,8 @@ export function ActionNewsletter({ section }: { section: Section }) {
             placeholder="you@example.com"
             className="flex-1 w-full px-4 py-3 rounded-lg border text-sm outline-none transition-colors"
             style={{
-              background: 'var(--theme-surface, rgba(255,255,255,0.05))',
-              borderColor: 'var(--theme-border, rgba(255,255,255,0.1))',
+              background: `color-mix(in srgb, ${section.style.color} 5%, transparent)`,
+              borderColor: `color-mix(in srgb, ${section.style.color} 10%, transparent)`,
               color: 'inherit',
             }}
           />

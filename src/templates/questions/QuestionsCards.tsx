@@ -20,8 +20,8 @@ export function QuestionsCards({ section }: { section: Section }) {
               key={item.id}
               className="rounded-xl p-6 transition-shadow hover:shadow-lg"
               style={{
-                background: 'var(--theme-surface, rgba(255,255,255,0.03))',
-                border: '1px solid var(--theme-border, rgba(255,255,255,0.08))',
+                background: `color-mix(in srgb, ${section.style.color} 3%, transparent)`,
+                border: `1px solid color-mix(in srgb, ${section.style.color} 8%, transparent)`,
               }}
             >
               <h3 className="font-semibold text-base mb-2">{question}</h3>

@@ -23,7 +23,7 @@ export function TestimonialsCards({ section }: { section: Section }) {
           const initial = author.charAt(0).toUpperCase()
 
           return (
-            <Card key={t.id} className="border-white/5 bg-theme-surface/80">
+            <Card key={t.id} className="bg-theme-surface/80" style={{ borderColor: `color-mix(in srgb, ${section.style.color} 8%, transparent)` }}>
               <CardContent>
                 <blockquote className="text-sm leading-relaxed mb-4 opacity-90">
                   &ldquo;{quote}&rdquo;

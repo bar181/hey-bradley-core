@@ -48,7 +48,8 @@ export function FeaturesGrid({ section }: { section: Section }) {
           return (
             <Card
               key={feature.id}
-              className="border-white/5 bg-theme-surface/80"
+              className="bg-theme-surface/80"
+              style={{ borderColor: `color-mix(in srgb, ${section.style.color} 8%, transparent)` }}
             >
               <CardContent>
                 {Icon && (

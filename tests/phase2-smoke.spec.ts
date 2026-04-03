@@ -55,17 +55,17 @@ test.describe('Phase 2 Smoke Tests', () => {
     page.on('pageerror', (e) => errors.push(e.message))
 
     // Click "Add Section" button
-    const addBtn = page.locator('button').filter({ hasText: 'Add Section' }).first()
+    const addBtn = page.locator('button').filter({ hasText: 'More Sections' }).first()
     await addBtn.click()
     await page.waitForTimeout(300)
 
     // Click "Features" in the dropdown
-    const featuresOption = page.locator('button').filter({ hasText: 'Columns' }).first()
+    const featuresOption = page.locator('button').filter({ hasText: 'Content Cards' }).first()
     await featuresOption.click()
     await page.waitForTimeout(500)
 
-    // Verify Features section appeared in the left panel
-    const featuresInPanel = page.locator('text=Columns')
+    // Verify section appeared in the left panel
+    const featuresInPanel = page.locator('[role="button"]').filter({ hasText: 'Content Cards' })
     expect(await featuresInPanel.count()).toBeGreaterThan(0)
 
     // Verify no page errors
@@ -75,18 +75,18 @@ test.describe('Phase 2 Smoke Tests', () => {
   // ── Test 3: Remove section works ──
   test('remove section removes it from the panel', async ({ page }) => {
     // First add a features section so we have something to remove
-    const addBtn = page.locator('button').filter({ hasText: 'Add Section' }).first()
+    const addBtn = page.locator('button').filter({ hasText: 'More Sections' }).first()
     await addBtn.click()
     await page.waitForTimeout(300)
-    await page.locator('button').filter({ hasText: 'Columns' }).first().click()
+    await page.locator('button').filter({ hasText: 'Content Cards' }).first().click()
     await page.waitForTimeout(500)
 
     // Verify Features exists
-    const featuresCountBefore = await page.locator('[role="button"]').filter({ hasText: 'Columns' }).count()
+    const featuresCountBefore = await page.locator('[role="button"]').filter({ hasText: 'Content Cards' }).count()
     expect(featuresCountBefore).toBeGreaterThan(0)
 
     // Click the features row to select it (reveals action bar)
-    const featuresRow = page.locator('[role="button"]').filter({ hasText: 'Columns' }).first()
+    const featuresRow = page.locator('[role="button"]').filter({ hasText: 'Content Cards' }).first()
     await featuresRow.click()
     await page.waitForTimeout(300)
 
@@ -98,7 +98,7 @@ test.describe('Phase 2 Smoke Tests', () => {
     await page.waitForTimeout(500)
 
     // Verify Features is gone
-    const featuresCountAfter = await page.locator('[role="button"]').filter({ hasText: 'Columns' }).count()
+    const featuresCountAfter = await page.locator('[role="button"]').filter({ hasText: 'Content Cards' }).count()
     expect(featuresCountAfter).toBeLessThan(featuresCountBefore)
   })
 

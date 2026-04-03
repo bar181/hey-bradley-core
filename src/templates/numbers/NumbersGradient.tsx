@@ -39,7 +39,8 @@ export function NumbersGradient({ section }: { section: Section }) {
           return (
             <div
               key={item.id}
-              className={`rounded-2xl bg-gradient-to-br ${gradient} backdrop-blur-sm p-6 text-center space-y-2 border border-white/10`}
+              className={`rounded-2xl bg-gradient-to-br ${gradient} backdrop-blur-sm p-6 text-center space-y-2 border`}
+              style={{ borderColor: `color-mix(in srgb, ${section.style.color} 10%, transparent)` }}
             >
               <div className="text-4xl font-bold text-theme-accent">
                 {value}

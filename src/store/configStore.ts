@@ -115,6 +115,39 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       { id: 'g6', type: 'image', enabled: true, order: 5, props: { imageUrl: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&auto=format&q=80', caption: 'Sunlit Forest' } },
     ]
 
+    // Default components for new section types
+    const defaultImageComponents = [
+      { id: 'image', type: 'image', enabled: true, order: 0, props: { imageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&auto=format&q=80', heading: 'Your Story', description: 'Tell your audience what makes you unique.' } },
+    ]
+
+    const defaultTextComponents = [
+      { id: 'content', type: 'text-content', enabled: true, order: 0, props: { heading: 'About Us', body: 'Share your story here. This is a text block perfect for long-form content, blog posts, or about pages.', sidebar: 'Quick Facts\n\nFounded: 2024\nTeam: 12 people' } },
+    ]
+
+    const defaultLogosComponents = [
+      { id: 'logo-1', type: 'logo', enabled: true, order: 0, props: { name: 'Acme Corp', imageUrl: 'https://images.unsplash.com/photo-1557683316-973673baf926?w=120&h=60&auto=format&q=80' } },
+      { id: 'logo-2', type: 'logo', enabled: true, order: 1, props: { name: 'Globex Inc', imageUrl: 'https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=120&h=60&auto=format&q=80' } },
+      { id: 'logo-3', type: 'logo', enabled: true, order: 2, props: { name: 'Initech', imageUrl: 'https://images.unsplash.com/photo-1557682224-5b8590cd9ec5?w=120&h=60&auto=format&q=80' } },
+      { id: 'logo-4', type: 'logo', enabled: true, order: 3, props: { name: 'Umbrella Co', imageUrl: 'https://images.unsplash.com/photo-1557682260-96773eb01377?w=120&h=60&auto=format&q=80' } },
+      { id: 'logo-5', type: 'logo', enabled: true, order: 4, props: { name: 'Stark Industries', imageUrl: 'https://images.unsplash.com/photo-1557683311-eac922347aa1?w=120&h=60&auto=format&q=80' } },
+      { id: 'logo-6', type: 'logo', enabled: true, order: 5, props: { name: 'Wayne Enterprises', imageUrl: 'https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=120&h=60&auto=format&q=80' } },
+    ]
+
+    const defaultTeamComponents = [
+      { id: 'member-1', type: 'team-member', enabled: true, order: 0, props: { name: 'Sarah Chen', role: 'CEO & Co-founder', imageUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&q=80', description: 'Former VP of Engineering at Scale AI.' } },
+      { id: 'member-2', type: 'team-member', enabled: true, order: 1, props: { name: 'Marcus Rivera', role: 'CTO', imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&q=80', description: 'Ex-Google Staff Engineer.' } },
+      { id: 'member-3', type: 'team-member', enabled: true, order: 2, props: { name: 'Aisha Patel', role: 'Head of Design', imageUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&auto=format&q=80', description: 'Previously led design at Figma.' } },
+    ]
+
+    const getDefaultComponents = () => {
+      if (type === 'gallery') return defaultGalleryComponents
+      if (type === 'image') return defaultImageComponents
+      if (type === 'text') return defaultTextComponents
+      if (type === 'logos') return defaultLogosComponents
+      if (type === 'team') return defaultTeamComponents
+      return []
+    }
+
     const newSection: Section = source
       ? {
           ...JSON.parse(JSON.stringify(source)),
@@ -124,11 +157,11 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       : {
           type,
           id,
-          layout: { display: 'flex', gap: '24px', padding: '48px', columns: type === 'gallery' ? 3 : undefined },
+          layout: { display: 'flex', gap: '24px', padding: '48px', columns: (type === 'gallery' || type === 'logos' || type === 'team') ? 3 : undefined },
           content: {},
           style: { background: config.theme.palette?.bgPrimary ?? '#1E1E1E', color: config.theme.palette?.textPrimary ?? '#F3F3F1' },
           enabled: true,
-          components: type === 'gallery' ? defaultGalleryComponents : [],
+          components: getDefaultComponents(),
         }
 
     const sections = [...config.sections]

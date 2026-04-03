@@ -9,7 +9,6 @@ import {
   ChevronDown,
   Copy,
   Trash2,
-  Plus,
   DollarSign,
   MessageSquare,
   HelpCircle,
@@ -18,6 +17,11 @@ import {
   Navigation,
   ChevronRight,
   GripVertical,
+  ImageIcon,
+  Minus,
+  FileText,
+  Award,
+  Users,
   type LucideIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/cn'
@@ -36,12 +40,17 @@ const sectionIconMap: Record<string, LucideIcon> = {
   questions: HelpCircle,
   numbers: Zap,
   gallery: Grid3X3,
+  image: ImageIcon,
+  divider: Minus,
+  text: FileText,
+  logos: Award,
+  team: Users,
 }
 
 const sectionNameMap: Record<string, string> = {
   menu: 'Top Menu',
   hero: 'Main Banner',
-  columns: 'Columns',
+  columns: 'Content Cards',
   action: 'Action Block',
   pricing: 'Pricing',
   footer: 'Footer',
@@ -49,12 +58,17 @@ const sectionNameMap: Record<string, string> = {
   questions: 'Questions',
   numbers: 'Numbers',
   gallery: 'Gallery',
+  image: 'Image',
+  divider: 'Spacer',
+  text: 'Text',
+  logos: 'Logo Cloud',
+  team: 'Team',
 }
 
 const sectionDescriptionMap: Record<string, string> = {
   menu: 'Navigation bar with logo and links',
   hero: 'Main banner with headline and button',
-  columns: 'Showcase features side by side',
+  columns: 'Cards with images, icons, and text',
   pricing: 'Pricing plans and tiers',
   action: 'Section with button and message',
   footer: 'Page footer with links',
@@ -62,6 +76,11 @@ const sectionDescriptionMap: Record<string, string> = {
   questions: 'Frequently asked questions',
   numbers: 'Key value propositions and stats',
   gallery: 'Image gallery',
+  image: 'A big photo with optional text on top',
+  divider: 'A line or space between sections',
+  text: 'A block of text for articles or stories',
+  logos: 'Show partner or sponsor logos in a row',
+  team: 'Team member cards with photos and roles',
 }
 
 const SECTION_TYPES: SectionType[] = [
@@ -75,6 +94,11 @@ const SECTION_TYPES: SectionType[] = [
   'questions',
   'numbers',
   'gallery',
+  'image',
+  'divider',
+  'text',
+  'logos',
+  'team',
 ]
 
 export function SectionsSection() {
@@ -87,7 +111,6 @@ export function SectionsSection() {
   const [localOrder, setLocalOrder] = useState<string[] | null>(null)
   const selectedContext = useUIStore((s) => s.selectedContext)
   const setSelectedContext = useUIStore((s) => s.setSelectedContext)
-  const [showAddMenu, setShowAddMenu] = useState(false)
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
   const [showHidden, setShowHidden] = useState(false)
   const [dragId, setDragId] = useState<string | null>(null)
@@ -114,7 +137,6 @@ export function SectionsSection() {
 
   const handleAddSection = (type: SectionType) => {
     addSection(type)
-    setShowAddMenu(false)
   }
 
   const handleDelete = (sectionId: string) => {
@@ -286,69 +308,54 @@ export function SectionsSection() {
       {/* Enabled sections */}
       {enabledSections.map((section, index) => renderSectionRow(section, index))}
 
-      {/* Hidden sections — collapsible */}
-      {hiddenSections.length > 0 && (
-        <div className="mt-1">
-          <button
-            type="button"
-            onClick={() => setShowHidden(!showHidden)}
-            className="flex items-center gap-1.5 w-full px-3 py-1.5 text-xs text-hb-text-muted hover:text-hb-text-secondary transition-colors"
-          >
-            <ChevronRight size={12} className={cn('transition-transform', showHidden && 'rotate-90')} />
-            {hiddenSections.length} hidden section{hiddenSections.length > 1 ? 's' : ''}
-          </button>
-          {showHidden && (
-            <div className="flex flex-col gap-1 mt-1">
-              {hiddenSections.map((section, index) =>
-                renderSectionRow(section, enabledSections.length + index)
-              )}
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Add Section button + inline accordion */}
-      <div>
+      {/* More Sections — hidden sections + add new */}
+      <div className="mt-1">
         <button
           type="button"
-          onClick={() => setShowAddMenu(!showAddMenu)}
-          className="flex items-center justify-center gap-1.5 w-full mt-1 px-3 py-2 rounded-md border border-dashed border-hb-border text-hb-accent hover:bg-hb-accent/10 hover:border-hb-accent/50 transition-colors text-sm font-medium"
+          onClick={() => setShowHidden(!showHidden)}
+          className="flex items-center gap-1.5 w-full px-3 py-1.5 text-xs text-hb-text-muted hover:text-hb-text-secondary transition-colors"
         >
-          <Plus size={14} />
-          Add Section
+          <ChevronRight size={12} className={cn('transition-transform', showHidden && 'rotate-90')} />
+          More Sections
         </button>
+        {showHidden && (
+          <div className="flex flex-col gap-1 mt-1">
+            {hiddenSections.map((section, index) =>
+              renderSectionRow(section, enabledSections.length + index)
+            )}
 
-        <div
-          className="overflow-hidden transition-all duration-300 ease-in-out"
-          style={{ maxHeight: showAddMenu ? '400px' : '0' }}
-        >
-          <div className="mt-1 rounded-lg border border-hb-border bg-hb-surface overflow-y-auto max-h-[320px]">
-            {SECTION_TYPES.map((type) => {
-              const Icon = sectionIconMap[type] ?? Star
-              return (
-                <button
-                  key={type}
-                  type="button"
-                  onClick={() => handleAddSection(type)}
-                  className="flex items-center gap-2.5 w-full px-3 py-2.5 text-left hover:bg-hb-surface-hover transition-colors"
-                >
-                  <Icon
-                    size={14}
-                    className="text-hb-text-muted shrink-0"
-                  />
-                  <div className="flex flex-col min-w-0">
-                    <span className="text-sm text-hb-text-primary">
-                      {sectionNameMap[type]}
-                    </span>
-                    <span className="text-xs text-hb-text-muted">
-                      {sectionDescriptionMap[type]}
-                    </span>
-                  </div>
-                </button>
-              )
-            })}
+            {/* Add section types list */}
+            <div className="mt-1 rounded-lg border border-hb-border bg-hb-surface overflow-y-auto max-h-[320px]">
+              <div className="px-3 py-1.5 text-xs text-hb-text-muted font-medium uppercase tracking-wider border-b border-hb-border">
+                Add New Section
+              </div>
+              {SECTION_TYPES.map((type) => {
+                const Icon = sectionIconMap[type] ?? Star
+                return (
+                  <button
+                    key={type}
+                    type="button"
+                    onClick={() => handleAddSection(type)}
+                    className="flex items-center gap-2.5 w-full px-3 py-2.5 text-left hover:bg-hb-surface-hover transition-colors"
+                  >
+                    <Icon
+                      size={14}
+                      className="text-hb-text-muted shrink-0"
+                    />
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-sm text-hb-text-primary">
+                        {sectionNameMap[type]}
+                      </span>
+                      <span className="text-xs text-hb-text-muted">
+                        {sectionDescriptionMap[type]}
+                      </span>
+                    </div>
+                  </button>
+                )
+              })}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   )

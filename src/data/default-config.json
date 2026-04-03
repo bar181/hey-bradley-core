@@ -83,7 +83,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "Hey Bradley 2.0 is Live",
+            "text": "Now in Public Beta",
             "icon": "sparkles",
             "variant": "pill"
           }
@@ -94,7 +94,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Build Websites by Just Talking",
+            "text": "Your Amazing Website Starts Here",
             "level": 1,
             "size": "56px",
             "weight": 700
@@ -106,7 +106,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "Describe what you want, watch it appear in real-time, and get production-ready specs — all without writing a single line of code."
+            "text": "Create something beautiful in minutes. No coding needed."
           }
         },
         {
@@ -166,7 +166,7 @@
           "enabled": true,
           "order": 8,
           "props": {
-            "text": "Trusted by 500+ teams worldwide",
+            "text": "Trusted by 2,000+ teams worldwide",
             "show": true
           }
         }
@@ -207,8 +207,8 @@
           "order": 1,
           "props": {
             "icon": "🎯",
-            "title": "Precise Specs",
-            "description": "AISP specifications with under 2% ambiguity."
+            "title": "Pixel Perfect",
+            "description": "Every detail exactly the way you want it."
           }
         },
         {

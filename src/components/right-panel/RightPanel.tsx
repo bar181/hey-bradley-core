@@ -7,7 +7,7 @@ import { ExpertTab } from './ExpertTab'
 
 const sectionTypeLabel: Record<string, string> = {
   hero: 'Main Banner',
-  columns: 'Columns',
+  columns: 'Content Cards',
   action: 'Action Block',
   pricing: 'Pricing',
   footer: 'Footer',

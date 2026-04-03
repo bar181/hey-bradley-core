@@ -43,8 +43,8 @@ export function ColumnsImageCards({ section }: { section: Section }) {
               key={item.id}
               className="rounded-xl overflow-hidden transition-all duration-200 hover:shadow-xl group"
               style={{
-                background: 'var(--theme-bg-secondary, rgba(255,255,255,0.03))',
-                border: '1px solid var(--theme-border, rgba(128,128,128,0.15))',
+                background: `color-mix(in srgb, ${section.style.color} 3%, transparent)`,
+                border: `1px solid color-mix(in srgb, ${section.style.color} 15%, transparent)`,
               }}
             >
               <div className="aspect-video overflow-hidden">

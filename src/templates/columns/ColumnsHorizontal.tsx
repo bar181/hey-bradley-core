@@ -29,8 +29,8 @@ export function ColumnsHorizontal({ section }: { section: Section }) {
               key={item.id}
               className="flex items-start gap-6 rounded-xl p-6 transition-all duration-200"
               style={{
-                background: 'var(--theme-bg-secondary, rgba(255,255,255,0.02))',
-                border: '1px solid var(--theme-border, rgba(128,128,128,0.15))',
+                background: `color-mix(in srgb, ${section.style.color} 2%, transparent)`,
+                border: `1px solid color-mix(in srgb, ${section.style.color} 15%, transparent)`,
               }}
             >
               {Icon && (

@@ -28,7 +28,8 @@ export function ActionGradient({ section }: { section: Section }) {
         {button?.enabled && (
           <a
             href={(button.props?.url as string) || '#'}
-            className="inline-flex items-center justify-center mt-4 px-10 py-3.5 bg-white text-gray-900 hover:bg-gray-100 rounded-full font-bold text-sm shadow-xl transition-all"
+            className="inline-flex items-center justify-center mt-4 px-10 py-3.5 rounded-full font-bold text-sm shadow-xl transition-all hover:opacity-90"
+            style={{ background: section.style.background || '#fff', color: section.style.color || '#111' }}
           >
             {(button.props?.text as string) || 'Get Started Free'}
           </a>

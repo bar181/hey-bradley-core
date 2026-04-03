@@ -310,7 +310,7 @@ test.describe('4. Section Editors', () => {
 
   test('Columns section editor', async ({ page }) => {
     await goToBuilder(page)
-    const item = page.locator('[role="button"]').filter({ hasText: 'Columns' }).first()
+    const item = page.locator('[role="button"]').filter({ hasText: 'Content Cards' }).first()
     if (await item.isVisible()) {
       await item.click()
       await page.waitForTimeout(300)
@@ -475,7 +475,7 @@ test.describe('6. Section CRUD', () => {
     record('Section CRUD', 'Initial section count', initialCount > 0, `${initialCount} sections`, 'P0')
 
     // Click "Add Section" button (the one with dashed border inside sections list)
-    const addBtn = page.locator('button').filter({ hasText: 'Add Section' }).first()
+    const addBtn = page.locator('button').filter({ hasText: 'More Sections' }).first()
     const hasAddBtn = await addBtn.isVisible()
     record('Section CRUD', 'Add Section button exists', hasAddBtn, hasAddBtn ? 'Visible' : 'Not found', 'P0')
 
@@ -484,7 +484,7 @@ test.describe('6. Section CRUD', () => {
       await page.waitForTimeout(300)
 
       // Click "Columns" in the add menu
-      const addMenu = page.locator('button').filter({ hasText: 'Columns' })
+      const addMenu = page.locator('button').filter({ hasText: 'Content Cards' })
       // The last one should be in the popup menu
       const menuItems = await addMenu.count()
       if (menuItems > 0) {

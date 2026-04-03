@@ -41,12 +41,16 @@ export function PricingTiers({ section }: { section: Section }) {
                   'bg-theme-surface/60 backdrop-blur-sm',
                   highlighted
                     ? 'border-theme-accent ring-2 ring-theme-accent/20'
-                    : 'border-white/10',
+                    : '',
                 )}
+                style={highlighted ? undefined : { borderColor: `color-mix(in srgb, ${section.style.color} 10%, transparent)` }}
               >
                 {/* Recommended badge */}
                 {highlighted && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-theme-accent px-3 py-0.5 text-xs font-semibold text-white">
+                  <span
+                    className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-theme-accent px-3 py-0.5 text-xs font-semibold"
+                    style={{ color: section.style.background || '#fff' }}
+                  >
                     Recommended
                   </span>
                 )}
@@ -83,9 +87,13 @@ export function PricingTiers({ section }: { section: Section }) {
                   className={cn(
                     'mt-8 block w-full rounded-lg py-2.5 text-center text-sm font-semibold transition-colors',
                     highlighted
-                      ? 'bg-theme-accent text-white hover:opacity-90'
-                      : 'border border-white/20 hover:bg-white/5',
+                      ? 'bg-theme-accent hover:opacity-90'
+                      : 'border hover:opacity-80',
                   )}
+                  style={highlighted
+                    ? { color: section.style.background || '#fff' }
+                    : { borderColor: `color-mix(in srgb, ${section.style.color} 20%, transparent)` }
+                  }
                 >
                   {ctaText}
                 </a>

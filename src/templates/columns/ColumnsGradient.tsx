@@ -38,7 +38,7 @@ export function ColumnsGradient({ section }: { section: Section }) {
               className="rounded-xl p-7 transition-all duration-200 hover:shadow-lg"
               style={{
                 background: 'linear-gradient(135deg, color-mix(in srgb, var(--theme-accent, #6366f1) 20%, transparent) 0%, transparent 100%)',
-                border: '1px solid var(--theme-border, rgba(128,128,128,0.1))',
+                border: `1px solid color-mix(in srgb, ${section.style.color} 10%, transparent)`,
               }}
             >
               {Icon && (

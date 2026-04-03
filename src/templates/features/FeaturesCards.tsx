@@ -27,13 +27,16 @@ export function FeaturesCards({ section }: { section: Section }) {
           return (
             <div
               key={feature.id}
-              className="rounded-xl border border-white/10 p-6 hover:border-white/20 transition-colors"
-              style={{ background: 'rgba(255,255,255,0.03)' }}
+              className="rounded-xl border p-6 transition-colors"
+              style={{
+                background: `color-mix(in srgb, ${section.style.color} 3%, transparent)`,
+                borderColor: `color-mix(in srgb, ${section.style.color} 10%, transparent)`,
+              }}
             >
               {Icon && (
                 <div
                   className="w-10 h-10 rounded-lg flex items-center justify-center mb-4"
-                  style={{ background: 'var(--theme-accent, #6366f1)', opacity: 0.15 }}
+                  style={{ background: 'color-mix(in srgb, var(--theme-accent, #6366f1) 15%, transparent)' }}
                 >
                   <Icon size={20} style={{ color: 'var(--theme-accent, #6366f1)' }} aria-hidden />
                 </div>

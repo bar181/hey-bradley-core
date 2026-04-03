@@ -41,6 +41,22 @@ import { GalleryGrid } from '@/templates/gallery/GalleryGrid'
 import { GalleryMasonry } from '@/templates/gallery/GalleryMasonry'
 import { GalleryCarousel } from '@/templates/gallery/GalleryCarousel'
 import { GalleryFullWidth } from '@/templates/gallery/GalleryFullWidth'
+import { ImageFullWidth } from '@/templates/image/ImageFullWidth'
+import { ImageWithText } from '@/templates/image/ImageWithText'
+import { ImageOverlay } from '@/templates/image/ImageOverlay'
+import { ImageParallax } from '@/templates/image/ImageParallax'
+import { DividerLine } from '@/templates/divider/DividerLine'
+import { DividerSpace } from '@/templates/divider/DividerSpace'
+import { DividerDecorative } from '@/templates/divider/DividerDecorative'
+import { TextSingle } from '@/templates/text/TextSingle'
+import { TextTwoColumn } from '@/templates/text/TextTwoColumn'
+import { TextWithSidebar } from '@/templates/text/TextWithSidebar'
+import { LogosSimple } from '@/templates/logos/LogosSimple'
+import { LogosMarquee } from '@/templates/logos/LogosMarquee'
+import { LogosGrid } from '@/templates/logos/LogosGrid'
+import { TeamCards } from '@/templates/team/TeamCards'
+import { TeamGrid } from '@/templates/team/TeamGrid'
+import { TeamMinimal } from '@/templates/team/TeamMinimal'
 import {
   Star,
   Grid3X3,
@@ -54,6 +70,11 @@ import {
   ChevronUp,
   ChevronDown,
   Trash2,
+  ImageIcon,
+  Minus,
+  FileText,
+  Award,
+  Users,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -68,6 +89,11 @@ const DIVIDER_SECTION_TYPES: { type: SectionType; name: string; icon: LucideIcon
   { type: 'questions', name: 'Questions', icon: HelpCircle },
   { type: 'numbers', name: 'Numbers', icon: Zap },
   { type: 'gallery', name: 'Gallery', icon: Grid3X3 },
+  { type: 'image', name: 'Image', icon: ImageIcon },
+  { type: 'divider', name: 'Spacer', icon: Minus },
+  { type: 'text', name: 'Text', icon: FileText },
+  { type: 'logos', name: 'Logo Cloud', icon: Award },
+  { type: 'team', name: 'Team', icon: Users },
 ]
 
 const SECTION_LABELS: Record<string, string> = {
@@ -81,6 +107,11 @@ const SECTION_LABELS: Record<string, string> = {
   numbers: 'Numbers',
   menu: 'Top Menu',
   gallery: 'Gallery',
+  image: 'Image',
+  divider: 'Spacer',
+  text: 'Text',
+  logos: 'Logo Cloud',
+  team: 'Team',
 }
 
 function AddSectionDivider({ afterIndex }: { afterIndex: number }) {
@@ -389,6 +420,58 @@ function renderSection(section: ReturnType<typeof useConfigStore.getState>['conf
         return <GalleryFullWidth section={section} />
       default:
         return <GalleryGrid section={section} />
+    }
+  }
+  if (section.type === 'image') {
+    switch (section.variant) {
+      case 'with-text':
+        return <ImageWithText section={section} />
+      case 'overlay':
+        return <ImageOverlay section={section} />
+      case 'parallax':
+        return <ImageParallax section={section} />
+      default:
+        return <ImageFullWidth section={section} />
+    }
+  }
+  if (section.type === 'divider') {
+    switch (section.variant) {
+      case 'space':
+        return <DividerSpace section={section} />
+      case 'decorative':
+        return <DividerDecorative section={section} />
+      default:
+        return <DividerLine section={section} />
+    }
+  }
+  if (section.type === 'text') {
+    switch (section.variant) {
+      case 'two-column':
+        return <TextTwoColumn section={section} />
+      case 'sidebar':
+        return <TextWithSidebar section={section} />
+      default:
+        return <TextSingle section={section} />
+    }
+  }
+  if (section.type === 'logos') {
+    switch (section.variant) {
+      case 'marquee':
+        return <LogosMarquee section={section} />
+      case 'grid':
+        return <LogosGrid section={section} />
+      default:
+        return <LogosSimple section={section} />
+    }
+  }
+  if (section.type === 'team') {
+    switch (section.variant) {
+      case 'grid':
+        return <TeamGrid section={section} />
+      case 'minimal':
+        return <TeamMinimal section={section} />
+      default:
+        return <TeamCards section={section} />
     }
   }
   return (

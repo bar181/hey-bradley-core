@@ -37,14 +37,14 @@ export function ColumnsGlass({ section }: { section: Section }) {
               key={item.id}
               className="rounded-xl backdrop-blur-xl p-7 transition-all duration-200 hover:shadow-lg"
               style={{
-                background: 'var(--theme-bg-secondary, rgba(255, 255, 255, 0.05))',
-                border: '1px solid var(--theme-border, rgba(128,128,128,0.15))',
+                background: `color-mix(in srgb, ${section.style.color} 5%, transparent)`,
+                border: `1px solid color-mix(in srgb, ${section.style.color} 15%, transparent)`,
               }}
             >
               {Icon && (
                 <div
                   className="w-11 h-11 rounded-lg flex items-center justify-center mb-5 backdrop-blur-sm"
-                  style={{ background: 'var(--theme-bg-secondary, rgba(255, 255, 255, 0.08))' }}
+                  style={{ background: `color-mix(in srgb, ${section.style.color} 8%, transparent)` }}
                 >
                   <Icon size={20} style={{ color: 'var(--theme-accent, #6366f1)' }} aria-hidden />
                 </div>

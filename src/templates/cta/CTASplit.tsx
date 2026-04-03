@@ -39,8 +39,8 @@ export function CTASplit({ section }: { section: Section }) {
           <div
             className="w-full max-w-sm aspect-square rounded-2xl"
             style={{
-              background: 'linear-gradient(135deg, var(--theme-accent, #6366f1)22, var(--theme-accent, #6366f1)08)',
-              border: '1px solid rgba(255,255,255,0.08)',
+              background: 'linear-gradient(135deg, color-mix(in srgb, var(--theme-accent, #6366f1) 13%, transparent), color-mix(in srgb, var(--theme-accent, #6366f1) 5%, transparent))',
+              border: `1px solid color-mix(in srgb, ${section.style.color} 8%, transparent)`,
             }}
           />
         </div>

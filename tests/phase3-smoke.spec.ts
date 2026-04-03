@@ -85,10 +85,10 @@ test.describe('Phase 3 Smoke Tests', () => {
   // ── Test 3: Font cascade — all sections use theme font var ──
   test('sections have fontFamily set via CSS var', async ({ page }) => {
     // Enable features section to test font cascade
-    const addBtn = page.locator('button').filter({ hasText: 'Add Section' }).first()
+    const addBtn = page.locator('button').filter({ hasText: 'More Sections' }).first()
     await addBtn.click()
     await page.waitForTimeout(300)
-    await page.locator('button').filter({ hasText: 'Columns' }).first().click()
+    await page.locator('button').filter({ hasText: 'Content Cards' }).first().click()
     await page.waitForTimeout(500)
 
     // Check that the features section element has fontFamily in its style
