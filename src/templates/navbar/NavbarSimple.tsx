@@ -34,8 +34,8 @@ export function NavbarSimple({ section }: { section: Section }) {
     <nav
       className="sticky top-0 z-50 backdrop-blur-md border-b"
       style={{
-        background: section.style.background ? `${section.style.background}ee` : 'var(--theme-bg, rgba(10,10,26,0.92))',
-        color: section.style.color || 'var(--theme-text, #f8fafc)',
+        background: section.style.background ? `${section.style.background}ee` : 'var(--theme-bg)',
+        color: section.style.color || 'var(--theme-text, inherit)',
         borderColor: `color-mix(in srgb, ${section.style.color || 'currentColor'} 8%, transparent)`,
       }}
     >

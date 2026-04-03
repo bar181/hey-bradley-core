@@ -55,7 +55,7 @@ export function ColumnsGradient({ section }: { section: Section }) {
               <div
                 className="rounded-2xl p-7 h-full"
                 style={{
-                  background: section.style.background || '#0f172a',
+                  background: section.style.background || 'inherit',
                 }}
               >
                 {Icon && (

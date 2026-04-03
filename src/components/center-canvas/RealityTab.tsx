@@ -4,6 +4,7 @@ import { useUIStore } from '@/store/uiStore'
 import type { SectionType } from '@/lib/schemas/section'
 import { useThemeVars } from '@/lib/useThemeVars'
 import { useScrollReveal } from '@/lib/useScrollReveal'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { HeroCentered } from '@/templates/hero/HeroCentered'
 import { HeroSplit } from '@/templates/hero/HeroSplit'
 import { HeroOverlay } from '@/templates/hero/HeroOverlay'
@@ -281,6 +282,20 @@ export function RealityTab() {
     .map((s, i) => ({ section: s, originalIndex: i }))
     .filter(({ section }) => section.enabled)
 
+  if (enabledSections.length === 0) {
+    return (
+      <div ref={containerRef} className="min-h-full flex items-center justify-center p-8">
+        <div className="text-center">
+          <div className="w-16 h-16 rounded-full bg-hb-accent/10 flex items-center justify-center mx-auto mb-4">
+            <Layout size={28} className="text-hb-accent" />
+          </div>
+          <p className="text-lg text-hb-text-muted font-medium">No sections yet</p>
+          <p className="text-sm text-hb-text-muted/60 mt-2">Add a section from the left panel to get started</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div ref={containerRef} className="min-h-full">
       <div
@@ -292,29 +307,32 @@ export function RealityTab() {
 
           if (isPreviewMode) {
             return (
-              <div
-                key={section.id}
-                className="animate-fade-in-up"
-                style={{ animationDelay: `${i * 80}ms` }}
-              >
-                {rendered}
-              </div>
+              <ErrorBoundary key={section.id}>
+                <div
+                  className="animate-fade-in-up"
+                  style={{ animationDelay: `${i * 80}ms` }}
+                >
+                  {rendered}
+                </div>
+              </ErrorBoundary>
             )
           }
 
           return (
-            <div key={section.id}>
-              <SectionWrapper
-                section={section}
-                index={i}
-                totalEnabled={enabledSections.length}
-              >
-                {rendered}
-              </SectionWrapper>
-              {i < enabledSections.length - 1 && (
-                <AddSectionDivider afterIndex={originalIndex} />
-              )}
-            </div>
+            <ErrorBoundary key={section.id}>
+              <div>
+                <SectionWrapper
+                  section={section}
+                  index={i}
+                  totalEnabled={enabledSections.length}
+                >
+                  {rendered}
+                </SectionWrapper>
+                {i < enabledSections.length - 1 && (
+                  <AddSectionDivider afterIndex={originalIndex} />
+                )}
+              </div>
+            </ErrorBoundary>
           )
         })}
       </div>

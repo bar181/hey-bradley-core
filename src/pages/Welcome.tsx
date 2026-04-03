@@ -517,9 +517,9 @@ export function Welcome() {
 
   return (
     <main className="min-h-screen bg-[#0b0f1a] flex items-center justify-center p-4 lg:p-6" role="main">
-      <div className="w-full max-w-[1200px] h-[calc(100vh-48px)] flex flex-col md:flex-row rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#0b0f1a]">
+      <div className="w-full max-w-[1200px] min-h-[calc(100vh-48px)] md:h-[calc(100vh-48px)] flex flex-col md:flex-row rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#0b0f1a]">
         {/* Left Panel - Chat */}
-        <div className="w-full md:w-[45%] flex flex-col bg-[#111827]/50 min-h-0 md:min-h-full">
+        <div className="w-full md:w-[45%] flex flex-col flex-1 md:flex-none bg-[#111827]/50 min-h-0">
           {/* Chat Header */}
           <div className="p-6 border-b border-white/10 bg-[#0b0f1a]/80 backdrop-blur-sm">
             <div className="flex items-center justify-between">
@@ -585,15 +585,7 @@ export function Welcome() {
 
           {/* Chat Input Area */}
           <div className="p-5 border-t border-white/10 bg-[#0b0f1a]/80 backdrop-blur-sm">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{
-                opacity: isTypingComplete ? 1 : 0.6,
-                y: isTypingComplete ? 0 : 5
-              }}
-              transition={{ duration: 0.5 }}
-              className="space-y-4"
-            >
+            <div className="space-y-4">
               <div className="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-3 border border-white/10">
                 <input
                   type="text"
@@ -610,7 +602,7 @@ export function Welcome() {
                   Get Started
                   <ArrowRight className="w-5 h-5" />
               </Link>
-            </motion.div>
+            </div>
           </div>
         </div>
 

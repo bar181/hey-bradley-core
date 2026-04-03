@@ -10,7 +10,7 @@ const DEFAULTS = {
   glowOpacity: 52,
   coreOpacity: 85,
   coreBlur: 13,
-  maxSize: 400,
+  maxSize: 250,
 }
 
 export function ListenTab() {
@@ -165,11 +165,63 @@ export function ListenTab() {
   }, [randomMode])
 
   return (
-    <div className="flex-1 flex flex-col bg-[var(--hb-bg,#1a1a1a)] relative overflow-hidden">
-      {/* Sim overlay text */}
-      {simPhase !== 'idle' && (
-        <div className="absolute top-4 left-4 right-4 z-10 pointer-events-none">
-          <div className={`rounded-xl px-4 py-3 backdrop-blur-md ${
+    <div className="flex-1 flex flex-col bg-[var(--hb-bg,#1a1a1a)] overflow-hidden">
+      {/* A) Orb area — top section with padding */}
+      <div className="flex-1 flex items-center justify-center p-6 relative">
+        {/* Layer 4: Outer halo */}
+        <div
+          className="absolute rounded-full"
+          style={{
+            width: `min(${(burstActive ? maxSize * 1.2 : maxSize) * 1.2}px, 95%)`,
+            height: `min(${(burstActive ? maxSize * 1.2 : maxSize) * 1.2}px, 95%)`,
+            background: `radial-gradient(circle, rgba(165, 28, 48, ${glowOpacity * 0.15 / 100}) 0%, transparent 60%)`,
+            filter: `blur(${blurAmount * 1.5}px)`,
+            animation: `orb-pulse ${pulseSpeed * 1.5}s ease-in-out infinite`,
+          }}
+        />
+        {/* Layer 3: Ambient glow */}
+        <div
+          className="absolute rounded-full transition-all duration-[2000ms] ease-in-out"
+          style={{
+            width: `min(${(burstActive ? maxSize * 1.2 : maxSize)}px, 90%)`,
+            height: `min(${(burstActive ? maxSize * 1.2 : maxSize)}px, 90%)`,
+            maxWidth: '90%',
+            background: `radial-gradient(circle, rgba(165, 28, 48, ${glowOpacity / 100}) 0%, transparent 70%)`,
+            filter: `blur(${blurAmount}px)`,
+            animation: `orb-pulse ${pulseSpeed}s ease-in-out infinite`,
+          }}
+        />
+        {/* Layer 2: Mid glow */}
+        <div
+          className="absolute rounded-full transition-all duration-[2000ms] ease-in-out"
+          style={{
+            width: `min(${(burstActive ? maxSize * 1.2 : maxSize) * 0.58}px, 55%)`,
+            height: `min(${(burstActive ? maxSize * 1.2 : maxSize) * 0.58}px, 55%)`,
+            maxWidth: '55%',
+            background: `radial-gradient(circle, rgba(165, 28, 48, ${Math.min(glowOpacity * 2.5, 80) / 100}) 0%, transparent 70%)`,
+            filter: `blur(${blurAmount * 0.5}px)`,
+            animation: `orb-breathe ${pulseSpeed * 1.2}s ease-in-out infinite`,
+            animationDelay: `${pulseSpeed * 0.1}s`,
+          }}
+        />
+        {/* Layer 1: Core */}
+        <div
+          className="relative rounded-full transition-all duration-[2000ms] ease-in-out"
+          style={{
+            width: Math.max((burstActive ? maxSize * 1.2 : maxSize) * 0.35, 50),
+            height: Math.max((burstActive ? maxSize * 1.2 : maxSize) * 0.35, 50),
+            background: `radial-gradient(circle, rgba(193, 40, 62, ${coreOpacity / 100}) 0%, rgba(165, 28, 48, ${coreOpacity * 0.6 / 100}) 50%, transparent 100%)`,
+            boxShadow: `0 0 ${blurAmount * 0.75}px rgba(165, 28, 48, ${coreOpacity * 0.5 / 100}), 0 0 ${blurAmount * 1.5}px rgba(165, 28, 48, ${coreOpacity * 0.3 / 100})`,
+            filter: `blur(${coreBlur}px)`,
+            animation: `orb-pulse ${pulseSpeed}s ease-in-out infinite`,
+          }}
+        />
+      </div>
+
+      {/* B) Caption area — fixed height, between orb and buttons */}
+      <div className="min-h-[80px] px-4 flex items-center justify-center">
+        {simPhase !== 'idle' ? (
+          <div className={`w-full rounded-xl px-4 py-3 backdrop-blur-md ${
             simPhase === 'user'
               ? 'bg-white/10 border border-white/20'
               : 'bg-[#A51C30]/15 border border-[#A51C30]/30'
@@ -186,96 +238,14 @@ export function ListenTab() {
               <span className="inline-block w-0.5 h-5 ml-0.5 align-middle bg-current animate-pulse" />
             </p>
           </div>
-        </div>
-      )}
-
-      {/* Orb area — fills panel */}
-      <div className="flex-1 flex items-center justify-center relative">
-        {/* Layer 4: Outer halo — barely visible, creates depth */}
-        <div
-          className="absolute rounded-full"
-          style={{
-            width: `min(${(burstActive ? maxSize * 1.2 : maxSize) * 1.2}px, 95%)`,
-            height: `min(${(burstActive ? maxSize * 1.2 : maxSize) * 1.2}px, 95%)`,
-            background: `radial-gradient(circle, rgba(165, 28, 48, ${glowOpacity * 0.15 / 100}) 0%, transparent 60%)`,
-            filter: `blur(${blurAmount * 1.5}px)`,
-            animation: `orb-pulse ${pulseSpeed * 1.5}s ease-in-out infinite`,
-          }}
-        />
-        {/* Layer 3: Ambient glow — fills 90% of available space */}
-        <div
-          className="absolute rounded-full transition-all duration-[2000ms] ease-in-out"
-          style={{
-            width: `min(${(burstActive ? maxSize * 1.2 : maxSize)}px, 90%)`,
-            height: `min(${(burstActive ? maxSize * 1.2 : maxSize)}px, 90%)`,
-            maxWidth: '90%',
-            background: `radial-gradient(circle, rgba(165, 28, 48, ${glowOpacity / 100}) 0%, transparent 70%)`,
-            filter: `blur(${blurAmount}px)`,
-            animation: `orb-pulse ${pulseSpeed}s ease-in-out infinite`,
-          }}
-        />
-        {/* Layer 2: Mid glow — uses orb-breathe for visual separation */}
-        <div
-          className="absolute rounded-full transition-all duration-[2000ms] ease-in-out"
-          style={{
-            width: `min(${(burstActive ? maxSize * 1.2 : maxSize) * 0.58}px, 55%)`,
-            height: `min(${(burstActive ? maxSize * 1.2 : maxSize) * 0.58}px, 55%)`,
-            maxWidth: '55%',
-            background: `radial-gradient(circle, rgba(165, 28, 48, ${Math.min(glowOpacity * 2.5, 80) / 100}) 0%, transparent 70%)`,
-            filter: `blur(${blurAmount * 0.5}px)`,
-            animation: `orb-breathe ${pulseSpeed * 1.2}s ease-in-out infinite`,
-            animationDelay: `${pulseSpeed * 0.1}s`,
-          }}
-        />
-        {/* Layer 1: Core — larger default */}
-        <div
-          className="relative rounded-full transition-all duration-[2000ms] ease-in-out"
-          style={{
-            width: Math.max((burstActive ? maxSize * 1.2 : maxSize) * 0.35, 50),
-            height: Math.max((burstActive ? maxSize * 1.2 : maxSize) * 0.35, 50),
-            background: `radial-gradient(circle, rgba(193, 40, 62, ${coreOpacity / 100}) 0%, rgba(165, 28, 48, ${coreOpacity * 0.6 / 100}) 50%, transparent 100%)`,
-            boxShadow: `0 0 ${blurAmount * 0.75}px rgba(165, 28, 48, ${coreOpacity * 0.5 / 100}), 0 0 ${blurAmount * 1.5}px rgba(165, 28, 48, ${coreOpacity * 0.3 / 100})`,
-            filter: `blur(${coreBlur}px)`,
-            animation: `orb-pulse ${pulseSpeed}s ease-in-out infinite`,
-          }}
-        />
+        ) : (
+          <p className="text-sm text-white/25 italic">Ready to listen...</p>
+        )}
       </div>
 
-      {/* Controls */}
-      <div className="px-4 pb-4 space-y-3 flex flex-col items-center">
-        <div className="w-full max-w-[300px] space-y-3">
-          <SliderRow label="Speed" value={pulseSpeed} min={0.5} max={15} step={0.5} suffix="s" leftHint="Fast" rightHint="Slow" onChange={setPulseSpeed} disabled={randomMode} />
-
-          <button
-            type="button"
-            onClick={() => setShowSettings(!showSettings)}
-            className="flex items-center gap-1.5 text-xs text-white/30 hover:text-white/50 transition-colors mx-auto"
-          >
-            <Settings size={11} />
-            {showSettings ? 'Hide' : 'Show'} settings
-          </button>
-
-          {showSettings && (
-            <div className="space-y-2 pt-1 border-t border-white/10">
-              <div className="flex items-center justify-between py-1">
-                <span className="text-xs text-white/40">Random drift</span>
-                <button
-                  type="button"
-                  onClick={() => setRandomMode(!randomMode)}
-                  className={`w-8 h-4 rounded-full relative transition-colors ${randomMode ? 'bg-[#A51C30]' : 'bg-white/20'}`}
-                  aria-label="Toggle random mode"
-                >
-                  <div className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${randomMode ? 'translate-x-4' : 'translate-x-0.5'}`} />
-                </button>
-              </div>
-              <SliderRow label="Blur" value={blurAmount} min={0} max={80} step={1} suffix="px" onChange={setBlurAmount} disabled={randomMode} />
-              <SliderRow label="Glow" value={glowOpacity} min={5} max={60} step={1} suffix="%" onChange={setGlowOpacity} disabled={randomMode} />
-              <SliderRow label="Core" value={coreOpacity} min={10} max={100} step={5} suffix="%" onChange={setCoreOpacity} />
-              <SliderRow label="Soft" value={coreBlur} min={0} max={40} step={1} suffix="px" onChange={setCoreBlur} />
-              <SliderRow label="Size" value={maxSize} min={100} max={400} step={10} suffix="px" onChange={setMaxSize} />
-            </div>
-          )}
-
+      {/* C) Buttons — compact bottom section */}
+      <div className="px-4 pb-4 space-y-2 flex flex-col items-center">
+        <div className="w-full max-w-[300px] space-y-2">
           <button
             type="button"
             onClick={runSimulateInput}
@@ -295,6 +265,37 @@ export function ListenTab() {
             <Play size={16} fill="currentColor" />
             {burstActive ? `Listening ${Math.ceil(burstRemaining)}s` : 'Start Listening'}
           </button>
+
+          <button
+            type="button"
+            onClick={() => setShowSettings(!showSettings)}
+            className="flex items-center gap-1.5 text-xs text-white/30 hover:text-white/50 transition-colors mx-auto pt-1"
+          >
+            <Settings size={11} />
+            {showSettings ? 'Hide' : 'Show'} settings
+          </button>
+
+          {showSettings && (
+            <div className="space-y-2 pt-1 border-t border-white/10">
+              <SliderRow label="Speed" value={pulseSpeed} min={0.5} max={15} step={0.5} suffix="s" leftHint="Fast" rightHint="Slow" onChange={setPulseSpeed} disabled={randomMode} />
+              <div className="flex items-center justify-between py-1">
+                <span className="text-xs text-white/40">Random drift</span>
+                <button
+                  type="button"
+                  onClick={() => setRandomMode(!randomMode)}
+                  className={`w-8 h-4 rounded-full relative transition-colors ${randomMode ? 'bg-[#A51C30]' : 'bg-white/20'}`}
+                  aria-label="Toggle random mode"
+                >
+                  <div className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${randomMode ? 'translate-x-4' : 'translate-x-0.5'}`} />
+                </button>
+              </div>
+              <SliderRow label="Blur" value={blurAmount} min={0} max={80} step={1} suffix="px" onChange={setBlurAmount} disabled={randomMode} />
+              <SliderRow label="Glow" value={glowOpacity} min={5} max={60} step={1} suffix="%" onChange={setGlowOpacity} disabled={randomMode} />
+              <SliderRow label="Core" value={coreOpacity} min={10} max={100} step={5} suffix="%" onChange={setCoreOpacity} />
+              <SliderRow label="Soft" value={coreBlur} min={0} max={40} step={1} suffix="px" onChange={setCoreBlur} />
+              <SliderRow label="Size" value={maxSize} min={100} max={400} step={10} suffix="px" onChange={setMaxSize} />
+            </div>
+          )}
         </div>
       </div>
 
