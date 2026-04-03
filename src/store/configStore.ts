@@ -5,12 +5,10 @@ import defaultConfig from '@/data/default-config.json'
 import saas from '@/data/themes/saas.json'
 import agency from '@/data/themes/agency.json'
 import portfolio from '@/data/themes/portfolio.json'
-import blog from '@/data/themes/blog.json'
 import startup from '@/data/themes/startup.json'
 import personal from '@/data/themes/personal.json'
 import professional from '@/data/themes/professional.json'
 import wellness from '@/data/themes/wellness.json'
-import creative from '@/data/themes/creative.json'
 import minimalist from '@/data/themes/minimalist.json'
 
 const DEFAULT_CONFIG: MasterConfig = defaultConfig as unknown as MasterConfig
@@ -19,12 +17,10 @@ const THEMES: Record<string, Record<string, unknown>> = {
   saas: saas as unknown as Record<string, unknown>,
   agency: agency as unknown as Record<string, unknown>,
   portfolio: portfolio as unknown as Record<string, unknown>,
-  blog: blog as unknown as Record<string, unknown>,
   startup: startup as unknown as Record<string, unknown>,
   personal: personal as unknown as Record<string, unknown>,
   professional: professional as unknown as Record<string, unknown>,
   wellness: wellness as unknown as Record<string, unknown>,
-  creative: creative as unknown as Record<string, unknown>,
   minimalist: minimalist as unknown as Record<string, unknown>,
 }
 

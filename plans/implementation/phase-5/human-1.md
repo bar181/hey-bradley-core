@@ -1,82 +1,169 @@
-Phase 4 closed at 84% with 23/23 Playwright tests. Strong. The checklist for Phase 5 is clear — 17 acceptance criteria, zero P0 failures to pass. Here's the swarm instruction:
+**That original Phase 5 directive is mostly done but partially outdated.** Here's the status:
 
----
+| Item from Original Phase 5 | Status | Notes |
+|----------------------------|--------|-------|
+| `cannedChat.ts` command parser | ✅ Done | Already built and working |
+| Chat input wired with Enter key | ✅ Done | Working |
+| 6+ canned commands | ✅ Done | dark/light/add/remove/headline/theme all work |
+| Chat message UI (user + Bradley) | ✅ Done | Chat tab with message history |
+| 3-tab left panel (Builder/Chat/Listen) | ✅ Done | Added in Phase 4 |
+| Right panel hides on Chat/Listen | ✅ Done | Added in Phase 4 |
+| Typewriter responses | ✅ Done | Working |
+| Playwright chat tests | ✅ Done | 29/29 passing |
+| **Jargon removal** | ❌ Not done | From Doc 23 — still shows Hero, CTA, Navbar |
+| **Splash page CTA always enabled** | ❌ Not done | Still forces 30s wait |
+| **Mobile splash fix** | ❌ Not done | Still broken on mobile |
+| **Light mode polish** | ❌ Not done | Still has border issues |
+| **Section ID removal** | ❌ Not done | Still shows hero-01, features-01 |
+| **Canned demo simulation** | ❌ Not done | Example JSONs exist but no "watch it build" sequence |
+| **Site Details section** | ❌ Not done | No site name/author/description editing |
 
-**SWARM: Execute Phase 5 — Simulated Chat. The checklist at `phase-5/living-checklist.md` is the authority. Zero P0 failures to close.**
+see /workspaces/hey-bradley-core/plans/implementation/phase-5/human-2.md for an updated list of to do.  
 
-**This is a focused phase — one feature: the chat input produces visible site changes via canned commands.**
+Great question. Claude Code is fundamentally a text-based agent — it can write code and run commands, but it **cannot see what it built**. This is why you've had 8 theme iterations, persistent light mode issues, and a 52/100 UI score. The swarm writes CSS confidently but has no visual feedback loop.
 
-**Step 1: Build `src/lib/cannedChat.ts` — the command parser.**
+Here are the practical solutions, ordered by impact:
+
+## The Core Problem
+
+Claude Code agents can:
+- ✅ Write TypeScript/React/CSS
+- ✅ Run `npx tsc` and `npx vite build`
+- ✅ Run Playwright tests with assertions
+- ✅ Read screenshots as base64 images
+
+Claude Code agents cannot:
+- ❌ Open a browser and look at what they built
+- ❌ Judge visual quality ("does this look good?")
+- ❌ Compare two screenshots and identify which is better
+- ❌ Detect "feels amateur" vs "feels professional"
+
+## Solution 1: Screenshot-Driven Feedback Loop (Best — Use Now)
+
+**Have the swarm take Playwright screenshots after every visual change, then analyze them in the same session.**
 
 ```typescript
-// Input: user text string
-// Output: { response: string, patch: Partial<MasterConfig> | null, action: string | null }
+// Add to the swarm's workflow:
+// 1. Make the CSS/component change
+// 2. Take a screenshot
+// 3. Read the screenshot back
+// 4. Self-assess against criteria
+// 5. Iterate if needed
 
-// Keyword matching rules:
-// "dark" or "dark mode"     → { response: "Switching to dark mode...", action: "toggleMode:dark" }
-// "light" or "light mode"   → { response: "Switching to light mode...", action: "toggleMode:light" }
-// "add [section]"           → { response: "Adding [section]...", action: "addSection:type" }
-// "remove [section]"        → { response: "Removing [section]...", action: "removeSection:type" }
-// "headline [text]"         → { response: "Updated headline...", patch: hero headline text }
-// "theme [name]"            → { response: "Applying [name] theme...", action: "applyVibe:name" }
-// anything else             → { response: "I understood: '[input]'. Try: 'dark mode', 'add testimonials', or 'headline Your New Title'", patch: null }
+test('visual check', async ({ page }) => {
+  await page.goto('http://localhost:5173/builder');
+  await page.waitForTimeout(2000);
+  
+  // Screenshot specific areas, not full page
+  const leftPanel = page.locator('[data-panel="left"]');
+  await leftPanel.screenshot({ path: 'screenshots/left-panel-light.png' });
+  
+  const preview = page.locator('[data-panel="center"]');
+  await preview.screenshot({ path: 'screenshots/preview.png' });
+});
 ```
 
-Use simple `includes()` or regex matching — don't over-engineer. The section name matching should be fuzzy: "add testimonials", "add testimonial", "add Testimonials" all work. Theme name matching should accept "agency", "Agency", "saas", "SaaS", etc.
+**Then tell the swarm:** "After making visual changes, run the screenshot script and use `view` to look at the screenshot. Check: Is text readable? Do buttons have contrast? Does the layout look intentional or broken? If you can't tell text from background, the contrast is wrong."
 
-**Step 2: Wire into `ChatInput.tsx`.**
+The key is making the swarm **look at its own work** rather than trusting that correct CSS = correct visuals.
 
-The chat input already exists in the left panel bottom bar. On Enter:
-1. Add user message to a `chatMessages` array in state (or a new `chatStore`)
-2. Show "Processing..." indicator (P1 — a subtle animation or text)
-3. After 500ms delay: call `cannedChat(input)` → get response + action/patch
-4. Execute the action (call configStore methods) or apply the patch
-5. Add "Bradley" response message to chat history
-6. Clear the input field
+## Solution 2: Design Token Specification (Prevents Problems)
 
-**Step 3: Build chat message UI.**
+Instead of letting the swarm choose colors, give it a locked design token file that it must reference. No freestyle CSS allowed.
 
-Below the chat input (or in a scrollable area above it in the left panel), show message history:
+```typescript
+// src/lib/designTokens.ts — THE AUTHORITY for all colors
+export const tokens = {
+  light: {
+    panelBg: '#F7F5F2',
+    surfaceBg: '#FFFFFF', 
+    textPrimary: '#1E1E1E',
+    textSecondary: '#6B7280',
+    textMuted: '#9CA3AF',
+    border: '#D1CBC3',
+    borderHover: '#A51C30',
+    accent: '#A51C30',
+    accentText: '#FFFFFF',
+    selectedBg: '#A51C30',
+    selectedText: '#FFFFFF',
+    inputBg: '#F7F5F2',
+    inputBorder: '#D1CBC3',
+  },
+  dark: {
+    panelBg: '#2C2C2C',
+    surfaceBg: '#363636',
+    textPrimary: '#F5F5F5',
+    textSecondary: '#B0B0B0',
+    textMuted: '#808080',
+    border: '#4A4A4A',
+    borderHover: '#A51C30',
+    accent: '#A51C30',
+    accentText: '#FFFFFF',
+    selectedBg: '#A51C30',
+    selectedText: '#FFFFFF',
+    inputBg: '#363636',
+    inputBorder: '#4A4A4A',
+  }
+} as const;
+
+// RULE: No hex codes anywhere in components.
+// Every color references tokens.light.X or tokens.dark.X
+// via CSS variables set in index.css
+```
+
+**Tell the swarm:** "Never write a hex color in a component file. Always reference a design token. If you need a new color, add it to designTokens.ts first and justify why."
+
+## Solution 3: Contrast Assertion Tests (Automated Safety Net)
+
+Add Playwright tests that **measure actual contrast ratios** instead of trusting the CSS:
+
+```typescript
+test('light mode contrast check', async ({ page }) => {
+  await page.goto('http://localhost:5173/builder');
+  // Toggle to light mode
+  
+  // Check that left panel text is readable
+  const sectionText = page.locator('[data-testid="section-hero"] span').first();
+  const textColor = await sectionText.evaluate(el => getComputedStyle(el).color);
+  const bgColor = await sectionText.evaluate(el => {
+    let parent = el.parentElement;
+    while (parent) {
+      const bg = getComputedStyle(parent).backgroundColor;
+      if (bg !== 'rgba(0, 0, 0, 0)') return bg;
+      parent = parent.parentElement;
+    }
+    return 'rgb(255,255,255)';
+  });
+  
+  // Calculate contrast ratio (simplified)
+  const ratio = calculateContrastRatio(textColor, bgColor);
+  expect(ratio).toBeGreaterThan(4.5); // WCAG AA
+});
+```
+
+This catches "white text on white background" automatically.
+
+## Solution 4: Reference Screenshot Comparison
+
+Take a screenshot of a design you LIKE (from Stripe, Linear, etc.), save it as a reference, and tell the swarm to match it:
+
+**Tell the swarm:** "Here is a reference screenshot of how the left panel should look in light mode: `reference/left-panel-light.png`. Your implementation must match this visual style: warm off-white background, near-black text, crimson selected state, gray borders. Take a screenshot of your implementation and compare side-by-side."
+
+## Recommended Swarm Instruction
+
+**Paste this to Claude Code:**
 
 ```
-┌─────────────────────────────────┐
-│ You: make it dark               │  ← Right-aligned or distinct bg
-│ Bradley: Switching to dark      │  ← Left-aligned or accent bg
-│ mode...                         │
-│                                 │
-│ You: add testimonials           │
-│ Bradley: Adding testimonials    │
-│ section...                      │
-│                                 │
-│ You: headline Hello World       │
-│ Bradley: Updated headline...    │
-├─────────────────────────────────┤
-│ 🎤 Tell Bradley what to build… │  ← Input stays at bottom
-└─────────────────────────────────┘
+VISUAL QUALITY PROTOCOL — Apply to all UI changes:
+
+1. BEFORE making visual changes: Read src/lib/designTokens.ts. Use ONLY these colors.
+2. AFTER making visual changes: Run `npx playwright test tests/screenshots.spec.ts`
+3. AFTER screenshots: Use `view` tool to examine each screenshot
+4. CHECK: Can you read all text? Are buttons visible? Does selected state stand out?
+5. If ANY element has < 4.5:1 contrast ratio, fix before committing
+
+NEVER commit visual changes without first taking and examining a screenshot.
+This is Cardinal Sin #13 — no shipping UI without visual verification.
 ```
 
-User messages and Bradley messages must be **visually distinct** (different background color, alignment, or label). Keep it minimal — no avatars, no timestamps. Just bubbles with text.
-
-Chat history is scrollable, shows last 10 messages. Newest at bottom.
-
-**Step 4: Test all 7 commands.**
-
-Manually verify each command produces the expected visible change:
-- K1: "dark" → preview switches to dark palette ✓
-- K2: "light" → preview switches to light palette ✓
-- K3: "add testimonials" → testimonials section appears in preview ✓
-- K4: "remove pricing" → pricing section disappears from preview ✓
-- K5: "headline Build Something Amazing" → hero headline updates ✓
-- K6: "theme agency" → entire theme changes (layout, components, palette) ✓
-- K7: "make me a sandwich" → helpful fallback message, no crash ✓
-
-**Step 5: Run Playwright.**
-
-Add at least 3 chat-specific tests:
-- Send "dark" → verify palette change
-- Send "headline Test" → verify hero text updates
-- Send gibberish → verify fallback message appears, no errors
-
-Run full suite — all existing 23 tests must still pass plus the new ones.
-
-**After Phase 5:** Commit, update checklist with pass/fail, write brief log entry. Then proceed to Phase 6 (Listen Simulation) or Phase 7 (Home Page + Deploy) based on time assessment. The listen simulation is the higher-impact demo moment but the home page + deploy is the final deliverable. You decide the order after Phase 5 closes.
+The fundamental fix is making the swarm's workflow include **looking at screenshots** as a mandatory step, not just running `tsc` and `vite build`. The code compiling doesn't mean the UI looks right — the Data Tab raw-HTML disaster from Phase 1 proved that.

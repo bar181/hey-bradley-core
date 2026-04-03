@@ -10,7 +10,7 @@ export function StatusBar() {
           <span className="w-1.5 h-1.5 rounded-full bg-hb-success" />
           Ready
         </span>
-        <span>AISP Spec V1.2</span>
+        <span>Hey Bradley</span>
       </div>
       <span>Tab: {rightPanelTab} Connected</span>
     </footer>

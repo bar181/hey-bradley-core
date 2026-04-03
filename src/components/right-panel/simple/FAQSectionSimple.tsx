@@ -42,7 +42,7 @@ export function FAQSectionSimple({ sectionId }: { sectionId: string }) {
         <div>
           <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Style</div>
           <div className="flex rounded-lg border border-hb-border overflow-hidden">
-            {([{ v: 'accordion', label: 'Accordion' }, { v: 'two-column', label: 'Two Column' }] as const).map(({ v, label }) => (
+            {([{ v: 'accordion', label: 'Expandable' }, { v: 'two-column', label: 'Side by Side' }] as const).map(({ v, label }) => (
               <button
                 key={v}
                 type="button"
@@ -76,7 +76,7 @@ export function FAQSectionSimple({ sectionId }: { sectionId: string }) {
                     className="scale-[0.6] shrink-0"
                   />
                   <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
-                    Q&A {i + 1}
+                    Question {i + 1}
                   </span>
                 </div>
                 <div className={cn(!item.enabled && 'opacity-25 pointer-events-none', 'space-y-1.5')}>

@@ -71,7 +71,7 @@ export function FooterSectionSimple({ sectionId }: { sectionId: string }) {
       <RightAccordion id="footer-content" label="Content" defaultOpen>
         <div className="space-y-3">
           {/* Brand */}
-          <Field label="Brand Name" enabled={getEnabled('brand')} onToggle={(v) => handleToggle('brand', v)}>
+          <Field label="Company Name" enabled={getEnabled('brand')} onToggle={(v) => handleToggle('brand', v)}>
             <input
               type="text"
               value={(brand?.props?.text as string) ?? ''}
@@ -98,7 +98,7 @@ export function FooterSectionSimple({ sectionId }: { sectionId: string }) {
             return (
               <Field
                 key={colId}
-                label={heading || colId}
+                label={heading || `Links Group ${colId.replace('col-', '')}`}
                 enabled={col.enabled ?? true}
                 onToggle={(v) => handleToggle(colId, v)}
               >
@@ -107,7 +107,7 @@ export function FooterSectionSimple({ sectionId }: { sectionId: string }) {
                     type="text"
                     value={heading}
                     onChange={(e) => updateProp(colId, 'heading', e.target.value)}
-                    placeholder="Column heading"
+                    placeholder="Group name (e.g. Company)"
                     className={cn(INPUT, 'text-xs')}
                   />
                   <textarea

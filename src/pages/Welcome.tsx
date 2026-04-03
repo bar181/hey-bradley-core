@@ -7,8 +7,8 @@ import bradPixar from "@/assets/bradley/brad_pixar.webp";
 const INITIAL_SHOWCASE = {
   id: -1,
   style: "whiteboard",
-  title: "THE WHITEBOARD THAT WRITES YOUR SPECS",
-  subtitle: "Describe what you want. See it build live. Proof-based specifications.",
+  title: "TELL BRADLEY WHAT YOU WANT. WATCH IT APPEAR.",
+  subtitle: "Your AI website builder. Just describe your dream website and watch it come to life.",
   cta: "Get Started",
   ctaSecondary: "Explore Builder",
   link: "/new-project",
@@ -28,7 +28,7 @@ const CONVERSATION = [
   },
   {
     type: "ai",
-    text: "I love it! Here's a stunning full-screen design with immersive visuals...",
+    text: "Great choice! Here's a beautiful full-screen design that really pops...",
     triggerShowcase: 0
   },
   {
@@ -38,7 +38,7 @@ const CONVERSATION = [
   },
   {
     type: "ai",
-    text: "Absolutely. Here's a clean, precision-focused design with beautiful whitespace...",
+    text: "Of course! Here's a nice clean layout with plenty of breathing room...",
     triggerShowcase: 1
   },
   {
@@ -48,7 +48,7 @@ const CONVERSATION = [
   },
   {
     type: "ai",
-    text: "Perfect! Here's a distinguished, research-focused layout with Harvard's signature style...",
+    text: "Love it! Here's a polished academic look with Harvard's classic colors...",
     triggerShowcase: 2
   },
   {
@@ -58,7 +58,7 @@ const CONVERSATION = [
   },
   {
     type: "ai",
-    text: "Here's a bold SaaS-style hero with vibrant gradients and modern typography...",
+    text: "You got it! Here's a sleek, modern look with bold colors and sharp text...",
     triggerShowcase: 3
   },
   {
@@ -68,7 +68,7 @@ const CONVERSATION = [
   },
   {
     type: "ai",
-    text: "Meet the vision behind it all. Ready to bring your ideas to life?",
+    text: "Here's the person behind it all. Ready to build something together?",
     triggerShowcase: 4
   }
 ];
@@ -263,7 +263,7 @@ export function Welcome() {
             >
               <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-white/80 text-sm font-medium">
                 <Sparkles className="w-4 h-4" />
-                The Agentic Design Platform
+                Your AI Website Builder
               </span>
             </motion.div>
             <motion.h1
@@ -288,7 +288,7 @@ export function Welcome() {
               transition={{ delay: 0.8, duration: 0.8 }}
               className="mt-4 text-sm text-neutral-500 max-w-md"
             >
-              Your words become specifications. Your specifications become products.
+              No coding needed. No design skills required.
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -529,7 +529,7 @@ export function Welcome() {
                 </div>
                 <div>
                   <span className="font-bold text-white text-xl">Hey Bradley</span>
-                  <p className="text-sm text-white/50">Agentic Design Platform</p>
+                  <p className="text-sm text-white/50">Your AI Website Builder</p>
                 </div>
               </div>
               <button

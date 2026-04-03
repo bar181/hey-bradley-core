@@ -32,12 +32,10 @@ const THEME_ALIASES: Record<string, string> = {
   saas: 'saas',
   agency: 'agency',
   portfolio: 'portfolio',
-  blog: 'blog',
   startup: 'startup',
   personal: 'personal',
   professional: 'professional',
   wellness: 'wellness',
-  creative: 'creative',
   minimalist: 'minimalist',
 }
 

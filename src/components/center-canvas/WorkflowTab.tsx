@@ -10,7 +10,7 @@ interface PipelineStep {
 const steps: PipelineStep[] = [
   { name: 'Voice Capture', subtitle: 'Captured 3 intents', status: 'done' },
   { name: 'Intent Parsing', subtitle: 'hero, features, cta', status: 'done' },
-  { name: 'AISP Generation', subtitle: 'Generating...', status: 'active' },
+  { name: 'Building Website', subtitle: 'Generating...', status: 'active' },
   { name: 'Schema Validation', subtitle: 'Waiting', status: 'waiting' },
   { name: 'Reality Render', subtitle: 'Waiting', status: 'waiting' },
   { name: 'Edge Deploy', subtitle: 'Waiting', status: 'waiting' },

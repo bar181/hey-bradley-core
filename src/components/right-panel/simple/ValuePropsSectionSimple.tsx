@@ -54,7 +54,7 @@ export function ValuePropsSectionSimple({ sectionId }: { sectionId: string }) {
                     className="scale-[0.6] shrink-0"
                   />
                   <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
-                    Stat {i + 1}
+                    Number {i + 1}
                   </span>
                 </div>
                 <div className={cn(!item.enabled && 'opacity-25 pointer-events-none', 'space-y-1.5')}>

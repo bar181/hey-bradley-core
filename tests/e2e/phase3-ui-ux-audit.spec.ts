@@ -63,7 +63,7 @@ test.describe('1. New Project Page (/new-project)', () => {
       const name = await themeGrid.nth(i).locator('.text-sm').first().textContent()
       if (name) themeNames.push(name.trim())
     }
-    record('Onboarding', 'Theme names listed', themeNames.length >= 10,
+    record('Onboarding', 'Theme names listed', themeNames.length >= 8,
       `Themes: ${themeNames.join(', ')}`, 'P1')
 
     // Check "start from scratch" link
@@ -81,11 +81,11 @@ test.describe('1. New Project Page (/new-project)', () => {
       realErrors.length === 0 ? 'Clean' : `Errors: ${realErrors.join('; ')}`, 'P1')
 
     expect(hasBranding).toBeTruthy()
-    expect(cardCount).toBe(10)
+    expect(cardCount).toBe(8)
   })
 
   test('each theme card navigates to /builder', async ({ page }) => {
-    const THEME_NAMES = ['SaaS', 'Agency', 'Portfolio', 'Blog', 'Startup', 'Personal', 'Professional', 'Wellness', 'Creative', 'Minimalist']
+    const THEME_NAMES = ['Tech Business', 'Agency', 'Portfolio', 'Startup', 'Personal', 'Professional', 'Wellness', 'Minimalist']
     const failures: string[] = []
 
     for (const name of THEME_NAMES) {
@@ -185,7 +185,7 @@ test.describe('2. Builder Page (/builder)', () => {
     // Theme cards in right panel
     const themeCards = page.locator('[data-theme-card]')
     const cardCount = await themeCards.count()
-    record('Builder', 'Theme shows theme cards', cardCount >= 10, `Found ${cardCount} theme cards`, 'P0')
+    record('Builder', 'Theme shows theme cards', cardCount >= 8, `Found ${cardCount} theme cards`, 'P0')
 
     // Light/Dark toggle
     const lightBtn = page.locator('button').filter({ hasText: 'Light' }).first()
@@ -411,7 +411,7 @@ test.describe('4. Section Editors', () => {
 // ═══════════════════════════════════════════════════════
 
 test.describe('5. Theme Switching', () => {
-  test('switch through all 10 themes without crashes', async ({ page }) => {
+  test('switch through all 8 themes without crashes', async ({ page }) => {
     await goToBuilder(page)
 
     // Click Theme in left panel
@@ -419,7 +419,7 @@ test.describe('5. Theme Switching', () => {
     if (await themeItem.isVisible()) await themeItem.click()
     await page.waitForTimeout(300)
 
-    const THEMES = ['saas', 'agency', 'portfolio', 'blog', 'startup', 'personal', 'professional', 'wellness', 'creative', 'minimalist']
+    const THEMES = ['saas', 'agency', 'portfolio', 'startup', 'personal', 'professional', 'wellness', 'minimalist']
     const crashes: string[] = []
     const jsErrors: string[] = []
     page.on('pageerror', err => jsErrors.push(err.message))
@@ -436,7 +436,7 @@ test.describe('5. Theme Switching', () => {
       }
     }
 
-    record('Theme Switching', 'All 10 themes switch without crashes', crashes.length === 0,
+    record('Theme Switching', 'All 8 themes switch without crashes', crashes.length === 0,
       crashes.length === 0 ? 'All OK' : `Crashes: ${crashes.join(', ')}`, 'P0')
 
     record('Theme Switching', 'No JS errors during switching', jsErrors.length === 0,
@@ -771,7 +771,7 @@ test.afterAll(async () => {
   }
 
   report += `---\n\n## Screenshots Taken\n\n`
-  report += `- \`tests/screenshots/onboarding.png\` - Onboarding page with 10 theme cards\n`
+  report += `- \`tests/screenshots/onboarding.png\` - Onboarding page with 8 theme cards\n`
   report += `- \`tests/screenshots/builder-default.png\` - Builder 3-panel layout\n`
   report += `- \`tests/screenshots/preview-mode.png\` - Preview mode full site\n`
   report += `- \`tests/screenshots/responsive-mobile.png\` - Mobile 375px view\n`

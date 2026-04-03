@@ -270,7 +270,7 @@ export function ListenTab() {
             className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#A51C30]/15 backdrop-blur-sm text-[#C1283E] font-semibold text-xs tracking-wider uppercase hover:bg-[#A51C30]/25 transition-colors border border-[#A51C30]/25 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <Wand2 size={14} />
-            {simActive ? 'Simulating...' : 'Simulate Input'}
+            {simActive ? 'Playing Demo...' : 'Watch a Demo'}
           </button>
 
           <button

@@ -22,32 +22,16 @@ const GRID_OPTIONS = [
 const INPUT =
   'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
 
-/* ── Compact char indicator ── */
-function CharDot({ current, max }: { current: number; max: number }) {
-  const ratio = current / max
-  const color = ratio > 1 ? 'bg-red-400' : ratio > 0.9 ? 'bg-amber-400' : 'bg-emerald-400'
-  return (
-    <span className="flex items-center gap-1 shrink-0" title={`${current}/${max}`}>
-      <span className={cn('w-1.5 h-1.5 rounded-full', color)} />
-      <span className="text-xs text-hb-text-muted tabular-nums">{current}</span>
-    </span>
-  )
-}
-
-/* ── Toggle + label + optional char count row ── */
+/* ── Toggle + label row ── */
 function Field({
   label,
   enabled,
   onToggle,
-  charCurrent,
-  charMax,
   children,
 }: {
   label: string
   enabled: boolean
   onToggle?: (v: boolean) => void
-  charCurrent?: number
-  charMax?: number
   children: React.ReactNode
 }) {
   return (
@@ -59,9 +43,6 @@ function Field({
         <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide flex-1">
           {label}
         </span>
-        {charCurrent !== undefined && charMax !== undefined && (
-          <CharDot current={charCurrent} max={charMax} />
-        )}
       </div>
       <div className={cn(!enabled && 'opacity-25 pointer-events-none')}>{children}</div>
     </div>
@@ -160,7 +141,7 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
           <div>
             <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Style</div>
             <div className="flex rounded-lg border border-hb-border overflow-hidden">
-              {([{ v: 'grid-3col', label: 'Grid' }, { v: 'cards', label: 'Cards' }] as const).map(({ v, label }) => (
+              {([{ v: 'grid-3col', label: 'Simple' }, { v: 'cards', label: 'Card Style' }] as const).map(({ v, label }) => (
                 <button
                   key={v}
                   type="button"
@@ -179,7 +160,7 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
           </div>
           <div>
             <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">
-              Grid Columns
+              Columns
             </div>
             <div className="flex rounded-lg border border-hb-border overflow-hidden">
               {GRID_OPTIONS.map(({ cols, label }) => (
@@ -248,7 +229,7 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
                       <option value="">None</option>
                       {ICON_OPTIONS.map((slug) => (
                         <option key={slug} value={slug}>
-                          {slug}
+                          {slug === 'zap' ? 'Lightning' : slug === 'target' ? 'Bullseye' : slug === 'cpu' ? 'Chip' : slug.charAt(0).toUpperCase() + slug.slice(1)}
                         </option>
                       ))}
                     </select>
@@ -258,8 +239,6 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
                   <Field
                     label="Title"
                     enabled={card.enabled}
-                    charCurrent={title.length}
-                    charMax={50}
                   >
                     <input
                       type="text"
@@ -275,8 +254,6 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
                   <Field
                     label="Description"
                     enabled={card.enabled}
-                    charCurrent={description.length}
-                    charMax={120}
                   >
                     <textarea
                       value={description}
@@ -304,7 +281,7 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
               )}
             >
               <Plus size={14} />
-              Add Feature
+              Add Another
             </button>
           )}
         </div>

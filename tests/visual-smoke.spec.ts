@@ -60,7 +60,7 @@ test.describe('Visual Smoke Tests', () => {
     await page.locator('text=Main Banner').first().click();
     await page.waitForTimeout(300);
     rightText = await page.textContent('body');
-    expect(rightText).toContain('Headline');
+    expect(rightText).toContain('Title');
 
     await page.screenshot({ path: 'tests/screenshots/nav-wiring.png' });
   });

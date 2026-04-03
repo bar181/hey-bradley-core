@@ -60,7 +60,7 @@ export function PricingSectionSimple({ sectionId }: { sectionId: string }) {
                     {name || tier.id}
                   </span>
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs text-hb-text-muted">Featured</span>
+                    <span className="text-xs text-hb-text-muted">Recommended</span>
                     <Switch
                       checked={highlighted}
                       onCheckedChange={(v) => updateProp(tier.id, 'highlighted', v)}
@@ -96,7 +96,7 @@ export function PricingSectionSimple({ sectionId }: { sectionId: string }) {
                     />
                   </div>
                   <div className="w-24">
-                    <label className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Period</label>
+                    <label className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Billing</label>
                     <select
                       value={period}
                       onChange={(e) => updateProp(tier.id, 'period', e.target.value)}
@@ -129,7 +129,7 @@ export function PricingSectionSimple({ sectionId }: { sectionId: string }) {
                 {/* CTA */}
                 <div className="flex gap-2">
                   <div className="flex-1">
-                    <label className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">CTA Text</label>
+                    <label className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Button Text</label>
                     <input
                       type="text"
                       value={ctaText}
@@ -139,7 +139,7 @@ export function PricingSectionSimple({ sectionId }: { sectionId: string }) {
                     />
                   </div>
                   <div className="flex-1">
-                    <label className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">CTA URL</label>
+                    <label className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Button Link</label>
                     <input
                       type="text"
                       value={ctaUrl}

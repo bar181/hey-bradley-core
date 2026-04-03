@@ -54,7 +54,7 @@ export function TestimonialsSectionSimple({ sectionId }: { sectionId: string }) 
                     className="scale-[0.6] shrink-0"
                   />
                   <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
-                    Testimonial {i + 1}
+                    Review {i + 1}
                   </span>
                 </div>
                 <div className={cn(!t.enabled && 'opacity-25 pointer-events-none', 'space-y-1.5')}>
@@ -62,7 +62,7 @@ export function TestimonialsSectionSimple({ sectionId }: { sectionId: string }) 
                     value={quote}
                     onChange={(e) => updateProp(t.id, 'quote', e.target.value)}
                     rows={3}
-                    placeholder="Quote text..."
+                    placeholder="What did they say?"
                     data-testid={`testimonial-quote-input-${i}`}
                     className={cn(INPUT, 'resize-none leading-snug')}
                   />
@@ -70,7 +70,7 @@ export function TestimonialsSectionSimple({ sectionId }: { sectionId: string }) 
                     type="text"
                     value={author}
                     onChange={(e) => updateProp(t.id, 'author', e.target.value)}
-                    placeholder="Author name"
+                    placeholder="Person's name"
                     data-testid={`testimonial-author-input-${i}`}
                     className={INPUT}
                   />
@@ -78,7 +78,7 @@ export function TestimonialsSectionSimple({ sectionId }: { sectionId: string }) 
                     type="text"
                     value={role}
                     onChange={(e) => updateProp(t.id, 'role', e.target.value)}
-                    placeholder="Role / Company"
+                    placeholder="Their title or company"
                     data-testid={`testimonial-role-input-${i}`}
                     className={INPUT}
                   />

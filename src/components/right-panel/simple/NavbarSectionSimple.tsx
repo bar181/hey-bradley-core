@@ -62,7 +62,7 @@ export function NavbarSectionSimple({ sectionId }: { sectionId: string }) {
                 onCheckedChange={(v) => handleToggle('cta', v)}
                 className="scale-[0.6] shrink-0"
               />
-              <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">CTA Button</span>
+              <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Action Button</span>
             </div>
             <div className={cn(!ctaEnabled && 'opacity-25 pointer-events-none')}>
               <input
@@ -77,7 +77,7 @@ export function NavbarSectionSimple({ sectionId }: { sectionId: string }) {
           </div>
 
           <div className="text-xs text-hb-text-muted">
-            Nav links are auto-generated from your enabled sections.
+            Menu links are created automatically from your sections.
           </div>
         </div>
       </RightAccordion>

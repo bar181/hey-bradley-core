@@ -21,7 +21,7 @@ export const EXAMPLE_SITES: ExampleSite[] = [
   {
     name: 'LaunchPad AI',
     description: 'SaaS platform with dark, technical aesthetic',
-    theme: 'SaaS',
+    theme: 'Tech Business',
     config: launchpad as unknown as MasterConfig,
   },
   {

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Onboarding Page', () => {
-  test('new-project shows 10 theme cards and navigates to builder', async ({ page }) => {
+  test('new-project shows 8 theme cards and navigates to builder', async ({ page }) => {
     await page.goto('/new-project')
     await page.evaluate(() => localStorage.clear())
     await page.reload()
@@ -13,12 +13,12 @@ test.describe('Onboarding Page', () => {
     expect(bodyText).toContain('Pick a theme')
 
     // Verify theme cards exist (at least some theme names visible)
-    for (const theme of ['SaaS', 'Agency', 'Portfolio', 'Minimalist']) {
+    for (const theme of ['Tech Business', 'Agency', 'Portfolio', 'Minimalist']) {
       expect(bodyText).toContain(theme)
     }
 
     // Click a theme card → should navigate to /builder
-    const saasCard = page.locator('button').filter({ hasText: 'SaaS' }).first()
+    const saasCard = page.locator('button').filter({ hasText: 'Tech Business' }).first()
     await saasCard.click()
     await page.waitForTimeout(1000)
 

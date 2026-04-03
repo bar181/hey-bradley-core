@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test'
 
 const THEME_NAMES = [
-  'SaaS', 'Agency', 'Portfolio', 'Blog', 'Startup',
-  'Personal', 'Professional', 'Wellness', 'Creative', 'Minimalist',
+  'Tech Business', 'Agency', 'Portfolio', 'Startup',
+  'Personal', 'Professional', 'Wellness', 'Minimalist',
 ]
 
 test.describe('Phase 2 Smoke Tests', () => {
@@ -27,7 +27,7 @@ test.describe('Phase 2 Smoke Tests', () => {
     const initialText = await page.textContent('body')
 
     // Expand theme dropdown (click the dropdown button in the right panel)
-    const themeDropdown = page.locator('button').filter({ hasText: /SaaS|Agency|Portfolio/ }).first()
+    const themeDropdown = page.locator('button').filter({ hasText: /Tech Business|Agency|Portfolio/ }).first()
     if (await themeDropdown.count() > 0) {
       await themeDropdown.click()
       await page.waitForTimeout(300)
@@ -157,9 +157,9 @@ test.describe('Phase 2 Smoke Tests', () => {
   })
 })
 
-// ── Test 6: All 10 themes render without crash ──
+// ── Test 6: All 8 themes render without crash ──
 test.describe('Theme Regression', () => {
-  test('all 10 themes render without page errors', async ({ page }) => {
+  test('all 8 themes render without page errors', async ({ page }) => {
     const errors: string[] = []
     page.on('pageerror', (e) => errors.push(e.message))
 
@@ -188,7 +188,7 @@ test.describe('Theme Regression', () => {
       }
     }
 
-    // No page-level errors across all 10 themes
+    // No page-level errors across all 8 themes
     expect(errors).toHaveLength(0)
   })
 })

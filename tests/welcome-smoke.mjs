@@ -13,8 +13,8 @@ checks.push({
   pass: title.includes('Hey Bradley')
 });
 checks.push({
-  name: 'Home has "WHITEBOARD" heading',
-  pass: title.includes('WHITEBOARD')
+  name: 'Home has splash heading',
+  pass: title.includes('TELL BRADLEY') || title.includes('WHITEBOARD')
 });
 checks.push({
   name: 'Home has "Get Started" CTA',
@@ -50,8 +50,8 @@ await page.click('button:has-text("Listen")');
 await page.waitForTimeout(500);
 const listenText = await page.textContent('body');
 checks.push({
-  name: 'Listen tab has Simulate Input button',
-  pass: listenText.includes('Simulate Input')
+  name: 'Listen tab has Watch a Demo button',
+  pass: listenText.includes('Watch a Demo')
 });
 checks.push({
   name: 'Listen tab has Start Listening button',

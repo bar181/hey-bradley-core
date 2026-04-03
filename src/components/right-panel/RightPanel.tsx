@@ -12,8 +12,8 @@ const sectionTypeLabel: Record<string, string> = {
   pricing: 'Pricing',
   footer: 'Footer',
   testimonials: 'Reviews',
-  faq: 'FAQ',
-  value_props: 'Highlights',
+  faq: 'Questions & Answers',
+  value_props: 'Key Numbers',
   navbar: 'Top Menu',
 }
 
