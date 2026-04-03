@@ -8,6 +8,7 @@ import {
   Plus, Trash2, LayoutGrid, ImageIcon, Sparkles,
   AlignLeft, Hash, Rows3, Palette, GlassWater,
 } from 'lucide-react'
+import { SectionHeadingEditor } from './SectionHeadingEditor'
 
 /* ── Available icons (must match FeaturesGrid iconMap) ── */
 const ICON_OPTIONS = ['zap', 'target', 'shield', 'star', 'rocket', 'code', 'globe', 'lock', 'cpu'] as const
@@ -134,6 +135,7 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
 
   return (
     <div className="divide-y divide-hb-border/30">
+      <SectionHeadingEditor sectionId={sectionId} />
       {/* ─── 1. LAYOUT ─── */}
       <RightAccordion id={`${sectionId}-layout`} label="Layout" defaultOpen>
         <div className="grid grid-cols-2 gap-2">

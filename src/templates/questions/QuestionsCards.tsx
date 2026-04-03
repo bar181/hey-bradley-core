@@ -13,6 +13,7 @@ export function QuestionsCards({ section }: { section: Section }) {
       {/* Section heading */}
       {(section.content as any)?.heading && (
         <div className="text-center mb-12 max-w-3xl mx-auto">
+            <div className="w-10 h-1 rounded-full mx-auto mb-4" style={{ backgroundColor: 'var(--theme-accent, currentColor)', opacity: 0.6 }} />
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             {(section.content as any).heading}
           </h2>
@@ -24,15 +25,16 @@ export function QuestionsCards({ section }: { section: Section }) {
         </div>
       )}
       <div className="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-5">
-        {items.map((item) => {
+        {items.map((item, idx) => {
           const question = (item.props?.question as string) || 'Question'
           const answer = (item.props?.answer as string) || ''
 
           return (
             <div
               key={item.id}
-              className="rounded-xl p-6 transition-shadow hover:shadow-lg"
+              className="rounded-xl p-6 transition-shadow hover:shadow-lg opacity-0 animate-card-reveal"
               style={{
+                animationDelay: `${idx * 100}ms`,
                 background: `color-mix(in srgb, ${section.style.color} 3%, transparent)`,
                 border: `1px solid color-mix(in srgb, ${section.style.color} 8%, transparent)`,
               }}

@@ -198,9 +198,9 @@
     {
       "type": "columns",
       "id": "features-01",
-      "enabled": false,
+      "enabled": true,
       "order": 1,
-      "variant": "grid",
+      "variant": "cards",
       "layout": {
         "display": "grid",
         "columns": 3,
@@ -247,15 +247,141 @@
         }
       ],
       "content": {
-        "heading": "What We Offer",
-        "subheading": "Everything you need to succeed"
+        "heading": "Why Teams Choose Us",
+        "subheading": "Built for speed, designed for scale"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#0a0a1a",
+        "color": "#f8fafc"
+      },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "We shipped our marketing site in a single afternoon. The spec output alone saved us 20 hours of back-and-forth with our dev team.",
+            "author": "Jamie Nguyen",
+            "role": "Head of Growth, Raycast",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "The voice-first workflow is a game-changer. I described what I wanted and had a polished page in minutes.",
+            "author": "Alex Petrov",
+            "role": "Founder, NovaTech",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "Finally a builder that outputs real specifications, not just pixels. Our engineering team actually trusts the handoff now.",
+            "author": "Priya Sharma",
+            "role": "VP Engineering, Luma",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "Loved by Builders",
+        "subheading": "See what teams are saying"
+      }
+    },
+    {
+      "type": "numbers",
+      "id": "numbers-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "counters",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#12122a",
+        "color": "#f8fafc"
+      },
+      "components": [
+        {
+          "id": "n-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "2,000+",
+            "label": "Sites Built",
+            "description": "And counting"
+          }
+        },
+        {
+          "id": "n-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "< 5 min",
+            "label": "Time to Launch",
+            "description": "Average build time"
+          }
+        },
+        {
+          "id": "n-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "99.9%",
+            "label": "Uptime",
+            "description": "Enterprise grade"
+          }
+        },
+        {
+          "id": "n-4",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "value": "4.9/5",
+            "label": "Rating",
+            "description": "From 500+ reviews"
+          }
+        }
+      ],
+      "content": {
+        "heading": "The Numbers Speak",
+        "subheading": "Real results from real teams"
       }
     },
     {
       "type": "action",
       "id": "cta-01",
       "enabled": true,
-      "order": 2,
+      "order": 4,
       "variant": "simple",
       "layout": {
         "display": "flex",

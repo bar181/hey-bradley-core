@@ -30,6 +30,7 @@ export function LogosSimple({ section }: { section: Section }) {
       {/* Section heading */}
       {(section.content as any)?.heading && (
         <div className="text-center mb-12 max-w-3xl mx-auto">
+            <div className="w-10 h-1 rounded-full mx-auto mb-4" style={{ backgroundColor: 'var(--theme-accent, currentColor)', opacity: 0.6 }} />
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             {(section.content as any).heading}
           </h2>
@@ -42,10 +43,11 @@ export function LogosSimple({ section }: { section: Section }) {
       )}
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-          {logos.map((logo) => (
+          {logos.map((logo, idx) => (
             <div
               key={logo.id}
-              className="group flex items-center justify-center w-24 h-12 md:w-32 md:h-16 transition-all"
+              className="group flex items-center justify-center w-24 h-12 md:w-32 md:h-16 transition-all opacity-0 animate-card-reveal"
+              style={{ animationDelay: `${idx * 100}ms` }}
             >
               <img
                 src={logo.imageUrl}

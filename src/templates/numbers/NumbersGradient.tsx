@@ -32,6 +32,7 @@ export function NumbersGradient({ section }: { section: Section }) {
       {/* Section heading */}
       {(section.content as any)?.heading && (
         <div className="text-center mb-12 max-w-3xl mx-auto">
+            <div className="w-10 h-1 rounded-full mx-auto mb-4" style={{ backgroundColor: 'var(--theme-accent, currentColor)', opacity: 0.6 }} />
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             {(section.content as any).heading}
           </h2>
@@ -52,8 +53,8 @@ export function NumbersGradient({ section }: { section: Section }) {
           return (
             <div
               key={item.id}
-              className={`rounded-2xl bg-gradient-to-br ${gradient} backdrop-blur-sm p-6 text-center space-y-2 border shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl`}
-              style={{ borderColor: `color-mix(in srgb, ${section.style.color} 10%, transparent)` }}
+              className={`rounded-2xl bg-gradient-to-br ${gradient} backdrop-blur-sm p-6 text-center space-y-2 border shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl opacity-0 animate-card-reveal`}
+              style={{ animationDelay: `${i * 100}ms`, borderColor: `color-mix(in srgb, ${section.style.color} 10%, transparent)` }}
             >
               <div className="text-4xl font-bold text-theme-accent">
                 {value}

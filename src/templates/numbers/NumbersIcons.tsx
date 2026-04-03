@@ -32,6 +32,7 @@ export function NumbersIcons({ section }: { section: Section }) {
       {/* Section heading */}
       {(section.content as any)?.heading && (
         <div className="text-center mb-12 max-w-3xl mx-auto">
+            <div className="w-10 h-1 rounded-full mx-auto mb-4" style={{ backgroundColor: 'var(--theme-accent, currentColor)', opacity: 0.6 }} />
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             {(section.content as any).heading}
           </h2>
@@ -43,7 +44,7 @@ export function NumbersIcons({ section }: { section: Section }) {
         </div>
       )}
       <div className={`mx-auto max-w-6xl grid grid-cols-1 ${gridClass} gap-10 text-center`}>
-        {items.map((item) => {
+        {items.map((item, idx) => {
           const value = (item.props?.value as string) || '0'
           const label = (item.props?.label as string) || 'Label'
           const description = (item.props?.description as string) || ''
@@ -51,7 +52,7 @@ export function NumbersIcons({ section }: { section: Section }) {
           const Icon = iconMap[iconKey] ?? Zap
 
           return (
-            <div key={item.id} className="flex flex-col items-center gap-2">
+            <div key={item.id} className="flex flex-col items-center gap-2 opacity-0 animate-card-reveal" style={{ animationDelay: `${idx * 100}ms` }}>
               <div className="w-12 h-12 rounded-full bg-theme-accent/10 flex items-center justify-center">
                 <Icon size={22} className="text-theme-accent" />
               </div>

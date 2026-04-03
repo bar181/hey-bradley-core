@@ -5,6 +5,7 @@ import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
 import { Users, Grid3X3, List, Plus, Trash2 } from 'lucide-react'
+import { SectionHeadingEditor } from './SectionHeadingEditor'
 
 const INPUT =
   'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
@@ -95,6 +96,7 @@ export function TeamSectionSimple({ sectionId }: { sectionId: string }) {
 
   return (
     <div className="divide-y divide-hb-border/30">
+      <SectionHeadingEditor sectionId={sectionId} />
       {/* LAYOUT */}
       <RightAccordion id={`team-layout-${sectionId}`} label="Layout" defaultOpen>
         <div className="grid grid-cols-3 gap-2">

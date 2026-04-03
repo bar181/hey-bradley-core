@@ -23,6 +23,7 @@ export function NumbersCounters({ section }: { section: Section }) {
       {/* Section heading */}
       {(section.content as any)?.heading && (
         <div className="text-center mb-12 max-w-3xl mx-auto">
+            <div className="w-10 h-1 rounded-full mx-auto mb-4" style={{ backgroundColor: 'var(--theme-accent, currentColor)', opacity: 0.6 }} />
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             {(section.content as any).heading}
           </h2>

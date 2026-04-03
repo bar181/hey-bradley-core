@@ -30,6 +30,7 @@ export function ColumnsGradient({ section }: { section: Section }) {
       {/* Section heading */}
       {(section.content as any)?.heading && (
         <div className="text-center mb-12 max-w-3xl mx-auto">
+            <div className="w-10 h-1 rounded-full mx-auto mb-4" style={{ backgroundColor: 'var(--theme-accent, currentColor)', opacity: 0.6 }} />
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             {(section.content as any).heading}
           </h2>
@@ -41,14 +42,15 @@ export function ColumnsGradient({ section }: { section: Section }) {
         </div>
       )}
       <div className={`mx-auto max-w-6xl grid grid-cols-1 gap-6 ${GRID_CLASSES[cols] ?? 'md:grid-cols-3'}`}>
-        {items.map((item) => {
+        {items.map((item, idx) => {
           const iconSlug = (item.props?.icon as string) ?? ''
           const Icon = iconMap[iconSlug]
 
           return (
             <div
               key={item.id}
-              className="p-px bg-gradient-to-br from-[var(--theme-accent,#6366f1)]/40 via-[var(--theme-accent,#6366f1)]/20 to-transparent rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              className="p-px bg-gradient-to-br from-[var(--theme-accent,#6366f1)]/40 via-[var(--theme-accent,#6366f1)]/20 to-transparent rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl opacity-0 animate-card-reveal"
+              style={{ animationDelay: `${idx * 100}ms` }}
             >
               <div
                 className="rounded-2xl p-7 h-full"

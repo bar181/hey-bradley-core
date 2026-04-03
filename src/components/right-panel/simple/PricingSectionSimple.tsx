@@ -4,6 +4,7 @@ import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { updateComponentProps } from '@/lib/componentHelpers'
+import { SectionHeadingEditor } from './SectionHeadingEditor'
 
 const INPUT = 'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
 
@@ -32,6 +33,7 @@ export function PricingSectionSimple({ sectionId }: { sectionId: string }) {
 
   return (
     <div className="divide-y divide-hb-border/30">
+      <SectionHeadingEditor sectionId={sectionId} />
       {/* ─── ELEMENTS ─── */}
       <RightAccordion id={`pricing-elements-${sectionId}`} label="Elements" defaultOpen>
         <div className="space-y-2">

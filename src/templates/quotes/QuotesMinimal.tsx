@@ -13,6 +13,7 @@ export function QuotesMinimal({ section }: { section: Section }) {
       {/* Section heading */}
       {(section.content as any)?.heading && (
         <div className="text-center mb-12 max-w-3xl mx-auto">
+            <div className="w-10 h-1 rounded-full mx-auto mb-4" style={{ backgroundColor: 'var(--theme-accent, currentColor)', opacity: 0.6 }} />
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             {(section.content as any).heading}
           </h2>
@@ -24,13 +25,13 @@ export function QuotesMinimal({ section }: { section: Section }) {
         </div>
       )}
       <div className="mx-auto max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-10">
-        {testimonials.map((t) => {
+        {testimonials.map((t, idx) => {
           const quote = (t.props?.quote as string) || ''
           const author = (t.props?.author as string) || 'Anonymous'
           const role = (t.props?.role as string) || ''
 
           return (
-            <div key={t.id} className="space-y-3">
+            <div key={t.id} className="space-y-3 opacity-0 animate-card-reveal" style={{ animationDelay: `${idx * 100}ms` }}>
               <blockquote className="text-base italic leading-relaxed opacity-80">
                 &ldquo;{quote}&rdquo;
               </blockquote>

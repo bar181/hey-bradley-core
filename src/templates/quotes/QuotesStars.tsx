@@ -32,6 +32,7 @@ export function QuotesStars({ section }: { section: Section }) {
       {/* Section heading */}
       {(section.content as any)?.heading && (
         <div className="text-center mb-12 max-w-3xl mx-auto">
+            <div className="w-10 h-1 rounded-full mx-auto mb-4" style={{ backgroundColor: 'var(--theme-accent, currentColor)', opacity: 0.6 }} />
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             {(section.content as any).heading}
           </h2>
@@ -43,13 +44,13 @@ export function QuotesStars({ section }: { section: Section }) {
         </div>
       )}
       <div className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-6">
-        {testimonials.map((t) => {
+        {testimonials.map((t, idx) => {
           const quote = (t.props?.quote as string) || ''
           const author = (t.props?.author as string) || 'Anonymous'
           const role = (t.props?.role as string) || ''
 
           return (
-            <Card key={t.id} className="bg-theme-surface/80 text-inherit rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" style={{ borderColor: `color-mix(in srgb, ${section.style.color} 8%, transparent)` }}>
+            <Card key={t.id} className="bg-theme-surface/80 text-inherit rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl opacity-0 animate-card-reveal" style={{ animationDelay: `${idx * 100}ms`, borderColor: `color-mix(in srgb, ${section.style.color} 8%, transparent)` }}>
               <CardContent>
                 <StarRow />
                 <blockquote className="text-sm leading-relaxed mb-4 opacity-90">

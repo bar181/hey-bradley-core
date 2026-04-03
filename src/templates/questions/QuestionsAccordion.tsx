@@ -19,6 +19,7 @@ export function QuestionsAccordion({ section }: { section: Section }) {
       {/* Section heading */}
       {(section.content as any)?.heading && (
         <div className="text-center mb-12 max-w-3xl mx-auto">
+            <div className="w-10 h-1 rounded-full mx-auto mb-4" style={{ backgroundColor: 'var(--theme-accent, currentColor)', opacity: 0.6 }} />
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             {(section.content as any).heading}
           </h2>
@@ -31,12 +32,12 @@ export function QuestionsAccordion({ section }: { section: Section }) {
       )}
       <div className="mx-auto max-w-3xl">
         <Accordion>
-          {items.map((item) => {
+          {items.map((item, idx) => {
             const question = (item.props?.question as string) || 'Question'
             const answer = (item.props?.answer as string) || ''
 
             return (
-              <AccordionItem key={item.id}>
+              <AccordionItem key={item.id} className="opacity-0 animate-card-reveal" style={{ animationDelay: `${idx * 100}ms` }}>
                 <AccordionTrigger className="text-left font-semibold">
                   {question}
                 </AccordionTrigger>

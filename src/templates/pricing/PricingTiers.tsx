@@ -19,6 +19,7 @@ export function PricingTiers({ section }: { section: Section }) {
       {/* Section heading */}
       {(section.content as any)?.heading && (
         <div className="text-center mb-12 max-w-3xl mx-auto">
+            <div className="w-10 h-1 rounded-full mx-auto mb-4" style={{ backgroundColor: 'var(--theme-accent, currentColor)', opacity: 0.6 }} />
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             {(section.content as any).heading}
           </h2>
@@ -36,7 +37,7 @@ export function PricingTiers({ section }: { section: Section }) {
             tiers.length === 2 ? 'grid-cols-1 md:grid-cols-2 max-w-3xl mx-auto' : 'grid-cols-1 md:grid-cols-3',
           )}
         >
-          {tiers.map((tier) => {
+          {tiers.map((tier, idx) => {
             const name = (tier.props?.name as string) || 'Plan'
             const price = (tier.props?.price as string) || '$0'
             const period = (tier.props?.period as string) || 'month'
@@ -51,12 +52,12 @@ export function PricingTiers({ section }: { section: Section }) {
                 key={tier.id}
                 className={cn(
                   'relative flex flex-col rounded-2xl border p-6',
-                  'bg-theme-surface/60 backdrop-blur-sm shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl',
+                  'bg-theme-surface/60 backdrop-blur-sm shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl opacity-0 animate-card-reveal',
                   highlighted
                     ? 'border-theme-accent ring-2 ring-theme-accent/20'
                     : '',
                 )}
-                style={highlighted ? undefined : { borderColor: `color-mix(in srgb, ${section.style.color} 10%, transparent)` }}
+                style={highlighted ? { animationDelay: `${idx * 100}ms` } : { animationDelay: `${idx * 100}ms`, borderColor: `color-mix(in srgb, ${section.style.color} 10%, transparent)` }}
               >
                 {/* Recommended badge */}
                 {highlighted && (

@@ -27,6 +27,7 @@ export function TeamMinimal({ section }: { section: Section }) {
       {/* Section heading */}
       {(section.content as any)?.heading && (
         <div className="text-center mb-12 max-w-3xl mx-auto">
+            <div className="w-10 h-1 rounded-full mx-auto mb-4" style={{ backgroundColor: 'var(--theme-accent, currentColor)', opacity: 0.6 }} />
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             {(section.content as any).heading}
           </h2>
@@ -38,10 +39,11 @@ export function TeamMinimal({ section }: { section: Section }) {
         </div>
       )}
       <div className="mx-auto max-w-2xl space-y-4">
-        {members.map((member) => (
+        {members.map((member, idx) => (
           <div
             key={member.id}
-            className="flex items-baseline justify-between py-3 border-b border-current/10"
+            className="flex items-baseline justify-between py-3 border-b border-current/10 opacity-0 animate-card-reveal"
+            style={{ animationDelay: `${idx * 100}ms` }}
           >
             <span className="text-base font-medium">{member.name}</span>
             <span className="text-sm opacity-50">{member.role}</span>

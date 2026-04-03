@@ -21,6 +21,7 @@ export function ColumnsNumbered({ section }: { section: Section }) {
       {/* Section heading */}
       {(section.content as any)?.heading && (
         <div className="text-center mb-12 max-w-3xl mx-auto">
+            <div className="w-10 h-1 rounded-full mx-auto mb-4" style={{ backgroundColor: 'var(--theme-accent, currentColor)', opacity: 0.6 }} />
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             {(section.content as any).heading}
           </h2>
@@ -33,8 +34,9 @@ export function ColumnsNumbered({ section }: { section: Section }) {
       )}
       <div className={`mx-auto max-w-6xl grid grid-cols-1 gap-10 ${GRID_CLASSES[cols] ?? 'md:grid-cols-3'}`}>
         {items.map((item, idx) => (
-          <div key={item.id} className="space-y-4 rounded-2xl p-7 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+          <div key={item.id} className="space-y-4 rounded-2xl p-7 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl opacity-0 animate-card-reveal"
             style={{
+              animationDelay: `${idx * 100}ms`,
               background: `color-mix(in srgb, ${section.style.color} 3%, transparent)`,
               border: `1px solid color-mix(in srgb, ${section.style.color} 10%, transparent)`,
             }}>

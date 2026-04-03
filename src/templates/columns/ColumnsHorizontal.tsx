@@ -22,6 +22,7 @@ export function ColumnsHorizontal({ section }: { section: Section }) {
       {/* Section heading */}
       {(section.content as any)?.heading && (
         <div className="text-center mb-12 max-w-3xl mx-auto">
+            <div className="w-10 h-1 rounded-full mx-auto mb-4" style={{ backgroundColor: 'var(--theme-accent, currentColor)', opacity: 0.6 }} />
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             {(section.content as any).heading}
           </h2>
@@ -33,15 +34,16 @@ export function ColumnsHorizontal({ section }: { section: Section }) {
         </div>
       )}
       <div className="mx-auto max-w-4xl space-y-6">
-        {items.map((item) => {
+        {items.map((item, idx) => {
           const iconSlug = (item.props?.icon as string) ?? ''
           const Icon = iconMap[iconSlug]
 
           return (
             <div
               key={item.id}
-              className="flex items-start gap-6 rounded-2xl p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              className="flex items-start gap-6 rounded-2xl p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl opacity-0 animate-card-reveal"
               style={{
+                animationDelay: `${idx * 100}ms`,
                 background: `color-mix(in srgb, ${section.style.color} 2%, transparent)`,
                 border: `1px solid color-mix(in srgb, ${section.style.color} 15%, transparent)`,
               }}
