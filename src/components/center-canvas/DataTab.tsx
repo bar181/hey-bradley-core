@@ -4,6 +4,8 @@ import { masterConfigSchema } from '../../lib/schemas'
 import CodeMirror from '@uiw/react-codemirror'
 import { json } from '@codemirror/lang-json'
 import { oneDark } from '@codemirror/theme-one-dark'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import {
   Copy,
   Download,
@@ -15,6 +17,7 @@ import {
   Grid3X3,
   ArrowRight,
   Pencil,
+  Check,
   X,
   type LucideIcon,
 } from 'lucide-react'
@@ -148,22 +151,47 @@ export function DataTab() {
           const parsed = JSON.parse(value)
           const result = masterConfigSchema.safeParse(parsed)
           if (result.success) {
-            loadConfig(result.data)
             setValidationError(null)
             setValidationOk(true)
           } else {
-            const issues = result.error.issues.map((i) => i.message).join('; ')
+            const issues = result.error.issues
+              .slice(0, 3)
+              .map((i) => `${i.path.join('.')}: ${i.message}`)
+              .join('; ')
             setValidationError(`Validation: ${issues}`)
             setValidationOk(false)
           }
         } catch (e) {
-          setValidationError(`JSON: ${(e as Error).message}`)
+          setValidationError(`${(e as Error).message}`)
           setValidationOk(false)
         }
       }, DEBOUNCE_MS)
     },
-    [loadConfig]
+    []
   )
+
+  const applyEdit = useCallback(() => {
+    try {
+      const parsed = JSON.parse(editValue)
+      const result = masterConfigSchema.safeParse(parsed)
+      if (result.success) {
+        loadConfig(result.data)
+        setValidationError(null)
+        setValidationOk(true)
+        setIsEditing(false)
+      } else {
+        const issues = result.error.issues
+          .slice(0, 3)
+          .map((i) => `${i.path.join('.')}: ${i.message}`)
+          .join('; ')
+        setValidationError(`Validation: ${issues}`)
+        setValidationOk(false)
+      }
+    } catch (e) {
+      setValidationError(`${(e as Error).message}`)
+      setValidationOk(false)
+    }
+  }, [editValue, loadConfig])
 
   // Cleanup debounce on unmount
   useEffect(() => {
@@ -324,17 +352,31 @@ export function DataTab() {
               className="h-full"
             />
           </div>
-          <div className="mt-2 h-5">
-            {validationOk && !validationError && (
-              <span className="font-mono text-xs text-hb-success">
-                &#10003; Valid
-              </span>
-            )}
-            {validationError && (
-              <span className="font-mono text-xs text-hb-error">
-                {validationError}
-              </span>
-            )}
+
+          {validationError && (
+            <Card className="mx-0 mt-2 p-3 bg-red-500/10 border-red-500/20">
+              <p className="text-xs text-red-400 font-medium">Invalid JSON</p>
+              <p className="text-xs text-red-400/70 mt-1">{validationError}</p>
+            </Card>
+          )}
+
+          <div className="mt-2 flex items-center justify-between">
+            <div className="h-5">
+              {validationOk && !validationError && (
+                <span className="font-mono text-xs text-hb-success">
+                  &#10003; Valid &mdash; ready to apply
+                </span>
+              )}
+            </div>
+            <Button
+              size="sm"
+              onClick={applyEdit}
+              disabled={!validationOk || !!validationError}
+              className="gap-1.5"
+            >
+              <Check size={12} />
+              Apply
+            </Button>
           </div>
         </div>
       ) : (

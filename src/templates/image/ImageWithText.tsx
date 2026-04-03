@@ -19,6 +19,7 @@ export function ImageWithText({ section }: { section: Section }) {
             src={imageUrl}
             alt={heading}
             className="w-full h-[350px] object-cover"
+            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
           />
         </div>
         <div className="space-y-4">

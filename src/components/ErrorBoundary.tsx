@@ -1,4 +1,6 @@
 import { Component, type ReactNode, type ErrorInfo } from 'react'
+import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 
 interface Props {
   children: ReactNode
@@ -27,17 +29,19 @@ export class ErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return this.props.fallback ?? (
-        <div className="p-6 text-center border border-red-500/20 rounded-lg bg-red-500/5 my-4">
-          <p className="text-sm text-red-400 font-medium">This section encountered an error</p>
-          <p className="text-xs text-red-400/60 mt-1">{this.state.error?.message}</p>
-          <button
-            type="button"
-            onClick={() => this.setState({ hasError: false, error: null })}
-            className="mt-3 text-xs text-red-400 underline hover:text-red-300"
-          >
-            Try again
-          </button>
-        </div>
+        <Card className="border-red-500/20 bg-red-500/5 my-4 ring-0">
+          <CardContent className="p-6 text-center">
+            <p className="text-sm text-red-400 font-medium">This section encountered an error</p>
+            <p className="text-xs text-red-400/60 mt-1">{this.state.error?.message}</p>
+            <Button
+              variant="link"
+              onClick={() => this.setState({ hasError: false, error: null })}
+              className="mt-3 text-xs text-red-400 underline hover:text-red-300"
+            >
+              Try again
+            </Button>
+          </CardContent>
+        </Card>
       )
     }
     return this.props.children

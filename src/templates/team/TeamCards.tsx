@@ -59,6 +59,7 @@ export function TeamCards({ section }: { section: Section }) {
                 src={member.imageUrl}
                 alt={member.name}
                 className="w-full h-full object-cover"
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
               />
             </div>
             <h3 className="text-lg font-semibold">{member.name}</h3>

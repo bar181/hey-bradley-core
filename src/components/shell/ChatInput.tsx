@@ -6,6 +6,8 @@ import { useConfigStore } from '@/store/configStore'
 import { useUIStore } from '@/store/uiStore'
 import { EXAMPLE_SITES } from '@/data/examples'
 import { buildDemoSequence, runDemo } from '@/lib/demoSimulator'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import type { SectionType } from '@/lib/schemas'
 
 export interface ChatMessage {
@@ -172,16 +174,16 @@ export function ChatInput() {
               <p className="text-xs text-hb-text-muted uppercase tracking-wider font-medium">Quick demos</p>
               <div className="grid grid-cols-2 gap-2">
                 {EXAMPLE_SITES.map((example) => (
-                  <button
+                  <Button
                     key={example.name}
-                    type="button"
+                    variant="outline"
                     onClick={() => startDemo(example)}
                     disabled={isProcessing || demoActive}
-                    className="text-left px-3 py-2.5 rounded-lg border border-hb-border bg-hb-surface hover:bg-hb-surface-hover hover:border-hb-accent/30 transition-all text-xs disabled:opacity-40 disabled:cursor-not-allowed group"
+                    className="text-left px-3 py-2.5 h-auto rounded-lg border border-hb-border bg-hb-surface hover:bg-hb-surface-hover hover:border-hb-accent/30 transition-all text-xs disabled:opacity-40 disabled:cursor-not-allowed group flex flex-col items-start"
                   >
                     <span className="font-medium text-hb-text-primary group-hover:text-hb-accent transition-colors">{example.name}</span>
                     <span className="block text-hb-text-muted mt-0.5 text-[10px]">{example.theme}</span>
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
@@ -219,7 +221,7 @@ export function ChatInput() {
 
       {/* Input bar — no mic button */}
       <div className="flex items-center gap-2 px-3 py-2 border-t border-hb-border bg-hb-surface">
-        <input
+        <Input
           ref={inputRef}
           type="text"
           value={input}
@@ -231,17 +233,18 @@ export function ChatInput() {
           aria-label="Tell Bradley what to build"
           data-testid="chat-input"
           disabled={isProcessing}
-          className="flex-1 bg-transparent border-none outline-none text-sm text-hb-text-primary placeholder:text-hb-text-muted disabled:opacity-50"
+          className="flex-1 h-auto bg-transparent border-none outline-none ring-0 text-sm text-hb-text-primary placeholder:text-hb-text-muted disabled:opacity-50 focus-visible:border-none focus-visible:ring-0"
         />
-        <button
-          type="button"
+        <Button
+          variant="ghost"
+          size="icon"
           aria-label="Send message"
           onClick={handleSend}
           disabled={isProcessing || !input.trim()}
           className="flex items-center justify-center w-8 h-8 rounded-full text-hb-accent hover:bg-hb-accent/10 transition-colors disabled:opacity-30"
         >
           <SendHorizontal size={16} />
-        </button>
+        </Button>
       </div>
     </div>
   )

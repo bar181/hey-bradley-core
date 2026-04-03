@@ -15,6 +15,7 @@ export function ImageFullWidth({ section }: { section: Section }) {
           src={imageUrl}
           alt={caption || 'Full width image'}
           className="w-full h-[400px] object-cover"
+          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
         />
         {caption && (
           <p className="text-sm opacity-60 text-center py-3 px-6">{caption}</p>

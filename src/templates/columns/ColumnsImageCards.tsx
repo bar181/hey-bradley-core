@@ -67,6 +67,7 @@ export function ColumnsImageCards({ section }: { section: Section }) {
                   src={imageUrl}
                   alt={(item.props?.title as string) || 'Your First Feature'}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
                 />
               </div>
               <div className="p-6">

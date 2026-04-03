@@ -57,6 +57,7 @@ export function GalleryCarousel({ section }: { section: Section }) {
                 src={img.url}
                 alt={img.caption || 'Gallery image'}
                 className="w-full aspect-[4/3] object-cover transition-transform duration-300 group-hover:scale-105"
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
               />
               {img.caption && (
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">

@@ -17,6 +17,7 @@ export function ImageOverlay({ section }: { section: Section }) {
         src={imageUrl}
         alt={heading}
         className="w-full h-[450px] object-cover"
+        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
       />
       <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
         <div className="text-center text-white max-w-2xl px-6 space-y-4">

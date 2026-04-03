@@ -58,6 +58,7 @@ export function GalleryMasonry({ section }: { section: Section }) {
               className={`w-full object-cover transition-transform duration-300 group-hover:scale-105 ${
                 i % 3 === 0 ? 'aspect-[3/4]' : i % 3 === 1 ? 'aspect-square' : 'aspect-[4/3]'
               }`}
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
             />
             {img.caption && (
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">

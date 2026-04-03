@@ -58,6 +58,7 @@ export function LogosGrid({ section }: { section: Section }) {
               src={logo.imageUrl}
               alt={logo.name}
               className="max-w-full max-h-12 object-contain grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
             />
           </div>
         ))}

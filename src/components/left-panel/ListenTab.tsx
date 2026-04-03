@@ -3,6 +3,7 @@ import { Play, Settings, Wand2 } from 'lucide-react'
 import { buildDemoSequence, runDemo } from '@/lib/demoSimulator'
 import { EXAMPLE_SITES } from '@/data/examples'
 import { useUIStore } from '@/store/uiStore'
+import { Button } from '@/components/ui/button'
 
 const DEFAULTS = {
   pulseSpeed: 3, // seconds (3000ms)
@@ -246,34 +247,34 @@ export function ListenTab() {
       {/* C) Buttons — compact bottom section */}
       <div className="px-4 pb-4 space-y-2 flex flex-col items-center">
         <div className="w-full max-w-[300px] space-y-2">
-          <button
-            type="button"
+          <Button
+            variant="outline"
             onClick={runSimulateInput}
             disabled={simActive || burstActive}
-            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#A51C30]/15 backdrop-blur-sm text-[#C1283E] font-semibold text-xs tracking-wider uppercase hover:bg-[#A51C30]/25 transition-colors border border-[#A51C30]/25 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 h-auto py-2.5 rounded-xl bg-[#A51C30]/15 backdrop-blur-sm text-[#C1283E] font-semibold text-xs tracking-wider uppercase hover:bg-[#A51C30]/25 transition-colors border border-[#A51C30]/25 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <Wand2 size={14} />
             {simActive ? 'Playing Demo...' : 'Watch a Demo'}
-          </button>
+          </Button>
 
-          <button
-            type="button"
+          <Button
+            variant="outline"
             onClick={runBurstAnimation}
             disabled={burstActive}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-white/10 backdrop-blur-sm text-white font-semibold text-sm tracking-wider uppercase hover:bg-white/15 transition-colors border border-white/10 disabled:opacity-60"
+            className="w-full flex items-center justify-center gap-2 h-auto py-3 rounded-xl bg-white/10 backdrop-blur-sm text-white font-semibold text-sm tracking-wider uppercase hover:bg-white/15 transition-colors border border-white/10 disabled:opacity-60"
           >
             <Play size={16} fill="currentColor" />
             {burstActive ? `Listening ${Math.ceil(burstRemaining)}s` : 'Start Listening'}
-          </button>
+          </Button>
 
-          <button
-            type="button"
+          <Button
+            variant="ghost"
             onClick={() => setShowSettings(!showSettings)}
-            className="flex items-center gap-1.5 text-xs text-white/30 hover:text-white/50 transition-colors mx-auto pt-1"
+            className="flex items-center gap-1.5 h-auto text-xs text-white/30 hover:text-white/50 transition-colors mx-auto pt-1"
           >
             <Settings size={11} />
             {showSettings ? 'Hide' : 'Show'} settings
-          </button>
+          </Button>
 
           {showSettings && (
             <div className="space-y-2 pt-1 border-t border-white/10">

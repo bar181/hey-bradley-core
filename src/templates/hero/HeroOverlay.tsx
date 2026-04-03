@@ -26,6 +26,7 @@ export function HeroOverlay({ section }: { section: Section }) {
           src={imageUrl}
           alt={(imageComp?.props?.alt as string) || ''}
           className="absolute inset-0 w-full h-full object-cover"
+          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
         />
       ) : null}
 
