@@ -1,6 +1,6 @@
 # Hey Bradley UI/UX Audit Report - Phase 3
 
-**Date**: 2026-03-31
+**Date**: 2026-04-02
 **URL**: http://localhost:5173/
 **Tool**: Playwright automated audit
 **Routes tested**: `/` (onboarding), `/builder` (3-panel editor)
@@ -14,13 +14,13 @@
 | Onboarding | 5 | 8/8 |
 | Builder | 5 | 11/11 |
 | Preview | 5 | 6/6 |
-| Section Editors | 5 | 15/15 |
+| Section Editors | 3 | 10/15 |
 | Theme Switching | 5 | 3/3 |
 | Section CRUD | 5 | 5/5 |
 | Font Cascade | 3 | 1/2 |
-| Accessibility | 4 | 3/4 |
+| Accessibility | 5 | 4/4 |
 | Responsive | 5 | 2/2 |
-| **Overall** | **4.7** | **54/56** |
+| **Overall** | **4.6** | **50/56** |
 
 ---
 
@@ -69,14 +69,14 @@
 - **[PASS]** Hero: Primary CTA input: Visible
 - **[PASS]** Hero: Secondary CTA input: Visible
 - **[PASS]** Features: variant selector: Grid/Cards found
-- **[PASS]** Features: has inputs: Found 7 inputs
-- **[PASS]** Pricing: has inputs: Found 16 inputs
+- **[PASS]** Features: has inputs: Found 6 inputs
+- **[FAIL]** Pricing: has inputs: Found 0 inputs
 - **[PASS]** CTA: variant selector: Found
-- **[PASS]** FAQ: has inputs: Found 11 inputs
-- **[PASS]** Testimonials: has inputs: Found 10 inputs
-- **[PASS]** Value Props: has inputs: Found 13 inputs
-- **[PASS]** Footer: has inputs: Found 9 inputs
-- **[PASS]** Navbar: has inputs: Found 3 inputs
+- **[FAIL]** FAQ: has inputs: Found 0 inputs
+- **[FAIL]** Testimonials: has inputs: Found 0 inputs
+- **[FAIL]** Value Props: has inputs: Found 0 inputs
+- **[FAIL]** Footer: has inputs: Found 0 inputs
+- **[PASS]** Navbar: has inputs: Found 2 inputs
 
 ### Theme Switching
 
@@ -86,11 +86,11 @@
 
 ### Section CRUD
 
-- **[PASS]** Initial section count: 9 sections
+- **[PASS]** Initial section count: 4 sections
 - **[PASS]** Add Section button exists: Visible
-- **[PASS]** Add section increases count: Before: 9, After: 10
-- **[PASS]** Duplicate increases count: Before: 10, After: 11
-- **[PASS]** Remove decreases count: Before: 11, After: 10
+- **[PASS]** Add section increases count: Before: 4, After: 5
+- **[PASS]** Duplicate increases count: Before: 5, After: 6
+- **[PASS]** Remove decreases count: Before: 6, After: 5
 
 ### Font Cascade
 
@@ -99,7 +99,7 @@
 
 ### Accessibility
 
-- **[FAIL]** Buttons have labels: 1 unlabeled: button[59] class=w-8 h-4 relative rounded-full transition-colors duration-200
+- **[PASS]** Buttons have labels: All labeled
 - **[PASS]** Inputs have labels/placeholders: All labeled
 - **[PASS]** Focus indicators in CSS: Focus styles found
 - **[PASS]** Min font size >= 12px: All >= 12px
@@ -117,8 +117,12 @@ No P0 blockers found.
 
 ## P1 Issues (Should Fix)
 
+- **Section Editors** > Pricing: has inputs: Found 0 inputs
+- **Section Editors** > FAQ: has inputs: Found 0 inputs
+- **Section Editors** > Testimonials: has inputs: Found 0 inputs
+- **Section Editors** > Value Props: has inputs: Found 0 inputs
+- **Section Editors** > Footer: has inputs: Found 0 inputs
 - **Font Cascade** > Font options available: Found 0 font options
-- **Accessibility** > Buttons have labels: 1 unlabeled: button[59] class=w-8 h-4 relative rounded-full transition-colors duration-200
 
 ## P2 Nice-to-Haves
 

@@ -26,27 +26,27 @@ export function PanelLayout() {
 
   return (
     <PanelGroup orientation="horizontal">
-      <Panel defaultSize={20} minSize={15} collapsible>
-        <div className="bg-hb-surface h-full overflow-hidden border-r border-hb-border">
+      <Panel defaultSize={33} minSize={15} collapsible>
+        <aside className="bg-hb-surface h-full overflow-hidden border-r border-hb-border" aria-label="Builder tools">
           <LeftPanel />
-        </div>
+        </aside>
       </Panel>
 
       <ResizeHandle />
 
-      <Panel defaultSize={rightPanelVisible ? 55 : 80} minSize={30}>
-        <div className="bg-hb-bg h-full overflow-hidden">
+      <Panel defaultSize={rightPanelVisible ? 42 : 67} minSize={30}>
+        <main className="bg-hb-bg h-full overflow-hidden">
           <CenterCanvas />
-        </div>
+        </main>
       </Panel>
 
       {rightPanelVisible && (
         <>
           <ResizeHandle />
           <Panel defaultSize={25} minSize={15} collapsible>
-            <div className="bg-hb-surface h-full overflow-hidden border-l border-hb-border">
+            <aside className="bg-hb-surface h-full overflow-hidden border-l border-hb-border" aria-label="Section editor">
               <RightPanel />
-            </div>
+            </aside>
           </Panel>
         </>
       )}

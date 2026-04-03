@@ -1,5 +1,5 @@
 import { Monitor, Tablet, Smartphone, Undo2, Redo2, Sun, Moon, Menu, X, Eye, PenLine, PanelRightClose, PanelRightOpen } from 'lucide-react'
-import { ModeToggle } from './ModeToggle'
+
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore, type PreviewWidth } from '@/store/uiStore'
 import { useState, useEffect, useRef } from 'react'
@@ -50,6 +50,7 @@ export function TopBar() {
 
   return (
     <header
+      role="banner"
       className="h-12 flex items-center justify-between px-3 sm:px-4 border-b border-hb-border shrink-0 transition-colors relative"
       style={{ backgroundColor: 'var(--hb-nav-bg, #8C1515)' }}
     >
@@ -63,10 +64,8 @@ export function TopBar() {
         <span className="font-mono font-bold text-lg">Hey Bradley</span>
       </button>
 
-      {/* Center: Mode toggle (LISTEN / BUILD) */}
-      <div className="flex items-center">
-        <ModeToggle />
-      </div>
+      {/* Center spacer */}
+      <div className="flex items-center" />
 
       {/* Right: Desktop controls (hidden below md) */}
       <div className="hidden md:flex items-center gap-2">

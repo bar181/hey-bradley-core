@@ -51,6 +51,21 @@ body {
     --hb-accent-light: rgba(165, 28, 48, 0.10); /* Crimson transparent */
     --hb-accent-hover: #8B1729;    /* Dark crimson — hover */
     --hb-nav-bg: #A51C30;          /* Crimson — top bar */
+    --hb-button-border: #8B1729;   /* Dark crimson — button border */
+  }
+  /* Light mode: thin dark crimson border on builder panel section rows and add button */
+  .light-chrome [data-builder-panel] [role="button"],
+  .light-chrome [data-builder-panel] > .relative > button {
+    border: 1px solid var(--hb-button-border, #8B1729);
+  }
+
+  /* Reduced motion: disable animations */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
   :root {
     --background: oklch(1 0 0);

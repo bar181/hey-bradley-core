@@ -1,13 +1,13 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Onboarding Page', () => {
-  test('onboarding shows 10 theme cards and navigates to builder', async ({ page }) => {
-    await page.goto('/')
+  test('new-project shows 10 theme cards and navigates to builder', async ({ page }) => {
+    await page.goto('/new-project')
     await page.evaluate(() => localStorage.clear())
     await page.reload()
     await page.waitForTimeout(1000)
 
-    // Verify onboarding page renders
+    // Verify new-project page renders
     const bodyText = await page.textContent('body')
     expect(bodyText).toContain('Hey Bradley')
     expect(bodyText).toContain('Pick a theme')
@@ -25,9 +25,9 @@ test.describe('Onboarding Page', () => {
     // Verify we're now on the builder page
     expect(page.url()).toContain('/builder')
 
-    // Verify builder rendered (has the TopBar HB logo)
+    // Verify builder rendered (has the TopBar logo)
     const builderText = await page.textContent('body')
-    expect(builderText).toContain('HB')
+    expect(builderText).toContain('Hey Bradley')
   })
 })
 

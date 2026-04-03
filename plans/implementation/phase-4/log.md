@@ -143,3 +143,52 @@
 | 5 pre-existing test failures in loop-smoke/visual-smoke | Low | Navigate to `/` but expect builder UI. Pre-Phase 3 issue. |
 | `alternativePalettes` not paired for both modes | Low | Alt palettes are single-mode only. Phase 9+ concern. |
 | No navbar section in 9 of 10 themes | Low | Only SaaS has navbar in template. Examples have navbars. |
+
+---
+
+## Session 5 — 2026-04-02: Phase 4 Extended — Listen Mode, Splash Page, UI Polish
+
+**Duration:** ~60 min
+**Scope:** Listen mode burst animation, simulate input, splash page, routing, light mode button borders
+
+### What Was Done
+
+1. **Listen Mode Overhaul** (ListenTab.tsx):
+   - Default pulse speed changed from 2s to 3s (3000ms)
+   - Orb layers enlarged: ambient glow 90% of panel, core from 25% to 35% of maxSize
+   - "Start Listening" button now triggers burst animation (10s sequence: speed ramp 2→1s, glow 55%→5%→default)
+   - "Simulate Input" button added — triggers burst + typewriter overlay showing user text ("lets make a website for grandma...") for 5s then AI response for 5s
+   - All buttons constrained to max-width 300px
+
+2. **Panel Layout** (PanelLayout.tsx):
+   - Left panel default width changed from 20% to 33% (1/3 of screen)
+   - Center panel adjusted to 42%/67% accordingly
+
+3. **Top Navigation** (TopBar.tsx):
+   - Removed LISTEN/BUILD ModeToggle from center of nav bar (non-functional toggle removed)
+
+4. **Light Mode Builder Buttons** (index.css, LeftPanel.tsx):
+   - Added CSS rule targeting `.light-chrome [data-builder-panel] button` with dark crimson border (#8B1729)
+   - Builder tab content div tagged with `data-builder-panel` attribute
+
+5. **Splash/Home Page** (Welcome.tsx, main.tsx):
+   - Created new Welcome page at `/` with typewriter chat conversation + hero showcases
+   - 5 showcase styles: Whiteboard, Listen Mode, Builder Mode, Harvard, AISP, Creator (Bradley Ross)
+   - Previous Onboarding moved to `/new-project`
+   - CTAs link to `/builder` and `/new-project`
+   - Installed framer-motion for animations
+   - Copied brad_pixar.webp to src/assets/bradley/
+
+### Files Created/Modified
+
+| File | Action |
+|------|--------|
+| `src/components/left-panel/ListenTab.tsx` | MODIFY — burst, simulate input, larger orb, max-width buttons |
+| `src/components/shell/PanelLayout.tsx` | MODIFY — left panel 33% |
+| `src/components/shell/TopBar.tsx` | MODIFY — remove ModeToggle |
+| `src/components/left-panel/LeftPanel.tsx` | MODIFY — add data-builder-panel attribute |
+| `src/index.css` | MODIFY — light mode button border CSS |
+| `src/pages/Welcome.tsx` | CREATE — new splash page |
+| `src/main.tsx` | MODIFY — add /new-project route, Welcome as / |
+| `src/assets/bradley/brad_pixar.webp` | CREATE — copied from plans |
+| `package.json` | MODIFY — added framer-motion dependency |

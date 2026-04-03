@@ -52,7 +52,7 @@ export function LeftPanel() {
 
       {/* Tab content */}
       {activeTab === 'builder' && (
-        <div className="flex-1 overflow-auto px-2 pt-3">
+        <div className="flex-1 overflow-auto px-2 pt-3" data-builder-panel>
           {/* Theme row */}
           <div
             role="button"

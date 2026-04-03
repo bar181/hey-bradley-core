@@ -46,3 +46,58 @@
 | P1 failures | < 3 allowed | **0 P1 failures — PASS** |
 
 **Phase 4: PASSED**
+
+---
+
+## Phase 4 Extended — Session 5 (2026-04-02)
+
+### Listen Mode Overhaul
+
+| # | Check | Severity | Status |
+|---|-------|----------|--------|
+| L1 | Default pulse speed changed to 3s | P1 | PASS |
+| L2 | Orb ambient glow enlarged to 90% of panel | P1 | PASS |
+| L3 | Orb core enlarged from 25% to 35% of maxSize | P1 | PASS |
+| L4 | "Start Listening" triggers 10s burst animation | P0 | PASS |
+| L5 | "Simulate Input" button triggers burst + typewriter overlay | P0 | PASS |
+| L6 | All buttons constrained to max-width 300px | P1 | PASS |
+
+### Panel Layout
+
+| # | Check | Severity | Status |
+|---|-------|----------|--------|
+| P1 | Left panel default width changed to 33% | P0 | PASS |
+| P2 | Center panel adjusts to 42%/67% accordingly | P0 | PASS |
+
+### Top Navigation
+
+| # | Check | Severity | Status |
+|---|-------|----------|--------|
+| N1 | LISTEN/BUILD ModeToggle removed from nav bar | P1 | PASS |
+
+### Light Mode Builder Buttons
+
+| # | Check | Severity | Status |
+|---|-------|----------|--------|
+| B1 | CSS rule for `.light-chrome [data-builder-panel] button` with crimson border | P0 | PASS |
+| B2 | Builder tab content div has `data-builder-panel` attribute | P0 | PASS |
+
+### Splash/Home Page
+
+| # | Check | Severity | Status |
+|---|-------|----------|--------|
+| S1 | Welcome page created at `/` with typewriter chat | P0 | PASS |
+| S2 | 5+ showcase styles rendered (Whiteboard, Listen, Builder, Harvard, AISP, Creator) | P0 | PASS |
+| S3 | Previous Onboarding moved to `/new-project` | P0 | PASS |
+| S4 | CTAs link to `/builder` and `/new-project` | P0 | PASS |
+| S5 | framer-motion installed for animations | P1 | PASS |
+| S6 | brad_pixar.webp copied to src/assets/bradley/ | P1 | PASS |
+
+### Phase 4 Extended Pass Criteria
+
+| Severity | Rule | Result |
+|----------|------|--------|
+| P0 failures | BLOCKING | **0 P0 failures — PASS** |
+| P1 failures | < 3 allowed | **0 P1 failures — PASS** |
+
+**Phase 4 Extended: PASSED**

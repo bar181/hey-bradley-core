@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('JSON Core Loop Smoke Test', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/builder');
     await page.waitForTimeout(2000);
   });
 

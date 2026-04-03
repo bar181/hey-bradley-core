@@ -23,14 +23,9 @@ function record(category: string, check: string, pass: boolean, details: string,
   results.push({ category, check, pass, details, severity: pass ? undefined : severity })
 }
 
-/** Navigate to /builder with a theme already selected */
+/** Navigate to /builder directly */
 async function goToBuilder(page: Page) {
-  await page.goto('/')
-  await page.waitForLoadState('networkidle')
-  // Click the first theme card (they are <button> elements inside the theme grid)
-  const firstCard = page.locator('button[type="button"]').filter({ hasText: 'SaaS' }).first()
-  await firstCard.click()
-  await page.waitForURL('**/builder', { timeout: 5000 })
+  await page.goto('/builder')
   await page.waitForLoadState('networkidle')
   await page.waitForTimeout(500)
 }
@@ -39,14 +34,14 @@ async function goToBuilder(page: Page) {
 // 1. ONBOARDING PAGE
 // ═══════════════════════════════════════════════════════
 
-test.describe('1. Onboarding Page (/)', () => {
+test.describe('1. New Project Page (/new-project)', () => {
   test('renders with correct title and theme cards', async ({ page }) => {
     const consoleErrors: string[] = []
     page.on('console', msg => {
       if (msg.type() === 'error') consoleErrors.push(msg.text())
     })
 
-    await page.goto('/')
+    await page.goto('/new-project')
     await page.waitForLoadState('networkidle')
 
     // Check "Hey Bradley" text
@@ -94,7 +89,7 @@ test.describe('1. Onboarding Page (/)', () => {
     const failures: string[] = []
 
     for (const name of THEME_NAMES) {
-      await page.goto('/')
+      await page.goto('/new-project')
       await page.waitForLoadState('networkidle')
 
       const themeCard = page.locator('.grid button[type="button"]').filter({ hasText: name }).first()

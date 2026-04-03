@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Visual Smoke Tests', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:5173');
+    await page.goto('http://localhost:5173/builder');
     await page.waitForTimeout(2000);
   });
 
@@ -60,7 +60,7 @@ test.describe('Visual Smoke Tests', () => {
     await page.locator('text=Hero').first().click();
     await page.waitForTimeout(300);
     rightText = await page.textContent('body');
-    expect(rightText).toContain('HEADLINE');
+    expect(rightText).toContain('Headline');
 
     await page.screenshot({ path: 'tests/screenshots/nav-wiring.png' });
   });
