@@ -32,7 +32,7 @@ test.describe('Visual Smoke Tests', () => {
 
   test('Reality Tab renders hero section', async ({ page }) => {
     const heroText = await page.textContent('body');
-    expect(heroText).toContain('Your Amazing Website');
+    expect(heroText).toContain('Welcome to Your Website');
 
     await page.screenshot({ path: 'tests/screenshots/reality-tab.png' });
   });

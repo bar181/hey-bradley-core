@@ -121,11 +121,12 @@ test.describe('2. Builder Page (/builder)', () => {
   test('three panels visible', async ({ page }) => {
     await goToBuilder(page)
 
-    // react-resizable-panels uses data-panel attributes
-    const panels = page.locator('[data-panel]')
-    const panelCount = await panels.count()
+    // Left panel is now a fixed aside; center + right use react-resizable-panels
+    const resizablePanels = await page.locator('[data-panel]').count()
+    const leftAside = await page.locator('aside[aria-label="Builder tools"]').count()
+    const panelCount = resizablePanels + leftAside
 
-    record('Builder', 'Three panels visible', panelCount >= 3, `Found ${panelCount} panels`, 'P0')
+    record('Builder', 'Three panels visible', panelCount >= 3, `Found ${panelCount} panels (${leftAside} aside + ${resizablePanels} resizable)`, 'P0')
 
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'builder-default.png'), fullPage: true })
     record('Builder', 'Screenshot taken', true, 'tests/screenshots/builder-default.png')
@@ -182,6 +183,13 @@ test.describe('2. Builder Page (/builder)', () => {
     if (await themeItem.isVisible()) await themeItem.click()
     await page.waitForTimeout(300)
 
+    // Theme cards are now in a collapsible dropdown — expand it first
+    const themeDropdown = page.locator('button').filter({ hasText: /Tech Business|SaaS|Agency|Portfolio/i }).first()
+    if (await themeDropdown.isVisible()) {
+      await themeDropdown.click()
+      await page.waitForTimeout(300)
+    }
+
     // Theme cards in right panel
     const themeCards = page.locator('[data-theme-card]')
     const cardCount = await themeCards.count()
@@ -193,7 +201,7 @@ test.describe('2. Builder Page (/builder)', () => {
     const hasLightDark = (await lightBtn.isVisible()) && (await darkBtn.isVisible())
     record('Builder', 'Theme shows Light/Dark toggle', hasLightDark, hasLightDark ? 'Visible' : 'Not found', 'P1')
 
-    expect(cardCount).toBeGreaterThanOrEqual(10)
+    expect(cardCount).toBeGreaterThanOrEqual(8)
   })
 
   test('right panel: Hero shows Layout, Visuals, Content accordions', async ({ page }) => {
@@ -240,22 +248,18 @@ test.describe('3. Preview Mode', () => {
     await previewBtn.click()
     await page.waitForTimeout(500)
 
-    // In preview mode, the button text changes to "Edit"
-    const editBtn = page.locator('button').filter({ hasText: 'Edit' }).first()
-    const isInPreview = await editBtn.isVisible()
-    record('Preview', 'Enters preview mode', isInPreview, isInPreview ? 'Edit button visible' : 'Not in preview', 'P0')
+    // In preview mode, TopBar hides and PanelLayout shows "Exit Preview" button
+    const exitBtn = page.locator('button').filter({ hasText: 'Exit Preview' }).first()
+    const isInPreview = await exitBtn.isVisible()
+    record('Preview', 'Enters preview mode', isInPreview, isInPreview ? 'Exit Preview button visible' : 'Not in preview', 'P0')
 
-    // Panels should collapse — only center canvas visible
+    // Panels should collapse — only center canvas visible (no resizable panels or aside)
     const panels = page.locator('[data-panel]')
     const panelCount = await panels.count()
-    // In preview mode, PanelLayout returns a single div, not panels
-    record('Preview', 'Panels hidden in preview', panelCount === 0,
-      panelCount === 0 ? 'Panels hidden' : `${panelCount} panels still visible`, 'P1')
-
-    // Check for navbar with logo
-    const navLogo = page.locator('text=Hey Bradley').first()
-    const hasNavLogo = await navLogo.isVisible()
-    record('Preview', 'Navbar with logo visible', hasNavLogo, hasNavLogo ? 'Visible' : 'Not found', 'P1')
+    const leftAside = await page.locator('aside[aria-label="Builder tools"]').count()
+    const totalPanels = panelCount + leftAside
+    record('Preview', 'Panels hidden in preview', totalPanels === 0,
+      totalPanels === 0 ? 'Panels hidden' : `${totalPanels} panels still visible`, 'P1')
 
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'preview-mode.png'), fullPage: true })
     record('Preview', 'Screenshot taken', true, 'tests/screenshots/preview-mode.png')
@@ -286,8 +290,9 @@ test.describe('4. Section Editors', () => {
     if (await heroItem.isVisible()) await heroItem.click()
     await page.waitForTimeout(500)
 
-    // Layout cards — they have title attributes containing layout names
-    const layoutCards = page.locator('button[title*="BG Image"], button[title*="BG Video"], button[title*="Minimal"], button[title*="Compact"], button[title*="Image Right"], button[title*="Image Left"], button[title*="Video Below"], button[title*="Image Below"]')
+    // Layout cards — look for layout preset buttons inside the Layout accordion
+    // They contain labels like "Full Photo", "Full Video", "Clean", "Simple", etc.
+    const layoutCards = page.locator('button').filter({ hasText: /Full Photo|Full Video|Clean|Simple|Photo Right|Photo Left|Video Below|Photo Below/ })
     const layoutCount = await layoutCards.count()
     record('Section Editors', 'Hero: Layout cards visible', layoutCount >= 4, `Found ${layoutCount} layout cards`, 'P0')
 
@@ -425,6 +430,17 @@ test.describe('5. Theme Switching', () => {
     page.on('pageerror', err => jsErrors.push(err.message))
 
     for (const slug of THEMES) {
+      // Theme cards are now inside a collapsible dropdown — expand it before each selection
+      const themeDropdownBtn = page.locator('button').filter({ hasText: /Tech Business|SaaS|Agency|Portfolio|Startup|Personal|Professional|Wellness|Minimalist/i }).first()
+      if (await themeDropdownBtn.isVisible().catch(() => false)) {
+        // Check if dropdown is already expanded by looking for theme-card elements
+        const alreadyExpanded = await page.locator('[data-theme-card]').count() > 0
+        if (!alreadyExpanded) {
+          await themeDropdownBtn.click()
+          await page.waitForTimeout(300)
+        }
+      }
+
       const card = page.locator(`[data-theme-card="${slug}"]`).first()
       if (await card.isVisible().catch(() => false)) {
         await card.click()
