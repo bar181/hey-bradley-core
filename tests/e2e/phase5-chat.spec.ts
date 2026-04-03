@@ -53,14 +53,14 @@ test.describe('Phase 5: Simulated Chat', () => {
     await expect(bradleyMsg).toContainText('try')
   })
 
-  test('send "add testimonials" enables section', async ({ page }) => {
+  test('send "add quotes" enables section', async ({ page }) => {
     const chatInput = page.locator('[data-testid="chat-input"]')
-    await chatInput.fill('add testimonials')
+    await chatInput.fill('add quotes')
     await chatInput.press('Enter')
     await page.waitForTimeout(1000)
 
     const bradleyMsg = page.locator('[data-testid="chat-msg-bradley"]').last()
-    await expect(bradleyMsg).toContainText('added testimonials')
+    await expect(bradleyMsg).toContainText('added quotes')
   })
 
   test('send "theme agency" switches theme', async ({ page }) => {

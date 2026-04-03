@@ -34,14 +34,14 @@ export function SimpleTab() {
 
   switch (section.type) {
     case 'hero': return <SectionSimple sectionId={section.id} />
-    case 'navbar': return <NavbarSectionSimple sectionId={section.id} />
-    case 'features': return <FeaturesSectionSimple sectionId={section.id} />
-    case 'cta': return <CTASectionSimple sectionId={section.id} />
+    case 'menu': return <NavbarSectionSimple sectionId={section.id} />
+    case 'columns': return <FeaturesSectionSimple sectionId={section.id} />
+    case 'action': return <CTASectionSimple sectionId={section.id} />
     case 'pricing': return <PricingSectionSimple sectionId={section.id} />
     case 'footer': return <FooterSectionSimple sectionId={section.id} />
-    case 'testimonials': return <TestimonialsSectionSimple sectionId={section.id} />
-    case 'faq': return <FAQSectionSimple sectionId={section.id} />
-    case 'value_props': return <ValuePropsSectionSimple sectionId={section.id} />
+    case 'quotes': return <TestimonialsSectionSimple sectionId={section.id} />
+    case 'questions': return <FAQSectionSimple sectionId={section.id} />
+    case 'numbers': return <ValuePropsSectionSimple sectionId={section.id} />
     default: return <SectionSimple sectionId={section.id} />
   }
 }

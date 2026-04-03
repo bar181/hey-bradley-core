@@ -308,9 +308,9 @@ test.describe('4. Section Editors', () => {
     expect(hasHeadline).toBeTruthy()
   })
 
-  test('Features section editor', async ({ page }) => {
+  test('Columns section editor', async ({ page }) => {
     await goToBuilder(page)
-    const item = page.locator('[role="button"]').filter({ hasText: 'Features' }).first()
+    const item = page.locator('[role="button"]').filter({ hasText: 'Columns' }).first()
     if (await item.isVisible()) {
       await item.click()
       await page.waitForTimeout(300)
@@ -320,10 +320,10 @@ test.describe('4. Section Editors', () => {
     const gridBtn = page.locator('button').filter({ hasText: /grid/i }).first()
     const cardsBtn = page.locator('button').filter({ hasText: /cards/i }).first()
     const hasVariants = (await gridBtn.isVisible().catch(() => false)) || (await cardsBtn.isVisible().catch(() => false))
-    record('Section Editors', 'Features: variant selector', hasVariants, hasVariants ? 'Grid/Cards found' : 'Not found', 'P1')
+    record('Section Editors', 'Columns: variant selector', hasVariants, hasVariants ? 'Grid/Cards found' : 'Not found', 'P1')
 
     const inputCount = await page.locator('input[type="text"], textarea').count()
-    record('Section Editors', 'Features: has inputs', inputCount > 0, `Found ${inputCount} inputs`, 'P1')
+    record('Section Editors', 'Columns: has inputs', inputCount > 0, `Found ${inputCount} inputs`, 'P1')
   })
 
   test('Pricing section editor', async ({ page }) => {
@@ -337,9 +337,9 @@ test.describe('4. Section Editors', () => {
     record('Section Editors', 'Pricing: has inputs', inputCount > 0, `Found ${inputCount} inputs`, 'P1')
   })
 
-  test('CTA section editor', async ({ page }) => {
+  test('Action section editor', async ({ page }) => {
     await goToBuilder(page)
-    const item = page.locator('[role="button"]').filter({ hasText: 'Call to Action' }).first()
+    const item = page.locator('[role="button"]').filter({ hasText: 'Action Block' }).first()
     if (await item.isVisible()) {
       await item.click()
       await page.waitForTimeout(300)
@@ -347,29 +347,29 @@ test.describe('4. Section Editors', () => {
     const centeredBtn = page.locator('button').filter({ hasText: /centered/i }).first()
     const splitBtn = page.locator('button').filter({ hasText: /split/i }).first()
     const hasVariants = (await centeredBtn.isVisible().catch(() => false)) || (await splitBtn.isVisible().catch(() => false))
-    record('Section Editors', 'CTA: variant selector', hasVariants, hasVariants ? 'Found' : 'Not found', 'P1')
+    record('Section Editors', 'Action: variant selector', hasVariants, hasVariants ? 'Found' : 'Not found', 'P1')
   })
 
-  test('FAQ section editor', async ({ page }) => {
+  test('Questions section editor', async ({ page }) => {
     await goToBuilder(page)
-    const item = page.locator('[role="button"]').filter({ hasText: 'FAQ' }).first()
+    const item = page.locator('[role="button"]').filter({ hasText: 'Questions' }).first()
     if (await item.isVisible()) {
       await item.click()
       await page.waitForTimeout(300)
     }
     const inputCount = await page.locator('input[type="text"], textarea').count()
-    record('Section Editors', 'FAQ: has inputs', inputCount > 0, `Found ${inputCount} inputs`, 'P1')
+    record('Section Editors', 'Questions: has inputs', inputCount > 0, `Found ${inputCount} inputs`, 'P1')
   })
 
-  test('Testimonials section editor', async ({ page }) => {
+  test('Quotes section editor', async ({ page }) => {
     await goToBuilder(page)
-    const item = page.locator('[role="button"]').filter({ hasText: 'Testimonials' }).first()
+    const item = page.locator('[role="button"]').filter({ hasText: 'Quotes' }).first()
     if (await item.isVisible()) {
       await item.click()
       await page.waitForTimeout(300)
     }
     const inputCount = await page.locator('input[type="text"], textarea').count()
-    record('Section Editors', 'Testimonials: has inputs', inputCount > 0, `Found ${inputCount} inputs`, 'P1')
+    record('Section Editors', 'Quotes: has inputs', inputCount > 0, `Found ${inputCount} inputs`, 'P1')
   })
 
   test('Value Props section editor', async ({ page }) => {
@@ -394,15 +394,15 @@ test.describe('4. Section Editors', () => {
     record('Section Editors', 'Footer: has inputs', inputCount > 0, `Found ${inputCount} inputs`, 'P1')
   })
 
-  test('Navbar section editor', async ({ page }) => {
+  test('Menu section editor', async ({ page }) => {
     await goToBuilder(page)
-    const item = page.locator('[role="button"]').filter({ hasText: 'Navbar' }).first()
+    const item = page.locator('[role="button"]').filter({ hasText: 'Top Menu' }).first()
     if (await item.isVisible()) {
       await item.click()
       await page.waitForTimeout(300)
     }
     const inputCount = await page.locator('input[type="text"], textarea').count()
-    record('Section Editors', 'Navbar: has inputs', inputCount > 0, `Found ${inputCount} inputs`, 'P1')
+    record('Section Editors', 'Menu: has inputs', inputCount > 0, `Found ${inputCount} inputs`, 'P1')
   })
 })
 
@@ -469,7 +469,7 @@ test.describe('6. Section CRUD', () => {
 
     // Count initial section rows in left panel
     const sectionRows = page.locator('[role="button"]').filter({
-      hasText: /^(Hero|Features|Pricing|Call to Action|FAQ|Testimonials|Value Props|Footer|Navbar)/
+      hasText: /^(Main Banner|Columns|Pricing|Action Block|Questions|Quotes|Numbers|Footer|Top Menu|Gallery)/
     })
     const initialCount = await sectionRows.count()
     record('Section CRUD', 'Initial section count', initialCount > 0, `${initialCount} sections`, 'P0')
@@ -483,8 +483,8 @@ test.describe('6. Section CRUD', () => {
       await addBtn.click()
       await page.waitForTimeout(300)
 
-      // Click "Features" in the add menu
-      const addMenu = page.locator('button').filter({ hasText: 'Features' })
+      // Click "Columns" in the add menu
+      const addMenu = page.locator('button').filter({ hasText: 'Columns' })
       // The last one should be in the popup menu
       const menuItems = await addMenu.count()
       if (menuItems > 0) {

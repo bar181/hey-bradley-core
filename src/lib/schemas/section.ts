@@ -3,8 +3,8 @@ import { layoutSchema } from './layout'
 import { styleSchema } from './style'
 
 export const sectionTypeSchema = z.enum([
-  'hero', 'navbar', 'features', 'pricing', 'cta', 'footer',
-  'testimonials', 'faq', 'value_props',
+  'hero', 'menu', 'columns', 'pricing', 'action', 'footer',
+  'quotes', 'questions', 'numbers', 'gallery',
 ])
 
 export type SectionType = z.infer<typeof sectionTypeSchema>

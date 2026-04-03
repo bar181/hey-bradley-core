@@ -26,51 +26,55 @@ import { useConfigStore } from '@/store/configStore'
 import type { SectionType } from '@/lib/schemas/section'
 
 const sectionIconMap: Record<string, LucideIcon> = {
-  navbar: Navigation,
+  menu: Navigation,
   hero: Star,
-  features: Grid3X3,
-  cta: ArrowRight,
+  columns: Grid3X3,
+  action: ArrowRight,
   pricing: DollarSign,
   footer: Layout,
-  testimonials: MessageSquare,
-  faq: HelpCircle,
-  value_props: Zap,
+  quotes: MessageSquare,
+  questions: HelpCircle,
+  numbers: Zap,
+  gallery: Grid3X3,
 }
 
 const sectionNameMap: Record<string, string> = {
-  navbar: 'Top Menu',
+  menu: 'Top Menu',
   hero: 'Main Banner',
-  features: 'Features',
-  cta: 'Action Block',
+  columns: 'Columns',
+  action: 'Action Block',
   pricing: 'Pricing',
   footer: 'Footer',
-  testimonials: 'Reviews',
-  faq: 'FAQ',
-  value_props: 'Highlights',
+  quotes: 'Quotes',
+  questions: 'Questions',
+  numbers: 'Numbers',
+  gallery: 'Gallery',
 }
 
 const sectionDescriptionMap: Record<string, string> = {
-  navbar: 'Navigation bar with logo and links',
+  menu: 'Navigation bar with logo and links',
   hero: 'Main banner with headline and CTA',
-  features: 'Showcase product features',
+  columns: 'Showcase product features in columns',
   pricing: 'Pricing plans and tiers',
-  cta: 'Call-to-action block',
+  action: 'Call-to-action block',
   footer: 'Page footer with links',
-  testimonials: 'Customer testimonials',
-  faq: 'Frequently asked questions',
-  value_props: 'Key value propositions',
+  quotes: 'Customer testimonials and quotes',
+  questions: 'Frequently asked questions',
+  numbers: 'Key value propositions and stats',
+  gallery: 'Image gallery',
 }
 
 const SECTION_TYPES: SectionType[] = [
-  'navbar',
+  'menu',
   'hero',
-  'features',
+  'columns',
   'pricing',
-  'cta',
+  'action',
   'footer',
-  'testimonials',
-  'faq',
-  'value_props',
+  'quotes',
+  'questions',
+  'numbers',
+  'gallery',
 ]
 
 export function SectionsSection() {

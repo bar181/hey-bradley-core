@@ -70,7 +70,7 @@
       ]
     },
     {
-      "type": "features",
+      "type": "columns",
       "id": "",
       "enabled": true,
       "order": 0,
@@ -94,7 +94,7 @@
       ]
     },
     {
-      "type": "cta",
+      "type": "action",
       "id": "",
       "enabled": true,
       "order": 0,

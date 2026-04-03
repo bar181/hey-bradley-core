@@ -7,14 +7,15 @@ import { ExpertTab } from './ExpertTab'
 
 const sectionTypeLabel: Record<string, string> = {
   hero: 'Main Banner',
-  features: 'Features',
-  cta: 'Action Block',
+  columns: 'Columns',
+  action: 'Action Block',
   pricing: 'Pricing',
   footer: 'Footer',
-  testimonials: 'Reviews',
-  faq: 'Questions & Answers',
-  value_props: 'Key Numbers',
-  navbar: 'Top Menu',
+  quotes: 'Quotes',
+  questions: 'Questions',
+  numbers: 'Numbers',
+  menu: 'Top Menu',
+  gallery: 'Gallery',
 }
 
 export function RightPanel() {

@@ -87,7 +87,7 @@ test.describe('Phase 3 Smoke Tests', () => {
     const addBtn = page.locator('button').filter({ hasText: 'Add Section' }).first()
     await addBtn.click()
     await page.waitForTimeout(300)
-    await page.locator('button').filter({ hasText: 'Features' }).first().click()
+    await page.locator('button').filter({ hasText: 'Columns' }).first().click()
     await page.waitForTimeout(500)
 
     // Check that the features section element has fontFamily in its style

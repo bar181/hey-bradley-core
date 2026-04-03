@@ -60,12 +60,12 @@ test.describe('Phase 2 Smoke Tests', () => {
     await page.waitForTimeout(300)
 
     // Click "Features" in the dropdown
-    const featuresOption = page.locator('button').filter({ hasText: 'Features' }).first()
+    const featuresOption = page.locator('button').filter({ hasText: 'Columns' }).first()
     await featuresOption.click()
     await page.waitForTimeout(500)
 
     // Verify Features section appeared in the left panel
-    const featuresInPanel = page.locator('text=Features')
+    const featuresInPanel = page.locator('text=Columns')
     expect(await featuresInPanel.count()).toBeGreaterThan(0)
 
     // Verify no page errors
@@ -78,15 +78,15 @@ test.describe('Phase 2 Smoke Tests', () => {
     const addBtn = page.locator('button').filter({ hasText: 'Add Section' }).first()
     await addBtn.click()
     await page.waitForTimeout(300)
-    await page.locator('button').filter({ hasText: 'Features' }).first().click()
+    await page.locator('button').filter({ hasText: 'Columns' }).first().click()
     await page.waitForTimeout(500)
 
     // Verify Features exists
-    const featuresCountBefore = await page.locator('[role="button"]').filter({ hasText: 'Features' }).count()
+    const featuresCountBefore = await page.locator('[role="button"]').filter({ hasText: 'Columns' }).count()
     expect(featuresCountBefore).toBeGreaterThan(0)
 
     // Click the features row to select it (reveals action bar)
-    const featuresRow = page.locator('[role="button"]').filter({ hasText: 'Features' }).first()
+    const featuresRow = page.locator('[role="button"]').filter({ hasText: 'Columns' }).first()
     await featuresRow.click()
     await page.waitForTimeout(300)
 
@@ -98,7 +98,7 @@ test.describe('Phase 2 Smoke Tests', () => {
     await page.waitForTimeout(500)
 
     // Verify Features is gone
-    const featuresCountAfter = await page.locator('[role="button"]').filter({ hasText: 'Features' }).count()
+    const featuresCountAfter = await page.locator('[role="button"]').filter({ hasText: 'Columns' }).count()
     expect(featuresCountAfter).toBeLessThan(featuresCountBefore)
   })
 

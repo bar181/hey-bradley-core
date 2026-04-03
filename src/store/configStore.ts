@@ -43,6 +43,7 @@ interface ConfigStore {
 
   applyVibe: (themeName: string) => void
   applyPalette: (paletteIndex: number) => void
+  setPalette: (palette: { bgPrimary: string; bgSecondary: string; textPrimary: string; textSecondary: string; accentPrimary: string; accentSecondary: string }) => void
   applyFont: (fontFamily: string) => void
   toggleMode: () => void
 
@@ -254,6 +255,22 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     if (!palette) { if (import.meta.env.DEV) console.warn('[applyPalette] no palette at index', paletteIndex); return }
     const p = palette as Record<string, string>
     if (import.meta.env.DEV) console.log('[applyPalette]', paletteIndex, p)
+    const newTheme = {
+      ...config.theme,
+      palette: { bgPrimary: p.bgPrimary, bgSecondary: p.bgSecondary, textPrimary: p.textPrimary, textSecondary: p.textSecondary, accentPrimary: p.accentPrimary, accentSecondary: p.accentSecondary },
+    }
+    const newSections = config.sections.map((s) => ({
+      ...s,
+      style: { ...s.style, background: s.style?.background?.includes('gradient') ? s.style.background : p.bgPrimary, color: p.textPrimary },
+    }))
+    set({ config: { ...config, theme: newTheme as typeof config.theme, sections: newSections } as MasterConfig, history: newHistory, future: [], isDirty: true })
+  },
+
+  setPalette: (palette) => {
+    const { config, history } = get()
+    const newHistory = [...history, config].slice(-HISTORY_LIMIT)
+    const p = palette
+    if (import.meta.env.DEV) console.log('[setPalette]', p)
     const newTheme = {
       ...config.theme,
       palette: { bgPrimary: p.bgPrimary, bgSecondary: p.bgSecondary, textPrimary: p.textPrimary, textSecondary: p.textSecondary, accentPrimary: p.accentPrimary, accentSecondary: p.accentSecondary },

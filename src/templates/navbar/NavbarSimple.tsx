@@ -3,12 +3,13 @@ import { useConfigStore } from '@/store/configStore'
 
 const sectionLabelMap: Record<string, string> = {
   hero: 'Home',
-  features: 'Features',
+  columns: 'Features',
   pricing: 'Pricing',
-  cta: 'Get Started',
-  testimonials: 'Testimonials',
-  faq: 'FAQ',
-  value_props: 'Stats',
+  action: 'Get Started',
+  quotes: 'Testimonials',
+  questions: 'FAQ',
+  numbers: 'Stats',
+  gallery: 'Gallery',
   footer: 'Contact',
 }
 
@@ -22,7 +23,7 @@ export function NavbarSimple({ section }: { section: Section }) {
 
   // Auto-generate nav links from enabled non-navbar, non-footer sections
   const navLinks = sections
-    .filter((s) => s.enabled && s.type !== 'navbar' && s.type !== 'footer' && s.type !== 'hero')
+    .filter((s) => s.enabled && s.type !== 'menu' && s.type !== 'footer' && s.type !== 'hero')
     .slice(0, 5)
     .map((s) => ({
       id: s.id,

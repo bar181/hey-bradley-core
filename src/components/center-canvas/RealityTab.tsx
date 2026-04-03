@@ -35,27 +35,29 @@ import {
 } from 'lucide-react'
 
 const DIVIDER_SECTION_TYPES: { type: SectionType; name: string; icon: LucideIcon }[] = [
-  { type: 'navbar', name: 'Top Menu', icon: Navigation },
+  { type: 'menu', name: 'Top Menu', icon: Navigation },
   { type: 'hero', name: 'Main Banner', icon: Star },
-  { type: 'features', name: 'Features', icon: Grid3X3 },
+  { type: 'columns', name: 'Columns', icon: Grid3X3 },
   { type: 'pricing', name: 'Pricing', icon: DollarSign },
-  { type: 'cta', name: 'Action Block', icon: ArrowRight },
+  { type: 'action', name: 'Action Block', icon: ArrowRight },
   { type: 'footer', name: 'Footer', icon: Layout },
-  { type: 'testimonials', name: 'Reviews', icon: MessageSquare },
-  { type: 'faq', name: 'FAQ', icon: HelpCircle },
-  { type: 'value_props', name: 'Highlights', icon: Zap },
+  { type: 'quotes', name: 'Quotes', icon: MessageSquare },
+  { type: 'questions', name: 'Questions', icon: HelpCircle },
+  { type: 'numbers', name: 'Numbers', icon: Zap },
+  { type: 'gallery', name: 'Gallery', icon: Grid3X3 },
 ]
 
 const SECTION_LABELS: Record<string, string> = {
   hero: 'Main Banner',
-  features: 'Features',
-  cta: 'Action Block',
+  columns: 'Columns',
+  action: 'Action Block',
   pricing: 'Pricing',
   footer: 'Footer',
-  testimonials: 'Reviews',
-  faq: 'Questions & Answers',
-  value_props: 'Key Numbers',
-  navbar: 'Top Menu',
+  quotes: 'Quotes',
+  questions: 'Questions',
+  numbers: 'Numbers',
+  menu: 'Top Menu',
+  gallery: 'Gallery',
 }
 
 function AddSectionDivider({ afterIndex }: { afterIndex: number }) {
@@ -239,7 +241,7 @@ export function RealityTab() {
 }
 
 function renderSection(section: ReturnType<typeof useConfigStore.getState>['config']['sections'][0]) {
-  if (section.type === 'navbar') {
+  if (section.type === 'menu') {
     return <NavbarSimple section={section} />
   }
   if (section.type === 'hero') {
@@ -255,7 +257,7 @@ function renderSection(section: ReturnType<typeof useConfigStore.getState>['conf
         return <HeroCentered section={section} />
     }
   }
-  if (section.type === 'features') {
+  if (section.type === 'columns') {
     return section.variant === 'cards'
       ? <FeaturesCards section={section} />
       : <FeaturesGrid section={section} />
@@ -263,7 +265,7 @@ function renderSection(section: ReturnType<typeof useConfigStore.getState>['conf
   if (section.type === 'pricing') {
     return <PricingTiers section={section} />
   }
-  if (section.type === 'cta') {
+  if (section.type === 'action') {
     return section.variant === 'split'
       ? <CTASplit section={section} />
       : <CTASimple section={section} />
@@ -271,15 +273,15 @@ function renderSection(section: ReturnType<typeof useConfigStore.getState>['conf
   if (section.type === 'footer') {
     return <FooterSimple section={section} />
   }
-  if (section.type === 'testimonials') {
+  if (section.type === 'quotes') {
     return <TestimonialsCards section={section} />
   }
-  if (section.type === 'faq') {
+  if (section.type === 'questions') {
     return section.variant === 'two-column'
       ? <FAQTwoCol section={section} />
       : <FAQAccordion section={section} />
   }
-  if (section.type === 'value_props') {
+  if (section.type === 'numbers') {
     return <ValuePropsGrid section={section} />
   }
   return (

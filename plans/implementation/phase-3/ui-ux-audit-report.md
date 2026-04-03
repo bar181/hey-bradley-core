@@ -1,6 +1,6 @@
 # Hey Bradley UI/UX Audit Report - Phase 3
 
-**Date**: 2026-04-02
+**Date**: 2026-04-03
 **URL**: http://localhost:5173/
 **Tool**: Playwright automated audit
 **Routes tested**: `/` (onboarding), `/builder` (3-panel editor)
@@ -11,86 +11,23 @@
 
 | Category | Score (1-5) | Pass/Total |
 |----------|:-----------:|:----------:|
-| Onboarding | 5 | 8/8 |
-| Builder | 5 | 11/11 |
-| Preview | 5 | 6/6 |
-| Section Editors | 3 | 10/15 |
-| Theme Switching | 5 | 3/3 |
-| Section CRUD | 5 | 5/5 |
+| Section CRUD | 4 | 4/5 |
 | Font Cascade | 3 | 1/2 |
 | Accessibility | 5 | 4/4 |
 | Responsive | 5 | 2/2 |
-| **Overall** | **4.6** | **50/56** |
+| **Overall** | **4.3** | **11/13** |
 
 ---
 
 ## Detailed Findings
 
-### Onboarding
-
-- **[PASS]** Shows "Hey Bradley": Visible
-- **[PASS]** Shows "Pick a theme": Visible
-- **[PASS]** Theme card count = 10: Found 10 cards
-- **[PASS]** Theme names listed: Themes: SaaS, Agency, Portfolio, Blog, Startup, Personal, Professional, Wellness, Creative, Minimalist
-- **[PASS]** "Start from scratch" visible: Visible
-- **[PASS]** Screenshot taken: tests/screenshots/onboarding.png
-- **[PASS]** No console errors: Clean
-- **[PASS]** All theme cards navigate to /builder: All 10 navigate correctly
-
-### Builder
-
-- **[PASS]** Three panels visible: Found 3 panels
-- **[PASS]** Screenshot taken: tests/screenshots/builder-default.png
-- **[PASS]** All 4 tabs work: REALITY: OK, DATA: OK, XAI DOCS: OK, WORKFLOW: OK
-- **[PASS]** Left panel has Theme item: Visible
-- **[PASS]** Left panel has section items: Hero visible
-- **[PASS]** Theme shows theme cards: Found 10 theme cards
-- **[PASS]** Theme shows Light/Dark toggle: Visible
-- **[PASS]** Hero: Layout accordion: Visible
-- **[PASS]** Hero: Visuals accordion: Visible
-- **[PASS]** Hero: Content accordion: Visible
-- **[PASS]** Hero: No Style accordion: Correct
-
-### Preview
-
-- **[PASS]** Preview button exists: Visible
-- **[PASS]** Enters preview mode: Edit button visible
-- **[PASS]** Panels hidden in preview: Panels hidden
-- **[PASS]** Navbar with logo visible: Visible
-- **[PASS]** Screenshot taken: tests/screenshots/preview-mode.png
-- **[PASS]** Escape returns to editor: Returned
-
-### Section Editors
-
-- **[PASS]** Hero: Layout cards visible: Found 8 layout cards
-- **[PASS]** Hero: Headline input: Visible
-- **[PASS]** Hero: Subtitle input: Visible
-- **[PASS]** Hero: Badge input: Visible
-- **[PASS]** Hero: Primary CTA input: Visible
-- **[PASS]** Hero: Secondary CTA input: Visible
-- **[PASS]** Features: variant selector: Grid/Cards found
-- **[PASS]** Features: has inputs: Found 6 inputs
-- **[FAIL]** Pricing: has inputs: Found 0 inputs
-- **[PASS]** CTA: variant selector: Found
-- **[FAIL]** FAQ: has inputs: Found 0 inputs
-- **[FAIL]** Testimonials: has inputs: Found 0 inputs
-- **[FAIL]** Value Props: has inputs: Found 0 inputs
-- **[FAIL]** Footer: has inputs: Found 0 inputs
-- **[PASS]** Navbar: has inputs: Found 2 inputs
-
-### Theme Switching
-
-- **[PASS]** All 10 themes switch without crashes: All OK
-- **[PASS]** No JS errors during switching: Clean
-- **[PASS]** Light/Dark toggle works: Toggle clicked without crash
-
 ### Section CRUD
 
-- **[PASS]** Initial section count: 4 sections
+- **[FAIL]** Initial section count: 0 sections
 - **[PASS]** Add Section button exists: Visible
-- **[PASS]** Add section increases count: Before: 4, After: 5
-- **[PASS]** Duplicate increases count: Before: 5, After: 6
-- **[PASS]** Remove decreases count: Before: 6, After: 5
+- **[PASS]** Add section increases count: Before: 0, After: 1
+- **[PASS]** Duplicate increases count: Before: 1, After: 2
+- **[PASS]** Remove decreases count: Before: 2, After: 1
 
 ### Font Cascade
 
@@ -113,15 +50,10 @@
 
 ## P0 Blockers (Must Fix)
 
-No P0 blockers found.
+- **Section CRUD** > Initial section count: 0 sections
 
 ## P1 Issues (Should Fix)
 
-- **Section Editors** > Pricing: has inputs: Found 0 inputs
-- **Section Editors** > FAQ: has inputs: Found 0 inputs
-- **Section Editors** > Testimonials: has inputs: Found 0 inputs
-- **Section Editors** > Value Props: has inputs: Found 0 inputs
-- **Section Editors** > Footer: has inputs: Found 0 inputs
 - **Font Cascade** > Font options available: Found 0 font options
 
 ## P2 Nice-to-Haves

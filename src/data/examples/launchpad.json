@@ -44,7 +44,7 @@
   },
   "sections": [
     {
-      "type": "navbar",
+      "type": "menu",
       "id": "navbar-01",
       "enabled": true,
       "order": -1,
@@ -89,7 +89,7 @@
       ]
     },
     {
-      "type": "features",
+      "type": "columns",
       "id": "features-01",
       "enabled": true,
       "order": 1,
@@ -117,7 +117,7 @@
       ]
     },
     {
-      "type": "faq",
+      "type": "questions",
       "id": "faq-01",
       "enabled": true,
       "order": 3,
@@ -131,7 +131,7 @@
       ]
     },
     {
-      "type": "cta",
+      "type": "action",
       "id": "cta-01",
       "enabled": true,
       "order": 4,

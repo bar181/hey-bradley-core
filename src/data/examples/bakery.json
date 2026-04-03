@@ -44,7 +44,7 @@
   },
   "sections": [
     {
-      "type": "navbar",
+      "type": "menu",
       "id": "navbar-01",
       "enabled": true,
       "order": -1,
@@ -89,7 +89,7 @@
       ]
     },
     {
-      "type": "features",
+      "type": "columns",
       "id": "features-01",
       "enabled": true,
       "order": 1,
@@ -103,7 +103,7 @@
       ]
     },
     {
-      "type": "testimonials",
+      "type": "quotes",
       "id": "testimonials-01",
       "enabled": true,
       "order": 2,
@@ -117,7 +117,7 @@
       ]
     },
     {
-      "type": "cta",
+      "type": "action",
       "id": "cta-01",
       "enabled": true,
       "order": 3,
