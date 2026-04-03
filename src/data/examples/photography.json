@@ -61,12 +61,12 @@
       "id": "hero-01",
       "enabled": true,
       "order": 0,
-      "variant": "overlay",
+      "variant": "split-right",
       "layout": {
         "display": "flex",
-        "direction": "column",
+        "direction": "row",
         "align": "center",
-        "gap": "24px",
+        "gap": "48px",
         "padding": "80px 24px",
         "maxWidth": "1200px"
       },
@@ -79,27 +79,30 @@
       "components": [
         { "id": "eyebrow", "type": "badge", "enabled": false, "order": 0, "props": { "text": "", "icon": "", "variant": "pill" } },
         { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Moments Worth Remembering", "level": 1, "size": "56px", "weight": 400 } },
-        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Weddings, portraits, and editorial photography in the San Francisco Bay Area. Every frame tells your story." } },
-        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "View Portfolio", "url": "#features", "style": "filled", "size": "lg" } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Weddings, portraits, and editorial photography in the San Francisco Bay Area. I believe every frame should tell your story — naturally, honestly, beautifully." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "View Portfolio", "url": "#gallery", "style": "filled", "size": "lg" } },
         { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4, "props": { "text": "Book a Session", "url": "#cta", "style": "outline", "size": "lg" } },
-        { "id": "heroImage", "type": "image", "enabled": true, "order": 5, "props": { "url": "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&auto=format&q=80", "alt": "Wedding photography golden hour", "aspect": "16:9", "position": "below", "shadow": true } },
+        { "id": "heroImage", "type": "image", "enabled": true, "order": 5, "props": { "url": "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&auto=format&q=80", "alt": "Bride and groom portrait during golden hour at a vineyard wedding", "aspect": "3:4", "position": "right", "shadow": true } },
         { "id": "backgroundImage", "type": "image", "enabled": false, "order": 6, "props": {} },
         { "id": "heroVideo", "type": "video", "enabled": false, "order": 7, "props": {} },
         { "id": "trustBadges", "type": "trust", "enabled": true, "order": 8, "props": { "text": "200+ weddings photographed across California", "show": true } }
       ]
     },
     {
-      "type": "columns",
-      "id": "features-01",
+      "type": "gallery",
+      "id": "gallery-01",
       "enabled": true,
       "order": 1,
-      "variant": "grid-3col",
-      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "64px 24px" },
+      "variant": "masonry",
+      "layout": { "display": "grid", "columns": 3, "gap": "16px", "padding": "64px 24px" },
       "style": { "background": "#1a1a1a", "color": "#ffffff" },
       "components": [
-        { "id": "f1", "type": "feature-card", "enabled": true, "order": 0, "props": { "icon": "heart", "title": "Weddings", "description": "Full-day coverage with a second photographer, drone aerials, and a curated gallery of 400+ edited images." } },
-        { "id": "f2", "type": "feature-card", "enabled": true, "order": 1, "props": { "icon": "camera", "title": "Portraits", "description": "Studio and outdoor sessions for individuals, couples, and families. Includes wardrobe consultation." } },
-        { "id": "f3", "type": "feature-card", "enabled": true, "order": 2, "props": { "icon": "image", "title": "Editorial", "description": "Brand storytelling and magazine-quality shoots for businesses, restaurants, and lifestyle brands." } }
+        { "id": "g1", "type": "gallery-item", "enabled": true, "order": 0, "props": { "image": "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&auto=format&q=80", "alt": "Couple exchanging vows under a floral arch", "caption": "Napa Valley Wedding", "category": "Weddings" } },
+        { "id": "g2", "type": "gallery-item", "enabled": true, "order": 1, "props": { "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&auto=format&q=80", "alt": "Natural light portrait with soft bokeh background", "caption": "Studio Portraits", "category": "Portraits" } },
+        { "id": "g3", "type": "gallery-item", "enabled": true, "order": 2, "props": { "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&auto=format&q=80", "alt": "Plated dish photographed from above with warm lighting", "caption": "Trattoria Bella Editorial", "category": "Editorial" } },
+        { "id": "g4", "type": "gallery-item", "enabled": true, "order": 3, "props": { "image": "https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=600&auto=format&q=80", "alt": "Wedding party laughing on a sunlit hillside", "caption": "Big Sur Elopement", "category": "Weddings" } },
+        { "id": "g5", "type": "gallery-item", "enabled": true, "order": 4, "props": { "image": "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&auto=format&q=80", "alt": "Close-up portrait with dramatic natural shadow", "caption": "Outdoor Headshots", "category": "Portraits" } },
+        { "id": "g6", "type": "gallery-item", "enabled": true, "order": 5, "props": { "image": "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=600&auto=format&q=80", "alt": "Coffee shop interior with morning light streaming through windows", "caption": "Ritual Coffee Brand Story", "category": "Editorial" } }
       ]
     },
     {
@@ -107,13 +110,11 @@
       "id": "testimonials-01",
       "enabled": true,
       "order": 2,
-      "variant": "cards",
-      "layout": { "display": "grid", "columns": 3, "gap": "24px", "padding": "64px 24px" },
+      "variant": "single",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "64px 24px" },
       "style": { "background": "#0c0c0c", "color": "#ffffff" },
       "components": [
-        { "id": "t-1", "type": "testimonial", "enabled": true, "order": 0, "props": { "quote": "Sarah captured our wedding day more beautifully than we could have imagined. Every photo makes us relive the magic.", "author": "Emily & David Park", "role": "Wedding at Muir Woods" } },
-        { "id": "t-2", "type": "testimonial", "enabled": true, "order": 1, "props": { "quote": "The most natural, unposed photos I've ever had taken. Sarah has a gift for making you feel comfortable in front of the camera.", "author": "Priya Mehta", "role": "Portrait Session" } },
-        { "id": "t-3", "type": "testimonial", "enabled": true, "order": 2, "props": { "quote": "Our restaurant's website traffic doubled after Sarah shot our new menu and interior. The images sell themselves.", "author": "Marco Rossi", "role": "Owner, Trattoria Bella" } }
+        { "id": "t-1", "type": "testimonial", "enabled": true, "order": 0, "props": { "quote": "Sarah captured our wedding day more beautifully than we could have imagined. Every photo makes us relive the magic. She has an incredible eye for the candid, in-between moments that matter most.", "author": "Emily & David Park", "role": "Wedding at Muir Woods", "avatar": "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=100&auto=format&q=80" } }
       ]
     },
     {
@@ -121,12 +122,12 @@
       "id": "cta-01",
       "enabled": true,
       "order": 3,
-      "variant": "simple",
+      "variant": "centered",
       "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "64px 24px", "gap": "16px" },
       "style": { "background": "#1a1a1a", "color": "#ffffff" },
       "components": [
         { "id": "heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Let's Create Something Beautiful", "level": 2, "size": "36px", "weight": 400 } },
-        { "id": "subtitle", "type": "text", "enabled": true, "order": 1, "props": { "text": "Currently booking for Fall 2026 and Spring 2027. Reach out to reserve your date." } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 1, "props": { "text": "Currently booking for Fall 2026 and Spring 2027. Limited dates available — reach out to reserve yours." } },
         { "id": "button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Book a Session", "url": "#contact", "style": "filled", "size": "lg" } }
       ]
     },

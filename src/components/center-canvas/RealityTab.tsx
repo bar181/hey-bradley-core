@@ -272,7 +272,7 @@ export function RealityTab() {
     }
   }, [selectedContext])
 
-  if (import.meta.env.DEV) console.log('[preview]', previewWidth)
+  const isPreviewMode = useUIStore((s) => s.isPreviewMode)
 
   const enabledSections = sections
     .map((s, i) => ({ section: s, originalIndex: i }))
@@ -282,10 +282,23 @@ export function RealityTab() {
     <div ref={containerRef} className="min-h-full">
       <div
         className="mx-auto transition-all duration-300"
-        style={{ maxWidth: PREVIEW_WIDTH_MAP[previewWidth] }}
+        style={{ maxWidth: isPreviewMode ? '100%' : PREVIEW_WIDTH_MAP[previewWidth] }}
       >
         {enabledSections.map(({ section, originalIndex }, i) => {
           const rendered = renderSection(section)
+
+          if (isPreviewMode) {
+            return (
+              <div
+                key={section.id}
+                className="animate-fade-in-up"
+                style={{ animationDelay: `${i * 80}ms` }}
+              >
+                {rendered}
+              </div>
+            )
+          }
+
           return (
             <div key={section.id}>
               <SectionWrapper
@@ -476,15 +489,11 @@ function renderSection(section: ReturnType<typeof useConfigStore.getState>['conf
   }
   return (
     <div
-      className="py-16 px-8 text-center"
+      className="py-16 px-8"
       style={{
         background: section.style.background,
         color: section.style.color,
       }}
-    >
-      <p className="font-mono text-sm uppercase tracking-wider opacity-50">
-        {section.type} — {section.id}
-      </p>
-    </div>
+    />
   )
 }

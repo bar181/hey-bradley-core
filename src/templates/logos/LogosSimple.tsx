@@ -37,7 +37,7 @@ export function LogosSimple({ section }: { section: Section }) {
               <img
                 src={logo.imageUrl}
                 alt={logo.name}
-                className="max-w-full max-h-full object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
+                className="max-w-full max-h-full object-contain grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
               />
             </div>
           ))}

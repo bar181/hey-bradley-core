@@ -21,7 +21,7 @@ export function HeroSplit({ section }: { section: Section }) {
         padding: section.layout.padding,
         fontFamily: 'var(--theme-font)',
       }}
-      className="min-h-[500px] flex items-center"
+      className="min-h-[80vh] flex items-center"
     >
       <div
         className="w-full flex items-center gap-12"

@@ -19,7 +19,7 @@ export function QuotesCards({ section }: { section: Section }) {
           const initial = author.charAt(0).toUpperCase()
 
           return (
-            <Card key={t.id} className="bg-theme-surface/80 rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" style={{ borderColor: `color-mix(in srgb, ${section.style.color} 8%, transparent)` }}>
+            <Card key={t.id} className="bg-theme-surface/80 text-inherit rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" style={{ borderColor: `color-mix(in srgb, ${section.style.color} 8%, transparent)` }}>
               <CardContent>
                 <blockquote className="text-sm leading-relaxed mb-4 opacity-90">
                   &ldquo;{quote}&rdquo;

@@ -27,7 +27,7 @@ export function HeroCentered({ section }: HeroCenteredProps) {
         padding: section.layout.padding,
         fontFamily: 'var(--theme-font)',
       }}
-      className="min-h-[500px] flex flex-col items-center justify-center text-center relative overflow-hidden"
+      className="min-h-[80vh] flex flex-col items-center justify-center text-center relative overflow-hidden"
     >
       {/* Video as background overlay (only when no inline media) */}
       {videoAsBackground && (

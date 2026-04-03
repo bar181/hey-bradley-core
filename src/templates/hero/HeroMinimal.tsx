@@ -7,7 +7,7 @@ export function HeroMinimal({ section }: { section: Section }) {
 
   return (
     <section
-      className="min-h-[600px] flex items-center justify-center"
+      className="min-h-[80vh] flex items-center justify-center"
       style={{ background: section.style.background, color: section.style.color, padding: section.layout.padding, fontFamily: 'var(--theme-font)' }}
     >
       <div className="flex flex-col items-center text-center max-w-3xl mx-auto" style={{ gap: section.layout.gap }}>

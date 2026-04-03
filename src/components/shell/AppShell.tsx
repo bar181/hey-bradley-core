@@ -41,7 +41,7 @@ export function AppShell() {
 
   return (
     <div className="h-screen flex flex-col bg-hb-bg">
-      <TopBar />
+      {!isPreviewMode && <TopBar />}
       <main className="flex-1 overflow-hidden">
         <PanelLayout />
       </main>

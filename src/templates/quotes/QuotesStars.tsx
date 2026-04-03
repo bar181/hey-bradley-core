@@ -36,7 +36,7 @@ export function QuotesStars({ section }: { section: Section }) {
           const role = (t.props?.role as string) || ''
 
           return (
-            <Card key={t.id} className="bg-theme-surface/80 rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" style={{ borderColor: `color-mix(in srgb, ${section.style.color} 8%, transparent)` }}>
+            <Card key={t.id} className="bg-theme-surface/80 text-inherit rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" style={{ borderColor: `color-mix(in srgb, ${section.style.color} 8%, transparent)` }}>
               <CardContent>
                 <StarRow />
                 <blockquote className="text-sm leading-relaxed mb-4 opacity-90">
