@@ -43,9 +43,9 @@ export function ColumnsGlass({ section }: { section: Section }) {
       )}
       <div className="relative">
         {/* Ambient background blobs for glass blur effect */}
-        <div className="absolute top-20 left-10 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 right-10 w-48 h-48 bg-blue-500/15 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 bg-indigo-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-20 left-10 w-64 h-64 rounded-full blur-3xl" style={{ background: `color-mix(in srgb, ${section.style.color} 12%, transparent)` }} />
+        <div className="absolute bottom-10 right-10 w-48 h-48 rounded-full blur-3xl" style={{ background: `color-mix(in srgb, ${section.style.color} 8%, transparent)` }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 rounded-full blur-3xl" style={{ background: `color-mix(in srgb, ${section.style.color} 6%, transparent)` }} />
 
         <div className={`relative mx-auto max-w-6xl grid grid-cols-1 gap-6 ${GRID_CLASSES[cols] ?? 'md:grid-cols-3'}`}>
         {items.map((item, idx) => {

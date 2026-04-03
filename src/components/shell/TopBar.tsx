@@ -42,7 +42,14 @@ export function TopBar() {
   }, [])
 
   const handleShare = useCallback(() => {
-    navigator.clipboard.writeText(window.location.href).then(() => {
+    const config = useConfigStore.getState().config
+    try {
+      localStorage.setItem('hey-bradley-shared', JSON.stringify(config))
+    } catch {
+      // localStorage full — fall back to current URL
+    }
+    const shareUrl = `${window.location.origin}/builder?preview=1`
+    navigator.clipboard.writeText(shareUrl).then(() => {
       setShareCopied(true)
       setTimeout(() => setShareCopied(false), 2000)
     })

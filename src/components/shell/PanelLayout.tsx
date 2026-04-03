@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from 'react-resizable-panels'
 import { CenterCanvas } from '@/components/center-canvas/CenterCanvas'
 import { LeftPanel } from '@/components/left-panel/LeftPanel'
@@ -15,6 +16,14 @@ function ResizeHandle() {
 export function PanelLayout() {
   const isPreviewMode = useUIStore((s) => s.isPreviewMode)
   const rightPanelVisible = useUIStore((s) => s.rightPanelVisible)
+
+  // Auto-enter preview mode when opened via a shared preview link
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('preview') === '1') {
+      useUIStore.getState().setPreviewMode(true)
+    }
+  }, [])
 
   if (isPreviewMode) {
     return (

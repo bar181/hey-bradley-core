@@ -24,11 +24,11 @@ export function HeroSplit({ section }: { section: Section }) {
       className="min-h-[80vh] flex items-center"
     >
       <div
-        className="w-full flex items-center gap-12"
+        className="w-full flex flex-col md:flex-row items-center gap-8 md:gap-12"
         style={{ maxWidth: section.layout.maxWidth || '1200px', margin: '0 auto' }}
       >
         {/* Text column */}
-        <div className={cn('flex-1 flex flex-col gap-6', imageOnLeft && 'order-2')}>
+        <div className={cn('w-full md:w-1/2 flex flex-col gap-6', imageOnLeft && 'order-2')}>
           {hero.badge?.show && (
             <Badge
               variant="outline"
@@ -80,7 +80,7 @@ export function HeroSplit({ section }: { section: Section }) {
 
         {/* Image column */}
         {imageUrl && (
-          <div className={cn('flex-1', imageOnLeft && 'order-1')}>
+          <div className={cn('w-full md:w-1/2', imageOnLeft && 'order-1')}>
             <img
               src={imageUrl}
               alt={imageAlt}

@@ -50,7 +50,7 @@
 |---|-------|----------|--------|
 | DP1 | Vercel deployment configured and working | P0 | DONE (CI/CD from main) |
 | DP2 | Static HTML export generates valid self-contained page | P0 | DESCOPED (output is AISP, not HTML — per ADR-026) |
-| DP3 | Share button generates shareable preview URL | P1 | TODO |
+| DP3 | Share button generates shareable preview URL | P1 | DONE |
 | DP4 | Preview URL loads site without builder chrome | P1 | DONE (preview mode exists) |
 | DP5 | Build succeeds with zero errors | P0 | DONE |
 
@@ -58,10 +58,10 @@
 
 | # | Check | Severity | Status |
 |---|-------|----------|--------|
-| PC1 | ColumnsGlass ambient blob fix | P2 | TODO |
-| PC2 | HeroSplit responsive (`flex-col md:flex-row`) | P1 | TODO |
-| PC3 | ImagePicker integration for Team editor | P1 | TODO |
-| PC4 | ImagePicker integration for Logo Cloud editor | P1 | TODO |
+| PC1 | ColumnsGlass ambient blob fix | P2 | DONE |
+| PC2 | HeroSplit responsive (`flex-col md:flex-row`) | P1 | DONE |
+| PC3 | ImagePicker integration for Team editor | P1 | DONE |
+| PC4 | ImagePicker integration for Logo Cloud editor | P1 | DONE |
 | PC5 | Type-appropriate section spacing (not uniform `py-16`) | P2 | DONE |
 | PC6 | Section headings/eyebrows above card grids | P2 | DONE |
 
@@ -110,8 +110,8 @@
 | Severity | Rule | Result |
 |----------|------|--------|
 | P0 failures | BLOCKING | **0 remaining** |
-| P1 failures | < 3 allowed | **3 remaining** (PC2, PC3, PC4, DP3) |
-| P2 failures | Informational | **1 remaining** (PC1) |
+| P1 failures | < 3 allowed | **0 remaining** |
+| P2 failures | Informational | **0 remaining** |
 
 ## Progress Summary
 
@@ -119,9 +119,9 @@
 - **6B (Chat Buttons):** 4/4 DONE
 - **6C (Listen Demo):** 5/5 DONE
 - **6D (XAI Docs):** 3/3 DONE
-- **6E (Deploy Prep):** 3/5 DONE (1 descoped)
-- **6F (Polish Carryover):** 2/6 DONE
+- **6E (Deploy Prep):** 4/5 DONE (1 descoped)
+- **6F (Polish Carryover):** 6/6 DONE
 - **6G (Session 1 Polish + AISP):** 11/11 DONE
 - **6H (Loop 2 Fixes):** 7/7 DONE
 - **6I (Example Websites):** 5/5 DONE
-- **Overall:** 48/54 items complete (89%)
+- **Overall:** 53/54 items complete (98%) — 1 descoped

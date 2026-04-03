@@ -6,6 +6,7 @@ import { useConfigStore } from '@/store/configStore'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
 import { LayoutList, Rows3, Grid3X3, Plus, Trash2 } from 'lucide-react'
 import { SectionHeadingEditor } from './SectionHeadingEditor'
+import { ImagePicker } from './ImagePicker'
 
 const INPUT =
   'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
@@ -167,13 +168,12 @@ export function LogosSectionSimple({ sectionId }: { sectionId: string }) {
                     />
                   </div>
                   <div className="space-y-1">
-                    <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Logo URL</span>
-                    <input
-                      type="text"
+                    <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Logo</span>
+                    <ImagePicker
                       value={imageUrl}
-                      onChange={(e) => updateProp(item.id, 'imageUrl', e.target.value)}
-                      placeholder="https://images.unsplash.com/..."
-                      className={cn(INPUT, 'text-xs')}
+                      onChange={(url) => updateProp(item.id, 'imageUrl', url)}
+                      label="Choose Logo"
+                      mode="image"
                     />
                   </div>
                 </div>

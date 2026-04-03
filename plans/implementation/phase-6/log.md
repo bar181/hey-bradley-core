@@ -152,3 +152,24 @@ Added heading/subheading input fields to 8 Simple editors:
 42+ files in Loop 1, ~8 files in Loop 3
 
 ---
+
+## Session 4 — 2026-04-03: Final Checklist Completion (5 agents)
+
+### What Was Done
+1. **HeroSplit responsive** — `flex-col md:flex-row`, `w-full md:w-1/2` for mobile stacking
+2. **ImagePicker for Team editor** — Replaced URL paste with visual ImagePicker in TeamSectionSimple
+3. **ImagePicker for Logos editor** — Replaced URL paste with visual ImagePicker in LogosSectionSimple
+4. **ColumnsGlass blob fix** — Replaced hardcoded `bg-purple-500/20` etc. with `color-mix` from section color
+5. **Shareable preview URL** — Share button copies `?preview=1` URL, PanelLayout auto-enters preview mode
+
+### What Worked
+- All 5 agents completed cleanly with no conflicts
+- ImagePicker integration was straightforward — same component, different `label` and `mode` props
+- `color-mix` pattern for Glass blobs matches the existing convention in other templates
+
+### Files Changed
+6 files, 35 insertions, 19 deletions
+
+### Phase 6 Checklist: 53/54 (98%) — 1 descoped (HTML export per ADR-026)
+
+---
