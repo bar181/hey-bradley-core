@@ -17,6 +17,7 @@ import {
   Layout,
   Navigation,
   ChevronRight,
+  GripVertical,
   type LucideIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/cn'
@@ -85,6 +86,8 @@ export function SectionsSection() {
   const [showAddMenu, setShowAddMenu] = useState(false)
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
   const [showHidden, setShowHidden] = useState(false)
+  const [dragId, setDragId] = useState<string | null>(null)
+  const [dropTarget, setDropTarget] = useState<number | null>(null)
 
   const orderedSections = localOrder
     ? localOrder
@@ -126,42 +129,88 @@ export function SectionsSection() {
     setLocalOrder(null)
   }
 
+  const handleDrop = (e: React.DragEvent, targetIndex: number) => {
+    e.preventDefault()
+    const sourceId = e.dataTransfer.getData('sectionId')
+    if (!sourceId) return
+    const currentIds = orderedSections.map((s) => s!.id)
+    const sourceIndex = currentIds.indexOf(sourceId)
+    if (sourceIndex === -1 || sourceIndex === targetIndex) {
+      setDropTarget(null)
+      return
+    }
+    const next = [...currentIds]
+    const [removed] = next.splice(sourceIndex, 1)
+    next.splice(targetIndex, 0, removed)
+    setLocalOrder(next)
+    reorderSections(next)
+    setDropTarget(null)
+    setDragId(null)
+  }
+
   const renderSectionRow = (section: typeof sections[0], index: number) => {
     if (!section) return null
     const Icon = sectionIconMap[section.type] ?? Star
+    const name = sectionNameMap[section.type] ?? section.type
     const isSelected =
       selectedContext?.type === 'section' &&
       selectedContext.sectionId === section.id
     const isDisabled = !section.enabled
 
     return (
-      <div
-        key={section.id}
-        role="button"
-        tabIndex={0}
-        onClick={() =>
-          setSelectedContext({ type: 'section', sectionId: section.id })
-        }
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
+      <div key={section.id}>
+        {/* Drop indicator line */}
+        {dropTarget === index && dragId !== section.id && (
+          <div className="h-0.5 bg-hb-accent rounded-full mx-2" />
+        )}
+
+        {/* Section row */}
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() =>
             setSelectedContext({ type: 'section', sectionId: section.id })
           }
-        }}
-        className={cn(
-          'flex items-center gap-2.5 px-3 py-2 rounded-md cursor-pointer transition-colors group border border-transparent',
-          isSelected
-            ? 'bg-hb-accent text-white border-hb-accent'
-            : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-accent/25',
-          isDisabled && 'opacity-40'
-        )}
-      >
-        <Icon size={14} className={cn('shrink-0', isSelected ? 'text-white/70' : 'text-hb-text-muted')} />
-        <span className={cn('text-sm flex-1 min-w-0 truncate', isSelected ? 'text-white font-medium' : 'text-hb-text-primary')}>
-          {sectionNameMap[section.type] ?? section.type}
-        </span>
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              setSelectedContext({ type: 'section', sectionId: section.id })
+            }
+          }}
+          onDragOver={(e) => {
+            e.preventDefault()
+            setDropTarget(index)
+          }}
+          onDrop={(e) => handleDrop(e, index)}
+          className={cn(
+            'flex items-center gap-2 px-2 py-2 rounded-md cursor-pointer transition-all',
+            isSelected
+              ? 'bg-hb-accent/10 border-2 border-hb-accent'
+              : 'border border-transparent hover:bg-hb-surface-hover',
+            isDisabled && 'opacity-40'
+          )}
+        >
+          {/* Drag handle */}
+          <div
+            draggable
+            onDragStart={(e) => {
+              e.dataTransfer.setData('sectionId', section.id)
+              setDragId(section.id)
+            }}
+            onDragEnd={() => {
+              setDragId(null)
+              setDropTarget(null)
+            }}
+            className="cursor-grab active:cursor-grabbing p-0.5 text-hb-text-muted/40 hover:text-hb-text-muted"
+          >
+            <GripVertical size={14} />
+          </div>
 
-        {/* Action buttons */}
-        <div className="flex items-center gap-0.5 shrink-0">
+          <Icon size={14} className="text-hb-text-muted shrink-0" />
+          <span className="text-sm flex-1 truncate text-hb-text-primary">
+            {name}
+          </span>
+
+          {/* Eye toggle */}
           <button
             type="button"
             title={section.enabled ? 'Hide section' : 'Show section'}
@@ -169,78 +218,61 @@ export function SectionsSection() {
               e.stopPropagation()
               toggleSectionEnabled(section.id)
             }}
-            className={cn('p-0.5 transition-colors', isSelected ? 'text-white/70 hover:text-white' : 'text-hb-text-muted hover:text-hb-text-secondary')}
+            className="p-0.5 text-hb-text-muted hover:text-hb-text-secondary"
           >
             {section.enabled ? <Eye size={13} /> : <EyeOff size={13} />}
           </button>
-          <button
-            type="button"
-            title="Move up"
-            onClick={(e) => {
-              e.stopPropagation()
-              moveSection(index, 'up')
-            }}
-            disabled={index === 0}
-            className={cn(
-              'p-0.5 text-hb-text-muted opacity-0 group-hover:opacity-100 transition-opacity',
-              index === 0 && 'cursor-not-allowed group-hover:opacity-30'
-            )}
-          >
-            <ChevronUp size={12} />
-          </button>
-          <button
-            type="button"
-            title="Move down"
-            onClick={(e) => {
-              e.stopPropagation()
-              moveSection(index, 'down')
-            }}
-            disabled={index === orderedSections.length - 1}
-            className={cn(
-              'p-0.5 text-hb-text-muted opacity-0 group-hover:opacity-100 transition-opacity',
-              index === orderedSections.length - 1 &&
-                'cursor-not-allowed group-hover:opacity-30'
-            )}
-          >
-            <ChevronDown size={12} />
-          </button>
-          <button
-            type="button"
-            title="Duplicate section"
-            onClick={(e) => {
-              e.stopPropagation()
-              handleDuplicate(section.id)
-            }}
-            className="p-0.5 text-hb-text-muted opacity-0 group-hover:opacity-100 transition-opacity hover:text-hb-text-secondary focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
-          >
-            <Copy size={12} />
-          </button>
-          <button
-            type="button"
-            aria-label={
-              confirmDeleteId === section.id
-                ? 'Click again to confirm delete'
-                : 'Delete section'
-            }
-            title={
-              confirmDeleteId === section.id
-                ? 'Click again to confirm delete'
-                : 'Delete section'
-            }
-            onClick={(e) => {
-              e.stopPropagation()
-              handleDelete(section.id)
-            }}
-            className={cn(
-              'p-0.5 opacity-0 group-hover:opacity-100 transition-all focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-hb-accent rounded',
-              confirmDeleteId === section.id
-                ? 'text-red-400 opacity-100 animate-pulse'
-                : 'text-hb-text-muted hover:text-red-400'
-            )}
-          >
-            <Trash2 size={12} />
-          </button>
         </div>
+
+        {/* Action bar — only for selected section */}
+        {isSelected && (
+          <div className="flex items-center justify-center gap-1 py-1 px-2 ml-6">
+            <button
+              type="button"
+              title="Move up"
+              onClick={() => moveSection(index, 'up')}
+              disabled={index === 0}
+              className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover disabled:opacity-30"
+            >
+              <ChevronUp size={14} />
+            </button>
+            <button
+              type="button"
+              title="Move down"
+              onClick={() => moveSection(index, 'down')}
+              disabled={index === orderedSections.length - 1}
+              className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover disabled:opacity-30"
+            >
+              <ChevronDown size={14} />
+            </button>
+            <button
+              type="button"
+              title="Duplicate"
+              onClick={() => handleDuplicate(section.id)}
+              className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover"
+            >
+              <Copy size={14} />
+            </button>
+            <button
+              type="button"
+              title="Delete"
+              aria-label={
+                confirmDeleteId === section.id
+                  ? 'Click again to confirm delete'
+                  : 'Delete section'
+              }
+              onClick={() => handleDelete(section.id)}
+              className={cn(
+                'p-1 rounded hover:bg-hb-surface-hover',
+                confirmDeleteId === section.id
+                  ? 'text-red-400 animate-pulse'
+                  : 'text-hb-text-muted hover:text-red-400'
+              )}
+            >
+              <Trash2 size={14} />
+            </button>
+          </div>
+        )}
       </div>
     )
   }

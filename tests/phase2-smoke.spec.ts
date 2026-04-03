@@ -85,16 +85,15 @@ test.describe('Phase 2 Smoke Tests', () => {
     const featuresCountBefore = await page.locator('[role="button"]').filter({ hasText: 'Features' }).count()
     expect(featuresCountBefore).toBeGreaterThan(0)
 
-    // Find the features row and hover to reveal action buttons
+    // Click the features row to select it (reveals action bar)
     const featuresRow = page.locator('[role="button"]').filter({ hasText: 'Features' }).first()
-    await featuresRow.hover()
-    await page.waitForTimeout(200)
+    await featuresRow.click()
+    await page.waitForTimeout(300)
 
-    // Click delete (first click = arm confirmation, button changes aria-label)
-    const deleteBtn = featuresRow.locator('button').filter({ has: page.locator('svg') }).last()
+    // Click delete in the action bar (first click arms, second confirms)
+    const deleteBtn = page.locator('button[title="Delete"]').first()
     await deleteBtn.click()
     await page.waitForTimeout(400)
-    // Second click = confirm delete
     await deleteBtn.click()
     await page.waitForTimeout(500)
 

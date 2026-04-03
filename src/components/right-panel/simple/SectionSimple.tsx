@@ -46,14 +46,13 @@ const DEFAULT_VIDEO = 'https://videos.pexels.com/video-files/3129671/3129671-uhd
 
 function LayoutWireframe({ layout }: { layout: typeof HERO_LAYOUTS[number] }) {
   const m = layout.media
-  const isFull = layout.size === 'full'
   const gray = 'bg-hb-text-muted/15'
   const accent = 'bg-hb-accent/60'
   const textLine = 'bg-hb-text-muted/30'
 
   if (m === 'backgroundImage' || (m === 'heroVideo' && layout.id === 'bg-video')) {
     return (
-      <div className={cn('relative flex items-center justify-center', isFull ? 'h-full' : 'h-full', gray)}>
+      <div className={cn('relative flex items-center justify-center h-full w-full', gray)}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
         <div className="relative space-y-0.5 text-center">
           <div className={cn('w-10 h-0.5 rounded-sm mx-auto', textLine)} />
@@ -65,19 +64,19 @@ function LayoutWireframe({ layout }: { layout: typeof HERO_LAYOUTS[number] }) {
   if (m === 'heroImage' && (layout.variant === 'split-right' || layout.variant === 'split-left')) {
     const imgLeft = layout.variant === 'split-left'
     return (
-      <div className={cn('flex items-center gap-1.5 p-2', isFull ? 'h-full' : 'h-full')}>
-        {imgLeft && <div className={cn('w-8 flex-shrink-0 rounded', isFull ? 'h-14' : 'h-10', gray)} />}
+      <div className="flex items-center gap-1.5 p-2 h-full w-full">
+        {imgLeft && <div className={cn('w-8 flex-shrink-0 rounded h-3/4', gray)} />}
         <div className="flex-1 space-y-0.5">
           <div className={cn('w-10 h-0.5 rounded-sm', textLine)} />
           <div className={cn('w-6 h-1.5 rounded-sm', accent)} />
         </div>
-        {!imgLeft && <div className={cn('w-8 flex-shrink-0 rounded', isFull ? 'h-14' : 'h-10', gray)} />}
+        {!imgLeft && <div className={cn('w-8 flex-shrink-0 rounded h-3/4', gray)} />}
       </div>
     )
   }
   if (m === 'heroImage' || m === 'heroVideo') {
     return (
-      <div className={cn('flex flex-col items-center justify-center gap-0.5 p-1.5', isFull ? 'h-full' : 'h-full')}>
+      <div className="flex flex-col items-center justify-center gap-0.5 p-1.5 h-full w-full">
         <div className={cn('w-10 h-0.5 rounded-sm', textLine)} />
         <div className={cn('w-6 h-1.5 rounded-sm', accent)} />
         <div className={cn('w-10 h-3 rounded mt-0.5', gray)} />
@@ -85,7 +84,7 @@ function LayoutWireframe({ layout }: { layout: typeof HERO_LAYOUTS[number] }) {
     )
   }
   return (
-    <div className={cn('flex flex-col items-center justify-center gap-1', isFull ? 'h-full' : 'h-full')}>
+    <div className="flex flex-col items-center justify-center gap-1 h-full w-full">
       <div className={cn('w-12 h-0.5 rounded-sm', textLine)} />
       <div className={cn('w-8 h-1.5 rounded-sm', accent)} />
     </div>
@@ -174,30 +173,23 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
       <RightAccordion id="layout" label="Layout" defaultOpen>
         <div>
           <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Banner Style</div>
-          <div className="flex flex-col gap-1">
+          <div className="grid grid-cols-2 gap-2">
             {HERO_LAYOUTS.map((layout) => (
               <button
                 key={layout.id}
                 type="button"
                 onClick={() => applyHeroLayout(layout)}
                 className={cn(
-                  'flex items-center gap-2.5 px-2.5 py-1.5 rounded-md border transition-all text-left',
+                  'flex flex-col items-center justify-center gap-1.5 p-3 rounded-lg border-2 transition-all',
                   currentLayoutId === layout.id
-                    ? 'border-hb-accent bg-hb-accent/10'
-                    : 'border-hb-border/30 hover:border-hb-accent/40 hover:bg-hb-surface-hover'
+                    ? 'border-hb-accent bg-hb-accent/5'
+                    : 'border-hb-border/30 hover:border-hb-accent/30'
                 )}
-                title={`${layout.label} — ${layout.desc}`}
               >
-                <div className="w-12 h-8 rounded overflow-hidden bg-hb-bg shrink-0 border border-hb-border/20">
+                <div className="w-full aspect-[4/3] rounded overflow-hidden bg-hb-bg flex items-center justify-center">
                   <LayoutWireframe layout={layout} />
                 </div>
-                <div className="min-w-0 flex-1">
-                  <div className="text-xs font-medium text-hb-text-primary truncate">{layout.label}</div>
-                  <div className="text-[10px] text-hb-text-muted truncate">{layout.desc}</div>
-                </div>
-                {currentLayoutId === layout.id && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-hb-accent shrink-0" />
-                )}
+                <span className="text-xs font-medium text-hb-text-primary">{layout.label}</span>
               </button>
             ))}
           </div>
