@@ -80,8 +80,8 @@ export function PanelLayout() {
         {/* Left panel — resizable, collapsible */}
         {leftPanelVisible && (
           <>
-            <Panel defaultSize={20} minSize={15} maxSize={35} collapsible>
-              <aside className="bg-hb-surface h-full overflow-hidden border-r border-hb-border" aria-label="Builder tools">
+            <Panel defaultSize={24} minSize={18} maxSize={35} collapsible>
+              <aside className="bg-hb-surface h-full overflow-y-auto border-r border-hb-border" aria-label="Builder tools">
                 <LeftPanel />
               </aside>
             </Panel>
@@ -90,7 +90,7 @@ export function PanelLayout() {
         )}
 
         {/* Center canvas — fills remaining space */}
-        <Panel defaultSize={leftPanelVisible && rightPanelVisible ? 55 : leftPanelVisible || rightPanelVisible ? 70 : 100} minSize={30}>
+        <Panel defaultSize={leftPanelVisible && rightPanelVisible ? 51 : leftPanelVisible || rightPanelVisible ? 70 : 100} minSize={30}>
           <main className="bg-hb-bg h-full overflow-hidden">
             <CenterCanvas />
           </main>

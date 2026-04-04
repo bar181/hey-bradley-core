@@ -229,17 +229,23 @@ export function getComponentText(comp: { props?: Record<string, unknown> }): str
   const p = comp.props ?? {}
   const text = p.text as string | undefined
   const quote = p.quote as string | undefined
+  const question = p.question as string | undefined
+  const answer = p.answer as string | undefined
   const description = p.description as string | undefined
   const name = p.name as string | undefined
   const title = p.title as string | undefined
   const heading = p.heading as string | undefined
   const label = p.label as string | undefined
   const value = p.value as string | undefined
+  const features = p.features as string | undefined
 
   if (text) return text
+  if (question && answer) return `${question}: ${answer}`
+  if (question) return question
   if (quote) return quote
   if (title && description) return `${title}: ${description}`
   if (title) return title
+  if (name && features) return `${name}: ${features}`
   if (name) return name
   if (heading) return heading
   if (label && value) return `${value} — ${label}`

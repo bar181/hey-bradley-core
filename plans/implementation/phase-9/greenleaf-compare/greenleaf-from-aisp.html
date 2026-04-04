@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GreenLeaf Consulting — Strategy That Grows With You</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  /* ── Reset & Variables ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg1: #ffffff;
+    --bg2: #f8fafc;
+    --txt1: #0f172a;
+    --txt2: #475569;
+    --acc1: #1e40af;
+    --acc2: #818cf8;
+    --green: #16a34a;
+    --green-light: #dcfce7;
+    --green-mid: #86efac;
+    --border: #e2e8f0;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,.08);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,.1);
+    --radius: 8px;
+    --max-w: 1200px;
+    --font: 'Inter', sans-serif;
+    --serif: 'DM Serif Display', serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--txt1);
+    background: var(--bg1);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── Fade-in animation ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  .fade-up { animation: fadeUp .7s ease both; }
+  .fade-in { animation: fadeIn .6s ease both; }
+
+  /* ════════════════════════════════
+     SECTION 1 — MENU / NAV
+  ════════════════════════════════ */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0;
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--txt1);
+    letter-spacing: -.3px;
+  }
+
+  .nav-logo-leaf {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    border-radius: 50% 50% 50% 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(22,163,74,.3);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--txt2);
+    transition: color .2s;
+  }
+
+  .nav-links a:hover { color: var(--txt1); }
+
+  .nav-cta {
+    background: var(--green);
+    color: white !important;
+    padding: 8px 18px;
+    border-radius: var(--radius);
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    transition: background .2s, box-shadow .2s !important;
+    box-shadow: 0 2px 8px rgba(22,163,74,.25);
+  }
+
+  .nav-cta:hover {
+    background: #15803d !important;
+    color: white !important;
+    box-shadow: 0 4px 16px rgba(22,163,74,.35) !important;
+  }
+
+  /* ════════════════════════════════
+     SECTION 2 — HERO
+  ════════════════════════════════ */
+  .hero {
+    padding: 96px 24px 80px;
+    background: var(--bg1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle grid texture */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(22,163,74,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(22,163,74,.04) 1px, transparent 1px);
+    background-size: 64px 64px;
+    pointer-events: none;
+  }
+
+  /* Green gradient blob */
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -120px;
+    right: -80px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(22,163,74,.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 780px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--green-light);
+    color: #15803d;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 100px;
+    letter-spacing: .3px;
+    animation: fadeUp .5s ease both;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+  }
+
+  .hero-headline {
+    font-family: var(--serif);
+    font-size: clamp(40px, 6vw, 68px);
+    line-height: 1.1;
+    letter-spacing: -.5px;
+    color: var(--txt1);
+    animation: fadeUp .6s .1s ease both;
+  }
+
+  .hero-headline em {
+    font-style: italic;
+    color: var(--green);
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+    color: var(--txt2);
+    max-width: 620px;
+    line-height: 1.7;
+    animation: fadeUp .6s .2s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp .6s .3s ease both;
+  }
+
+  .btn-primary {
+    background: var(--green);
+    color: white;
+    padding: 14px 28px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    transition: background .2s, transform .15s, box-shadow .2s;
+    box-shadow: 0 4px 16px rgba(22,163,74,.3);
+  }
+
+  .btn-primary:hover {
+    background: #15803d;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(22,163,74,.4);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--txt1);
+    padding: 14px 28px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    border: 1.5px solid var(--border);
+    transition: border-color .2s, background .2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--txt1);
+    background: var(--bg2);
+  }
+
+  .trust-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--txt2);
+    animation: fadeUp .6s .4s ease both;
+  }
+
+  .trust-dots {
+    display: flex;
+    gap: 4px;
+  }
+
+  .trust-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: linear-gradient(135deg, var(--green), #22c55e);
+    margin-left: -8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.1);
+  }
+
+  .trust-dot:first-child { margin-left: 0; }
+  .trust-dot:nth-child(2) { background: linear-gradient(135deg, #2563eb, #60a5fa); }
+  .trust-dot:nth-child(3) { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+
+  /* ════════════════════════════════
+     SECTION 3 — SERVICES (columns)
+  ════════════════════════════════ */
+  .services {
+    padding: 80px 24px;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 48px;
+  }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 12px;
+  }
+
+  .section-heading {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.15;
+    color: var(--txt1);
+    margin-bottom: 14px;
+  }
+
+  .section-sub {
+    font-size: 16px;
+    color: var(--txt2);
+    line-height: 1.7;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .service-card {
+    background: var(--bg1);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px 28px;
+    transition: transform .2s, box-shadow .2s, border-color .2s;
+  }
+
+  .service-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(22,163,74,.3);
+  }
+
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background: var(--green-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 22px;
+  }
+
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--txt1);
+    margin-bottom: 10px;
+  }
+
+  .card-text {
+    font-size: 15px;
+    color: var(--txt2);
+    line-height: 1.65;
+  }
+
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green);
+    text-decoration: none;
+    transition: gap .2s;
+  }
+
+  .card-link:hover { gap: 10px; }
+
+  /* ════════════════════════════════
+     SECTION 4 — NUMBERS
+  ════════════════════════════════ */
+  .numbers {
+    padding: 80px 24px;
+    background: var(--bg1);
+  }
+
+  .numbers-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    margin-top: 48px;
+    padding: 48px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .stat-item {
+    text-align: center;
+    position: relative;
+  }
+
+  .stat-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 10%;
+    height: 80%;
+    width: 1px;
+    background: rgba(255,255,255,.1);
+  }
+
+  .stat-value {
+    font-family: var(--serif);
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 400;
+    color: white;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-value span {
+    color: var(--green-mid);
+  }
+
+  .stat-label {
+    font-size: 14px;
+    color: rgba(255,255,255,.55);
+    font-weight: 500;
+    letter-spacing: .3px;
+  }
+
+  /* ════════════════════════════════
+     SECTION 5 — TESTIMONIALS
+  ════════════════════════════════ */
+  .testimonials {
+    padding: 80px 24px;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .testimonial-card {
+    background: var(--bg1);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: box-shadow .2s;
+  }
+
+  .testimonial-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .stars {
+    display: flex;
+    gap: 3px;
+    color: #f59e0b;
+    font-size: 15px;
+  }
+
+  .testimonial-text {
+    font-size: 15px;
+    color: var(--txt1);
+    line-height: 1.7;
+    font-style: italic;
+    flex: 1;
+  }
+
+  .testimonial-text::before { content: '\201C'; }
+  .testimonial-text::after  { content: '\201D'; }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--green), #22c55e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .author-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--txt1);
+  }
+
+  .author-role {
+    font-size: 13px;
+    color: var(--txt2);
+  }
+
+  /* ════════════════════════════════
+     SECTION 6 — FAQ
+  ════════════════════════════════ */
+  .faq {
+    padding: 80px 24px;
+    background: var(--bg1);
+  }
+
+  .faq-list {
+    max-width: 760px;
+    margin: 0 auto;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .faq-item:last-child { border-bottom: none; }
+
+  .faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 22px 24px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--txt1);
+    transition: background .15s;
+    font-family: var(--font);
+  }
+
+  .faq-question:hover { background: var(--bg2); }
+
+  .faq-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--bg2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform .3s, background .2s;
+    font-size: 16px;
+    color: var(--txt2);
+  }
+
+  .faq-item.open .faq-icon {
+    transform: rotate(45deg);
+    background: var(--green-light);
+    color: var(--green);
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .4s ease, padding .3s;
+    padding: 0 24px;
+  }
+
+  .faq-item.open .faq-answer {
+    max-height: 300px;
+    padding: 0 24px 22px;
+  }
+
+  .faq-answer p {
+    font-size: 15px;
+    color: var(--txt2);
+    line-height: 1.7;
+  }
+
+  /* ════════════════════════════════
+     SECTION 7 — CTA
+  ════════════════════════════════ */
+  .cta-section {
+    padding: 80px 24px;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cta-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
+    align-items: center;
+    background: linear-gradient(135deg, #0f172a, #1e3a5f);
+    border-radius: 16px;
+    padding: 52px 48px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-inner::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(circle, rgba(22,163,74,.2), transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-content { position: relative; z-index: 1; }
+
+  .cta-heading {
+    font-family: var(--serif);
+    font-size: clamp(24px, 3.5vw, 34px);
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .cta-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,.65);
+    line-height: 1.65;
+    max-width: 480px;
+  }
+
+  .cta-action { position: relative; z-index: 1; }
+
+  .btn-cta {
+    background: var(--green);
+    color: white;
+    padding: 16px 32px;
+    border-radius: var(--radius);
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    white-space: nowrap;
+    display: block;
+    text-align: center;
+    transition: background .2s, transform .15s, box-shadow .2s;
+    box-shadow: 0 4px 20px rgba(22,163,74,.4);
+  }
+
+  .btn-cta:hover {
+    background: #15803d;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 28px rgba(22,163,74,.5);
+  }
+
+  .btn-cta-note {
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255,255,255,.4);
+    margin-top: 8px;
+  }
+
+  /* ════════════════════════════════
+     SECTION 8 — FOOTER
+  ════════════════════════════════ */
+  footer {
+    background: #0f172a;
+    color: rgba(255,255,255,.7);
+    padding: 64px 24px 32px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+
+  .footer-brand-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 17px;
+    color: white;
+    margin-bottom: 14px;
+  }
+
+  .footer-leaf {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    border-radius: 50% 50% 50% 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .footer-brand-desc {
+    font-size: 14px;
+    line-height: 1.65;
+    color: rgba(255,255,255,.45);
+    margin-bottom: 20px;
+  }
+
+  .footer-socials {
+    display: flex;
+    gap: 10px;
+  }
+
+  .social-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,.5);
+    font-size: 14px;
+    cursor: pointer;
+    transition: background .2s, color .2s;
+    text-decoration: none;
+  }
+
+  .social-btn:hover {
+    background: rgba(22,163,74,.2);
+    color: var(--green-mid);
+    border-color: rgba(22,163,74,.3);
+  }
+
+  .footer-col-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.9);
+    margin-bottom: 16px;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-links a {
+    font-size: 14px;
+    color: rgba(255,255,255,.45);
+    text-decoration: none;
+    transition: color .2s;
+  }
+
+  .footer-links a:hover { color: rgba(255,255,255,.85); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,.08);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-copy {
+    font-size: 13px;
+    color: rgba(255,255,255,.35);
+  }
+
+  .footer-offices {
+    display: flex;
+    gap: 16px;
+    font-size: 13px;
+    color: rgba(255,255,255,.3);
+  }
+
+  .footer-office::before { content: '◎  '; font-size: 10px; }
+
+  /* ════════════════════════════════
+     RESPONSIVE
+  ════════════════════════════════ */
+  @media (max-width: 1024px) {
+    .cards-grid,
+    .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+    .numbers-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-item::after { display: none; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .cta-inner { grid-template-columns: 1fr; gap: 28px; }
+    .cta-action { width: 100%; }
+    .btn-cta { display: inline-block; width: auto; }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .cards-grid,
+    .testimonials-grid,
+    .numbers-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .cta-inner { padding: 36px 28px; }
+    .hero { padding: 64px 24px 56px; }
+    .numbers-grid { padding: 32px 24px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (max-width: 375px) {
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .btn-primary, .btn-secondary { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── SECTION 1: MENU ─── -->
+<nav>
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-leaf">🌿</div>
+        GreenLeaf
+      </a>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#results">Results</a></li>
+        <li><a href="#testimonials">Clients</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#cta" class="nav-cta">Schedule a Call</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── SECTION 2: HERO ─── -->
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="eyebrow fade-up">Trusted by Fortune 500</div>
+
+      <h1 class="hero-headline">
+        Strategy That <em>Grows</em><br>With You
+      </h1>
+
+      <p class="hero-subtitle">
+        We partner with ambitious companies to solve their toughest challenges. From market entry to operational excellence, our senior partners deliver measurable results.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#cta" class="btn-primary">Schedule a Consultation</a>
+        <a href="#services" class="btn-secondary">Our Approach →</a>
+      </div>
+
+      <div class="trust-bar">
+        <div class="trust-dots">
+          <div class="trust-dot"></div>
+          <div class="trust-dot"></div>
+          <div class="trust-dot"></div>
+        </div>
+        Partnered with 120+ companies across 14 industries
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SECTION 3: SERVICES ─── -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">What We Do</div>
+      <h2 class="section-heading">Our Services</h2>
+      <p class="section-sub">Strategic expertise across growth, operations, and leadership</p>
+    </div>
+
+    <div class="cards-grid">
+      <div class="service-card">
+        <div class="card-icon">📈</div>
+        <div class="card-title">Growth Strategy</div>
+        <p class="card-text">Market analysis, competitive positioning, and go-to-market plans that drive measurable revenue growth quarter over quarter.</p>
+        <a href="#" class="card-link">Learn more →</a>
+      </div>
+      <div class="service-card">
+        <div class="card-icon">⚙️</div>
+        <div class="card-title">Operational Excellence</div>
+        <p class="card-text">Process optimization, technology integration, and organizational design for maximum efficiency at scale.</p>
+        <a href="#" class="card-link">Learn more →</a>
+      </div>
+      <div class="service-card">
+        <div class="card-icon">🎯</div>
+        <div class="card-title">Leadership Advisory</div>
+        <p class="card-text">Executive coaching, board advisory, and change management for leaders navigating complex transformation.</p>
+        <a href="#" class="card-link">Learn more →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SECTION 4: NUMBERS ─── -->
+<section class="numbers" id="results">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">By the Numbers</div>
+      <h2 class="section-heading">Results That Speak</h2>
+      <p class="section-sub">Measurable impact across 120+ engagements</p>
+    </div>
+
+    <div class="numbers-grid">
+      <div class="stat-item">
+        <div class="stat-value"><span>120</span>+</div>
+        <div class="stat-label">Clients Served</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value"><span>94</span>%</div>
+        <div class="stat-label">Client Retention</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">$<span>2.4</span>B</div>
+        <div class="stat-label">Revenue Impact</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value"><span>14</span></div>
+        <div class="stat-label">Industries</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SECTION 5: TESTIMONIALS ─── -->
+<section class="testimonials" id="testimonials">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Client Voices</div>
+      <h2 class="section-heading">Client Testimonials</h2>
+      <p class="section-sub">What our partners say about working with us</p>
+    </div>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">GreenLeaf helped us identify a $40M market opportunity we completely missed. Their strategic insight is unmatched.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">SR</div>
+          <div>
+            <div class="author-name">Sarah Reynolds</div>
+            <div class="author-role">CEO, Meridian Group</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Our operational costs dropped 30% in six months. The GreenLeaf team didn't just advise — they rolled up their sleeves and delivered.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background: linear-gradient(135deg, #2563eb, #60a5fa);">JC</div>
+          <div>
+            <div class="author-name">James Chen</div>
+            <div class="author-role">COO, Vertex Industries</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">The best consulting engagement we've ever had. They challenged our assumptions and pushed us to think bigger about what was possible.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background: linear-gradient(135deg, #7c3aed, #a78bfa);">MP</div>
+          <div>
+            <div class="author-name">Maria Patel</div>
+            <div class="author-role">Founder, NovaBridge</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SECTION 6: FAQ ─── -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">FAQ</div>
+      <h2 class="section-heading">Common Questions</h2>
+      <p class="section-sub">How we work, who we serve, and what to expect</p>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What types of companies do you typically work with?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>We work primarily with mid-market and enterprise companies across 14 industries — from $50M revenue businesses to Fortune 500s. Our sweet spot is companies experiencing rapid growth, operational complexity, or strategic inflection points where senior outside perspective creates disproportionate value.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How long does a typical engagement last?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Engagements range from focused 6-week diagnostic sprints to 12–18 month transformation partnerships. We scope each engagement to the problem, not a fixed timeline. Most clients return for subsequent engagements — 94% retention speaks to how we structure for lasting impact rather than dependency.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What makes GreenLeaf different from other consulting firms?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Three things: senior-only delivery (you meet the team you hire), a bias toward implementation over decks, and a track record of $2.4B in client revenue impact. We don't staff projects with juniors. Every engagement is led by a partner with 15+ years of operating experience in your sector.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What does the free strategy call involve?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>It's a genuine 30-minute conversation with a senior partner — not a sales pitch. We'll discuss your specific challenges, share relevant examples from our work, and give you at least one actionable insight you can use immediately. No commitment required. If there's a fit, we'll propose a scoped engagement. If not, we'll point you in the right direction.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SECTION 7: CTA ─── -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-content">
+        <h2 class="cta-heading">Ready to Accelerate Your Growth?</h2>
+        <p class="cta-sub">Schedule a free 30-minute strategy call with one of our senior partners. No commitment, just actionable insight.</p>
+      </div>
+      <div class="cta-action">
+        <a href="#contact" class="btn-cta">Schedule a Consultation</a>
+        <p class="btn-cta-note">Free · No commitment · 30 min</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SECTION 8: FOOTER ─── -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">
+          <div class="footer-leaf">🌿</div>
+          GreenLeaf Consulting
+        </div>
+        <p class="footer-brand-desc">Strategic consulting that grows with your business. Senior-led, results-driven, built for ambitious companies.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn" title="LinkedIn">in</a>
+          <a href="#" class="social-btn" title="Twitter">𝕏</a>
+          <a href="#" class="social-btn" title="Email">✉</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="#">Growth Strategy</a></li>
+          <li><a href="#">Operations</a></li>
+          <li><a href="#">Advisory</a></li>
+          <li><a href="#">Research</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Team</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Resources</div>
+        <ul class="footer-links">
+          <li><a href="#">Insights</a></li>
+          <li><a href="#">Case Studies</a></li>
+          <li><a href="#">Newsletter</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 GreenLeaf Consulting. All rights reserved.</span>
+      <div class="footer-offices">
+        <span class="footer-office">New York</span>
+        <span class="footer-office">London</span>
+        <span class="footer-office">Singapore</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    // Open clicked if it wasn't already open
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Intersection observer for fade-up on cards
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        entry.target.style.animationDelay = (entry.target.dataset.delay || 0) + 'ms';
+        entry.target.classList.add('fade-up');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.service-card, .testimonial-card, .stat-item').forEach((el, i) => {
+    el.dataset.delay = (i % 4) * 80;
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>

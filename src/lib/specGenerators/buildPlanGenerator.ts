@@ -1,4 +1,5 @@
 import type { MasterConfig } from '@/lib/schemas'
+import { getStr } from '@/lib/sectionContent'
 import { SECTION_LABELS, VARIANT_DESCRIPTIONS, describeComponentProps } from './helpers'
 
 /**
@@ -58,8 +59,8 @@ export function generateBuildPlan(config: MasterConfig): string {
     const label = SECTION_LABELS[s.type] || s.type
     const variant = s.variant || 'default'
     const variantDesc = VARIANT_DESCRIPTIONS[s.type]?.[variant] || variant
-    const heading = (s.content as Record<string, unknown>)?.heading as string | undefined
-    const subheading = (s.content as Record<string, unknown>)?.subheading as string | undefined
+    const heading = getStr(s, 'heading') || undefined
+    const subheading = getStr(s, 'subheading') || undefined
     const activeComps = (s.components ?? []).filter((c) => c.enabled)
 
     spec += `### Section ${i + 1}: ${label}\n\n`
@@ -71,12 +72,12 @@ export function generateBuildPlan(config: MasterConfig): string {
     if (s.layout) {
       const layoutParts: string[] = []
       if (s.layout.display) layoutParts.push(`display: ${s.layout.display}`)
-      if ((s.layout as Record<string, unknown>)?.direction) layoutParts.push(`direction: ${(s.layout as Record<string, unknown>)?.direction}`)
+      if (s.layout.direction) layoutParts.push(`direction: ${s.layout.direction}`)
       if (s.layout.columns) layoutParts.push(`columns: ${s.layout.columns}`)
       if (s.layout.gap) layoutParts.push(`gap: ${s.layout.gap}`)
-      if ((s.layout as Record<string, unknown>)?.padding) layoutParts.push(`padding: ${(s.layout as Record<string, unknown>)?.padding}`)
-      if ((s.layout as Record<string, unknown>)?.align) layoutParts.push(`align: ${(s.layout as Record<string, unknown>)?.align}`)
-      if ((s.layout as Record<string, unknown>)?.maxWidth) layoutParts.push(`max-width: ${(s.layout as Record<string, unknown>)?.maxWidth}`)
+      if (s.layout.padding) layoutParts.push(`padding: ${s.layout.padding}`)
+      if (s.layout.align) layoutParts.push(`align: ${s.layout.align}`)
+      if (s.layout.maxWidth) layoutParts.push(`max-width: ${s.layout.maxWidth}`)
       if (layoutParts.length > 0) spec += `- **Layout:** ${layoutParts.join(', ')}\n`
     }
 

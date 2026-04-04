@@ -115,6 +115,9 @@ export function generateAISPSpec(config: MasterConfig): string {
       const text = getComponentText(c)
       const props: string[] = []
       if (text) props.push(`text: "${text}"`)
+      // Testimonial-specific props
+      if (c.props?.author) props.push(`author: "${c.props.author}"`)
+      if (c.props?.role) props.push(`role: "${c.props.role}"`)
       // Include image URLs and alt text
       if (c.props?.image) props.push(`image: "${c.props.image}"`)
       if (c.props?.imageAlt) props.push(`imageAlt: "${c.props.imageAlt}"`)
@@ -127,6 +130,11 @@ export function generateAISPSpec(config: MasterConfig): string {
       if (c.props?.videoUrl) props.push(`videoUrl: "${c.props.videoUrl}"`)
       if (c.props?.rating !== undefined) props.push(`rating: ${c.props.rating}`)
       if (c.props?.links) props.push(`links: "${c.props.links}"`)
+      // Pricing tier props
+      if (c.props?.price) props.push(`price: "${c.props.price}"`)
+      if (c.props?.period) props.push(`period: "${c.props.period}"`)
+      if (c.props?.ctaText) props.push(`cta: "${c.props.ctaText}"`)
+      if (c.props?.highlighted) props.push(`highlighted: true`)
 
       spec += `          ⟨${c.id}: ${c.type}, ${props.join(', ')}⟩${j < comps.length - 1 ? ',' : ''}\n`
     })
