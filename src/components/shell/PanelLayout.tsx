@@ -14,30 +14,11 @@ function ResizeHandle() {
   )
 }
 
-function PanelToggle({ side, visible, onClick }: { side: 'left' | 'right'; visible: boolean; onClick: () => void }) {
-  const Icon = side === 'left'
-    ? (visible ? PanelLeftClose : PanelLeftOpen)
-    : (visible ? PanelRightClose : PanelRightOpen)
-
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="fixed z-40 flex items-center justify-center w-7 h-7 rounded-md bg-hb-surface/90 backdrop-blur-sm border border-hb-border text-hb-text-muted hover:text-hb-text-primary hover:border-hb-accent transition-all shadow-sm"
-      style={side === 'left' ? { left: visible ? 4 : 4, top: 52 } : { right: visible ? 4 : 4, top: 52 }}
-      title={`${visible ? 'Hide' : 'Show'} ${side} panel`}
-    >
-      <Icon size={14} />
-    </button>
-  )
-}
-
 export function PanelLayout() {
   const isPreviewMode = useUIStore((s) => s.isPreviewMode)
   const leftPanelVisible = useUIStore((s) => s.leftPanelVisible)
   const rightPanelVisible = useUIStore((s) => s.rightPanelVisible)
 
-  // Auto-enter preview mode when opened via a shared preview link
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     if (params.get('preview') === '1') {
@@ -48,7 +29,6 @@ export function PanelLayout() {
   if (isPreviewMode) {
     return (
       <div className="h-full overflow-auto relative">
-        {/* Floating exit button */}
         <button
           type="button"
           onClick={() => useUIStore.getState().setPreviewMode(false)}
@@ -63,51 +43,75 @@ export function PanelLayout() {
   }
 
   return (
-    <div className="flex h-full relative">
-      {/* Panel toggle buttons */}
-      <PanelToggle
-        side="left"
-        visible={leftPanelVisible}
-        onClick={() => useUIStore.getState().setLeftPanelVisible(!leftPanelVisible)}
-      />
-      <PanelToggle
-        side="right"
-        visible={rightPanelVisible}
-        onClick={() => useUIStore.getState().setRightPanelVisible(!rightPanelVisible)}
-      />
+    <div className="flex h-full">
+      {/* Left panel — fixed width, toggle via display */}
+      {leftPanelVisible && (
+        <aside className="w-[320px] min-w-[280px] max-w-[320px] shrink-0 bg-hb-surface h-full overflow-y-auto border-r border-hb-border relative" aria-label="Builder tools">
+          <LeftPanel />
+          {/* Collapse button inside left panel */}
+          <button
+            type="button"
+            onClick={() => useUIStore.getState().setLeftPanelVisible(false)}
+            className="absolute top-2 right-2 z-10 w-6 h-6 rounded-md bg-hb-surface border border-hb-border text-hb-text-muted hover:text-hb-text-primary hover:border-hb-accent transition-all flex items-center justify-center"
+            title="Hide left panel"
+          >
+            <PanelLeftClose size={12} />
+          </button>
+        </aside>
+      )}
 
-      <PanelGroup orientation="horizontal" className="flex-1">
-        {/* Left panel — resizable, collapsible */}
-        {leftPanelVisible && (
-          <>
-            <Panel defaultSize={24} minSize={18} maxSize={35} collapsible>
-              <aside className="bg-hb-surface h-full overflow-y-auto border-r border-hb-border" aria-label="Builder tools">
-                <LeftPanel />
-              </aside>
-            </Panel>
-            <ResizeHandle />
-          </>
-        )}
+      {/* Show left panel button when collapsed */}
+      {!leftPanelVisible && (
+        <button
+          type="button"
+          onClick={() => useUIStore.getState().setLeftPanelVisible(true)}
+          className="w-8 shrink-0 bg-hb-surface border-r border-hb-border flex items-center justify-center text-hb-text-muted hover:text-hb-text-primary transition-colors"
+          title="Show left panel"
+        >
+          <PanelLeftOpen size={14} />
+        </button>
+      )}
 
-        {/* Center canvas — fills remaining space */}
-        <Panel defaultSize={leftPanelVisible && rightPanelVisible ? 51 : leftPanelVisible || rightPanelVisible ? 70 : 100} minSize={30}>
-          <main className="bg-hb-bg h-full overflow-hidden">
+      {/* Center + Right — resizable split */}
+      {rightPanelVisible ? (
+        <PanelGroup orientation="horizontal" className="flex-1">
+          <Panel defaultSize={70} minSize={40}>
+            <main className="bg-hb-bg h-full overflow-hidden">
+              <CenterCanvas />
+            </main>
+          </Panel>
+          <ResizeHandle />
+          <Panel defaultSize={30} minSize={15} collapsible>
+            <aside className="bg-hb-surface h-full overflow-hidden border-l border-hb-border relative" aria-label="Section editor">
+              <RightPanel />
+              {/* Collapse button inside right panel */}
+              <button
+                type="button"
+                onClick={() => useUIStore.getState().setRightPanelVisible(false)}
+                className="absolute top-2 left-2 z-10 w-6 h-6 rounded-md bg-hb-surface border border-hb-border text-hb-text-muted hover:text-hb-text-primary hover:border-hb-accent transition-all flex items-center justify-center"
+                title="Hide right panel"
+              >
+                <PanelRightClose size={12} />
+              </button>
+            </aside>
+          </Panel>
+        </PanelGroup>
+      ) : (
+        <div className="flex-1 flex">
+          <main className="flex-1 bg-hb-bg h-full overflow-hidden">
             <CenterCanvas />
           </main>
-        </Panel>
-
-        {/* Right panel — resizable, collapsible */}
-        {rightPanelVisible && (
-          <>
-            <ResizeHandle />
-            <Panel defaultSize={25} minSize={15} maxSize={40} collapsible>
-              <aside className="bg-hb-surface h-full overflow-hidden border-l border-hb-border" aria-label="Section editor">
-                <RightPanel />
-              </aside>
-            </Panel>
-          </>
-        )}
-      </PanelGroup>
+          {/* Show right panel button when collapsed */}
+          <button
+            type="button"
+            onClick={() => useUIStore.getState().setRightPanelVisible(true)}
+            className="w-8 shrink-0 bg-hb-surface border-l border-hb-border flex items-center justify-center text-hb-text-muted hover:text-hb-text-primary transition-colors"
+            title="Show right panel"
+          >
+            <PanelRightOpen size={14} />
+          </button>
+        </div>
+      )}
     </div>
   )
 }
