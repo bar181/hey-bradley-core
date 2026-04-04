@@ -1,4 +1,5 @@
 import type { Section } from '@/lib/schemas'
+import { getStr } from '@/lib/sectionContent'
 import {
   Zap, Target, Shield, Star, Rocket, Code, Globe, Lock, Cpu,
   type LucideIcon,
@@ -17,7 +18,7 @@ const GRID_CLASSES: Record<number, string> = {
 }
 
 export function ColumnsCards({ section }: { section: Section }) {
-  const cols = (section.layout as any).columns ?? 3
+  const cols = section.layout.columns ?? 3
   const items = section.components
     .filter((c) => c.enabled)
     .sort((a, b) => a.order - b.order)
@@ -28,15 +29,15 @@ export function ColumnsCards({ section }: { section: Section }) {
       style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
     >
       {/* Section heading */}
-      {(section.content as any)?.heading && (
+      {getStr(section, 'heading') && (
         <div className="text-center mb-12 max-w-3xl mx-auto">
             <div className="w-10 h-1 rounded-full mx-auto mb-4" style={{ background: section.style.color ? `color-mix(in srgb, ${section.style.color} 60%, transparent)` : '#6366f1' }} />
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-            {(section.content as any).heading}
+            {getStr(section, 'heading')}
           </h2>
-          {(section.content as any)?.subheading && (
+          {getStr(section, 'subheading') && (
             <p className="text-lg mt-3 opacity-70">
-              {(section.content as any).subheading}
+              {getStr(section, 'subheading')}
             </p>
           )}
         </div>

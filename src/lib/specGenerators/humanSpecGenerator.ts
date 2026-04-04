@@ -18,6 +18,8 @@ export function generateHumanSpec(config: MasterConfig): string {
   let spec = `# Specification: ${site.title || 'Untitled Website'}\n\n`
   spec += `**Generated:** ${new Date().toISOString().split('T')[0]}\n`
   spec += `**Spec Format:** HUMAN (plain English, full detail)\n\n`
+  spec += `This detailed specification describes every visual and content element of ${site.title || 'Untitled Website'} in plain English. `
+  spec += `It is designed to be read by anyone — designers, developers, project managers, or stakeholders — without requiring technical knowledge.\n\n`
   spec += `---\n\n`
 
   // Overview
@@ -108,7 +110,7 @@ export function generateHumanSpec(config: MasterConfig): string {
       if (s.layout.display) layoutParts.push(`display: ${s.layout.display}`)
       if (s.layout.columns) layoutParts.push(`cols: ${s.layout.columns}`)
       if (s.layout.gap) layoutParts.push(`gap: ${s.layout.gap}`)
-      if ((s.layout as any).padding) layoutParts.push(`padding: ${(s.layout as any).padding}`)
+      if ((s.layout as Record<string, unknown>)?.padding) layoutParts.push(`padding: ${(s.layout as Record<string, unknown>)?.padding}`)
       if (layoutParts.length > 0) spec += `| Layout | ${layoutParts.join(', ')} |\n`
     }
     spec += `\n`

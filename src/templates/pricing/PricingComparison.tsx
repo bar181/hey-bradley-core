@@ -1,4 +1,5 @@
 import type { Section } from '@/lib/schemas'
+import { getStr } from '@/lib/sectionContent'
 import { cn } from '@/lib/cn'
 
 /* --------------------------------------------------------------------- */
@@ -328,7 +329,7 @@ export function PricingComparison({ section }: { section: Section }) {
       }}
     >
       {/* Section heading */}
-      {(section.content as any)?.heading && (
+      {getStr(section, 'heading') && (
         <div className="text-center mb-12 max-w-3xl mx-auto">
           <div
             className="w-10 h-1 rounded-full mx-auto mb-4"
@@ -339,11 +340,11 @@ export function PricingComparison({ section }: { section: Section }) {
             }}
           />
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-            {(section.content as any).heading}
+            {getStr(section, 'heading')}
           </h2>
-          {(section.content as any)?.subheading && (
+          {getStr(section, 'subheading') && (
             <p className="text-lg mt-3 opacity-70">
-              {(section.content as any).subheading}
+              {getStr(section, 'subheading')}
             </p>
           )}
         </div>

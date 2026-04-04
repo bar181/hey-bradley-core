@@ -13,7 +13,9 @@ export function generateBuildPlan(config: MasterConfig): string {
 
   let spec = `# Implementation Plan: ${title}\n\n`
   spec += `**Generated:** ${new Date().toISOString().split('T')[0]}\n`
-  spec += `**Target:** Copy this into an AI coding agent → 90% visual reproduction\n\n`
+  spec += `**Scope:** Complete front-end implementation specification\n\n`
+  spec += `This implementation plan provides step-by-step build instructions for ${title}. `
+  spec += `When provided to an AI coding agent or development team, it should enable 90%+ visual reproduction of the designed website.\n\n`
   spec += `---\n\n`
 
   // Phase 1: Project Setup
@@ -69,12 +71,12 @@ export function generateBuildPlan(config: MasterConfig): string {
     if (s.layout) {
       const layoutParts: string[] = []
       if (s.layout.display) layoutParts.push(`display: ${s.layout.display}`)
-      if ((s.layout as any).direction) layoutParts.push(`direction: ${(s.layout as any).direction}`)
+      if ((s.layout as Record<string, unknown>)?.direction) layoutParts.push(`direction: ${(s.layout as Record<string, unknown>)?.direction}`)
       if (s.layout.columns) layoutParts.push(`columns: ${s.layout.columns}`)
       if (s.layout.gap) layoutParts.push(`gap: ${s.layout.gap}`)
-      if ((s.layout as any).padding) layoutParts.push(`padding: ${(s.layout as any).padding}`)
-      if ((s.layout as any).align) layoutParts.push(`align: ${(s.layout as any).align}`)
-      if ((s.layout as any).maxWidth) layoutParts.push(`max-width: ${(s.layout as any).maxWidth}`)
+      if ((s.layout as Record<string, unknown>)?.padding) layoutParts.push(`padding: ${(s.layout as Record<string, unknown>)?.padding}`)
+      if ((s.layout as Record<string, unknown>)?.align) layoutParts.push(`align: ${(s.layout as Record<string, unknown>)?.align}`)
+      if ((s.layout as Record<string, unknown>)?.maxWidth) layoutParts.push(`max-width: ${(s.layout as Record<string, unknown>)?.maxWidth}`)
       if (layoutParts.length > 0) spec += `- **Layout:** ${layoutParts.join(', ')}\n`
     }
 

@@ -13,6 +13,8 @@ export function generateSADD(config: MasterConfig): string {
   let spec = `# Architecture: ${title}\n\n`
   spec += `**Generated:** ${new Date().toISOString().split('T')[0]}\n`
   spec += `**Spec Version:** ${site.version || '1.0.0-RC1'}\n\n`
+  spec += `This Software Architecture and Design Document provides the complete technical specification for ${title}. `
+  spec += `It covers the technology stack, component architecture, design tokens, and data model — everything an engineering team needs to implement the site from specification.\n\n`
   spec += `---\n\n`
 
   // Tech stack

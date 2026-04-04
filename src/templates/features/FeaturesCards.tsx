@@ -19,7 +19,7 @@ export function FeaturesCards({ section }: { section: Section }) {
       className="py-16 px-6"
       style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
     >
-      <div className={`mx-auto max-w-6xl grid grid-cols-1 gap-6 ${(() => { const cols = (section.layout as any).columns ?? 3; return cols === 2 ? 'md:grid-cols-2' : cols === 4 ? 'md:grid-cols-4' : 'md:grid-cols-3' })()}`}>
+      <div className={`mx-auto max-w-6xl grid grid-cols-1 gap-6 ${(() => { const cols = section.layout.columns ?? 3; return cols === 2 ? 'md:grid-cols-2' : cols === 4 ? 'md:grid-cols-4' : 'md:grid-cols-3' })()}`}>
         {features.map((feature) => {
           const iconSlug = (feature.props?.icon as string) ?? ''
           const Icon = iconMap[iconSlug]

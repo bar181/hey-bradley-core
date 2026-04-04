@@ -1,4 +1,6 @@
 import { useState, useMemo, useCallback } from 'react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { useConfigStore } from '@/store/configStore'
 import { cn } from '../../lib/cn'
 import { Copy, Download, Check, Compass, Layers, ListChecks, CheckSquare, FileText, Code } from 'lucide-react'
@@ -113,20 +115,15 @@ export function XAIDocsTab() {
 
       {/* Spec content */}
       <div className="rounded-lg bg-hb-surface p-5 max-h-[calc(100vh-16rem)] overflow-y-auto">
-        <pre
-          className={cn(
-            'whitespace-pre-wrap text-sm leading-relaxed',
-            currentTab.format === 'aisp'
-              ? 'font-mono text-hb-text-secondary'
-              : 'font-sans text-hb-text-secondary',
-          )}
-        >
-          {currentTab.format === 'aisp' ? (
+        {currentTab.format === 'aisp' ? (
+          <pre className="whitespace-pre-wrap text-sm leading-relaxed font-mono text-hb-text-secondary">
             <AISPHighlighted text={specText} />
-          ) : (
-            <HumanHighlighted text={specText} />
-          )}
-        </pre>
+          </pre>
+        ) : (
+          <div className="prose prose-invert dark:prose-invert max-w-none hb-spec-prose">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{specText}</ReactMarkdown>
+          </div>
+        )}
       </div>
     </div>
   )
@@ -244,30 +241,3 @@ function AISPHighlighted({ text }: { text: string }) {
   )
 }
 
-// ---------------------------------------------------------------------------
-// Syntax highlighting for markdown views
-// ---------------------------------------------------------------------------
-
-function HumanHighlighted({ text }: { text: string }) {
-  const lines = text.split('\n')
-  return (
-    <>
-      {lines.map((line, i) => {
-        if (line.startsWith('# ')) return <span key={i} className="text-hb-text-primary font-bold text-base">{line}{'\n'}</span>
-        if (line.startsWith('## ')) return <span key={i} className="text-hb-text-primary font-semibold">{line}{'\n'}</span>
-        if (line.startsWith('### ')) return <span key={i} className="text-hb-accent font-medium">{line}{'\n'}</span>
-        if (line.startsWith('#### ')) return <span key={i} className="text-hb-accent font-medium text-xs">{line}{'\n'}</span>
-        if (/^\d+\.\s/.test(line)) return <span key={i} className="text-hb-text-secondary">{line}{'\n'}</span>
-        if (line.match(/^-\s\*\*/)) return <span key={i} className="text-hb-text-secondary">{line}{'\n'}</span>
-        if (line.match(/^- \[[ x]\]/)) return <span key={i} className="text-hb-text-secondary">{line}{'\n'}</span>
-        if (line.startsWith('_Disabled:_') || line.startsWith('_disabled:_')) return <span key={i} className="text-hb-text-muted italic">{line}{'\n'}</span>
-        if (line.match(/^\s+-\s/)) return <span key={i} className="text-hb-text-muted">{line}{'\n'}</span>
-        if (line.startsWith('```')) return <span key={i} className="text-hb-text-muted">{line}{'\n'}</span>
-        if (line.startsWith('|')) return <span key={i} className="text-hb-text-secondary font-mono text-xs">{line}{'\n'}</span>
-        if (line.startsWith('---')) return <span key={i} className="text-hb-border">{line}{'\n'}</span>
-        if (line.startsWith('**')) return <span key={i} className="text-hb-text-primary font-medium">{line}{'\n'}</span>
-        return <span key={i}>{line}{'\n'}</span>
-      })}
-    </>
-  )
-}

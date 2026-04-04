@@ -106,7 +106,7 @@ export function generateAISPSpec(config: MasterConfig): string {
     if (subheading) spec += `        subheading: "${subheading}",\n`
     if (bg) spec += `        background: "${bg}",\n`
     if (s.layout?.columns) spec += `        columns: ${s.layout.columns},\n`
-    if ((s.layout as any)?.padding) spec += `        padding: "${(s.layout as any).padding}",\n`
+    if (s.layout?.padding) spec += `        padding: "${s.layout.padding}",\n`
     if (s.layout?.gap) spec += `        gap: "${s.layout.gap}",\n`
 
     // ALL components with FULL text — NO truncation, NO slice

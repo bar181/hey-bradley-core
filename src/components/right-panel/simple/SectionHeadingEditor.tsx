@@ -1,4 +1,5 @@
 import { useConfigStore } from '@/store/configStore'
+import { getStr } from '@/lib/sectionContent'
 
 const INPUT =
   'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
@@ -18,7 +19,7 @@ export function SectionHeadingEditor({ sectionId }: { sectionId: string }) {
         </label>
         <input
           type="text"
-          value={(section.content as any)?.heading || ''}
+          value={getStr(section, 'heading')}
           onChange={(e) =>
             setSectionConfig(sectionId, {
               content: { ...(section.content ?? {}), heading: e.target.value },
@@ -34,7 +35,7 @@ export function SectionHeadingEditor({ sectionId }: { sectionId: string }) {
         </label>
         <input
           type="text"
-          value={(section.content as any)?.subheading || ''}
+          value={getStr(section, 'subheading')}
           onChange={(e) =>
             setSectionConfig(sectionId, {
               content: { ...(section.content ?? {}), subheading: e.target.value },

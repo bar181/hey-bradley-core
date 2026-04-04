@@ -239,3 +239,128 @@ body {
   background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5));
   pointer-events: none;
 }
+
+/* ── Spec Prose Overrides (react-markdown in XAIDocsTab) ── */
+.hb-spec-prose {
+  --tw-prose-body: var(--hb-text-secondary);
+  --tw-prose-headings: var(--hb-text-primary);
+  --tw-prose-bold: var(--hb-text-primary);
+  --tw-prose-links: var(--hb-accent);
+  --tw-prose-counters: var(--hb-text-muted);
+  --tw-prose-bullets: var(--hb-accent);
+  --tw-prose-hr: var(--hb-border);
+  --tw-prose-th-borders: var(--hb-border);
+  --tw-prose-td-borders: var(--hb-border);
+  --tw-prose-code: var(--hb-text-primary);
+  --tw-prose-pre-bg: rgba(0, 0, 0, 0.25);
+  --tw-prose-pre-code: var(--hb-text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.625;
+}
+.hb-spec-prose h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+  color: var(--hb-text-primary);
+}
+.hb-spec-prose h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.25em;
+  margin-bottom: 0.625em;
+  color: var(--hb-text-primary);
+}
+.hb-spec-prose h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  color: var(--hb-accent);
+}
+.hb-spec-prose h4 {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-top: 0.75em;
+  margin-bottom: 0.375em;
+  color: var(--hb-accent);
+}
+.hb-spec-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+.hb-spec-prose thead th {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--hb-text-primary);
+  border-bottom: 2px solid var(--hb-border);
+}
+.hb-spec-prose tbody td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--hb-border);
+  color: var(--hb-text-secondary);
+}
+.hb-spec-prose tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+.hb-spec-prose ul {
+  list-style-type: disc;
+  padding-left: 1.25em;
+}
+.hb-spec-prose ol {
+  list-style-type: decimal;
+  padding-left: 1.25em;
+}
+.hb-spec-prose li {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+.hb-spec-prose code:not(pre code) {
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+  font-size: 0.8125em;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 0.125em 0.375em;
+  border-radius: 0.25rem;
+  color: var(--hb-text-primary);
+}
+.hb-spec-prose pre {
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 0.375rem;
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  font-size: 0.8125rem;
+}
+.hb-spec-prose a {
+  color: var(--hb-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.hb-spec-prose a:hover {
+  color: var(--hb-accent-hover);
+}
+.hb-spec-prose hr {
+  border-color: var(--hb-border);
+  margin: 1.5em 0;
+}
+.hb-spec-prose blockquote {
+  border-left: 3px solid var(--hb-accent);
+  padding-left: 1em;
+  color: var(--hb-text-muted);
+  font-style: italic;
+}
+/* Light mode overrides */
+.light-chrome .hb-spec-prose tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+.light-chrome .hb-spec-prose code:not(pre code) {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+.light-chrome .hb-spec-prose pre {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+.light-chrome .hb-spec-prose thead th {
+  background-color: rgba(0, 0, 0, 0.04);
+}

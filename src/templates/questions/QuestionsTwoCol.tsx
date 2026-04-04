@@ -1,4 +1,5 @@
 import type { Section } from '@/lib/schemas'
+import { getStr } from '@/lib/sectionContent'
 
 export function QuestionsTwoCol({ section }: { section: Section }) {
   const items = section.components
@@ -15,11 +16,11 @@ export function QuestionsTwoCol({ section }: { section: Section }) {
         <div className="text-center mb-12 max-w-3xl mx-auto">
             <div className="w-10 h-1 rounded-full mx-auto mb-4" style={{ background: section.style.color ? `color-mix(in srgb, ${section.style.color} 60%, transparent)` : '#6366f1' }} />
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-            {(section.content as any)?.heading || 'Common Questions'}
+            {getStr(section, 'heading') || 'Common Questions'}
           </h2>
-          {(section.content as any)?.subheading && (
+          {getStr(section, 'subheading') && (
             <p className="text-lg mt-3 opacity-70">
-              {(section.content as any).subheading}
+              {getStr(section, 'subheading')}
             </p>
           )}
         </div>

@@ -22,6 +22,8 @@ export function generateNorthStar(config: MasterConfig): string {
   let spec = `# North Star: ${title}\n\n`
   spec += `**Generated:** ${new Date().toISOString().split('T')[0]}\n`
   spec += `**Spec Version:** ${site.version || '1.0.0-RC1'}\n\n`
+  spec += `This North Star document defines the product vision, market fit, and success criteria for ${title}. `
+  spec += `It serves as the strategic guide for all design and development decisions, ensuring alignment between stakeholders on the project's core purpose and target audience.\n\n`
   spec += `---\n\n`
 
   // Overview
