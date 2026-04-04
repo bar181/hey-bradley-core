@@ -144,6 +144,8 @@ export const VARIANT_DESCRIPTIONS: Record<string, Record<string, string>> = {
   },
   pricing: {
     tiers: 'Side-by-side pricing tier cards',
+    toggle: 'Monthly/annual toggle with animated price switch',
+    comparison: 'Feature comparison table — tier columns with feature rows, checkmarks, and sticky header',
   },
   text: {
     single: 'Single column centered text',
@@ -154,6 +156,10 @@ export const VARIANT_DESCRIPTIONS: Record<string, Record<string, string>> = {
     line: 'Thin horizontal line',
     decorative: 'Decorative ornamental divider',
     space: 'Empty vertical spacer',
+  },
+  menu: {
+    simple: 'Horizontal navbar — logo left, nav links center, CTA right',
+    centered: 'Centered navbar — logo stacked above centered nav links',
   },
 }
 

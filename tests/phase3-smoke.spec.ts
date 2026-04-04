@@ -10,7 +10,7 @@ test.describe('Onboarding Page', () => {
     // Verify new-project page renders
     const bodyText = await page.textContent('body')
     expect(bodyText).toContain('Hey Bradley')
-    expect(bodyText).toContain('Pick a starting point')
+    expect(bodyText).toContain('What will you build today?')
 
     // Verify example cards exist (examples are now primary, themes collapsed)
     for (const example of ['Sweet Spot Bakery', 'LaunchPad AI', 'Sarah Chen Photography']) {

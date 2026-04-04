@@ -10,6 +10,8 @@ import personal from '@/data/themes/personal.json'
 import professional from '@/data/themes/professional.json'
 import wellness from '@/data/themes/wellness.json'
 import minimalist from '@/data/themes/minimalist.json'
+import creative from '@/data/themes/creative.json'
+import blog from '@/data/themes/blog.json'
 
 const DEFAULT_CONFIG: MasterConfig = defaultConfig as unknown as MasterConfig
 
@@ -22,6 +24,8 @@ const THEMES: Record<string, Record<string, unknown>> = {
   professional: professional as unknown as Record<string, unknown>,
   wellness: wellness as unknown as Record<string, unknown>,
   minimalist: minimalist as unknown as Record<string, unknown>,
+  creative: creative as unknown as Record<string, unknown>,
+  blog: blog as unknown as Record<string, unknown>,
 }
 
 const HISTORY_LIMIT = 100

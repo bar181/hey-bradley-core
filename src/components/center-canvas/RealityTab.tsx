@@ -10,6 +10,7 @@ import { HeroSplit } from '@/templates/hero/HeroSplit'
 import { HeroOverlay } from '@/templates/hero/HeroOverlay'
 import { HeroMinimal } from '@/templates/hero/HeroMinimal'
 import { NavbarSimple } from '@/templates/navbar/NavbarSimple'
+import { NavbarCentered } from '@/templates/navbar/NavbarCentered'
 import { ActionCentered } from '@/templates/action/ActionCentered'
 import { ActionSplit } from '@/templates/action/ActionSplit'
 import { ActionGradient } from '@/templates/action/ActionGradient'
@@ -23,6 +24,8 @@ import { ColumnsHorizontal } from '@/templates/columns/ColumnsHorizontal'
 import { ColumnsGradient } from '@/templates/columns/ColumnsGradient'
 import { ColumnsGlass } from '@/templates/columns/ColumnsGlass'
 import { PricingTiers } from '@/templates/pricing/PricingTiers'
+import { PricingToggle } from '@/templates/pricing/PricingToggle'
+import { PricingComparison } from '@/templates/pricing/PricingComparison'
 import { FooterSimple } from '@/templates/footer/FooterSimple'
 import { QuotesCards } from '@/templates/quotes/QuotesCards'
 import { QuotesSingle } from '@/templates/quotes/QuotesSingle'
@@ -342,7 +345,13 @@ export function RealityTab() {
 
 function renderSection(section: ReturnType<typeof useConfigStore.getState>['config']['sections'][0]) {
   if (section.type === 'menu') {
-    return <NavbarSimple section={section} />
+    switch (section.variant) {
+      case 'centered':
+        return <NavbarCentered section={section} />
+      case 'simple':
+      default:
+        return <NavbarSimple section={section} />
+    }
   }
   if (section.type === 'hero') {
     switch (section.variant) {
@@ -380,7 +389,14 @@ function renderSection(section: ReturnType<typeof useConfigStore.getState>['conf
     }
   }
   if (section.type === 'pricing') {
-    return <PricingTiers section={section} />
+    switch (section.variant) {
+      case 'toggle':
+        return <PricingToggle section={section} />
+      case 'comparison':
+        return <PricingComparison section={section} />
+      default:
+        return <PricingTiers section={section} />
+    }
   }
   if (section.type === 'action') {
     switch (section.variant) {

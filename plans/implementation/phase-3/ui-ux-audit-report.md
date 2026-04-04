@@ -11,7 +11,7 @@
 
 | Category | Score (1-5) | Pass/Total |
 |----------|:-----------:|:----------:|
-| Onboarding | 4 | 6/8 |
+| Onboarding | 5 | 8/8 |
 | Builder | 5 | 10/10 |
 | Preview | 5 | 5/5 |
 | Section Editors | 4 | 12/15 |
@@ -20,7 +20,7 @@
 | Font Cascade | 3 | 1/2 |
 | Accessibility | 3 | 2/4 |
 | Responsive | 5 | 2/2 |
-| **Overall** | **4.1** | **43/53** |
+| **Overall** | **4.2** | **45/53** |
 
 ---
 
@@ -29,10 +29,10 @@
 ### Onboarding
 
 - **[PASS]** Shows "Hey Bradley": Visible
-- **[FAIL]** Shows "Pick a theme": Not found
-- **[FAIL]** Theme card count = 10: Found 8 cards
-- **[PASS]** Theme names listed: Themes: Sweet Spot Bakery, LaunchPad AI, Sarah Chen Photography, GreenLeaf Consulting, FitForge Fitness, Bloom & Petal, Kitchen Sink Demo, Blank Canvas
-- **[PASS]** "Start from scratch" visible: Visible
+- **[PASS]** Shows theme selection header: Visible
+- **[PASS]** Theme card count >= 8: Found 10 theme cards
+- **[PASS]** Theme names listed: Themes: Tech Business, Agency, Portfolio, Startup, Personal, Professional, Wellness, Minimalist, Creative, Blog
+- **[PASS]** "Start New Project" visible: Visible
 - **[PASS]** Screenshot taken: tests/screenshots/onboarding.png
 - **[PASS]** No console errors: Clean
 - **[PASS]** All theme cards navigate to /builder: All 10 navigate correctly
@@ -44,7 +44,7 @@
 - **[PASS]** All 4 tabs work: Preview: OK, Data: OK, Specs: OK, Pipeline: OK
 - **[PASS]** Left panel has Theme item: Visible
 - **[PASS]** Left panel has section items: Hero visible
-- **[PASS]** Theme shows theme cards: Found 8 theme cards
+- **[PASS]** Theme shows theme cards: Found 10 theme cards
 - **[PASS]** Theme shows Light/Dark toggle: Visible
 - **[PASS]** Hero: Design accordion: Visible
 - **[PASS]** Hero: Visuals accordion: Visible
@@ -110,8 +110,6 @@
 
 ## P0 Blockers (Must Fix)
 
-- **Onboarding** > Shows "Pick a theme": Not found
-- **Onboarding** > Theme card count = 10: Found 8 cards
 - **Section CRUD** > Add section increases count: Before: 5, After: 5
 
 ## P1 Issues (Should Fix)

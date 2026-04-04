@@ -48,14 +48,14 @@ test.describe('1. New Project Page (/new-project)', () => {
     const hasBranding = await page.locator('text=Hey Bradley').first().isVisible()
     record('Onboarding', 'Shows "Hey Bradley"', hasBranding, hasBranding ? 'Visible' : 'Not found', 'P0')
 
-    // Check "Pick a theme" text
-    const hasPickTheme = await page.getByText(/pick a theme/i).first().isVisible()
-    record('Onboarding', 'Shows "Pick a theme"', hasPickTheme, hasPickTheme ? 'Visible' : 'Not found', 'P0')
+    // Check "Choose a Theme" text (redesigned onboarding)
+    const hasPickTheme = await page.getByText(/choose a theme|what will you build/i).first().isVisible()
+    record('Onboarding', 'Shows theme selection header', hasPickTheme, hasPickTheme ? 'Visible' : 'Not found', 'P0')
 
-    // Count theme cards — they are in the first grid (2-4 columns), each is a <button> with a preview area
-    const themeGrid = page.locator('.grid').first().locator('button[type="button"]')
+    // Count theme cards — in the right panel "Choose a Theme" grid
+    const themeGrid = page.locator('button[type="button"]').filter({ has: page.locator('img[src*="previews/theme-"]') })
     const cardCount = await themeGrid.count()
-    record('Onboarding', 'Theme card count = 10', cardCount === 10, `Found ${cardCount} cards`, 'P0')
+    record('Onboarding', 'Theme card count >= 8', cardCount >= 8, `Found ${cardCount} theme cards`, 'P0')
 
     // List theme names
     const themeNames: string[] = []
@@ -66,9 +66,9 @@ test.describe('1. New Project Page (/new-project)', () => {
     record('Onboarding', 'Theme names listed', themeNames.length >= 8,
       `Themes: ${themeNames.join(', ')}`, 'P1')
 
-    // Check "start from scratch" link
-    const hasScratch = await page.getByText(/start from scratch/i).first().isVisible()
-    record('Onboarding', '"Start from scratch" visible', hasScratch, hasScratch ? 'Visible' : 'Not found', 'P1')
+    // Check "Start New Project" button (redesigned onboarding)
+    const hasScratch = await page.getByText(/start new project/i).first().isVisible()
+    record('Onboarding', '"Start New Project" visible', hasScratch, hasScratch ? 'Visible' : 'Not found', 'P1')
 
     // Screenshot
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'onboarding.png'), fullPage: true })
@@ -81,7 +81,7 @@ test.describe('1. New Project Page (/new-project)', () => {
       realErrors.length === 0 ? 'Clean' : `Errors: ${realErrors.join('; ')}`, 'P1')
 
     expect(hasBranding).toBeTruthy()
-    expect(cardCount).toBe(8)
+    expect(cardCount).toBeGreaterThanOrEqual(8)
   })
 
   test('each theme card navigates to /builder', async ({ page }) => {

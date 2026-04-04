@@ -5,10 +5,17 @@ import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { updateComponentProps } from '@/lib/componentHelpers'
 import { SectionHeadingEditor } from './SectionHeadingEditor'
+import { DollarSign, TableProperties, ToggleLeft } from 'lucide-react'
 
 const INPUT = 'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
 
 const PERIODS = ['month', 'year'] as const
+
+const PRICING_LAYOUTS = [
+  { v: 'tiers', label: 'Cards', Icon: DollarSign },
+  { v: 'toggle', label: 'Toggle', Icon: ToggleLeft },
+  { v: 'comparison', label: 'Comparison', Icon: TableProperties },
+] as const
 
 export function PricingSectionSimple({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
@@ -27,6 +34,8 @@ export function PricingSectionSimple({ sectionId }: { sectionId: string }) {
 
   if (!section) return null
 
+  const currentVariant = section.variant || 'tiers'
+
   const tiers = section.components
     .filter((c) => c.type === 'pricing-tier')
     .sort((a, b) => a.order - b.order)
@@ -34,6 +43,28 @@ export function PricingSectionSimple({ sectionId }: { sectionId: string }) {
   return (
     <div className="divide-y divide-hb-border/30">
       <SectionHeadingEditor sectionId={sectionId} />
+
+      {/* ─── LAYOUT ─── */}
+      <RightAccordion id={`pricing-layout-${sectionId}`} label="Layout">
+        <div className="grid grid-cols-2 gap-2">
+          {PRICING_LAYOUTS.map(({ v, label, Icon }) => (
+            <button
+              key={v}
+              type="button"
+              onClick={() => setSectionConfig(sectionId, { variant: v })}
+              className={cn(
+                'flex flex-col items-center gap-1.5 rounded-lg border p-3 text-xs font-medium transition-all',
+                currentVariant === v
+                  ? 'border-hb-accent bg-hb-accent/10 text-hb-accent'
+                  : 'border-hb-border/40 text-hb-text-muted hover:border-hb-border hover:text-hb-text-primary',
+              )}
+            >
+              <Icon size={18} />
+              {label}
+            </button>
+          ))}
+        </div>
+      </RightAccordion>
       {/* ─── ELEMENTS ─── */}
       <RightAccordion id={`pricing-elements-${sectionId}`} label="Show / Hide">
         <div className="space-y-2">

@@ -463,6 +463,56 @@
       }
     },
     {
+      "type": "pricing",
+      "id": "pricing-toggle-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "toggle",
+      "layout": {
+        "display": "flex",
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#09090b",
+        "color": "#fafafa"
+      },
+      "components": [],
+      "content": {
+        "heading": "Flexible Plans for Every Team",
+        "subheading": "Switch between monthly and annual billing. Save up to 17% with annual plans.",
+        "tiers": [
+          {
+            "name": "Hobby",
+            "monthlyPrice": 0,
+            "annualPrice": 0,
+            "features": ["1 project", "Basic analytics", "Community support", "1 GB storage"],
+            "cta": "Start Free",
+            "ctaUrl": "#signup",
+            "highlighted": false
+          },
+          {
+            "name": "Pro",
+            "monthlyPrice": 29,
+            "annualPrice": 290,
+            "features": ["Unlimited projects", "Advanced analytics", "Priority support", "50 GB storage", "Custom domains", "Team collaboration"],
+            "cta": "Go Pro",
+            "ctaUrl": "#signup",
+            "highlighted": true
+          },
+          {
+            "name": "Enterprise",
+            "monthlyPrice": 99,
+            "annualPrice": 990,
+            "features": ["Everything in Pro", "Dedicated account manager", "SSO / SAML", "99.99% SLA", "Custom integrations", "Unlimited storage", "Audit logs"],
+            "cta": "Contact Sales",
+            "ctaUrl": "#contact",
+            "highlighted": false
+          }
+        ]
+      }
+    },
+    {
       "type": "gallery",
       "id": "gallery-01",
       "enabled": true,
