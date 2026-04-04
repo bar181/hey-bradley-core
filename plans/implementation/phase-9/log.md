@@ -44,11 +44,112 @@
 
 ---
 
+## Session 2 — 2026-04-04: Sprint 3 + Onboarding Redesign + UX Review
+
+**Duration:** ~3 hours
+**Scope:** Section variant audit, pricing variants, navbar variant, onboarding page redesign, UX review loop, fixes
+
+### Grounding & Init
+- Ruflo v3.0.0 flywheel initialized (swarm: hierarchical/8/specialized, AgentDB session)
+- Memory files reviewed and updated (phase status v8→v9)
+- Dev server verified at localhost:5173
+
+### Wave 1 Swarm (5 agents in parallel)
+
+**Agent: screenshot-gen (Opus)**
+- Task: Generate 18 preview PNGs for onboarding cards
+- What worked: Created `scripts/generate-previews.mjs`, successfully generated 18 screenshots using Playwright click-through approach with fresh browser contexts
+- What didn't: First two approaches failed — (1) localStorage injection didn't trigger Zustand hydration, (2) reusing same page caused stale state. File sizes were identical = same screenshot repeated. Third approach with fresh `context.newPage()` per screenshot worked.
+- Also: Updated Onboarding.tsx with `<img>` preview cards, added `EXAMPLE_SLUGS`, made capabilities collapsible, moved Getting Started above cards, registered Creative + Blog themes in THEME_REGISTRY and configStore
+- **Lesson for future:** Zustand stores don't auto-hydrate from localStorage on page reload in builder — the `loadSavedProject()` in `useAutoSave()` hook only runs on AppShell mount. Use fresh browser contexts to avoid stale state when screenshotting.
+
+**Agent: variant-auditor (Haiku)**
+- Task: Count working variants per section type
+- Result: 15 types, 53 total variants. Only pricing (1) and menu (1) below minimum. All others at 3-8.
+- Fast and accurate — Haiku was sufficient for this exploration task.
+
+**Agent: pricing-toggle (Opus)**
+- Task: Build PricingToggle variant
+- Result: Created `src/templates/pricing/PricingToggle.tsx` (300+ lines), wired into RealityTab, registered in helpers, added Kitchen Sink section with toggle data shape. Monthly/annual pill switch, 3 tiers, savings badge, highlighted "Recommended" tier.
+- Quality: Good — supports both `content.tiers[]` and `components[]` data shapes.
+
+**Agent: pricing-comparison (Opus)**
+- Task: Build PricingComparison variant
+- Result: Created `src/templates/pricing/PricingComparison.tsx` (350+ lines), semantic table with sticky header, alternating rows, mobile card layout, checkmarks/X marks.
+- Issue found later: CTA buttons were inverted (highlighted got outline, non-highlighted got filled). Fixed in UX review pass.
+- Issue found later: Only handles `components[]` data shape, not `content.tiers[]`. Parity with PricingToggle deferred to Sprint 4.
+
+**Agent: ux-research (Researcher)**
+- Task: Web search Wix/Squarespace/Framer/Stripe UX patterns
+- Result: 7 categories of findings, actionable recommendations. Key: 8px spacing scale, 300px+ preview cards, pill toggle pricing, 3-click onboarding, single accent color.
+- Used 13 web searches, returned in 85s. Good ROI.
+
+### Manual Work During Wave 1
+- Built NavbarCentered variant (centered logo + nav links)
+- Wired into RealityTab with variant switch
+- Added menu variants to VARIANT_DESCRIPTIONS
+- Fixed screenshot script twice (localStorage approach → click-through approach → fresh context approach)
+- Fixed test failures from onboarding text changes
+
+### Wave 2 Swarm (3 review agents)
+
+**Agent: ux-review-1 (Reviewer)**
+- Task: Full UI/UX code review of all new components
+- Result: 15 findings (2 P0, 7 P1, 6 P2). Key P0s: NavbarCentered mobile overflow, PricingToggle opacity-0 flash.
+- Quality: Excellent — read all 4 component files, gave file:line references, actionable fixes with rationale.
+- All P0s and critical P1s fixed in same session.
+
+**Agent: pricing-visual-check (Coder)**
+- Task: Screenshot all pricing variants + navbar centered
+- Result: 4 screenshots captured. All variants render correctly. No broken layouts.
+- Script approach: Used page.evaluate to modify section variant in configStore after loading Kitchen Sink example.
+
+**Agent: spec-review (Reviewer)**
+- Task: Rate 6 spec generators for professional quality
+- Result: Ratings from 5.5/10 (Features) to 8/10 (Build Plan, AISP). XAIDocsTab rendering rated 5/10 — uses raw `<pre>` instead of markdown renderer.
+- **Key recommendation:** Replace `<pre>` + `HumanHighlighted` with `react-markdown` + `@tailwindcss/typography` prose classes. Single highest-impact change for spec quality.
+- **Deferred to Sprint 4:** This is a significant refactor but would transform spec output from terminal-dump to professional document.
+
+### UX Fixes Applied
+- NavbarCentered: `hidden md:flex` for nav links, mobile CTA only, reduced padding
+- Onboarding: `onError` image fallbacks, `EXAMPLE_PREVIEW_SLUGS` map replacing fragile array
+- PricingComparison: Swapped CTA button logic (highlighted = filled accent, non-highlighted = border)
+- PricingToggle: Removed `opacity-0` class, moved keyframes to `src/index.css`
+
+### Commits
+- `d6bd149` Phase 9 Sprint 3: Pricing variants, navbar centered, onboarding redesign with preview screenshots
+- `166ea9e` UX review fixes: mobile navbar, image fallbacks, CTA inversion, animation cleanup
+
+### Tests: 54/54 passing
+### Build: Clean (3.20s)
+### Deployed: Pushed to main → Vercel CI/CD
+
+### What Worked Well
+1. **Parallel agent swarms** — 5 agents in Wave 1 completed the bulk of Sprint 3 work in parallel. Screenshot gen, pricing toggle, pricing comparison, variant audit, and UX research all ran simultaneously.
+2. **Review agent quality** — The UX reviewer found 15 real issues with file:line references. Spec reviewer gave actionable ratings with clear prioritization.
+3. **Iterative screenshot approach** — Failed twice but the third approach (fresh browser contexts) produced distinct, real preview images.
+4. **Test-driven confidence** — 54/54 tests passing after every change gave confidence to commit and push.
+
+### What Didn't Work
+1. **Screenshot generation** — Took 3 attempts. Zustand state doesn't persist across page reloads the way you'd expect. Future sessions should use the fresh-context approach from the start.
+2. **Agent file conflicts** — Screenshot agent and pricing agents both modified `RealityTab.tsx` and `helpers.ts`. Fortunately both additions were compatible, but this was luck. Future: assign agents non-overlapping files.
+3. **Living checklist was completely stale** — All Sprint 1 and Sprint 2 items still showed TODO. This was misleading. Must update checklist EVERY session.
+
+### Advice for Future Sessions
+1. **Sprint 4 priority order:** (a) react-markdown for XAIDocsTab spec rendering, (b) type casting fixes (62+ `as any`), (c) 16+ new Playwright tests, (d) performance audit
+2. **react-markdown is the single highest-impact change** — transforms all 5 markdown generators from terminal-dump to professional docs. Consider `react-markdown` + `remark-gfm` + `@tailwindcss/typography`.
+3. **Features generator needs the most work** (5.5/10) — add section descriptions, feature grouping by category, priority indicators. The `SECTION_DESCRIPTIONS` helper data already exists but isn't used.
+4. **PricingComparison only handles `components[]` data** — needs parity with PricingToggle's dual-shape extraction. If a user switches from toggle to comparison, features disappear.
+5. **Don't install new npm packages** without checking — the project has a strict "no new deps" rule. react-markdown would be an exception worth discussing.
+6. **Preview screenshots include the tab bar** (Reality, Data, Specs, Pipeline) at the top. A future improvement would be entering preview mode before screenshotting. The uiStore has `setPreviewMode(true)` but accessing Zustand stores from Playwright requires exposing them on `window`.
+
+---
+
 ## Phase 9 Status: IN PROGRESS
 
 **Sprint 1:** DONE (grandma UX + spec quality + examples)
 **Sprint 2:** DONE (image upload + save/load + hex colors + SEO + brand)
-**Sprint 3:** TODO (section variant completeness + pricing variants)
-**Sprint 4:** TODO (quality pass — type casting, 70+ tests, performance)
+**Sprint 3:** DONE (section variants + pricing + onboarding redesign + UX fixes)
+**Sprint 4:** TODO (quality pass — type casting, 70+ tests, performance, react-markdown)
 **Sprint 5:** TODO (end-of-phase docs, review loops, retrospective)
 **Manual gates:** TODO (90% reproduction test + demo rehearsal)
