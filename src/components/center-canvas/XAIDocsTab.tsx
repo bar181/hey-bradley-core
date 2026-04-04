@@ -1,213 +1,45 @@
 import { useState, useMemo, useCallback } from 'react'
 import { useConfigStore } from '@/store/configStore'
 import { cn } from '../../lib/cn'
-import { Copy, Download, Check } from 'lucide-react'
-import type { MasterConfig } from '@/lib/schemas'
-
-type DocsMode = 'HUMAN' | 'AISP'
-
-// ---------------------------------------------------------------------------
-// Section type -> human-readable label
-// ---------------------------------------------------------------------------
-
-const SECTION_LABELS: Record<string, string> = {
-  hero: 'Main Banner',
-  columns: 'Columns',
-  action: 'Action Block',
-  pricing: 'Pricing',
-  footer: 'Footer',
-  quotes: 'Quotes',
-  questions: 'Questions',
-  numbers: 'Numbers',
-  menu: 'Top Menu',
-  gallery: 'Gallery',
-  image: 'Image',
-  divider: 'Spacer',
-  text: 'Text',
-  logos: 'Logo Cloud',
-  team: 'Team',
-}
+import { Copy, Download, Check, Compass, Layers, ListChecks, CheckSquare, FileText, Code } from 'lucide-react'
+import {
+  generateNorthStar,
+  generateSADD,
+  generateBuildPlan,
+  generateFeatures,
+  generateHumanSpec,
+  generateAISPSpec,
+} from '@/lib/specGenerators'
 
 // ---------------------------------------------------------------------------
-// Generators
+// Tab definitions
 // ---------------------------------------------------------------------------
 
-function summarizeComponent(comp: { id: string; type: string; enabled: boolean; props?: Record<string, unknown> }): string | null {
-  if (!comp.enabled) return null
-  const p = comp.props ?? {}
-  const text = p.text as string | undefined
-  const name = p.name as string | undefined
-  const heading = p.heading as string | undefined
-  const caption = p.caption as string | undefined
-  const role = p.role as string | undefined
-  const url = p.url as string | undefined
-  const imageUrl = p.imageUrl as string | undefined
+const SPEC_TABS = [
+  { id: 'north-star', label: 'North Star', icon: Compass, generator: generateNorthStar, ext: 'md', format: 'markdown' as const },
+  { id: 'architecture', label: 'Architecture', icon: Layers, generator: generateSADD, ext: 'md', format: 'markdown' as const },
+  { id: 'build-plan', label: 'Build Plan', icon: ListChecks, generator: generateBuildPlan, ext: 'md', format: 'markdown' as const },
+  { id: 'features', label: 'Features', icon: CheckSquare, generator: generateFeatures, ext: 'md', format: 'markdown' as const },
+  { id: 'human', label: 'Human Spec', icon: FileText, generator: generateHumanSpec, ext: 'md', format: 'markdown' as const },
+  { id: 'aisp', label: 'AISP Spec', icon: Code, generator: generateAISPSpec, ext: 'aisp', format: 'aisp' as const },
+] as const
 
-  if (text) return `"${text}"`
-  if (name && role) return `${name} (${role})`
-  if (name) return name
-  if (heading) return `"${heading}"`
-  if (caption) return caption
-  if (url) return url
-  if (imageUrl) return '[image]'
-  return null
-}
-
-function generateHumanSpec(config: MasterConfig): string {
-  const { site, theme, sections } = config
-  const enabled = sections.filter((s) => s.enabled)
-  const disabled = sections.filter((s) => !s.enabled)
-
-  let spec = `# Hey Bradley Specification`
-  if (site.title) spec += `: ${site.title}`
-  spec += `\n\n`
-
-  // Overview
-  spec += `## Overview\n`
-  spec += `- **Theme:** ${theme.preset || '(default)'}\n`
-  spec += `- **Mode:** ${theme.mode}\n`
-  spec += `- **Font:** ${theme.typography?.fontFamily || 'Inter'}\n`
-  if (theme.typography?.headingFamily && theme.typography.headingFamily !== theme.typography.fontFamily) {
-    spec += `- **Heading Font:** ${theme.typography.headingFamily}\n`
-  }
-  if (theme.borderRadius) spec += `- **Border Radius:** ${theme.borderRadius}\n`
-  if (theme.palette) {
-    spec += `- **Palette:** bg ${theme.palette.bgPrimary}, accent ${theme.palette.accentPrimary}\n`
-  }
-  if (theme.typography?.headingWeight) spec += `- **Heading Weight:** ${theme.typography.headingWeight}\n`
-  if (theme.typography?.baseSize) spec += `- **Base Size:** ${theme.typography.baseSize}\n`
-  if (theme.typography?.lineHeight) spec += `- **Line Height:** ${theme.typography.lineHeight}\n`
-  if ((theme as any).spacing?.sectionPadding) spec += `- **Section Padding:** ${(theme as any).spacing.sectionPadding}\n`
-  if ((theme as any).spacing?.containerMaxWidth) spec += `- **Max Width:** ${(theme as any).spacing.containerMaxWidth}\n`
-  spec += `\n`
-
-  // Site info
-  if (site.author || site.email || site.domain) {
-    spec += `## Site Info\n`
-    if (site.author) spec += `- **Author:** ${site.author}\n`
-    if (site.email) spec += `- **Email:** ${site.email}\n`
-    if (site.domain) spec += `- **Domain:** ${site.domain}\n`
-    if (site.project) spec += `- **Project:** ${site.project}\n`
-    spec += `\n`
-  }
-
-  // Page structure
-  spec += `## Page Structure\n`
-  enabled.forEach((s, i) => {
-    const label = SECTION_LABELS[s.type] || s.type
-    const variant = s.variant ? ` | variant: ${s.variant}` : ''
-    const compCount = s.components?.filter((c) => c.enabled).length ?? 0
-    const compNote = compCount > 0 ? ` | ${compCount} component${compCount > 1 ? 's' : ''}` : ''
-    spec += `${i + 1}. **${label}**${variant}${compNote}\n`
-  })
-  if (disabled.length > 0) {
-    spec += `\n_Disabled:_ ${disabled.map((s) => SECTION_LABELS[s.type] || s.type).join(', ')}\n`
-  }
-  spec += `\n`
-
-  // Section details
-  spec += `## Section Details\n`
-  enabled.forEach((s) => {
-    const label = SECTION_LABELS[s.type] || s.type
-    spec += `### ${label}\n`
-    if (s.variant) spec += `- **Variant:** ${s.variant}\n`
-    if ((s.content as any)?.heading) spec += `- **Heading:** "${(s.content as any).heading}"\n`
-    if ((s.content as any)?.subheading) spec += `- **Subheading:** "${(s.content as any).subheading}"\n`
-    if (s.style?.background) spec += `- **Background:** ${s.style.background}\n`
-    if (s.style?.color) spec += `- **Text Color:** ${s.style.color}\n`
-    if (s.layout) {
-      const parts: string[] = []
-      if (s.layout.display) parts.push(`display: ${s.layout.display}`)
-      if (s.layout.columns) parts.push(`columns: ${s.layout.columns}`)
-      if (s.layout.gap) parts.push(`gap: ${s.layout.gap}`)
-      if (parts.length > 0) spec += `- **Layout:** ${parts.join(', ')}\n`
-    }
-
-    const activeComps = (s.components ?? []).filter((c) => c.enabled)
-    if (activeComps.length > 0) {
-      spec += `- **Components:**\n`
-      activeComps.forEach((c) => {
-        const summary = summarizeComponent(c)
-        spec += `  - \`${c.id}\` (${c.type})${summary ? ` — ${summary}` : ''}\n`
-      })
-    }
-    spec += `\n`
-  })
-
-  return spec.trimEnd() + '\n'
-}
-
-export function generateAISPSpec(config: MasterConfig): string {
-  const { theme, sections } = config
-  const enabled = sections.filter((s) => s.enabled)
-  const p = theme.palette
-
-  // Crystal Atom: ⟦Ω, Σ, Γ, Λ, Ε⟧ — Platinum tier (<2% ambiguity)
-  let spec = `% AISP v1.2 | Crystal Atom Platinum | <2% ambiguity target\n`
-  spec += `⟦\n`
-  spec += `  Ω := { Render marketing website: ${enabled.length} sections, theme:${theme.preset}, mode:${theme.mode} }\n`
-  spec += `  Σ := {\n`
-  spec += `    Page : 𝕋 := ⟨Section⟩ 𝕃,\n`
-  spec += `    Section : 𝕋 := { type:𝕊, variant:𝕊, layout:Layout, style:Style, components:Component 𝕃 },\n`
-  spec += `    Layout : 𝕋 := { display:𝕊, columns:ℕ, gap:𝕊 },\n`
-  spec += `    Style : 𝕋 := { background:𝕊, color:𝕊 },\n`
-  spec += `    Component : 𝕋 := { id:𝕊, type:𝕊, enabled:𝔹, props:Map⟨𝕊,𝕊⟩ },\n`
-  spec += `    Palette : 𝕋 := { bg₁:𝕊, bg₂:𝕊, txt₁:𝕊, txt₂:𝕊, acc₁:𝕊, acc₂:𝕊 }\n`
-  spec += `  }\n`
-  spec += `  Γ := {\n`
-  spec += `    R1: ∀ s∈Page : s.enabled=⊤ ⟹ render(s),\n`
-  spec += `    R2: ∀ s∈Page : s.type∈{${enabled.map(s => s.type).filter((v,i,a) => a.indexOf(v)===i).join(',')}},\n`
-  spec += `    R3: ∀ c∈s.components : c.enabled=⊤ ⟹ display(c),\n`
-  spec += `    R4: □ mobile_responsive ∧ □ theme_colors_applied\n`
-  spec += `  }\n`
-  spec += `  Λ := {\n`
-  spec += `    theme := ${theme.preset},\n`
-  spec += `    mode := ${theme.mode},\n`
-  spec += `    font := "${theme.typography?.fontFamily || 'DM Sans'}",\n`
-  if (theme.typography?.headingWeight) spec += `    headingWeight := ${theme.typography.headingWeight},\n`
-  if (theme.typography?.baseSize) spec += `    baseSize := "${theme.typography.baseSize}",\n`
-  if (theme.typography?.lineHeight) spec += `    lineHeight := ${theme.typography.lineHeight},\n`
-  if (theme.borderRadius) spec += `    borderRadius := "${theme.borderRadius}",\n`
-  if (p) {
-    spec += `    palette := ⟨${p.bgPrimary}, ${p.bgSecondary}, ${p.textPrimary}, ${p.textSecondary}, ${p.accentPrimary}, ${p.accentSecondary}⟩,\n`
-  }
-  spec += `    sections := [\n`
-  enabled.forEach((s, i) => {
-    const comps = (s.components ?? []).filter(c => c.enabled)
-    const heading = (s.content as any)?.heading
-    const compSummary = comps.map(c => {
-      const t = (c.props?.text as string) || (c.props?.name as string) || c.id
-      return `${c.id}:"${t}"`
-    }).join(', ')
-    const headingNote = heading ? `, heading:"${heading}"` : ''
-    spec += `      ⟨${s.type}, ${s.variant || 'default'}, cols:${(s.layout as any)?.columns ?? '-'}${headingNote}, [${compSummary}]⟩${i < enabled.length - 1 ? ',' : ''}\n`
-  })
-  spec += `    ]\n`
-  spec += `  }\n`
-  spec += `  Ε := {\n`
-  spec += `    V1: VERIFY ∀ s∈Page : render(s) ≠ ⊥,\n`
-  spec += `    V2: VERIFY palette_contrast(txt₁, bg₁) ≥ 4.5,\n`
-  spec += `    V3: VERIFY responsive(375px) ∧ responsive(1440px),\n`
-  spec += `    V4: VERIFY |sections| = ${enabled.length}\n`
-  spec += `  }\n`
-  spec += `⟧\n`
-  spec += `% Generated by Hey Bradley | spec: aisp-1.2 | tier: platinum\n`
-
-  return spec
-}
+type TabId = typeof SPEC_TABS[number]['id']
 
 // ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
 
 export function XAIDocsTab() {
-  const [mode, setMode] = useState<DocsMode>('HUMAN')
+  const [activeTab, setActiveTab] = useState<TabId>('north-star')
   const [copied, setCopied] = useState(false)
   const config = useConfigStore((s) => s.config)
 
+  const currentTab = SPEC_TABS.find((t) => t.id === activeTab) ?? SPEC_TABS[0]
+
   const specText = useMemo(
-    () => (mode === 'HUMAN' ? generateHumanSpec(config) : generateAISPSpec(config)),
-    [config, mode],
+    () => currentTab.generator(config),
+    [config, currentTab],
   )
 
   const handleCopy = useCallback(async () => {
@@ -217,50 +49,48 @@ export function XAIDocsTab() {
   }, [specText])
 
   const handleDownload = useCallback(() => {
-    const ext = mode === 'HUMAN' ? 'md' : 'aisp'
-    const mimeType = mode === 'HUMAN' ? 'text/markdown' : 'text/plain'
+    const mimeType = currentTab.ext === 'aisp' ? 'text/plain' : 'text/markdown'
     const blob = new Blob([specText], { type: mimeType })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `spec.${ext}`
+    a.download = `${activeTab}.${currentTab.ext}`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
-  }, [specText, mode])
+  }, [specText, activeTab, currentTab.ext])
 
   return (
-    <div className="space-y-4">
-      {/* Top bar: toggle + actions */}
-      <div className="flex items-center justify-between">
-        {/* Segmented pill toggle */}
-        <div className="inline-flex rounded-lg bg-hb-surface p-0.5">
-          <button
-            onClick={() => setMode('HUMAN')}
-            className={cn(
-              'rounded-md px-4 py-1.5 font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer',
-              mode === 'HUMAN'
-                ? 'bg-hb-accent text-white'
-                : 'text-hb-text-muted hover:text-hb-text-secondary',
-            )}
-          >
-            Human
-          </button>
-          <button
-            onClick={() => setMode('AISP')}
-            className={cn(
-              'rounded-md px-4 py-1.5 font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer',
-              mode === 'AISP'
-                ? 'bg-hb-accent text-white'
-                : 'text-hb-text-muted hover:text-hb-text-secondary',
-            )}
-          >
-            AISP
-          </button>
-        </div>
+    <div className="space-y-3">
+      {/* Tab bar — scrollable on small screens */}
+      <div className="flex items-center gap-1 overflow-x-auto pb-1 scrollbar-thin">
+        {SPEC_TABS.map((tab) => {
+          const Icon = tab.icon
+          const isActive = tab.id === activeTab
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={cn(
+                'flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors cursor-pointer',
+                isActive
+                  ? 'bg-hb-accent text-white'
+                  : 'text-hb-text-muted hover:text-hb-text-secondary hover:bg-hb-surface',
+              )}
+            >
+              <Icon className="h-3.5 w-3.5" />
+              {tab.label}
+            </button>
+          )
+        })}
+      </div>
 
-        {/* Action buttons */}
+      {/* Action buttons */}
+      <div className="flex items-center justify-between">
+        <span className="text-xs text-hb-text-muted">
+          {currentTab.format === 'aisp' ? 'AISP 5.1 Crystal Atom Platinum' : 'Markdown'}
+        </span>
         <div className="flex items-center gap-2">
           <button
             onClick={handleCopy}
@@ -273,25 +103,25 @@ export function XAIDocsTab() {
           <button
             onClick={handleDownload}
             className="flex items-center gap-1.5 rounded-md bg-hb-surface px-3 py-1.5 text-xs font-medium text-hb-text-secondary hover:text-hb-text-primary transition-colors cursor-pointer"
-            title={`Download as .${mode === 'HUMAN' ? 'md' : 'aisp'}`}
+            title={`Download as .${currentTab.ext}`}
           >
             <Download className="h-3.5 w-3.5" />
-            .{mode === 'HUMAN' ? 'md' : 'aisp'}
+            .{currentTab.ext}
           </button>
         </div>
       </div>
 
       {/* Spec content */}
-      <div className="rounded-lg bg-hb-surface p-5 max-h-[calc(100vh-14rem)] overflow-y-auto">
+      <div className="rounded-lg bg-hb-surface p-5 max-h-[calc(100vh-16rem)] overflow-y-auto">
         <pre
           className={cn(
             'whitespace-pre-wrap text-sm leading-relaxed',
-            mode === 'AISP'
+            currentTab.format === 'aisp'
               ? 'font-mono text-hb-text-secondary'
               : 'font-sans text-hb-text-secondary',
           )}
         >
-          {mode === 'AISP' ? (
+          {currentTab.format === 'aisp' ? (
             <AISPHighlighted text={specText} />
           ) : (
             <HumanHighlighted text={specText} />
@@ -302,6 +132,9 @@ export function XAIDocsTab() {
   )
 }
 
+// Re-export for TopBar copy button compatibility
+export { generateAISPSpec } from '@/lib/specGenerators'
+
 // ---------------------------------------------------------------------------
 // Syntax highlighting for AISP view
 // ---------------------------------------------------------------------------
@@ -311,12 +144,10 @@ function AISPHighlighted({ text }: { text: string }) {
   return (
     <>
       {lines.map((line, i) => {
-        // Crystal Atom delimiters
         if (/^\s*[⟦⟧]\s*$/.test(line)) {
           return <span key={i} className="text-hb-accent font-bold">{line}{'\n'}</span>
         }
 
-        // Greek symbol definitions (Ω, Σ, Γ, Λ, Ε) := ...
         const greekMatch = line.match(/^(\s*)([\u03A9\u03A3\u0393\u039B\u0395])(\s*:=\s*)(.*)$/)
         if (greekMatch) {
           const [, indent, symbol, op, rest] = greekMatch
@@ -331,11 +162,9 @@ function AISPHighlighted({ text }: { text: string }) {
           )
         }
 
-        // Rule/verification labels (R1:, V1:, etc.)
         const ruleMatch = line.match(/^(\s*)((?:R|V)\d+)(:)(.*)$/)
         if (ruleMatch) {
           const [, indent, label, colon, rest] = ruleMatch
-          // Highlight logical operators within rule text
           const highlighted = rest
             .replace(/([\u2200\u2203\u27F9\u25A1\u25C7\u00AC\u2227\u2228])/g, '\x01$1\x02')
             .replace(/(VERIFY|ASSERT)/g, '\x03$1\x04')
@@ -355,12 +184,10 @@ function AISPHighlighted({ text }: { text: string }) {
           )
         }
 
-        // Comment lines (% ...)
         if (/^\s*%/.test(line)) {
           return <span key={i} className="text-hb-text-muted italic">{line}{'\n'}</span>
         }
 
-        // Lines with type declarations using blackboard bold
         const typeMatch = line.match(/^(\s*)(\S+)(\s*:\s*)([\u1D53B\u1D53C\u1D54A\u1D54B\u1D543\u2115\u2124\u211D])(.*)$/)
         if (typeMatch) {
           const [, indent, name, colon, bbType, rest] = typeMatch
@@ -376,7 +203,6 @@ function AISPHighlighted({ text }: { text: string }) {
           )
         }
 
-        // Key := value lines
         const assignMatch = line.match(/^(\s*)(\S+)(\s*:=\s*)(.*)$/)
         if (assignMatch) {
           const [, indent, key, op, value] = assignMatch
@@ -391,7 +217,6 @@ function AISPHighlighted({ text }: { text: string }) {
           )
         }
 
-        // Lines containing Crystal Atom brackets, logical operators, or blackboard bold
         if (/[⟦⟧⟨⟩\u2200\u2203\u27F9\u25A1\u25C7\u1D53B\u1D53C\u1D54A\u1D54B\u1D543\u2115\u2124\u211D]/.test(line)) {
           const highlighted = line
             .replace(/([⟦⟧])/g, '\x01$1\x02')
@@ -413,7 +238,6 @@ function AISPHighlighted({ text }: { text: string }) {
           )
         }
 
-        // Default
         return <span key={i} className="text-hb-text-secondary">{line}{'\n'}</span>
       })}
     </>
@@ -421,7 +245,7 @@ function AISPHighlighted({ text }: { text: string }) {
 }
 
 // ---------------------------------------------------------------------------
-// Syntax highlighting for HUMAN (markdown) view
+// Syntax highlighting for markdown views
 // ---------------------------------------------------------------------------
 
 function HumanHighlighted({ text }: { text: string }) {
@@ -429,32 +253,19 @@ function HumanHighlighted({ text }: { text: string }) {
   return (
     <>
       {lines.map((line, i) => {
-        // Headings
-        if (line.startsWith('# ')) {
-          return <span key={i} className="text-hb-text-primary font-bold text-base">{line}{'\n'}</span>
-        }
-        if (line.startsWith('## ')) {
-          return <span key={i} className="text-hb-text-primary font-semibold">{line}{'\n'}</span>
-        }
-        if (line.startsWith('### ')) {
-          return <span key={i} className="text-hb-accent font-medium">{line}{'\n'}</span>
-        }
-        // Numbered list items
-        if (/^\d+\.\s/.test(line)) {
-          return <span key={i} className="text-hb-text-secondary">{line}{'\n'}</span>
-        }
-        // Bold bullet items
-        if (line.match(/^-\s\*\*/)) {
-          return <span key={i} className="text-hb-text-secondary">{line}{'\n'}</span>
-        }
-        // Italic disabled line
-        if (line.startsWith('_Disabled:_')) {
-          return <span key={i} className="text-hb-text-muted italic">{line}{'\n'}</span>
-        }
-        // Component sub-items
-        if (line.match(/^\s+-\s`/)) {
-          return <span key={i} className="text-hb-text-muted">{line}{'\n'}</span>
-        }
+        if (line.startsWith('# ')) return <span key={i} className="text-hb-text-primary font-bold text-base">{line}{'\n'}</span>
+        if (line.startsWith('## ')) return <span key={i} className="text-hb-text-primary font-semibold">{line}{'\n'}</span>
+        if (line.startsWith('### ')) return <span key={i} className="text-hb-accent font-medium">{line}{'\n'}</span>
+        if (line.startsWith('#### ')) return <span key={i} className="text-hb-accent font-medium text-xs">{line}{'\n'}</span>
+        if (/^\d+\.\s/.test(line)) return <span key={i} className="text-hb-text-secondary">{line}{'\n'}</span>
+        if (line.match(/^-\s\*\*/)) return <span key={i} className="text-hb-text-secondary">{line}{'\n'}</span>
+        if (line.match(/^- \[[ x]\]/)) return <span key={i} className="text-hb-text-secondary">{line}{'\n'}</span>
+        if (line.startsWith('_Disabled:_') || line.startsWith('_disabled:_')) return <span key={i} className="text-hb-text-muted italic">{line}{'\n'}</span>
+        if (line.match(/^\s+-\s/)) return <span key={i} className="text-hb-text-muted">{line}{'\n'}</span>
+        if (line.startsWith('```')) return <span key={i} className="text-hb-text-muted">{line}{'\n'}</span>
+        if (line.startsWith('|')) return <span key={i} className="text-hb-text-secondary font-mono text-xs">{line}{'\n'}</span>
+        if (line.startsWith('---')) return <span key={i} className="text-hb-border">{line}{'\n'}</span>
+        if (line.startsWith('**')) return <span key={i} className="text-hb-text-primary font-medium">{line}{'\n'}</span>
         return <span key={i}>{line}{'\n'}</span>
       })}
     </>

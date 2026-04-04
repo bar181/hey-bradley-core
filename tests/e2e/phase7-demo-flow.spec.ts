@@ -83,15 +83,15 @@ test.describe('Phase 7: Demo Flow', () => {
     await expect(page.locator('text=Back to Home')).toBeVisible()
   })
 
-  // ─── PW7: Specs tab shows AISP output ───
+  // ─── PW7: Specs tab shows 6 spec generator tabs ───
   test('PW7: specs tab shows AISP output', async ({ page }) => {
     // Click the Specs tab in the center canvas
     const specsBtn = page.locator('button').filter({ hasText: 'Specs' }).first()
     await specsBtn.click()
     await page.waitForTimeout(500)
 
-    // The Specs tab has a Human / AISP toggle; both buttons should be visible
-    await expect(page.getByRole('button', { name: 'Human', exact: true })).toBeVisible({ timeout: 3000 })
-    await expect(page.getByRole('button', { name: 'AISP', exact: true })).toBeVisible({ timeout: 3000 })
+    // The Specs tab has 6 sub-tabs: North Star, Architecture, Build Plan, Features, Human Spec, AISP Spec
+    await expect(page.getByRole('button', { name: 'North Star' })).toBeVisible({ timeout: 3000 })
+    await expect(page.getByRole('button', { name: 'Build Plan' })).toBeVisible({ timeout: 3000 })
   })
 })
