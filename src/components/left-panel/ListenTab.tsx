@@ -182,7 +182,7 @@ export function ListenTab() {
         />
         {/* Layer 3: Ambient glow */}
         <div
-          className="absolute rounded-full transition-all duration-[2000ms] ease-in-out"
+          className="absolute rounded-full transition-all duration-2000 ease-in-out"
           style={{
             width: `min(${(burstActive ? maxSize * 1.2 : maxSize)}px, 90%)`,
             height: `min(${(burstActive ? maxSize * 1.2 : maxSize)}px, 90%)`,
@@ -194,7 +194,7 @@ export function ListenTab() {
         />
         {/* Layer 2: Mid glow */}
         <div
-          className="absolute rounded-full transition-all duration-[2000ms] ease-in-out"
+          className="absolute rounded-full transition-all duration-2000 ease-in-out"
           style={{
             width: `min(${(burstActive ? maxSize * 1.2 : maxSize) * 0.58}px, 55%)`,
             height: `min(${(burstActive ? maxSize * 1.2 : maxSize) * 0.58}px, 55%)`,
@@ -207,7 +207,7 @@ export function ListenTab() {
         />
         {/* Layer 1: Core */}
         <div
-          className="relative rounded-full transition-all duration-[2000ms] ease-in-out"
+          className="relative rounded-full transition-all duration-2000 ease-in-out"
           style={{
             width: Math.max((burstActive ? maxSize * 1.2 : maxSize) * 0.35, 50),
             height: Math.max((burstActive ? maxSize * 1.2 : maxSize) * 0.35, 50),
