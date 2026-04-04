@@ -1,11 +1,16 @@
 import type { MasterConfig } from '@/lib/schemas'
+import { getSpecTemplate } from '@/data/spec-templates'
 import { SECTION_DESCRIPTIONS, SECTION_LABELS, PRESET_MOODS } from './helpers'
 
 /**
  * North Star Generator — vision doc that reads like a real product brief.
  * A PM reads this and understands the entire project in 5 minutes.
+ *
+ * Section order and labels are driven by the north-star template JSON.
+ * Rendering logic per section lives in the sectionRenderers map.
  */
 export function generateNorthStar(config: MasterConfig): string {
+  const template = getSpecTemplate('north-star')
   const { site, theme, sections } = config
   const enabled = sections.filter((s) => s.enabled)
   const title = site.title || 'Untitled Website'
@@ -18,7 +23,15 @@ export function generateNorthStar(config: MasterConfig): string {
   const hasTestimonials = enabled.some((s) => s.type === 'quotes')
   const hasPricing = enabled.some((s) => s.type === 'pricing')
   const hasNumbers = enabled.some((s) => s.type === 'numbers')
+  const disabled = sections.filter((s) => !s.enabled)
 
+  // Shared context passed to each section renderer
+  const ctx = {
+    site, theme, sections, enabled, disabled, title, desc, mood,
+    heroHeadline, ctaText, hasTestimonials, hasPricing, hasNumbers,
+  }
+
+  // --- Header (not part of template sections) ---
   let spec = `# North Star: ${title}\n\n`
   spec += `**Generated:** ${new Date().toISOString().split('T')[0]}\n`
   spec += `**Spec Version:** ${site.version || '1.0.0-RC1'}\n\n`
@@ -26,76 +39,121 @@ export function generateNorthStar(config: MasterConfig): string {
   spec += `It serves as the strategic guide for all design and development decisions, ensuring alignment between stakeholders on the project's core purpose and target audience.\n\n`
   spec += `---\n\n`
 
-  // Overview
-  spec += `## 1. Overview\n\n`
-  spec += `| Property | Value |\n|----------|-------|\n`
-  spec += `| **Title** | ${title} |\n`
-  if (site.author) spec += `| **Author** | ${site.author} |\n`
-  if (site.email) spec += `| **Email** | ${site.email} |\n`
-  if (site.domain) spec += `| **Domain** | ${site.domain} |\n`
-  spec += `| **Theme** | ${theme.preset || 'custom'} (${theme.mode}) |\n`
-  spec += `| **Border Radius** | ${theme.borderRadius || '12px'} |\n`
-  spec += `| **Spacing** | padding ${theme.spacing?.sectionPadding || '64px'}, max-width ${theme.spacing?.containerMaxWidth || '1280px'}, gap ${theme.spacing?.componentGap || '24px'} |\n`
-  spec += `\n`
-
-  // Vision
-  spec += `## 2. Vision\n\n`
-  spec += `**${title}** is a ${theme.mode === 'dark' ? 'dark-themed' : 'light-themed'} marketing website `
-  spec += `built on the "${theme.preset || 'custom'}" design system. `
-  if (desc) spec += `${desc} `
-  spec += `\n\nThe site uses ${enabled.length} content sections to guide visitors from awareness to action. `
-  spec += `The visual mood is: *${mood}*.\n\n`
-
-  // Disabled sections
-  const disabled = sections.filter((s) => !s.enabled)
-  if (disabled.length > 0) {
-    spec += `**Disabled sections:** ${disabled.map(s => SECTION_LABELS[s.type] || s.type).join(', ')}\n\n`
-  }
-
-  // PMF
-  spec += `## 3. Product-Market Fit\n\n`
-  spec += `| Element | Value |\n|---------|-------|\n`
-  if (heroHeadline) spec += `| **Value Proposition** | "${heroHeadline}" |\n`
-  spec += `| **Target Audience** | Visitors seeking ${inferAudience(theme.preset, enabled)} |\n`
-  if (ctaText) spec += `| **Primary Action** | "${ctaText}" |\n`
-  spec += `| **Trust Signals** | ${inferTrustSignals(enabled)} |\n`
-  spec += `| **Sections** | ${enabled.length} active (${enabled.map(s => SECTION_LABELS[s.type] || s.type).join(', ')}) |\n\n`
-
-  // Site structure
-  spec += `## 4. Site Structure\n\n`
-  enabled.forEach((s, i) => {
-    const label = SECTION_LABELS[s.type] || s.type
-    const description = SECTION_DESCRIPTIONS[s.type] || ''
-    const heading = (s.content as Record<string, unknown>)?.heading as string
-    spec += `${i + 1}. **${label}**`
-    if (s.variant) spec += ` (${s.variant})`
-    if (heading) spec += ` — "${heading}"`
-    spec += `\n   ${description}\n\n`
+  // --- Template-driven sections ---
+  const templateSections = template.sections ?? []
+  templateSections.forEach((section, idx) => {
+    const renderer = sectionRenderers[section.id]
+    if (renderer) {
+      spec += renderer(idx + 1, section.label, ctx)
+    }
   })
 
-  // Personas
-  spec += `## 5. User Personas\n\n`
-  spec += `### First-Time Visitor\n`
-  spec += `- **Goal:** Understand what ${title} offers in under 10 seconds\n`
-  spec += `- **Entry point:** Hero section with headline${heroHeadline ? ` "${heroHeadline}"` : ''}\n`
-  spec += `- **Journey:** Hero → ${hasNumbers ? 'Stats (reviews key metrics) → ' : ''}${hasPricing ? 'Pricing (compares pricing tiers) → ' : ''}${hasTestimonials ? 'Testimonials (reads social proof) → ' : ''}CTA\n`
-  spec += `- **Success metric:** Clicks primary CTA${ctaText ? ` ("${ctaText}")` : ''}\n\n`
-
-  spec += `### Returning Visitor\n`
-  spec += `- **Goal:** Find specific information or take action\n`
-  spec += `- **Entry point:** Navigation bar or direct link\n`
-  spec += `- **Journey:** Nav → ${hasPricing ? 'Pricing (compares plans)' : 'Specific section'} → Action\n`
-  spec += `- **Success metric:** Completes conversion or finds needed info\n\n`
-
-  // Success criteria
-  spec += `## 6. Success Criteria\n\n`
-  spec += `1. **First impression (< 3s):** Visitor understands the value proposition from the hero headline\n`
-  spec += `2. **Visual quality:** Site looks like a funded startup product, not a template\n`
-  spec += `3. **Mobile responsive:** All ${enabled.length} sections render correctly at 375px\n`
-  spec += `4. **Accessibility:** WCAG 2.1 AA contrast ratios on all text\n`
-  spec += `5. **Performance:** Initial paint < 2 seconds on 4G connection\n`
-
   return spec
+}
+
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+interface RenderContext {
+  site: MasterConfig['site']
+  theme: MasterConfig['theme']
+  sections: MasterConfig['sections']
+  enabled: MasterConfig['sections']
+  disabled: MasterConfig['sections']
+  title: string
+  desc: string
+  mood: string
+  heroHeadline: string
+  ctaText: string
+  hasTestimonials: boolean
+  hasPricing: boolean
+  hasNumbers: boolean
+}
+
+type SectionRenderer = (num: number, label: string, ctx: RenderContext) => string
+
+// ---------------------------------------------------------------------------
+// Section renderers — keyed by template section id
+// ---------------------------------------------------------------------------
+
+const sectionRenderers: Record<string, SectionRenderer> = {
+  overview(num, label, ctx) {
+    let s = `## ${num}. ${label}\n\n`
+    s += `| Property | Value |\n|----------|-------|\n`
+    s += `| **Title** | ${ctx.title} |\n`
+    if (ctx.site.author) s += `| **Author** | ${ctx.site.author} |\n`
+    if (ctx.site.email) s += `| **Email** | ${ctx.site.email} |\n`
+    if (ctx.site.domain) s += `| **Domain** | ${ctx.site.domain} |\n`
+    s += `| **Theme** | ${ctx.theme.preset || 'custom'} (${ctx.theme.mode}) |\n`
+    s += `| **Border Radius** | ${ctx.theme.borderRadius || '12px'} |\n`
+    s += `| **Spacing** | padding ${ctx.theme.spacing?.sectionPadding || '64px'}, max-width ${ctx.theme.spacing?.containerMaxWidth || '1280px'}, gap ${ctx.theme.spacing?.componentGap || '24px'} |\n`
+    s += `\n`
+    return s
+  },
+
+  vision(num, label, ctx) {
+    let s = `## ${num}. ${label}\n\n`
+    s += `**${ctx.title}** is a ${ctx.theme.mode === 'dark' ? 'dark-themed' : 'light-themed'} marketing website `
+    s += `built on the "${ctx.theme.preset || 'custom'}" design system. `
+    if (ctx.desc) s += `${ctx.desc} `
+    s += `\n\nThe site uses ${ctx.enabled.length} content sections to guide visitors from awareness to action. `
+    s += `The visual mood is: *${ctx.mood}*.\n\n`
+    if (ctx.disabled.length > 0) {
+      s += `**Disabled sections:** ${ctx.disabled.map(sec => SECTION_LABELS[sec.type] || sec.type).join(', ')}\n\n`
+    }
+    return s
+  },
+
+  product_market_fit(num, label, ctx) {
+    let s = `## ${num}. ${label}\n\n`
+    s += `| Element | Value |\n|---------|-------|\n`
+    if (ctx.heroHeadline) s += `| **Value Proposition** | "${ctx.heroHeadline}" |\n`
+    s += `| **Target Audience** | Visitors seeking ${inferAudience(ctx.theme.preset, ctx.enabled)} |\n`
+    if (ctx.ctaText) s += `| **Primary Action** | "${ctx.ctaText}" |\n`
+    s += `| **Trust Signals** | ${inferTrustSignals(ctx.enabled)} |\n`
+    s += `| **Sections** | ${ctx.enabled.length} active (${ctx.enabled.map(sec => SECTION_LABELS[sec.type] || sec.type).join(', ')}) |\n\n`
+    return s
+  },
+
+  site_structure(num, label, ctx) {
+    let s = `## ${num}. ${label}\n\n`
+    ctx.enabled.forEach((sec, i) => {
+      const sLabel = SECTION_LABELS[sec.type] || sec.type
+      const description = SECTION_DESCRIPTIONS[sec.type] || ''
+      const heading = (sec.content as Record<string, unknown>)?.heading as string
+      s += `${i + 1}. **${sLabel}**`
+      if (sec.variant) s += ` (${sec.variant})`
+      if (heading) s += ` — "${heading}"`
+      s += `\n   ${description}\n\n`
+    })
+    return s
+  },
+
+  user_personas(num, label, ctx) {
+    let s = `## ${num}. ${label}\n\n`
+    s += `### First-Time Visitor\n`
+    s += `- **Goal:** Understand what ${ctx.title} offers in under 10 seconds\n`
+    s += `- **Entry point:** Hero section with headline${ctx.heroHeadline ? ` "${ctx.heroHeadline}"` : ''}\n`
+    s += `- **Journey:** Hero → ${ctx.hasNumbers ? 'Stats (reviews key metrics) → ' : ''}${ctx.hasPricing ? 'Pricing (compares pricing tiers) → ' : ''}${ctx.hasTestimonials ? 'Testimonials (reads social proof) → ' : ''}CTA\n`
+    s += `- **Success metric:** Clicks primary CTA${ctx.ctaText ? ` ("${ctx.ctaText}")` : ''}\n\n`
+    s += `### Returning Visitor\n`
+    s += `- **Goal:** Find specific information or take action\n`
+    s += `- **Entry point:** Navigation bar or direct link\n`
+    s += `- **Journey:** Nav → ${ctx.hasPricing ? 'Pricing (compares plans)' : 'Specific section'} → Action\n`
+    s += `- **Success metric:** Completes conversion or finds needed info\n\n`
+    return s
+  },
+
+  success_criteria(num, label, ctx) {
+    let s = `## ${num}. ${label}\n\n`
+    s += `1. **First impression (< 3s):** Visitor understands the value proposition from the hero headline\n`
+    s += `2. **Visual quality:** Site looks like a funded startup product, not a template\n`
+    s += `3. **Mobile responsive:** All ${ctx.enabled.length} sections render correctly at 375px\n`
+    s += `4. **Accessibility:** WCAG 2.1 AA contrast ratios on all text\n`
+    s += `5. **Performance:** Initial paint < 2 seconds on 4G connection\n`
+    return s
+  },
 }
 
 // ---------------------------------------------------------------------------

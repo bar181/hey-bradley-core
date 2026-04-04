@@ -1,15 +1,25 @@
 import type { MasterConfig } from '@/lib/schemas'
+import { getSpecTemplate } from '@/data/spec-templates'
 import { SECTION_LABELS, VARIANT_DESCRIPTIONS, describePaletteSlot } from './helpers'
 
 /**
  * SADD Generator — Software Architecture Design Document.
  * A senior engineer reads this and can scaffold the project in 30 minutes.
+ *
+ * Section order and labels are driven by the sadd template JSON.
+ * Rendering logic per section lives in the sectionRenderers map.
  */
 export function generateSADD(config: MasterConfig): string {
+  const template = getSpecTemplate('sadd')
   const { site, theme, sections } = config
   const enabled = sections.filter((s) => s.enabled)
   const title = site.title || 'Untitled Website'
+  const sectionTypes = [...new Set(enabled.map(s => s.type))]
 
+  // Shared context passed to each section renderer
+  const ctx = { site, theme, sections, enabled, title, sectionTypes }
+
+  // --- Header (not part of template sections) ---
   let spec = `# Architecture: ${title}\n\n`
   spec += `**Generated:** ${new Date().toISOString().split('T')[0]}\n`
   spec += `**Spec Version:** ${site.version || '1.0.0-RC1'}\n\n`
@@ -17,118 +27,167 @@ export function generateSADD(config: MasterConfig): string {
   spec += `It covers the technology stack, component architecture, design tokens, and data model — everything an engineering team needs to implement the site from specification.\n\n`
   spec += `---\n\n`
 
-  // Tech stack
-  spec += `## 1. Technology Stack\n\n`
-  spec += `| Layer | Technology | Notes |\n`
-  spec += `|-------|-----------|-------|\n`
-  spec += `| Framework | React 18 | Single-page application |\n`
-  spec += `| Styling | Tailwind CSS 4 | Utility-first, JIT compilation |\n`
-  spec += `| Font | ${theme.typography?.fontFamily || 'Inter'} | via Google Fonts |\n`
-  if (theme.typography?.headingFamily && theme.typography.headingFamily !== theme.typography?.fontFamily) {
-    spec += `| Heading Font | ${theme.typography.headingFamily} | Separate heading typeface |\n`
-  }
-  spec += `| State | Zustand | configStore (persistent) + uiStore (ephemeral) |\n`
-  spec += `| Validation | Zod | Runtime schema validation |\n`
-  spec += `| Build | Vite | Development server + production bundling |\n`
-  spec += `| UI Components | shadcn/ui | Headless, accessible base components |\n\n`
-
-  // Color palette
-  spec += `## 2. Color Palette\n\n`
-  spec += `**Theme preset:** ${theme.preset || 'custom'}\n`
-  spec += `**Mode:** ${theme.mode}\n\n`
-  if (theme.palette) {
-    spec += `| Slot | Hex Value | Usage |\n`
-    spec += `|------|-----------|-------|\n`
-    for (const [key, value] of Object.entries(theme.palette)) {
-      spec += `| ${describePaletteSlot(key)} | \`${value}\` | ${describePaletteUsage(key)} |\n`
+  // --- Template-driven sections ---
+  const templateSections = template.sections ?? []
+  templateSections.forEach((section, idx) => {
+    const renderer = sectionRenderers[section.id]
+    if (renderer) {
+      spec += renderer(idx + 1, section.label, ctx)
     }
-    spec += `\n`
-  }
-
-  // Typography
-  spec += `## 3. Typography\n\n`
-  spec += `| Property | Value |\n`
-  spec += `|----------|-------|\n`
-  spec += `| Body font | ${theme.typography?.fontFamily || 'Inter'} |\n`
-  spec += `| Heading font | ${theme.typography?.headingFamily || theme.typography?.fontFamily || 'Inter'} |\n`
-  spec += `| Heading weight | ${theme.typography?.headingWeight || 700} |\n`
-  spec += `| Base size | ${theme.typography?.baseSize || '16px'} |\n`
-  spec += `| Line height | ${theme.typography?.lineHeight || 1.7} |\n`
-  spec += `| Border radius | ${theme.borderRadius || '12px'} |\n\n`
-
-  // Spacing
-  spec += `## 4. Spacing\n\n`
-  spec += `| Property | Value |\n`
-  spec += `|----------|-------|\n`
-  spec += `| Section padding | ${theme.spacing?.sectionPadding || '64px'} |\n`
-  spec += `| Container max width | ${theme.spacing?.containerMaxWidth || '1280px'} |\n`
-  spec += `| Component gap | ${theme.spacing?.componentGap || '24px'} |\n\n`
-
-  // Component tree
-  spec += `## 5. Component Tree\n\n`
-  spec += `\`\`\`\n`
-  spec += `App\n`
-  spec += `├── AppShell\n`
-  spec += `│   ├── LeftPanel (mode selector, section list)\n`
-  spec += `│   ├── CenterCanvas (preview)\n`
-  const sectionTypes = [...new Set(enabled.map(s => s.type))]
-  sectionTypes.forEach((type, i) => {
-    const label = SECTION_LABELS[type] || type
-    const isLast = i === sectionTypes.length - 1
-    spec += `│   │   ${isLast ? '└' : '├'}── ${label}\n`
   })
-  spec += `│   └── RightPanel (section editors)\n`
-  spec += `└── Stores\n`
-  spec += `    ├── configStore (MasterConfig — persistent)\n`
-  spec += `    └── uiStore (UI state — ephemeral)\n`
-  spec += `\`\`\`\n\n`
-
-  // Section inventory
-  spec += `## 6. Section Inventory\n\n`
-  spec += `| # | Type | Variant | Components | Background |\n`
-  spec += `|---|------|---------|------------|------------|\n`
-  enabled.forEach((s, i) => {
-    const label = SECTION_LABELS[s.type] || s.type
-    const variant = s.variant || 'default'
-    const compCount = (s.components ?? []).filter(c => c.enabled).length
-    const bg = s.style?.background || 'theme default'
-    spec += `| ${i + 1} | ${label} | ${variant} | ${compCount} | \`${bg}\` |\n`
-  })
-  spec += `\n`
-
-  // Variant descriptions
-  spec += `## 7. Layout Variants Used\n\n`
-  enabled.forEach((s) => {
-    if (!s.variant) return
-    const label = SECTION_LABELS[s.type] || s.type
-    const desc = VARIANT_DESCRIPTIONS[s.type]?.[s.variant] || s.variant
-    spec += `- **${label}** → \`${s.variant}\`: ${desc}\n`
-  })
-  spec += `\n`
-
-  // Data model
-  spec += `## 8. Data Model (MasterConfig)\n\n`
-  spec += `\`\`\`typescript\n`
-  spec += `interface MasterConfig {\n`
-  spec += `  site: { title, description, author, email, domain, project, version, spec }\n`
-  spec += `  theme: { preset, mode, palette (6-slot), typography, spacing, borderRadius }\n`
-  spec += `  sections: Section[]\n`
-  spec += `}\n\n`
-  spec += `interface Section {\n`
-  spec += `  type: SectionType  // ${sectionTypes.join(' | ')}\n`
-  spec += `  id: string\n`
-  spec += `  order: number\n`
-  spec += `  enabled: boolean\n`
-  spec += `  variant?: string\n`
-  spec += `  content: Record<string, unknown>  // { heading?, subheading?, ...sectionSpecific }\n`
-  spec += `  layout: { display: string, direction?: string, columns?: number, gap: string, padding: string, align?: string, maxWidth?: string }\n`
-  spec += `  style: { background: string, color: string, fontFamily?: string, borderRadius?: string }\n`
-  spec += `  components: Component[]\n`
-  spec += `}\n`
-  spec += `\`\`\`\n`
 
   return spec
 }
+
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+interface RenderContext {
+  site: MasterConfig['site']
+  theme: MasterConfig['theme']
+  sections: MasterConfig['sections']
+  enabled: MasterConfig['sections']
+  title: string
+  sectionTypes: string[]
+}
+
+type SectionRenderer = (num: number, label: string, ctx: RenderContext) => string
+
+// ---------------------------------------------------------------------------
+// Section renderers — keyed by template section id
+// ---------------------------------------------------------------------------
+
+const sectionRenderers: Record<string, SectionRenderer> = {
+  technology_stack(num, label, ctx) {
+    let s = `## ${num}. ${label}\n\n`
+    s += `| Layer | Technology | Notes |\n`
+    s += `|-------|-----------|-------|\n`
+    s += `| Framework | React 18 | Single-page application |\n`
+    s += `| Styling | Tailwind CSS 4 | Utility-first, JIT compilation |\n`
+    s += `| Font | ${ctx.theme.typography?.fontFamily || 'Inter'} | via Google Fonts |\n`
+    if (ctx.theme.typography?.headingFamily && ctx.theme.typography.headingFamily !== ctx.theme.typography?.fontFamily) {
+      s += `| Heading Font | ${ctx.theme.typography.headingFamily} | Separate heading typeface |\n`
+    }
+    s += `| State | Zustand | configStore (persistent) + uiStore (ephemeral) |\n`
+    s += `| Validation | Zod | Runtime schema validation |\n`
+    s += `| Build | Vite | Development server + production bundling |\n`
+    s += `| UI Components | shadcn/ui | Headless, accessible base components |\n\n`
+    return s
+  },
+
+  color_palette(num, label, ctx) {
+    let s = `## ${num}. ${label}\n\n`
+    s += `**Theme preset:** ${ctx.theme.preset || 'custom'}\n`
+    s += `**Mode:** ${ctx.theme.mode}\n\n`
+    if (ctx.theme.palette) {
+      s += `| Slot | Hex Value | Usage |\n`
+      s += `|------|-----------|-------|\n`
+      for (const [key, value] of Object.entries(ctx.theme.palette)) {
+        s += `| ${describePaletteSlot(key)} | \`${value}\` | ${describePaletteUsage(key)} |\n`
+      }
+      s += `\n`
+    }
+    return s
+  },
+
+  typography(num, label, ctx) {
+    let s = `## ${num}. ${label}\n\n`
+    s += `| Property | Value |\n`
+    s += `|----------|-------|\n`
+    s += `| Body font | ${ctx.theme.typography?.fontFamily || 'Inter'} |\n`
+    s += `| Heading font | ${ctx.theme.typography?.headingFamily || ctx.theme.typography?.fontFamily || 'Inter'} |\n`
+    s += `| Heading weight | ${ctx.theme.typography?.headingWeight || 700} |\n`
+    s += `| Base size | ${ctx.theme.typography?.baseSize || '16px'} |\n`
+    s += `| Line height | ${ctx.theme.typography?.lineHeight || 1.7} |\n`
+    s += `| Border radius | ${ctx.theme.borderRadius || '12px'} |\n\n`
+    return s
+  },
+
+  spacing(num, label, ctx) {
+    let s = `## ${num}. ${label}\n\n`
+    s += `| Property | Value |\n`
+    s += `|----------|-------|\n`
+    s += `| Section padding | ${ctx.theme.spacing?.sectionPadding || '64px'} |\n`
+    s += `| Container max width | ${ctx.theme.spacing?.containerMaxWidth || '1280px'} |\n`
+    s += `| Component gap | ${ctx.theme.spacing?.componentGap || '24px'} |\n\n`
+    return s
+  },
+
+  component_tree(num, label, ctx) {
+    let s = `## ${num}. ${label}\n\n`
+    s += `\`\`\`\n`
+    s += `App\n`
+    s += `\u251C\u2500\u2500 AppShell\n`
+    s += `\u2502   \u251C\u2500\u2500 LeftPanel (mode selector, section list)\n`
+    s += `\u2502   \u251C\u2500\u2500 CenterCanvas (preview)\n`
+    ctx.sectionTypes.forEach((type, i) => {
+      const sLabel = SECTION_LABELS[type] || type
+      const isLast = i === ctx.sectionTypes.length - 1
+      s += `\u2502   \u2502   ${isLast ? '\u2514' : '\u251C'}\u2500\u2500 ${sLabel}\n`
+    })
+    s += `\u2502   \u2514\u2500\u2500 RightPanel (section editors)\n`
+    s += `\u2514\u2500\u2500 Stores\n`
+    s += `    \u251C\u2500\u2500 configStore (MasterConfig \u2014 persistent)\n`
+    s += `    \u2514\u2500\u2500 uiStore (UI state \u2014 ephemeral)\n`
+    s += `\`\`\`\n\n`
+    return s
+  },
+
+  section_inventory(num, label, ctx) {
+    let s = `## ${num}. ${label}\n\n`
+    s += `| # | Type | Variant | Components | Background |\n`
+    s += `|---|------|---------|------------|------------|\n`
+    ctx.enabled.forEach((sec, i) => {
+      const sLabel = SECTION_LABELS[sec.type] || sec.type
+      const variant = sec.variant || 'default'
+      const compCount = (sec.components ?? []).filter(c => c.enabled).length
+      const bg = sec.style?.background || 'theme default'
+      s += `| ${i + 1} | ${sLabel} | ${variant} | ${compCount} | \`${bg}\` |\n`
+    })
+    s += `\n`
+    return s
+  },
+
+  layout_variants(num, label, ctx) {
+    let s = `## ${num}. ${label}\n\n`
+    ctx.enabled.forEach((sec) => {
+      if (!sec.variant) return
+      const sLabel = SECTION_LABELS[sec.type] || sec.type
+      const desc = VARIANT_DESCRIPTIONS[sec.type]?.[sec.variant] || sec.variant
+      s += `- **${sLabel}** \u2192 \`${sec.variant}\`: ${desc}\n`
+    })
+    s += `\n`
+    return s
+  },
+
+  data_model(num, label, ctx) {
+    let s = `## ${num}. ${label}\n\n`
+    s += `\`\`\`typescript\n`
+    s += `interface MasterConfig {\n`
+    s += `  site: { title, description, author, email, domain, project, version, spec }\n`
+    s += `  theme: { preset, mode, palette (6-slot), typography, spacing, borderRadius }\n`
+    s += `  sections: Section[]\n`
+    s += `}\n\n`
+    s += `interface Section {\n`
+    s += `  type: SectionType  // ${ctx.sectionTypes.join(' | ')}\n`
+    s += `  id: string\n`
+    s += `  order: number\n`
+    s += `  enabled: boolean\n`
+    s += `  variant?: string\n`
+    s += `  content: Record<string, unknown>  // { heading?, subheading?, ...sectionSpecific }\n`
+    s += `  layout: { display: string, direction?: string, columns?: number, gap: string, padding: string, align?: string, maxWidth?: string }\n`
+    s += `  style: { background: string, color: string, fontFamily?: string, borderRadius?: string }\n`
+    s += `  components: Component[]\n`
+    s += `}\n`
+    s += `\`\`\`\n`
+    return s
+  },
+}
+
+// ---------------------------------------------------------------------------
+// Internal helpers
+// ---------------------------------------------------------------------------
 
 function describePaletteUsage(slot: string): string {
   const map: Record<string, string> = {
