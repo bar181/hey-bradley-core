@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 7: Final Demo Polish — Hey Bradley Wiki</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0b0f1a; --surface: #131825; --surface-2: #1a2035; --border: #2a3050;
+    --text: #e2e8f0; --text-muted: #95a0b8; --accent: #6c8cff;
+    --accent-glow: rgba(108, 140, 255, 0.25); --green: #4ade80; --amber: #fbbf24;
+    --red: #f87171; --cyan: #22d3ee; --purple: #a78bfa; --radius: 12px;
+  }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; }
+  a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+  .hero { position: relative; padding: 72px 0 48px; text-align: center; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -60%; left: 50%; transform: translateX(-50%); width: 700px; height: 700px; background: radial-gradient(circle, var(--accent-glow) 0%, rgba(167,139,250,0.12) 40%, transparent 70%); animation: pulse 6s ease-in-out infinite; pointer-events: none; }
+  @keyframes pulse { 0%,100% { opacity: 0.35; transform: translateX(-50%) scale(1); } 50% { opacity: 0.55; transform: translateX(-50%) scale(1.06); } }
+  .hero h1 { font-size: 2.75rem; font-weight: 800; letter-spacing: -0.03em; background: linear-gradient(135deg, #fff 30%, var(--accent) 70%, var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; position: relative; }
+  .hero .subtitle { margin-top: 12px; font-size: 1.1rem; color: var(--text-muted); position: relative; max-width: 680px; margin-left: auto; margin-right: auto; }
+  .badges { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 24px; position: relative; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border: 1px solid var(--border); background: var(--surface); }
+  .badge.phase { border-color: var(--cyan); color: var(--cyan); background: rgba(34,211,238,0.08); }
+  .badge.module { border-color: var(--accent); color: var(--accent); }
+  .badge.perf { border-color: var(--green); color: var(--green); }
+  .badge.design { border-color: #e8772e; color: #e8772e; }
+  .badge.warn { border-color: var(--amber); color: var(--amber); background: rgba(251,191,36,0.08); }
+  .key-takeaway { background: linear-gradient(135deg, rgba(108,140,255,0.08), rgba(167,139,250,0.08)); border: 1px solid rgba(108,140,255,0.3); border-radius: var(--radius); padding: 20px 24px; margin-top: 24px; text-align: left; position: relative; }
+  .key-takeaway h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin-bottom: 8px; }
+  .key-takeaway p { font-size: 0.95rem; color: var(--text); line-height: 1.6; }
+  .section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-top: 32px; transition: border-color 0.3s; }
+  .section:hover { border-color: rgba(108,140,255,0.3); }
+  .section h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .section h2 .icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+  .section p, .section li { color: var(--text-muted); font-size: 0.95rem; }
+  .cap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+  .cap-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; transition: border-color 0.3s, transform 0.2s; }
+  .cap-card:hover { border-color: rgba(108,140,255,0.4); transform: translateY(-2px); }
+  .cap-card h4 { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .cap-card p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.55; }
+  .cap-card .status { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; }
+  .cap-card .status.done { color: var(--green); }
+  .cap-card .status.partial { color: var(--amber); }
+  .data-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 0.85rem; }
+  .data-table th { text-align: left; padding: 10px 12px; border-bottom: 2px solid var(--border); color: var(--text); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+  .data-table tr:hover td { color: var(--text); }
+  .callout { margin-top: 16px; padding: 16px 20px; border-radius: var(--radius); border-left: 4px solid var(--accent); background: var(--surface-2); font-size: 0.9rem; color: var(--text-muted); }
+  .callout strong { color: var(--text); }
+  .callout.success { border-left-color: var(--green); }
+  .callout.warn { border-left-color: var(--amber); }
+  .chart-container { margin-top: 16px; background: var(--surface-2); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border); }
+  .bar-chart { display: flex; flex-direction: column; gap: 12px; }
+  .bar-row { display: flex; align-items: center; gap: 12px; }
+  .bar-label { width: 150px; font-size: 0.82rem; text-align: right; color: var(--text-muted); flex-shrink: 0; }
+  .bar-track { flex: 1; height: 28px; background: var(--bg); border-radius: 6px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; padding-left: 10px; font-size: 0.78rem; font-weight: 700; color: #fff; animation: grow 1.5s ease-out both; min-width: fit-content; white-space: nowrap; }
+  @keyframes grow { from { width: 0; } }
+  .bar-fill.accent { background: linear-gradient(90deg, var(--accent), #8ba4ff); }
+  .bar-fill.green { background: linear-gradient(90deg, #16a34a, var(--green)); }
+  .bar-fill.cyan { background: linear-gradient(90deg, #0891b2, var(--cyan)); }
+  .bar-fill.purple { background: linear-gradient(90deg, #7c3aed, var(--purple)); }
+  .bar-fill.amber { background: linear-gradient(90deg, #d97706, var(--amber)); }
+  .grade-row { display: flex; gap: 16px; margin-top: 16px; }
+  .grade-card { flex: 1; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: center; }
+  .grade-card .label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 8px; }
+  .grade-card .grade { font-size: 2rem; font-weight: 800; }
+  .grade-card .grade.good { color: var(--green); }
+  .grade-card .grade.okay { color: var(--amber); }
+  .grade-card .detail { font-size: 0.8rem; color: var(--text-muted); margin-top: 6px; }
+  .footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+  .article-nav { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 16px; }
+  .article-nav a { padding: 8px 16px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.82rem; color: var(--text-muted); transition: all 0.2s; }
+  .article-nav a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+  .quality-stamp { margin-top: 12px; font-size: 0.75rem; color: var(--accent); font-style: italic; opacity: 0.8; }
+  @media (max-width: 640px) { .hero h1 { font-size: 2rem; } .cap-grid { grid-template-columns: 1fr; } .container { padding: 0 16px 60px; } .bar-label { width: 100px; font-size: 0.75rem; } .grade-row { flex-direction: column; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="hero">
+    <h1>Phase 7: Final Demo Polish</h1>
+    <p class="subtitle">Welcome page CTA fix, light mode consistency across all 15 sections, Google Fonts loading with fallbacks, error boundaries, 404 page, and the spec roundtrip test that validated AISP as a genuine differentiator while exposing critical data completeness bugs.</p>
+    <div class="badges">
+      <span class="badge phase">Phase 7 Complete</span>
+      <span class="badge module">Polish Only</span>
+      <span class="badge perf">75 / 100</span>
+      <span class="badge warn">7 Items Deferred</span>
+    </div>
+    <div class="key-takeaway">
+      <h3>Key Takeaway</h3>
+      <p>The spec roundtrip test was the single most valuable finding since Phase 1. Generating HUMAN (B+) and AISP (B&minus;) specs from a real site config, then feeding the AISP spec to an external LLM to produce HTML, proved that Crystal Atom notation is a genuine differentiator&mdash;but only when the data is complete. Truncation at 30 chars and <code>slice(0,4)</code> limits in the generators were unforgivable bugs for the core innovation. Phase 7 is polish-only: no new features, just making everything work correctly.</p>
+    </div>
+  </header>
+
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(74,222,128,0.15);">&#9889;</span> What Was Delivered</h2>
+    <p>Six workstreams across 2 sessions, plus a bonus spec quality audit.</p>
+    <div class="cap-grid">
+      <div class="cap-card">
+        <div class="status done">7A &mdash; 4/4 Done</div>
+        <h4>Welcome/Splash Page Polish</h4>
+        <p>CTA always clickable on all viewports. Mobile responsive layout. Jargon removed. Smooth transition to /builder via Link component.</p>
+      </div>
+      <div class="cap-card">
+        <div class="status done">7B &mdash; 3/3 Done</div>
+        <h4>Light Mode Consistency</h4>
+        <p>All 15 section types render correctly in light themes. All 4 examples tested. Hardcoded dark-only backgrounds fixed in ColumnsGradient and NavbarSimple.</p>
+      </div>
+      <div class="cap-card">
+        <div class="status partial">7C &mdash; 3/4 Done</div>
+        <h4>Edge Cases + Error Boundaries</h4>
+        <p>404 page, empty state for zero sections, error boundary around template renderers. Malformed JSON handling in Data tab deferred (P2).</p>
+      </div>
+      <div class="cap-card">
+        <div class="status done">7D &mdash; 3/3 Done</div>
+        <h4>Font Loading</h4>
+        <p>Google Fonts loaded for all 5 font options. Fallback font stack with <code>display=swap</code>. Preconnect eliminates FOUT entirely.</p>
+      </div>
+      <div class="cap-card">
+        <div class="status partial">7E &mdash; 1/6 Done</div>
+        <h4>Playwright Tests</h4>
+        <p>All existing tests pass (47/47 after 6 updates). Five critical demo flow tests deferred to Stage 1 (demo simulator, chat, listen, preview, light/dark).</p>
+      </div>
+      <div class="cap-card">
+        <div class="status partial">7F &mdash; 3/4 Done</div>
+        <h4>Demo Presentation Flow</h4>
+        <p>15-min demo script reviewed. Smooth mode transitions. Offline fallback via localStorage. Zero console errors during demo deferred (23 statements remain).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(167,139,250,0.15);">&#128269;</span> Spec Roundtrip Test</h2>
+    <p>The most valuable work product of Phase 7: a full roundtrip validation of the AISP specification format.</p>
+    <div class="grade-row">
+      <div class="grade-card">
+        <div class="label">HUMAN Spec</div>
+        <div class="grade good">B+</div>
+        <div class="detail">Readable, complete structure. Minor gaps in spacing and typography detail.</div>
+      </div>
+      <div class="grade-card">
+        <div class="label">AISP Spec</div>
+        <div class="grade okay">B&minus;</div>
+        <div class="detail">Truncation at 30 chars. <code>slice(0,4)</code> limits. Missing headings and spacing data.</div>
+      </div>
+    </div>
+    <div class="callout warn">
+      <strong>Critical finding:</strong> The AISP spec was fed to an external LLM which produced HTML output. Comparing that output against the Hey Bradley preview revealed 5 quick-win fixes and 5 post-capstone enhancements. The truncation and slice bugs meant the LLM received incomplete data&mdash;the core innovation (Crystal Atom notation) only works when data is complete.
+    </div>
+    <div class="callout success">
+      <strong>Requirements 08&ndash;10 committed:</strong> MVP Presentation scope, Post-MVP Open Core model, and Private AISP protocol. For the first time, the project has stages beyond &ldquo;next phase.&rdquo;
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(34,211,238,0.15);">&#128202;</span> Phase 7 By the Numbers</h2>
+    <table class="data-table">
+      <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Checklist items</strong></td><td>17 / 24 DONE (71%)</td></tr>
+        <tr><td><strong>Deferred items</strong></td><td>7 (all P1&ndash;P2, none P0)</td></tr>
+        <tr><td><strong>Build status</strong></td><td>Passes</td></tr>
+        <tr><td><strong>Playwright tests</strong></td><td>47 / 47 pass</td></tr>
+        <tr><td><strong>Console statements</strong></td><td>23 across 7 files</td></tr>
+        <tr><td><strong>Template variants</strong></td><td>62 TSX files across 20 section types</td></tr>
+        <tr><td><strong>Example sites</strong></td><td>4 (bakery, consulting, launchpad, photography)</td></tr>
+        <tr><td><strong>Spec generators</strong></td><td>0 (inline in XAIDocsTab, not modular)</td></tr>
+        <tr><td><strong>Sessions</strong></td><td>2</td></tr>
+        <tr><td><strong>Duration</strong></td><td>2026-04-03 to 2026-04-04</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(248,113,113,0.15);">&#128679;</span> Technical Debt Deferred</h2>
+    <p>Seven items carried forward to Stage 1. None are P0 for Phase 7&rsquo;s original scope (polish), but TD1&ndash;TD2 and TD6&ndash;TD7 are P0 for Stage 1 (Presentation).</p>
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Item</th><th>Severity</th><th>Target</th></tr></thead>
+      <tbody>
+        <tr><td>TD1</td><td><strong>AISP spec B&minus; grade</strong> (truncation + slice bugs)</td><td style="color:var(--red);">CRITICAL</td><td>Stage 1 P0</td></tr>
+        <tr><td>TD2</td><td><strong>No modular spec generators</strong> (6 needed)</td><td style="color:var(--red);">HIGH</td><td>Stage 1 P0</td></tr>
+        <tr><td>TD3</td><td><strong>5 Playwright tests missing</strong> (demo, chat, listen, preview, modes)</td><td style="color:var(--amber);">HIGH</td><td>Stage 1 P1</td></tr>
+        <tr><td>TD4</td><td><strong>23 console statements</strong> in 7 files</td><td style="color:var(--amber);">MEDIUM</td><td>Stage 1 P1</td></tr>
+        <tr><td>TD5</td><td><strong>Malformed JSON handling</strong> in Data tab</td><td style="color:var(--text-muted);">LOW</td><td>Stage 1 P2</td></tr>
+        <tr><td>TD6</td><td><strong>Media library not LLM-ready</strong> (no metadata)</td><td style="color:var(--red);">HIGH</td><td>Stage 1 P0</td></tr>
+        <tr><td>TD7</td><td><strong>Only 4 example sites</strong> (need 6&ndash;8)</td><td style="color:var(--red);">HIGH</td><td>Stage 1 P0</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(74,222,128,0.15);">&#127942;</span> Score Progression</h2>
+    <div class="chart-container">
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">Phase 5 End</div><div class="bar-track"><div class="bar-fill accent" style="width:67%;">67 / 100</div></div></div>
+        <div class="bar-row"><div class="bar-label">Phase 6 End</div><div class="bar-track"><div class="bar-fill cyan" style="width:78%;">78 / 100</div></div></div>
+        <div class="bar-row"><div class="bar-label">Phase 7 End</div><div class="bar-track"><div class="bar-fill purple" style="width:75%;">75 / 100</div></div></div>
+      </div>
+    </div>
+    <div class="callout warn">
+      <strong>&minus;3 points from Phase 6.</strong> Score dipped because Phase 7 was polish-only with no new capabilities, while deferring 7 items. The Playwright test debt is now 2 phases old. However, the spec roundtrip test produced the most actionable findings of any phase, directly informing Phase 8&rsquo;s P0 sprint list.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(108,140,255,0.15);">&#9989;</span> Verdict</h2>
+    <div class="callout success">
+      <strong>Phase 7 delivered its core promise: polish-only, no new features.</strong> Welcome page, light mode, fonts, error boundaries, and 404 are all solid. The spec roundtrip test was the most valuable work product&mdash;it validated the AISP format as a differentiator while exposing critical data completeness bugs. The phase is CLOSED with 7 items deferred to Stage 1. Score: 75/100&mdash;solid polish, but Playwright test debt is compounding.
+    </div>
+  </div>
+
+  <div class="footer">
+    Hey Bradley Wiki &middot; Phase 7: Final Demo Polish &middot; 2026-04-04
+    <div class="article-nav">
+      <a href="08-phase-6-canned-demo.guide.html">&larr; Phase 6: Canned Demo</a>
+      <a href="hey-bradley-wiki.guide.html">Wiki Home</a>
+      <a href="10-phase-8-cleanup-optimization.guide.html">Phase 8: Cleanup &rarr;</a>
+    </div>
+    <div class="quality-stamp">Content describes Phase 7 Final Demo Polish including welcome page CTA, light mode consistency, font loading, error boundaries, 404 page, spec roundtrip test (HUMAN B+, AISP B-), Playwright test maintenance, demo presentation flow, and 7 deferred tech debt items.</div>
+  </div>
+
+</div>
+</body>
+</html>
