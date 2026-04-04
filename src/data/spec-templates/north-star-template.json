@@ -1,0 +1,76 @@
+{
+  "type": "north-star",
+  "version": "1.0.0",
+  "format": "markdown",
+  "description": "Product vision document — a PM reads this and understands the entire project in 5 minutes.",
+  "sections": [
+    {
+      "id": "overview",
+      "label": "Overview",
+      "required": true,
+      "fields": ["title", "author", "email", "domain", "theme_preset", "theme_mode", "border_radius", "spacing"]
+    },
+    {
+      "id": "vision",
+      "label": "Vision",
+      "required": true,
+      "fields": ["vision_statement", "theme_mode", "theme_preset", "description", "section_count", "visual_mood"]
+    },
+    {
+      "id": "product_market_fit",
+      "label": "Product-Market Fit",
+      "required": true,
+      "fields": ["value_proposition", "target_audience", "primary_action", "trust_signals", "active_sections"]
+    },
+    {
+      "id": "site_structure",
+      "label": "Site Structure",
+      "required": true,
+      "fields": ["ordered_sections"]
+    },
+    {
+      "id": "user_personas",
+      "label": "User Personas",
+      "required": true,
+      "fields": ["first_time_visitor", "returning_visitor"]
+    },
+    {
+      "id": "success_criteria",
+      "label": "Success Criteria",
+      "required": true,
+      "fields": ["first_impression", "visual_quality", "mobile_responsive", "accessibility", "performance"]
+    }
+  ],
+  "fieldDefinitions": {
+    "title": { "type": "string", "required": true, "description": "Site title" },
+    "author": { "type": "string", "required": false, "description": "Site author name" },
+    "email": { "type": "string", "required": false, "description": "Contact email" },
+    "domain": { "type": "string", "required": false, "description": "Site domain" },
+    "theme_preset": { "type": "string", "required": true, "description": "Theme preset name (saas, agency, portfolio, etc.)" },
+    "theme_mode": { "type": "string", "required": true, "enum": ["light", "dark"], "description": "Light or dark mode" },
+    "border_radius": { "type": "string", "required": false, "default": "12px", "description": "Global border radius" },
+    "spacing": { "type": "object", "required": false, "description": "Section padding, container max-width, component gap" },
+    "description": { "type": "string", "required": false, "description": "Site description" },
+    "section_count": { "type": "number", "required": true, "description": "Number of enabled sections" },
+    "visual_mood": { "type": "string", "required": true, "description": "Visual mood derived from theme preset" },
+    "value_proposition": { "type": "string", "required": false, "description": "Hero headline text" },
+    "target_audience": { "type": "string", "required": true, "description": "Inferred from preset and sections" },
+    "primary_action": { "type": "string", "required": false, "description": "CTA button text" },
+    "trust_signals": { "type": "string", "required": true, "description": "Testimonials, logos, metrics, team" },
+    "active_sections": { "type": "array", "required": true, "description": "List of enabled section labels" },
+    "ordered_sections": { "type": "array", "required": true, "items": "SectionSummary", "description": "Sections in display order with label, variant, heading" },
+    "first_time_visitor": { "type": "object", "required": true, "description": "Persona: goal, entry point, journey, success metric" },
+    "returning_visitor": { "type": "object", "required": true, "description": "Persona: goal, entry point, journey, success metric" },
+    "first_impression": { "type": "string", "required": true, "default": "Visitor understands value proposition in < 3s" },
+    "visual_quality": { "type": "string", "required": true, "default": "Looks like a funded startup product, not a template" },
+    "mobile_responsive": { "type": "string", "required": true, "default": "All sections render correctly at 375px" },
+    "accessibility": { "type": "string", "required": true, "default": "WCAG 2.1 AA contrast ratios on all text" },
+    "performance": { "type": "string", "required": true, "default": "Initial paint < 2 seconds on 4G connection" }
+  },
+  "metadata": {
+    "generatedBy": "hey-bradley",
+    "generatedAt": "",
+    "siteTitle": "",
+    "sectionCount": 0
+  }
+}

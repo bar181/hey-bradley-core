@@ -1,0 +1,113 @@
+{
+  "type": "sadd",
+  "version": "1.0.0",
+  "format": "markdown",
+  "description": "Software Architecture Design Document — a senior engineer reads this and can scaffold the project in 30 minutes.",
+  "sections": [
+    {
+      "id": "technology_stack",
+      "label": "Technology Stack",
+      "required": true,
+      "fields": ["framework", "styling", "font", "heading_font", "state", "validation", "build", "ui_components"]
+    },
+    {
+      "id": "color_palette",
+      "label": "Color Palette",
+      "required": true,
+      "fields": ["theme_preset", "mode", "palette"]
+    },
+    {
+      "id": "typography",
+      "label": "Typography",
+      "required": true,
+      "fields": ["body_font", "heading_font", "heading_weight", "base_size", "line_height", "border_radius"]
+    },
+    {
+      "id": "spacing",
+      "label": "Spacing",
+      "required": true,
+      "fields": ["section_padding", "container_max_width", "component_gap"]
+    },
+    {
+      "id": "component_tree",
+      "label": "Component Tree",
+      "required": true,
+      "fields": ["tree_structure"]
+    },
+    {
+      "id": "section_inventory",
+      "label": "Section Inventory",
+      "required": true,
+      "fields": ["sections_table"]
+    },
+    {
+      "id": "layout_variants",
+      "label": "Layout Variants Used",
+      "required": false,
+      "fields": ["variant_descriptions"]
+    },
+    {
+      "id": "data_model",
+      "label": "Data Model (MasterConfig)",
+      "required": true,
+      "fields": ["master_config_interface", "section_interface"]
+    }
+  ],
+  "fieldDefinitions": {
+    "framework": { "type": "string", "required": true, "default": "React 18", "description": "UI framework" },
+    "styling": { "type": "string", "required": true, "default": "Tailwind CSS 4", "description": "CSS framework" },
+    "font": { "type": "string", "required": true, "default": "Inter", "description": "Body font family via Google Fonts" },
+    "heading_font": { "type": "string", "required": false, "description": "Separate heading typeface if different from body" },
+    "state": { "type": "string", "required": true, "default": "Zustand", "description": "State management library" },
+    "validation": { "type": "string", "required": true, "default": "Zod", "description": "Runtime schema validation" },
+    "build": { "type": "string", "required": true, "default": "Vite", "description": "Build tool" },
+    "ui_components": { "type": "string", "required": true, "default": "shadcn/ui", "description": "Headless accessible base components" },
+    "theme_preset": { "type": "string", "required": true, "description": "Active theme preset name" },
+    "mode": { "type": "string", "required": true, "enum": ["light", "dark"], "description": "Color mode" },
+    "palette": {
+      "type": "object",
+      "required": true,
+      "description": "6-slot color palette",
+      "properties": {
+        "bgPrimary": { "type": "string", "description": "Page background, hero sections" },
+        "bgSecondary": { "type": "string", "description": "Alternating section backgrounds, cards" },
+        "textPrimary": { "type": "string", "description": "Headings, body text on primary bg" },
+        "textSecondary": { "type": "string", "description": "Subtitles, secondary text, muted content" },
+        "accentPrimary": { "type": "string", "description": "Buttons, links, active states" },
+        "accentSecondary": { "type": "string", "description": "Hover states, secondary highlights" }
+      }
+    },
+    "body_font": { "type": "string", "required": true, "description": "Body font family" },
+    "heading_weight": { "type": "number", "required": true, "default": 700, "description": "Heading font weight" },
+    "base_size": { "type": "string", "required": true, "default": "16px", "description": "Base font size" },
+    "line_height": { "type": "number", "required": true, "default": 1.7, "description": "Base line height" },
+    "border_radius": { "type": "string", "required": true, "default": "12px", "description": "Global border radius" },
+    "section_padding": { "type": "string", "required": true, "default": "64px", "description": "Section vertical padding" },
+    "container_max_width": { "type": "string", "required": true, "default": "1280px", "description": "Container maximum width" },
+    "component_gap": { "type": "string", "required": true, "default": "24px", "description": "Component spacing gap" },
+    "tree_structure": { "type": "string", "required": true, "description": "ASCII component tree (App > AppShell > Panels > Sections)" },
+    "sections_table": {
+      "type": "array",
+      "required": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "order": { "type": "number" },
+          "type": { "type": "string" },
+          "variant": { "type": "string" },
+          "componentCount": { "type": "number" },
+          "background": { "type": "string" }
+        }
+      }
+    },
+    "variant_descriptions": { "type": "array", "required": false, "description": "Label, variant name, and description per section" },
+    "master_config_interface": { "type": "string", "required": true, "description": "TypeScript interface for MasterConfig" },
+    "section_interface": { "type": "string", "required": true, "description": "TypeScript interface for Section" }
+  },
+  "metadata": {
+    "generatedBy": "hey-bradley",
+    "generatedAt": "",
+    "siteTitle": "",
+    "sectionCount": 0
+  }
+}

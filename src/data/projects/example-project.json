@@ -1,0 +1,227 @@
+{
+  "id": "b7e2c4a1-9f3d-4e8b-a1c6-d5f0e2b3a4c7",
+  "name": "Sweet Spot Bakery",
+  "slug": "sweet-spot-bakery",
+  "owner": "anonymous",
+  "createdAt": "2026-03-15T10:30:00.000Z",
+  "updatedAt": "2026-04-04T14:22:00.000Z",
+  "version": "1.0.0-RC1",
+  "status": "draft",
+  "config": {
+    "site": {
+      "title": "Sweet Spot Bakery",
+      "description": "Artisan bakery serving handcrafted pastries and fresh bread since 2019",
+      "author": "Sweet Spot Bakery",
+      "email": "hello@sweetspotbakery.com",
+      "domain": "sweetspotbakery.com",
+      "project": "sweet-spot-bakery",
+      "version": "1.0.0-RC1",
+      "spec": "aisp-1.2"
+    },
+    "theme": {
+      "preset": "wellness",
+      "mode": "dark",
+      "palette": {
+        "bgPrimary": "#0a1a14",
+        "bgSecondary": "#132a1f",
+        "textPrimary": "#f0fdf4",
+        "textSecondary": "#bbf7d0",
+        "accentPrimary": "#22c55e",
+        "accentSecondary": "#4ade80"
+      },
+      "alternatePalette": {
+        "bgPrimary": "#ffffff",
+        "bgSecondary": "#f0fdf4",
+        "textPrimary": "#09090b",
+        "textSecondary": "#6b7280",
+        "accentPrimary": "#22c55e",
+        "accentSecondary": "#4ade80"
+      },
+      "typography": {
+        "fontFamily": "Georgia",
+        "headingFamily": "Georgia",
+        "headingWeight": 700,
+        "baseSize": "16px",
+        "lineHeight": 1.7
+      },
+      "spacing": {
+        "sectionPadding": "80px",
+        "containerMaxWidth": "1200px",
+        "componentGap": "24px"
+      },
+      "borderRadius": "16px"
+    },
+    "sections": [
+      {
+        "type": "menu",
+        "id": "navbar-01",
+        "enabled": true,
+        "order": -1,
+        "variant": "simple",
+        "layout": { "display": "flex", "padding": "0" },
+        "style": { "background": "#0a1a14", "color": "#f0fdf4" },
+        "components": [
+          { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Sweet Spot Bakery" } },
+          { "id": "cta", "type": "button", "enabled": true, "order": 1, "props": { "text": "Order Now", "url": "#cta" } }
+        ],
+        "content": {}
+      },
+      {
+        "type": "hero",
+        "id": "hero-01",
+        "enabled": true,
+        "order": 0,
+        "variant": "overlay",
+        "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "24px", "padding": "80px 24px", "maxWidth": "1200px" },
+        "style": { "background": "#0a1a14", "color": "#f0fdf4", "fontFamily": "Georgia", "borderRadius": "0px" },
+        "components": [
+          { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "Handcrafted Since 2019", "icon": "sparkles", "variant": "pill" } },
+          { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Baked with Love, Served with Joy", "level": 1, "size": "56px", "weight": 700 } },
+          { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Every morning we craft artisan sourdough, buttery croissants, and seasonal pastries using locally sourced ingredients from Oregon farms." } },
+          { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "See Our Menu", "url": "#features", "style": "filled", "size": "lg" } },
+          { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4, "props": { "text": "Visit Us", "url": "#cta", "style": "outline", "size": "lg" } },
+          { "id": "heroImage", "type": "image", "enabled": false, "order": 5, "props": {} },
+          { "id": "backgroundImage", "type": "image", "enabled": true, "order": 6, "props": { "url": "https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=1600&auto=format&q=80", "alt": "Warm bakery interior with fresh bread on display", "aspect": "16:9" } },
+          { "id": "heroVideo", "type": "video", "enabled": false, "order": 7, "props": {} },
+          { "id": "trustBadges", "type": "trust", "enabled": true, "order": 8, "props": { "text": "Loved by 2,000+ customers in Portland", "show": true } }
+        ],
+        "content": {}
+      },
+      {
+        "type": "columns",
+        "id": "features-01",
+        "enabled": true,
+        "order": 1,
+        "variant": "image-cards",
+        "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "64px 24px" },
+        "style": { "background": "#132a1f", "color": "#f0fdf4" },
+        "components": [
+          { "id": "f1", "type": "feature-card", "enabled": true, "order": 0, "props": { "icon": "wheat", "title": "Artisan Sourdough", "description": "48-hour fermented sourdough made with organic stone-milled flour." } },
+          { "id": "f2", "type": "feature-card", "enabled": true, "order": 1, "props": { "icon": "cake", "title": "French Pastries", "description": "Buttery croissants, pain au chocolat, and seasonal fruit tarts baked fresh every morning." } },
+          { "id": "f3", "type": "feature-card", "enabled": true, "order": 2, "props": { "icon": "coffee", "title": "Custom Celebration Cakes", "description": "Wedding cakes, birthday creations, and corporate events. Every cake is designed by hand." } }
+        ],
+        "content": { "heading": "Fresh From Our Oven", "subheading": "Handcrafted every morning with locally sourced ingredients" }
+      },
+      {
+        "type": "quotes",
+        "id": "testimonials-01",
+        "enabled": true,
+        "order": 2,
+        "variant": "cards",
+        "layout": { "display": "grid", "columns": 3, "gap": "24px", "padding": "64px 24px" },
+        "style": { "background": "#0a1a14", "color": "#f0fdf4" },
+        "components": [
+          { "id": "t-1", "type": "testimonial", "enabled": true, "order": 0, "props": { "quote": "The sourdough here is the best in Portland.", "author": "Maria Santos", "role": "Regular Customer", "rating": 5 } },
+          { "id": "t-2", "type": "testimonial", "enabled": true, "order": 1, "props": { "quote": "They made the most beautiful wedding cake for us.", "author": "James & Kate Liu", "role": "Wedding Client", "rating": 5 } },
+          { "id": "t-3", "type": "testimonial", "enabled": true, "order": 2, "props": { "quote": "We order pastry platters for every team meeting. Sweet Spot never disappoints.", "author": "Rachel Kim", "role": "Office Manager, TechCo", "rating": 5 } }
+        ],
+        "content": { "heading": "From Our Regulars", "subheading": "Hear why Portland keeps coming back" }
+      },
+      {
+        "type": "action",
+        "id": "cta-01",
+        "enabled": true,
+        "order": 3,
+        "variant": "centered",
+        "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "64px 24px", "gap": "16px" },
+        "style": { "background": "#132a1f", "color": "#f0fdf4" },
+        "components": [
+          { "id": "heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Visit Us This Weekend", "level": 2, "size": "36px", "weight": 700 } },
+          { "id": "subtitle", "type": "text", "enabled": true, "order": 1, "props": { "text": "Open Tuesday through Sunday, 7 AM to 4 PM. Walk-ins welcome, or order ahead." } },
+          { "id": "button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Order Online", "url": "#order", "style": "filled", "size": "lg" } }
+        ],
+        "content": {}
+      },
+      {
+        "type": "numbers",
+        "id": "numbers-01",
+        "enabled": true,
+        "order": 4,
+        "variant": "counters",
+        "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "64px 24px" },
+        "style": { "background": "#0a1a14", "color": "#f0fdf4" },
+        "components": [
+          { "id": "n-1", "type": "value-prop", "enabled": true, "order": 0, "props": { "value": "2,000+", "label": "Happy Customers" } },
+          { "id": "n-2", "type": "value-prop", "enabled": true, "order": 1, "props": { "value": "6", "label": "Years Running" } },
+          { "id": "n-3", "type": "value-prop", "enabled": true, "order": 2, "props": { "value": "100%", "label": "Local Ingredients" } },
+          { "id": "n-4", "type": "value-prop", "enabled": true, "order": 3, "props": { "value": "5 AM", "label": "Baked Fresh" } }
+        ],
+        "content": { "heading": "Our Story in Numbers", "subheading": "Six years of baking with heart" }
+      },
+      {
+        "type": "footer",
+        "id": "footer-01",
+        "enabled": true,
+        "order": 5,
+        "variant": "multi-column",
+        "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "48px 24px" },
+        "style": { "background": "#0a1a14", "color": "#f0fdf4" },
+        "components": [
+          { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Sweet Spot Bakery" } },
+          { "id": "col-1", "type": "footer-column", "enabled": true, "order": 1, "props": { "heading": "Menu", "links": "Bread,Pastries,Cakes,Catering" } },
+          { "id": "col-2", "type": "footer-column", "enabled": true, "order": 2, "props": { "heading": "Visit", "links": "Hours,Location,Parking,Events" } },
+          { "id": "col-3", "type": "footer-column", "enabled": true, "order": 3, "props": { "heading": "Connect", "links": "Instagram,Facebook,Newsletter" } },
+          { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 4, "props": { "text": "2026 Sweet Spot Bakery. Handcrafted with love in Portland, OR." } }
+        ],
+        "content": {}
+      }
+    ]
+  },
+  "specs": {
+    "northStar": "# North Star: Sweet Spot Bakery\n\n## Vision\nBecome Portland's most beloved neighborhood bakery by combining artisan craft with modern convenience.\n\n## Success Metrics\n- 2,500+ weekly customers by Q4 2026\n- 4.8+ average Google rating\n- 40% of orders placed online\n\n## Core Value Proposition\nHandcrafted baked goods using 100% locally sourced Oregon ingredients, available for walk-in and online ordering.",
+    "sadd": "# SADD: Sweet Spot Bakery Website\n\n## Architecture\nStatic site generated from Hey Bradley MasterConfig (AISP v1.2).\n\n## Stack\n- Frontend: React + Vite\n- Styling: Tailwind CSS\n- Deployment: Vercel\n- CMS: Hey Bradley config-driven\n\n## Sections\n7 sections: navbar, hero, features, testimonials, CTA, numbers, footer.",
+    "buildPlan": "# Build Plan\n\n## Phase 1: Landing Page (Week 1-2)\n- Configure sections via Hey Bradley\n- Select wellness theme with dark mode\n- Add bakery imagery and copy\n\n## Phase 2: Online Ordering (Week 3-4)\n- Integrate Square for payments\n- Add menu page with categories\n\n## Phase 3: Launch (Week 5)\n- Custom domain setup\n- SEO optimization\n- Analytics integration",
+    "features": "# Features Spec\n\n## F1: Hero Section\n- Overlay variant with background image\n- Primary and secondary CTAs\n- Trust badge showing customer count\n\n## F2: Menu Showcase\n- 3-column image card grid\n- Sourdough, Pastries, Cakes categories\n\n## F3: Social Proof\n- 3 testimonial cards with ratings\n- Customer name and role attribution\n\n## F4: Call to Action\n- Online ordering CTA\n- Hours and visit information",
+    "humanSpec": "# Sweet Spot Bakery Website\n\nA beautiful, dark-themed landing page for Sweet Spot Bakery in Portland, OR. The site showcases their artisan breads, French pastries, and custom cakes with rich photography and customer testimonials. Visitors can see the menu, read reviews, and order online. The design uses a warm green palette that evokes natural, organic ingredients.",
+    "aisp": "AISP v1.2 | sweet-spot-bakery | 1.0.0-RC1\nSITE: Sweet Spot Bakery | sweetspotbakery.com\nTHEME: wellness/dark | palette:6-slot | border-radius:16px\nSECTIONS: menu(simple) hero(overlay) columns(image-cards) quotes(cards) action(centered) numbers(counters) footer(multi-column)\nCOMPONENTS: 7 sections, 30 components\nSPEC: complete"
+  },
+  "brand": {
+    "guidelines": {
+      "voice": "Warm, inviting, artisanal. Use sensory language about fresh ingredients and handcrafted quality.",
+      "colors": {
+        "primary": "#22c55e",
+        "secondary": "#4ade80",
+        "background": "#0a1a14",
+        "text": "#f0fdf4"
+      },
+      "typography": {
+        "heading": "Georgia",
+        "body": "Georgia"
+      }
+    },
+    "logo": "",
+    "favicon": "",
+    "ogImage": ""
+  },
+  "history": [
+    {
+      "timestamp": "2026-03-15T10:30:00.000Z",
+      "action": "created",
+      "snapshot": {}
+    },
+    {
+      "timestamp": "2026-03-20T16:45:00.000Z",
+      "action": "updated theme to wellness/dark",
+      "snapshot": {}
+    },
+    {
+      "timestamp": "2026-04-01T09:15:00.000Z",
+      "action": "added testimonials and numbers sections",
+      "snapshot": {}
+    },
+    {
+      "timestamp": "2026-04-04T14:22:00.000Z",
+      "action": "generated all specs",
+      "snapshot": {}
+    }
+  ],
+  "integrations": {
+    "github": {
+      "repo": "",
+      "branch": "main"
+    },
+    "vercel": {
+      "projectId": ""
+    }
+  }
+}

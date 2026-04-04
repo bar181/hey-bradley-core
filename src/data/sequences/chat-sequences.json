@@ -1,0 +1,120 @@
+[
+  {
+    "exampleSlug": "bakery",
+    "messages": [
+      { "type": "user", "text": "I want a beautiful website for my artisan bakery, Sweet Spot Bakery. Warm and inviting." },
+      { "type": "ai", "text": "Love it! Let me set up a warm wellness theme with earthy greens.", "patch": { "applyVibe": "wellness" } },
+      { "type": "ai", "text": "Starting with a hero section to welcome your visitors.", "patch": { "addSection": "hero" } },
+      { "type": "ai", "text": "Now let's showcase your signature pastries and breads.", "patch": { "addSection": "columns" } },
+      { "type": "ai", "text": "Adding customer reviews so people trust the quality.", "patch": { "addSection": "quotes" } },
+      { "type": "ai", "text": "Let's highlight some impressive numbers like pastries baked daily.", "patch": { "addSection": "numbers" } },
+      { "type": "ai", "text": "Time for a call to action so visitors can place an order.", "patch": { "addSection": "action" } },
+      { "type": "ai", "text": "Wrapping up with a footer for contact info and hours.", "patch": { "addSection": "footer" } },
+      { "type": "ai", "text": "Sweet Spot Bakery is ready! Warm, inviting, and delicious." }
+    ]
+  },
+  {
+    "exampleSlug": "launchpad",
+    "messages": [
+      { "type": "user", "text": "Build me a SaaS landing page for LaunchPad AI. Dark and techy." },
+      { "type": "ai", "text": "Great call. I'll go with a dark tech business theme.", "patch": { "applyVibe": "saas" } },
+      { "type": "ai", "text": "Setting up a bold hero section with your product headline.", "patch": { "addSection": "hero" } },
+      { "type": "ai", "text": "Adding feature columns to explain what LaunchPad AI does.", "patch": { "addSection": "columns" } },
+      { "type": "ai", "text": "Let's lay out your pricing tiers so users can compare plans.", "patch": { "addSection": "pricing" } },
+      { "type": "ai", "text": "Some key metrics to show traction and credibility.", "patch": { "addSection": "numbers" } },
+      { "type": "ai", "text": "Adding a strong call to action for signups.", "patch": { "addSection": "action" } },
+      { "type": "ai", "text": "And a clean footer with links and legal info.", "patch": { "addSection": "footer" } },
+      { "type": "ai", "text": "LaunchPad AI is live! Dark, sharp, and conversion-ready." }
+    ]
+  },
+  {
+    "exampleSlug": "photography",
+    "messages": [
+      { "type": "user", "text": "I need a portfolio site for Sarah Chen Photography. Dramatic and visual." },
+      { "type": "ai", "text": "Perfect. I'll use a portfolio theme that lets the images shine.", "patch": { "applyVibe": "portfolio" } },
+      { "type": "ai", "text": "Starting with a cinematic hero to make a bold first impression.", "patch": { "addSection": "hero" } },
+      { "type": "ai", "text": "Adding a photo gallery to showcase your best work.", "patch": { "addSection": "gallery" } },
+      { "type": "ai", "text": "Client testimonials add social proof and trust.", "patch": { "addSection": "quotes" } },
+      { "type": "ai", "text": "A call to action so potential clients can book a session.", "patch": { "addSection": "action" } },
+      { "type": "ai", "text": "Finishing with a minimal footer for contact and socials.", "patch": { "addSection": "footer" } },
+      { "type": "ai", "text": "Sarah Chen Photography is ready! Visual-first and stunning." }
+    ]
+  },
+  {
+    "exampleSlug": "consulting",
+    "messages": [
+      { "type": "user", "text": "Create a corporate website for GreenLeaf Consulting. Clean and professional." },
+      { "type": "ai", "text": "On it. I'll use a professional theme that builds trust.", "patch": { "applyVibe": "professional" } },
+      { "type": "ai", "text": "Starting with a confident hero section for your consulting firm.", "patch": { "addSection": "hero" } },
+      { "type": "ai", "text": "Adding service columns to outline your key offerings.", "patch": { "addSection": "columns" } },
+      { "type": "ai", "text": "Key metrics to demonstrate your track record.", "patch": { "addSection": "numbers" } },
+      { "type": "ai", "text": "Client testimonials to reinforce your credibility.", "patch": { "addSection": "quotes" } },
+      { "type": "ai", "text": "An FAQ section to address common client questions.", "patch": { "addSection": "questions" } },
+      { "type": "ai", "text": "A clear call to action for scheduling a consultation.", "patch": { "addSection": "action" } },
+      { "type": "ai", "text": "And a professional footer with office locations.", "patch": { "addSection": "footer" } },
+      { "type": "ai", "text": "GreenLeaf Consulting is ready! Clean, trustworthy, and polished." }
+    ]
+  },
+  {
+    "exampleSlug": "fitforge",
+    "messages": [
+      { "type": "user", "text": "Build a site for FitForge Fitness. Bold, energetic, dark theme." },
+      { "type": "ai", "text": "Let's go! I'll use a creative theme with high energy.", "patch": { "applyVibe": "startup" } },
+      { "type": "ai", "text": "Starting with a powerful hero to get people pumped.", "patch": { "addSection": "hero" } },
+      { "type": "ai", "text": "Adding class columns to show what you offer.", "patch": { "addSection": "columns" } },
+      { "type": "ai", "text": "Key stats like members trained and classes per week.", "patch": { "addSection": "numbers" } },
+      { "type": "ai", "text": "Member testimonials to show real transformation stories.", "patch": { "addSection": "quotes" } },
+      { "type": "ai", "text": "A bold call to action for free trial signups.", "patch": { "addSection": "action" } },
+      { "type": "ai", "text": "Footer with gym hours, location, and social links.", "patch": { "addSection": "footer" } },
+      { "type": "ai", "text": "FitForge Fitness is ready! Bold, energetic, and motivating." }
+    ]
+  },
+  {
+    "exampleSlug": "florist",
+    "messages": [
+      { "type": "user", "text": "I need a delicate website for Bloom & Petal, a boutique florist." },
+      { "type": "ai", "text": "Beautiful. I'll go with a soft personal theme with organic vibes.", "patch": { "applyVibe": "personal" } },
+      { "type": "ai", "text": "Starting with a gentle hero featuring fresh arrangements.", "patch": { "addSection": "hero" } },
+      { "type": "ai", "text": "A gallery of your most beautiful bouquets and arrangements.", "patch": { "addSection": "gallery" } },
+      { "type": "ai", "text": "Service columns for weddings, events, and daily deliveries.", "patch": { "addSection": "columns" } },
+      { "type": "ai", "text": "Happy customer quotes to build trust.", "patch": { "addSection": "quotes" } },
+      { "type": "ai", "text": "A warm call to action to order flowers or book a consultation.", "patch": { "addSection": "action" } },
+      { "type": "ai", "text": "And a charming footer with shop hours and location.", "patch": { "addSection": "footer" } },
+      { "type": "ai", "text": "Bloom & Petal is ready! Delicate, organic, and lovely." }
+    ]
+  },
+  {
+    "exampleSlug": "kitchen-sink",
+    "messages": [
+      { "type": "user", "text": "Show me everything this platform can do. Give me the kitchen sink." },
+      { "type": "ai", "text": "You got it! I'll demo every section type. Going SaaS theme.", "patch": { "applyVibe": "saas" } },
+      { "type": "ai", "text": "Hero section up top to set the stage.", "patch": { "addSection": "hero" } },
+      { "type": "ai", "text": "Feature columns for your key selling points.", "patch": { "addSection": "columns" } },
+      { "type": "ai", "text": "A rich text block for detailed content.", "patch": { "addSection": "text" } },
+      { "type": "ai", "text": "A full-width image for visual impact.", "patch": { "addSection": "image" } },
+      { "type": "ai", "text": "Numbers section for impressive statistics.", "patch": { "addSection": "numbers" } },
+      { "type": "ai", "text": "Pricing tables so users can compare plans.", "patch": { "addSection": "pricing" } },
+      { "type": "ai", "text": "A photo gallery for visual storytelling.", "patch": { "addSection": "gallery" } },
+      { "type": "ai", "text": "Customer testimonials for social proof.", "patch": { "addSection": "quotes" } },
+      { "type": "ai", "text": "Trusted partner logos for credibility.", "patch": { "addSection": "logos" } },
+      { "type": "ai", "text": "Meet the team section.", "patch": { "addSection": "team" } },
+      { "type": "ai", "text": "FAQ section to handle common questions.", "patch": { "addSection": "questions" } },
+      { "type": "ai", "text": "A strong call to action.", "patch": { "addSection": "action" } },
+      { "type": "ai", "text": "A divider for visual separation.", "patch": { "addSection": "divider" } },
+      { "type": "ai", "text": "And a complete footer to tie it all together.", "patch": { "addSection": "footer" } },
+      { "type": "ai", "text": "Kitchen Sink Demo is complete! Every section type in one page." }
+    ]
+  },
+  {
+    "exampleSlug": "blank",
+    "messages": [
+      { "type": "user", "text": "Start me with a blank canvas. I want to build from scratch." },
+      { "type": "ai", "text": "Clean slate. I'll set up a minimalist foundation.", "patch": { "applyVibe": "minimalist" } },
+      { "type": "ai", "text": "Adding a simple hero section as your starting point.", "patch": { "addSection": "hero" } },
+      { "type": "ai", "text": "A columns section for your first content blocks.", "patch": { "addSection": "columns" } },
+      { "type": "ai", "text": "A basic call to action to get started.", "patch": { "addSection": "action" } },
+      { "type": "ai", "text": "And a minimal footer.", "patch": { "addSection": "footer" } },
+      { "type": "ai", "text": "Blank Canvas is ready! Your starting point to build anything." }
+    ]
+  }
+]

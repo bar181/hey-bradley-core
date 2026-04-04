@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://heybradley.com/schemas/project.json",
+  "title": "Hey Bradley Saved Project",
+  "description": "Schema for a saved Hey Bradley project, including config, generated specs, brand assets, and version history.",
+  "type": "object",
+  "required": ["id", "name", "slug", "createdAt", "updatedAt", "version", "status", "config"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique project ID (UUID v4)"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "description": "Human-readable project name"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "description": "URL-safe slug derived from name"
+    },
+    "owner": {
+      "type": "string",
+      "description": "User ID (future auth — Supabase auth.uid())"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of initial creation"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of last modification"
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version of the project (e.g. 1.0.0-RC1)"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "published", "archived"],
+      "default": "draft",
+      "description": "Lifecycle status of the project"
+    },
+    "config": {
+      "type": "object",
+      "description": "Full MasterConfig (site + theme + sections). Validated at runtime by masterConfigSchema (Zod).",
+      "properties": {
+        "site": { "type": "object" },
+        "theme": { "type": "object" },
+        "sections": {
+          "type": "array",
+          "items": { "type": "object" }
+        }
+      },
+      "required": ["site", "theme", "sections"]
+    },
+    "specs": {
+      "type": "object",
+      "description": "Generated spec documents stored as markdown/AISP text",
+      "properties": {
+        "northStar": {
+          "type": "string",
+          "description": "North Star spec — vision, goals, success metrics"
+        },
+        "sadd": {
+          "type": "string",
+          "description": "Software Architecture & Design Document"
+        },
+        "buildPlan": {
+          "type": "string",
+          "description": "Phased build plan with milestones"
+        },
+        "features": {
+          "type": "string",
+          "description": "Feature spec with acceptance criteria"
+        },
+        "humanSpec": {
+          "type": "string",
+          "description": "Plain-language spec for non-technical stakeholders"
+        },
+        "aisp": {
+          "type": "string",
+          "description": "AISP v1.2 machine-readable spec"
+        }
+      },
+      "additionalProperties": false
+    },
+    "brand": {
+      "type": "object",
+      "description": "Brand assets and guidelines for the project",
+      "properties": {
+        "guidelines": {
+          "type": "object",
+          "description": "Brand guideline config (colors, voice, typography rules)"
+        },
+        "logo": {
+          "type": "string",
+          "description": "URL or data-URI for the logo"
+        },
+        "favicon": {
+          "type": "string",
+          "description": "URL or data-URI for the favicon"
+        },
+        "ogImage": {
+          "type": "string",
+          "description": "URL or data-URI for the Open Graph image"
+        }
+      },
+      "additionalProperties": false
+    },
+    "history": {
+      "type": "array",
+      "description": "Chronological log of project changes for versioning and undo",
+      "items": {
+        "type": "object",
+        "required": ["timestamp", "action"],
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the action occurred"
+          },
+          "action": {
+            "type": "string",
+            "description": "Human-readable description (e.g. 'created', 'updated theme', 'published')"
+          },
+          "snapshot": {
+            "type": "object",
+            "description": "Optional full or partial config snapshot at that point in time"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "integrations": {
+      "type": "object",
+      "description": "External service integrations (future)",
+      "properties": {
+        "github": {
+          "type": "object",
+          "properties": {
+            "repo": {
+              "type": "string",
+              "description": "GitHub repo (owner/repo format)"
+            },
+            "branch": {
+              "type": "string",
+              "description": "Default branch for deployments"
+            }
+          },
+          "additionalProperties": false
+        },
+        "vercel": {
+          "type": "object",
+          "properties": {
+            "projectId": {
+              "type": "string",
+              "description": "Vercel project ID for auto-deploy"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

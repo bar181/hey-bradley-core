@@ -1,0 +1,125 @@
+{
+  "type": "human-spec",
+  "version": "1.0.0",
+  "format": "markdown",
+  "description": "Plain English specification — readable by anyone (designers, developers, PMs, stakeholders) without technical knowledge. Full detail, no truncation.",
+  "sections": [
+    {
+      "id": "overview",
+      "label": "Overview",
+      "required": true,
+      "fields": ["title", "description", "theme_preset", "mode", "font", "heading_font", "heading_weight", "base_size", "line_height", "border_radius", "section_padding", "container_max_width", "component_gap"]
+    },
+    {
+      "id": "color_palette",
+      "label": "Color Palette",
+      "required": true,
+      "fields": ["palette"]
+    },
+    {
+      "id": "site_info",
+      "label": "Site Info",
+      "required": false,
+      "fields": ["author", "email", "domain", "project"]
+    },
+    {
+      "id": "page_structure",
+      "label": "Page Structure",
+      "required": true,
+      "fields": ["enabled_sections", "disabled_sections"]
+    },
+    {
+      "id": "section_details",
+      "label": "Section Details",
+      "required": true,
+      "fields": ["section_detail_list"]
+    }
+  ],
+  "fieldDefinitions": {
+    "title": { "type": "string", "required": true, "description": "Site title" },
+    "description": { "type": "string", "required": false, "description": "Site description" },
+    "theme_preset": { "type": "string", "required": true, "description": "Theme preset name" },
+    "mode": { "type": "string", "required": true, "enum": ["light", "dark"] },
+    "font": { "type": "string", "required": true, "default": "Inter", "description": "Body font family" },
+    "heading_font": { "type": "string", "required": false, "description": "Heading font if different from body" },
+    "heading_weight": { "type": "number", "required": true, "default": 700 },
+    "base_size": { "type": "string", "required": true, "default": "16px" },
+    "line_height": { "type": "number", "required": true, "default": 1.7 },
+    "border_radius": { "type": "string", "required": true, "default": "12px" },
+    "section_padding": { "type": "string", "required": true, "default": "64px" },
+    "container_max_width": { "type": "string", "required": true, "default": "1280px" },
+    "component_gap": { "type": "string", "required": true, "default": "24px" },
+    "palette": {
+      "type": "object",
+      "required": true,
+      "description": "6-slot hex color palette with slot name and description",
+      "properties": {
+        "bgPrimary": { "type": "string" },
+        "bgSecondary": { "type": "string" },
+        "textPrimary": { "type": "string" },
+        "textSecondary": { "type": "string" },
+        "accentPrimary": { "type": "string" },
+        "accentSecondary": { "type": "string" }
+      }
+    },
+    "author": { "type": "string", "required": false },
+    "email": { "type": "string", "required": false },
+    "domain": { "type": "string", "required": false },
+    "project": { "type": "string", "required": false },
+    "enabled_sections": {
+      "type": "array",
+      "required": true,
+      "description": "Ordered list of enabled sections with label, variant, heading, component count",
+      "items": {
+        "type": "object",
+        "properties": {
+          "order": { "type": "number" },
+          "label": { "type": "string" },
+          "variant": { "type": "string" },
+          "heading": { "type": "string" },
+          "componentCount": { "type": "number" }
+        }
+      }
+    },
+    "disabled_sections": { "type": "array", "required": false, "items": { "type": "string" }, "description": "Labels of disabled sections" },
+    "section_detail_list": {
+      "type": "array",
+      "required": true,
+      "description": "Full detail for each enabled section (no truncation)",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string" },
+          "description": { "type": "string" },
+          "type": { "type": "string" },
+          "variant": { "type": "string" },
+          "background": { "type": "string" },
+          "color": { "type": "string" },
+          "fontFamily": { "type": "string" },
+          "heading": { "type": "string" },
+          "subheading": { "type": "string" },
+          "layout": { "type": "string", "description": "display, columns, gap, padding summary" },
+          "components": {
+            "type": "array",
+            "description": "ALL components with full untruncated text and all props",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "type": { "type": "string" },
+                "text": { "type": "string", "description": "Full untruncated component text" },
+                "props": { "type": "object", "description": "All key-value prop pairs" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "metadata": {
+    "generatedBy": "hey-bradley",
+    "generatedAt": "",
+    "siteTitle": "",
+    "sectionCount": 0
+  }
+}

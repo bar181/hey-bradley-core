@@ -1,0 +1,121 @@
+{
+  "type": "aisp",
+  "version": "5.1",
+  "format": "crystal-atom",
+  "tier": "platinum",
+  "description": "AISP 5.1 Crystal Atom specification with section-level sub-atoms. Target: < 2% ambiguity. All 5 Crystal Atom components present.",
+  "components": {
+    "omega": {
+      "symbol": "\u03a9",
+      "label": "Formal Objective",
+      "required": true,
+      "format": "formal",
+      "description": "Formal render objective with constraints (no prose). Defines what to build and key invariants.",
+      "example": "render(Site, title) | |sections| = N \u2227 theme.preset = X \u2227 theme.mode = Y \u2227 theme.typography.fontFamily = Z",
+      "fields": ["site_title", "section_count", "theme_preset", "theme_mode", "font_family"]
+    },
+    "sigma": {
+      "symbol": "\u03a3",
+      "label": "Type System",
+      "required": true,
+      "description": "Formal type definitions for all data structures used in the specification.",
+      "types": [
+        { "name": "MasterConfig", "definition": "{ site: Site, theme: Theme, sections: Section \ud835\udd43 }" },
+        { "name": "Site", "definition": "{ title: \ud835\udd4a, description: \ud835\udd4a, author: \ud835\udd4a, domain: \ud835\udd4a }" },
+        { "name": "Theme", "definition": "{ preset: \ud835\udd4a, mode: \ud835\udd4a, palette: Palette, typography: Typography, spacing: Spacing }" },
+        { "name": "Palette", "definition": "{ bg\u2081: \ud835\udd4a, bg\u2082: \ud835\udd4a, txt\u2081: \ud835\udd4a, txt\u2082: \ud835\udd4a, acc\u2081: \ud835\udd4a, acc\u2082: \ud835\udd4a }" },
+        { "name": "Typography", "definition": "{ fontFamily: \ud835\udd4a, headingFamily: \ud835\udd4a, headingWeight: \u2115, baseSize: \ud835\udd4a, lineHeight: \u211d }" },
+        { "name": "Spacing", "definition": "{ sectionPadding: \ud835\udd4a, containerMaxWidth: \ud835\udd4a, componentGap: \ud835\udd4a }" },
+        { "name": "Section", "definition": "{ type: SectionType, id: \ud835\udd4a, variant: \ud835\udd4a, heading: \ud835\udd4a?, subheading: \ud835\udd4a?, layout: Layout, style: Style, components: Component \ud835\udd43 }" },
+        { "name": "Layout", "definition": "{ display: \ud835\udd4a, direction: \ud835\udd4a?, columns: \u2115?, gap: \ud835\udd4a, padding: \ud835\udd4a }" },
+        { "name": "Style", "definition": "{ background: \ud835\udd4a, color: \ud835\udd4a, fontFamily: \ud835\udd4a?, borderRadius: \ud835\udd4a? }" },
+        { "name": "Component", "definition": "{ id: \ud835\udd4a, type: \ud835\udd4a, enabled: \ud835\udd39, props: Map\u27e8\ud835\udd4a, Any\u27e9 }" },
+        { "name": "SectionType", "definition": "{hero, menu, columns, pricing, action, footer, quotes, questions, numbers, gallery, logos, team, image, divider, text}" }
+      ]
+    },
+    "gamma": {
+      "symbol": "\u0393",
+      "label": "Constraint Rules",
+      "required": true,
+      "description": "Concrete, data-specific constraint rules. Global rules apply site-wide; section-level rules are parameterized per section instance.",
+      "ruleTypes": ["global", "section-level", "brownfield"],
+      "sectionRuleStructure": {
+        "description": "Each section type has its own rule generator producing concrete rules from actual data values.",
+        "supportedTypes": ["hero", "menu", "columns", "pricing", "quotes", "questions", "numbers", "action", "footer", "gallery", "logos", "team", "image", "divider", "text"],
+        "ruleFormat": "R<n>: <section_type>.<property> = <concrete_value>"
+      }
+    },
+    "lambda": {
+      "symbol": "\u039b",
+      "label": "Data Bindings",
+      "required": true,
+      "completeness": "all sections inline",
+      "description": "Complete data bindings for all site, theme, and section values. Every component prop for every component is included inline.",
+      "globalBindings": {
+        "site": ["title", "description", "author", "domain"],
+        "theme": ["preset"],
+        "mode": ["light", "dark"],
+        "typography": ["fontFamily", "headingFamily", "headingWeight", "baseSize", "lineHeight"],
+        "spacing": ["sectionPadding", "containerMaxWidth", "componentGap"],
+        "borderRadius": ["value"],
+        "palette": ["bg1", "bg2", "txt1", "txt2", "acc1", "acc2"]
+      },
+      "sectionBindings": {
+        "description": "Per-section bindings include variant, heading, subheading, background, color, columns, gap, padding, display, direction, and all component props.",
+        "componentBinding": {
+          "format": "\u27e8<id>: <type>, <prop1>: <val1>, <prop2>: <val2>, ...\u27e9"
+        }
+      }
+    },
+    "epsilon": {
+      "symbol": "\u0395",
+      "label": "Verification Evidence",
+      "required": true,
+      "description": "Formal verification checks at both global and section level.",
+      "verificationTypes": ["structure", "content", "style", "responsive"],
+      "globalVerifications": [
+        { "id": "V1", "check": "All sections render without error" },
+        { "id": "V2", "check": "Palette contrast ratio (text on bg) >= 4.5:1" },
+        { "id": "V3", "check": "Responsive at 375px, 768px, 1440px" },
+        { "id": "V4", "check": "Section count matches specification" },
+        { "id": "V5", "check": "All component text content is rendered" },
+        { "id": "V6", "check": "Specified font is loaded" },
+        { "id": "V7", "check": "Section display order is preserved" }
+      ],
+      "sectionVerifications": {
+        "description": "Each section sub-atom includes its own evidence checks verifying variant, component count, and data-specific values."
+      }
+    }
+  },
+  "crystalAtomStructure": {
+    "description": "Master Crystal Atom with per-section sub-atoms",
+    "format": "\u27e6 \u03a9, \u03a3, {\u27e6\u0393_t, \u039b_t, \u0395_t\u27e7}, \u0395 \u27e7",
+    "master": ["\u03a9", "\u03a3", "\u039b (global)", "\u0395 (global)"],
+    "perSection": ["\u0393_<type>", "\u039b_<type>", "\u0395_<type>"]
+  },
+  "sectionTypes": {
+    "hero": { "variants": ["centered", "split", "overlay", "minimal", "video", "gradient"] },
+    "menu": { "variants": ["simple", "centered"] },
+    "columns": { "variants": ["cards", "image-cards", "glass", "gradient", "horizontal", "icon-text", "minimal", "numbered"] },
+    "pricing": { "variants": ["tiers", "toggle", "comparison"] },
+    "quotes": { "variants": ["cards", "minimal", "single", "stars"] },
+    "questions": { "variants": ["accordion", "cards", "numbered", "two-col"] },
+    "numbers": { "variants": ["counters", "cards", "gradient", "icons"] },
+    "action": { "variants": ["centered", "split", "gradient", "newsletter"] },
+    "footer": { "variants": ["multi-column", "simple", "simple-bar", "minimal"] },
+    "gallery": { "variants": ["grid", "masonry", "carousel", "full-width"] },
+    "logos": { "variants": ["simple", "grid", "marquee"] },
+    "team": { "variants": ["cards", "grid", "minimal"] },
+    "image": { "variants": ["full-width", "with-text", "overlay", "parallax"] },
+    "divider": { "variants": ["line", "decorative", "space"] },
+    "text": { "variants": ["single", "two-column", "with-sidebar"] }
+  },
+  "metadata": {
+    "generatedBy": "hey-bradley",
+    "generatedAt": "",
+    "siteTitle": "",
+    "sectionCount": 0,
+    "ambiguityTarget": "< 2%",
+    "crystalAtomComponents": 5
+  }
+}

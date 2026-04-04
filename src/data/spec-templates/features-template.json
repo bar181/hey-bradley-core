@@ -1,0 +1,125 @@
+{
+  "type": "features",
+  "version": "1.0.0",
+  "format": "markdown",
+  "description": "Features specification with user stories, variant details, and structured acceptance criteria organized by functional category.",
+  "sections": [
+    {
+      "id": "feature_summary",
+      "label": "Feature Summary",
+      "required": true,
+      "fields": ["summary_table"]
+    },
+    {
+      "id": "navigation_structure",
+      "label": "Navigation & Structure",
+      "required": false,
+      "fields": ["features"],
+      "category_types": ["menu", "footer"],
+      "priority": "P0"
+    },
+    {
+      "id": "content_sections",
+      "label": "Content Sections",
+      "required": false,
+      "fields": ["features"],
+      "category_types": ["hero", "columns", "text", "pricing"],
+      "priority": "P0"
+    },
+    {
+      "id": "conversion_engagement",
+      "label": "Conversion & Engagement",
+      "required": false,
+      "fields": ["features"],
+      "category_types": ["action", "questions"],
+      "priority": "P1"
+    },
+    {
+      "id": "trust_social_proof",
+      "label": "Trust & Social Proof",
+      "required": false,
+      "fields": ["features"],
+      "category_types": ["quotes", "logos", "team", "numbers"],
+      "priority": "P1"
+    },
+    {
+      "id": "media_visual",
+      "label": "Media & Visual",
+      "required": false,
+      "fields": ["features"],
+      "category_types": ["gallery", "image"],
+      "priority": "P2"
+    },
+    {
+      "id": "utility_layout",
+      "label": "Utility & Layout",
+      "required": false,
+      "fields": ["features"],
+      "category_types": ["divider"],
+      "priority": "P2"
+    },
+    {
+      "id": "coverage_summary",
+      "label": "Appendix: Coverage Summary",
+      "required": true,
+      "fields": ["active_sections", "active_components", "section_types_used", "categories_covered", "p0_count", "p1_count", "p2_count"]
+    }
+  ],
+  "featureStructure": {
+    "description": "Each feature follows this structure",
+    "properties": {
+      "section_id": { "type": "string", "required": true },
+      "type": { "type": "string", "required": true },
+      "label": { "type": "string", "required": true },
+      "priority": { "type": "string", "required": true, "enum": ["P0", "P1", "P2"] },
+      "variant": { "type": "string", "required": true },
+      "variant_description": { "type": "string", "required": false },
+      "heading": { "type": "string", "required": false },
+      "subheading": { "type": "string", "required": false },
+      "component_count": { "type": "number", "required": true },
+      "user_story": {
+        "type": "object",
+        "required": false,
+        "properties": {
+          "want": { "type": "string", "description": "As a visitor, I want to..." },
+          "benefit": { "type": "string", "description": "...so that..." }
+        }
+      },
+      "components": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "type": { "type": "string" },
+            "description": { "type": "string" },
+            "text": { "type": "string" }
+          }
+        }
+      },
+      "acceptance_criteria": {
+        "type": "object",
+        "properties": {
+          "visual": { "type": "array", "items": { "type": "string" }, "description": "Typography, colors, contrast, layout checks" },
+          "functional": { "type": "array", "items": { "type": "string" }, "description": "Variant rendering, component content, theme mode" },
+          "technical": { "type": "array", "items": { "type": "string" }, "description": "React component, gap, keyboard access, semantic HTML" }
+        }
+      }
+    }
+  },
+  "categories": [
+    { "id": "navigation_structure", "name": "Navigation & Structure", "types": ["menu", "footer"], "priority": "P0" },
+    { "id": "content_sections", "name": "Content Sections", "types": ["hero", "columns", "text", "pricing"], "priority": "P0" },
+    { "id": "conversion_engagement", "name": "Conversion & Engagement", "types": ["action", "questions"], "priority": "P1" },
+    { "id": "trust_social_proof", "name": "Trust & Social Proof", "types": ["quotes", "logos", "team", "numbers"], "priority": "P1" },
+    { "id": "media_visual", "name": "Media & Visual", "types": ["gallery", "image"], "priority": "P2" },
+    { "id": "utility_layout", "name": "Utility & Layout", "types": ["divider"], "priority": "P2" }
+  ],
+  "metadata": {
+    "generatedBy": "hey-bradley",
+    "generatedAt": "",
+    "siteTitle": "",
+    "sectionCount": 0,
+    "componentCount": 0
+  }
+}

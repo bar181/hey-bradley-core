@@ -1,0 +1,120 @@
+{
+  "type": "build-plan",
+  "version": "1.0.0",
+  "format": "markdown",
+  "description": "Implementation plan — an AI agent reads this and builds the site section-by-section with 90% accuracy.",
+  "sections": [
+    {
+      "id": "project_setup",
+      "label": "Phase 1: Project Setup",
+      "required": true,
+      "fields": ["global_config", "color_palette_css"]
+    },
+    {
+      "id": "section_builds",
+      "label": "Phase 2: Build Each Section",
+      "required": true,
+      "fields": ["section_instructions"]
+    },
+    {
+      "id": "responsive_polish",
+      "label": "Phase 3: Responsive & Polish",
+      "required": true,
+      "fields": ["mobile", "tablet", "desktop", "hover_states", "smooth_scrolling", "font_loading"]
+    }
+  ],
+  "fieldDefinitions": {
+    "global_config": {
+      "type": "object",
+      "required": true,
+      "description": "Global project configuration",
+      "properties": {
+        "font": { "type": "string", "description": "Body font via Google Fonts" },
+        "heading_font": { "type": "string", "description": "Heading font if different" },
+        "heading_weight": { "type": "number", "default": 700 },
+        "base_font_size": { "type": "string", "default": "16px" },
+        "line_height": { "type": "number", "default": 1.7 },
+        "border_radius": { "type": "string", "default": "12px" },
+        "section_padding": { "type": "string", "default": "64px" },
+        "container_max_width": { "type": "string", "default": "1280px" },
+        "component_gap": { "type": "string", "default": "24px" },
+        "mode": { "type": "string", "enum": ["light", "dark"] }
+      }
+    },
+    "color_palette_css": {
+      "type": "object",
+      "required": true,
+      "description": "CSS custom properties for the 6-slot palette",
+      "properties": {
+        "bg_primary": { "type": "string" },
+        "bg_secondary": { "type": "string" },
+        "text_primary": { "type": "string" },
+        "text_secondary": { "type": "string" },
+        "accent_primary": { "type": "string" },
+        "accent_secondary": { "type": "string" }
+      }
+    },
+    "section_instructions": {
+      "type": "array",
+      "required": true,
+      "description": "Per-section build instructions in display order",
+      "items": {
+        "type": "object",
+        "properties": {
+          "order": { "type": "number", "description": "Section build order (1-based)" },
+          "label": { "type": "string", "description": "Human-readable section name" },
+          "type": { "type": "string", "description": "Section type identifier" },
+          "variant": { "type": "string", "description": "Layout variant name" },
+          "variant_description": { "type": "string", "description": "Human description of variant" },
+          "id": { "type": "string", "description": "Unique section ID" },
+          "layout": {
+            "type": "object",
+            "properties": {
+              "display": { "type": "string" },
+              "direction": { "type": "string" },
+              "columns": { "type": "number" },
+              "gap": { "type": "string" },
+              "padding": { "type": "string" },
+              "align": { "type": "string" },
+              "maxWidth": { "type": "string" }
+            }
+          },
+          "style": {
+            "type": "object",
+            "properties": {
+              "background": { "type": "string" },
+              "color": { "type": "string" },
+              "fontFamily": { "type": "string" },
+              "borderRadius": { "type": "string" }
+            }
+          },
+          "heading": { "type": "string" },
+          "subheading": { "type": "string" },
+          "components": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "type": { "type": "string" },
+                "props": { "type": "object", "description": "All component props as key-value pairs" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mobile": { "type": "string", "required": true, "default": "Stack all columns to single column at 375px, reduce heading sizes by ~25%" },
+    "tablet": { "type": "string", "required": true, "default": "2-column grids where 3+ columns exist at 768px" },
+    "desktop": { "type": "string", "required": true, "default": "Content centered within container max-width at 1440px+" },
+    "hover_states": { "type": "string", "required": true, "default": "Buttons darken on hover, cards lift with subtle shadow" },
+    "smooth_scrolling": { "type": "string", "required": true, "default": "scroll-behavior: smooth on html, anchor links scroll to sections" },
+    "font_loading": { "type": "string", "required": true, "default": "Preconnect to fonts.googleapis.com, use display=swap" }
+  },
+  "metadata": {
+    "generatedBy": "hey-bradley",
+    "generatedAt": "",
+    "siteTitle": "",
+    "sectionCount": 0
+  }
+}
