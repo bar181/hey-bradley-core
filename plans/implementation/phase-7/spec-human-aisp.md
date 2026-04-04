@@ -1,0 +1,140 @@
+# Hey Bradley Specification: GreenLeaf Consulting
+
+## Overview
+- **Theme:** professional
+- **Mode:** light
+- **Font:** Inter
+- **Border Radius:** 8px
+- **Palette:** bg #ffffff, accent #1e40af
+
+## Site Info
+- **Author:** GreenLeaf Consulting
+- **Email:** info@greenleafconsulting.com
+- **Domain:** greenleafconsulting.com
+- **Project:** greenleaf-consulting
+
+## Page Structure
+1. **Top Menu** | variant: simple | 2 components
+2. **Main Banner** | variant: minimal | 6 components
+3. **Columns** | variant: cards | 3 components
+4. **Numbers** | variant: icons | 4 components
+5. **Quotes** | variant: stars | 3 components
+6. **Questions** | variant: accordion | 4 components
+7. **Action Block** | variant: split | 3 components
+8. **Footer** | variant: multi-column | 5 components
+
+## Section Details
+### Top Menu
+- **Variant:** simple
+- **Layout:** display: flex, gap: 24px
+- **Components:**
+  - `logo` (text) — "GreenLeaf"
+  - `cta` (button) — "Schedule a Call"
+
+### Main Banner
+- **Variant:** minimal
+- **Layout:** display: flex, gap: 24px
+- **Components:**
+  - `eyebrow` (badge) — "Trusted by Fortune 500"
+  - `headline` (heading) — "Strategy That Grows With You"
+  - `subtitle` (text) — "We partner with ambitious companies to solve their toughest challenges. From market entry to operational excellence, our senior partners deliver measurable results."
+  - `primaryCta` (button) — "Schedule a Consultation"
+  - `secondaryCta` (button) — "Our Approach"
+  - `trustBadges` (trust) — "Partnered with 120+ companies across 14 industries"
+
+### Columns
+- **Variant:** cards
+- **Layout:** display: grid, columns: 3, gap: 32px
+- **Components:**
+  - `f1` (feature-card)
+  - `f2` (feature-card)
+  - `f3` (feature-card)
+
+### Numbers
+- **Variant:** icons
+- **Layout:** display: grid, columns: 4, gap: 32px
+- **Components:**
+  - `n-1` (value-prop)
+  - `n-2` (value-prop)
+  - `n-3` (value-prop)
+  - `n-4` (value-prop)
+
+### Quotes
+- **Variant:** stars
+- **Layout:** display: grid, columns: 3, gap: 24px
+- **Components:**
+  - `t-1` (testimonial)
+  - `t-2` (testimonial)
+  - `t-3` (testimonial)
+
+### Questions
+- **Variant:** accordion
+- **Layout:** display: flex, gap: 0
+- **Components:**
+  - `q-1` (faq-item)
+  - `q-2` (faq-item)
+  - `q-3` (faq-item)
+  - `q-4` (faq-item)
+
+### Action Block
+- **Variant:** split
+- **Layout:** display: flex, gap: 48px
+- **Components:**
+  - `heading` (heading) — "Ready to Accelerate Your Growth?"
+  - `subtitle` (text) — "Schedule a free 30-minute strategy call with one of our senior partners. No commitment, just actionable insight."
+  - `button` (button) — "Schedule a Consultation"
+
+### Footer
+- **Variant:** multi-column
+- **Layout:** display: grid, columns: 4, gap: 32px
+- **Components:**
+  - `brand` (footer-brand) — "GreenLeaf Consulting"
+  - `col-1` (footer-column) — "Services"
+  - `col-2` (footer-column) — "Company"
+  - `col-3` (footer-column) — "Resources"
+  - `copyright` (footer-copyright) — "© 2026 GreenLeaf Consulting. New York | London | Singapore."
+
+
+---
+
+% AISP v1.2 | Crystal Atom Platinum | <2% ambiguity target
+⟦
+  Ω := { Render marketing website: 8 sections, theme:professional, mode:light }
+  Σ := {
+    Page : 𝕋 := ⟨Section⟩ 𝕃,
+    Section : 𝕋 := { type:𝕊, variant:𝕊, layout:Layout, style:Style, components:Component 𝕃 },
+    Layout : 𝕋 := { display:𝕊, columns:ℕ, gap:𝕊 },
+    Style : 𝕋 := { background:𝕊, color:𝕊 },
+    Component : 𝕋 := { id:𝕊, type:𝕊, enabled:𝔹, props:Map⟨𝕊,𝕊⟩ },
+    Palette : 𝕋 := { bg₁:𝕊, bg₂:𝕊, txt₁:𝕊, txt₂:𝕊, acc₁:𝕊, acc₂:𝕊 }
+  }
+  Γ := {
+    R1: ∀ s∈Page : s.enabled=⊤ ⟹ render(s),
+    R2: ∀ s∈Page : s.type∈{menu,hero,columns,numbers,quotes,questions,action,footer},
+    R3: ∀ c∈s.components : c.enabled=⊤ ⟹ display(c),
+    R4: □ mobile_responsive ∧ □ theme_colors_applied
+  }
+  Λ := {
+    theme := professional,
+    mode := light,
+    font := "Inter",
+    palette := ⟨#ffffff, #f8fafc, #0f172a, #475569, #1e40af, #2563eb⟩,
+    sections := [
+      ⟨menu, simple, cols:-, [logo:"GreenLeaf", cta:"Schedule a Call"]⟩,
+      ⟨hero, minimal, cols:-, [eyebrow:"Trusted by Fortune 500", headline:"Strategy That Grows With You", subtitle:"We partner with ambitious comp", primaryCta:"Schedule a Consultation"]⟩,
+      ⟨columns, cards, cols:3, [f1:"f1", f2:"f2", f3:"f3"]⟩,
+      ⟨numbers, icons, cols:4, [n-1:"n-1", n-2:"n-2", n-3:"n-3", n-4:"n-4"]⟩,
+      ⟨quotes, stars, cols:3, [t-1:"t-1", t-2:"t-2", t-3:"t-3"]⟩,
+      ⟨questions, accordion, cols:-, [q-1:"q-1", q-2:"q-2", q-3:"q-3", q-4:"q-4"]⟩,
+      ⟨action, split, cols:-, [heading:"Ready to Accelerate Your Growt", subtitle:"Schedule a free 30-minute stra", button:"Schedule a Consultation"]⟩,
+      ⟨footer, multi-column, cols:4, [brand:"GreenLeaf Consulting", col-1:"col-1", col-2:"col-2", col-3:"col-3"]⟩
+    ]
+  }
+  Ε := {
+    V1: VERIFY ∀ s∈Page : render(s) ≠ ⊥,
+    V2: VERIFY palette_contrast(txt₁, bg₁) ≥ 4.5,
+    V3: VERIFY responsive(375px) ∧ responsive(1440px),
+    V4: VERIFY |sections| = 8
+  }
+⟧
+% Generated by Hey Bradley | spec: aisp-1.2 | tier: platinum

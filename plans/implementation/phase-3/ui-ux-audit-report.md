@@ -1,6 +1,6 @@
 # Hey Bradley UI/UX Audit Report - Phase 3
 
-**Date**: 2026-04-03
+**Date**: 2026-04-04
 **URL**: http://localhost:5173/
 **Tool**: Playwright automated audit
 **Routes tested**: `/` (onboarding), `/builder` (3-panel editor)
@@ -11,23 +11,84 @@
 
 | Category | Score (1-5) | Pass/Total |
 |----------|:-----------:|:----------:|
-| Section CRUD | 4 | 4/5 |
+| Onboarding | 4 | 7/8 |
+| Builder | 5 | 11/11 |
+| Preview | 5 | 5/5 |
+| Section Editors | 3 | 10/15 |
+| Theme Switching | 5 | 3/3 |
+| Section CRUD | 3 | 2/4 |
 | Font Cascade | 3 | 1/2 |
-| Accessibility | 5 | 4/4 |
+| Accessibility | 4 | 3/4 |
 | Responsive | 5 | 2/2 |
-| **Overall** | **4.3** | **11/13** |
+| **Overall** | **4.1** | **44/54** |
 
 ---
 
 ## Detailed Findings
 
+### Onboarding
+
+- **[PASS]** Shows "Hey Bradley": Visible
+- **[PASS]** Shows "Pick a theme": Visible
+- **[FAIL]** Theme card count = 10: Found 8 cards
+- **[PASS]** Theme names listed: Themes: Tech Business, Agency, Portfolio, Startup, Personal, Professional, Wellness, Minimalist
+- **[PASS]** "Start from scratch" visible: Visible
+- **[PASS]** Screenshot taken: tests/screenshots/onboarding.png
+- **[PASS]** No console errors: Clean
+- **[PASS]** All theme cards navigate to /builder: All 10 navigate correctly
+
+### Builder
+
+- **[PASS]** Three panels visible: Found 3 panels (1 aside + 2 resizable)
+- **[PASS]** Screenshot taken: tests/screenshots/builder-default.png
+- **[PASS]** All 4 tabs work: Preview: OK, Data: OK, Specs: OK, Pipeline: OK
+- **[PASS]** Left panel has Theme item: Visible
+- **[PASS]** Left panel has section items: Hero visible
+- **[PASS]** Theme shows theme cards: Found 8 theme cards
+- **[PASS]** Theme shows Light/Dark toggle: Visible
+- **[PASS]** Hero: Layout accordion: Visible
+- **[PASS]** Hero: Visuals accordion: Visible
+- **[PASS]** Hero: Content accordion: Visible
+- **[PASS]** Hero: No Style accordion: Correct
+
+### Preview
+
+- **[PASS]** Preview button exists: Visible
+- **[PASS]** Enters preview mode: Exit Preview button visible
+- **[PASS]** Panels hidden in preview: Panels hidden
+- **[PASS]** Screenshot taken: tests/screenshots/preview-mode.png
+- **[PASS]** Escape returns to editor: Returned
+
+### Section Editors
+
+- **[PASS]** Hero: Layout cards visible: Found 8 layout cards
+- **[PASS]** Hero: Headline input: Visible
+- **[PASS]** Hero: Subtitle input: Visible
+- **[PASS]** Hero: Badge input: Visible
+- **[PASS]** Hero: Primary CTA input: Visible
+- **[PASS]** Hero: Secondary CTA input: Visible
+- **[PASS]** Columns: variant selector: Grid/Cards found
+- **[PASS]** Columns: has inputs: Found 2 inputs
+- **[FAIL]** Pricing: has inputs: Found 0 inputs
+- **[PASS]** Action: variant selector: Found
+- **[FAIL]** Questions: has inputs: Found 0 inputs
+- **[PASS]** Quotes: has inputs: Found 2 inputs
+- **[FAIL]** Value Props: has inputs: Found 0 inputs
+- **[FAIL]** Footer: has inputs: Found 0 inputs
+- **[FAIL]** Menu: has inputs: Found 0 inputs
+
+### Theme Switching
+
+- **[PASS]** All 8 themes switch without crashes: All OK
+- **[PASS]** No JS errors during switching: Clean
+- **[PASS]** Light/Dark toggle works: Toggle clicked without crash
+
 ### Section CRUD
 
-- **[FAIL]** Initial section count: 0 sections
+- **[PASS]** Initial section count: 5 sections
 - **[PASS]** Add Section button exists: Visible
-- **[PASS]** Add section increases count: Before: 0, After: 1
-- **[PASS]** Duplicate increases count: Before: 1, After: 2
-- **[PASS]** Remove decreases count: Before: 2, After: 1
+- **[FAIL]** Add section increases count: Before: 5, After: 5
+- **[FAIL]** Duplicate button visible on hover: Not found (may be opacity-0)
 
 ### Font Cascade
 
@@ -39,7 +100,7 @@
 - **[PASS]** Buttons have labels: All labeled
 - **[PASS]** Inputs have labels/placeholders: All labeled
 - **[PASS]** Focus indicators in CSS: Focus styles found
-- **[PASS]** Min font size >= 12px: All >= 12px
+- **[FAIL]** Min font size >= 12px: 6 elements below 12px: <span> "Bg 1" = 9px; <span> "Bg 2" = 9px; <span> "Text" = 9px; <span> "Muted" = 9px; <span> "Accent" = 9px
 
 ### Responsive
 
@@ -50,11 +111,19 @@
 
 ## P0 Blockers (Must Fix)
 
-- **Section CRUD** > Initial section count: 0 sections
+- **Onboarding** > Theme card count = 10: Found 8 cards
+- **Section CRUD** > Add section increases count: Before: 5, After: 5
 
 ## P1 Issues (Should Fix)
 
+- **Section Editors** > Pricing: has inputs: Found 0 inputs
+- **Section Editors** > Questions: has inputs: Found 0 inputs
+- **Section Editors** > Value Props: has inputs: Found 0 inputs
+- **Section Editors** > Footer: has inputs: Found 0 inputs
+- **Section Editors** > Menu: has inputs: Found 0 inputs
+- **Section CRUD** > Duplicate button visible on hover: Not found (may be opacity-0)
 - **Font Cascade** > Font options available: Found 0 font options
+- **Accessibility** > Min font size >= 12px: 6 elements below 12px: <span> "Bg 1" = 9px; <span> "Bg 2" = 9px; <span> "Text" = 9px; <span> "Muted" = 9px; <span> "Accent" = 9px
 
 ## P2 Nice-to-Haves
 
@@ -64,7 +133,7 @@ No P2 issues found.
 
 ## Screenshots Taken
 
-- `tests/screenshots/onboarding.png` - Onboarding page with 10 theme cards
+- `tests/screenshots/onboarding.png` - Onboarding page with 8 theme cards
 - `tests/screenshots/builder-default.png` - Builder 3-panel layout
 - `tests/screenshots/preview-mode.png` - Preview mode full site
 - `tests/screenshots/responsive-mobile.png` - Mobile 375px view

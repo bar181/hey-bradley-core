@@ -154,7 +154,7 @@ export function GallerySectionSimple({ sectionId }: { sectionId: string }) {
                 <div className={cn(!item.enabled && 'opacity-25 pointer-events-none', 'space-y-2')}>
                   {imageUrl && (
                     <div className="w-full h-16 rounded-md overflow-hidden border border-hb-border/30">
-                      <img src={imageUrl} alt={caption || 'Preview'} className="w-full h-full object-cover" />
+                      <img src={imageUrl} alt={caption || 'Preview'} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
                     </div>
                   )}
                   <div className="space-y-1">

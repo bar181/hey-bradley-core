@@ -154,7 +154,7 @@ export function LogosSectionSimple({ sectionId }: { sectionId: string }) {
                 <div className={cn(!item.enabled && 'opacity-25 pointer-events-none', 'space-y-2')}>
                   {imageUrl && (
                     <div className="w-full h-12 rounded-md overflow-hidden border border-hb-border/30 flex items-center justify-center bg-white/5">
-                      <img src={imageUrl} alt={name || 'Logo'} className="max-w-full max-h-full object-contain" />
+                      <img src={imageUrl} alt={name || 'Logo'} className="max-w-full max-h-full object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
                     </div>
                   )}
                   <div className="space-y-1">

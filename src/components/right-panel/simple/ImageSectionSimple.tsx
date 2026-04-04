@@ -81,7 +81,7 @@ export function ImageSectionSimple({ sectionId }: { sectionId: string }) {
           </div>
           {imageUrl && (
             <div className="w-full h-20 rounded-md overflow-hidden border border-hb-border/30">
-              <img src={imageUrl} alt="Preview" className="w-full h-full object-cover" />
+              <img src={imageUrl} alt="Preview" className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
             </div>
           )}
           <div className="space-y-1">

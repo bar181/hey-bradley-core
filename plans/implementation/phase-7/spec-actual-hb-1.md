@@ -1,0 +1,567 @@
+{
+  "site": {
+    "title": "GreenLeaf Consulting",
+    "description": "Strategic consulting that grows with your business",
+    "author": "GreenLeaf Consulting",
+    "email": "info@greenleafconsulting.com",
+    "domain": "greenleafconsulting.com",
+    "project": "greenleaf-consulting",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2"
+  },
+  "theme": {
+    "preset": "professional",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#f8fafc",
+      "textPrimary": "#0f172a",
+      "textSecondary": "#475569",
+      "accentPrimary": "#1e40af",
+      "accentSecondary": "#2563eb"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#09090b",
+      "bgSecondary": "#18181b",
+      "textPrimary": "#fafafa",
+      "textSecondary": "#a1a1aa",
+      "accentPrimary": "#1e40af",
+      "accentSecondary": "#2563eb"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Inter",
+      "headingWeight": 600,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "gap": "24px",
+        "padding": "0"
+      },
+      "content": {},
+      "style": {
+        "background": "#ffffff",
+        "color": "#0f172a"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "GreenLeaf"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Schedule a Call",
+            "url": "#cta"
+          }
+        }
+      ]
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "minimal",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "content": {},
+      "style": {
+        "background": "#ffffff",
+        "color": "#0f172a",
+        "fontFamily": "Inter",
+        "borderRadius": "0px"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Trusted by Fortune 500",
+            "icon": "award",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Strategy That Grows With You",
+            "level": 1,
+            "size": "56px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "We partner with ambitious companies to solve their toughest challenges. From market entry to operational excellence, our senior partners deliver measurable results."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Schedule a Consultation",
+            "url": "#cta",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Our Approach",
+            "url": "#features",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "heroImage",
+          "type": "image",
+          "enabled": false,
+          "order": 5,
+          "props": {}
+        },
+        {
+          "id": "backgroundImage",
+          "type": "image",
+          "enabled": false,
+          "order": 6,
+          "props": {}
+        },
+        {
+          "id": "heroVideo",
+          "type": "video",
+          "enabled": false,
+          "order": 7,
+          "props": {}
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 8,
+          "props": {
+            "text": "Partnered with 120+ companies across 14 industries",
+            "show": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "columns",
+      "id": "features-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "gap": "32px",
+        "padding": "64px 24px",
+        "columns": 3
+      },
+      "content": {
+        "heading": "Our Services",
+        "subheading": "Strategic expertise across growth, operations, and leadership"
+      },
+      "style": {
+        "background": "#ffffff",
+        "color": "#0f172a"
+      },
+      "components": [
+        {
+          "id": "f1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "trending-up",
+            "title": "Growth Strategy",
+            "description": "Market analysis, competitive positioning, and go-to-market plans that drive measurable revenue growth quarter over quarter."
+          }
+        },
+        {
+          "id": "f2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "settings",
+            "title": "Operational Excellence",
+            "description": "Process optimization, technology integration, and organizational design for maximum efficiency at scale."
+          }
+        },
+        {
+          "id": "f3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "users",
+            "title": "Leadership Advisory",
+            "description": "Executive coaching, board advisory, and change management for leaders navigating complex transformation."
+          }
+        }
+      ]
+    },
+    {
+      "type": "numbers",
+      "id": "numbers-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "icons",
+      "layout": {
+        "display": "grid",
+        "gap": "32px",
+        "padding": "64px 24px",
+        "columns": 4
+      },
+      "content": {
+        "heading": "Results That Speak",
+        "subheading": "Measurable impact across 120+ engagements"
+      },
+      "style": {
+        "background": "#f8fafc",
+        "color": "#0f172a"
+      },
+      "components": [
+        {
+          "id": "n-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "120+",
+            "label": "Clients",
+            "description": "Companies transformed",
+            "icon": "building"
+          }
+        },
+        {
+          "id": "n-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "94%",
+            "label": "Retention",
+            "description": "Client renewal rate",
+            "icon": "repeat"
+          }
+        },
+        {
+          "id": "n-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "$2.4B",
+            "label": "Revenue Impact",
+            "description": "Generated for clients",
+            "icon": "dollar-sign"
+          }
+        },
+        {
+          "id": "n-4",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "value": "14",
+            "label": "Industries",
+            "description": "Deep sector expertise",
+            "icon": "layers"
+          }
+        }
+      ]
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "stars",
+      "layout": {
+        "display": "grid",
+        "gap": "24px",
+        "padding": "64px 24px",
+        "columns": 3
+      },
+      "content": {
+        "heading": "Client Testimonials",
+        "subheading": "What our partners say about working with us"
+      },
+      "style": {
+        "background": "#ffffff",
+        "color": "#0f172a"
+      },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "GreenLeaf helped us identify a $40M market opportunity we completely missed. Their strategic insight is unmatched.",
+            "author": "Jennifer Walsh",
+            "role": "CEO, NovaTech Industries",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "Our operational costs dropped 30% in six months. The GreenLeaf team didn't just advise — they rolled up their sleeves and delivered.",
+            "author": "Robert Nakamura",
+            "role": "COO, Pacific Health Systems",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "The best consulting engagement we've ever had. They challenged our assumptions and pushed us to think bigger about what was possible.",
+            "author": "Amara Okafor",
+            "role": "VP Strategy, Meridian Financial",
+            "rating": 5
+          }
+        }
+      ]
+    },
+    {
+      "type": "questions",
+      "id": "faq-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "accordion",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "gap": "0",
+        "padding": "64px 24px"
+      },
+      "content": {
+        "heading": "Common Questions",
+        "subheading": "How we work, who we serve, and what to expect"
+      },
+      "style": {
+        "background": "#f8fafc",
+        "color": "#0f172a"
+      },
+      "components": [
+        {
+          "id": "q-1",
+          "type": "faq-item",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "question": "How long does a typical engagement last?",
+            "answer": "Most engagements run 3 to 6 months, depending on scope. We start with a 2-week diagnostic to define clear milestones and deliverables before committing to a full engagement."
+          }
+        },
+        {
+          "id": "q-2",
+          "type": "faq-item",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "question": "What industries do you specialize in?",
+            "answer": "We have deep expertise across healthcare, financial services, technology, manufacturing, and consumer goods. Our team of 40+ consultants brings domain-specific knowledge to every project."
+          }
+        },
+        {
+          "id": "q-3",
+          "type": "faq-item",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "question": "How do you measure success?",
+            "answer": "Every engagement begins with agreed-upon KPIs tied to business outcomes — revenue growth, cost reduction, market share, or operational metrics. We report progress monthly and adjust strategy in real time."
+          }
+        },
+        {
+          "id": "q-4",
+          "type": "faq-item",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "question": "Do you work with startups or only enterprise companies?",
+            "answer": "We work with companies at every stage. Our startup practice focuses on Series A through C companies preparing for rapid scale, while our enterprise team handles Fortune 500 transformation."
+          }
+        }
+      ]
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "split",
+      "layout": {
+        "display": "flex",
+        "direction": "row",
+        "align": "center",
+        "gap": "48px",
+        "padding": "64px 24px"
+      },
+      "content": {},
+      "style": {
+        "background": "#ffffff",
+        "color": "#0f172a"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Ready to Accelerate Your Growth?",
+            "level": 2,
+            "size": "36px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Schedule a free 30-minute strategy call with one of our senior partners. No commitment, just actionable insight."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Schedule a Consultation",
+            "url": "#contact",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ]
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 6,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "gap": "32px",
+        "padding": "48px 24px",
+        "columns": 4
+      },
+      "content": {},
+      "style": {
+        "background": "#f8fafc",
+        "color": "#0f172a"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "GreenLeaf Consulting"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Services",
+            "links": "Strategy,Operations,Advisory,Research"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Company",
+            "links": "About,Team,Careers,Press"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Resources",
+            "links": "Insights,Case Studies,Newsletter"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "© 2026 GreenLeaf Consulting. New York | London | Singapore."
+          }
+        }
+      ]
+    }
+  ]
+}

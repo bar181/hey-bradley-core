@@ -106,6 +106,7 @@ export function HeroCentered({ section }: HeroCenteredProps) {
               src={imageUrl}
               alt={imageAlt}
               className="w-full rounded-xl object-cover shadow-2xl max-h-[500px]"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
             />
           </div>
         )}

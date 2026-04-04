@@ -64,8 +64,10 @@
 
 - **7A (Welcome):** 4/4 DONE
 - **7B (Light Mode):** 3/3 DONE
-- **7C (Edge Cases):** 3/4 DONE — 1 TODO (EC4)
+- **7C (Edge Cases):** 3/4 DONE — 1 DEFERRED (EC4 → Stage 1)
 - **7D (Fonts):** 3/3 DONE
-- **7E (Playwright):** 1/6 DONE — 5 TODO (PW1-PW5)
-- **7F (Demo Flow):** 3/4 DONE — 1 TODO (DF3)
-- **Overall:** 17/24 DONE, 7 TODO
+- **7E (Playwright):** 1/6 DONE — 5 DEFERRED (PW1-PW5 → Stage 1)
+- **7F (Demo Flow):** 3/4 DONE — 1 DEFERRED (DF3 → Stage 1)
+- **Overall:** 17/24 DONE, 7 DEFERRED to Stage 1
+- **Phase Status:** CLOSED (2026-04-04)
+- **Score:** 75/100

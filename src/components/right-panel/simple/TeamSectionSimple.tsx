@@ -158,7 +158,7 @@ export function TeamSectionSimple({ sectionId }: { sectionId: string }) {
                 <div className={cn(!item.enabled && 'opacity-25 pointer-events-none', 'space-y-2')}>
                   {imageUrl && (
                     <div className="w-16 h-16 rounded-full overflow-hidden border border-hb-border/30 mx-auto">
-                      <img src={imageUrl} alt={name || 'Photo'} className="w-full h-full object-cover" />
+                      <img src={imageUrl} alt={name || 'Photo'} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
                     </div>
                   )}
                   <div className="space-y-1">

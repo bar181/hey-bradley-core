@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Bradley — Phase 7 Wiki: Final Demo Polish</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface-hover: #22252f;
+    --border: #2a2d3a;
+    --text: #e4e4e7;
+    --text-muted: #9ca3af;
+    --accent: #818cf8;
+    --accent-hover: #6366f1;
+    --green: #34d399;
+    --yellow: #fbbf24;
+    --red: #f87171;
+    --orange: #fb923c;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem; }
+  h2 { font-size: 1.35rem; font-weight: 600; margin: 2rem 0 1rem; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+  h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem; }
+  .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+  .badge-closed { background: rgba(52, 211, 153, 0.15); color: var(--green); }
+  .badge-deferred { background: rgba(251, 191, 36, 0.15); color: var(--yellow); }
+  .badge-critical { background: rgba(248, 113, 113, 0.15); color: var(--red); }
+  .badge-done { background: rgba(52, 211, 153, 0.15); color: var(--green); }
+  .score-box {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 0.75rem; padding: 0.75rem 1.25rem; margin: 1rem 0;
+  }
+  .score-num { font-size: 2.5rem; font-weight: 800; color: var(--accent); }
+  .score-label { font-size: 0.85rem; color: var(--text-muted); }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+  th, td { padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+  th { color: var(--text-muted); font-weight: 500; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; background: var(--surface); }
+  tr:hover { background: var(--surface-hover); }
+  .status-done { color: var(--green); }
+  .status-deferred { color: var(--yellow); }
+  .status-todo { color: var(--red); }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.25rem; margin: 0.75rem 0; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1rem 0; }
+  .metric { text-align: center; }
+  .metric-value { font-size: 1.75rem; font-weight: 700; color: var(--accent); }
+  .metric-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; }
+  .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin: 0.5rem 0; }
+  .progress-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+  .progress-fill.green { background: var(--green); }
+  .timeline { border-left: 2px solid var(--border); padding-left: 1.5rem; margin: 1rem 0; }
+  .timeline-item { position: relative; margin-bottom: 1.25rem; }
+  .timeline-item::before { content: ''; position: absolute; left: -1.75rem; top: 0.5rem; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+  .timeline-date { font-size: 0.8rem; color: var(--text-muted); }
+  .timeline-title { font-weight: 600; }
+  .highlight { background: rgba(129, 140, 248, 0.1); border-left: 3px solid var(--accent); padding: 1rem 1.25rem; border-radius: 0 0.5rem 0.5rem 0; margin: 1rem 0; }
+  code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 0.25rem; font-size: 0.85rem; font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+  .footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.85rem; text-align: center; }
+</style>
+</head>
+<body>
+
+<h1>Phase 7: Final Demo Polish <span class="badge badge-closed">Closed</span></h1>
+<p class="subtitle">2026-04-03 → 2026-04-04 &middot; 2 sessions &middot; Hey Bradley Capstone Project</p>
+
+<div class="score-box">
+  <span class="score-num">75</span>
+  <span>
+    <span class="score-label">/ 100</span><br>
+    <span class="score-label">Phase Score</span>
+  </span>
+</div>
+
+<!-- Metrics -->
+<h2>Key Metrics</h2>
+<div class="card-grid">
+  <div class="card metric">
+    <div class="metric-value">17/24</div>
+    <div class="metric-label">Checklist Items Done</div>
+    <div class="progress-bar"><div class="progress-fill green" style="width:71%"></div></div>
+  </div>
+  <div class="card metric">
+    <div class="metric-value">62</div>
+    <div class="metric-label">Template Variants (TSX)</div>
+  </div>
+  <div class="card metric">
+    <div class="metric-value">47/47</div>
+    <div class="metric-label">Playwright Tests Pass</div>
+    <div class="progress-bar"><div class="progress-fill green" style="width:100%"></div></div>
+  </div>
+  <div class="card metric">
+    <div class="metric-value">4</div>
+    <div class="metric-label">Example Websites</div>
+  </div>
+  <div class="card metric">
+    <div class="metric-value">20</div>
+    <div class="metric-label">Section Types</div>
+  </div>
+  <div class="card metric">
+    <div class="metric-value">7</div>
+    <div class="metric-label">Items Deferred → Stage 1</div>
+  </div>
+</div>
+
+<!-- Checklist -->
+<h2>Checklist Summary</h2>
+
+<h3>7A — Welcome/Splash Page Polish</h3>
+<table>
+  <tr><th>ID</th><th>Check</th><th>Status</th></tr>
+  <tr><td>WP1</td><td>CTA always clickable on all viewports</td><td class="status-done">DONE</td></tr>
+  <tr><td>WP2</td><td>Mobile responsive layout</td><td class="status-done">DONE</td></tr>
+  <tr><td>WP3</td><td>No remaining jargon</td><td class="status-done">DONE</td></tr>
+  <tr><td>WP4</td><td>Smooth transition to /builder</td><td class="status-done">DONE</td></tr>
+</table>
+
+<h3>7B — Light Mode Consistency</h3>
+<table>
+  <tr><th>ID</th><th>Check</th><th>Status</th></tr>
+  <tr><td>LM1</td><td>All 15 section types render in light themes</td><td class="status-done">DONE</td></tr>
+  <tr><td>LM2</td><td>All 4 examples tested in light mode</td><td class="status-done">DONE</td></tr>
+  <tr><td>LM3</td><td>No hardcoded dark-only backgrounds</td><td class="status-done">DONE</td></tr>
+</table>
+
+<h3>7C — Edge Cases + Error Boundaries</h3>
+<table>
+  <tr><th>ID</th><th>Check</th><th>Status</th></tr>
+  <tr><td>EC1</td><td>404 page exists</td><td class="status-done">DONE</td></tr>
+  <tr><td>EC2</td><td>Empty state for zero sections</td><td class="status-done">DONE</td></tr>
+  <tr><td>EC3</td><td>Error boundary around template renderers</td><td class="status-done">DONE</td></tr>
+  <tr><td>EC4</td><td>Malformed JSON handling in Data tab</td><td class="status-deferred">DEFERRED → Stage 1</td></tr>
+</table>
+
+<h3>7D — Font Loading</h3>
+<table>
+  <tr><th>ID</th><th>Check</th><th>Status</th></tr>
+  <tr><td>FL1</td><td>All 5 font options load correctly</td><td class="status-done">DONE</td></tr>
+  <tr><td>FL2</td><td>Fallback font stack</td><td class="status-done">DONE</td></tr>
+  <tr><td>FL3</td><td>No FOUT (flash of unstyled text)</td><td class="status-done">DONE</td></tr>
+</table>
+
+<h3>7E — Playwright Tests</h3>
+<table>
+  <tr><th>ID</th><th>Check</th><th>Status</th></tr>
+  <tr><td>PW1</td><td>Demo simulator flow test</td><td class="status-deferred">DEFERRED → Stage 1</td></tr>
+  <tr><td>PW2</td><td>Chat quick-demo button test</td><td class="status-deferred">DEFERRED → Stage 1</td></tr>
+  <tr><td>PW3</td><td>Listen mode demo test</td><td class="status-deferred">DEFERRED → Stage 1</td></tr>
+  <tr><td>PW4</td><td>Preview mode toggle test</td><td class="status-deferred">DEFERRED → Stage 1</td></tr>
+  <tr><td>PW5</td><td>Light/dark mode rendering tests</td><td class="status-deferred">DEFERRED → Stage 1</td></tr>
+  <tr><td>PW6</td><td>All existing tests still pass (47/47)</td><td class="status-done">DONE</td></tr>
+</table>
+
+<h3>7F — Demo Presentation Flow</h3>
+<table>
+  <tr><th>ID</th><th>Check</th><th>Status</th></tr>
+  <tr><td>DF1</td><td>15-min demo runs without bugs</td><td class="status-done">DONE</td></tr>
+  <tr><td>DF2</td><td>Smooth mode transitions</td><td class="status-done">DONE</td></tr>
+  <tr><td>DF3</td><td>No console errors during demo</td><td class="status-deferred">DEFERRED → Stage 1</td></tr>
+  <tr><td>DF4</td><td>Offline fallback (localStorage)</td><td class="status-done">DONE</td></tr>
+</table>
+
+<!-- Spec Roundtrip Test -->
+<h2>Spec Quality Roundtrip Test</h2>
+<div class="highlight">
+  <strong>The most important finding of Phase 7.</strong> Generated specs from GreenLeaf Consulting, fed to LLM, compared output. HUMAN spec scored B+, AISP scored B-. The AISP is the core product innovation — B- is unacceptable for the capstone.
+</div>
+
+<div class="card-grid">
+  <div class="card">
+    <h3>HUMAN Spec — B+</h3>
+    <p style="color:var(--text-muted);font-size:0.9rem;">Structure clear, section types correct, component counts accurate. Missing: spacing/padding, typography weights, section headings, per-section backgrounds.</p>
+  </div>
+  <div class="card">
+    <h3>AISP Spec — B- <span class="badge badge-critical">Critical</span></h3>
+    <p style="color:var(--text-muted);font-size:0.9rem;">Crystal Atom structure correct. Critical bugs: 30-char text truncation, slice(0,4) component limit, missing headings, missing spacing in Λ bindings.</p>
+  </div>
+</div>
+
+<h3>5 Quick Wins Identified (Stage 1 P0)</h3>
+<table>
+  <tr><th>#</th><th>Fix</th><th>Impact</th><th>Effort</th></tr>
+  <tr><td>1</td><td>Remove 30-char truncation in AISP</td><td>High — eliminates data loss</td><td>5 min</td></tr>
+  <tr><td>2</td><td>Remove <code>slice(0, 4)</code> component limit</td><td>High — eliminates data loss</td><td>5 min</td></tr>
+  <tr><td>3</td><td>Add content.heading/subheading to both views</td><td>High — spec completeness</td><td>30 min</td></tr>
+  <tr><td>4</td><td>Add spacing/typography to HUMAN overview</td><td>Medium — better fidelity</td><td>15 min</td></tr>
+  <tr><td>5</td><td>Add section background/color to details</td><td>Medium — eliminates guesswork</td><td>15 min</td></tr>
+</table>
+
+<!-- Timeline -->
+<h2>Session Timeline</h2>
+<div class="timeline">
+  <div class="timeline-item">
+    <div class="timeline-date">2026-04-03 — Session 0</div>
+    <div class="timeline-title">Phase 7 Preflight</div>
+    <p style="color:var(--text-muted);font-size:0.9rem;">Planning after Phase 6 close (78+/100, 53/54 checklist)</p>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-date">2026-04-03 — Session 1</div>
+    <div class="timeline-title">Polish + Spec Roundtrip</div>
+    <p style="color:var(--text-muted);font-size:0.9rem;">404 page, CTA fix, light mode, fonts, error boundary, shadcn polish. Spec roundtrip test. Req 08-10 created. 47/47 Playwright tests.</p>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-date">2026-04-04 — Session 2</div>
+    <div class="timeline-title">Phase 7 Close + Master Backlog</div>
+    <p style="color:var(--text-muted);font-size:0.9rem;">12-agent repo audit. Retrospective. Master backlog. Phase 8 preflight. Wiki.</p>
+  </div>
+</div>
+
+<!-- Tech Debt -->
+<h2>Technical Debt Carried Forward</h2>
+<table>
+  <tr><th>ID</th><th>Item</th><th>Severity</th><th>Target</th></tr>
+  <tr><td>TD1</td><td>AISP spec B- (truncation + slice bugs)</td><td><span class="badge badge-critical">Critical</span></td><td>Stage 1 Sprint 1</td></tr>
+  <tr><td>TD2</td><td>No modular spec generators (6 needed)</td><td><span class="badge badge-critical">Critical</span></td><td>Stage 1 Sprint 1</td></tr>
+  <tr><td>TD3</td><td>5 Playwright tests missing</td><td><span class="badge badge-deferred">High</span></td><td>Stage 1 Sprint 6</td></tr>
+  <tr><td>TD4</td><td>23 console statements in 7 files</td><td><span class="badge badge-deferred">Medium</span></td><td>Stage 1 Sprint 6</td></tr>
+  <tr><td>TD5</td><td>Malformed JSON handling in Data tab</td><td style="color:var(--text-muted)">Low</td><td>Stage 1 Sprint 6</td></tr>
+  <tr><td>TD6</td><td>Media library not LLM-ready</td><td><span class="badge badge-critical">Critical</span></td><td>Stage 1 Sprint 3</td></tr>
+  <tr><td>TD7</td><td>Only 4/8 example sites</td><td><span class="badge badge-critical">Critical</span></td><td>Stage 1 Sprint 4</td></tr>
+  <tr><td>TD8</td><td><code>(section.content as any)</code> 62+ instances</td><td><span class="badge badge-deferred">Medium</span></td><td>Stage 2</td></tr>
+  <tr><td>TD9</td><td>No image effects CSS</td><td><span class="badge badge-deferred">Medium</span></td><td>Stage 1 Sprint 5</td></tr>
+  <tr><td>TD10</td><td>No design/content mode toggle</td><td><span class="badge badge-deferred">Medium</span></td><td>Stage 1 Sprint 5</td></tr>
+</table>
+
+<!-- Phase History -->
+<h2>Phase Score Trajectory</h2>
+<div class="card" style="text-align:center;padding:1.5rem;">
+  <div style="display:flex;justify-content:space-around;align-items:flex-end;height:140px;margin-bottom:1rem;">
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <div style="background:var(--accent);width:40px;border-radius:4px 4px 0 0;height:77px;"></div>
+      <span style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">P1: 77</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <div style="background:var(--accent);width:40px;border-radius:4px 4px 0 0;height:82px;"></div>
+      <span style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">P2: 82</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <div style="background:var(--accent);width:40px;border-radius:4px 4px 0 0;height:73px;"></div>
+      <span style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">P3: 73</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <div style="background:var(--accent);width:40px;border-radius:4px 4px 0 0;height:84px;"></div>
+      <span style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">P4: 84</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <div style="background:var(--accent);width:40px;border-radius:4px 4px 0 0;height:67px;"></div>
+      <span style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">P5: 67</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <div style="background:var(--accent);width:40px;border-radius:4px 4px 0 0;height:78px;"></div>
+      <span style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">P6: 78</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <div style="background:var(--green);width:40px;border-radius:4px 4px 0 0;height:75px;"></div>
+      <span style="font-size:0.75rem;color:var(--green);margin-top:4px;">P7: 75</span>
+    </div>
+  </div>
+  <p style="color:var(--text-muted);font-size:0.85rem;">Target for Stage 1: 85+/100</p>
+</div>
+
+<!-- Next Steps -->
+<h2>What's Next: Stage 1 (Presentation)</h2>
+<div class="highlight">
+  <strong>Priority order:</strong> Spec generators (A+ AISP) → Plans cleanup → Image/video library → Example websites → Design toggle + effects → Integration + 3x optimization loop
+</div>
+
+<table>
+  <tr><th>Sprint</th><th>Focus</th><th>Est. Sessions</th></tr>
+  <tr><td>1</td><td>6 enterprise spec generators + AISP A+ grade</td><td>2-3</td></tr>
+  <tr><td>2</td><td>Plans folder cleanup and archive</td><td>0.5</td></tr>
+  <tr><td>3</td><td>200+ images, 40+ videos, 8 effects (JSON metadata)</td><td>1-2</td></tr>
+  <tr><td>4</td><td>4 new examples (FitForge, Florist, Kitchen Sink, Blank)</td><td>1-2</td></tr>
+  <tr><td>5</td><td>Design/Content toggle + CSS image effects</td><td>0.5</td></tr>
+  <tr><td>6</td><td>Final integration + 3x optimization loop + rehearsal</td><td>1</td></tr>
+</table>
+
+<div class="footer">
+  Hey Bradley &middot; Phase 7 Wiki &middot; Generated 2026-04-04 &middot; Harvard Capstone Project
+</div>
+
+</body>
+</html>

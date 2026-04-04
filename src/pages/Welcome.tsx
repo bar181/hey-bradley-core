@@ -245,7 +245,6 @@ export function Welcome() {
     setAnimationKey(prev => prev + 1);
   };
 
-  const isTypingComplete = currentMessageIndex >= CONVERSATION.length;
   const currentShowcase: HeroShowcase = currentShowcaseIndex === -1
     ? INITIAL_SHOWCASE as HeroShowcase
     : HERO_SHOWCASES[currentShowcaseIndex];
@@ -312,6 +311,7 @@ export function Welcome() {
               src={currentShowcase.backgroundImage}
               alt=""
               className="w-full h-full object-cover"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
             />
             <div className={`absolute inset-0 ${currentShowcase.overlay}`} />
             <div className="absolute inset-0 flex flex-col items-start justify-center p-12 lg:p-16">
@@ -479,6 +479,7 @@ export function Welcome() {
                   src={currentShowcase.image}
                   alt="Bradley Ross"
                   className="w-32 h-32 lg:w-40 lg:h-40 rounded-full object-cover shadow-2xl border-4 border-white"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
                 />
               </motion.div>
               <motion.h1

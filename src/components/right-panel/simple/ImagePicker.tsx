@@ -395,6 +395,7 @@ export function ImagePicker({
                                 alt={img.alt}
                                 loading="lazy"
                                 className="absolute inset-0 w-full h-full object-cover"
+                                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
                               />
                               {/* Label overlay */}
                               <span className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent px-1.5 py-1">
@@ -433,6 +434,7 @@ export function ImagePicker({
                               alt={video.name}
                               loading="lazy"
                               className="absolute inset-0 w-full h-full object-cover"
+                              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
                             />
                             {/* Play icon overlay */}
                             <span className="absolute inset-0 flex items-center justify-center">
