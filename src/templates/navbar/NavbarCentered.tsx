@@ -38,14 +38,14 @@ export function NavbarCentered({ section }: { section: Section }) {
         borderColor: `color-mix(in srgb, ${section.style.color || 'currentColor'} 8%, transparent)`,
       }}
     >
-      <div className="mx-auto max-w-6xl flex flex-col items-center px-6 pt-4 pb-2">
+      <div className="mx-auto max-w-6xl flex flex-col items-center px-6 py-3">
         {/* Logo — centered top */}
-        <span className="font-bold text-xl tracking-tight mb-2" style={{ fontFamily: 'inherit' }}>
+        <span className="font-bold text-lg tracking-tight mb-1" style={{ fontFamily: 'inherit' }}>
           {logo}
         </span>
 
-        {/* Nav links — centered row below logo */}
-        <div className="flex items-center gap-1">
+        {/* Nav links — hidden on mobile, centered row on md+ */}
+        <div className="hidden md:flex items-center gap-1 flex-wrap justify-center">
           {navLinks.map((link) => (
             <a
               key={link.id}
@@ -59,7 +59,7 @@ export function NavbarCentered({ section }: { section: Section }) {
           {ctaEnabled && (
             <a
               href="#"
-              className="ml-2 inline-flex items-center px-4 py-1.5 rounded-lg text-sm font-medium transition-colors"
+              className="ml-2 inline-flex items-center px-4 py-1.5 rounded-lg text-sm font-medium transition-colors hover:opacity-90 hover:shadow-sm"
               style={{
                 background: 'var(--theme-accent, #6366f1)',
                 color: '#fff',
@@ -69,6 +69,20 @@ export function NavbarCentered({ section }: { section: Section }) {
             </a>
           )}
         </div>
+
+        {/* Mobile: just the CTA */}
+        {ctaEnabled && (
+          <a
+            href="#"
+            className="md:hidden mt-1 inline-flex items-center px-4 py-1.5 rounded-lg text-sm font-medium transition-colors"
+            style={{
+              background: 'var(--theme-accent, #6366f1)',
+              color: '#fff',
+            }}
+          >
+            {ctaText}
+          </a>
+        )}
       </div>
     </nav>
   )

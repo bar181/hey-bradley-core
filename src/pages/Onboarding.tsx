@@ -8,11 +8,17 @@ import { EXAMPLE_SITES } from '@/data/examples'
 
 const STORAGE_KEY = 'hey-bradley-project'
 
-/** Preview screenshot slugs matching filenames in /public/previews/ */
-const EXAMPLE_SLUGS = [
-  'bakery', 'launchpad', 'photography', 'consulting',
-  'fitforge', 'florist', 'kitchen-sink', 'blank',
-]
+/** Map example names to preview screenshot filenames */
+const EXAMPLE_PREVIEW_SLUGS: Record<string, string> = {
+  'Sweet Spot Bakery': 'bakery',
+  'LaunchPad AI': 'launchpad',
+  'Sarah Chen Photography': 'photography',
+  'GreenLeaf Consulting': 'consulting',
+  'FitForge Fitness': 'fitforge',
+  'Bloom & Petal': 'florist',
+  'Kitchen Sink Demo': 'kitchen-sink',
+  'Blank Canvas': 'blank',
+}
 
 interface ThemeMeta {
   name: string
@@ -137,6 +143,7 @@ function ExampleCard({
           alt={`${name} preview`}
           loading="lazy"
           className="aspect-[16/10] w-full object-cover object-top"
+          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
         />
         {/* Palette dots overlay */}
         <div className="absolute bottom-2 left-2 flex gap-1">
@@ -188,6 +195,7 @@ function ThemeCard({ theme, onSelect }: { theme: ThemeJSON; onSelect: () => void
           alt={`${meta.name} theme preview`}
           loading="lazy"
           className="aspect-[16/10] w-full object-cover object-top"
+          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
         />
         {/* Palette dots overlay */}
         <div className="absolute bottom-2 left-2 flex gap-1">
@@ -545,7 +553,7 @@ export function Onboarding() {
                       <ExampleCard
                         key={example.name}
                         name={example.name}
-                        slug={EXAMPLE_SLUGS[idx]}
+                        slug={EXAMPLE_PREVIEW_SLUGS[example.name] || 'blank'}
                         description={example.description}
                         theme={example.theme}
                         palette={getExamplePalette(example.config as { theme?: { palette?: { bgPrimary?: string; accentPrimary?: string; textPrimary?: string } } })}

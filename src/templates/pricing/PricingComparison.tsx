@@ -129,18 +129,17 @@ function ComparisonTable({
                   className={cn(
                     'mt-3 inline-block rounded-lg px-5 py-2 text-xs font-semibold transition-opacity hover:opacity-80',
                     tier.highlighted
-                      ? 'border'
-                      : 'bg-theme-accent',
+                      ? 'bg-theme-accent'
+                      : 'border',
                   )}
                   style={
                     tier.highlighted
                       ? {
-                          borderColor: `color-mix(in srgb, ${section.style.background || '#fff'} 40%, transparent)`,
+                          background: 'var(--theme-accent, #6366f1)',
                           color: section.style.background || '#fff',
                         }
                       : {
-                          background: 'var(--theme-accent, #6366f1)',
-                          color: section.style.background || '#fff',
+                          borderColor: `color-mix(in srgb, ${section.style.color || '#fff'} 20%, transparent)`,
                         }
                   }
                 >

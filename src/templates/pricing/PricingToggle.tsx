@@ -198,7 +198,7 @@ export function PricingToggle({ section }: { section: Section }) {
                   'relative flex flex-col rounded-2xl border p-6',
                   'bg-theme-surface/60 backdrop-blur-sm transition-all duration-300',
                   'shadow-sm hover:shadow-lg hover:-translate-y-[2px]',
-                  'opacity-0 animate-card-reveal',
+                  'animate-card-reveal',
                   tier.highlighted
                     ? 'border-theme-accent ring-2 ring-theme-accent/20 md:-translate-y-2 md:hover:-translate-y-3'
                     : '',
@@ -294,13 +294,6 @@ export function PricingToggle({ section }: { section: Section }) {
         </div>
       </div>
 
-      {/* Keyframe for price transition */}
-      <style>{`
-        @keyframes pricing-fade-in {
-          from { opacity: 0; transform: translateY(-4px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
     </section>
   )
 }
