@@ -254,8 +254,6 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
         }
       }
     }
-    if (import.meta.env.DEV) console.log('[applyVibe]', themeName, 'copyMap:', copyMap)
-
     // Step 2: Build new config from theme template
     const newConfig = {
       ...config,
@@ -280,12 +278,6 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
         : config.sections,
     }
 
-    if (import.meta.env.DEV) {
-      const heroSection = (newConfig.sections as Section[])[0]
-      const heroImg = heroSection?.components?.find((c: { id: string }) => c.id === 'heroImage')
-      console.log('[applyVibe] result:', { preset: themeName, heroVariant: heroSection?.variant, heroImageUrl: (heroImg?.props as Record<string, unknown>)?.url, heroImageEnabled: heroImg?.enabled })
-    }
-
     set({ config: newConfig as MasterConfig, history: newHistory, future: [], isDirty: true })
   },
 
@@ -295,9 +287,8 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     const theme = config.theme as unknown as Record<string, unknown>
     const alts = (theme.alternativePalettes as Array<Record<string, unknown>>) || []
     const palette = paletteIndex === 0 ? theme.palette : alts[paletteIndex - 1]
-    if (!palette) { if (import.meta.env.DEV) console.warn('[applyPalette] no palette at index', paletteIndex); return }
+    if (!palette) return
     const p = palette as Record<string, string>
-    if (import.meta.env.DEV) console.log('[applyPalette]', paletteIndex, p)
     const newTheme = {
       ...config.theme,
       palette: { bgPrimary: p.bgPrimary, bgSecondary: p.bgSecondary, textPrimary: p.textPrimary, textSecondary: p.textSecondary, accentPrimary: p.accentPrimary, accentSecondary: p.accentSecondary },
@@ -313,7 +304,6 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     const { config, history } = get()
     const newHistory = [...history, config].slice(-HISTORY_LIMIT)
     const p = palette
-    if (import.meta.env.DEV) console.log('[setPalette]', p)
     const newTheme = {
       ...config.theme,
       palette: { bgPrimary: p.bgPrimary, bgSecondary: p.bgSecondary, textPrimary: p.textPrimary, textSecondary: p.textSecondary, accentPrimary: p.accentPrimary, accentSecondary: p.accentSecondary },
@@ -326,7 +316,6 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
   },
 
   applyFont: (fontFamily: string) => {
-    if (import.meta.env.DEV) console.log('[applyFont]', fontFamily)
     const { config, history } = get()
     const newHistory = [...history, config].slice(-HISTORY_LIMIT)
     const newTheme = {
@@ -388,7 +377,6 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       })
     }
 
-    if (import.meta.env.DEV) console.log('[toggleMode]', newMode)
   },
 
   undo: () => {

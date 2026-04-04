@@ -165,7 +165,11 @@ export function Onboarding() {
               >
                 <div className="text-sm font-semibold text-white group-hover:text-white/90">{example.name}</div>
                 <div className="text-xs text-white/40 mt-1">{example.description}</div>
-                <div className="text-xs text-white/20 mt-2 uppercase tracking-wider">{example.theme} theme</div>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="text-xs text-white/20 uppercase tracking-wider">{example.theme}</span>
+                  <span className="text-[10px] text-white/20">·</span>
+                  <span className="text-xs text-white/20">{example.config.sections.filter(s => s.enabled).length} sections</span>
+                </div>
               </button>
             ))}
           </div>

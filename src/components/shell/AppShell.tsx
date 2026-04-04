@@ -22,15 +22,12 @@ export function AppShell() {
         e.preventDefault()
         if (e.shiftKey) {
           useConfigStore.getState().redo()
-          if (import.meta.env.DEV) console.log('[undo/redo] redo')
         } else {
           useConfigStore.getState().undo()
-          if (import.meta.env.DEV) console.log('[undo/redo] undo')
         }
       }
       if ((e.metaKey || e.ctrlKey) && e.key === 's') {
         e.preventDefault()
-        if (import.meta.env.DEV) console.log('[save] prevented browser save')
       }
     }
     window.addEventListener('keydown', handler)

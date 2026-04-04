@@ -25,6 +25,7 @@ interface UIStore {
   previewWidth: PreviewWidth
   isPreviewMode: boolean
   rightPanelVisible: boolean
+  designLocked: boolean
 
   setInteractionMode: (mode: InteractionMode) => void
   setActiveTab: (tab: ActiveTab) => void
@@ -35,6 +36,7 @@ interface UIStore {
   setPreviewWidth: (width: PreviewWidth) => void
   setPreviewMode: (active: boolean) => void
   setRightPanelVisible: (visible: boolean) => void
+  toggleDesignLock: () => void
 }
 
 export const useUIStore = create<UIStore>((set) => ({
@@ -47,11 +49,13 @@ export const useUIStore = create<UIStore>((set) => ({
   previewWidth: 'full',
   isPreviewMode: false,
   rightPanelVisible: true,
+  designLocked: false,
 
   setInteractionMode: (mode) => set({ interactionMode: mode }),
   setPreviewWidth: (width) => set({ previewWidth: width }),
   setPreviewMode: (active) => set({ isPreviewMode: active }),
   setRightPanelVisible: (visible) => set({ rightPanelVisible: visible }),
+  toggleDesignLock: () => set((state) => ({ designLocked: !state.designLocked })),
   setActiveTab: (tab) => set({ activeTab: tab }),
   setRightPanelTab: (tab) => set({ rightPanelTab: tab }),
   setLeftPanelTab: (tab) => set({ leftPanelTab: tab }),

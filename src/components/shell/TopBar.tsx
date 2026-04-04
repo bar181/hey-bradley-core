@@ -1,4 +1,4 @@
-import { Monitor, Tablet, Smartphone, Undo2, Redo2, Sun, Moon, Menu, X, Eye, PenLine, PanelRightClose, PanelRightOpen, Check, ClipboardCopy } from 'lucide-react'
+import { Monitor, Tablet, Smartphone, Undo2, Redo2, Sun, Moon, Menu, X, Eye, PenLine, PanelRightClose, PanelRightOpen, Check, ClipboardCopy, Lock, Unlock } from 'lucide-react'
 
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore, type PreviewWidth } from '@/store/uiStore'
@@ -24,6 +24,8 @@ export function TopBar() {
   const setPreviewMode = useUIStore((s) => s.setPreviewMode)
   const rightPanelVisible = useUIStore((s) => s.rightPanelVisible)
   const setRightPanelVisible = useUIStore((s) => s.setRightPanelVisible)
+  const designLocked = useUIStore((s) => s.designLocked)
+  const toggleDesignLock = useUIStore((s) => s.toggleDesignLock)
 
   // Site chrome dark/light mode
   const [chromeLight, setChromeLight] = useState(false)
@@ -147,6 +149,16 @@ export function TopBar() {
           title={rightPanelVisible ? 'Hide right panel' : 'Show right panel'}
         >
           {rightPanelVisible ? <PanelRightClose size={16} /> : <PanelRightOpen size={16} />}
+        </button>
+        <button
+          onClick={toggleDesignLock}
+          className={`p-1 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded ${
+            designLocked ? 'text-hb-accent' : 'text-white/60 hover:text-white'
+          }`}
+          aria-label={designLocked ? 'Unlock design editing' : 'Lock design editing'}
+          title={designLocked ? 'Design locked — content editing only' : 'Design unlocked'}
+        >
+          {designLocked ? <Lock size={16} /> : <Unlock size={16} />}
         </button>
         <div className="w-px h-4 bg-white/20 mx-1" />
         <button

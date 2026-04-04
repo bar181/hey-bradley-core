@@ -89,7 +89,6 @@ export function DataTab() {
     a.download = 'hey-bradley-project.json'
     a.click()
     URL.revokeObjectURL(url)
-    if (import.meta.env.DEV) console.log('[export] downloaded hey-bradley-project.json', jsonString.length, 'chars')
   }, [jsonString])
 
   const handleImport = useCallback(() => {
@@ -107,11 +106,9 @@ export function DataTab() {
         if (result.success) {
           loadConfig(result.data)
           setImportError(null)
-          if (import.meta.env.DEV) console.log('[import] loaded valid config from file')
         } else {
           const issues = result.error.issues.slice(0, 3).map(i => `${i.path.join('.')}: ${i.message}`).join('; ')
           setImportError(`Invalid config: ${issues}`)
-          if (import.meta.env.DEV) console.warn('[import] validation failed:', result.error.issues)
         }
       } catch (err) {
         setImportError(`Invalid JSON: ${(err as Error).message}`)

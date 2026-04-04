@@ -25,7 +25,5 @@ export function useThemeVars(containerRef: React.RefObject<HTMLElement | null>) 
     el.style.setProperty('--theme-accent', colors.accentPrimary)
     el.style.setProperty('--theme-accent-secondary', colors.accentSecondary)
     el.style.setProperty('--theme-font', theme.typography.fontFamily)
-
-    if (import.meta.env.DEV) console.log('[themeVars] updated CSS vars', colors)
   }, [theme, containerRef])
 }

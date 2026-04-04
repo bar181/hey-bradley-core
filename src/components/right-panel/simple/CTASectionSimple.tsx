@@ -29,21 +29,18 @@ export function CTASectionSimple({ sectionId }: { sectionId: string }) {
 
   const updateCopy = useCallback(
     (componentId: string, text: string) => {
-      if (import.meta.env.DEV) console.log('[cta:copyEdit]', componentId, text)
       setSectionConfig(sectionId, { components: updateComponentProps(section, componentId, { text }) })
     }, [sectionId, section, setSectionConfig]
   )
 
   const handleToggle = useCallback(
     (componentId: string, checked: boolean) => {
-      if (import.meta.env.DEV) console.log('[cta:toggle]', componentId, checked)
       setSectionConfig(sectionId, { components: setComponentEnabled(section, componentId, checked) })
     }, [sectionId, section, setSectionConfig]
   )
 
   const updateUrl = useCallback(
     (componentId: string, url: string) => {
-      if (import.meta.env.DEV) console.log('[cta:urlEdit]', componentId, url)
       setSectionConfig(sectionId, {
         components: section.components.map((c) => c.id === componentId ? { ...c, props: { ...c.props, url } } : c),
       })

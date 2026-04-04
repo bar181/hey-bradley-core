@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Sun, Moon, ChevronDown, Check } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { useConfigStore } from '@/store/configStore'
+import { useUIStore } from '@/store/uiStore'
 import { THEME_REGISTRY } from '@/data/themes/index'
 
 interface ThemeMeta {
@@ -75,6 +76,7 @@ export function ThemeSimple() {
   const applyVibe = useConfigStore((s) => s.applyVibe)
   const toggleMode = useConfigStore((s) => s.toggleMode)
   const setPalette = useConfigStore((s) => s.setPalette)
+  const designLocked = useUIStore((s) => s.designLocked)
   const [expanded, setExpanded] = useState(false)
 
   const themes = THEME_REGISTRY as unknown as ThemeJSON[]
@@ -92,7 +94,7 @@ export function ThemeSimple() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className={cn('space-y-4', designLocked && 'opacity-50 pointer-events-none')}>
       {/* Current theme selector — dropdown style */}
       <div>
         <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Theme</div>

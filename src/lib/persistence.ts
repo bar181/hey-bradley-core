@@ -13,10 +13,8 @@ export function loadSavedProject(): boolean {
     const parsed = JSON.parse(saved)
     const validated = masterConfigSchema.parse(parsed)
     useConfigStore.getState().loadConfig(validated)
-    if (import.meta.env.DEV) console.log('[persistence] loaded from localStorage')
     return true
   } catch (e) {
-    if (import.meta.env.DEV) console.warn('[persistence] failed to load:', e)
     return false
   }
 }
@@ -27,9 +25,8 @@ function saveToLocalStorage() {
     const config = useConfigStore.getState().config
     localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
     useConfigStore.getState().markSaved()
-    if (import.meta.env.DEV) console.log('[persistence] saved to localStorage')
-  } catch (e) {
-    if (import.meta.env.DEV) console.warn('[persistence] save failed:', e)
+  } catch {
+    // save failed — localStorage may be full
   }
 }
 
@@ -37,7 +34,6 @@ function saveToLocalStorage() {
 export function newProject() {
   localStorage.removeItem(STORAGE_KEY)
   useConfigStore.getState().resetToDefaults()
-  if (import.meta.env.DEV) console.log('[persistence] new project — reset to defaults')
 }
 
 /** React hook: subscribe to config changes and auto-save with debounce */

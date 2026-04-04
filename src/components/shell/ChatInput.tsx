@@ -27,6 +27,7 @@ export function ChatInput() {
   const [typingText, setTypingText] = useState('')
   const [typingFull, setTypingFull] = useState('')
   const [demoActive, setDemoActive] = useState(false)
+  const [selectedExample, setSelectedExample] = useState(0)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const nextId = useRef(0)
@@ -171,7 +172,26 @@ export function ChatInput() {
               hi! tell me what to build.
             </div>
             <div className="space-y-2">
-              <p className="text-xs text-hb-text-muted uppercase tracking-wider font-medium">Quick demos</p>
+              <div className="flex items-center justify-between">
+                <p className="text-xs text-hb-text-muted uppercase tracking-wider font-medium">Quick demos</p>
+                <div className="flex items-center gap-1.5">
+                  <select
+                    value={selectedExample}
+                    onChange={(e) => {
+                      const idx = Number(e.target.value)
+                      setSelectedExample(idx)
+                      startDemo(EXAMPLE_SITES[idx])
+                    }}
+                    disabled={isProcessing || demoActive}
+                    className="text-[10px] bg-hb-surface border border-hb-border rounded px-1.5 py-0.5 text-hb-text-secondary outline-none focus:border-hb-accent/50 disabled:opacity-40 disabled:cursor-not-allowed"
+                    aria-label="Pick an example site"
+                  >
+                    {EXAMPLE_SITES.map((ex, idx) => (
+                      <option key={ex.name} value={idx}>{ex.name}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
               <div className="grid grid-cols-2 gap-2">
                 {EXAMPLE_SITES.map((example) => (
                   <Button

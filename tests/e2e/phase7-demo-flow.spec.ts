@@ -15,10 +15,10 @@ test.describe('Phase 7: Demo Flow', () => {
 
     // Quick demo buttons should be visible inside the chat area
     const chatMessages = page.locator('[data-testid="chat-messages"]')
-    await expect(chatMessages.locator('text=Sweet Spot Bakery')).toBeVisible()
-    await expect(chatMessages.locator('text=LaunchPad AI')).toBeVisible()
-    await expect(chatMessages.locator('text=Sarah Chen Photography')).toBeVisible()
-    await expect(chatMessages.locator('text=GreenLeaf Consulting')).toBeVisible()
+    await expect(chatMessages.getByRole('button', { name: /Sweet Spot Bakery/ })).toBeVisible()
+    await expect(chatMessages.getByRole('button', { name: /LaunchPad AI/ })).toBeVisible()
+    await expect(chatMessages.getByRole('button', { name: /Sarah Chen Photography/ })).toBeVisible()
+    await expect(chatMessages.getByRole('button', { name: /GreenLeaf Consulting/ })).toBeVisible()
   })
 
   // ─── PW2: Demo button triggers typewriter captions ───
