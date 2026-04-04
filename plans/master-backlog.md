@@ -1,7 +1,7 @@
 # Hey Bradley — Master Backlog
 
 **Created:** 2026-04-04
-**Authority:** This document + `plans/intial-plans/08-10` + `phase-8/human-clean-up-1.md`
+**Authority:** This document + `plans/initial-plans/08-10` + `phase-8/human-clean-up-1.md`
 **Capstone:** May 2026
 
 ---
@@ -155,9 +155,9 @@
 
 | Document | Location |
 |----------|----------|
-| Req 08 (MVP Presentation) | `plans/intial-plans/08.mvp-presentation-requirements.md` |
-| Req 09 (Post-MVP Open Core) | `plans/intial-plans/09.post-mvp-open-core.md` |
-| Req 10 (Private AISP) | `plans/intial-plans/10.private-advanced-aisp.md` |
+| Req 08 (MVP Presentation) | `plans/initial-plans/08.mvp-presentation-requirements.md` |
+| Req 09 (Post-MVP Open Core) | `plans/initial-plans/09.post-mvp-open-core.md` |
+| Req 10 (Private AISP) | `plans/initial-plans/10.private-advanced-aisp.md` |
 | Comprehensive directive | `plans/implementation/phase-8/human-clean-up-1.md` |
 | Spec review findings | `plans/implementation/phase-7/spec-review-findings.md` |
 | Roadmap | `plans/implementation/roadmap.md` |

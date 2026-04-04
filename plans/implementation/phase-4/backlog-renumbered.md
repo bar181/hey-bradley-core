@@ -50,6 +50,6 @@
 
 ## Reference Materials for Phase 6
 
-- Splash page code: `plans/implementation/level-1-core-builder/human-feedback/love-example-spash.md`
+- Splash page code: `plans/implementation/phase-1/human-feedback/love-example-spash.md`
 - Screencaps: `plans/implementation/phase-3/screencaps/splash-0.png` through `splash-5.png`
 - Brad Pixar avatar: `plans/implementation/phase-3/screencaps/brad_pixar.webp`

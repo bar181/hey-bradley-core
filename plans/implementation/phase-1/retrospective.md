@@ -135,7 +135,7 @@ Phase 1.0 scores updated to reflect actual architecture. See: [rubric.md](./rubr
 ### Screenshots
 
 Playwright screenshots will be stored in:
-`/plans/implementation/level-1-core-builder/screenshots/`
+`/plans/implementation/phase-1/screenshots/`
 
 Expected screenshot set (updated for actual architecture):
 - `shell-build-mode.png` -- Full app in BUILD mode with dark theme

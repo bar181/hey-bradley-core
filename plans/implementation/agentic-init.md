@@ -101,13 +101,13 @@ Read these files in order:
 | File | Purpose | Location |
 |------|---------|----------|
 | CLAUDE.md | Agent behavioral rules | /workspaces/hey-bradley-core/CLAUDE.md |
-| North Star | Vision and positioning | /plans/intial-plans/01.north-star.md |
-| Architecture | Data model, ADRs, DDD | /plans/intial-plans/02.architecture.md |
-| Implementation Plan | 21 phases, deliverables | /plans/intial-plans/03.implementation-plan.md |
-| Design Bible | Visual specification | /plans/intial-plans/04.design-bible.md |
-| Swarm Protocol | Agent rules and laws | /plans/intial-plans/05.swarm-protocol.md |
-| File Structure | DDD, AISP specs | /plans/intial-plans/06.ddd-file-structure.md |
-| AISP Reference | AISP 5.1 Platinum spec | /plans/intial-plans/00.aisp-reference.md |
+| North Star | Vision and positioning | /plans/initial-plans/01.north-star.md |
+| Architecture | Data model, ADRs, DDD | /plans/initial-plans/02.architecture.md |
+| Implementation Plan | 21 phases, deliverables | /plans/initial-plans/03.implementation-plan.md |
+| Design Bible | Visual specification | /plans/initial-plans/04.design-bible.md |
+| Swarm Protocol | Agent rules and laws | /plans/initial-plans/05.swarm-protocol.md |
+| File Structure | DDD, AISP specs | /plans/initial-plans/06.ddd-file-structure.md |
+| AISP Reference | AISP 5.1 Platinum spec | /plans/initial-plans/00.aisp-reference.md |
 | Expert Feedback | UI/UX feedback | /plans/feedback/initial/1.google-overall.md |
 | Mockup Screenshots | Visual targets | /plans/screen-caps/initial-lovable-ai-studio/ |
 

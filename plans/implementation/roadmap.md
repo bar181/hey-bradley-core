@@ -26,7 +26,7 @@
 
 ## MVP Presentation (Pre-Capstone)
 
-See `/plans/intial-plans/08.mvp-presentation-requirements.md` for full details.
+See `/plans/initial-plans/08.mvp-presentation-requirements.md` for full details.
 
 | # | Item | Priority |
 |---|------|----------|
@@ -41,7 +41,7 @@ See `/plans/intial-plans/08.mvp-presentation-requirements.md` for full details.
 
 ## Post-MVP: Open Core
 
-See `/plans/intial-plans/09.post-mvp-open-core.md` for full details.
+See `/plans/initial-plans/09.post-mvp-open-core.md` for full details.
 
 | # | Focus | Priority |
 |---|-------|----------|
@@ -59,7 +59,7 @@ See `/plans/intial-plans/09.post-mvp-open-core.md` for full details.
 
 ## Private: Advanced AISP (Intent-Driven)
 
-See `/plans/intial-plans/10.private-advanced-aisp.md` for full details.
+See `/plans/initial-plans/10.private-advanced-aisp.md` for full details.
 
 | # | Focus | Priority |
 |---|-------|----------|
@@ -73,7 +73,7 @@ See `/plans/intial-plans/10.private-advanced-aisp.md` for full details.
 
 ## Architecture Reference
 
-- Requirements: `/plans/intial-plans/08-10` (MVP, Post-MVP, Private AISP)
+- Requirements: `/plans/initial-plans/08-10` (MVP, Post-MVP, Private AISP)
 - Phase plans: `/plans/implementation/phase-N/` directories
 - Original 7-level plan: `/plans/implementation/README.md`
 - No API marketplace or store planned

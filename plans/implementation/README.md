@@ -4,7 +4,7 @@
 **Program:** Harvard ALM in Digital Media Design (Capstone)
 **Author:** Bradley Ross
 **Target Completion:** May 2026
-**Status:** Phase 6 COMPLETE. Phase 7 (Final Demo Polish) next. Capstone demo May 2026.
+**Status:** Phases 1-7 COMPLETE. Phase 8 (Cleanup + Optimization) in progress. Stage 1 (Presentation) next. Capstone demo May 2026.
 
 ---
 
@@ -54,13 +54,13 @@ The repository contains 6 specification documents that define the complete produ
 
 | # | Document | Location |
 |---|----------|----------|
-| 00 | AISP Reference | `/plans/intial-plans/00.aisp-reference.md` |
-| 01 | North Star | `/plans/intial-plans/01.north-star.md` |
-| 02 | Architecture | `/plans/intial-plans/02.architecture.md` |
-| 03 | Implementation Plan | `/plans/intial-plans/03.implementation-plan.md` |
-| 04 | Design Bible | `/plans/intial-plans/04.design-bible.md` |
-| 05 | Swarm Protocol | `/plans/intial-plans/05.swarm-protocol.md` |
-| 06 | DDD File Structure | `/plans/intial-plans/06.ddd-file-structure.md` |
+| 00 | AISP Reference | `/plans/initial-plans/00.aisp-reference.md` |
+| 01 | North Star | `/plans/initial-plans/01.north-star.md` |
+| 02 | Architecture | `/plans/initial-plans/02.architecture.md` |
+| 03 | Implementation Plan | `/plans/initial-plans/03.implementation-plan.md` |
+| 04 | Design Bible | `/plans/initial-plans/04.design-bible.md` |
+| 05 | Swarm Protocol | `/plans/initial-plans/05.swarm-protocol.md` |
+| 06 | DDD File Structure | `/plans/initial-plans/06.ddd-file-structure.md` |
 
 ### Supporting Materials
 
@@ -249,7 +249,7 @@ The foundation. After Level 1, the product should look and feel like a real, pol
 
 ### Dependency Graph
 
-Levels 1-3 are sequential. Levels 3 and 4 can run in parallel. Levels 5-7 are sequential and depend on Level 4 (Supabase). See `/plans/intial-plans/03.implementation-plan.md` for the full dependency diagram.
+Levels 1-3 are sequential. Levels 3 and 4 can run in parallel. Levels 5-7 are sequential and depend on Level 4 (Supabase). See `/plans/initial-plans/03.implementation-plan.md` for the full dependency diagram.
 
 ---
 
@@ -359,13 +359,13 @@ The project uses RuFlo v3 for multi-agent orchestration during development:
 
 | File | Purpose |
 |------|---------|
-| `/plans/intial-plans/00.aisp-reference.md` | AISP protocol reference and Crystal Atom format |
-| `/plans/intial-plans/01.north-star.md` | Product vision, user stories, PMF definition |
-| `/plans/intial-plans/02.architecture.md` | Technical architecture, state management, data flow |
-| `/plans/intial-plans/03.implementation-plan.md` | Original implementation roadmap |
-| `/plans/intial-plans/04.design-bible.md` | Visual design system, colors, typography, components |
-| `/plans/intial-plans/05.swarm-protocol.md` | Agent orchestration protocol for development |
-| `/plans/intial-plans/06.ddd-file-structure.md` | Domain-Driven Design structure and bounded contexts |
+| `/plans/initial-plans/00.aisp-reference.md` | AISP protocol reference and Crystal Atom format |
+| `/plans/initial-plans/01.north-star.md` | Product vision, user stories, PMF definition |
+| `/plans/initial-plans/02.architecture.md` | Technical architecture, state management, data flow |
+| `/plans/initial-plans/03.implementation-plan.md` | Original implementation roadmap |
+| `/plans/initial-plans/04.design-bible.md` | Visual design system, colors, typography, components |
+| `/plans/initial-plans/05.swarm-protocol.md` | Agent orchestration protocol for development |
+| `/plans/initial-plans/06.ddd-file-structure.md` | Domain-Driven Design structure and bounded contexts |
 
 ### Phase Plans
 
@@ -402,15 +402,17 @@ The project uses RuFlo v3 for multi-agent orchestration during development:
 
 | Directory | Purpose |
 |-----------|---------|
-| `/plans/implementation/level-1-core-builder/` | Level 1 phase tracking |
-| `/plans/implementation/level-2-full-site-builder/` | Level 2 phase tracking |
-| `/plans/implementation/level-3-specification-engine/` | Level 3 phase tracking |
-| `/plans/implementation/level-4-auth-database/` | Level 4 phase tracking |
-| `/plans/implementation/level-5-llm-functionality/` | Level 5 phase tracking |
-| `/plans/implementation/level-6-voice-mode/` | Level 6 phase tracking |
-| `/plans/implementation/level-7-enterprise-specs/` | Level 7 phase tracking |
-| `/plans/implementation/rubrics/` | Scoring rubrics for phase completion |
-| `/plans/implementation/testing/` | End-of-phase testing artifacts |
+| `/plans/implementation/phase-1/` | Phase 1: Core Builder (77%, CLOSED) |
+| `/plans/implementation/phase-2/` | Phase 2: System Polish + Section Editors (82%, CLOSED) |
+| `/plans/implementation/phase-3/` | Phase 3: Onboarding + Preview (73%, CLOSED) |
+| `/plans/implementation/phase-4/` | Phase 4: Splash + Themes + Listen Mode (84%, CLOSED) |
+| `/plans/implementation/phase-5/` | Phase 5: Visual Polish + Section Expansion (67%, CLOSED) |
+| `/plans/implementation/phase-6/` | Phase 6: Canned Demo + Deploy Prep (78%, CLOSED) |
+| `/plans/implementation/phase-7/` | Phase 7: Final Demo Polish (75%, CLOSED) |
+| `/plans/implementation/phase-8/` | Phase 8: Cleanup + Optimization (IN PROGRESS) |
+| `/plans/archive/old-levels/` | Archived level-2 through level-7 specs |
+| `/plans/archive/rubrics/` | Scoring rubrics (archived) |
+| `/plans/archive/testing-framework/` | Testing framework docs (archived) |
 
 ### Project Configuration
 

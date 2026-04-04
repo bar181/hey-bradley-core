@@ -2,7 +2,7 @@
 
 **Standard:** WCAG 2.2 Level AA
 **Scope:** Builder shell + Reality Canvas preview
-**Related Spec:** `plans/intial-plans/07.accessibility-button.md` (Phase 4 accessibility dialog)
+**Related Spec:** `plans/initial-plans/07.accessibility-button.md` (Phase 4 accessibility dialog)
 
 ---
 

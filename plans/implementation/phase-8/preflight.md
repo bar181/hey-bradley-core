@@ -48,7 +48,7 @@
 | 1 | Move `plans/implementation/level-1` through `level-7` → `plans/archive/old-levels/` | 5 min |
 | 2 | Merge `plans/phases/adr/` → `docs/adrs/` | 5 min |
 | 3 | Delete boilerplate files (empty log.md, placeholder rubric.md in levels 2-7) | 5 min |
-| 4 | Verify `plans/intial-plans/` is canonical (00-10) | 2 min |
+| 4 | Verify `plans/initial-plans/` is canonical (00-10) | 2 min |
 | 5 | Verify `plans/implementation/phase-2` through `phase-8` are active logs | 2 min |
 | 6 | Update plans/implementation/README.md with new structure | 10 min |
 

@@ -192,3 +192,9 @@
 | `src/main.tsx` | MODIFY — add /new-project route, Welcome as / |
 | `src/assets/bradley/brad_pixar.webp` | CREATE — copied from plans |
 | `package.json` | MODIFY — added framer-motion dependency |
+
+---
+
+## Phase 4 CLOSED — 2026-04-02
+
+**Final Score:** 84/100. Splash Page + Theme Picker + Listen Mode + Light Mode Polish complete.

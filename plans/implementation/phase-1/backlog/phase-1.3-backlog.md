@@ -8,7 +8,7 @@
   - Reduce Motion toggle, A11y Widget export flag
   - Schema: `masterConfig.settings` root-level object (additive)
   - WCAG 2.2 AA compliance for the dialog itself
-  - Spec location: `/plans/intial-plans/07.accessibility-button.md`
+  - Spec location: `/plans/initial-plans/07.accessibility-button.md`
   - **Note:** Doc references "warm cream" builder chrome (ADR-009) — update to Dark Slate per ADR design pivot
 
 ### From 03.implementation-plan.md Phase 1.3

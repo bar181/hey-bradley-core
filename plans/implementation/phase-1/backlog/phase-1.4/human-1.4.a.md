@@ -55,7 +55,7 @@ The swarm's current implementation plan (provided above) covers Phases 1.0-1.3. 
 4. **Phases 2, 3, 4 are NEW** — add high-level descriptions per §4 below
 5. **Remove outdated references** — the plan still mentions DraftPanel/ExpertPanel (deleted in Phase 1.0 UX redesign), warm cream chrome (we went dark), and DRAFT/EXPERT toggle (replaced with SIMPLE/EXPERT right panel tabs)
 
-**The swarm should update `plans/implementation/level-1-core-builder/implementation-plan.md` to reflect reality.**
+**The swarm should update `plans/implementation/phase-1/implementation-plan.md` to reflect reality.**
 
 ---
 
