@@ -356,11 +356,16 @@ export function Onboarding() {
 
   const handleThemeSelect = (slug: string) => {
     applyVibe(slug)
+    // Persist to localStorage so useAutoSave doesn't overwrite on builder mount
+    const config = useConfigStore.getState().config
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
     navigate('/builder')
   }
 
   const handleExampleSelect = (example: typeof EXAMPLE_SITES[number]) => {
     loadConfig(example.config)
+    // Persist to localStorage so useAutoSave doesn't overwrite on builder mount
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(example.config))
     const heroSection = example.config.sections.find((s) => s.type === 'hero' && s.enabled)
     if (heroSection) {
       setSelectedContext({ type: 'section', sectionId: heroSection.id })
@@ -386,6 +391,8 @@ export function Onboarding() {
 
   const handleStartNew = () => {
     applyVibe('saas')
+    const config = useConfigStore.getState().config
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
     navigate('/builder')
   }
 
