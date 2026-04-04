@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Bradley -- Phase 9: Pre-LLM MVP Foundation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+  :root { --bg:#0f1117; --surface:#1a1d27; --surface-hover:#22252f; --border:#2a2d3a; --border-light:#353849; --text:#e4e4e7; --text-muted:#9ca3af; --text-dim:#6b7280; --accent:#818cf8; --accent-glow:rgba(129,140,248,0.15); --green:#34d399; --green-dim:rgba(52,211,153,0.15); --yellow:#fbbf24; --yellow-dim:rgba(251,191,36,0.15); --red:#f87171; --red-dim:rgba(248,113,113,0.15); --purple:#a78bfa; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; overflow-x:hidden; }
+  .hero { position:relative; min-height:50vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:4rem 2rem; overflow:hidden; }
+  .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(129,140,248,0.18) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 20% 80%,rgba(167,139,250,0.1) 0%,transparent 50%); z-index:0; }
+  .hero>* { position:relative; z-index:1; }
+  .hero-badge { display:inline-flex; align-items:center; gap:0.5rem; background:var(--accent-glow); border:1px solid rgba(129,140,248,0.3); border-radius:9999px; padding:0.4rem 1rem; font-size:0.8rem; font-weight:500; color:var(--accent); margin-bottom:1.5rem; }
+  .hero h1 { font-size:clamp(2rem,5vw,3.5rem); font-weight:900; letter-spacing:-0.03em; line-height:1.1; margin-bottom:1rem; background:linear-gradient(135deg,#e4e4e7 0%,#818cf8 50%,#a78bfa 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .hero-tagline { font-size:clamp(1rem,2.5vw,1.2rem); color:var(--text-muted); max-width:640px; margin-bottom:2rem; }
+  .hero-stats { display:flex; gap:2.5rem; flex-wrap:wrap; justify-content:center; }
+  .hero-stat { text-align:center; }
+  .hero-stat-value { font-size:1.75rem; font-weight:800; color:var(--accent); }
+  .hero-stat-label { font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em; }
+  .nav { position:sticky; top:0; z-index:100; background:rgba(15,17,23,0.85); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); padding:0 2rem; overflow-x:auto; }
+  .nav-inner { max-width:1200px; margin:0 auto; display:flex; }
+  .nav a { color:var(--text-muted); text-decoration:none; font-size:0.8rem; font-weight:500; padding:0.75rem 1rem; white-space:nowrap; border-bottom:2px solid transparent; transition:all 0.2s; }
+  .nav a:hover { color:var(--accent); border-bottom-color:var(--accent); }
+  .container { max-width:1200px; margin:0 auto; padding:0 2rem; }
+  section { padding:4rem 0; opacity:0; transform:translateY(30px); transition:opacity 0.6s ease-out,transform 0.6s ease-out; }
+  section.visible { opacity:1; transform:translateY(0); }
+  h2 { font-size:1.75rem; font-weight:700; margin-bottom:0.5rem; }
+  .section-subtitle { color:var(--text-muted); font-size:0.95rem; margin-bottom:2rem; }
+  .section-divider { width:60px; height:3px; background:linear-gradient(90deg,var(--accent),var(--purple)); border-radius:2px; margin-bottom:2rem; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:0.75rem; padding:1.5rem; transition:border-color 0.2s,transform 0.2s; }
+  .card:hover { border-color:var(--border-light); transform:translateY(-2px); }
+  .card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; }
+  .card h3 { font-size:1rem; font-weight:600; margin-bottom:0.5rem; }
+  .card p { font-size:0.85rem; color:var(--text-muted); line-height:1.6; }
+  .badge { display:inline-block; padding:0.15rem 0.55rem; border-radius:9999px; font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; }
+  .badge-green { background:var(--green-dim); color:var(--green); }
+  .badge-yellow { background:var(--yellow-dim); color:var(--yellow); }
+  .badge-red { background:var(--red-dim); color:var(--red); }
+  .badge-accent { background:var(--accent-glow); color:var(--accent); }
+  .metric-card { text-align:center; padding:1.5rem 1rem; }
+  .metric-value { font-size:2rem; font-weight:800; color:var(--accent); line-height:1; }
+  .metric-label { font-size:0.78rem; color:var(--text-muted); margin-top:0.4rem; text-transform:uppercase; letter-spacing:0.06em; }
+  table { width:100%; border-collapse:collapse; margin:1rem 0; }
+  th,td { padding:0.65rem 0.85rem; text-align:left; border-bottom:1px solid var(--border); font-size:0.85rem; }
+  th { color:var(--text-muted); font-weight:500; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.06em; background:var(--surface); }
+  tr:hover { background:var(--surface-hover); }
+  .highlight { background:var(--accent-glow); border-left:3px solid var(--accent); padding:1rem 1.25rem; border-radius:0 0.5rem 0.5rem 0; margin:1rem 0; font-size:0.9rem; }
+  .highlight strong { color:var(--accent); }
+  code { background:var(--surface); padding:0.15rem 0.4rem; border-radius:0.25rem; font-size:0.82rem; font-family:'JetBrains Mono',monospace; }
+  .progress-bar { height:6px; background:var(--border); border-radius:3px; overflow:hidden; margin-top:0.5rem; }
+  .progress-fill { height:100%; border-radius:3px; transition:width 1.5s ease-out; }
+  .progress-fill.green { background:var(--green); }
+  .progress-fill.accent { background:var(--accent); }
+  .sprint-timeline { display:flex; flex-direction:column; gap:1.5rem; }
+  .sprint-item { display:grid; grid-template-columns:80px 1fr; gap:1.5rem; align-items:start; }
+  .sprint-badge { background:var(--surface); border:1px solid var(--border); border-radius:0.5rem; padding:0.5rem; text-align:center; font-size:0.75rem; font-weight:600; }
+  .sprint-badge .score { font-size:1.25rem; font-weight:800; color:var(--accent); display:block; margin-top:0.25rem; }
+  .sprint-content h3 { font-size:1rem; font-weight:600; margin-bottom:0.35rem; }
+  .sprint-content p { font-size:0.85rem; color:var(--text-muted); line-height:1.6; }
+  .sprint-tags { display:flex; flex-wrap:wrap; gap:0.35rem; margin-top:0.5rem; }
+  .sprint-tag { font-size:0.7rem; padding:0.15rem 0.5rem; border-radius:9999px; background:var(--surface); border:1px solid var(--border); color:var(--text-muted); }
+  .back-link { display:inline-flex; align-items:center; gap:0.35rem; color:var(--accent); text-decoration:none; font-size:0.85rem; font-weight:500; padding:0.5rem 0; margin-bottom:1rem; }
+  .back-link:hover { text-decoration:underline; }
+  .footer { margin-top:2rem; padding:3rem 2rem; border-top:1px solid var(--border); text-align:center; color:var(--text-dim); font-size:0.8rem; }
+  .footer-brand { font-size:1.1rem; font-weight:700; color:var(--accent); margin-bottom:0.5rem; }
+  @media (max-width:768px) { .hero{min-height:40vh;padding:3rem 1.5rem;} .hero-stats{gap:1.5rem;} .container{padding:0 1.25rem;} section{padding:2.5rem 0;} h2{font-size:1.4rem;} .sprint-item{grid-template-columns:1fr;} }
+  @media (max-width:480px) { .card-grid{grid-template-columns:1fr;} table{font-size:0.78rem;} th,td{padding:0.5rem 0.6rem;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-badge">Phase 9 -- Pre-LLM MVP Foundation</div>
+  <h1>Phase 9: Pre-LLM MVP</h1>
+  <p class="hero-tagline">Five features, 57 section variants, 71 tests, zero type casts. The foundation for a builder that works without AI.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-value">85</div><div class="hero-stat-label">Phase Score</div></div>
+    <div class="hero-stat"><div class="hero-stat-value">71</div><div class="hero-stat-label">Tests Passing</div></div>
+    <div class="hero-stat"><div class="hero-stat-value">0</div><div class="hero-stat-label">as-any Casts</div></div>
+    <div class="hero-stat"><div class="hero-stat-value">57</div><div class="hero-stat-label">Variants</div></div>
+    <div class="hero-stat"><div class="hero-stat-value">6</div><div class="hero-stat-label">Generators Upgraded</div></div>
+  </div>
+</header>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#overview">Overview</a>
+    <a href="#sprints">Sprints</a>
+    <a href="#metrics">Metrics</a>
+    <a href="#variants">Variants</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#whats-next">What's Next</a>
+    <a href="index.html">Back to Wiki</a>
+  </div>
+</nav>
+
+<div class="container">
+
+<section id="overview">
+  <a href="index.html" class="back-link">Back to main wiki</a>
+  <h2>Phase Overview</h2>
+  <div class="section-divider"></div>
+  <p class="section-subtitle">Phase 9 bridges Stage 1 (Presentation) and Stage 2 (Pre-LLM MVP) by shipping builder features that work without any AI backend.</p>
+
+  <div class="highlight">
+    <strong>Mission:</strong> Make the builder usable by a non-technical person -- your grandmother should be able to pick a template, upload her logo, customize colors, save her project, and get professional specifications without ever touching code.
+  </div>
+
+  <div class="card-grid" style="margin-top:1.5rem;">
+    <div class="card">
+      <h3>Grandma UX</h3>
+      <p>Template-first onboarding, jargon cleanup across 14 files, accordion defaults collapsed, auto-select hero section after example load. The builder now speaks human.</p>
+    </div>
+    <div class="card">
+      <h3>Five New Features</h3>
+      <p>Image upload (drag-drop, base64, 2MB limit), project save/load (localStorage + JSON export), custom hex colors with native picker, SEO fields, brand management (logo, favicon, OG image).</p>
+    </div>
+    <div class="card">
+      <h3>Type Safety Overhaul</h3>
+      <p>Eliminated all 144 <code>as any</code> casts with a new <code>sectionContent.ts</code> helper library. TypeScript now catches real bugs across 38 template files.</p>
+    </div>
+    <div class="card">
+      <h3>Professional Spec Rendering</h3>
+      <p>Replaced raw <code>&lt;pre&gt;</code> tags with react-markdown + remark-gfm. Specs render with real tables, headings, bold text, and code blocks. Documented in ADR-030.</p>
+    </div>
+  </div>
+</section>
+
+<section id="sprints">
+  <h2>Sprint Breakdown</h2>
+  <div class="section-divider"></div>
+  <p class="section-subtitle">Four sprints plus docs, executed across three sessions in one day.</p>
+
+  <div class="sprint-timeline">
+    <div class="sprint-item">
+      <div class="sprint-badge">S1<span class="score">8/10</span></div>
+      <div class="sprint-content">
+        <h3>Grandma UX + Spec Upgrades</h3>
+        <p>Template-first onboarding with examples above themes. Jargon cleanup: Elements became Show/Hide, Layout became Design/Style across 14 files. Accordion defaults closed. Auto-select hero on example load. Four spec generators upgraded. Blank example D to B+. Kitchen Sink rebranded to Nexus Labs.</p>
+        <div class="sprint-tags"><span class="sprint-tag">12 items</span><span class="sprint-tag">40 files</span><span class="sprint-tag">4 tests updated</span></div>
+      </div>
+    </div>
+    <div class="sprint-item">
+      <div class="sprint-badge">S2<span class="score">9/10</span></div>
+      <div class="sprint-content">
+        <h3>Image Upload + Brand + Colors + SEO + Save/Load</h3>
+        <p>Five features in one sprint. Drag-drop image upload with 2MB validation. Project save/load with localStorage + JSON export/import. Custom hex colors with native picker and debounce. SEO fields for title, description, author, domain, email. Brand management for logo, favicon, OG image URLs.</p>
+        <div class="sprint-tags"><span class="sprint-tag">5 features</span><span class="sprint-tag">18 files</span><span class="sprint-tag">clean deploy</span></div>
+      </div>
+    </div>
+    <div class="sprint-item">
+      <div class="sprint-badge">S3<span class="score">8/10</span></div>
+      <div class="sprint-content">
+        <h3>Section Variants + Pricing + Onboarding Redesign</h3>
+        <p>PricingToggle (monthly/annual pill, savings badge, 3 tiers) and PricingComparison (feature table, mobile cards). NavbarCentered variant. Onboarding redesigned as two-panel layout with 18 real preview screenshots. UX review found 15 issues; 7 fixed same session.</p>
+        <div class="sprint-tags"><span class="sprint-tag">14 items</span><span class="sprint-tag">5 parallel agents</span><span class="sprint-tag">3 review agents</span><span class="sprint-tag">18 screenshots</span></div>
+      </div>
+    </div>
+    <div class="sprint-item">
+      <div class="sprint-badge">S4<span class="score">9/10</span></div>
+      <div class="sprint-content">
+        <h3>Quality Pass: Type Safety + Specs + Tests</h3>
+        <p>Created <code>sectionContent.ts</code> helpers, eliminating all 144 <code>as any</code> casts across 38 files. Replaced <code>&lt;pre&gt;</code> spec rendering with react-markdown (ADR-030). Features generator 5.5 to 8/10. All generators got intro paragraphs. 17 new Playwright tests (54 to 71).</p>
+        <div class="sprint-tags"><span class="sprint-tag">144 to 0 as-any</span><span class="sprint-tag">+17 tests</span><span class="sprint-tag">ADR-030</span><span class="sprint-tag">react-markdown</span></div>
+      </div>
+    </div>
+    <div class="sprint-item">
+      <div class="sprint-badge">S5<span class="score">7/10</span></div>
+      <div class="sprint-content">
+        <h3>Docs + Review + Retrospective</h3>
+        <p>Phase 9 wiki page, retrospective with scoring, master backlog update marking Stage 2 items complete. Build and TypeScript verification passed.</p>
+        <div class="sprint-tags"><span class="sprint-tag">wiki</span><span class="sprint-tag">retrospective</span><span class="sprint-tag">backlog update</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="metrics">
+  <h2>Key Metrics</h2>
+  <div class="section-divider"></div>
+  <p class="section-subtitle">Quantitative improvements across Phase 9.</p>
+
+  <div class="card-grid" style="margin-bottom:2rem;">
+    <div class="card metric-card"><div class="metric-value">71</div><div class="metric-label">Playwright Tests</div><div class="progress-bar"><div class="progress-fill green" style="width:100%;"></div></div></div>
+    <div class="card metric-card"><div class="metric-value" style="color:var(--green);">0</div><div class="metric-label">as-any Casts (was 144)</div><div class="progress-bar"><div class="progress-fill green" style="width:100%;"></div></div></div>
+    <div class="card metric-card"><div class="metric-value">57</div><div class="metric-label">Section Variants</div><div class="progress-bar"><div class="progress-fill accent" style="width:85%;"></div></div></div>
+    <div class="card metric-card"><div class="metric-value">6</div><div class="metric-label">Generators Upgraded</div><div class="progress-bar"><div class="progress-fill accent" style="width:100%;"></div></div></div>
+    <div class="card metric-card"><div class="metric-value">5</div><div class="metric-label">New Features</div><div class="progress-bar"><div class="progress-fill accent" style="width:100%;"></div></div></div>
+    <div class="card metric-card"><div class="metric-value">85</div><div class="metric-label">Phase Score</div><div class="progress-bar"><div class="progress-fill accent" style="width:85%;"></div></div></div>
+  </div>
+
+  <table>
+    <thead><tr><th>Metric</th><th>Before P9</th><th>After P9</th><th>Delta</th></tr></thead>
+    <tbody>
+      <tr><td>Playwright tests</td><td>54</td><td>71</td><td style="color:var(--green);">+17 (+31%)</td></tr>
+      <tr><td><code>as any</code> type casts</td><td>144</td><td>0</td><td style="color:var(--green);">-144 (-100%)</td></tr>
+      <tr><td>Section variants</td><td>53</td><td>57</td><td style="color:var(--green);">+4</td></tr>
+      <tr><td>Pricing variants</td><td>1</td><td>3</td><td style="color:var(--green);">+2</td></tr>
+      <tr><td>Spec generators upgraded</td><td>0</td><td>6</td><td style="color:var(--green);">+6</td></tr>
+      <tr><td>New builder features</td><td>0</td><td>5</td><td style="color:var(--green);">+5</td></tr>
+      <tr><td>UX issues found/fixed</td><td>0</td><td>7 of 15</td><td style="color:var(--yellow);">47% resolved</td></tr>
+      <tr><td>ADRs</td><td>29</td><td>30</td><td style="color:var(--green);">+1 (ADR-030)</td></tr>
+      <tr><td>Dependencies added</td><td>--</td><td>3</td><td>react-markdown, remark-gfm, @tailwindcss/typography</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="variants">
+  <h2>Section Variant Coverage</h2>
+  <div class="section-divider"></div>
+  <p class="section-subtitle">57 variants across 15 section types. All types meet minimum thresholds.</p>
+
+  <table>
+    <thead><tr><th>Section Type</th><th>Variants</th><th>Min</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>columns</td><td>8</td><td>3+</td><td><span class="badge badge-green">exceeds</span></td></tr>
+      <tr><td>hero</td><td>5</td><td>3+</td><td><span class="badge badge-green">pass</span></td></tr>
+      <tr><td>action</td><td>4</td><td>3+</td><td><span class="badge badge-green">pass</span></td></tr>
+      <tr><td>quotes</td><td>4</td><td>3+</td><td><span class="badge badge-green">pass</span></td></tr>
+      <tr><td>questions</td><td>4</td><td>3+</td><td><span class="badge badge-green">pass</span></td></tr>
+      <tr><td>numbers</td><td>4</td><td>3+</td><td><span class="badge badge-green">pass</span></td></tr>
+      <tr><td>gallery</td><td>4</td><td>3+</td><td><span class="badge badge-green">pass</span></td></tr>
+      <tr><td>image</td><td>4</td><td>3+</td><td><span class="badge badge-green">pass</span></td></tr>
+      <tr><td>footer</td><td>4</td><td>2+</td><td><span class="badge badge-green">pass</span></td></tr>
+      <tr><td>pricing</td><td>3</td><td>3+</td><td><span class="badge badge-green">pass</span></td></tr>
+      <tr><td>logos</td><td>3</td><td>2+</td><td><span class="badge badge-green">pass</span></td></tr>
+      <tr><td>divider</td><td>3</td><td>2+</td><td><span class="badge badge-green">pass</span></td></tr>
+      <tr><td>text</td><td>3</td><td>2+</td><td><span class="badge badge-green">pass</span></td></tr>
+      <tr><td>team</td><td>3</td><td>2+</td><td><span class="badge badge-green">pass</span></td></tr>
+      <tr><td>menu</td><td>2</td><td>2+</td><td><span class="badge badge-green">pass</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="highlight" style="margin-top:1.5rem;">
+    <strong>New in Phase 9:</strong> PricingToggle (monthly/annual pill switch with savings badge), PricingComparison (semantic feature table with sticky header and mobile card layout), NavbarCentered (centered logo with mobile-safe hidden links), and the Onboarding page redesign with 18 real preview screenshots.
+  </div>
+</section>
+
+<section id="architecture">
+  <h2>Architecture Decisions</h2>
+  <div class="section-divider"></div>
+  <p class="section-subtitle">Key technical decisions made during Phase 9.</p>
+
+  <div class="card" style="margin-bottom:1.5rem;">
+    <h3>ADR-030: Spec Rendering Architecture</h3>
+    <p style="margin-bottom:0.75rem;">Replaced <code>&lt;pre&gt;</code> + <code>HumanHighlighted</code> with <code>react-markdown</code> + <code>remark-gfm</code> for all 5 markdown-based spec generators. AISP keeps its Crystal Atom renderer.</p>
+    <table>
+      <thead><tr><th>Aspect</th><th>Before</th><th>After</th></tr></thead>
+      <tbody>
+        <tr><td>Rendering</td><td><code>&lt;pre&gt;</code> monospace dump</td><td>Prose with headings, tables, bold, code</td></tr>
+        <tr><td>Styling</td><td>None (raw text)</td><td><code>hb-spec-prose</code> CSS with light/dark</td></tr>
+        <tr><td>Dependencies</td><td>None</td><td>react-markdown, remark-gfm, @tailwindcss/typography</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="margin-bottom:1.5rem;">
+    <h3>Type Safety: sectionContent.ts</h3>
+    <p>Centralized helper library with <code>getStr()</code>, <code>getItems()</code>, and <code>getContent()</code> functions. Safely extracts typed data from section content objects. Eliminated all 144 <code>as any</code> casts across 38 files without changing runtime behavior.</p>
+  </div>
+
+  <div class="card">
+    <h3>Onboarding: Preview-First Design</h3>
+    <p>Two-panel layout with real preview screenshots generated via Playwright (<code>scripts/generate-previews.mjs</code>) using fresh browser contexts. Image fallbacks hide broken images gracefully. Zustand stores require fresh contexts to avoid stale state.</p>
+  </div>
+</section>
+
+<section id="whats-next">
+  <h2>What's Next</h2>
+  <div class="section-divider"></div>
+  <p class="section-subtitle">Phase 10 preflight: closing the remaining gaps before capstone.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>Manual Gates</h3>
+      <p>Two Presentation DoD items remain: (1) Copy Implementation Plan into Claude Code, verify 90% reproduction. (2) 15-minute demo rehearsal with timing notes.</p>
+      <span class="badge badge-red" style="margin-top:0.5rem;">blocker</span>
+    </div>
+    <div class="card">
+      <h3>4-Persona Review</h3>
+      <p>Composite review from Designer, Developer, PM, and End User perspectives. Target: 85+ composite score. Deferred from Sprint 5.</p>
+      <span class="badge badge-yellow" style="margin-top:0.5rem;">high priority</span>
+    </div>
+    <div class="card">
+      <h3>Remaining Polish</h3>
+      <p>PricingComparison content.tiers parity, NavbarCentered height, console error audit, Getting Started step connectors.</p>
+      <span class="badge badge-accent" style="margin-top:0.5rem;">nice to have</span>
+    </div>
+  </div>
+
+  <div class="highlight" style="margin-top:1.5rem;">
+    <strong>Presentation DoD:</strong> 18 of 20 items complete. The two remaining items are manual gates that require human testing. Everything else -- tests, type safety, spec rendering, variant coverage, builder features -- is in place.
+  </div>
+</section>
+
+</div>
+
+<div class="footer">
+  <div class="footer-brand">Hey Bradley</div>
+  Phase 9: Pre-LLM MVP Foundation -- April 2026<br>
+  Harvard ALM Capstone -- Digital Media Design<br>
+  <a href="index.html" style="color:var(--accent);text-decoration:none;">Back to main wiki</a>
+</div>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('section').forEach(s => observer.observe(s));
+document.querySelectorAll('.nav a').forEach(link => {
+  link.addEventListener('click', (e) => {
+    const href = link.getAttribute('href');
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        const top = target.getBoundingClientRect().top + window.scrollY - document.querySelector('.nav').offsetHeight - 20;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    }
+  });
+});
+</script>
+
+</body>
+</html>

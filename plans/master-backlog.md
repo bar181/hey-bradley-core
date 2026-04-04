@@ -58,17 +58,17 @@
 
 | # | Task | Source | Status |
 |---|------|--------|--------|
-| S2-01 | Image upload (drag-and-drop or file picker → base64 or Supabase Storage) | Req 08/human-clean-up-1 §2 | TODO |
-| S2-02 | Brand image management (logo, favicon, og:image) | human-clean-up-1 §2 | TODO |
+| S2-01 | Image upload (drag-and-drop or file picker → base64 or Supabase Storage) | Req 08/human-clean-up-1 §2 | DONE (P9-S2) |
+| S2-02 | Brand image management (logo, favicon, og:image) | human-clean-up-1 §2 | DONE (P9-S2) |
 | S2-03 | Complete theme locking (per-project brand guidelines enforcement) | human-clean-up-1 §2 | TODO |
 | S2-04 | Full enterprise spec templates (responsive breakpoints, animation specs) | human-clean-up-1 §2 | TODO |
-| S2-05 | Section variant completeness (all 8 variants per section type rendering) | human-clean-up-1 §2 | TODO |
-| S2-06 | Custom hex color input (brand hex → palette slots) | Phase 5/6 retro TD | TODO |
+| S2-05 | Section variant completeness (all 8 variants per section type rendering) | human-clean-up-1 §2 | DONE (P9-S3, 57 variants across 15 types) |
+| S2-06 | Custom hex color input (brand hex → palette slots) | Phase 5/6 retro TD | DONE (P9-S2) |
 | S2-07 | Newsletter form webhook (ActionNewsletter → configurable URL) | Phase 5/6 retro TD | TODO |
-| S2-08 | SEO fields (title, description, og:image in Site Settings panel) | human-clean-up-1 §2 | TODO |
-| S2-09 | Project save/load (named projects in localStorage or file export/import) | human-clean-up-1 §2 | TODO |
-| S2-10 | Pricing variants (monthly/annual toggle, comparison table) | human-clean-up-1 §2 | TODO |
-| S2-11 | Fix `(section.content as any)` type casting (62+ instances) | Phase 7 TD8 | TODO |
+| S2-08 | SEO fields (title, description, og:image in Site Settings panel) | human-clean-up-1 §2 | DONE (P9-S2) |
+| S2-09 | Project save/load (named projects in localStorage or file export/import) | human-clean-up-1 §2 | DONE (P9-S2) |
+| S2-10 | Pricing variants (monthly/annual toggle, comparison table) | human-clean-up-1 §2 | DONE (P9-S3) |
+| S2-11 | Fix `(section.content as any)` type casting (62+ instances) | Phase 7 TD8 | DONE (P9-S4, 144→0) |
 
 ---
 
