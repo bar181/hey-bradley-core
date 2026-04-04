@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Bradley: From Voice to Enterprise Specifications — Harvard ALM Capstone</title>
+<meta name="description" content="A Harvard ALM Capstone by Bradley Ross. Hey Bradley transforms human intent into machine-precise enterprise specifications using AISP.">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface-hover: #22252f;
+    --surface-alt: #161922;
+    --border: #2a2d3a;
+    --border-light: #353849;
+    --text: #e4e4e7;
+    --text-muted: #9ca3af;
+    --text-dim: #6b7280;
+    --accent: #818cf8;
+    --accent-hover: #6366f1;
+    --accent-glow: rgba(129, 140, 248, 0.15);
+    --green: #34d399;
+    --green-dim: rgba(52, 211, 153, 0.15);
+    --yellow: #fbbf24;
+    --yellow-dim: rgba(251, 191, 36, 0.15);
+    --red: #f87171;
+    --red-dim: rgba(248, 113, 113, 0.15);
+    --orange: #fb923c;
+    --purple: #a78bfa;
+    --cyan: #22d3ee;
+    --pink: #f472b6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ═══════════════════════════════════════
+     TYPOGRAPHY
+     ═══════════════════════════════════════ */
+  h1, h2, h3, h4 { font-weight: 700; line-height: 1.25; }
+  h1 { font-size: clamp(2.25rem, 5vw, 3.5rem); letter-spacing: -0.03em; }
+  h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+  h3 { font-size: 1.25rem; margin-bottom: 1rem; }
+  p { margin-bottom: 1.25rem; color: var(--text-muted); }
+  a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+  a:hover { color: var(--accent-hover); }
+  code, .mono { font-family: 'JetBrains Mono', monospace; }
+  strong { color: var(--text); font-weight: 600; }
+
+  /* ═══════════════════════════════════════
+     LAYOUT
+     ═══════════════════════════════════════ */
+  .article-container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .wide-container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  section {
+    padding: 5rem 0;
+    position: relative;
+  }
+
+  section + section {
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+    padding: 0.25rem 0.75rem;
+    background: var(--accent-glow);
+    border-radius: 100px;
+  }
+
+  /* ═══════════════════════════════════════
+     SCROLL ANIMATIONS
+     ═══════════════════════════════════════ */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .fade-in-delay-1 { transition-delay: 0.1s; }
+  .fade-in-delay-2 { transition-delay: 0.2s; }
+  .fade-in-delay-3 { transition-delay: 0.3s; }
+  .fade-in-delay-4 { transition-delay: 0.4s; }
+
+  /* ═══════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════ */
+  .hero {
+    position: relative;
+    padding: 8rem 0 6rem;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(129, 140, 248, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 {
+    margin-bottom: 1.25rem;
+    background: linear-gradient(135deg, #e4e4e7 0%, #818cf8 50%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+  }
+
+  .hero-date {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .hero-link--primary {
+    background: var(--accent);
+    color: #0f1117;
+  }
+
+  .hero-link--primary:hover {
+    background: var(--accent-hover);
+    color: #0f1117;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(129, 140, 248, 0.3);
+  }
+
+  .hero-link--secondary {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .hero-link--secondary:hover {
+    background: var(--surface-hover);
+    border-color: var(--border-light);
+    transform: translateY(-1px);
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--purple));
+    border-radius: 2px;
+    margin: 4rem auto 0;
+  }
+
+  /* ═══════════════════════════════════════
+     PULL QUOTES
+     ═══════════════════════════════════════ */
+  .pull-quote {
+    position: relative;
+    margin: 2.5rem 0;
+    padding: 1.75rem 2rem;
+    border-left: 3px solid var(--accent);
+    background: linear-gradient(135deg, var(--accent-glow), transparent);
+    border-radius: 0 12px 12px 0;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--text);
+    font-style: italic;
+  }
+
+  .pull-quote p {
+    color: var(--text);
+    margin-bottom: 0;
+  }
+
+  .pull-quote cite {
+    display: block;
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    font-style: normal;
+    color: var(--text-dim);
+  }
+
+  /* ═══════════════════════════════════════
+     CALLOUT BOXES
+     ═══════════════════════════════════════ */
+  .callout {
+    margin: 2rem 0;
+    padding: 1.5rem 1.75rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+
+  .callout--insight {
+    background: rgba(129, 140, 248, 0.06);
+    border-color: rgba(129, 140, 248, 0.2);
+  }
+
+  .callout--insight .callout-label { color: var(--accent); }
+
+  .callout--success {
+    background: rgba(52, 211, 153, 0.06);
+    border-color: rgba(52, 211, 153, 0.2);
+  }
+
+  .callout--success .callout-label { color: var(--green); }
+
+  .callout--warning {
+    background: rgba(251, 191, 36, 0.06);
+    border-color: rgba(251, 191, 36, 0.2);
+  }
+
+  .callout--warning .callout-label { color: var(--yellow); }
+
+  .callout-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .callout p:last-child { margin-bottom: 0; }
+
+  /* ═══════════════════════════════════════
+     IMAGE PLACEHOLDERS
+     ═══════════════════════════════════════ */
+  .image-block {
+    margin: 2.5rem 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .image-block img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .image-block figcaption {
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    text-align: center;
+    background: var(--surface);
+  }
+
+  /* ═══════════════════════════════════════
+     ARCHITECTURE DIAGRAM
+     ═══════════════════════════════════════ */
+  .arch-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin: 3rem 0;
+    flex-wrap: wrap;
+    padding: 2rem 0;
+  }
+
+  .arch-node {
+    padding: 0.875rem 1.25rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+    min-width: 120px;
+    position: relative;
+    line-height: 1.3;
+  }
+
+  .arch-node--input {
+    background: rgba(52, 211, 153, 0.1);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    color: var(--green);
+  }
+
+  .arch-node--process {
+    background: rgba(129, 140, 248, 0.1);
+    border: 1px solid rgba(129, 140, 248, 0.3);
+    color: var(--accent);
+  }
+
+  .arch-node--output {
+    background: rgba(167, 139, 250, 0.1);
+    border: 1px solid rgba(167, 139, 250, 0.3);
+    color: var(--purple);
+  }
+
+  .arch-node--final {
+    background: rgba(251, 191, 36, 0.1);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    color: var(--yellow);
+  }
+
+  .arch-arrow {
+    font-size: 1.25rem;
+    color: var(--text-dim);
+    padding: 0 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .arch-output-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .arch-output-item {
+    padding: 0.5rem 0.875rem;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: rgba(167, 139, 250, 0.08);
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    color: var(--purple);
+    white-space: nowrap;
+  }
+
+  /* ═══════════════════════════════════════
+     CRYSTAL ATOM NOTATION
+     ═══════════════════════════════════════ */
+  .crystal-atom {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.375rem 1rem;
+    background: linear-gradient(135deg, rgba(129, 140, 248, 0.12), rgba(167, 139, 250, 0.12));
+    border: 1px solid rgba(129, 140, 248, 0.25);
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+    margin: 1rem 0;
+  }
+
+  /* ═══════════════════════════════════════
+     CHART CONTAINERS
+     ═══════════════════════════════════════ */
+  .chart-wrapper {
+    margin: 2.5rem 0;
+    padding: 2rem;
+    background: var(--surface);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+
+  .chart-wrapper h4 {
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
+    color: var(--text);
+  }
+
+  .chart-container {
+    position: relative;
+    height: 320px;
+    width: 100%;
+  }
+
+  /* ═══════════════════════════════════════
+     RESEARCH FINDINGS
+     ═══════════════════════════════════════ */
+  .finding {
+    margin: 1.5rem 0;
+    padding: 1.25rem 1.5rem;
+    background: var(--surface);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s;
+  }
+
+  .finding:hover {
+    border-color: var(--border-light);
+  }
+
+  .finding-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .finding-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: 100px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .finding-badge--verified {
+    background: var(--green-dim);
+    color: var(--green);
+  }
+
+  .finding-badge--research {
+    background: var(--accent-glow);
+    color: var(--accent);
+  }
+
+  .finding-badge--active {
+    background: var(--yellow-dim);
+    color: var(--yellow);
+  }
+
+  .finding p { font-size: 0.9rem; margin-bottom: 0; }
+
+  /* ═══════════════════════════════════════
+     NARRATIVE SECTION (Bradley's Voice)
+     ═══════════════════════════════════════ */
+  .narrative {
+    position: relative;
+    margin: 2rem 0;
+  }
+
+  .narrative-bubble {
+    position: relative;
+    padding: 1.75rem 2rem;
+    background: var(--surface);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+  }
+
+  .narrative-bubble::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 2rem;
+    right: 2rem;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--purple), transparent);
+    border-radius: 2px;
+  }
+
+  .narrative-bubble p {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .narrative-bubble p:last-child {
+    margin-bottom: 0;
+  }
+
+  .narrative-attribution {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .narrative-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--purple));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #0f1117;
+    flex-shrink: 0;
+  }
+
+  .narrative-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+
+  .narrative-role {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+
+  /* ═══════════════════════════════════════
+     STATS DASHBOARD
+     ═══════════════════════════════════════ */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .stat-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .stat-number {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-number[data-target] {
+    transition: color 0.3s;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 0.35rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ═══════════════════════════════════════
+     ROADMAP / TIMELINE
+     ═══════════════════════════════════════ */
+  .timeline {
+    position: relative;
+    margin: 2rem 0;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-left: 1.5rem;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 0.4rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: var(--bg);
+  }
+
+  .timeline-item--complete::before {
+    background: var(--accent);
+  }
+
+  .timeline-item--active::before {
+    background: var(--green);
+    border-color: var(--green);
+    box-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
+  }
+
+  .timeline-stage {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 0.25rem;
+  }
+
+  .timeline-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.35rem;
+  }
+
+  .timeline-desc {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* ═══════════════════════════════════════
+     ABOUT / AUTHOR
+     ═══════════════════════════════════════ */
+  .author-card {
+    display: flex;
+    gap: 2rem;
+    padding: 2.5rem;
+    background: var(--surface);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    align-items: flex-start;
+  }
+
+  .author-photo {
+    width: 140px;
+    height: 140px;
+    border-radius: 16px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid var(--border);
+  }
+
+  .author-info h3 {
+    font-size: 1.35rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .author-title {
+    font-size: 0.9rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+
+  .author-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .author-tag {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.75rem;
+    background: var(--accent-glow);
+    border: 1px solid rgba(129, 140, 248, 0.2);
+    border-radius: 100px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .author-links {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .author-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: color 0.2s;
+  }
+
+  .author-link:hover {
+    color: var(--accent);
+  }
+
+  /* ═══════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════ */
+  .site-footer {
+    padding: 3rem 0;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    background: var(--surface-alt);
+  }
+
+  .footer-built {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-built span {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .footer-school {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    opacity: 0.7;
+  }
+
+  /* ═══════════════════════════════════════
+     PROCESS GRID
+     ═══════════════════════════════════════ */
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .process-card {
+    padding: 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+
+  .process-card-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .process-card h4 {
+    font-size: 0.9rem;
+    margin-bottom: 0.35rem;
+    color: var(--text);
+  }
+
+  .process-card p {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-bottom: 0;
+    line-height: 1.5;
+  }
+
+  /* ═══════════════════════════════════════
+     TABLE OF CONTENTS (sticky sidebar on wide screens)
+     ═══════════════════════════════════════ */
+  .toc {
+    display: none;
+  }
+
+  @media (min-width: 1200px) {
+    .toc {
+      display: block;
+      position: fixed;
+      left: calc(50% + 420px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 200px;
+      z-index: 100;
+    }
+
+    .toc-list {
+      list-style: none;
+    }
+
+    .toc-list li {
+      margin-bottom: 0.5rem;
+    }
+
+    .toc-list a {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      transition: color 0.2s;
+      display: block;
+      padding: 0.2rem 0;
+      border-left: 2px solid transparent;
+      padding-left: 0.75rem;
+    }
+
+    .toc-list a:hover,
+    .toc-list a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+    }
+  }
+
+  /* ═══════════════════════════════════════
+     RESPONSIVE
+     ═══════════════════════════════════════ */
+  @media (max-width: 768px) {
+    section { padding: 3rem 0; }
+    .hero { padding: 5rem 0 3.5rem; }
+
+    .arch-flow {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .arch-arrow {
+      transform: rotate(90deg);
+      padding: 0.25rem 0;
+    }
+
+    .author-card {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .author-tags, .author-links {
+      justify-content: center;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .narrative-bubble {
+      padding: 1.25rem 1.5rem;
+    }
+
+    .pull-quote {
+      padding: 1.25rem 1.5rem;
+      font-size: 1rem;
+    }
+
+    .chart-container {
+      height: 260px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    .stat-card { padding: 1rem; }
+    .stat-number { font-size: 1.5rem; }
+
+    .process-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ═══════════════════════════════════════
+     COUNTER ANIMATION
+     ═══════════════════════════════════════ */
+  @keyframes countUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ═══════════════════════════════════════
+     SVG ICONS (inline)
+     ═══════════════════════════════════════ */
+  .icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+    fill: currentColor;
+  }
+
+  /* ═══════════════════════════════════════
+     CODE BLOCK
+     ═══════════════════════════════════════ */
+  .code-block {
+    margin: 1.5rem 0;
+    padding: 1.25rem 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    overflow-x: auto;
+  }
+
+  .code-block .keyword { color: var(--accent); }
+  .code-block .string { color: var(--green); }
+  .code-block .comment { color: var(--text-dim); }
+  .code-block .number { color: var(--orange); }
+
+  /* ═══════════════════════════════════════
+     BACK TO TOP
+     ═══════════════════════════════════════ */
+  .back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 42px;
+    height: 42px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    z-index: 100;
+    font-size: 1.1rem;
+  }
+
+  .back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .back-to-top:hover {
+    background: var(--accent);
+    color: #0f1117;
+    border-color: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     TABLE OF CONTENTS
+     ═══════════════════════════════════════ -->
+<nav class="toc" aria-label="Table of contents">
+  <ul class="toc-list">
+    <li><a href="#hero">Introduction</a></li>
+    <li><a href="#problem">The Problem</a></li>
+    <li><a href="#solution">The Solution</a></li>
+    <li><a href="#aisp">AISP Innovation</a></li>
+    <li><a href="#narrative">Bradley's Story</a></li>
+    <li><a href="#product">The Product</a></li>
+    <li><a href="#process">Development</a></li>
+    <li><a href="#roadmap">What's Next</a></li>
+    <li><a href="#about">About Bradley</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     SECTION 1: HERO
+     ═══════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="article-container">
+    <div class="fade-in">
+      <p class="hero-eyebrow">Harvard ALM Capstone &middot; May 2026</p>
+      <h1>Hey Bradley: From Voice to Enterprise Specifications</h1>
+      <p class="hero-subtitle">A Harvard ALM Capstone by Bradley Ross</p>
+      <p class="hero-date">Digital Media Design &middot; Harvard Extension School</p>
+    </div>
+    <div class="hero-links fade-in fade-in-delay-2">
+      <a href="https://github.com/bar181" class="hero-link hero-link--primary" target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+      <a href="https://linkedin.com/in/bradaross" class="hero-link hero-link--secondary" target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 16 16"><path d="M13.6 0H2.4C1.08 0 0 1.08 0 2.4v11.2C0 14.92 1.08 16 2.4 16h11.2c1.32 0 2.4-1.08 2.4-2.4V2.4C16 1.08 14.92 0 13.6 0zM4.75 13.6H2.4V6h2.35v7.6zM3.58 5.04c-.76 0-1.37-.62-1.37-1.37 0-.76.62-1.37 1.37-1.37.76 0 1.37.62 1.37 1.37 0 .76-.62 1.37-1.37 1.37zM13.6 13.6h-2.35V9.92c0-.88-.02-2.01-1.22-2.01-1.22 0-1.41.96-1.41 1.95v3.74H6.27V6h2.26v1.04h.03c.31-.59 1.08-1.22 2.22-1.22 2.38 0 2.82 1.56 2.82 3.6v4.18z"/></svg>
+        LinkedIn
+      </a>
+    </div>
+    <div class="hero-divider"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SECTION 2: THE PROBLEM
+     ═══════════════════════════════════════ -->
+<section id="problem">
+  <div class="article-container">
+    <div class="fade-in">
+      <span class="section-label">The Problem</span>
+      <h2>Beautiful Prototypes That Cannot Scale</h2>
+    </div>
+
+    <div class="fade-in fade-in-delay-1">
+      <p>Vibe coding has democratized web development. A grandmother can describe her bakery website to an AI assistant and get a beautiful, functional prototype in minutes. The colors are warm. The layout is inviting. The croissant photos render perfectly on her laptop screen.</p>
+
+      <p>Then she wants to grow. She needs online ordering, a loyalty program, a second location with its own menu. And the entire site needs to be rebuilt from scratch&mdash;because there are no specifications, no architecture, no reproducible system underneath the prototype. The AI generated code, not a plan.</p>
+    </div>
+
+    <div class="pull-quote fade-in fade-in-delay-2">
+      <p>The gap is not between humans and code. It is between human intent and machine-precise specifications.</p>
+    </div>
+
+    <div class="fade-in fade-in-delay-2">
+      <p>On the other side of the spectrum, agentic engineers&mdash;the developers building AI-powered systems&mdash;spend more than half their time writing specifications that are ambiguous, incomplete, and require constant clarification. "Make it responsive" means something different to every developer. "Professional blue" could be any of fifty hex values. Every AI coding tool is focused on generating code, but code from ambiguous specs produces ambiguous results.</p>
+
+      <p>The industry has a missing layer: a tool that translates what humans mean into what machines need to know, with near-zero room for misinterpretation.</p>
+    </div>
+
+    <figure class="image-block fade-in fade-in-delay-3">
+      <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=780&h=400&fit=crop&crop=center" alt="Developer working with code on screen" loading="lazy">
+      <figcaption>The specification gap: beautiful prototypes hide architectural debt that compounds with every feature request.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SECTION 3: THE SOLUTION
+     ═══════════════════════════════════════ -->
+<section id="solution">
+  <div class="article-container">
+    <div class="fade-in">
+      <span class="section-label">The Solution</span>
+      <h2>Hey Bradley: A Specification Platform</h2>
+    </div>
+
+    <div class="fade-in fade-in-delay-1">
+      <p>Hey Bradley is a digital whiteboard where anyone&mdash;from that grandmother with her bakery to a lead agentic engineer shipping enterprise SaaS&mdash;speaks or types what they want, and the system creates near-zero-ambiguity enterprise-grade specifications. Not just a website builder. A specification platform.</p>
+
+      <p>The user describes a vision. Hey Bradley captures that intent and produces two outputs simultaneously: a <strong>live visual preview</strong> that proves the system understood the request, and <strong>six enterprise-grade specification documents</strong> that any developer, AI agent, or CI/CD pipeline can use to build production software without guesswork.</p>
+    </div>
+
+    <div class="callout callout--insight fade-in fade-in-delay-2">
+      <div class="callout-label">Key Insight</div>
+      <p>The preview is proof. The specs are the product. What the user sees is validation; what they download is value.</p>
+    </div>
+
+    <div class="fade-in fade-in-delay-2">
+      <p>The pipeline is deliberate. Human intent enters the system as natural language. The AISP engine formalizes that intent into structured, unambiguous notation. From that notation, the system generates a live preview alongside full specifications: design tokens, component architecture, accessibility requirements, responsive breakpoints, content strategy, and deployment configuration. Each specification document is immediately consumable by Claude Code or any agentic coding system to produce production-ready software.</p>
+    </div>
+
+    <!-- Architecture Flow Diagram -->
+    <div class="fade-in fade-in-delay-3">
+      <h3 style="text-align:center; margin-bottom: 1.5rem; margin-top: 2rem;">System Pipeline</h3>
+      <div class="arch-flow">
+        <div class="arch-node arch-node--input">
+          Voice / Chat<br><span style="font-size:0.7rem;opacity:0.7;">Human Intent</span>
+        </div>
+        <div class="arch-arrow">&rarr;</div>
+        <div class="arch-node arch-node--process">
+          Hey Bradley<br><span style="font-size:0.7rem;opacity:0.7;">AISP Engine</span>
+        </div>
+        <div class="arch-arrow">&rarr;</div>
+        <div class="arch-output-group">
+          <div class="arch-output-item">Live Preview</div>
+          <div class="arch-output-item">Design Tokens</div>
+          <div class="arch-output-item">Component Specs</div>
+          <div class="arch-output-item">Accessibility</div>
+          <div class="arch-output-item">Responsive Rules</div>
+          <div class="arch-output-item">Content Strategy</div>
+          <div class="arch-output-item">Deploy Config</div>
+        </div>
+        <div class="arch-arrow">&rarr;</div>
+        <div class="arch-node arch-node--final">
+          Claude Code<br><span style="font-size:0.7rem;opacity:0.7;">Production Site</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fade-in fade-in-delay-3">
+      <p>This architecture means the same specification that generated a bakery landing page can generate a bakery ordering system, a multi-location franchise portal, or an API for third-party integrations. The specifications scale because they describe intent, not implementation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SECTION 4: AISP INNOVATION
+     ═══════════════════════════════════════ -->
+<section id="aisp">
+  <div class="article-container">
+    <div class="fade-in">
+      <span class="section-label">The Innovation</span>
+      <h2>AISP: AI Symbolic Protocol</h2>
+    </div>
+
+    <div class="fade-in fade-in-delay-1">
+      <p>At the foundation of Hey Bradley is AISP&mdash;the AI Symbolic Protocol&mdash;created by Bradley Ross. AISP is a formal notation system that converts human and machine concepts into accurate mathematical frameworks via a fractal architecture. Where natural language leaves room for interpretation, AISP leaves room for none.</p>
+
+      <div class="crystal-atom">Crystal Atom: &#x27E6;&Omega;, &Sigma;, &Gamma;, &Lambda;, &Epsilon;&#x27E7;</div>
+
+      <p>The Crystal Atom notation encodes five dimensions of meaning: ontology (&Omega;), structure (&Sigma;), grammar (&Gamma;), logic (&Lambda;), and evaluation (&Epsilon;). Every concept&mdash;from "make it responsive" to "add a shopping cart"&mdash;is decomposed into these five facets, eliminating the ambiguity that plagues natural language specifications.</p>
+    </div>
+
+    <!-- Ambiguity Reduction Chart -->
+    <div class="chart-wrapper fade-in fade-in-delay-2">
+      <h4>Ambiguity Reduction by Specification Method</h4>
+      <div class="chart-container">
+        <canvas id="ambiguityChart"></canvas>
+      </div>
+    </div>
+
+    <div class="fade-in fade-in-delay-2">
+      <p>The research results have been striking. Testing across multiple domains shows that AISP reduces specification ambiguity from the 40&ndash;65% range typical of natural language down to less than 2% at the Platinum tier&mdash;a reduction that changes the economics of software development.</p>
+    </div>
+
+    <h3 class="fade-in">Research Findings</h3>
+
+    <div class="finding fade-in">
+      <div class="finding-title">
+        SWE-bench Verified 500
+        <span class="finding-badge finding-badge--verified">Verified</span>
+      </div>
+      <p>Achieved a 92% pass rate on 60 representative instances using AISP as a learning system. This demonstrates AISP can provide the mathematical framework for knowledge representation and function as a white-box explainable AI (XAI) system.</p>
+    </div>
+
+    <div class="finding fade-in fade-in-delay-1">
+      <div class="finding-title">
+        No Hints Used
+        <span class="finding-badge finding-badge--verified">Verified</span>
+      </div>
+      <p>The original SWE-bench tests included developer hints valuable for solving tasks but not permitted in official submissions. AISP's XAI transparency means Bradley can re-run with full explainability to prove no forbidden hints were used&mdash;a level of auditability most AI systems cannot offer.</p>
+    </div>
+
+    <div class="finding fade-in fade-in-delay-2">
+      <div class="finding-title">
+        Zero Ambiguity vs. Creativity
+        <span class="finding-badge finding-badge--research">Research</span>
+      </div>
+      <p>Testing showed that eliminating ambiguity does not eliminate creativity&mdash;it channels it. The mathematical framework constrains interpretation, not imagination. Designers and developers report feeling more creative when freed from specification guesswork.</p>
+    </div>
+
+    <div class="finding fade-in fade-in-delay-2">
+      <div class="finding-title">
+        Fractal Design Architecture
+        <span class="finding-badge finding-badge--research">Research</span>
+      </div>
+      <p>AISP converts human and machine concepts into accurate mathematical frameworks via a fractal architecture. This enables a deterministic approach to AI&mdash;repeatable, auditable, and predictable outputs from identical inputs.</p>
+    </div>
+
+    <div class="finding fade-in fade-in-delay-3">
+      <div class="finding-title">
+        Knowledge Ingestion at Scale
+        <span class="finding-badge finding-badge--active">Active</span>
+      </div>
+      <p>Currently uploading all knowledge claims from Wikidata, PubMed, and Wikipedia. The goal: create a deterministic AI system grounded in verified, formalized human knowledge rather than probabilistic language model outputs.</p>
+    </div>
+
+    <div class="finding fade-in fade-in-delay-3">
+      <div class="finding-title">
+        51 Rust Crates
+        <span class="finding-badge finding-badge--verified">Verified</span>
+      </div>
+      <p>51 completed Rust crates implementing the AISP framework, demonstrating potential to reduce LLM usage by 75%. Deterministic computation replaces probabilistic inference for routine specification tasks.</p>
+    </div>
+
+    <div class="finding fade-in fade-in-delay-4">
+      <div class="finding-title">
+        Open Source + Private Intent
+        <span class="finding-badge finding-badge--research">Research</span>
+      </div>
+      <p>Many methods are open-sourced via <a href="https://github.com/bar181" target="_blank" rel="noopener">aisp-open-core</a>, enabling community development. The intent system&mdash;AISP intent routing&mdash;remains private, representing the core intellectual property that captures <em>why</em> someone is building, not just what they want.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SECTION 5: BRADLEY'S NARRATIVE
+     ═══════════════════════════════════════ -->
+<section id="narrative">
+  <div class="article-container">
+    <div class="fade-in">
+      <span class="section-label">The Story</span>
+      <h2>In Bradley's Words</h2>
+    </div>
+
+    <div class="narrative fade-in fade-in-delay-1">
+      <div class="narrative-bubble">
+        <p>When I started this project, I had a simple question: what if AI could write specifications, not just code? I had spent years watching developers waste time on ambiguous requirements. The specs said "make it responsive" but did not say what responsive meant for this specific layout. Every AI coding tool was focused on generating code&mdash;but code from ambiguous specs produces ambiguous results.</p>
+
+        <p>I created AISP because I needed a notation system where "responsive" has exactly one interpretation: breakpoints at 375px, 768px, 1440px with specific column collapse rules. Where "professional blue" means <code>#1e40af</code>, not whatever the LLM imagines that day.</p>
+
+        <p>The open-core approach lets the community build on the base protocol while I develop the intent layer&mdash;the part that captures <em>why</em> someone is building a site, not just what they want. That intent layer is what separates a spec tool from an AI architect.</p>
+
+        <p>After the capstone, I am pushing further. The SWE-bench results showed AISP can learn from codebases. The Wikidata ingestion shows it can formalize any domain's knowledge. And the Rust crates show we can make this fast enough to replace most LLM calls for routine tasks.</p>
+
+        <p>Hey Bradley is the first application. But AISP is the platform.</p>
+
+        <div class="narrative-attribution">
+          <img class="narrative-avatar" src="/brad_pixar.png" alt="Bradley Ross" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">
+          <div>
+            <div class="narrative-name">Bradley Ross</div>
+            <div class="narrative-role">Harvard ALM Capstone Defense, May 2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <figure class="image-block fade-in fade-in-delay-2">
+      <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=780&h=380&fit=crop&crop=center" alt="Conference presentation with audience" loading="lazy">
+      <figcaption>The capstone defense: presenting AISP as a bridge between human creativity and machine precision.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SECTION 6: THE PRODUCT
+     ═══════════════════════════════════════ -->
+<section id="product">
+  <div class="article-container">
+    <div class="fade-in">
+      <span class="section-label">The Product</span>
+      <h2>Hey Bradley by the Numbers</h2>
+    </div>
+
+    <div class="fade-in fade-in-delay-1">
+      <p>Hey Bradley is not a concept. It is a working system with measurable depth. Every number below represents tested, reviewed, production-quality work built across eight development phases.</p>
+    </div>
+
+    <div class="stats-grid fade-in fade-in-delay-2">
+      <div class="stat-card">
+        <div class="stat-number" data-target="62">0</div>
+        <div class="stat-label">Template Variants</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" data-target="20">0</div>
+        <div class="stat-label">Section Types</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" data-target="8">0</div>
+        <div class="stat-label">Example Sites</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" data-target="6">0</div>
+        <div class="stat-label">Enterprise Specs</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" data-target="208">0</div>
+        <div class="stat-label">Curated Images</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" data-target="54">0</div>
+        <div class="stat-label">Playwright Tests</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" data-target="22">0</div>
+        <div class="stat-label">ADR Documents</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" data-target="8">0</div>
+        <div class="stat-label">Phases Complete</div>
+      </div>
+    </div>
+
+    <!-- Phase Score Chart -->
+    <div class="chart-wrapper fade-in fade-in-delay-3">
+      <h4>Quality Score Trajectory Across 8 Phases</h4>
+      <div class="chart-container">
+        <canvas id="phaseChart"></canvas>
+      </div>
+    </div>
+
+    <div class="callout callout--success fade-in fade-in-delay-3">
+      <div class="callout-label">Quality Standard</div>
+      <p>Every phase undergoes a brutal-honest review scored on a 100-point scale. Scores fluctuate because the bar rises with each phase. The upward trend reflects compounding quality: each phase inherits and improves upon the previous foundation.</p>
+    </div>
+
+    <figure class="image-block fade-in fade-in-delay-4">
+      <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=780&h=380&fit=crop&crop=center" alt="Analytics dashboard showing metrics" loading="lazy">
+      <figcaption>The Hey Bradley dashboard: every template variant, section type, and specification generator tracked and tested.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SECTION 7: AGENTIC DEVELOPMENT PROCESS
+     ═══════════════════════════════════════ -->
+<section id="process">
+  <div class="article-container">
+    <div class="fade-in">
+      <span class="section-label">Development</span>
+      <h2>Built by Agents, Guided by Humans</h2>
+    </div>
+
+    <div class="fade-in fade-in-delay-1">
+      <p>Hey Bradley was not just built with AI tools&mdash;it was built <em>by</em> AI agents under human orchestration. Each phase deployed 30+ specialized Claude Code agents working in parallel: coders, reviewers, testers, security auditors, and quality assessors. The development methodology itself is an innovation.</p>
+
+      <p>The process follows a 3-loop optimization cycle: agents build, agents review with brutal honesty, and agents refine based on scored feedback. Human oversight gates every phase transition. Phase 8 deployed more than 30 agents in a single day, coordinating across template generation, test coverage, accessibility audits, and specification validation.</p>
+    </div>
+
+    <div class="process-grid fade-in fade-in-delay-2">
+      <div class="process-card">
+        <div class="process-card-icon" aria-hidden="true">01</div>
+        <h4>Agent Swarms</h4>
+        <p>30+ specialized agents per phase: coders, testers, reviewers, security auditors, each with defined boundaries.</p>
+      </div>
+      <div class="process-card">
+        <div class="process-card-icon" aria-hidden="true">02</div>
+        <h4>3-Loop Optimization</h4>
+        <p>Build, review with scored feedback, refine. Every loop tightens quality against the specification.</p>
+      </div>
+      <div class="process-card">
+        <div class="process-card-icon" aria-hidden="true">03</div>
+        <h4>Brutal Honest Reviews</h4>
+        <p>No inflated scores. Agents flag issues without diplomacy. Quality scores reflect reality, not aspiration.</p>
+      </div>
+      <div class="process-card">
+        <div class="process-card-icon" aria-hidden="true">04</div>
+        <h4>Human Oversight</h4>
+        <p>Every phase gate requires human approval. AI builds; humans decide when it ships.</p>
+      </div>
+    </div>
+
+    <div class="pull-quote fade-in fade-in-delay-3">
+      <p>Using AI to build AI tools, with human oversight at every gate. The development process is as much an innovation as the product itself.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SECTION 8: WHAT'S NEXT
+     ═══════════════════════════════════════ -->
+<section id="roadmap">
+  <div class="article-container">
+    <div class="fade-in">
+      <span class="section-label">Roadmap</span>
+      <h2>What Comes Next</h2>
+    </div>
+
+    <div class="fade-in fade-in-delay-1">
+      <p>The capstone demonstrates the core concept. What follows is a deliberate expansion from proof-of-concept to platform, each stage adding capabilities while maintaining the specification-first architecture.</p>
+    </div>
+
+    <div class="timeline fade-in fade-in-delay-2">
+      <div class="timeline-item timeline-item--complete">
+        <div class="timeline-stage">Stage 1 &mdash; Complete</div>
+        <div class="timeline-title">Capstone POC</div>
+        <div class="timeline-desc">JSON-driven spec platform, 62 templates, 6 enterprise spec generators, 54 Playwright tests. Proof that specification-first development works.</div>
+      </div>
+      <div class="timeline-item timeline-item--active">
+        <div class="timeline-stage">Stage 2 &mdash; Pre-LLM MVP</div>
+        <div class="timeline-title">Image Upload, Brand Management, Persistence</div>
+        <div class="timeline-desc">User-uploaded images, brand color extraction, project save/load. The product becomes usable without an AI backend.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-stage">Stage 3 &mdash; LLM MVP</div>
+        <div class="timeline-title">Claude API Chat, Whisper Voice, Smart Images</div>
+        <div class="timeline-desc">Natural language and voice input via Claude API and OpenAI Whisper. Context-aware image selection from the curated library.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-stage">Stage 4 &mdash; Open Core</div>
+        <div class="timeline-title">AISP Intent Routing, Agent Coordination</div>
+        <div class="timeline-desc">The private intent layer goes live. Free and pro tiers. Agent coordination for complex multi-page specifications.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-stage">Stage 5 &mdash; Enterprise</div>
+        <div class="timeline-title">Multi-Page, Marketplace, White Label, API</div>
+        <div class="timeline-desc">Full enterprise platform: multi-page site specifications, template marketplace, white-label licensing, and a public API for third-party integrations.</div>
+      </div>
+    </div>
+
+    <div class="callout callout--warning fade-in fade-in-delay-3">
+      <div class="callout-label">AISP Research Direction</div>
+      <p>Beyond Hey Bradley, AISP research continues toward deterministic AI via fractal mathematical frameworks. The Wikidata and PubMed ingestion projects aim to formalize all verifiable human knowledge into AISP notation&mdash;creating a foundation for AI systems that reason from verified facts rather than statistical patterns.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SECTION 9: ABOUT BRADLEY ROSS
+     ═══════════════════════════════════════ -->
+<section id="about">
+  <div class="article-container">
+    <div class="fade-in">
+      <span class="section-label">About the Author</span>
+      <h2>Bradley Ross</h2>
+    </div>
+
+    <div class="author-card fade-in fade-in-delay-1">
+      <img
+        class="author-photo"
+        src="/harvard bradley headshot.jpeg"
+        alt="Bradley Ross — Harvard ALM, AISP Creator"
+        loading="lazy"
+      >
+      <div class="author-info">
+        <h3>Bradley Ross</h3>
+        <div class="author-title">Harvard ALM in Digital Media Design &middot; Class of 2026</div>
+        <p style="font-size:0.9rem;">Creator of AISP (AI Symbolic Protocol) and Hey Bradley. Researcher in deterministic AI, knowledge formalization, and agentic software development. Building the bridge between human intent and machine-precise specifications.</p>
+
+        <div class="author-links">
+          <a href="https://github.com/bar181" class="author-link" target="_blank" rel="noopener">
+            <svg class="icon" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            GitHub
+          </a>
+          <a href="https://linkedin.com/in/bradaross" class="author-link" target="_blank" rel="noopener">
+            <svg class="icon" viewBox="0 0 16 16"><path d="M13.6 0H2.4C1.08 0 0 1.08 0 2.4v11.2C0 14.92 1.08 16 2.4 16h11.2c1.32 0 2.4-1.08 2.4-2.4V2.4C16 1.08 14.92 0 13.6 0zM4.75 13.6H2.4V6h2.35v7.6zM3.58 5.04c-.76 0-1.37-.62-1.37-1.37 0-.76.62-1.37 1.37-1.37.76 0 1.37.62 1.37 1.37 0 .76-.62 1.37-1.37 1.37zM13.6 13.6h-2.35V9.92c0-.88-.02-2.01-1.22-2.01-1.22 0-1.41.96-1.41 1.95v3.74H6.27V6h2.26v1.04h.03c.31-.59 1.08-1.22 2.22-1.22 2.38 0 2.82 1.56 2.82 3.6v4.18z"/></svg>
+            LinkedIn
+          </a>
+          <a href="https://github.com/bar181" class="author-link" target="_blank" rel="noopener">
+            aisp-open-core
+          </a>
+        </div>
+
+        <div class="author-tags">
+          <span class="author-tag">AISP Creator</span>
+          <span class="author-tag">Deterministic AI</span>
+          <span class="author-tag">SWE-bench Research</span>
+          <span class="author-tag">Knowledge Formalization</span>
+          <span class="author-tag">Agentic Development</span>
+          <span class="author-tag">Open Source</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SECTION 10: FOOTER
+     ═══════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="article-container">
+    <p class="footer-built">Built with <span>Hey Bradley</span> + <span>Claude Code</span> + <span>AISP</span></p>
+    <p class="footer-school">Harvard ALM in Digital Media Design &middot; 2026</p>
+  </div>
+</footer>
+
+<!-- Back to Top Button -->
+<button class="back-to-top" id="backToTop" aria-label="Back to top">&uarr;</button>
+
+<!-- ═══════════════════════════════════════
+     SCRIPTS
+     ═══════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  /* ───────────────────────────────────
+     SCROLL-TRIGGERED FADE-IN ANIMATIONS
+     ─────────────────────────────────── */
+  const fadeElements = document.querySelectorAll('.fade-in');
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px 0px -60px 0px',
+    threshold: 0.1
+  };
+
+  const fadeObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        fadeObserver.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  fadeElements.forEach(function(el) {
+    fadeObserver.observe(el);
+  });
+
+  /* ───────────────────────────────────
+     COUNTER ANIMATIONS
+     ─────────────────────────────────── */
+  const statNumbers = document.querySelectorAll('.stat-number[data-target]');
+
+  function animateCounter(el) {
+    var target = parseInt(el.getAttribute('data-target'), 10);
+    var duration = 1800;
+    var startTime = null;
+
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target);
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        el.textContent = target;
+      }
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  var counterObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        counterObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  statNumbers.forEach(function(el) {
+    counterObserver.observe(el);
+  });
+
+  /* ───────────────────────────────────
+     BACK TO TOP BUTTON
+     ─────────────────────────────────── */
+  var backToTop = document.getElementById('backToTop');
+
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 600) {
+      backToTop.classList.add('visible');
+    } else {
+      backToTop.classList.remove('visible');
+    }
+  });
+
+  backToTop.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* ───────────────────────────────────
+     TABLE OF CONTENTS ACTIVE STATE
+     ─────────────────────────────────── */
+  var tocLinks = document.querySelectorAll('.toc-list a');
+  var sections = document.querySelectorAll('section[id]');
+
+  function updateToc() {
+    var scrollPos = window.scrollY + 200;
+    sections.forEach(function(section) {
+      var top = section.offsetTop;
+      var bottom = top + section.offsetHeight;
+      var id = section.getAttribute('id');
+      var link = document.querySelector('.toc-list a[href="#' + id + '"]');
+      if (link) {
+        if (scrollPos >= top && scrollPos < bottom) {
+          tocLinks.forEach(function(l) { l.classList.remove('active'); });
+          link.classList.add('active');
+        }
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateToc);
+  updateToc();
+
+  /* ───────────────────────────────────
+     CHART.JS: AMBIGUITY REDUCTION
+     ─────────────────────────────────── */
+  var ambiguityCtx = document.getElementById('ambiguityChart');
+  if (ambiguityCtx) {
+    new Chart(ambiguityCtx.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: ['Natural Language', 'Structured Templates', 'AISP Bronze', 'AISP Platinum'],
+        datasets: [{
+          label: 'Ambiguity Rate (%)',
+          data: [45, 25, 10, 2],
+          backgroundColor: [
+            'rgba(248, 113, 113, 0.7)',
+            'rgba(251, 191, 36, 0.7)',
+            'rgba(129, 140, 248, 0.7)',
+            'rgba(52, 211, 153, 0.7)'
+          ],
+          borderColor: [
+            'rgba(248, 113, 113, 1)',
+            'rgba(251, 191, 36, 1)',
+            'rgba(129, 140, 248, 1)',
+            'rgba(52, 211, 153, 1)'
+          ],
+          borderWidth: 2,
+          borderRadius: 6,
+          barPercentage: 0.6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#1a1d27',
+            titleColor: '#e4e4e7',
+            bodyColor: '#9ca3af',
+            borderColor: '#2a2d3a',
+            borderWidth: 1,
+            cornerRadius: 8,
+            padding: 12,
+            callbacks: {
+              label: function(context) {
+                return context.parsed.y + '% ambiguity rate';
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 60,
+            ticks: {
+              color: '#6b7280',
+              font: { family: 'Inter', size: 11 },
+              callback: function(value) { return value + '%'; }
+            },
+            grid: {
+              color: 'rgba(42, 45, 58, 0.5)',
+              drawBorder: false
+            }
+          },
+          x: {
+            ticks: {
+              color: '#9ca3af',
+              font: { family: 'Inter', size: 11 },
+              maxRotation: 0
+            },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+  }
+
+  /* ───────────────────────────────────
+     CHART.JS: PHASE QUALITY SCORES
+     ─────────────────────────────────── */
+  var phaseCtx = document.getElementById('phaseChart');
+  if (phaseCtx) {
+    var phaseScores = [77, 82, 73, 84, 67, 78, 75, 88];
+    var phaseLabels = ['Phase 1', 'Phase 2', 'Phase 3', 'Phase 4', 'Phase 5', 'Phase 6', 'Phase 7', 'Phase 8'];
+
+    new Chart(phaseCtx.getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: phaseLabels,
+        datasets: [{
+          label: 'Quality Score',
+          data: phaseScores,
+          borderColor: '#818cf8',
+          backgroundColor: 'rgba(129, 140, 248, 0.1)',
+          borderWidth: 3,
+          pointBackgroundColor: '#818cf8',
+          pointBorderColor: '#0f1117',
+          pointBorderWidth: 2,
+          pointRadius: 6,
+          pointHoverRadius: 8,
+          fill: true,
+          tension: 0.3
+        },
+        {
+          label: 'Trend',
+          data: (function() {
+            var n = phaseScores.length;
+            var sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+            for (var i = 0; i < n; i++) {
+              sumX += i;
+              sumY += phaseScores[i];
+              sumXY += i * phaseScores[i];
+              sumX2 += i * i;
+            }
+            var slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+            var intercept = (sumY - slope * sumX) / n;
+            var trend = [];
+            for (var j = 0; j < n; j++) {
+              trend.push(Math.round((slope * j + intercept) * 10) / 10);
+            }
+            return trend;
+          })(),
+          borderColor: 'rgba(167, 139, 250, 0.4)',
+          borderWidth: 2,
+          borderDash: [8, 4],
+          pointRadius: 0,
+          fill: false,
+          tension: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',
+            align: 'end',
+            labels: {
+              color: '#9ca3af',
+              font: { family: 'Inter', size: 11 },
+              boxWidth: 16,
+              boxHeight: 2,
+              padding: 16
+            }
+          },
+          tooltip: {
+            backgroundColor: '#1a1d27',
+            titleColor: '#e4e4e7',
+            bodyColor: '#9ca3af',
+            borderColor: '#2a2d3a',
+            borderWidth: 1,
+            cornerRadius: 8,
+            padding: 12,
+            filter: function(item) {
+              return item.datasetIndex === 0;
+            },
+            callbacks: {
+              label: function(context) {
+                return 'Score: ' + context.parsed.y + '/100';
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            min: 55,
+            max: 100,
+            ticks: {
+              color: '#6b7280',
+              font: { family: 'Inter', size: 11 },
+              stepSize: 10
+            },
+            grid: {
+              color: 'rgba(42, 45, 58, 0.5)',
+              drawBorder: false
+            }
+          },
+          x: {
+            ticks: {
+              color: '#9ca3af',
+              font: { family: 'Inter', size: 11 }
+            },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+  }
+
+})();
+</script>
+
+</body>
+</html>
