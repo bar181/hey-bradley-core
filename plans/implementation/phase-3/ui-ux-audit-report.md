@@ -11,76 +11,15 @@
 
 | Category | Score (1-5) | Pass/Total |
 |----------|:-----------:|:----------:|
-| Onboarding | 5 | 8/8 |
-| Builder | 5 | 10/10 |
-| Preview | 5 | 5/5 |
-| Section Editors | 4 | 12/15 |
-| Theme Switching | 5 | 3/3 |
 | Section CRUD | 3 | 2/4 |
 | Font Cascade | 3 | 1/2 |
 | Accessibility | 3 | 2/4 |
 | Responsive | 5 | 2/2 |
-| **Overall** | **4.2** | **45/53** |
+| **Overall** | **3.5** | **7/12** |
 
 ---
 
 ## Detailed Findings
-
-### Onboarding
-
-- **[PASS]** Shows "Hey Bradley": Visible
-- **[PASS]** Shows theme selection header: Visible
-- **[PASS]** Theme card count >= 8: Found 10 theme cards
-- **[PASS]** Theme names listed: Themes: Tech Business, Agency, Portfolio, Startup, Personal, Professional, Wellness, Minimalist, Creative, Blog
-- **[PASS]** "Start New Project" visible: Visible
-- **[PASS]** Screenshot taken: tests/screenshots/onboarding.png
-- **[PASS]** No console errors: Clean
-- **[PASS]** All theme cards navigate to /builder: All 10 navigate correctly
-
-### Builder
-
-- **[PASS]** Three panels visible: Found 3 panels (1 aside + 2 resizable)
-- **[PASS]** Screenshot taken: tests/screenshots/builder-default.png
-- **[PASS]** All 4 tabs work: Preview: OK, Data: OK, Specs: OK, Pipeline: OK
-- **[PASS]** Left panel has Theme item: Visible
-- **[PASS]** Left panel has section items: Hero visible
-- **[PASS]** Theme shows theme cards: Found 10 theme cards
-- **[PASS]** Theme shows Light/Dark toggle: Visible
-- **[PASS]** Hero: Design accordion: Visible
-- **[PASS]** Hero: Visuals accordion: Visible
-- **[PASS]** Hero: Content accordion: Visible
-
-### Preview
-
-- **[PASS]** Preview button exists: Visible
-- **[PASS]** Enters preview mode: Exit Preview button visible
-- **[PASS]** Panels hidden in preview: Panels hidden
-- **[PASS]** Screenshot taken: tests/screenshots/preview-mode.png
-- **[PASS]** Escape returns to editor: Returned
-
-### Section Editors
-
-- **[PASS]** Hero: Design cards visible: Found 8 layout cards
-- **[PASS]** Hero: Headline input: Visible
-- **[PASS]** Hero: Subtitle input: Visible
-- **[PASS]** Hero: Badge input: Visible
-- **[PASS]** Hero: Primary CTA input: Visible
-- **[PASS]** Hero: Secondary CTA input: Visible
-- **[FAIL]** Columns: variant selector: Not found
-- **[PASS]** Columns: has inputs: Found 2 inputs
-- **[PASS]** Pricing: has inputs: Found 6 inputs
-- **[FAIL]** Action: variant selector: Not found
-- **[PASS]** Questions: has inputs: Found 6 inputs
-- **[PASS]** Quotes: has inputs: Found 2 inputs
-- **[PASS]** Value Props: has inputs: Found 6 inputs
-- **[PASS]** Footer: has inputs: Found 6 inputs
-- **[FAIL]** Menu: has inputs: Found 0 inputs
-
-### Theme Switching
-
-- **[PASS]** All 8 themes switch without crashes: All OK
-- **[PASS]** No JS errors during switching: Clean
-- **[PASS]** Light/Dark toggle works: Toggle clicked without crash
 
 ### Section CRUD
 
@@ -114,9 +53,6 @@
 
 ## P1 Issues (Should Fix)
 
-- **Section Editors** > Columns: variant selector: Not found
-- **Section Editors** > Action: variant selector: Not found
-- **Section Editors** > Menu: has inputs: Found 0 inputs
 - **Section CRUD** > Duplicate button visible on hover: Not found (may be opacity-0)
 - **Font Cascade** > Font options available: Found 0 font options
 - **Accessibility** > Inputs have labels/placeholders: 7 unlabeled: input[0] type=file; input[1] type=color; input[3] type=color; input[5] type=color; input[7] type=color
