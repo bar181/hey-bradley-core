@@ -77,7 +77,8 @@
             "url": "#cta"
           }
         }
-      ]
+      ],
+      "content": {}
     },
     {
       "type": "hero",
@@ -193,7 +194,8 @@
             "show": true
           }
         }
-      ]
+      ],
+      "content": {}
     },
     {
       "type": "gallery",
@@ -442,7 +444,8 @@
             "size": "lg"
           }
         }
-      ]
+      ],
+      "content": {}
     },
     {
       "type": "footer",
@@ -506,10 +509,11 @@
           "enabled": true,
           "order": 4,
           "props": {
-            "text": "\u00a9 2026 Bloom & Petal. Handcrafted in Brooklyn, NY."
+            "text": "© 2026 Bloom & Petal. Handcrafted in Brooklyn, NY."
           }
         }
-      ]
+      ],
+      "content": {}
     }
   ]
 }

@@ -1,13 +1,22 @@
 import type { MasterConfig } from '@/lib/schemas'
-import { getComponentText } from './helpers'
+import { describeComponentProps } from './helpers'
+import { getSectionRules, type SectionData } from './sectionRules'
 
 /**
- * AISP Spec Generator — fixes ALL B- bugs from spec-review-findings.md:
- * - NO 30-char truncation — full text preserved
- * - NO slice(0,4) — ALL components shown
- * - content.heading and content.subheading included
- * - Proper spacing values in Λ bindings
- * - Every Crystal Atom has all 5 components (Ω, Σ, Γ, Λ, Ε)
+ * AISP 5.1 Crystal Atom Generator — Section-Level Atoms (ADR-032).
+ *
+ * Produces a master Crystal Atom ⟦Ω, Σ, {⟦Γ_t, Λ_t, Ε_t⟧}, Ε⟧ where
+ * each enabled section gets its own sub-atom with:
+ *   - Concrete Γ rules (specific values, not generic universals)
+ *   - Complete Λ bindings (ALL component props inline)
+ *   - Per-section Ε evidence (verifiable checks)
+ *
+ * Changes from Phase 9 monolithic generator:
+ *   A. Formal Ω (no prose) — render() with constraints
+ *   B. Section-level Γ rules — data-specific per section
+ *   C. Complete Λ bindings — every prop for every component
+ *   D. Section-level Ε evidence — per-section verification
+ *   E. Backward compatible — still passes aisp_validate (5/5 components)
  */
 export function generateAISPSpec(config: MasterConfig): string {
   const { site, theme, sections } = config
@@ -22,15 +31,16 @@ export function generateAISPSpec(config: MasterConfig): string {
   // Master Crystal Atom
   spec += `⟦\n`
 
-  // Ω — Objective
+  // ─── Ω — Formal Objective (no prose) ───
   spec += `  Ω := {\n`
-  spec += `    Render marketing website "${title}": ${enabled.length} sections,\n`
-  spec += `    theme: "${theme.preset || 'custom'}",\n`
-  spec += `    mode: ${theme.mode},\n`
-  spec += `    font: "${theme.typography?.fontFamily || 'Inter'}"\n`
+  spec += `    render(Site, ${esc(title)}) |\n`
+  spec += `      |sections| = ${enabled.length} ∧\n`
+  spec += `      theme.preset = ${esc(theme.preset || 'custom')} ∧\n`
+  spec += `      theme.mode = ${esc(theme.mode)} ∧\n`
+  spec += `      theme.typography.fontFamily = ${esc(theme.typography?.fontFamily || 'Inter')}\n`
   spec += `  }\n\n`
 
-  // Σ — Type System
+  // ─── Σ — Type System ───
   spec += `  Σ := {\n`
   spec += `    MasterConfig : 𝕋 := { site: Site, theme: Theme, sections: Section 𝕃 },\n`
   spec += `    Site : 𝕋 := { title: 𝕊, description: 𝕊, author: 𝕊, domain: 𝕊 },\n`
@@ -46,40 +56,29 @@ export function generateAISPSpec(config: MasterConfig): string {
   spec += `    SectionType : 𝕋 := {${[...new Set(enabled.map(s => s.type))].join(', ')}}\n`
   spec += `  }\n\n`
 
-  // Γ — Rules
-  spec += `  Γ := {\n`
-  spec += `    R1: ∀ s ∈ sections : s.enabled = ⊤ ⟹ render(s),\n`
-  spec += `    R2: ∀ s ∈ sections : s.type ∈ SectionType,\n`
-  spec += `    R3: ∀ c ∈ s.components : c.enabled = ⊤ ⟹ display(c),\n`
-  spec += `    R4: ∀ s ∈ sections : s.style.background ≠ ⊥ ⟹ apply_bg(s),\n`
-  spec += `    R5: □ mobile_responsive(375px, 768px, 1440px),\n`
-  spec += `    R6: □ palette_applied(theme.palette) ∧ □ font_loaded(theme.typography.fontFamily),\n`
-  spec += `    R7: □ sections_ordered(sections.order)\n`
-  spec += `  }\n\n`
-
-  // Λ — Bindings (with FULL spacing and typography)
+  // ─── Global Λ — Site + Theme bindings ───
   spec += `  Λ := {\n`
   spec += `    site := {\n`
-  spec += `      title: "${site.title || ''}",\n`
-  if (site.description) spec += `      description: "${site.description}",\n`
-  if (site.author) spec += `      author: "${site.author}",\n`
-  if (site.domain) spec += `      domain: "${site.domain}"\n`
+  spec += `      title: ${esc(site.title || '')},\n`
+  if (site.description) spec += `      description: ${esc(site.description)},\n`
+  if (site.author) spec += `      author: ${esc(site.author)},\n`
+  if (site.domain) spec += `      domain: ${esc(site.domain)}\n`
   spec += `    },\n`
-  spec += `    theme := "${theme.preset || 'custom'}",\n`
-  spec += `    mode := ${theme.mode},\n`
+  spec += `    theme := ${esc(theme.preset || 'custom')},\n`
+  spec += `    mode := ${esc(theme.mode)},\n`
   spec += `    typography := {\n`
-  spec += `      fontFamily: "${theme.typography?.fontFamily || 'Inter'}",\n`
-  spec += `      headingFamily: "${theme.typography?.headingFamily || theme.typography?.fontFamily || 'Inter'}",\n`
+  spec += `      fontFamily: ${esc(theme.typography?.fontFamily || 'Inter')},\n`
+  spec += `      headingFamily: ${esc(theme.typography?.headingFamily || theme.typography?.fontFamily || 'Inter')},\n`
   spec += `      headingWeight: ${theme.typography?.headingWeight || 700},\n`
-  spec += `      baseSize: "${theme.typography?.baseSize || '16px'}",\n`
+  spec += `      baseSize: ${esc(theme.typography?.baseSize || '16px')},\n`
   spec += `      lineHeight: ${theme.typography?.lineHeight || 1.7}\n`
   spec += `    },\n`
   spec += `    spacing := {\n`
-  spec += `      sectionPadding: "${theme.spacing?.sectionPadding || '64px'}",\n`
-  spec += `      containerMaxWidth: "${theme.spacing?.containerMaxWidth || '1280px'}",\n`
-  spec += `      componentGap: "${theme.spacing?.componentGap || '24px'}"\n`
+  spec += `      sectionPadding: ${esc(theme.spacing?.sectionPadding || '64px')},\n`
+  spec += `      containerMaxWidth: ${esc(theme.spacing?.containerMaxWidth || '1280px')},\n`
+  spec += `      componentGap: ${esc(theme.spacing?.componentGap || '24px')}\n`
   spec += `    },\n`
-  spec += `    borderRadius := "${theme.borderRadius || '12px'}",\n`
+  spec += `    borderRadius := ${esc(theme.borderRadius || '12px')},\n`
   if (p) {
     spec += `    palette := ⟨\n`
     spec += `      bg₁: "${p.bgPrimary}",\n`
@@ -88,77 +87,95 @@ export function generateAISPSpec(config: MasterConfig): string {
     spec += `      txt₂: "${p.textSecondary}",\n`
     spec += `      acc₁: "${p.accentPrimary}",\n`
     spec += `      acc₂: "${p.accentSecondary}"\n`
-    spec += `    ⟩,\n`
+    spec += `    ⟩\n`
   }
-  spec += `    sections := [\n`
-
-  // Section atoms — ALL components, FULL text, with heading/subheading
-  enabled.forEach((s, i) => {
-    const heading = (s.content as Record<string, unknown>)?.heading as string | undefined
-    const subheading = (s.content as Record<string, unknown>)?.subheading as string | undefined
-    const comps = (s.components ?? []).filter(c => c.enabled)
-    const bg = s.style?.background || ''
-
-    spec += `      ⟨\n`
-    spec += `        type: ${s.type},\n`
-    spec += `        variant: ${s.variant || 'default'},\n`
-    if (heading) spec += `        heading: "${heading}",\n`
-    if (subheading) spec += `        subheading: "${subheading}",\n`
-    if (bg) spec += `        background: "${bg}",\n`
-    if (s.layout?.columns) spec += `        columns: ${s.layout.columns},\n`
-    if (s.layout?.padding) spec += `        padding: "${s.layout.padding}",\n`
-    if (s.layout?.gap) spec += `        gap: "${s.layout.gap}",\n`
-
-    // ALL components with FULL text — NO truncation, NO slice
-    spec += `        components: [\n`
-    comps.forEach((c, j) => {
-      const text = getComponentText(c)
-      const props: string[] = []
-      if (text) props.push(`text: "${text}"`)
-      // Testimonial-specific props
-      if (c.props?.author) props.push(`author: "${c.props.author}"`)
-      if (c.props?.role) props.push(`role: "${c.props.role}"`)
-      // Include image URLs and alt text
-      if (c.props?.image) props.push(`image: "${c.props.image}"`)
-      if (c.props?.imageAlt) props.push(`imageAlt: "${c.props.imageAlt}"`)
-      if (c.props?.backgroundImage) props.push(`backgroundImage: "${c.props.backgroundImage}"`)
-      if (c.props?.url && c.type === 'image') props.push(`url: "${c.props.url}"`)
-      if (c.props?.url && c.type === 'button') props.push(`url: "${c.props.url}"`)
-      if (c.props?.src) props.push(`src: "${c.props.src}"`)
-      if (c.props?.alt) props.push(`alt: "${c.props.alt}"`)
-      if (c.props?.video) props.push(`video: "${c.props.video}"`)
-      if (c.props?.videoUrl) props.push(`videoUrl: "${c.props.videoUrl}"`)
-      if (c.props?.rating !== undefined) props.push(`rating: ${c.props.rating}`)
-      if (c.props?.links) props.push(`links: "${c.props.links}"`)
-      // Pricing tier props
-      if (c.props?.price) props.push(`price: "${c.props.price}"`)
-      if (c.props?.period) props.push(`period: "${c.props.period}"`)
-      if (c.props?.ctaText) props.push(`cta: "${c.props.ctaText}"`)
-      if (c.props?.highlighted) props.push(`highlighted: true`)
-
-      spec += `          ⟨${c.id}: ${c.type}, ${props.join(', ')}⟩${j < comps.length - 1 ? ',' : ''}\n`
-    })
-    spec += `        ]\n`
-    spec += `      ⟩${i < enabled.length - 1 ? ',' : ''}\n`
-  })
-
-  spec += `    ]\n`
   spec += `  }\n\n`
 
-  // Ε — Evidence / Verification
+  // ─── Per-Section Crystal Atoms ───
+  enabled.forEach((s) => {
+    const sectionData: SectionData = {
+      type: s.type,
+      id: s.id,
+      variant: s.variant,
+      layout: s.layout,
+      style: s.style,
+      content: s.content as Record<string, unknown>,
+      components: s.components ?? [],
+    }
+    const rules = getSectionRules(sectionData)
+    const comps = (s.components ?? []).filter(c => c.enabled)
+    const heading = (s.content as Record<string, unknown>)?.heading as string | undefined
+    const subheading = (s.content as Record<string, unknown>)?.subheading as string | undefined
+
+    spec += `  ⟦${s.type}:${s.id}⟧ := {\n`
+
+    // Γ — Section-specific rules
+    spec += `    Γ_${s.type} := {\n`
+    rules.gamma.forEach((r) => {
+      spec += `      ${r},\n`
+    })
+    spec += `    }\n\n`
+
+    // Λ — Complete component bindings (ALL props)
+    spec += `    Λ_${s.type} := {\n`
+    spec += `      variant: ${esc(s.variant || 'default')},\n`
+    if (heading) spec += `      heading: ${esc(heading)},\n`
+    if (subheading) spec += `      subheading: ${esc(subheading)},\n`
+    if (s.style?.background) spec += `      background: ${esc(s.style.background)},\n`
+    if (s.style?.color) spec += `      color: ${esc(s.style.color)},\n`
+    if (s.layout?.columns) spec += `      columns: ${s.layout.columns},\n`
+    if (s.layout?.gap) spec += `      gap: ${esc(s.layout.gap)},\n`
+    if (s.layout?.padding) spec += `      padding: ${esc(s.layout.padding)},\n`
+    if (s.layout?.display) spec += `      display: ${esc(s.layout.display)},\n`
+    if (s.layout?.direction) spec += `      direction: ${esc(s.layout.direction)},\n`
+
+    // Component bindings — EVERY prop for EVERY component
+    if (comps.length > 0) {
+      spec += `      components := [\n`
+      comps.forEach((c, j) => {
+        const allProps = describeComponentProps(c)
+        const propStr = allProps.length > 0 ? `, ${allProps.join(', ')}` : ''
+        spec += `        ⟨${c.id}: ${c.type}${propStr}⟩${j < comps.length - 1 ? ',' : ''}\n`
+      })
+      spec += `      ]\n`
+    }
+    spec += `    }\n\n`
+
+    // Ε — Section-level evidence
+    spec += `    Ε_${s.type} := {\n`
+    rules.evidence.forEach((e) => {
+      spec += `      ${e},\n`
+    })
+    spec += `    }\n`
+
+    spec += `  }\n\n`
+  })
+
+  // ─── Global Ε — Site-level verification ───
   spec += `  Ε := {\n`
   spec += `    V1: VERIFY ∀ s ∈ sections : render(s) ≠ ⊥,\n`
   spec += `    V2: VERIFY palette_contrast(txt₁, bg₁) ≥ 4.5:1,\n`
   spec += `    V3: VERIFY responsive(375px) ∧ responsive(768px) ∧ responsive(1440px),\n`
   spec += `    V4: VERIFY |sections| = ${enabled.length},\n`
   spec += `    V5: VERIFY ∀ c ∈ components : c.text ≠ ⊥ ⟹ rendered(c.text),\n`
-  spec += `    V6: VERIFY font_loaded("${theme.typography?.fontFamily || 'Inter'}"),\n`
+  spec += `    V6: VERIFY font_loaded(${esc(theme.typography?.fontFamily || 'Inter')}),\n`
   spec += `    V7: VERIFY section_order_preserved(sections)\n`
   spec += `  }\n`
 
   spec += `⟧\n\n`
   spec += `% Generated by Hey Bradley | spec: aisp-5.1 | tier: platinum\n`
   spec += `% Ambiguity target: < 2% | All 5 Crystal Atom components present\n`
+  spec += `% Section-level Crystal Atoms: ${enabled.length} sub-atoms with Γ/Λ/Ε per section\n`
 
   return spec
+}
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+function esc(v: unknown): string {
+  if (v === undefined || v === null) return '⊥'
+  if (typeof v === 'string') return `"${v}"`
+  return String(v)
 }

@@ -77,7 +77,8 @@
             "url": "#pricing"
           }
         }
-      ]
+      ],
+      "content": {}
     },
     {
       "type": "hero",
@@ -191,7 +192,8 @@
             "show": true
           }
         }
-      ]
+      ],
+      "content": {}
     },
     {
       "type": "columns",
@@ -486,7 +488,12 @@
             "name": "Hobby",
             "monthlyPrice": 0,
             "annualPrice": 0,
-            "features": ["1 project", "Basic analytics", "Community support", "1 GB storage"],
+            "features": [
+              "1 project",
+              "Basic analytics",
+              "Community support",
+              "1 GB storage"
+            ],
             "cta": "Start Free",
             "ctaUrl": "#signup",
             "highlighted": false
@@ -495,7 +502,14 @@
             "name": "Pro",
             "monthlyPrice": 29,
             "annualPrice": 290,
-            "features": ["Unlimited projects", "Advanced analytics", "Priority support", "50 GB storage", "Custom domains", "Team collaboration"],
+            "features": [
+              "Unlimited projects",
+              "Advanced analytics",
+              "Priority support",
+              "50 GB storage",
+              "Custom domains",
+              "Team collaboration"
+            ],
             "cta": "Go Pro",
             "ctaUrl": "#signup",
             "highlighted": true
@@ -504,7 +518,15 @@
             "name": "Enterprise",
             "monthlyPrice": 99,
             "annualPrice": 990,
-            "features": ["Everything in Pro", "Dedicated account manager", "SSO / SAML", "99.99% SLA", "Custom integrations", "Unlimited storage", "Audit logs"],
+            "features": [
+              "Everything in Pro",
+              "Dedicated account manager",
+              "SSO / SAML",
+              "99.99% SLA",
+              "Custom integrations",
+              "Unlimited storage",
+              "Audit logs"
+            ],
             "cta": "Contact Sales",
             "ctaUrl": "#contact",
             "highlighted": false
@@ -941,7 +963,8 @@
             "size": "lg"
           }
         }
-      ]
+      ],
+      "content": {}
     },
     {
       "type": "divider",
@@ -1035,10 +1058,11 @@
           "enabled": true,
           "order": 4,
           "props": {
-            "text": "\u00a9 2026 Nexus Labs Inc. SOC 2 Type II certified. GDPR compliant."
+            "text": "© 2026 Nexus Labs Inc. SOC 2 Type II certified. GDPR compliant."
           }
         }
-      ]
+      ],
+      "content": {}
     }
   ]
 }

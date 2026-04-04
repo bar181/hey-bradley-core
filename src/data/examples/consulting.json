@@ -77,7 +77,8 @@
             "url": "#cta"
           }
         }
-      ]
+      ],
+      "content": {}
     },
     {
       "type": "hero",
@@ -191,7 +192,8 @@
             "show": true
           }
         }
-      ]
+      ],
+      "content": {}
     },
     {
       "type": "columns",
@@ -355,7 +357,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "quote": "Our operational costs dropped 30% in six months. The GreenLeaf team didn't just advise \u2014 they rolled up their sleeves and delivered.",
+            "quote": "Our operational costs dropped 30% in six months. The GreenLeaf team didn't just advise — they rolled up their sleeves and delivered.",
             "author": "Robert Nakamura",
             "role": "COO, Pacific Health Systems",
             "rating": 5
@@ -423,7 +425,7 @@
           "order": 2,
           "props": {
             "question": "How do you measure success?",
-            "answer": "Every engagement begins with agreed-upon KPIs tied to business outcomes \u2014 revenue growth, cost reduction, market share, or operational metrics. We report progress monthly and adjust strategy in real time."
+            "answer": "Every engagement begins with agreed-upon KPIs tied to business outcomes — revenue growth, cost reduction, market share, or operational metrics. We report progress monthly and adjust strategy in real time."
           }
         },
         {
@@ -493,7 +495,8 @@
             "size": "lg"
           }
         }
-      ]
+      ],
+      "content": {}
     },
     {
       "type": "footer",
@@ -557,10 +560,11 @@
           "enabled": true,
           "order": 4,
           "props": {
-            "text": "\u00a9 2026 GreenLeaf Consulting. New York | London | Singapore."
+            "text": "© 2026 GreenLeaf Consulting. New York | London | Singapore."
           }
         }
-      ]
+      ],
+      "content": {}
     }
   ]
 }

@@ -1,6 +1,6 @@
 # ADR-032: AISP Section-Level Crystal Atoms
 
-**Status:** Proposed
+**Status:** Accepted (Implemented in Phase 10 Sprint 2)
 **Date:** 2026-04-04
 **Deciders:** Bradley Ross
 **Supersedes:** Extends ADR-026 (AISP Spec as Primary Output)

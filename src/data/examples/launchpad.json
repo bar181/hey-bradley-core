@@ -77,7 +77,8 @@
             "url": "#pricing"
           }
         }
-      ]
+      ],
+      "content": {}
     },
     {
       "type": "hero",
@@ -193,7 +194,8 @@
             "show": true
           }
         }
-      ]
+      ],
+      "content": {}
     },
     {
       "type": "columns",
@@ -436,7 +438,8 @@
             "size": "lg"
           }
         }
-      ]
+      ],
+      "content": {}
     },
     {
       "type": "footer",
@@ -500,10 +503,11 @@
           "enabled": true,
           "order": 4,
           "props": {
-            "text": "\u00a9 2026 LaunchPad AI. All rights reserved."
+            "text": "© 2026 LaunchPad AI. All rights reserved."
           }
         }
-      ]
+      ],
+      "content": {}
     }
   ]
 }

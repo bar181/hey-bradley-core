@@ -151,7 +151,8 @@
             "show": false
           }
         }
-      ]
+      ],
+      "content": {}
     },
     {
       "type": "columns",
@@ -260,7 +261,8 @@
             "size": "lg"
           }
         }
-      ]
+      ],
+      "content": {}
     },
     {
       "type": "footer",
@@ -294,10 +296,11 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "\u00a9 2026 Hey Bradley. All rights reserved."
+            "text": "© 2026 Hey Bradley. All rights reserved."
           }
         }
-      ]
+      ],
+      "content": {}
     }
   ]
 }

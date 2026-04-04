@@ -77,7 +77,8 @@
             "url": "#cta"
           }
         }
-      ]
+      ],
+      "content": {}
     },
     {
       "type": "hero",
@@ -191,7 +192,8 @@
             "show": true
           }
         }
-      ]
+      ],
+      "content": {}
     },
     {
       "type": "columns",
@@ -278,7 +280,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "quote": "The sourdough here is the best in Portland. I drive 30 minutes every Saturday just for a loaf \u2014 it's that good.",
+            "quote": "The sourdough here is the best in Portland. I drive 30 minutes every Saturday just for a loaf — it's that good.",
             "author": "Maria Santos",
             "role": "Regular Customer",
             "rating": 5
@@ -302,7 +304,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "quote": "We order pastry platters for every team meeting. Sweet Spot never disappoints \u2014 everything is always fresh and gorgeous.",
+            "quote": "We order pastry platters for every team meeting. Sweet Spot never disappoints — everything is always fresh and gorgeous.",
             "author": "Rachel Kim",
             "role": "Office Manager, TechCo",
             "rating": 5
@@ -365,7 +367,8 @@
             "size": "lg"
           }
         }
-      ]
+      ],
+      "content": {}
     },
     {
       "type": "numbers",
@@ -496,10 +499,11 @@
           "enabled": true,
           "order": 4,
           "props": {
-            "text": "\u00a9 2026 Sweet Spot Bakery. Handcrafted with love in Portland, OR."
+            "text": "© 2026 Sweet Spot Bakery. Handcrafted with love in Portland, OR."
           }
         }
-      ]
+      ],
+      "content": {}
     }
   ]
 }
