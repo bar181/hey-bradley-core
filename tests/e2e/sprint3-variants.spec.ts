@@ -65,7 +65,7 @@ test.describe('Onboarding Page', () => {
   test('shows Getting Started 1-2-3 steps', async ({ page }) => {
     await expect(page.getByText('Pick a theme or example')).toBeVisible()
     await expect(page.getByText('Customize sections')).toBeVisible()
-    await expect(page.getByText('Generate specs')).toBeVisible()
+    await expect(page.getByText('Get your build plan')).toBeVisible()
   })
 
   test('examples tab shows 8 example cards', async ({ page }) => {
