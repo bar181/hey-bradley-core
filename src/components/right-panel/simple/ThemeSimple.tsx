@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Sun, Moon, ChevronDown, Check } from 'lucide-react'
+import { useState, useRef, useCallback, useEffect } from 'react'
+import { Sun, Moon, ChevronDown, Check, Settings, Globe } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore } from '@/store/uiStore'
@@ -65,8 +65,223 @@ const PALETTE_PRESETS: Array<{ name: string; colors: PaletteColors }> = [
   { name: 'Neon', colors: { bgPrimary: '#09090b', bgSecondary: '#18181b', textPrimary: '#fafafa', textSecondary: '#a1a1aa', accentPrimary: '#22d3ee', accentSecondary: '#67e8f9' } },
 ]
 
+const INPUT = 'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
+
+const HEX_RE = /^#[0-9a-fA-F]{6}$/
+
+function isValidHex(v: string): boolean {
+  return HEX_RE.test(v)
+}
+
+function useDebounce<T>(value: T, delay: number): T {
+  const [debounced, setDebounced] = useState(value)
+  useEffect(() => {
+    const id = setTimeout(() => setDebounced(value), delay)
+    return () => clearTimeout(id)
+  }, [value, delay])
+  return debounced
+}
+
 function palettesMatch(a: PaletteColors, b: PaletteColors): boolean {
   return PALETTE_KEYS.every(({ key }) => a[key].toLowerCase() === b[key].toLowerCase())
+}
+
+/* ------------------------------------------------------------------ */
+/* HexColorInput — single editable color slot with swatch + picker    */
+/* ------------------------------------------------------------------ */
+
+function HexColorInput({
+  label,
+  value,
+  onChange,
+}: {
+  label: string
+  value: string
+  onChange: (hex: string) => void
+}) {
+  const [local, setLocal] = useState(value)
+  const debouncedLocal = useDebounce(local, 300)
+  const lastEmitted = useRef(value)
+
+  // Sync local state when the external value changes (e.g. preset switch)
+  useEffect(() => {
+    setLocal(value)
+    lastEmitted.current = value
+  }, [value])
+
+  // Emit only valid hex values after debounce
+  useEffect(() => {
+    if (isValidHex(debouncedLocal) && debouncedLocal !== lastEmitted.current) {
+      lastEmitted.current = debouncedLocal
+      onChange(debouncedLocal)
+    }
+  }, [debouncedLocal, onChange])
+
+  const handleText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let v = e.target.value
+    if (v && !v.startsWith('#')) v = '#' + v
+    setLocal(v)
+  }
+
+  const handlePicker = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const v = e.target.value
+    setLocal(v)
+    // Color picker always gives valid hex — emit immediately
+    lastEmitted.current = v
+    onChange(v)
+  }
+
+  const invalid = local.length > 0 && !isValidHex(local)
+
+  return (
+    <div className="flex items-center gap-1.5">
+      {/* Color swatch via native picker */}
+      <input
+        type="color"
+        value={isValidHex(local) ? local : '#000000'}
+        onChange={handlePicker}
+        className="w-6 h-6 rounded border border-hb-border cursor-pointer shrink-0 p-0 bg-transparent"
+        title={`Pick color for ${label}`}
+      />
+      {/* Hex text input */}
+      <input
+        type="text"
+        value={local}
+        onChange={handleText}
+        placeholder="#000000"
+        maxLength={7}
+        className={cn(
+          'bg-hb-surface border rounded px-1.5 py-1 text-xs text-hb-text-primary w-[76px] focus:border-hb-accent focus:outline-none transition-colors font-mono',
+          invalid ? 'border-red-500/60' : 'border-hb-border',
+        )}
+      />
+      <span className="text-[9px] text-hb-text-muted leading-none whitespace-nowrap">{label}</span>
+    </div>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/* SiteSettingsSection — SEO + Brand fields                           */
+/* ------------------------------------------------------------------ */
+
+function SiteSettingsSection() {
+  const [open, setOpen] = useState(false)
+  const title = useConfigStore((s) => s.config.site.title)
+  const description = useConfigStore((s) => s.config.site.description)
+  const author = useConfigStore((s) => s.config.site.author)
+  const domain = useConfigStore((s) => s.config.site.domain)
+  const email = useConfigStore((s) => s.config.site.email)
+  const favicon = useConfigStore((s) => (s.config.site as Record<string, unknown>).favicon as string | undefined) ?? ''
+  const ogImage = useConfigStore((s) => (s.config.site as Record<string, unknown>).ogImage as string | undefined) ?? ''
+  const applyPatch = useConfigStore((s) => s.applyPatch)
+
+  // Find logo URL from the navbar section's logo component
+  const logoUrl = useConfigStore((s) => {
+    const navbar = s.config.sections.find((sec) => sec.type === 'menu')
+    if (!navbar) return ''
+    const logoComp = navbar.components.find((c) => c.type === 'logo')
+    return (logoComp?.props?.imageUrl as string) ?? ''
+  })
+
+  const patch = useCallback(
+    (field: string, value: string) => {
+      applyPatch({ site: { [field]: value } }, 'ui')
+    },
+    [applyPatch],
+  )
+
+  const patchLogo = useCallback(
+    (value: string) => {
+      // Logo lives inside the navbar section's logo component
+      const store = useConfigStore.getState()
+      const navbar = store.config.sections.find((sec) => sec.type === 'menu')
+      if (!navbar) return
+      const logoComp = navbar.components.find((c) => c.type === 'logo')
+      if (!logoComp) return
+      store.setSectionConfig(navbar.id, {
+        components: navbar.components.map((c) =>
+          c.id === logoComp.id ? { ...c, props: { ...c.props, imageUrl: value } } : c,
+        ),
+      })
+    },
+    [],
+  )
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center gap-2 text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5 hover:text-hb-text-primary transition-colors"
+      >
+        <Settings size={12} />
+        Site Settings
+        <ChevronDown size={12} className={cn('ml-auto transition-transform', open && 'rotate-180')} />
+      </button>
+
+      {open && (
+        <div className="space-y-3 rounded-lg border border-hb-border bg-hb-surface p-3">
+          {/* SEO Fields */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-1.5 text-[10px] font-semibold text-hb-text-muted uppercase tracking-wider">
+              <Globe size={10} />
+              SEO &amp; Meta
+            </div>
+
+            <label className="block">
+              <span className="text-[10px] text-hb-text-muted mb-0.5 block">Site Title</span>
+              <input type="text" value={title} onChange={(e) => patch('title', e.target.value)} className={INPUT} placeholder="My Website" />
+            </label>
+
+            <label className="block">
+              <span className="text-[10px] text-hb-text-muted mb-0.5 block">Description</span>
+              <textarea value={description} onChange={(e) => patch('description', e.target.value)} rows={2} className={cn(INPUT, 'resize-none')} placeholder="A short description of your site" />
+            </label>
+
+            <label className="block">
+              <span className="text-[10px] text-hb-text-muted mb-0.5 block">Author</span>
+              <input type="text" value={author} onChange={(e) => patch('author', e.target.value)} className={INPUT} placeholder="Jane Doe" />
+            </label>
+
+            <label className="block">
+              <span className="text-[10px] text-hb-text-muted mb-0.5 block">Domain</span>
+              <input type="text" value={domain} onChange={(e) => patch('domain', e.target.value)} className={INPUT} placeholder="example.com" />
+            </label>
+
+            <label className="block">
+              <span className="text-[10px] text-hb-text-muted mb-0.5 block">Email</span>
+              <input type="text" value={email} onChange={(e) => patch('email', e.target.value)} className={INPUT} placeholder="hello@example.com" />
+            </label>
+          </div>
+
+          {/* Divider */}
+          <div className="border-t border-hb-border" />
+
+          {/* Brand Fields */}
+          <div className="space-y-2">
+            <div className="text-[10px] font-semibold text-hb-text-muted uppercase tracking-wider">
+              Brand
+            </div>
+
+            <label className="block">
+              <span className="text-[10px] text-hb-text-muted mb-0.5 block">Logo URL</span>
+              <input type="text" value={logoUrl} onChange={(e) => patchLogo(e.target.value)} className={INPUT} placeholder="https://example.com/logo.png" />
+            </label>
+
+            <label className="block">
+              <span className="text-[10px] text-hb-text-muted mb-0.5 block">Favicon URL</span>
+              <input type="text" value={favicon} onChange={(e) => patch('favicon', e.target.value)} className={INPUT} placeholder="https://example.com/favicon.ico" />
+            </label>
+
+            <label className="block">
+              <span className="text-[10px] text-hb-text-muted mb-0.5 block">OG Image URL</span>
+              <input type="text" value={ogImage} onChange={(e) => patch('ogImage', e.target.value)} className={INPUT} placeholder="https://example.com/og.png" />
+            </label>
+          </div>
+        </div>
+      )}
+    </div>
+  )
 }
 
 export function ThemeSimple() {
@@ -165,20 +380,20 @@ export function ThemeSimple() {
         )}
       </div>
 
-      {/* Current palette display */}
+      {/* Editable palette colors */}
       {currentPalette && (
         <div>
           <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Your Colors</div>
-          <div className="flex items-center gap-2">
+          <div className="grid grid-cols-2 gap-1.5">
             {PALETTE_KEYS.map(({ key, label }) => (
-              <div key={key} className="flex flex-col items-center gap-1">
-                <div
-                  className="w-6 h-6 rounded-full border-2 border-hb-border shrink-0"
-                  style={{ backgroundColor: currentPalette[key] }}
-                  title={`${label}: ${currentPalette[key]}`}
-                />
-                <span className="text-[9px] text-hb-text-muted leading-none">{label}</span>
-              </div>
+              <HexColorInput
+                key={key}
+                label={label}
+                value={currentPalette[key]}
+                onChange={(hex) => {
+                  setPalette({ ...currentPalette, [key]: hex })
+                }}
+              />
             ))}
           </div>
         </div>
@@ -241,6 +456,9 @@ export function ThemeSimple() {
           ))}
         </div>
       </div>
+
+      {/* Site Settings (SEO + Brand) */}
+      <SiteSettingsSection />
 
       {/* Hint */}
       <div className="text-xs text-hb-text-muted italic">

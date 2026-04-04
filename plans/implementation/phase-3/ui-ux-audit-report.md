@@ -14,13 +14,13 @@
 | Onboarding | 4 | 6/8 |
 | Builder | 5 | 10/10 |
 | Preview | 5 | 5/5 |
-| Section Editors | 3 | 8/15 |
+| Section Editors | 4 | 12/15 |
 | Theme Switching | 5 | 3/3 |
 | Section CRUD | 3 | 2/4 |
 | Font Cascade | 3 | 1/2 |
-| Accessibility | 4 | 3/4 |
+| Accessibility | 3 | 2/4 |
 | Responsive | 5 | 2/2 |
-| **Overall** | **4.1** | **40/53** |
+| **Overall** | **4.1** | **43/53** |
 
 ---
 
@@ -68,12 +68,12 @@
 - **[PASS]** Hero: Secondary CTA input: Visible
 - **[FAIL]** Columns: variant selector: Not found
 - **[PASS]** Columns: has inputs: Found 2 inputs
-- **[FAIL]** Pricing: has inputs: Found 0 inputs
+- **[PASS]** Pricing: has inputs: Found 6 inputs
 - **[FAIL]** Action: variant selector: Not found
-- **[FAIL]** Questions: has inputs: Found 0 inputs
+- **[PASS]** Questions: has inputs: Found 6 inputs
 - **[PASS]** Quotes: has inputs: Found 2 inputs
-- **[FAIL]** Value Props: has inputs: Found 0 inputs
-- **[FAIL]** Footer: has inputs: Found 0 inputs
+- **[PASS]** Value Props: has inputs: Found 6 inputs
+- **[PASS]** Footer: has inputs: Found 6 inputs
 - **[FAIL]** Menu: has inputs: Found 0 inputs
 
 ### Theme Switching
@@ -97,9 +97,9 @@
 ### Accessibility
 
 - **[PASS]** Buttons have labels: All labeled
-- **[PASS]** Inputs have labels/placeholders: All labeled
+- **[FAIL]** Inputs have labels/placeholders: 7 unlabeled: input[0] type=file; input[1] type=color; input[3] type=color; input[5] type=color; input[7] type=color
 - **[PASS]** Focus indicators in CSS: Focus styles found
-- **[FAIL]** Min font size >= 12px: 6 elements below 12px: <span> "Bg 1" = 9px; <span> "Bg 2" = 9px; <span> "Text" = 9px; <span> "Muted" = 9px; <span> "Accent" = 9px
+- **[FAIL]** Min font size >= 12px: 7 elements below 12px: <span> "Saved" = 10px; <span> "Bg 1" = 9px; <span> "Bg 2" = 9px; <span> "Text" = 9px; <span> "Muted" = 9px
 
 ### Responsive
 
@@ -117,15 +117,12 @@
 ## P1 Issues (Should Fix)
 
 - **Section Editors** > Columns: variant selector: Not found
-- **Section Editors** > Pricing: has inputs: Found 0 inputs
 - **Section Editors** > Action: variant selector: Not found
-- **Section Editors** > Questions: has inputs: Found 0 inputs
-- **Section Editors** > Value Props: has inputs: Found 0 inputs
-- **Section Editors** > Footer: has inputs: Found 0 inputs
 - **Section Editors** > Menu: has inputs: Found 0 inputs
 - **Section CRUD** > Duplicate button visible on hover: Not found (may be opacity-0)
 - **Font Cascade** > Font options available: Found 0 font options
-- **Accessibility** > Min font size >= 12px: 6 elements below 12px: <span> "Bg 1" = 9px; <span> "Bg 2" = 9px; <span> "Text" = 9px; <span> "Muted" = 9px; <span> "Accent" = 9px
+- **Accessibility** > Inputs have labels/placeholders: 7 unlabeled: input[0] type=file; input[1] type=color; input[3] type=color; input[5] type=color; input[7] type=color
+- **Accessibility** > Min font size >= 12px: 7 elements below 12px: <span> "Saved" = 10px; <span> "Bg 1" = 9px; <span> "Bg 2" = 9px; <span> "Text" = 9px; <span> "Muted" = 9px
 
 ## P2 Nice-to-Haves
 

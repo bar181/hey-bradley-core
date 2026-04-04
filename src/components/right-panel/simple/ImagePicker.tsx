@@ -1,18 +1,9 @@
 import { useState, useCallback, useEffect, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 import { cn } from '@/lib/cn'
-import {
-  Image,
-  X,
-  Play,
-  Layers,
-  Film,
-  Camera,
-  Search,
-  Clock,
-  Sparkles,
-} from 'lucide-react'
+import { Image, X, Play, Layers, Film, Camera, Search, Clock, Sparkles } from 'lucide-react'
 
+import { ImageUploadZone } from './ImageUploadZone'
 import imageData from '@/data/media/images.json'
 import videoData from '@/data/media/videos.json'
 import effectData from '@/data/media/effects.json'
@@ -125,6 +116,14 @@ export function ImagePicker({
       onEffectChange?.(effectId)
     },
     [onEffectChange],
+  )
+
+  const handleUploadConfirm = useCallback(
+    (dataUri: string) => {
+      onChange(dataUri)
+      setOpen(false)
+    },
+    [onChange],
   )
 
   // Close on Escape
@@ -284,8 +283,10 @@ export function ImagePicker({
                       ))}
                     </div>
 
-                    {/* Image grid */}
+                    {/* Image grid with upload area */}
                     <div className="flex-1 overflow-y-auto p-3">
+                      <ImageUploadZone onConfirm={handleUploadConfirm} />
+
                       {filteredImages.length === 0 ? (
                         <p className="text-xs text-hb-text-muted text-center py-8">
                           No images match your search.
