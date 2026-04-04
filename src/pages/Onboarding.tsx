@@ -460,8 +460,8 @@ export function Onboarding() {
                 <span className="text-[#A51C30] text-sm font-bold">3</span>
               </div>
               <div>
-                <div className="text-xs font-medium text-[#1a1a1a]">Generate specs</div>
-                <div className="text-[11px] text-[#9ca3af] mt-0.5">Export AISP, SADD, or build plans</div>
+                <div className="text-xs font-medium text-[#1a1a1a]">Get your build plan</div>
+                <div className="text-[11px] text-[#9ca3af] mt-0.5">Export professional website blueprints</div>
               </div>
             </div>
           </div>
@@ -549,7 +549,7 @@ export function Onboarding() {
                   )
                 ) : (
                   <div className="grid grid-cols-2 gap-3">
-                    {EXAMPLE_SITES.map((example, idx) => (
+                    {EXAMPLE_SITES.map((example) => (
                       <ExampleCard
                         key={example.name}
                         name={example.name}

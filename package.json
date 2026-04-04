@@ -15,7 +15,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "npx playwright test --reporter=line"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",
