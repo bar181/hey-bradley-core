@@ -145,11 +145,51 @@
 
 ---
 
-## Phase 9 Status: IN PROGRESS
+### Sprint 4 — Quality Pass (49 files, 2,514 additions)
+
+**Research + Planning Wave (4 agents):**
+- research-markdown: Full exploration of XAIDocsTab, HumanHighlighted, existing deps. Found no markdown deps installed.
+- audit-type-casts: 144 instances in 38 files. 129 were `section.content as any`, 9 were `section.layout as any`, 6 other.
+- adr-spec-render: Created ADR-030 recommending react-markdown + remark-gfm + @tailwindcss/typography. Three options evaluated.
+- aisp-research: Confirmed AISP 5.1 Platinum requires all 5 Crystal Atom components, <2% ambiguity. Researched prose dark mode patterns.
+
+**Implementation Wave (4 agents + manual fixes):**
+- impl-markdown (Opus): Installed react-markdown + remark-gfm + @tailwindcss/typography. Replaced `<pre>` + `HumanHighlighted` with ReactMarkdown for 5 markdown generators. Added 100+ lines of `hb-spec-prose` CSS with light/dark mode support. AISP renderer untouched.
+- impl-type-safety (Opus): Created `src/lib/sectionContent.ts` with getStr/getItems/getContent helpers. Fixed `as any` in 33+ template files.
+- impl-features-gen (Opus): Rewrote features generator with category grouping, descriptions, priorities, acceptance criteria separation. 5.5→8/10.
+- impl-gen-intros (Opus): Added professional intro paragraphs to North Star, SADD, Human Spec, Build Plan generators. Professionalized Build Plan scope statement.
+- Manual: Fixed remaining 8 `as any` (SectionHeadingEditor + spec generator layout casts). Final count: 144→0.
+
+**Testing:**
+- 17 new Playwright tests added (54→71 total)
+- Covers: pricing variants, onboarding navigation, preview images, Getting Started steps, empty state, spec tab
+- All 71 pass
+
+**Verification:**
+- Playwright screenshots of spec tabs confirm react-markdown rendering
+- Tables render as real HTML tables with alternating rows
+- Headings have proper size hierarchy (H1=1.5rem, H2=1.25rem, H3=1.1rem)
+- Code blocks have monospace background tint
+- AISP Crystal Atom format unchanged
+
+**Commits:**
+- `c491b91` Phase 9 Sprint 4: react-markdown specs, 144→0 as-any fixes, 71 tests, ADR-030
+
+### Sprint 5 — Docs + Review + Phase Seal (in progress)
+
+- Retrospective created at `plans/implementation/phase-9/retrospective.md`
+- 4-persona review running (Designer, Developer, PM, End User)
+- Wiki page `wiki/phase-9.html` in progress
+- Master backlog update in progress
+- Session log and checklist updates (this file)
+
+---
+
+## Phase 9 Status: CLOSING
 
 **Sprint 1:** DONE (grandma UX + spec quality + examples)
 **Sprint 2:** DONE (image upload + save/load + hex colors + SEO + brand)
 **Sprint 3:** DONE (section variants + pricing + onboarding redesign + UX fixes)
-**Sprint 4:** TODO (quality pass — type casting, 70+ tests, performance, react-markdown)
-**Sprint 5:** TODO (end-of-phase docs, review loops, retrospective)
-**Manual gates:** TODO (90% reproduction test + demo rehearsal)
+**Sprint 4:** DONE (react-markdown specs, 144→0 as-any, 71 tests, ADR-030)
+**Sprint 5:** IN PROGRESS (retro, wiki, backlog update, persona review)
+**Manual gates:** TODO (90% reproduction test + demo rehearsal — requires human)

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 9: Pre-LLM MVP — Hey Bradley Wiki</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0b0f1a; --surface: #131825; --surface-2: #1a2035; --border: #2a3050;
+    --text: #e2e8f0; --text-muted: #95a0b8; --accent: #6c8cff;
+    --accent-glow: rgba(108, 140, 255, 0.25); --green: #4ade80; --amber: #fbbf24;
+    --red: #f87171; --cyan: #22d3ee; --purple: #a78bfa; --radius: 12px;
+  }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; }
+  a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+  .hero { position: relative; padding: 72px 0 48px; text-align: center; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -60%; left: 50%; transform: translateX(-50%); width: 700px; height: 700px; background: radial-gradient(circle, var(--accent-glow) 0%, rgba(167,139,250,0.12) 40%, transparent 70%); pointer-events: none; }
+  .hero h1 { font-size: 2.75rem; font-weight: 800; letter-spacing: -0.03em; background: linear-gradient(135deg, #fff 30%, var(--accent) 70%, var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; position: relative; }
+  .hero .subtitle { margin-top: 12px; font-size: 1.1rem; color: var(--text-muted); position: relative; max-width: 680px; margin-left: auto; margin-right: auto; }
+  .badges { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 24px; position: relative; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border: 1px solid var(--border); background: var(--surface); }
+  .badge.phase { border-color: var(--cyan); color: var(--cyan); background: rgba(34,211,238,0.08); }
+  .badge.perf { border-color: var(--green); color: var(--green); }
+  .badge.best { border-color: var(--green); color: #fff; background: linear-gradient(135deg, #16a34a, #4ade80); }
+  .key-takeaway { background: linear-gradient(135deg, rgba(108,140,255,0.08), rgba(167,139,250,0.08)); border: 1px solid rgba(108,140,255,0.3); border-radius: var(--radius); padding: 20px 24px; margin-top: 24px; text-align: left; position: relative; }
+  .key-takeaway h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin-bottom: 8px; }
+  .key-takeaway p { font-size: 0.95rem; color: var(--text); line-height: 1.6; }
+  .section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-top: 32px; }
+  .section:hover { border-color: rgba(108,140,255,0.3); }
+  .section h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .section h2 .icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+  .section p, .section li { color: var(--text-muted); font-size: 0.95rem; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+  th { text-align: left; padding: 10px 14px; background: var(--surface-2); border-bottom: 2px solid var(--border); color: var(--text); font-weight: 600; }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+  tr:hover td { background: rgba(108,140,255,0.04); }
+  .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 16px; }
+  .metric { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: center; }
+  .metric .value { font-size: 1.8rem; font-weight: 800; color: var(--accent); }
+  .metric .label { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sprint-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-top: 14px; }
+  .sprint-card h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .sprint-card ul { padding-left: 20px; }
+  .sprint-card li { margin: 4px 0; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 600; }
+  .tag.done { background: rgba(74,222,128,0.15); color: var(--green); }
+  .tag.manual { background: rgba(251,191,36,0.15); color: var(--amber); }
+  .nav { display: flex; justify-content: space-between; padding: 16px 0; border-top: 1px solid var(--border); margin-top: 48px; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="hero">
+    <h1>Phase 9: Pre-LLM MVP</h1>
+    <p class="subtitle">Everything works without an LLM API call. Complete spec builder with image upload, brand management, 57 section variants, professional spec rendering, and full type safety.</p>
+    <div class="badges">
+      <span class="badge phase">Phase 9</span>
+      <span class="badge best">85/100</span>
+      <span class="badge perf">71 Tests</span>
+      <span class="badge" style="border-color:var(--purple);color:var(--purple)">0 as-any</span>
+      <span class="badge" style="border-color:var(--amber);color:var(--amber)">57 Variants</span>
+    </div>
+    <div class="key-takeaway">
+      <h3>Key Achievement</h3>
+      <p>Phase 9 transformed Hey Bradley from a prototype into a production-quality specification platform. The combination of visual polish (onboarding redesign with real previews), technical rigor (144&rarr;0 type casts), and professional output (react-markdown spec rendering) creates a capstone-worthy product.</p>
+    </div>
+  </div>
+
+  <!-- Metrics -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(108,140,255,0.15);color:var(--accent)">&#x1F4CA;</span> Key Metrics</h2>
+    <div class="metric-grid">
+      <div class="metric"><div class="value">85</div><div class="label">Phase Score</div></div>
+      <div class="metric"><div class="value">71</div><div class="label">Playwright Tests</div></div>
+      <div class="metric"><div class="value">57</div><div class="label">Section Variants</div></div>
+      <div class="metric"><div class="value">0</div><div class="label">as-any Casts</div></div>
+    </div>
+  </div>
+
+  <!-- Sprint Breakdown -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(74,222,128,0.15);color:var(--green)">&#x1F3C3;</span> Sprint Breakdown</h2>
+
+    <div class="sprint-card">
+      <h3>Sprint 1: Grandma UX + Spec Upgrades <span class="tag done">DONE</span></h3>
+      <ul>
+        <li>Template-first onboarding with search filter</li>
+        <li>Jargon cleanup across 14 files</li>
+        <li>4 spec generators upgraded (North Star, SADD, Features, AISP)</li>
+        <li>Example quality fixes (Blank D&rarr;B+, Kitchen Sink&rarr;Nexus Labs)</li>
+      </ul>
+    </div>
+
+    <div class="sprint-card">
+      <h3>Sprint 2: Image Upload + Brand + Colors + SEO + Save/Load <span class="tag done">DONE</span></h3>
+      <ul>
+        <li>Drag-drop image upload with base64 encoding + 2MB validation</li>
+        <li>Brand management (logo, favicon, OG image URL fields)</li>
+        <li>Custom hex color inputs with native picker + debounce</li>
+        <li>SEO fields (title, description, author, domain, email)</li>
+        <li>Project save/load via localStorage + JSON export/import</li>
+      </ul>
+    </div>
+
+    <div class="sprint-card">
+      <h3>Sprint 3: Section Variants + Pricing + Onboarding Redesign <span class="tag done">DONE</span></h3>
+      <ul>
+        <li>PricingToggle: monthly/annual pill switch, savings badge, 3 tiers</li>
+        <li>PricingComparison: feature matrix table, mobile cards</li>
+        <li>NavbarCentered: centered logo with nav links below</li>
+        <li>Onboarding redesign: two-panel layout, 18 real preview screenshots</li>
+        <li>Creative + Blog themes registered (10 total)</li>
+        <li>UX review fixes: mobile navbar, image fallbacks, CTA inversion</li>
+      </ul>
+    </div>
+
+    <div class="sprint-card">
+      <h3>Sprint 4: Quality Pass <span class="tag done">DONE</span></h3>
+      <ul>
+        <li>react-markdown + remark-gfm + @tailwindcss/typography for spec rendering</li>
+        <li>144&rarr;0 <code>as any</code> type casts via sectionContent.ts helper</li>
+        <li>Features generator overhauled (5.5&rarr;8/10 professionalism)</li>
+        <li>All 5 generators with professional intro paragraphs</li>
+        <li>17 new Playwright tests (54&rarr;71 total)</li>
+        <li>ADR-030: Spec Rendering Architecture</li>
+      </ul>
+    </div>
+
+    <div class="sprint-card">
+      <h3>Sprint 5: Docs + Review + Retrospective <span class="tag done">DONE</span></h3>
+      <ul>
+        <li>Phase retrospective (85/100 score)</li>
+        <li>4-persona review (Designer, Developer, PM, End User)</li>
+        <li>Wiki page (this document)</li>
+        <li>Living checklist and session log updated</li>
+      </ul>
+    </div>
+
+    <div class="sprint-card">
+      <h3>Manual Gates <span class="tag manual">REQUIRES HUMAN</span></h3>
+      <ul>
+        <li>90% reproduction test: paste Build Plan into Claude, compare output</li>
+        <li>AISP MCP validation: target Platinum tier (95+/100)</li>
+        <li>15-minute demo rehearsal with timing notes</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Architecture -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(167,139,250,0.15);color:var(--purple)">&#x1F3D7;</span> Architecture Decisions</h2>
+    <table>
+      <thead><tr><th>ADR</th><th>Decision</th><th>Rationale</th></tr></thead>
+      <tbody>
+        <tr><td>ADR-029</td><td>Pre-LLM MVP Architecture</td><td>Browser-only, no API keys, localStorage persistence</td></tr>
+        <tr><td>ADR-030</td><td>Spec Rendering via react-markdown</td><td>Professional tables, headings, code blocks vs raw &lt;pre&gt;</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section Variant Coverage -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(34,211,238,0.15);color:var(--cyan)">&#x1F9E9;</span> Section Variant Coverage (57 total)</h2>
+    <table>
+      <thead><tr><th>Section</th><th>Variants</th><th>Count</th></tr></thead>
+      <tbody>
+        <tr><td>columns</td><td>cards, image-cards, icon-text, minimal, numbered, horizontal, gradient, glass</td><td>8</td></tr>
+        <tr><td>hero</td><td>centered, split-left, split-right, overlay, minimal</td><td>5</td></tr>
+        <tr><td>action, quotes, questions, numbers, gallery, image, footer</td><td>4 each</td><td>28</td></tr>
+        <tr><td>pricing</td><td>tiers, toggle, comparison</td><td>3</td></tr>
+        <tr><td>logos, divider, text, team</td><td>3 each</td><td>12</td></tr>
+        <tr><td>menu</td><td>simple, centered</td><td>2</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- What's Next -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(251,191,36,0.15);color:var(--amber)">&#x1F680;</span> What's Next: Phase 10 Preflight</h2>
+    <p>After manual gates pass (DoD 20/20), Phase 9 closes. Phase 10 begins Stage 3 (LLM MVP):</p>
+    <ul style="padding-left:20px;margin-top:12px">
+      <li>Chat &rarr; Claude API &rarr; JSON patches (natural language &rarr; site changes)</li>
+      <li>Listen &rarr; Whisper STT &rarr; Claude &rarr; JSON patches (voice &rarr; site builds)</li>
+      <li>JSON optimization for smaller payloads to LLM</li>
+      <li>Authentication + Supabase database integration</li>
+    </ul>
+  </div>
+
+  <div class="nav">
+    <a href="10-phase-8-cleanup-optimization.guide.html">&larr; Phase 8: Cleanup</a>
+    <a href="index.html">Wiki Home</a>
+  </div>
+
+</div>
+</body>
+</html>
