@@ -166,9 +166,13 @@
         {
           "id": "backgroundImage",
           "type": "image",
-          "enabled": false,
+          "enabled": true,
           "order": 6,
-          "props": {}
+          "props": {
+            "url": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&auto=format&q=80",
+            "alt": "Modern corporate office with floor-to-ceiling windows overlooking a city skyline",
+            "aspect": "16:9"
+          }
         },
         {
           "id": "heroVideo",

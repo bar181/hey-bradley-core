@@ -64,10 +64,21 @@ export function generateFeatures(config: MasterConfig): string {
 
     if (s.style?.background) {
       spec += `- [ ] Background color: \`${s.style.background}\`\n`
+      spec += `- [ ] WCAG 2.1 AA contrast ratio (≥ 4.5:1) for text on \`${s.style.background}\` background\n`
     }
     if (s.layout?.columns) {
       spec += `- [ ] ${s.layout.columns}-column layout on desktop\n`
+      if (activeComps.length > 0) {
+        spec += `- [ ] Column count (${s.layout.columns}) accommodates ${activeComps.length} component(s)\n`
+      }
+      spec += `- [ ] Collapses to single column on mobile (375px)\n`
     }
+
+    // Typography validation
+    const sectionFont = s.style?.fontFamily || config.theme.typography?.fontFamily || 'Inter'
+    const headingWeight = config.theme.typography?.headingWeight || 700
+    const headingFamily = config.theme.typography?.headingFamily || sectionFont
+    spec += `- [ ] Typography: heading weight ${headingWeight}, font "${headingFamily}", body font "${sectionFont}"\n`
 
     spec += `\n`
   })

@@ -137,7 +137,7 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
     <div className="divide-y divide-hb-border/30">
       <SectionHeadingEditor sectionId={sectionId} />
       {/* ─── 1. LAYOUT ─── */}
-      <RightAccordion id={`${sectionId}-layout`} label="Layout" defaultOpen>
+      <RightAccordion id={`${sectionId}-layout`} label="Style">
         <div className="grid grid-cols-2 gap-2">
           {FEATURES_LAYOUTS.map(({ v, label, Icon }) => (
             <button

@@ -1,5 +1,7 @@
+import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useConfigStore } from '@/store/configStore'
+import { useUIStore } from '@/store/uiStore'
 import { THEME_REGISTRY } from '@/data/themes/index'
 import { EXAMPLE_SITES } from '@/data/examples'
 
@@ -94,10 +96,33 @@ export function Onboarding() {
   const navigate = useNavigate()
   const applyVibe = useConfigStore((s) => s.applyVibe)
   const loadConfig = useConfigStore((s) => s.loadConfig)
+  const setSelectedContext = useUIStore((s) => s.setSelectedContext)
   const hasSavedProject = typeof window !== 'undefined' && !!localStorage.getItem(STORAGE_KEY)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [themesExpanded, setThemesExpanded] = useState(false)
+
+  const filteredExamples = useMemo(() => {
+    if (!searchQuery.trim()) return EXAMPLE_SITES
+    const q = searchQuery.toLowerCase()
+    return EXAMPLE_SITES.filter((ex) =>
+      ex.name.toLowerCase().includes(q) ||
+      ex.description.toLowerCase().includes(q) ||
+      ex.theme.toLowerCase().includes(q)
+    )
+  }, [searchQuery])
 
   const handleThemeSelect = (slug: string) => {
     applyVibe(slug)
+    navigate('/builder')
+  }
+
+  const handleExampleSelect = (example: typeof EXAMPLE_SITES[number]) => {
+    loadConfig(example.config)
+    // Auto-select hero section so user lands with something editable
+    const heroSection = example.config.sections.find((s) => s.type === 'hero' && s.enabled)
+    if (heroSection) {
+      setSelectedContext({ type: 'section', sectionId: heroSection.id })
+    }
     navigate('/builder')
   }
 
@@ -121,7 +146,7 @@ export function Onboarding() {
             </span>
           </div>
           <p className="text-lg sm:text-xl text-white/50 max-w-md mx-auto">
-            Pick a theme to start building
+            Pick a starting point
           </p>
         </div>
 
@@ -138,41 +163,76 @@ export function Onboarding() {
           </div>
         )}
 
-        {/* Theme grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-          {(THEME_REGISTRY as unknown as ThemeJSON[]).map((t) => (
-            <ThemeCard
-              key={t.meta.slug}
-              theme={t}
-              onSelect={() => handleThemeSelect(t.meta.slug)}
-            />
-          ))}
+        {/* One-Question Kickstart search */}
+        <div className="max-w-lg mx-auto mb-10">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="What kind of website do you want? (bakery, fitness studio, photography...)"
+            className="w-full px-4 py-3 rounded-xl bg-[#131825] border border-white/10 text-white placeholder-white/30 text-sm focus:border-white/30 focus:outline-none transition-colors"
+          />
         </div>
 
-        {/* Try an Example */}
-        <div className="mt-14 sm:mt-16">
+        {/* Example site cards — primary action */}
+        <div className="mb-14 sm:mb-16">
           <div className="text-center mb-6">
-            <h2 className="text-lg sm:text-xl font-semibold text-white/80">Try an Example</h2>
+            <h2 className="text-lg sm:text-xl font-semibold text-white/80">Start with an Example</h2>
             <p className="text-sm text-white/40 mt-1">Load a complete website instantly</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            {EXAMPLE_SITES.map((example) => (
+            {filteredExamples.map((example) => (
               <button
                 key={example.name}
                 type="button"
-                onClick={() => { loadConfig(example.config); navigate('/builder') }}
+                onClick={() => handleExampleSelect(example)}
                 className="group rounded-xl border border-white/10 overflow-hidden transition-all hover:border-white/30 hover:scale-[1.02] hover:shadow-xl bg-[#131825] text-left p-4"
               >
                 <div className="text-sm font-semibold text-white group-hover:text-white/90">{example.name}</div>
                 <div className="text-xs text-white/40 mt-1">{example.description}</div>
                 <div className="flex items-center gap-2 mt-2">
                   <span className="text-xs text-white/20 uppercase tracking-wider">{example.theme}</span>
-                  <span className="text-[10px] text-white/20">·</span>
+                  <span className="text-[10px] text-white/20">&middot;</span>
                   <span className="text-xs text-white/20">{example.config.sections.filter(s => s.enabled).length} sections</span>
                 </div>
               </button>
             ))}
+            {filteredExamples.length === 0 && (
+              <div className="col-span-full text-center py-8 text-white/30 text-sm">
+                No examples match your search. Try a different keyword or pick a theme below.
+              </div>
+            )}
           </div>
+        </div>
+
+        {/* Theme grid — collapsed section */}
+        <div>
+          <button
+            type="button"
+            onClick={() => setThemesExpanded(!themesExpanded)}
+            className="flex items-center justify-center gap-2 mx-auto mb-6 text-white/50 hover:text-white/70 transition-colors"
+          >
+            <span className="text-sm font-medium">Or choose a theme</span>
+            <svg
+              className={`w-4 h-4 transition-transform ${themesExpanded ? 'rotate-180' : ''}`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          {themesExpanded && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+              {(THEME_REGISTRY as unknown as ThemeJSON[]).map((t) => (
+                <ThemeCard
+                  key={t.meta.slug}
+                  theme={t}
+                  onSelect={() => handleThemeSelect(t.meta.slug)}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Start from scratch */}

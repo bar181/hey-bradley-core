@@ -115,11 +115,12 @@ export function generateSADD(config: MasterConfig): string {
   spec += `interface Section {\n`
   spec += `  type: SectionType  // ${sectionTypes.join(' | ')}\n`
   spec += `  id: string\n`
+  spec += `  order: number\n`
   spec += `  enabled: boolean\n`
   spec += `  variant?: string\n`
-  spec += `  layout: { display, direction?, columns?, gap, padding }\n`
-  spec += `  style: { background, color, fontFamily?, borderRadius? }\n`
-  spec += `  content: { heading?, subheading?, ...sectionSpecific }\n`
+  spec += `  content: Record<string, unknown>  // { heading?, subheading?, ...sectionSpecific }\n`
+  spec += `  layout: { display: string, direction?: string, columns?: number, gap: string, padding: string, align?: string, maxWidth?: string }\n`
+  spec += `  style: { background: string, color: string, fontFamily?: string, borderRadius?: string }\n`
   spec += `  components: Component[]\n`
   spec += `}\n`
   spec += `\`\`\`\n`

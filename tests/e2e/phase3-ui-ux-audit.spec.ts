@@ -92,6 +92,13 @@ test.describe('1. New Project Page (/new-project)', () => {
       await page.goto('/new-project')
       await page.waitForLoadState('networkidle')
 
+      // Themes are collapsed under "Or choose a theme" — expand if needed
+      const themeToggle = page.locator('button').filter({ hasText: /choose a theme/i }).first()
+      if (await themeToggle.isVisible().catch(() => false)) {
+        await themeToggle.click()
+        await page.waitForTimeout(300)
+      }
+
       const themeCard = page.locator('.grid button[type="button"]').filter({ hasText: name }).first()
       const exists = await themeCard.isVisible().catch(() => false)
       if (!exists) {
@@ -204,7 +211,7 @@ test.describe('2. Builder Page (/builder)', () => {
     expect(cardCount).toBeGreaterThanOrEqual(8)
   })
 
-  test('right panel: Hero shows Layout, Visuals, Content accordions', async ({ page }) => {
+  test('right panel: Hero shows Design, Visuals, Content accordions', async ({ page }) => {
     await goToBuilder(page)
 
     // Click Hero in left panel
@@ -212,21 +219,15 @@ test.describe('2. Builder Page (/builder)', () => {
     await heroItem.click()
     await page.waitForTimeout(300)
 
-    const hasLayout = await page.getByText('Layout', { exact: false }).first().isVisible()
+    const hasDesign = await page.getByText('Design', { exact: false }).first().isVisible()
     const hasVisuals = await page.getByText('Visuals').first().isVisible()
     const hasContent = await page.getByText('Content', { exact: false }).first().isVisible()
 
-    // Check no Style accordion -- look for accordion trigger with exact "Style"
-    // In the SectionSimple, accordions use RightAccordion with label prop
-    const styleElements = page.locator('button').filter({ hasText: /^Style$/ })
-    const noStyle = (await styleElements.count()) === 0
-
-    record('Builder', 'Hero: Layout accordion', hasLayout, hasLayout ? 'Visible' : 'Not found', 'P0')
+    record('Builder', 'Hero: Design accordion', hasDesign, hasDesign ? 'Visible' : 'Not found', 'P0')
     record('Builder', 'Hero: Visuals accordion', hasVisuals, hasVisuals ? 'Visible' : 'Not found', 'P0')
     record('Builder', 'Hero: Content accordion', hasContent, hasContent ? 'Visible' : 'Not found', 'P0')
-    record('Builder', 'Hero: No Style accordion', noStyle, noStyle ? 'Correct' : 'Style accordion present', 'P1')
 
-    expect(hasLayout).toBeTruthy()
+    expect(hasDesign).toBeTruthy()
     expect(hasContent).toBeTruthy()
   })
 })
@@ -282,7 +283,7 @@ test.describe('3. Preview Mode', () => {
 // ═══════════════════════════════════════════════════════
 
 test.describe('4. Section Editors', () => {
-  test('Hero editor has layout cards and content inputs', async ({ page }) => {
+  test('Hero editor has design cards and content inputs', async ({ page }) => {
     await goToBuilder(page)
 
     // Click Hero section in left panel
@@ -290,13 +291,19 @@ test.describe('4. Section Editors', () => {
     if (await heroItem.isVisible()) await heroItem.click()
     await page.waitForTimeout(500)
 
-    // Layout cards — look for layout preset buttons inside the Layout accordion
-    // They contain labels like "Full Photo", "Full Video", "Clean", "Simple", etc.
+    // Expand Design accordion (collapsed by default)
+    const designAccordion = page.locator('button').filter({ hasText: /^Design$/ }).first()
+    if (await designAccordion.isVisible().catch(() => false)) {
+      await designAccordion.click()
+      await page.waitForTimeout(300)
+    }
+
+    // Layout cards — look for layout preset buttons inside the Design accordion
     const layoutCards = page.locator('button').filter({ hasText: /Full Photo|Full Video|Clean|Simple|Photo Right|Photo Left|Video Below|Photo Below/ })
     const layoutCount = await layoutCards.count()
-    record('Section Editors', 'Hero: Layout cards visible', layoutCount >= 4, `Found ${layoutCount} layout cards`, 'P0')
+    record('Section Editors', 'Hero: Design cards visible', layoutCount >= 4, `Found ${layoutCount} layout cards`, 'P0')
 
-    // Content inputs via data-testid
+    // Content inputs via data-testid (Content accordion is open by default)
     const hasHeadline = await page.locator('[data-testid="hero-headline-input"]').isVisible()
     const hasSubtitle = await page.locator('[data-testid="hero-subtitle-input"]').isVisible()
     const hasBadge = await page.locator('[data-testid="hero-badge-input"]').isVisible()

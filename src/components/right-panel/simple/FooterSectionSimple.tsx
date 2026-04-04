@@ -57,7 +57,7 @@ export function FooterSectionSimple({ sectionId }: { sectionId: string }) {
   return (
     <div className="divide-y divide-hb-border/30">
       {/* ─── LAYOUT ─── */}
-      <RightAccordion id={`footer-layout-${sectionId}`} label="Layout" defaultOpen>
+      <RightAccordion id={`footer-layout-${sectionId}`} label="Style">
         <div className="grid grid-cols-3 gap-2">
           {FOOTER_LAYOUTS.map(({ v, label, Icon }) => (
             <button
@@ -79,7 +79,7 @@ export function FooterSectionSimple({ sectionId }: { sectionId: string }) {
       </RightAccordion>
 
       {/* ─── ELEMENTS ─── */}
-      <RightAccordion id={`footer-elements-${sectionId}`} label="Elements">
+      <RightAccordion id={`footer-elements-${sectionId}`} label="Show / Hide">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <Switch

@@ -97,7 +97,7 @@ export function LogosSectionSimple({ sectionId }: { sectionId: string }) {
     <div className="divide-y divide-hb-border/30">
       <SectionHeadingEditor sectionId={sectionId} />
       {/* LAYOUT */}
-      <RightAccordion id={`logos-layout-${sectionId}`} label="Layout" defaultOpen>
+      <RightAccordion id={`logos-layout-${sectionId}`} label="Style">
         <div className="grid grid-cols-3 gap-2">
           {LOGOS_LAYOUTS.map(({ v, label, Icon }) => (
             <button

@@ -97,7 +97,7 @@ export function GallerySectionSimple({ sectionId }: { sectionId: string }) {
     <div className="divide-y divide-hb-border/30">
       <SectionHeadingEditor sectionId={sectionId} />
       {/* ─── LAYOUT ─── */}
-      <RightAccordion id={`gallery-layout-${sectionId}`} label="Layout" defaultOpen>
+      <RightAccordion id={`gallery-layout-${sectionId}`} label="Style">
         <div className="grid grid-cols-2 gap-2">
           {GALLERY_LAYOUTS.map(({ v, label, Icon }) => (
             <button

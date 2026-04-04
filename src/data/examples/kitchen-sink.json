@@ -1,11 +1,11 @@
 {
   "site": {
-    "title": "NovaCraft Platform",
-    "description": "The kitchen sink demo showcasing every AISP section type in a single configuration",
-    "author": "NovaCraft Inc.",
-    "email": "demo@novacraft.io",
-    "domain": "novacraft.io",
-    "project": "novacraft-kitchen-sink",
+    "title": "Nexus Labs",
+    "description": "AI-powered infrastructure for the next generation of software teams",
+    "author": "Nexus Labs Inc.",
+    "email": "hello@nexuslabs.dev",
+    "domain": "nexuslabs.dev",
+    "project": "nexus-labs",
     "version": "1.0.0-RC1",
     "spec": "aisp-1.2"
   },
@@ -64,7 +64,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "NovaCraft"
+            "text": "Nexus Labs"
           }
         },
         {
@@ -106,7 +106,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "Kitchen Sink Demo",
+            "text": "Now in Public Beta",
             "icon": "sparkles",
             "variant": "pill"
           }
@@ -117,7 +117,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Every Section. One Config.",
+            "text": "Ship Faster With AI Infrastructure",
             "level": 1,
             "size": "56px",
             "weight": 700
@@ -129,7 +129,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "This demo showcases all 15 AISP section types in a single configuration file. From hero to footer, every capability of the platform is represented below."
+            "text": "Nexus Labs gives engineering teams the building blocks to deploy, monitor, and scale AI workloads — without managing infrastructure. From model serving to vector search, everything runs on our global edge network."
           }
         },
         {
@@ -138,8 +138,8 @@
           "enabled": true,
           "order": 3,
           "props": {
-            "text": "Explore Sections",
-            "url": "#features",
+            "text": "Start Building Free",
+            "url": "#pricing",
             "style": "filled",
             "size": "lg"
           }
@@ -187,7 +187,7 @@
           "enabled": true,
           "order": 8,
           "props": {
-            "text": "Powering 10,000+ websites worldwide",
+            "text": "Trusted by 2,000+ engineering teams worldwide",
             "show": true
           }
         }
@@ -217,8 +217,8 @@
           "order": 0,
           "props": {
             "icon": "zap",
-            "title": "Instant Deploy",
-            "description": "Push your JSON config and watch your site materialize in seconds. No build steps, no waiting, no complexity.",
+            "title": "Model Serving",
+            "description": "Deploy any ML model to our global edge network in under 60 seconds. Auto-scaling, zero cold starts, and built-in A/B testing for every endpoint.",
             "image": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&q=80",
             "imageAlt": "Server room with blue lighting representing fast deployment"
           }
@@ -230,10 +230,10 @@
           "order": 1,
           "props": {
             "icon": "palette",
-            "title": "Theme Engine",
-            "description": "Full control over colors, typography, spacing, and border radius. Dark mode, light mode, or anything in between.",
+            "title": "Vector Database",
+            "description": "Store and query billions of embeddings with sub-millisecond latency. Native integrations with OpenAI, Cohere, and Hugging Face models.",
             "image": "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&auto=format&q=80",
-            "imageAlt": "Color palette swatches showing design system"
+            "imageAlt": "Abstract data visualization representing vector search"
           }
         },
         {
@@ -243,16 +243,16 @@
           "order": 2,
           "props": {
             "icon": "layers",
-            "title": "15 Section Types",
-            "description": "Hero, columns, pricing, gallery, testimonials, team, FAQ, and more. Mix and match to build any layout you need.",
-            "image": "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&auto=format&q=80",
-            "imageAlt": "Website wireframe layout showing modular sections"
+            "title": "Observability Suite",
+            "description": "Real-time dashboards, distributed tracing, and anomaly detection for every model in production. Know exactly how your AI is performing.",
+            "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&q=80",
+            "imageAlt": "Analytics dashboard showing real-time performance metrics"
           }
         }
       ],
       "content": {
-        "heading": "Core Capabilities",
-        "subheading": "Everything you need to build a complete website from JSON"
+        "heading": "Everything You Need to Ship AI",
+        "subheading": "From prototype to production in a single platform"
       }
     },
     {
@@ -278,7 +278,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "The AISP specification defines a universal JSON schema for describing websites. Instead of writing HTML, CSS, and JavaScript, you describe your site declaratively and the rendering engine handles the rest. This means faster iteration, easier maintenance, and zero vendor lock-in."
+            "text": "Nexus Labs handles the undifferentiated heavy lifting of AI infrastructure. Instead of wrangling GPU clusters, building serving pipelines, and writing monitoring from scratch, your team focuses on the models and features that matter. We handle provisioning, scaling, and reliability."
           }
         },
         {
@@ -287,13 +287,13 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Every section, component, and style property is controlled through the config. Want to swap a hero variant from centered to split? Change one string. Want to add a pricing section? Drop in a new object. The schema validates your config at build time so you catch errors before they reach production."
+            "text": "Connect your model repository, define a deployment target, and push. Our CLI and SDK handle the rest: container packaging, load balancing, canary rollouts, and automatic rollback if latency spikes. Every deployment is versioned, reproducible, and auditable from day one."
           }
         }
       ],
       "content": {
         "heading": "How It Works",
-        "subheading": "Declarative website generation from a single JSON file"
+        "subheading": "From model training to production serving in three commands"
       }
     },
     {
@@ -320,9 +320,9 @@
           "order": 0,
           "props": {
             "url": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1600&auto=format&q=80",
-            "alt": "Developer laptop showing code editor with JSON configuration",
+            "alt": "Developer laptop showing AI model deployment pipeline",
             "aspect": "21:9",
-            "caption": "A single JSON file powers your entire website"
+            "caption": "Deploy, monitor, and scale AI models from a single dashboard"
           }
         }
       ],
@@ -351,9 +351,9 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "value": "15",
-            "label": "Section Types",
-            "description": "All represented here"
+            "value": "2B+",
+            "label": "Inferences / Day",
+            "description": "Across all customers"
           }
         },
         {
@@ -362,9 +362,9 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "value": "50+",
-            "label": "Variants",
-            "description": "Layout options"
+            "value": "99.99%",
+            "label": "Uptime SLA",
+            "description": "Enterprise-grade reliability"
           }
         },
         {
@@ -373,9 +373,9 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "value": "10K+",
-            "label": "Sites Built",
-            "description": "And counting"
+            "value": "42",
+            "label": "Edge Regions",
+            "description": "Global low-latency network"
           }
         },
         {
@@ -384,15 +384,15 @@
           "enabled": true,
           "order": 3,
           "props": {
-            "value": "<1s",
-            "label": "Build Time",
-            "description": "Instant rendering"
+            "value": "<50ms",
+            "label": "P99 Latency",
+            "description": "For model inference"
           }
         }
       ],
       "content": {
-        "heading": "Platform in Numbers",
-        "subheading": "Scale without limits"
+        "heading": "Built for Scale",
+        "subheading": "Infrastructure that grows with your ambition"
       }
     },
     {
@@ -420,7 +420,7 @@
             "name": "Starter",
             "price": "$0",
             "period": "month",
-            "features": "1 site,Community support,Basic themes,5 section types",
+            "features": "1 model endpoint,100K inferences/mo,Community support,3 edge regions,Basic monitoring",
             "ctaText": "Start Free",
             "ctaUrl": "#signup",
             "highlighted": false
@@ -433,9 +433,9 @@
           "order": 1,
           "props": {
             "name": "Pro",
-            "price": "$29",
+            "price": "$99",
             "period": "month",
-            "features": "10 sites,Priority support,All themes,All 15 section types,Custom domains,Analytics",
+            "features": "25 model endpoints,5M inferences/mo,Priority support,All 42 edge regions,Advanced observability,Team collaboration,Custom domains",
             "ctaText": "Go Pro",
             "ctaUrl": "#signup",
             "highlighted": true
@@ -450,7 +450,7 @@
             "name": "Enterprise",
             "price": "Custom",
             "period": "month",
-            "features": "Unlimited sites,Dedicated support,White-label,API access,SSO/SAML,SLA guarantee",
+            "features": "Unlimited endpoints,Unlimited inferences,Dedicated support,Private cloud option,SSO/SAML,99.99% SLA,Custom integrations",
             "ctaText": "Contact Sales",
             "ctaUrl": "#contact",
             "highlighted": false
@@ -458,8 +458,8 @@
         }
       ],
       "content": {
-        "heading": "Choose Your Plan",
-        "subheading": "Start free, scale when ready"
+        "heading": "Simple, Predictable Pricing",
+        "subheading": "No surprise bills. Pay for what you use, upgrade when you need to."
       }
     },
     {
@@ -487,8 +487,8 @@
           "props": {
             "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&q=80",
             "alt": "Analytics dashboard showing website traffic metrics",
-            "caption": "Analytics Dashboard",
-            "category": "SaaS"
+            "caption": "Predictive Analytics Engine",
+            "category": "Finance"
           }
         },
         {
@@ -499,7 +499,7 @@
           "props": {
             "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&auto=format&q=80",
             "alt": "E-commerce product page with modern design",
-            "caption": "E-Commerce Store",
+            "caption": "Visual Search for E-Commerce",
             "category": "Retail"
           }
         },
@@ -511,8 +511,8 @@
           "props": {
             "image": "https://images.unsplash.com/photo-1522199755839-a2bacb67c546?w=600&auto=format&q=80",
             "alt": "Blog layout with hero image and article cards",
-            "caption": "Content Blog",
-            "category": "Publishing"
+            "caption": "AI Content Moderation",
+            "category": "Media"
           }
         },
         {
@@ -523,8 +523,8 @@
           "props": {
             "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&auto=format&q=80",
             "alt": "Corporate office interior representing business websites",
-            "caption": "Corporate Site",
-            "category": "Business"
+            "caption": "Document Intelligence Platform",
+            "category": "Enterprise"
           }
         },
         {
@@ -535,7 +535,7 @@
           "props": {
             "image": "https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&auto=format&q=80",
             "alt": "Creative agency workspace with design tools",
-            "caption": "Agency Portfolio",
+            "caption": "Generative Design Studio",
             "category": "Creative"
           }
         },
@@ -547,14 +547,14 @@
           "props": {
             "image": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&auto=format&q=80",
             "alt": "Restaurant website with menu and reservation features",
-            "caption": "Restaurant Site",
-            "category": "Food"
+            "caption": "Real-Time Recommendation Engine",
+            "category": "Consumer"
           }
         }
       ],
       "content": {
-        "heading": "Sites Built with NovaCraft",
-        "subheading": "From SaaS dashboards to restaurant menus"
+        "heading": "What Teams Are Building",
+        "subheading": "Real-world AI applications powered by Nexus Labs"
       }
     },
     {
@@ -580,7 +580,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "quote": "We replaced our entire WordPress setup with a single JSON file. Site loads in under 500ms and we deploy changes in seconds.",
+            "quote": "We migrated 14 ML models off our homegrown infrastructure in a weekend. Inference latency dropped 40% and our ops team finally sleeps through the night.",
             "author": "Alex Moreno",
             "role": "CTO, Streamline Labs",
             "rating": 5
@@ -592,9 +592,9 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "quote": "The schema validation alone saves us hours of debugging. We caught a missing field before it ever hit production. Game changer for our team.",
+            "quote": "The observability tools caught a data drift issue before it impacted our fraud detection model. That one alert probably saved us six figures in chargebacks.",
             "author": "Fatima Al-Rashidi",
-            "role": "Lead Developer, Horizon Digital",
+            "role": "ML Platform Lead, Horizon Digital",
             "rating": 5
           }
         },
@@ -604,16 +604,16 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "quote": "Our design team can now prototype complete websites without touching code. They edit JSON in a visual editor and ship it directly.",
+            "quote": "Our data scientists used to wait two weeks for engineering to deploy a model. With Nexus Labs they push to production themselves in under an hour. It completely changed our velocity.",
             "author": "Henrik Johansson",
-            "role": "Design Director, Nordic Studio",
+            "role": "VP Engineering, Nordic Studio",
             "rating": 5
           }
         }
       ],
       "content": {
-        "heading": "What Teams Are Saying",
-        "subheading": "From startups to enterprise, teams love building with NovaCraft"
+        "heading": "Trusted by Engineering Leaders",
+        "subheading": "Hear from teams shipping AI at scale with Nexus Labs"
       }
     },
     {
@@ -641,7 +641,7 @@
           "order": 0,
           "props": {
             "name": "Streamline Labs",
-            "image": "https://via.placeholder.com/120x40/27272a/a1a1aa?text=Streamline",
+            "image": "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=120&h=40&fit=crop&auto=format&q=80",
             "url": "#"
           }
         },
@@ -652,7 +652,7 @@
           "order": 1,
           "props": {
             "name": "Horizon Digital",
-            "image": "https://via.placeholder.com/120x40/27272a/a1a1aa?text=Horizon",
+            "image": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=120&h=40&fit=crop&auto=format&q=80",
             "url": "#"
           }
         },
@@ -663,7 +663,7 @@
           "order": 2,
           "props": {
             "name": "Nordic Studio",
-            "image": "https://via.placeholder.com/120x40/27272a/a1a1aa?text=Nordic",
+            "image": "https://images.unsplash.com/photo-1633409361618-c73427e4e206?w=120&h=40&fit=crop&auto=format&q=80",
             "url": "#"
           }
         },
@@ -674,7 +674,7 @@
           "order": 3,
           "props": {
             "name": "Atlas Commerce",
-            "image": "https://via.placeholder.com/120x40/27272a/a1a1aa?text=Atlas",
+            "image": "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=120&h=40&fit=crop&auto=format&q=80",
             "url": "#"
           }
         },
@@ -685,7 +685,7 @@
           "order": 4,
           "props": {
             "name": "Pinnacle Health",
-            "image": "https://via.placeholder.com/120x40/27272a/a1a1aa?text=Pinnacle",
+            "image": "https://images.unsplash.com/photo-1614680376593-902f74cf0d41?w=120&h=40&fit=crop&auto=format&q=80",
             "url": "#"
           }
         },
@@ -696,7 +696,7 @@
           "order": 5,
           "props": {
             "name": "Vortex Media",
-            "image": "https://via.placeholder.com/120x40/27272a/a1a1aa?text=Vortex",
+            "image": "https://images.unsplash.com/photo-1614680376408-81e91bbe261f?w=120&h=40&fit=crop&auto=format&q=80",
             "url": "#"
           }
         }
@@ -732,7 +732,7 @@
             "name": "Maya Rodriguez",
             "role": "CEO & Co-Founder",
             "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&q=80",
-            "bio": "Former VP Engineering at Stripe. Built developer tools used by millions."
+            "bio": "Former VP Engineering at Stripe. 15 years building developer tools used by millions of engineers."
           }
         },
         {
@@ -744,7 +744,7 @@
             "name": "James Park",
             "role": "CTO & Co-Founder",
             "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&q=80",
-            "bio": "PhD in distributed systems. Previously lead architect at Vercel."
+            "bio": "PhD in distributed systems from MIT. Previously lead architect at Vercel, built their edge runtime."
           }
         },
         {
@@ -754,9 +754,9 @@
           "order": 2,
           "props": {
             "name": "Aisha Patel",
-            "role": "Head of Design",
+            "role": "Head of Product",
             "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&q=80",
-            "bio": "Design systems expert. Led the redesign of Figma's component library."
+            "bio": "Former product lead at Datadog. Obsessed with making complex infrastructure feel simple."
           }
         },
         {
@@ -766,15 +766,15 @@
           "order": 3,
           "props": {
             "name": "Erik Lindqvist",
-            "role": "Head of Engineering",
+            "role": "Head of Infrastructure",
             "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&q=80",
-            "bio": "Open source maintainer. Built rendering engines at scale for 10+ years."
+            "bio": "Core contributor to Kubernetes and ONNX Runtime. 12 years scaling ML systems at Google and Meta."
           }
         }
       ],
       "content": {
         "heading": "Meet the Team",
-        "subheading": "The people building the future of web development"
+        "subheading": "Engineers and operators who have scaled AI at the world's best companies"
       }
     },
     {
@@ -800,8 +800,8 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "question": "What is the AISP specification?",
-            "answer": "AISP (AI Site Protocol) is a JSON schema that describes websites declaratively. Instead of writing code, you define sections, components, themes, and content in a structured format that any compatible renderer can interpret."
+            "question": "What ML frameworks do you support?",
+            "answer": "Nexus Labs supports PyTorch, TensorFlow, JAX, ONNX, and Hugging Face Transformers out of the box. Bring any model in a standard format and we handle containerization, optimization, and deployment automatically."
           }
         },
         {
@@ -810,8 +810,8 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "question": "How many section types are supported?",
-            "answer": "Currently 15 section types: menu, hero, columns, text, image, numbers, pricing, gallery, quotes, logos, team, questions, action, divider, and footer. Each has multiple variants for different visual styles."
+            "question": "How does pricing work for inference?",
+            "answer": "You pay per inference on the Starter and Pro plans, with generous monthly allowances included. Enterprise customers get volume discounts and committed-use pricing. There are never surprise bills — we alert you before you approach limits."
           }
         },
         {
@@ -820,8 +820,8 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "question": "Can I use custom themes?",
-            "answer": "Absolutely. The theme object lets you control every visual aspect: palette colors, typography families, font sizes and weights, spacing, and border radius. You can also define alternate palettes for dark/light mode toggling."
+            "question": "Is my data secure?",
+            "answer": "Absolutely. All data is encrypted at rest (AES-256) and in transit (TLS 1.3). We are SOC 2 Type II certified and GDPR compliant. Enterprise plans include VPC peering, private endpoints, and data residency controls."
           }
         },
         {
@@ -830,14 +830,14 @@
           "enabled": true,
           "order": 3,
           "props": {
-            "question": "Is there vendor lock-in?",
-            "answer": "No. Your config is plain JSON that follows an open specification. Export it anytime and use it with any AISP-compatible renderer. Your content and structure are always yours."
+            "question": "Can I migrate off Nexus Labs if I need to?",
+            "answer": "Yes. Your models, configs, and data are always yours. Export everything with a single CLI command. We use open standards like ONNX and Docker — no proprietary lock-in."
           }
         }
       ],
       "content": {
         "heading": "Frequently Asked Questions",
-        "subheading": "Everything you need to know about the platform"
+        "subheading": "Common questions from engineering and ML teams"
       }
     },
     {
@@ -864,7 +864,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "Start Building Today",
+            "text": "Ready to Ship AI Faster?",
             "level": 2,
             "size": "36px",
             "weight": 700
@@ -876,7 +876,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Create your first site in under a minute. Free tier available, no credit card required."
+            "text": "Deploy your first model in under 5 minutes. Free tier included, no credit card required."
           }
         },
         {
@@ -946,7 +946,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "NovaCraft"
+            "text": "Nexus Labs"
           }
         },
         {
@@ -956,7 +956,7 @@
           "order": 1,
           "props": {
             "heading": "Product",
-            "links": "Features,Pricing,Docs,Changelog,API"
+            "links": "Model Serving,Vector DB,Observability,Pricing,Docs"
           }
         },
         {
@@ -976,7 +976,7 @@
           "order": 3,
           "props": {
             "heading": "Resources",
-            "links": "Community,Templates,Tutorials,Status"
+            "links": "Community,Tutorials,Changelog,Status,API Reference"
           }
         },
         {
@@ -985,7 +985,7 @@
           "enabled": true,
           "order": 4,
           "props": {
-            "text": "\u00a9 2026 NovaCraft Inc. Built with the AISP specification."
+            "text": "\u00a9 2026 Nexus Labs Inc. SOC 2 Type II certified. GDPR compliant."
           }
         }
       ]

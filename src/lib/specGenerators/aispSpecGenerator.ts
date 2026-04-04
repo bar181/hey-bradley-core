@@ -115,10 +115,16 @@ export function generateAISPSpec(config: MasterConfig): string {
       const text = getComponentText(c)
       const props: string[] = []
       if (text) props.push(`text: "${text}"`)
-      // Include image URLs
+      // Include image URLs and alt text
       if (c.props?.image) props.push(`image: "${c.props.image}"`)
+      if (c.props?.imageAlt) props.push(`imageAlt: "${c.props.imageAlt}"`)
+      if (c.props?.backgroundImage) props.push(`backgroundImage: "${c.props.backgroundImage}"`)
       if (c.props?.url && c.type === 'image') props.push(`url: "${c.props.url}"`)
       if (c.props?.url && c.type === 'button') props.push(`url: "${c.props.url}"`)
+      if (c.props?.src) props.push(`src: "${c.props.src}"`)
+      if (c.props?.alt) props.push(`alt: "${c.props.alt}"`)
+      if (c.props?.video) props.push(`video: "${c.props.video}"`)
+      if (c.props?.videoUrl) props.push(`videoUrl: "${c.props.videoUrl}"`)
       if (c.props?.rating !== undefined) props.push(`rating: ${c.props.rating}`)
       if (c.props?.links) props.push(`links: "${c.props.links}"`)
 

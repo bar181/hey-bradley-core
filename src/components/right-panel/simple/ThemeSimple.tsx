@@ -168,7 +168,7 @@ export function ThemeSimple() {
       {/* Current palette display */}
       {currentPalette && (
         <div>
-          <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Current Colors</div>
+          <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Your Colors</div>
           <div className="flex items-center gap-2">
             {PALETTE_KEYS.map(({ key, label }) => (
               <div key={key} className="flex flex-col items-center gap-1">
@@ -186,7 +186,7 @@ export function ThemeSimple() {
 
       {/* Palette presets */}
       <div>
-        <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Color Palettes</div>
+        <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Colors</div>
         <div className="space-y-0.5 rounded-lg border border-hb-border bg-hb-surface overflow-hidden max-h-[240px] overflow-y-auto">
           {PALETTE_PRESETS.map((preset) => {
             const isSelected = currentPalette ? palettesMatch(currentPalette, preset.colors) : false

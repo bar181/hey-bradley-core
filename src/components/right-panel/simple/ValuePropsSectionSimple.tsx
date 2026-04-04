@@ -58,7 +58,7 @@ export function ValuePropsSectionSimple({ sectionId }: { sectionId: string }) {
     <div className="divide-y divide-hb-border/30">
       <SectionHeadingEditor sectionId={sectionId} />
       {/* ─── LAYOUT ─── */}
-      <RightAccordion id={`vp-layout-${sectionId}`} label="Layout" defaultOpen>
+      <RightAccordion id={`vp-layout-${sectionId}`} label="Style">
         <div className="grid grid-cols-2 gap-2">
           {NUMBERS_LAYOUTS.map(({ v, label, Icon }) => (
             <button
@@ -80,7 +80,7 @@ export function ValuePropsSectionSimple({ sectionId }: { sectionId: string }) {
       </RightAccordion>
 
       {/* ─── ELEMENTS ─── */}
-      <RightAccordion id={`vp-elements-${sectionId}`} label="Elements">
+      <RightAccordion id={`vp-elements-${sectionId}`} label="Show / Hide">
         <div className="space-y-2">
           {valueProps.map((item, i) => (
             <div key={item.id} className="flex items-center gap-2">

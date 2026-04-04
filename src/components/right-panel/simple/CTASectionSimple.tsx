@@ -52,7 +52,7 @@ export function CTASectionSimple({ sectionId }: { sectionId: string }) {
   return (
     <div className="divide-y divide-hb-border/30">
       {/* ─── LAYOUT ─── */}
-      <RightAccordion id={`cta-layout-${sectionId}`} label="Layout" defaultOpen>
+      <RightAccordion id={`cta-layout-${sectionId}`} label="Style">
         <div className="grid grid-cols-2 gap-2">
           {CTA_LAYOUTS.map(({ v, label, Icon }) => (
             <button
@@ -74,7 +74,7 @@ export function CTASectionSimple({ sectionId }: { sectionId: string }) {
       </RightAccordion>
 
       {/* ─── ELEMENTS ─── */}
-      <RightAccordion id={`cta-elements-${sectionId}`} label="Elements" defaultOpen>
+      <RightAccordion id={`cta-elements-${sectionId}`} label="Show / Hide">
         <div className="space-y-2">
           {([
             { id: 'heading', label: 'Heading' },

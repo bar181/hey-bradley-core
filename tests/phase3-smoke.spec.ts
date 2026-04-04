@@ -10,16 +10,16 @@ test.describe('Onboarding Page', () => {
     // Verify new-project page renders
     const bodyText = await page.textContent('body')
     expect(bodyText).toContain('Hey Bradley')
-    expect(bodyText).toContain('Pick a theme')
+    expect(bodyText).toContain('Pick a starting point')
 
-    // Verify theme cards exist (at least some theme names visible)
-    for (const theme of ['Tech Business', 'Agency', 'Portfolio', 'Minimalist']) {
-      expect(bodyText).toContain(theme)
+    // Verify example cards exist (examples are now primary, themes collapsed)
+    for (const example of ['Sweet Spot Bakery', 'LaunchPad AI', 'Sarah Chen Photography']) {
+      expect(bodyText).toContain(example)
     }
 
-    // Click a theme card → should navigate to /builder
-    const saasCard = page.locator('button').filter({ hasText: 'Tech Business' }).first()
-    await saasCard.click()
+    // Click an example card → should navigate to /builder
+    const bakeryCard = page.locator('button').filter({ hasText: 'Sweet Spot Bakery' }).first()
+    await bakeryCard.click()
     await page.waitForTimeout(1000)
 
     // Verify we're now on the builder page

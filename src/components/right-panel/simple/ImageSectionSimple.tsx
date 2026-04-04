@@ -46,7 +46,7 @@ export function ImageSectionSimple({ sectionId }: { sectionId: string }) {
 
   return (
     <div className="divide-y divide-hb-border/30">
-      <RightAccordion id={`image-layout-${sectionId}`} label="Layout" defaultOpen>
+      <RightAccordion id={`image-layout-${sectionId}`} label="Style">
         <div className="grid grid-cols-2 gap-2">
           {IMAGE_LAYOUTS.map(({ v, label, Icon }) => (
             <button

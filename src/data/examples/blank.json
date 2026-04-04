@@ -81,7 +81,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Your Website Starts Here",
+            "text": "Your Story Starts Here",
             "level": 1,
             "size": "56px",
             "weight": 600
@@ -93,7 +93,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "Start from scratch and build something amazing"
+            "text": "Tell us about your business and watch it come to life"
           }
         },
         {
@@ -149,6 +149,152 @@
           "props": {
             "text": "",
             "show": false
+          }
+        }
+      ]
+    },
+    {
+      "type": "columns",
+      "id": "steps-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#f4f4f5",
+        "color": "#09090b"
+      },
+      "components": [
+        {
+          "id": "f1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "palette",
+            "title": "Choose Your Style",
+            "description": "Pick a theme that matches your brand. Adjust colors, fonts, and layout until everything feels right."
+          }
+        },
+        {
+          "id": "f2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "image",
+            "title": "Pick Images",
+            "description": "Add photos, logos, and graphics that tell your story. Drag, drop, and arrange them in seconds."
+          }
+        },
+        {
+          "id": "f3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "share-2",
+            "title": "Share Your Site",
+            "description": "Publish with one click and share the link with your audience. Update anytime — no coding required."
+          }
+        }
+      ],
+      "content": {
+        "heading": "How It Works",
+        "subheading": "Three simple steps to go from idea to live website"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "#ffffff",
+        "color": "#09090b"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Ready to Build?",
+            "level": 2,
+            "size": "36px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Start customizing — it only takes 5 minutes"
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Let's Go",
+            "url": "#",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ]
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "32px 24px"
+      },
+      "style": {
+        "background": "#f4f4f5",
+        "color": "#71717a"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Hey Bradley"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "\u00a9 2026 Hey Bradley. All rights reserved."
           }
         }
       ]

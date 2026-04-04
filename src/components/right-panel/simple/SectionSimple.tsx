@@ -111,8 +111,8 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
 
   return (
     <div className="divide-y divide-hb-border/30">
-      {/* ─── 1. LAYOUT ─── */}
-      <RightAccordion id="layout" label="Layout" defaultOpen>
+      {/* ─── 1. DESIGN ─── */}
+      <RightAccordion id="layout" label="Design">
         <div className="grid grid-cols-2 gap-2">
           {HERO_LAYOUTS.map((layout) => {
             const LayoutIcon = layout.icon
@@ -138,8 +138,8 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
         </div>
       </RightAccordion>
 
-      {/* ─── 2. ELEMENTS ─── */}
-      <RightAccordion id="elements" label="Elements" defaultOpen>
+      {/* ─── 2. SHOW / HIDE ─── */}
+      <RightAccordion id="elements" label="Show / Hide">
         <div className="space-y-2.5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-hb-text-primary">Tag Line</span>
@@ -161,7 +161,7 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
       </RightAccordion>
 
       {/* ─── 3. MEDIA ─── */}
-      <RightAccordion id="media" label="Media" defaultOpen>
+      <RightAccordion id="media" label="Media">
         <div className="space-y-3">
           {activeMediaId && activeMediaId !== 'heroVideo' && (
             <>

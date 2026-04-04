@@ -392,6 +392,21 @@
     border: 2px solid var(--border-light);
   }
 
+  .persona-avatar-initials {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+  }
+
   .persona-name {
     font-weight: 600;
     font-size: 0.95rem;
@@ -768,24 +783,6 @@
   .progress-fill.green { background: var(--green); }
   .progress-fill.accent { background: var(--accent); }
 
-  /* === IMAGE SECTIONS === */
-  .visual-banner {
-    width: 100%;
-    height: 240px;
-    object-fit: cover;
-    border-radius: 0.75rem;
-    border: 1px solid var(--border);
-    margin-bottom: 1.5rem;
-  }
-
-  .visual-thumb {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
-  }
-
   /* === SCROLL ANIMATIONS === */
   .fade-in-group > * {
     opacity: 0;
@@ -939,8 +936,28 @@
   <div class="section-divider"></div>
   <p class="section-subtitle">Told through the StoryBrand framework: every great product is a story about the customer.</p>
 
-  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=300&fit=crop"
-       alt="Dashboard and data visualization" class="visual-banner" loading="lazy">
+  <!-- Pull Quote / Narrative -->
+  <div style="position: relative; background: linear-gradient(135deg, rgba(129, 140, 248, 0.06), rgba(167, 139, 250, 0.06), rgba(52, 211, 153, 0.04)); border: 1px solid rgba(129, 140, 248, 0.2); border-radius: 1rem; padding: 2.5rem 2rem; margin-bottom: 2.5rem; overflow: hidden;">
+    <div style="position: absolute; top: -20px; left: 24px; font-size: 6rem; line-height: 1; color: rgba(129, 140, 248, 0.12); font-family: Georgia, serif; pointer-events: none;">"</div>
+    <p style="font-size: 1.05rem; color: var(--text); line-height: 1.85; position: relative; z-index: 1; max-width: 780px; margin: 0 auto;">
+      Sarah owns a bakery in Portland. She makes the best sourdough in the Pearl District, and her
+      grandmother's cinnamon roll recipe has a two-hour wait on Saturdays. She needed a website.
+      She tried Wix -- it looked like every other template bakery site on the internet.
+      She hired a freelance developer, but the specs were a disaster: "make it responsive" meant
+      different things to everyone in the room, "warm feel" turned into a beige rectangle,
+      and three rounds of revisions later she had spent $4,000 on a site that still did not
+      feel like <em>her</em> bakery.
+    </p>
+    <p style="font-size: 1.05rem; color: var(--text); line-height: 1.85; position: relative; z-index: 1; max-width: 780px; margin: 1rem auto 0;">
+      Sarah was stuck in the gap that swallows millions of small businesses every year: the space
+      between <strong>vibe coding</strong> (pretty but fragile, impossible to maintain or hand off)
+      and <strong>enterprise specifications</strong> (powerful but so complex that only a senior
+      architect can write them). She did not need a drag-and-drop toy. She did not need a 200-page
+      requirements document. She needed someone to <em>listen</em> to what she wanted and translate
+      it into something a developer -- or an AI -- could actually build.
+    </p>
+    <p style="font-size: 0.85rem; color: var(--accent); font-weight: 600; margin-top: 1.25rem; text-align: right; position: relative; z-index: 1;">-- The problem Hey Bradley solves</p>
+  </div>
 
   <div class="story-section">
     <div>
@@ -948,7 +965,7 @@
         <div class="story-icon" style="background: var(--accent);">1</div>
         <div class="story-text">
           <h4>The Character</h4>
-          <p>A non-technical person -- a bakery owner, a nonprofit director, a first-time entrepreneur -- who has a clear vision for their website but no idea how to communicate it to a developer. They know what they want to <em>feel</em>, but not the technical language to describe margins, breakpoints, or component hierarchies. They are not a designer, and they should not have to be.</p>
+          <p>Sarah is not a designer, and she should not have to be. She knows her bakery's story -- the family recipes, the Saturday morning lines, the smell of fresh bread at 5 AM. She knows what she wants her website to <em>feel</em> like. But she does not speak CSS, and she cannot describe a "hero section with radial gradient overlay" any more than her developer can describe the difference between poolish and biga.</p>
         </div>
       </div>
 
@@ -956,9 +973,9 @@
         <div class="story-icon" style="background: var(--red);">2</div>
         <div class="story-text">
           <h4>The Problem</h4>
-          <p><strong>External:</strong> Communicating website requirements is impossibly hard. Every handoff between client, designer, and developer introduces ambiguity.
-          <br><strong>Internal:</strong> People feel stupid when they cannot explain what they want. They second-guess themselves, settle for generic templates, or over-spend on revision cycles.
-          <br><strong>Philosophical:</strong> It should not take a computer science degree to get the website you imagined. The gap between vision and reality should be zero.</p>
+          <p><strong>External:</strong> Every handoff between Sarah, a designer, and a developer introduces ambiguity. "Make it warm" becomes a game of telephone.
+          <br><strong>Internal:</strong> Sarah feels stupid. She second-guesses herself, settles for a generic Wix template, or burns through revision cycles at $150/hour.
+          <br><strong>Philosophical:</strong> It should not take a computer science degree to get the website you imagined.</p>
         </div>
       </div>
 
@@ -966,7 +983,7 @@
         <div class="story-icon" style="background: var(--green);">3</div>
         <div class="story-text">
           <h4>The Guide</h4>
-          <p>Hey Bradley is the guide -- not the hero. It has the empathy of understanding that communication gaps cost billions in rework, and the authority of an enterprise specification protocol (AISP 5.1) that reduces ambiguity from 40-65% down to less than 2%. Hey Bradley does not replace the builder; it translates the vision into a language that both humans and machines understand perfectly.</p>
+          <p>Hey Bradley is a digital whiteboard that listens. Sarah tells it about her bakery -- the grandmother's recipes, the Saturday crowds, the warm amber lighting -- and it generates both a <strong>live preview</strong> she can see and tweak, AND <strong>enterprise-grade specifications</strong> (AISP 5.1) that reduce ambiguity from 40-65% down to under 2%. It translates her vision into a language that both humans and machines understand perfectly.</p>
         </div>
       </div>
     </div>
@@ -976,9 +993,9 @@
         <div class="story-icon" style="background: var(--purple);">4</div>
         <div class="story-text">
           <h4>The Plan</h4>
-          <p><strong>Step 1:</strong> Speak or type what you want -- "I need a bakery website with a warm feel, photos of my pastries, online ordering, and a story about my grandmother's recipes."
-          <br><strong>Step 2:</strong> Hey Bradley shows you a live preview instantly. Drag sections, swap themes, refine.
-          <br><strong>Step 3:</strong> Six enterprise-grade specs are generated: North Star, SADD, Build Plan, Features Matrix, Human Spec, and AISP. Hand them to any AI or developer.</p>
+          <p><strong>Step 1:</strong> Tell Bradley about your business. "I need a bakery website with a warm feel, photos of my pastries, online ordering, and a story about my grandmother's recipes."
+          <br><strong>Step 2:</strong> Watch it build your site in real-time. Drag sections, swap themes, refine until it feels right.
+          <br><strong>Step 3:</strong> Get specs that any developer (or AI) can reproduce. Six enterprise-grade documents are generated automatically.</p>
         </div>
       </div>
 
@@ -986,7 +1003,7 @@
         <div class="story-icon" style="background: var(--yellow);">5</div>
         <div class="story-text">
           <h4>The Call to Action</h4>
-          <p>Try Hey Bradley. Build a site in 5 minutes. See the specs. Hand them to Claude Code and watch your site materialize. The demo is live at Vercel, deployed on every push to main. No signup required -- just describe what you want.</p>
+          <p>Try the canned demo -- speak or type, watch the magic. The demo is live, deployed on every push to main. No signup, no credit card, no developer required. Just describe what you want and see it appear.</p>
         </div>
       </div>
 
@@ -994,7 +1011,7 @@
         <div class="story-icon" style="background: var(--green);">6</div>
         <div class="story-text">
           <h4>Success</h4>
-          <p>A beautiful, production-ready website that matches your vision -- plus enterprise documentation that any developer or AI can use to reproduce it at 90%+ fidelity. No ambiguity. No "that's not what I meant" meetings. No wasted revision cycles. Your vision, built exactly as you described it.</p>
+          <p>Sarah's bakery website looks like a $10,000 agency built it -- warm tones, beautiful pastry gallery, online ordering, her grandmother's story front and center. AND she has specs so precise that Claude Code reproduces the site at 90% fidelity on the first try. No ambiguity. No "that is not what I meant." No wasted revision cycles.</p>
         </div>
       </div>
 
@@ -1002,7 +1019,7 @@
         <div class="story-icon" style="background: var(--red);">7</div>
         <div class="story-text">
           <h4>Failure (Without It)</h4>
-          <p>Without Hey Bradley, the cycle continues: vague briefs, misunderstood requirements, three rounds of revisions, blown budgets, and a website that never quite matches the vision. The communication gap between "what I want" and "what I got" remains the most expensive problem in web development.</p>
+          <p>Without Hey Bradley, Sarah stays in vibe coding limbo -- a nice-looking website that breaks when she tries to add a page, that no developer can maintain because there are no specs, and that would need to be completely rebuilt when she opens her second location. The gap between "what I want" and "what I got" remains the most expensive problem in web development.</p>
         </div>
       </div>
     </div>
@@ -1017,8 +1034,7 @@
 
   <div class="card-grid fade-in-group">
     <div class="card persona-card">
-      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=face"
-           alt="Professor avatar" class="persona-avatar" loading="lazy">
+      <div class="persona-avatar-initials" style="background: linear-gradient(135deg, var(--accent), var(--purple));">JW</div>
       <div class="persona-name">Dr. James Whitfield</div>
       <div class="persona-role">Harvard Extension School Professor</div>
       <div class="persona-quote">
@@ -1031,8 +1047,7 @@
     </div>
 
     <div class="card persona-card">
-      <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=96&h=96&fit=crop&crop=face"
-           alt="Agency owner avatar" class="persona-avatar" loading="lazy">
+      <div class="persona-avatar-initials" style="background: linear-gradient(135deg, var(--green), var(--cyan));">SC</div>
       <div class="persona-name">Sarah Chen</div>
       <div class="persona-role">Digital Agency Owner, 15 years experience</div>
       <div class="persona-quote">
@@ -1045,8 +1060,7 @@
     </div>
 
     <div class="card persona-card">
-      <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=96&h=96&fit=crop&crop=face"
-           alt="Grandma avatar" class="persona-avatar" loading="lazy">
+      <div class="persona-avatar-initials" style="background: linear-gradient(135deg, var(--yellow), var(--orange));">MR</div>
       <div class="persona-name">Margaret Reilly</div>
       <div class="persona-role">First-time Builder, Retired Teacher</div>
       <div class="persona-quote">
@@ -1059,8 +1073,7 @@
     </div>
 
     <div class="card persona-card">
-      <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=96&h=96&fit=crop&crop=face"
-           alt="Developer avatar" class="persona-avatar" loading="lazy">
+      <div class="persona-avatar-initials" style="background: linear-gradient(135deg, var(--pink), var(--red));">MR</div>
       <div class="persona-name">Marcus Rivera</div>
       <div class="persona-role">Senior Frontend Developer</div>
       <div class="persona-quote">
@@ -1169,9 +1182,6 @@
   <h2>Architecture</h2>
   <div class="section-divider"></div>
   <p class="section-subtitle">From user intent to production-ready website: the complete data flow.</p>
-
-  <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=240&fit=crop"
-       alt="Server infrastructure" class="visual-banner" loading="lazy">
 
   <div class="arch-flow">
     <div class="arch-node">
@@ -1328,9 +1338,6 @@
     Hey Bradley was built using Claude Code multi-agent swarms: 12-18 AI agents per phase,
     coordinated in a hierarchical mesh topology, with a 3-loop optimization cycle and brutally honest peer reviews.
   </p>
-
-  <img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=800&h=240&fit=crop"
-       alt="Code on screen" class="visual-banner" loading="lazy">
 
   <div class="agentic-grid fade-in-group">
     <div class="card agentic-phase" style="border-left-color: var(--accent);">

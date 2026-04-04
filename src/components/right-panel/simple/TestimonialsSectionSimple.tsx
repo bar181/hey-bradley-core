@@ -51,7 +51,7 @@ export function TestimonialsSectionSimple({ sectionId }: { sectionId: string }) 
     <div className="divide-y divide-hb-border/30">
       <SectionHeadingEditor sectionId={sectionId} />
       {/* ─── LAYOUT ─── */}
-      <RightAccordion id={`quotes-layout-${sectionId}`} label="Layout" defaultOpen>
+      <RightAccordion id={`quotes-layout-${sectionId}`} label="Style">
         <div className="grid grid-cols-2 gap-2">
           {QUOTES_LAYOUTS.map(({ v, label, Icon }) => (
             <button
@@ -73,7 +73,7 @@ export function TestimonialsSectionSimple({ sectionId }: { sectionId: string }) 
       </RightAccordion>
 
       {/* ─── ELEMENTS ─── */}
-      <RightAccordion id={`testimonials-elements-${sectionId}`} label="Elements" defaultOpen>
+      <RightAccordion id={`testimonials-elements-${sectionId}`} label="Show / Hide">
         <div className="space-y-2">
           {testimonials.map((t, i) => (
             <div key={t.id} className="flex items-center gap-2">

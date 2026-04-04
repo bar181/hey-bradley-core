@@ -11,16 +11,16 @@
 
 | Category | Score (1-5) | Pass/Total |
 |----------|:-----------:|:----------:|
-| Onboarding | 4 | 7/8 |
-| Builder | 5 | 11/11 |
+| Onboarding | 4 | 6/8 |
+| Builder | 5 | 10/10 |
 | Preview | 5 | 5/5 |
-| Section Editors | 3 | 10/15 |
+| Section Editors | 3 | 8/15 |
 | Theme Switching | 5 | 3/3 |
 | Section CRUD | 3 | 2/4 |
 | Font Cascade | 3 | 1/2 |
 | Accessibility | 4 | 3/4 |
 | Responsive | 5 | 2/2 |
-| **Overall** | **4.1** | **44/54** |
+| **Overall** | **4.1** | **40/53** |
 
 ---
 
@@ -29,9 +29,9 @@
 ### Onboarding
 
 - **[PASS]** Shows "Hey Bradley": Visible
-- **[PASS]** Shows "Pick a theme": Visible
+- **[FAIL]** Shows "Pick a theme": Not found
 - **[FAIL]** Theme card count = 10: Found 8 cards
-- **[PASS]** Theme names listed: Themes: Tech Business, Agency, Portfolio, Startup, Personal, Professional, Wellness, Minimalist
+- **[PASS]** Theme names listed: Themes: Sweet Spot Bakery, LaunchPad AI, Sarah Chen Photography, GreenLeaf Consulting, FitForge Fitness, Bloom & Petal, Kitchen Sink Demo, Blank Canvas
 - **[PASS]** "Start from scratch" visible: Visible
 - **[PASS]** Screenshot taken: tests/screenshots/onboarding.png
 - **[PASS]** No console errors: Clean
@@ -46,10 +46,9 @@
 - **[PASS]** Left panel has section items: Hero visible
 - **[PASS]** Theme shows theme cards: Found 8 theme cards
 - **[PASS]** Theme shows Light/Dark toggle: Visible
-- **[PASS]** Hero: Layout accordion: Visible
+- **[PASS]** Hero: Design accordion: Visible
 - **[PASS]** Hero: Visuals accordion: Visible
 - **[PASS]** Hero: Content accordion: Visible
-- **[PASS]** Hero: No Style accordion: Correct
 
 ### Preview
 
@@ -61,16 +60,16 @@
 
 ### Section Editors
 
-- **[PASS]** Hero: Layout cards visible: Found 8 layout cards
+- **[PASS]** Hero: Design cards visible: Found 8 layout cards
 - **[PASS]** Hero: Headline input: Visible
 - **[PASS]** Hero: Subtitle input: Visible
 - **[PASS]** Hero: Badge input: Visible
 - **[PASS]** Hero: Primary CTA input: Visible
 - **[PASS]** Hero: Secondary CTA input: Visible
-- **[PASS]** Columns: variant selector: Grid/Cards found
+- **[FAIL]** Columns: variant selector: Not found
 - **[PASS]** Columns: has inputs: Found 2 inputs
 - **[FAIL]** Pricing: has inputs: Found 0 inputs
-- **[PASS]** Action: variant selector: Found
+- **[FAIL]** Action: variant selector: Not found
 - **[FAIL]** Questions: has inputs: Found 0 inputs
 - **[PASS]** Quotes: has inputs: Found 2 inputs
 - **[FAIL]** Value Props: has inputs: Found 0 inputs
@@ -111,12 +110,15 @@
 
 ## P0 Blockers (Must Fix)
 
+- **Onboarding** > Shows "Pick a theme": Not found
 - **Onboarding** > Theme card count = 10: Found 8 cards
 - **Section CRUD** > Add section increases count: Before: 5, After: 5
 
 ## P1 Issues (Should Fix)
 
+- **Section Editors** > Columns: variant selector: Not found
 - **Section Editors** > Pricing: has inputs: Found 0 inputs
+- **Section Editors** > Action: variant selector: Not found
 - **Section Editors** > Questions: has inputs: Found 0 inputs
 - **Section Editors** > Value Props: has inputs: Found 0 inputs
 - **Section Editors** > Footer: has inputs: Found 0 inputs

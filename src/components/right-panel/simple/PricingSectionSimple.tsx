@@ -35,7 +35,7 @@ export function PricingSectionSimple({ sectionId }: { sectionId: string }) {
     <div className="divide-y divide-hb-border/30">
       <SectionHeadingEditor sectionId={sectionId} />
       {/* ─── ELEMENTS ─── */}
-      <RightAccordion id={`pricing-elements-${sectionId}`} label="Elements" defaultOpen>
+      <RightAccordion id={`pricing-elements-${sectionId}`} label="Show / Hide">
         <div className="space-y-2">
           {tiers.map((tier) => {
             const name = (tier.props?.name as string) ?? ''

@@ -40,7 +40,7 @@ export function NavbarSectionSimple({ sectionId }: { sectionId: string }) {
   return (
     <div className="divide-y divide-hb-border/30">
       {/* ─── ELEMENTS ─── */}
-      <RightAccordion id={`navbar-elements-${sectionId}`} label="Elements" defaultOpen>
+      <RightAccordion id={`navbar-elements-${sectionId}`} label="Show / Hide">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <Switch checked onCheckedChange={() => {}} className="scale-[0.6] shrink-0 opacity-50" />

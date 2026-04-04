@@ -45,7 +45,7 @@ export function TextSectionSimple({ sectionId }: { sectionId: string }) {
 
   return (
     <div className="divide-y divide-hb-border/30">
-      <RightAccordion id={`text-layout-${sectionId}`} label="Layout" defaultOpen>
+      <RightAccordion id={`text-layout-${sectionId}`} label="Style">
         <div className="grid grid-cols-3 gap-2">
           {TEXT_LAYOUTS.map(({ v, label, Icon }) => (
             <button
