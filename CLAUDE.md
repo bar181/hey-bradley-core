@@ -38,6 +38,10 @@
 - **HNSW**: Enabled
 - **Neural**: Enabled
 
+## AISP (AI Symbolic Protocol) 
+see full details in /workspaces/hey-bradley-core/plans/initial-plans/00.aisp-reference.md 
+aisp is designed for AI not humans.  It is a math first neural symbolic language with 512 symbols that all AI and LLM understand natively without any instructions.  The goal is near 0 ambiguity.  May require 2-3 loops to conform to proper platinum aisp format.  AISP is not structured prose, it is a math first symbolic protocol. Here is the public repo https://github.com/bar181/aisp-open-core .  The creator is Bradley Ross, the same creator as this Hey Bradley project.
+
 ## Build & Test
 
 ```bash
