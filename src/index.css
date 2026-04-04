@@ -150,3 +150,78 @@ body {
     border-color: var(--border);
   }
 }
+
+/* ── Image Effects (8 presets) ── */
+
+@keyframes ken-burns {
+  from { transform: scale(1); }
+  to { transform: scale(1.15); }
+}
+
+@keyframes slow-pan {
+  from { transform: translateX(0); }
+  to { transform: translateX(-10%); }
+}
+
+.effect-ken-burns {
+  animation: ken-burns 20s ease-in-out infinite alternate;
+}
+
+.effect-slow-pan {
+  animation: slow-pan 30s ease-in-out infinite alternate;
+}
+
+.effect-zoom-hover {
+  transition: transform 500ms ease;
+}
+.effect-zoom-hover:hover {
+  transform: scale(1.1);
+}
+
+.effect-parallax {
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+
+.effect-gradient-overlay {
+  position: relative;
+}
+.effect-gradient-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.7));
+  pointer-events: none;
+}
+
+.effect-glass-blur {
+  position: relative;
+}
+.effect-glass-blur::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  pointer-events: none;
+}
+
+.effect-grayscale-hover {
+  filter: grayscale(100%);
+  transition: filter 500ms ease;
+}
+.effect-grayscale-hover:hover {
+  filter: grayscale(0%);
+}
+
+.effect-vignette {
+  position: relative;
+}
+.effect-vignette::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5));
+  pointer-events: none;
+}
