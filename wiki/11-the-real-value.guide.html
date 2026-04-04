@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Real Value of Hey Bradley &mdash; Hey Bradley Wiki</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0b0f1a; --surface: #131825; --surface-2: #1a2035; --border: #2a3050;
+    --text: #e2e8f0; --text-muted: #95a0b8; --accent: #6c8cff;
+    --accent-glow: rgba(108, 140, 255, 0.25); --green: #4ade80; --amber: #fbbf24;
+    --red: #f87171; --cyan: #22d3ee; --purple: #a78bfa; --radius: 12px;
+    --gold: #f5c842;
+  }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; }
+  a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+  .container { max-width: 940px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* ── Hero ── */
+  .hero { position: relative; padding: 80px 0 56px; text-align: center; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -50%; left: 50%; transform: translateX(-50%); width: 800px; height: 800px; background: radial-gradient(circle, var(--accent-glow) 0%, rgba(167,139,250,0.15) 35%, rgba(74,222,128,0.06) 55%, transparent 70%); animation: heroOrb 8s ease-in-out infinite; pointer-events: none; }
+  .hero::after { content: ''; position: absolute; bottom: -40%; right: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(167,139,250,0.12) 0%, transparent 65%); animation: heroOrb2 10s ease-in-out infinite; pointer-events: none; }
+  @keyframes heroOrb { 0%,100% { opacity: 0.4; transform: translateX(-50%) scale(1); } 50% { opacity: 0.65; transform: translateX(-50%) scale(1.08); } }
+  @keyframes heroOrb2 { 0%,100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 0.35; transform: scale(1.12); } }
+  .hero h1 { font-size: 2.9rem; font-weight: 800; letter-spacing: -0.03em; background: linear-gradient(135deg, #fff 20%, var(--accent) 55%, var(--purple) 80%, var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; position: relative; line-height: 1.15; }
+  .hero .subtitle { margin-top: 16px; font-size: 1.2rem; color: var(--text-muted); position: relative; max-width: 560px; margin-left: auto; margin-right: auto; font-style: italic; }
+
+  /* ── Sections ── */
+  .section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 36px; margin-top: 36px; transition: border-color 0.3s; }
+  .section:hover { border-color: rgba(108,140,255,0.3); }
+  .section h2 { font-size: 1.35rem; font-weight: 700; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+  .section h2 .icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+  .section p, .section li { color: var(--text-muted); font-size: 0.95rem; }
+  .section p + p { margin-top: 12px; }
+
+  /* ── Hook Quote ── */
+  .hook-quote { position: relative; margin-top: 24px; padding: 28px 32px; border-radius: var(--radius); background: linear-gradient(135deg, rgba(108,140,255,0.06), rgba(167,139,250,0.06)); border: 1px solid rgba(108,140,255,0.2); font-size: 1.08rem; color: var(--text); line-height: 1.7; text-align: center; font-weight: 500; }
+  .hook-quote::before { content: '\201C'; position: absolute; top: 8px; left: 16px; font-size: 3rem; color: var(--accent); opacity: 0.3; line-height: 1; }
+
+  /* ── Comparison Table ── */
+  .data-table { width: 100%; border-collapse: collapse; margin-top: 18px; font-size: 0.85rem; }
+  .data-table th { text-align: left; padding: 12px 14px; border-bottom: 2px solid var(--border); color: var(--text); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .data-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); color: var(--text-muted); vertical-align: top; }
+  .data-table tr:hover td { color: var(--text); background: rgba(108,140,255,0.03); }
+  .data-table tr.highlight td { color: var(--text); background: rgba(108,140,255,0.07); border-bottom-color: var(--accent); }
+  .data-table .speed-accent { color: var(--accent); font-weight: 700; }
+
+  /* ── Callouts ── */
+  .callout { margin-top: 18px; padding: 18px 22px; border-radius: var(--radius); border-left: 4px solid var(--accent); background: var(--surface-2); font-size: 0.92rem; color: var(--text-muted); line-height: 1.65; }
+  .callout strong { color: var(--text); }
+  .callout.insight { border-left-color: var(--purple); border-image: linear-gradient(to bottom, var(--accent), var(--purple)) 1; }
+  .callout.success { border-left-color: var(--green); }
+
+  /* ── Pull Quote ── */
+  .pull-quote { position: relative; margin: 36px 0; padding: 32px 36px; border-radius: var(--radius); background: linear-gradient(135deg, rgba(108,140,255,0.05), rgba(167,139,250,0.08), rgba(34,211,238,0.04)); border: 2px solid transparent; background-clip: padding-box; font-size: 1.05rem; color: var(--text); line-height: 1.75; font-style: italic; }
+  .pull-quote::before { content: ''; position: absolute; inset: -2px; border-radius: var(--radius); background: linear-gradient(135deg, var(--accent), var(--purple), var(--cyan)); z-index: -1; }
+  .pull-quote .attribution { display: block; margin-top: 12px; font-size: 0.8rem; color: var(--accent); font-style: normal; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* ── Timeline ── */
+  .timeline { margin-top: 20px; position: relative; padding-left: 36px; }
+  .timeline::before { content: ''; position: absolute; left: 14px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(to bottom, var(--accent), var(--purple), var(--cyan)); border-radius: 2px; }
+  .timeline-item { position: relative; padding: 10px 0 10px 20px; }
+  .timeline-item::before { content: ''; position: absolute; left: -28px; top: 18px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); box-shadow: 0 0 8px var(--accent-glow); }
+  .timeline-item.milestone::before { background: var(--green); box-shadow: 0 0 12px rgba(74,222,128,0.4); width: 14px; height: 14px; left: -29px; }
+  .timeline-time { font-size: 0.82rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.03em; }
+  .timeline-item.milestone .timeline-time { color: var(--green); }
+  .timeline-text { font-size: 0.9rem; color: var(--text-muted); margin-top: 2px; }
+
+  /* ── Persona Grid ── */
+  .persona-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+  .persona-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 24px; transition: border-color 0.3s, transform 0.2s, box-shadow 0.3s; }
+  .persona-card:hover { border-color: rgba(108,140,255,0.4); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .persona-card .persona-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .persona-card .persona-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .persona-card .persona-role { font-size: 0.92rem; font-weight: 700; color: var(--text); }
+  .persona-card .persona-today { font-size: 0.84rem; color: var(--text-muted); line-height: 1.55; }
+  .persona-card .persona-today strong { color: var(--red); font-weight: 600; }
+  .persona-card .persona-hb { font-size: 0.84rem; color: var(--text-muted); line-height: 1.55; margin-top: 8px; }
+  .persona-card .persona-hb strong { color: var(--green); font-weight: 600; }
+  .persona-card .persona-feeling { margin-top: 10px; font-size: 0.82rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; }
+  .persona-card.wide { grid-column: 1 / -1; }
+
+  /* ── Financial Numbers ── */
+  .financial-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+  .financial-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; text-align: center; transition: border-color 0.3s; }
+  .financial-card:hover { border-color: rgba(108,140,255,0.3); }
+  .financial-card .fin-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 6px; }
+  .financial-card .fin-number { font-size: 2.2rem; font-weight: 800; line-height: 1.1; }
+  .financial-card .fin-number.old { color: var(--red); }
+  .financial-card .fin-number.new { color: var(--green); }
+  .financial-card .fin-number.accent { color: var(--accent); }
+  .financial-card .fin-number.gold { color: var(--gold); }
+  .financial-card .fin-detail { font-size: 0.78rem; color: var(--text-muted); margin-top: 6px; }
+
+  /* ── Capability Cards ── */
+  .cap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+  .cap-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 22px; transition: border-color 0.3s, transform 0.2s; }
+  .cap-card:hover { border-color: rgba(108,140,255,0.4); transform: translateY(-2px); }
+  .cap-card h4 { font-size: 0.92rem; font-weight: 700; color: var(--text); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .cap-card p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.6; }
+  .cap-card .cap-emoji { font-size: 1.1rem; }
+
+  /* ── Footer ── */
+  .footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-muted); }
+  .article-nav { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 16px; }
+  .article-nav a { padding: 8px 16px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.82rem; color: var(--text-muted); transition: all 0.2s; }
+  .article-nav a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+  .quality-stamp { margin-top: 12px; font-size: 0.75rem; color: var(--accent); font-style: italic; opacity: 0.8; }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 2rem; }
+    .hero .subtitle { font-size: 1rem; }
+    .container { padding: 0 16px 60px; }
+    .section { padding: 24px 20px; }
+    .persona-grid { grid-template-columns: 1fr; }
+    .financial-grid { grid-template-columns: 1fr; }
+    .cap-grid { grid-template-columns: 1fr; }
+    .pull-quote { padding: 24px 20px; font-size: 0.95rem; }
+    .financial-card .fin-number { font-size: 1.7rem; }
+    .persona-card.wide { grid-column: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- 1. HERO                                                 -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <header class="hero">
+    <h1>The Real Value of Hey Bradley</h1>
+    <p class="subtitle">Why a 2-week sprint now takes 2 hours</p>
+  </header>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- 2. THE COMPETITIVE TRUTH                                -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(108,140,255,0.15);">&#9889;</span> The Competitive Truth</h2>
+
+    <div class="hook-quote">
+      Hey Bradley isn&rsquo;t a website builder. It isn&rsquo;t even a spec generator. It&rsquo;s what happens when the meeting IS the sprint.
+    </div>
+
+    <p style="margin-top:20px;">Every tool in this space solves one piece of the puzzle. None of them solve the whole thing. Here is the honest landscape:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Tool</th>
+          <th>What It Actually Does</th>
+          <th>Ceiling</th>
+          <th>Meeting Speed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Whiteboard / Miro</strong></td>
+          <td>Captures ideas as sticky notes</td>
+          <td>Ideas die in screenshots</td>
+          <td>Real-time but produces nothing</td>
+        </tr>
+        <tr>
+          <td><strong>Lovable</strong></td>
+          <td>Vibe-codes a throwaway prototype</td>
+          <td>Consumer sites, no production use</td>
+          <td>10 min first page, 2&ndash;5 min iterations</td>
+        </tr>
+        <tr>
+          <td><strong>Cursor / Claude Code</strong></td>
+          <td>Writes code from prompts</td>
+          <td>Excellent greenfield, weak brownfield</td>
+          <td>N/A (not a meeting tool)</td>
+        </tr>
+        <tr>
+          <td><strong>Spec Kit / Kiro</strong></td>
+          <td>Structures specs for developers</td>
+          <td>Requires technical spec-writing skill</td>
+          <td>Not real-time</td>
+        </tr>
+        <tr class="highlight">
+          <td><strong>Hey Bradley</strong></td>
+          <td>Captures intent &rarr; specs + prototype simultaneously</td>
+          <td>Enterprise brownfield + greenfield, any software</td>
+          <td class="speed-accent">5 seconds per change</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout insight">
+      <strong>The surprise:</strong> Hey Bradley&rsquo;s closest competitor isn&rsquo;t another tool &mdash; it&rsquo;s the status quo. The real competition is the 3-day cycle of meeting notes &rarr; tickets &rarr; spec review &rarr; developer context-gathering that every organization accepts as normal.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- 3. THE BROWNFIELD ADVANTAGE                             -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(167,139,250,0.15);">&#127959;</span> The Brownfield Advantage</h2>
+
+    <p><strong style="color:var(--text);">Greenfield is easy.</strong> Everyone can build from scratch. Brownfield is where enterprises live &mdash; 95% of enterprise development is modifying existing systems. This is the insight that separates Hey Bradley from everything else.</p>
+
+    <p>Here is how it works:</p>
+
+    <div class="timeline" style="margin-top:20px;">
+      <div class="timeline-item">
+        <div class="timeline-time">Connect</div>
+        <div class="timeline-text">Link Hey Bradley to your GitHub repository. AISP agents begin analyzing the codebase: component tree, API contracts, database schema, authentication flows, routing patterns, state management.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">Describe</div>
+        <div class="timeline-text">The product owner describes the feature during the meeting. No technical language required. &ldquo;We need a billing dashboard that shows usage by team.&rdquo;</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">Generate</div>
+        <div class="timeline-text">Hey Bradley generates specs that ACCOUNT FOR existing architecture. The Implementation Plan doesn&rsquo;t say &ldquo;build a React app.&rdquo; It says &ldquo;reuse existing <code>AuthWrapper</code>, query <code>usage_metrics</code> table via the GraphQL endpoint, extend <code>DashboardLayout</code> component.&rdquo;</div>
+      </div>
+      <div class="timeline-item milestone">
+        <div class="timeline-time">Result</div>
+        <div class="timeline-text">The engineer receives specs with full codebase awareness. Context-gathering time drops from hours to zero. The AI coding agent produces code that fits into the existing system on the first attempt.</div>
+      </div>
+    </div>
+
+    <div class="callout insight">
+      <strong>Why this matters:</strong> When an AI coding agent receives a spec that says &ldquo;build a dashboard,&rdquo; it guesses at architecture. When it receives a spec that references your actual components, routes, and data models, it produces code that passes CI on the first PR. That&rsquo;s the difference between a toy and a tool.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- 4. THE TIMELINE THAT MATTERS                            -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(34,211,238,0.15);">&#9201;</span> The Timeline That Matters</h2>
+
+    <p>A real feature, from idea to production, in a single morning:</p>
+
+    <div class="timeline" style="margin-top:20px;">
+      <div class="timeline-item">
+        <div class="timeline-time">10:00 AM</div>
+        <div class="timeline-text">Team opens Hey Bradley on Zoom screen share. Stakeholders talk. Product owner drives.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">10:05 AM</div>
+        <div class="timeline-text">Dashboard prototype has 3 sections. &ldquo;Add billing.&rdquo; Five seconds later, it&rsquo;s there.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">10:30 AM</div>
+        <div class="timeline-text">30 minutes in, 8 sections live on screen. AISP specs generating continuously underneath &mdash; User Stories, Technical Spec, Implementation Plan, Crystal Atoms, all updating in real time.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">10:35 AM</div>
+        <div class="timeline-text">Meeting ends. The specs reference EXISTING codebase components. Not generic boilerplate &mdash; your actual architecture.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">10:40 AM</div>
+        <div class="timeline-text">Engineer copies specs into Claude Code. &ldquo;Build this.&rdquo;</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">11:30 AM</div>
+        <div class="timeline-text">PR open. 14 files changed. Tests passing. Uses existing components, routes, and data models.</div>
+      </div>
+      <div class="timeline-item milestone">
+        <div class="timeline-time">12:00 PM</div>
+        <div class="timeline-text">Merged. Deployed. <strong style="color:var(--green);">Elapsed: 2 hours.</strong> Traditional timeline: 2&ndash;4 weeks.</div>
+      </div>
+    </div>
+
+    <div class="callout success">
+      <strong>That is not a typo.</strong> Two hours from idea to production. The bottleneck was never the coding &mdash; it was the translation layer between what people said in meetings and what developers received as specs. Hey Bradley eliminates that layer entirely.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- 5. THE CORE VALUE FROM EVERY CHAIR                      -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(74,222,128,0.15);">&#128101;</span> The Core Value from Every Chair</h2>
+
+    <p>Different roles, same transformation. Here is what changes for each person in the room:</p>
+
+    <div class="persona-grid">
+
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-icon" style="background:rgba(108,140,255,0.15);">&#128203;</div>
+          <div class="persona-role">Product Owner</div>
+        </div>
+        <div class="persona-today"><strong>Today:</strong> The translator. Spends 3 days converting meeting notes into tickets, user stories, and acceptance criteria. Half the intent gets lost in translation.</div>
+        <div class="persona-hb"><strong>With Hey Bradley:</strong> Specs generate during the meeting. Walk out with complete user stories, technical specs, and implementation plans. Zero translation loss.</div>
+        <div class="persona-feeling">Feeling: relief</div>
+      </div>
+
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-icon" style="background:rgba(167,139,250,0.15);">&#128187;</div>
+          <div class="persona-role">Agentic Engineer</div>
+        </div>
+        <div class="persona-today"><strong>Today:</strong> Spends 40&ndash;60% of time on context gathering. Reading old PRs, tracing data flows, figuring out what the PM actually meant.</div>
+        <div class="persona-hb"><strong>With Hey Bradley:</strong> Brownfield specs reference existing codebase components. Feed the spec to Claude Code and get a PR that uses your actual architecture.</div>
+        <div class="persona-feeling">Feeling: flow</div>
+      </div>
+
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-icon" style="background:rgba(34,211,238,0.15);">&#127912;</div>
+          <div class="persona-role">Designer</div>
+        </div>
+        <div class="persona-today"><strong>Today:</strong> Creates pixel-perfect mockups that developers interpret loosely. Design intent gets lost between Figma and code.</div>
+        <div class="persona-hb"><strong>With Hey Bradley:</strong> Design decisions are encoded in Crystal Atoms with mathematical precision &mdash; spacing ratios, color tokens, typography scales. The spec IS the design system.</div>
+        <div class="persona-feeling">Feeling: respect</div>
+      </div>
+
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-icon" style="background:rgba(245,200,66,0.15);">&#128640;</div>
+          <div class="persona-role">Technical Founder</div>
+        </div>
+        <div class="persona-today"><strong>Today:</strong> Has 47 ideas. Ships 2 per week. Bottleneck is the spec-to-code pipeline, not the ideas themselves.</div>
+        <div class="persona-hb"><strong>With Hey Bradley:</strong> Ideation speed matches shipping speed. Spec a feature in 5 minutes, ship it in 2 hours. 2&ndash;3 features per day becomes normal.</div>
+        <div class="persona-feeling">Feeling: leverage</div>
+      </div>
+
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-icon" style="background:rgba(248,113,113,0.15);">&#128161;</div>
+          <div class="persona-role">Non-Technical Founder</div>
+        </div>
+        <div class="persona-today"><strong>Today:</strong> Spent $50K on development. The result doesn&rsquo;t match the vision. Can&rsquo;t articulate what&rsquo;s wrong in technical terms.</div>
+        <div class="persona-hb"><strong>With Hey Bradley:</strong> Iterate the prototype until the vision matches what&rsquo;s on screen. The specs are portable &mdash; take them to any developer or AI agent.</div>
+        <div class="persona-feeling">Feeling: control</div>
+      </div>
+
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-icon" style="background:rgba(108,140,255,0.15);">&#127970;</div>
+          <div class="persona-role">Enterprise CTO</div>
+        </div>
+        <div class="persona-today"><strong>Today:</strong> 30&ndash;40% of engineering capacity wasted on ambiguity, rework, and misaligned requirements across 15+ teams.</div>
+        <div class="persona-hb"><strong>With Hey Bradley:</strong> Every team uses the same AISP format. Specs are auditable, machine-readable, and coherent across the organization. Ambiguity drops below 2%.</div>
+        <div class="persona-feeling">Feeling: coherence</div>
+      </div>
+
+      <div class="persona-card wide">
+        <div class="persona-header">
+          <div class="persona-icon" style="background:rgba(74,222,128,0.15);">&#128144;</div>
+          <div class="persona-role">Grandmother</div>
+        </div>
+        <div class="persona-today"><strong>Today:</strong> Wix is overwhelming. Lovable is fragile and breaks when she tries to customize. Her grandson is busy and can&rsquo;t help until the weekend.</div>
+        <div class="persona-hb"><strong>With Hey Bradley:</strong> Describe what you want. It appears on screen. When it looks right, hand the specs to your grandson &mdash; or any developer &mdash; and the result matches exactly what you saw.</div>
+        <div class="persona-feeling">Feeling: agency</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- 6. WHAT THIS IS ACTUALLY WORTH                          -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(245,200,66,0.15);">&#128176;</span> What This Is Actually Worth</h2>
+
+    <p>The math is not subtle. When you compress a 2&ndash;4 week cycle into 2 hours, the financial implications are enormous:</p>
+
+    <div class="financial-grid">
+      <div class="financial-card">
+        <div class="fin-label">Traditional Sprint Cost</div>
+        <div class="fin-number old">$24K&ndash;$96K</div>
+        <div class="fin-detail">2&ndash;4 weeks at $150&ndash;$300/hr across the team</div>
+      </div>
+      <div class="financial-card">
+        <div class="fin-label">Hey Bradley Equivalent</div>
+        <div class="fin-number new">$300&ndash;$600</div>
+        <div class="fin-detail">Engineering time only &mdash; specs come free from the meeting</div>
+      </div>
+      <div class="financial-card">
+        <div class="fin-label">Annual Savings (10 features/quarter)</div>
+        <div class="fin-number accent">$200K&ndash;$900K</div>
+        <div class="fin-detail">Per team, per year &mdash; conservative estimate</div>
+      </div>
+      <div class="financial-card">
+        <div class="fin-label">Enterprise Seat Price</div>
+        <div class="fin-number gold">$499/mo</div>
+        <div class="fin-detail">Pays for itself on the FIRST feature</div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:24px;">
+      <strong>The enterprise math:</strong> 100 teams &times; 4 seats &times; $499/month = <strong style="color:var(--accent);">$2.4M ARR</strong> per enterprise customer. At 50 enterprise customers, that is <strong style="color:var(--accent);">$120M ARR</strong>. The product sells itself because the ROI is visible in week one.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- 7. WHAT BECOMES POSSIBLE                                -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(34,211,238,0.15);">&#127793;</span> What Becomes Possible</h2>
+
+    <p>When the spec-to-code pipeline drops from weeks to hours, behaviors change. Entirely new capabilities emerge:</p>
+
+    <div class="cap-grid">
+      <div class="cap-card">
+        <h4><span class="cap-emoji">&#9889;</span> Experiment</h4>
+        <p>Ship on Monday. Measure Monday afternoon. Kill it or double down on Tuesday. The cost of a failed experiment drops from $50K to $300. You can afford to be wrong.</p>
+      </div>
+      <div class="cap-card">
+        <h4><span class="cap-emoji">&#127919;</span> Respond in Real-Time</h4>
+        <p>Competitor launches on Tuesday. Your response ships on Wednesday. Not because you rushed &mdash; because the normal pace is that fast.</p>
+      </div>
+      <div class="cap-card">
+        <h4><span class="cap-emoji">&#127911;</span> Personalize at Scale</h4>
+        <p>Sales engineer builds a custom demo during the sales call. Not a mockup &mdash; a working prototype with specs the engineering team can ship that afternoon.</p>
+      </div>
+      <div class="cap-card">
+        <h4><span class="cap-emoji">&#127758;</span> Let Your Whole Org Build</h4>
+        <p>The nurse suggests a patient journey visualization. By lunch, it&rsquo;s an app. The marketing team specs a campaign dashboard before their coffee gets cold.</p>
+      </div>
+    </div>
+
+    <div class="cap-grid" style="margin-top:14px;">
+      <div class="cap-card" style="grid-column: 1 / -1;">
+        <h4><span class="cap-emoji">&#128173;</span> Decide with Artifacts, Not Arguments</h4>
+        <p>&ldquo;Let me SHOW you&rdquo; replaces &ldquo;I think...&rdquo; Every meeting produces a visible, interactive artifact. Debates resolve in seconds because everyone can see the result. The prototype IS the decision.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- 8. THE CAPSTONE THESIS                                  -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <div class="section" style="background: transparent; border: none; padding: 0; margin-top: 44px;">
+    <h2><span class="icon" style="background:rgba(108,140,255,0.15);">&#127891;</span> The Capstone Thesis</h2>
+
+    <div class="pull-quote">
+      This is what a 2-week sprint looks like when it takes 2 hours. The meeting IS the sprint. The whiteboard IS the specification. The prototype IS the requirement. And because the specs have under 2% ambiguity, the AI agent&rsquo;s output matches what the team discussed &mdash; not someone&rsquo;s interpretation three handoffs later.
+      <span class="attribution">&mdash; The Fundamental Insight of Hey Bradley</span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- 9. THE FUNDAMENTAL SHIFT                                -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(74,222,128,0.15);">&#127760;</span> The Fundamental Shift</h2>
+
+    <div class="pull-quote" style="text-align:center;">
+      Software development stops being a department and becomes a capability.<br><br>
+      Every team, every meeting, every idea has a direct path to production.<br><br>
+      The companies that operate at this speed will outcompete those that don&rsquo;t &mdash; not by 10%, but by orders of magnitude.
+    </div>
+
+    <div class="callout success" style="margin-top:28px; text-align:center;">
+      <strong>Hey Bradley.</strong> The meeting is the sprint. The whiteboard is the spec. And the gap between &ldquo;what if&rdquo; and &ldquo;shipped&rdquo; just collapsed to two hours.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- FOOTER                                                  -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <div class="footer">
+    Hey Bradley Wiki &middot; The Real Value of Hey Bradley &middot; 2026-04-04
+    <div class="article-nav">
+      <a href="10-phase-8-cleanup-optimization.guide.html">&larr; Phase 8: Cleanup</a>
+      <a href="hey-bradley-wiki.guide.html">Wiki Home</a>
+      <a href="01-agentic-development.guide.html">Agentic Development &rarr;</a>
+    </div>
+    <div class="quality-stamp">Content articulates the core value proposition of Hey Bradley: real-time spec generation during meetings, brownfield codebase awareness, 2-hour sprint cycles, 7 persona value maps, enterprise financial model ($120M ARR at scale), and the fundamental thesis that the meeting IS the sprint.</div>
+  </div>
+
+</div>
+</body>
+</html>
