@@ -1,0 +1,510 @@
+{
+  "site": {
+    "title": "FitForge Fitness",
+    "description": "Boutique fitness studio offering high-intensity classes, personal training, and community-driven wellness",
+    "author": "FitForge Fitness",
+    "email": "hello@fitforgefitness.com",
+    "domain": "fitforgefitness.com",
+    "project": "fitforge-fitness",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2"
+  },
+  "theme": {
+    "preset": "creative",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0a0a0a",
+      "bgSecondary": "#1a1a1a",
+      "textPrimary": "#ffffff",
+      "textSecondary": "#d4d4d8",
+      "accentPrimary": "#ef4444",
+      "accentSecondary": "#f97316"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#fafafa",
+      "textPrimary": "#09090b",
+      "textSecondary": "#71717a",
+      "accentPrimary": "#ef4444",
+      "accentSecondary": "#f97316"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Inter",
+      "headingWeight": 800,
+      "baseSize": "16px",
+      "lineHeight": 1.6
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "12px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#0a0a0a",
+        "color": "#ffffff"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "FitForge"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Join Now",
+            "url": "#cta"
+          }
+        }
+      ]
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "overlay",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "#0a0a0a",
+        "color": "#ffffff",
+        "fontFamily": "Inter",
+        "borderRadius": "0px"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Now Open in Downtown Austin",
+            "icon": "flame",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Forge Your Strongest Self",
+            "level": 1,
+            "size": "56px",
+            "weight": 800
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "High-intensity classes, expert trainers, and a community that pushes you further. Your transformation starts the moment you walk through the door."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Claim Your Free Class",
+            "url": "#cta",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "View Programs",
+            "url": "#features",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "heroImage",
+          "type": "image",
+          "enabled": false,
+          "order": 5,
+          "props": {}
+        },
+        {
+          "id": "backgroundImage",
+          "type": "image",
+          "enabled": true,
+          "order": 6,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600&auto=format&q=80",
+            "alt": "Intense gym interior with dramatic lighting and athletes training",
+            "aspect": "16:9"
+          }
+        },
+        {
+          "id": "heroVideo",
+          "type": "video",
+          "enabled": true,
+          "order": 7,
+          "props": {
+            "url": "https://videos.unsplash.com/fitness-bg",
+            "autoplay": true,
+            "muted": true,
+            "loop": true
+          }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 8,
+          "props": {
+            "text": "Trusted by 3,500+ members across Austin",
+            "show": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "columns",
+      "id": "features-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "image-cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#1a1a1a",
+        "color": "#ffffff"
+      },
+      "components": [
+        {
+          "id": "f1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "flame",
+            "title": "HIIT & Burn",
+            "description": "45-minute high-intensity interval sessions that torch calories and build explosive power. Every class is different, every session pushes your limits.",
+            "image": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&auto=format&q=80",
+            "imageAlt": "Athletes performing high-intensity interval training"
+          }
+        },
+        {
+          "id": "f2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "dumbbell",
+            "title": "Strength Lab",
+            "description": "Progressive overload training with Olympic lifts, compound movements, and structured programming. Build real strength with proper form coaching.",
+            "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600&auto=format&q=80",
+            "imageAlt": "Athlete performing barbell deadlift with focused intensity"
+          }
+        },
+        {
+          "id": "f3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "heart",
+            "title": "Recovery Flow",
+            "description": "Guided mobility, yoga, and breathwork sessions designed to accelerate recovery and prevent injury. Train hard, recover harder.",
+            "image": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&auto=format&q=80",
+            "imageAlt": "Yoga and mobility class in a serene studio environment"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Our Programs",
+        "subheading": "Three paths to your strongest self"
+      }
+    },
+    {
+      "type": "numbers",
+      "id": "numbers-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "counters",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#0a0a0a",
+        "color": "#ffffff"
+      },
+      "components": [
+        {
+          "id": "n-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "3,500+",
+            "label": "Active Members",
+            "description": "And growing"
+          }
+        },
+        {
+          "id": "n-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "60+",
+            "label": "Classes Weekly",
+            "description": "Every week"
+          }
+        },
+        {
+          "id": "n-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "18",
+            "label": "Expert Trainers",
+            "description": "Certified pros"
+          }
+        },
+        {
+          "id": "n-4",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "value": "7",
+            "label": "Years Strong",
+            "description": "Since 2019"
+          }
+        }
+      ],
+      "content": {
+        "heading": "FitForge by the Numbers",
+        "subheading": "Built on sweat, community, and results"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "stars",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#1a1a1a",
+        "color": "#ffffff"
+      },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "I've tried every gym in Austin. FitForge is the only one where I actually show up six days a week. The energy in HIIT & Burn is unmatched.",
+            "author": "Marcus Rivera",
+            "role": "Member since 2022",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "The trainers here genuinely care about your form and progress. I hit a 300lb deadlift in Strength Lab after six months. Never thought I could do that.",
+            "author": "Priya Sharma",
+            "role": "Member since 2023",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "Recovery Flow changed everything for me. I was always sore, always injured. Now I train harder and feel better than I did in my twenties.",
+            "author": "Jake Thompson",
+            "role": "Member since 2021",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "What Our Members Say",
+        "subheading": "Real results from real people"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "#0a0a0a",
+        "color": "#ffffff"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Your First Class Is Free",
+            "level": 2,
+            "size": "36px",
+            "weight": 800
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "No commitment, no pressure. Walk in, work out, and see why 3,500 Austinites chose FitForge as their home gym."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Claim Your Free Class",
+            "url": "#signup",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ]
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#0a0a0a",
+        "color": "#ffffff"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "FitForge Fitness"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Programs",
+            "links": "HIIT & Burn,Strength Lab,Recovery Flow,Personal Training"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Studio",
+            "links": "Schedule,Pricing,Location,Amenities"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Connect",
+            "links": "Instagram,TikTok,YouTube,Newsletter"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "\u00a9 2026 FitForge Fitness. Forged in Austin, TX."
+          }
+        }
+      ]
+    }
+  ]
+}

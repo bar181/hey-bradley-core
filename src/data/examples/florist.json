@@ -1,0 +1,515 @@
+{
+  "site": {
+    "title": "Bloom & Petal",
+    "description": "Boutique florist crafting bespoke arrangements for weddings, events, and everyday beauty",
+    "author": "Bloom & Petal",
+    "email": "hello@bloomandpetal.com",
+    "domain": "bloomandpetal.com",
+    "project": "bloom-and-petal",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2"
+  },
+  "theme": {
+    "preset": "personal",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#fefcfb",
+      "bgSecondary": "#fdf2f0",
+      "textPrimary": "#1c1917",
+      "textSecondary": "#78716c",
+      "accentPrimary": "#be185d",
+      "accentSecondary": "#ec4899"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#1c1917",
+      "bgSecondary": "#292524",
+      "textPrimary": "#fefcfb",
+      "textSecondary": "#a8a29e",
+      "accentPrimary": "#be185d",
+      "accentSecondary": "#ec4899"
+    },
+    "typography": {
+      "fontFamily": "Georgia",
+      "headingFamily": "Georgia",
+      "headingWeight": 400,
+      "baseSize": "16px",
+      "lineHeight": 1.8
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#fefcfb",
+        "color": "#1c1917"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Bloom & Petal"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Order Flowers",
+            "url": "#cta"
+          }
+        }
+      ]
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "split-right",
+      "layout": {
+        "display": "flex",
+        "direction": "row",
+        "align": "center",
+        "gap": "48px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "#fefcfb",
+        "color": "#1c1917",
+        "fontFamily": "Georgia",
+        "borderRadius": "0px"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Hand-Tied in Brooklyn",
+            "icon": "flower",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Flowers That Tell Your Story",
+            "level": 1,
+            "size": "56px",
+            "weight": 400
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Every arrangement is designed by hand using seasonal blooms sourced from local farms. From intimate bouquets to grand wedding installations, we bring your vision to life with petals."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Shop Arrangements",
+            "url": "#gallery",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Wedding Consultations",
+            "url": "#cta",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "heroImage",
+          "type": "image",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=800&auto=format&q=80",
+            "alt": "Lush bouquet of pink peonies and garden roses on a rustic table",
+            "aspect": "3:4",
+            "position": "right",
+            "shadow": true
+          }
+        },
+        {
+          "id": "backgroundImage",
+          "type": "image",
+          "enabled": false,
+          "order": 6,
+          "props": {}
+        },
+        {
+          "id": "heroVideo",
+          "type": "video",
+          "enabled": false,
+          "order": 7,
+          "props": {}
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 8,
+          "props": {
+            "text": "Featured in Martha Stewart Weddings and Vogue Living",
+            "show": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "gallery",
+      "id": "gallery-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "16px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#fdf2f0",
+        "color": "#1c1917"
+      },
+      "components": [
+        {
+          "id": "g1",
+          "type": "gallery-item",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "image": "https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=600&auto=format&q=80",
+            "alt": "Elegant white and blush wedding centerpiece with trailing greenery",
+            "caption": "Garden Wedding Centerpiece",
+            "category": "Weddings"
+          }
+        },
+        {
+          "id": "g2",
+          "type": "gallery-item",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "image": "https://images.unsplash.com/photo-1490750967868-88aa4f44baee?w=600&auto=format&q=80",
+            "alt": "Vibrant seasonal bouquet with sunflowers and wildflowers",
+            "caption": "Seasonal Wildflower Bouquet",
+            "category": "Bouquets"
+          }
+        },
+        {
+          "id": "g3",
+          "type": "gallery-item",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "image": "https://images.unsplash.com/photo-1455659817273-f96807779a8a?w=600&auto=format&q=80",
+            "alt": "Minimalist single-stem arrangement in a ceramic vase",
+            "caption": "Everyday Arrangement",
+            "category": "Daily"
+          }
+        },
+        {
+          "id": "g4",
+          "type": "gallery-item",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "image": "https://images.unsplash.com/photo-1508610048659-a06b669e3321?w=600&auto=format&q=80",
+            "alt": "Romantic bridal bouquet with soft pink roses and eucalyptus",
+            "caption": "Bridal Bouquet",
+            "category": "Weddings"
+          }
+        },
+        {
+          "id": "g5",
+          "type": "gallery-item",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "image": "https://images.unsplash.com/photo-1471696035578-3d8c78d99571?w=600&auto=format&q=80",
+            "alt": "Dried flower arrangement in warm autumn tones",
+            "caption": "Dried Flower Collection",
+            "category": "Dried"
+          }
+        },
+        {
+          "id": "g6",
+          "type": "gallery-item",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "image": "https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=600&auto=format&q=80",
+            "alt": "Grand floral arch installation for an outdoor ceremony",
+            "caption": "Ceremony Arch Installation",
+            "category": "Installations"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Our Work",
+        "subheading": "A selection of recent arrangements and installations"
+      }
+    },
+    {
+      "type": "columns",
+      "id": "features-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#fefcfb",
+        "color": "#1c1917"
+      },
+      "components": [
+        {
+          "id": "f1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "heart",
+            "title": "Wedding Florals",
+            "description": "From bridal bouquets to ceremony arches and reception centerpieces. We design cohesive floral stories that complement your venue and vision."
+          }
+        },
+        {
+          "id": "f2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "gift",
+            "title": "Everyday Bouquets",
+            "description": "Seasonal arrangements delivered to your door weekly or for special occasions. Each bouquet is designed fresh the morning of delivery."
+          }
+        },
+        {
+          "id": "f3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "calendar",
+            "title": "Event Installations",
+            "description": "Corporate launches, gallery openings, and dinner parties. Large-scale floral design that transforms any space into something unforgettable."
+          }
+        }
+      ],
+      "content": {
+        "heading": "What We Do",
+        "subheading": "Bespoke floral design for every occasion"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "minimal",
+      "layout": {
+        "display": "grid",
+        "columns": 2,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#fdf2f0",
+        "color": "#1c1917"
+      },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "Bloom & Petal made our wedding day magical. The floral arch took everyone's breath away, and my bouquet was exactly what I dreamed of but couldn't articulate.",
+            "author": "Olivia Chen",
+            "role": "Spring Wedding, Prospect Park"
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "I get their weekly bouquet subscription and it's the highlight of my Monday. The flowers are always stunning and last over a week. It's like having a little piece of the countryside in my apartment.",
+            "author": "Daniel Osei",
+            "role": "Weekly Subscriber"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Love Notes",
+        "subheading": "From the people who bring our flowers home"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "#fefcfb",
+        "color": "#1c1917"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Let's Create Something Beautiful",
+            "level": 2,
+            "size": "36px",
+            "weight": 400
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Whether it's a single bouquet or a full wedding, we'd love to hear your story. Consultations are complimentary."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Get in Touch",
+            "url": "#contact",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ]
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#fdf2f0",
+        "color": "#1c1917"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Bloom & Petal"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Services",
+            "links": "Weddings,Events,Daily Bouquets,Subscriptions"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Studio",
+            "links": "Visit Us,Hours,Workshops,Press"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Connect",
+            "links": "Instagram,Pinterest,Newsletter"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "\u00a9 2026 Bloom & Petal. Handcrafted in Brooklyn, NY."
+          }
+        }
+      ]
+    }
+  ]
+}

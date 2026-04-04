@@ -1,0 +1,55 @@
+{
+  "version": "1.0.0",
+  "effects": [
+    {
+      "id": "gradient-overlay",
+      "label": "Gradient Overlay",
+      "css": "linear-gradient(to bottom, transparent, rgba(0,0,0,0.7))",
+      "description": "Dark gradient from top to bottom, ideal for text readability over images"
+    },
+    {
+      "id": "ken-burns",
+      "label": "Ken Burns",
+      "cssClass": "animate-ken-burns",
+      "duration": "20s",
+      "description": "Slow zoom in over 20 seconds, creates cinematic movement"
+    },
+    {
+      "id": "slow-pan",
+      "label": "Slow Pan",
+      "cssClass": "animate-slow-pan",
+      "duration": "30s",
+      "description": "Slow horizontal pan across image, reveals more of the scene"
+    },
+    {
+      "id": "zoom-hover",
+      "label": "Zoom on Hover",
+      "cssClass": "hover:scale-110 transition-transform duration-500",
+      "description": "Image scales up slightly on mouse hover for interactive feel"
+    },
+    {
+      "id": "parallax",
+      "label": "Parallax Scroll",
+      "requiresJs": true,
+      "description": "Background image moves slower than foreground content on scroll"
+    },
+    {
+      "id": "glass-blur",
+      "label": "Glass Blur",
+      "css": "backdrop-filter: blur(12px)",
+      "description": "Frosted glass effect applied over the image for modern look"
+    },
+    {
+      "id": "grayscale-hover",
+      "label": "Color on Hover",
+      "cssClass": "grayscale hover:grayscale-0 transition-all duration-500",
+      "description": "Image starts grayscale, reveals full color on hover"
+    },
+    {
+      "id": "vignette",
+      "label": "Vignette",
+      "css": "radial-gradient(ellipse, transparent 50%, rgba(0,0,0,0.5))",
+      "description": "Dark edges that draw focus to the center of the image"
+    }
+  ]
+}
