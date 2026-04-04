@@ -24,6 +24,7 @@ interface UIStore {
   rightAccordions: Record<string, boolean>
   previewWidth: PreviewWidth
   isPreviewMode: boolean
+  leftPanelVisible: boolean
   rightPanelVisible: boolean
   designLocked: boolean
 
@@ -35,6 +36,7 @@ interface UIStore {
   toggleRightAccordion: (id: string) => void
   setPreviewWidth: (width: PreviewWidth) => void
   setPreviewMode: (active: boolean) => void
+  setLeftPanelVisible: (visible: boolean) => void
   setRightPanelVisible: (visible: boolean) => void
   toggleDesignLock: () => void
 }
@@ -48,12 +50,14 @@ export const useUIStore = create<UIStore>((set) => ({
   rightAccordions: { ...THEME_DEFAULTS },
   previewWidth: 'full',
   isPreviewMode: false,
+  leftPanelVisible: true,
   rightPanelVisible: true,
   designLocked: false,
 
   setInteractionMode: (mode) => set({ interactionMode: mode }),
   setPreviewWidth: (width) => set({ previewWidth: width }),
   setPreviewMode: (active) => set({ isPreviewMode: active }),
+  setLeftPanelVisible: (visible) => set({ leftPanelVisible: visible }),
   setRightPanelVisible: (visible) => set({ rightPanelVisible: visible }),
   toggleDesignLock: () => set((state) => ({ designLocked: !state.designLocked })),
   setActiveTab: (tab) => set({ activeTab: tab }),

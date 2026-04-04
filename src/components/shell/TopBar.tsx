@@ -1,4 +1,4 @@
-import { Monitor, Tablet, Smartphone, Undo2, Redo2, Sun, Moon, Menu, X, Eye, PenLine, PanelRightClose, PanelRightOpen, Check, ClipboardCopy, Lock, Unlock, Save, FolderOpen, Download, Upload } from 'lucide-react'
+import { Monitor, Tablet, Smartphone, Undo2, Redo2, Sun, Moon, Menu, X, Eye, PenLine, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, Check, ClipboardCopy, Lock, Unlock, Save, FolderOpen, Download, Upload } from 'lucide-react'
 
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore, type PreviewWidth } from '@/store/uiStore'
@@ -23,6 +23,8 @@ export function TopBar() {
   const setPreviewWidth = useUIStore((s) => s.setPreviewWidth)
   const isPreviewMode = useUIStore((s) => s.isPreviewMode)
   const setPreviewMode = useUIStore((s) => s.setPreviewMode)
+  const leftPanelVisible = useUIStore((s) => s.leftPanelVisible)
+  const setLeftPanelVisible = useUIStore((s) => s.setLeftPanelVisible)
   const rightPanelVisible = useUIStore((s) => s.rightPanelVisible)
   const setRightPanelVisible = useUIStore((s) => s.setRightPanelVisible)
   const designLocked = useUIStore((s) => s.designLocked)
@@ -223,6 +225,15 @@ export function TopBar() {
           </button>
         ))}
         <div className="w-px h-4 bg-white/20 mx-1" />
+        {/* Toggle left panel */}
+        <button
+          onClick={() => setLeftPanelVisible(!leftPanelVisible)}
+          className="p-1 text-white/60 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
+          aria-label={leftPanelVisible ? 'Hide left panel' : 'Show left panel'}
+          title={leftPanelVisible ? 'Hide left panel' : 'Show left panel'}
+        >
+          {leftPanelVisible ? <PanelLeftClose size={16} /> : <PanelLeftOpen size={16} />}
+        </button>
         {/* Toggle right panel */}
         <button
           onClick={() => setRightPanelVisible(!rightPanelVisible)}
