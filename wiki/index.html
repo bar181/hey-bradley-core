@@ -841,15 +841,15 @@
       <div class="hero-stat-label">Phases Complete</div>
     </div>
     <div class="hero-stat">
-      <div class="hero-stat-value counter" data-target="62">0</div>
+      <div class="hero-stat-value counter" data-target="62">62</div>
       <div class="hero-stat-label">Templates</div>
     </div>
     <div class="hero-stat">
-      <div class="hero-stat-value counter" data-target="54">0</div>
+      <div class="hero-stat-value counter" data-target="54">54</div>
       <div class="hero-stat-label">Tests Passing</div>
     </div>
     <div class="hero-stat">
-      <div class="hero-stat-value counter" data-target="6">0</div>
+      <div class="hero-stat-value counter" data-target="6">6</div>
       <div class="hero-stat-label">Spec Generators</div>
     </div>
     <div class="hero-stat">
@@ -1096,27 +1096,27 @@
   <!-- Quick stats row -->
   <div class="card-grid fade-in-group" style="margin-bottom: 2rem;">
     <div class="card metric-card">
-      <div class="metric-value counter" data-target="62">0</div>
+      <div class="metric-value counter" data-target="62">62</div>
       <div class="metric-label">Template Variants</div>
     </div>
     <div class="card metric-card">
-      <div class="metric-value counter" data-target="20">0</div>
+      <div class="metric-value counter" data-target="20">20</div>
       <div class="metric-label">Section Types</div>
     </div>
     <div class="card metric-card">
-      <div class="metric-value counter" data-target="22">0</div>
+      <div class="metric-value counter" data-target="22">22</div>
       <div class="metric-label">ADRs Written</div>
     </div>
     <div class="card metric-card">
-      <div class="metric-value counter" data-target="54">0</div>
+      <div class="metric-value counter" data-target="54">54</div>
       <div class="metric-label">Playwright Tests</div>
     </div>
     <div class="card metric-card">
-      <div class="metric-value counter" data-target="10">0</div>
+      <div class="metric-value counter" data-target="10">10</div>
       <div class="metric-label">Theme Presets</div>
     </div>
     <div class="card metric-card">
-      <div class="metric-value counter" data-target="6">0</div>
+      <div class="metric-value counter" data-target="6">6</div>
       <div class="metric-label">Spec Generators</div>
     </div>
   </div>
@@ -1126,9 +1126,21 @@
     <div class="chart-container">
       <div class="chart-title">Phase Score Trajectory (P1-P8)</div>
       <canvas id="phaseChart" height="220"></canvas>
+      <noscript>
+        <div style="display:flex;gap:0.5rem;justify-content:center;align-items:flex-end;height:180px;padding:1rem;">
+          <div style="display:flex;flex-direction:column;align-items:center;"><div style="background:var(--accent);width:32px;height:77px;border-radius:4px;"></div><span style="font-size:0.7rem;color:var(--text-muted);">P1:77</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;"><div style="background:var(--accent);width:32px;height:82px;border-radius:4px;"></div><span style="font-size:0.7rem;color:var(--text-muted);">P2:82</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;"><div style="background:var(--accent);width:32px;height:73px;border-radius:4px;"></div><span style="font-size:0.7rem;color:var(--text-muted);">P3:73</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;"><div style="background:var(--green);width:32px;height:84px;border-radius:4px;"></div><span style="font-size:0.7rem;color:var(--text-muted);">P4:84</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;"><div style="background:var(--red);width:32px;height:67px;border-radius:4px;"></div><span style="font-size:0.7rem;color:var(--text-muted);">P5:67</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;"><div style="background:var(--accent);width:32px;height:78px;border-radius:4px;"></div><span style="font-size:0.7rem;color:var(--text-muted);">P6:78</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;"><div style="background:var(--accent);width:32px;height:75px;border-radius:4px;"></div><span style="font-size:0.7rem;color:var(--text-muted);">P7:75</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;"><div style="background:var(--green);width:32px;height:88px;border-radius:4px;"></div><span style="font-size:0.7rem;color:var(--green);">P8:88</span></div>
+        </div>
+      </noscript>
     </div>
     <div class="chart-container">
-      <div class="chart-title">Codebase Growth</div>
+      <div class="chart-title">Codebase Composition</div>
       <canvas id="growthChart" height="220"></canvas>
     </div>
   </div>
@@ -1139,10 +1151,10 @@
       <div class="progress-ring">
         <svg width="140" height="140">
           <circle class="progress-ring-bg" cx="70" cy="70" r="60"></circle>
-          <circle class="progress-ring-fill" cx="70" cy="70" r="60" data-progress="40"></circle>
+          <circle class="progress-ring-fill" cx="70" cy="70" r="60" data-progress="90"></circle>
         </svg>
         <div class="progress-ring-text">
-          <div class="progress-ring-value">8/20</div>
+          <div class="progress-ring-value">18/20</div>
           <div class="progress-ring-label">DoD Items</div>
         </div>
       </div>
@@ -1692,8 +1704,12 @@ function animateProgressRings() {
 
 animateProgressRings();
 
-// === Chart.js Charts ===
+// === Chart.js Charts (with CDN fallback) ===
 document.addEventListener('DOMContentLoaded', () => {
+  if (typeof Chart === 'undefined') {
+    console.warn('Chart.js not loaded — showing fallback');
+    return;
+  }
   const chartDefaults = {
     color: '#9ca3af',
     borderColor: '#2a2d3a',
@@ -1706,10 +1722,10 @@ document.addEventListener('DOMContentLoaded', () => {
     new Chart(phaseCtx, {
       type: 'bar',
       data: {
-        labels: ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7'],
+        labels: ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8'],
         datasets: [{
           label: 'Phase Score',
-          data: [77, 82, 73, 84, 67, 78, 75],
+          data: [77, 82, 73, 84, 67, 78, 75, 88],
           backgroundColor: [
             'rgba(129, 140, 248, 0.7)',
             'rgba(129, 140, 248, 0.7)',
@@ -1717,10 +1733,11 @@ document.addEventListener('DOMContentLoaded', () => {
             'rgba(52, 211, 153, 0.7)',
             'rgba(248, 113, 113, 0.7)',
             'rgba(129, 140, 248, 0.7)',
-            'rgba(129, 140, 248, 0.7)'
+            'rgba(129, 140, 248, 0.7)',
+            'rgba(52, 211, 153, 0.9)'
           ],
           borderColor: [
-            '#818cf8', '#818cf8', '#818cf8', '#34d399', '#f87171', '#818cf8', '#818cf8'
+            '#818cf8', '#818cf8', '#818cf8', '#34d399', '#f87171', '#818cf8', '#818cf8', '#34d399'
           ],
           borderWidth: 2,
           borderRadius: 6,
