@@ -53,7 +53,10 @@ export function generateAISPSpec(config: MasterConfig): string {
   spec += `    Layout : 𝕋 := { display: 𝕊, direction: 𝕊?, columns: ℕ?, gap: 𝕊, padding: 𝕊 },\n`
   spec += `    Style : 𝕋 := { background: 𝕊, color: 𝕊, fontFamily: 𝕊?, borderRadius: 𝕊? },\n`
   spec += `    Component : 𝕋 := { id: 𝕊, type: 𝕊, enabled: 𝔹, props: Map⟨𝕊, Any⟩ },\n`
-  spec += `    SectionType : 𝕋 := {${[...new Set(enabled.map(s => s.type))].join(', ')}}\n`
+  spec += `    SectionType : 𝕋 := {${[...new Set(enabled.map(s => s.type))].join(', ')}},\n`
+  // Brownfield types (ADR-033) — notation only, activates with repo connect
+  spec += `    BrownfieldOp : 𝕋 := { reuse: Path → Component, extends: Base → Override, imports: Module → Schema },\n`
+  spec += `    CodebaseRef : 𝕋 := { repo: 𝕊, branch: 𝕊, path: 𝕊, hash: Hash? }\n`
   spec += `  }\n\n`
 
   // ─── Global Λ — Site + Theme bindings ───
@@ -89,6 +92,15 @@ export function generateAISPSpec(config: MasterConfig): string {
     spec += `      acc₂: "${p.accentSecondary}"\n`
     spec += `    ⟩\n`
   }
+  spec += `  }\n\n`
+
+  // ─── Global Γ — Brownfield Integration Rules (ADR-033) ───
+  spec += `  Γ := {\n`
+  spec += `    % ─── Brownfield Integration (activates when repo connected) ───\n`
+  spec += `    R_reuse: □ IF repo_connected THEN reuse(components, "src/components/"),\n`
+  spec += `    R_design_sys: □ IF design_tokens THEN imports(tokens, "src/styles/"),\n`
+  spec += `    R_extends: □ IF base_layout THEN extends(BaseLayout, sections),\n`
+  spec += `    % Note: brownfield analysis requires GitHub Connect (Pro tier)\n`
   spec += `  }\n\n`
 
   // ─── Per-Section Crystal Atoms ───
@@ -159,7 +171,9 @@ export function generateAISPSpec(config: MasterConfig): string {
   spec += `    V4: VERIFY |sections| = ${enabled.length},\n`
   spec += `    V5: VERIFY ∀ c ∈ components : c.text ≠ ⊥ ⟹ rendered(c.text),\n`
   spec += `    V6: VERIFY font_loaded(${esc(theme.typography?.fontFamily || 'Inter')}),\n`
-  spec += `    V7: VERIFY section_order_preserved(sections)\n`
+  spec += `    V7: VERIFY section_order_preserved(sections),\n`
+  // Brownfield evidence (ADR-033) — conditional on repo connection
+  spec += `    V_BF: □ IF repo_connected THEN VERIFY ∀ ref ∈ reuse_refs : exists(ref.path)\n`
   spec += `  }\n`
 
   spec += `⟧\n\n`
