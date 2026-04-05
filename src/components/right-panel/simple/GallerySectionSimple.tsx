@@ -6,6 +6,7 @@ import { useConfigStore } from '@/store/configStore'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
 import { Grid3X3, LayoutDashboard, GalleryHorizontalEnd, Maximize2, Plus, Trash2 } from 'lucide-react'
 import { SectionHeadingEditor } from './SectionHeadingEditor'
+import { ImagePicker } from './ImagePicker'
 
 const INPUT =
   'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
@@ -152,19 +153,15 @@ export function GallerySectionSimple({ sectionId }: { sectionId: string }) {
                 </div>
 
                 <div className={cn(!item.enabled && 'opacity-25 pointer-events-none', 'space-y-2')}>
-                  {imageUrl && (
-                    <div className="w-full h-16 rounded-md overflow-hidden border border-hb-border/30">
-                      <img src={imageUrl} alt={caption || 'Preview'} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
-                    </div>
-                  )}
                   <div className="space-y-1">
-                    <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Image URL</span>
-                    <input
-                      type="text"
+                    <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Image</span>
+                    <ImagePicker
                       value={imageUrl}
-                      onChange={(e) => updateProp(item.id, 'imageUrl', e.target.value)}
-                      placeholder="https://images.unsplash.com/..."
-                      className={cn(INPUT, 'text-xs')}
+                      onChange={(url) => updateProp(item.id, 'imageUrl', url)}
+                      onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
+                      currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
+                      label="Choose Image"
+                      mode="both"
                     />
                   </div>
                   <div className="space-y-1">

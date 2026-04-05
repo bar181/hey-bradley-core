@@ -4,6 +4,7 @@ import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { updateComponentProps } from '@/lib/componentHelpers'
 import { Maximize2, Columns2, Layers, Mountain } from 'lucide-react'
+import { ImagePicker } from './ImagePicker'
 
 const INPUT =
   'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
@@ -70,20 +71,16 @@ export function ImageSectionSimple({ sectionId }: { sectionId: string }) {
       <RightAccordion id={`image-content-${sectionId}`} label="Content" defaultOpen>
         <div className="space-y-2.5">
           <div className="space-y-1">
-            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Image URL</span>
-            <input
-              type="text"
+            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Image</span>
+            <ImagePicker
               value={imageUrl}
-              onChange={(e) => updateProp('imageUrl', e.target.value)}
-              placeholder="https://images.unsplash.com/..."
-              className={cn(INPUT, 'text-xs')}
+              onChange={(url) => updateProp('imageUrl', url)}
+              onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
+              currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
+              label="Choose Image"
+              mode="both"
             />
           </div>
-          {imageUrl && (
-            <div className="w-full h-20 rounded-md overflow-hidden border border-hb-border/30">
-              <img src={imageUrl} alt="Preview" className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
-            </div>
-          )}
           <div className="space-y-1">
             <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Heading</span>
             <input

@@ -1,11 +1,17 @@
+import { useState } from 'react'
 import { Sparkles } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import type { Section } from '@/lib/schemas'
 import { resolveHeroContent } from '@/lib/schemas'
+import { getImageEffectClass } from '@/lib/sectionContent'
 
 import { Badge } from '@/components/ui/badge'
+import { LightboxModal } from '@/components/ui/LightboxModal'
 
 export function HeroSplit({ section }: { section: Section }) {
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
+  const effectClass = getImageEffectClass(section)
+  const isClickEnlarge = section.style?.imageEffect === 'click-enlarge'
   const hero = resolveHeroContent(section)
   const imageComp = section.components.find((c) => c.id === 'heroImage')
   const imageUrl = imageComp?.enabled ? (imageComp?.props?.url as string) || '' : ''
@@ -80,16 +86,20 @@ export function HeroSplit({ section }: { section: Section }) {
 
         {/* Image column */}
         {imageUrl && (
-          <div className={cn('w-full md:w-1/2', imageOnLeft && 'order-1')}>
+          <div className={cn('w-full md:w-1/2 overflow-hidden rounded-xl', imageOnLeft && 'order-1', effectClass)}>
             <img
               src={imageUrl}
               alt={imageAlt}
-              className="w-full rounded-xl object-cover shadow-2xl max-h-[500px]"
+              className={`w-full object-cover shadow-2xl max-h-[500px]${isClickEnlarge ? ' cursor-pointer' : ''}`}
+              onClick={isClickEnlarge ? () => setLightboxSrc(imageUrl) : undefined}
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
             />
           </div>
         )}
       </div>
+      {lightboxSrc && (
+        <LightboxModal src={lightboxSrc} alt={imageAlt} isOpen onClose={() => setLightboxSrc(null)} />
+      )}
     </section>
   )
 }

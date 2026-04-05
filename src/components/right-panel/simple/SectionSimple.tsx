@@ -173,22 +173,21 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
               <ImagePicker
                 value={activeMediaUrl}
                 onChange={(url) => updateUrl(activeMediaId, url)}
+                onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
+                currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
                 label="Choose a Photo"
               />
             </>
           )}
           {activeMediaId === 'heroVideo' && (
-            <div className="space-y-1">
-              <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Video Link</span>
-              <input
-                type="text"
-                value={activeMediaUrl}
-                onChange={(e) => updateUrl(activeMediaId, e.target.value)}
-                placeholder="Paste video URL..."
-                data-testid="hero-media-input"
-                className={cn(INPUT, 'text-xs py-1')}
-              />
-            </div>
+            <ImagePicker
+              value={activeMediaUrl}
+              onChange={(url) => updateUrl(activeMediaId, url)}
+              onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
+              currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
+              label="Choose a Video"
+              mode="video"
+            />
           )}
           {!activeMediaId && (
             <p className="text-xs text-hb-text-muted">Select a layout with media to configure images or video.</p>

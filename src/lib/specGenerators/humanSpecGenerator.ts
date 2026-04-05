@@ -15,9 +15,14 @@ export function generateHumanSpec(config: MasterConfig): string {
   const enabled = sections.filter((s) => s.enabled)
   const disabled = sections.filter((s) => !s.enabled)
 
+  const purpose = (site as Record<string, unknown>).purpose as string || 'marketing'
+  const audience = (site as Record<string, unknown>).audience as string || 'consumer'
+  const tone = (site as Record<string, unknown>).tone as string || 'casual'
+
   let spec = `# Specification: ${site.title || 'Untitled Website'}\n\n`
   spec += `**Generated:** ${new Date().toISOString().split('T')[0]}\n`
   spec += `**Spec Format:** HUMAN (plain English, full detail)\n\n`
+  spec += `**Site Context:** ${purpose} site targeting ${audience} audience with a ${tone} tone.\n\n`
   spec += `This detailed specification describes every visual and content element of ${site.title || 'Untitled Website'} in plain English. `
   spec += `It is designed to be read by anyone — designers, developers, project managers, or stakeholders — without requiring technical knowledge.\n\n`
   spec += `---\n\n`
@@ -97,6 +102,18 @@ export function generateHumanSpec(config: MasterConfig): string {
     if (s.style?.background) spec += `| Background | \`${s.style.background}\` |\n`
     if (s.style?.color) spec += `| Text color | \`${s.style.color}\` |\n`
     if (s.style?.fontFamily) spec += `| Font | ${s.style.fontFamily} |\n`
+    if (s.style?.imageEffect && s.style.imageEffect !== 'none') {
+      const effectNames: Record<string, string> = {
+        'ken-burns': 'Ken Burns zoom', 'slow-pan': 'slow pan', 'zoom-hover': 'zoom on hover',
+        'click-enlarge': 'click-to-enlarge lightbox', 'gradient-overlay': 'gradient overlay',
+        'parallax': 'parallax scrolling', 'glass-blur': 'frosted glass blur',
+        'grayscale-hover': 'grayscale to color on hover', 'vignette': 'vignette',
+        'holographic': 'holographic glow', 'tilt-3d': '3D tilt on hover',
+        'sepia-to-color': 'sepia to color on hover', 'reveal-slide': 'reveal slide on hover',
+        'fade-in-scroll': 'fade in on scroll',
+      }
+      spec += `| Image Effect | ${effectNames[s.style.imageEffect] || s.style.imageEffect} animation |\n`
+    }
 
     // Content heading/subheading
     const heading = (s.content as Record<string, unknown>)?.heading as string | undefined

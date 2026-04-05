@@ -51,7 +51,7 @@ const FEATURE_CATEGORIES: FeatureCategory[] = [
   {
     name: 'Media & Visual',
     description:
-      'Visual storytelling through images, galleries, and media-rich layouts.',
+      'Visual storytelling through images, galleries, and media-rich layouts. Supports image effects including Ken Burns, Slow Pan, Zoom Hover, Parallax, Gradient Overlay, Glass Blur, Grayscale to Color, Vignette, Holographic, 3D Tilt, Sepia to Color, Reveal Slide, and Fade In.',
     types: ['gallery', 'image'],
     priority: 'P2',
   },
@@ -93,11 +93,17 @@ export function generateFeatures(config: MasterConfig): string {
     0,
   )
 
+  const purpose = (site as Record<string, unknown>).purpose as string || 'marketing'
+  const audience = (site as Record<string, unknown>).audience as string || 'consumer'
+  const tone = (site as Record<string, unknown>).tone as string || 'casual'
+
   // --- Header ---
   let spec = `# Features Specification: ${title}\n\n`
   spec += `**Generated:** ${new Date().toISOString().split('T')[0]}  \n`
   spec += `**Document type:** Features & Acceptance Criteria  \n`
   spec += `**Sections:** ${enabled.length} | **Components:** ${totalComponents}  \n\n`
+
+  spec += `**Site Context:** ${purpose} site targeting ${audience} audience with a ${tone} tone.\n\n`
 
   spec += `This features specification documents all capabilities of ${title}, organized by functional category. `
   spec += `Each feature includes a user story, description, active variant, and acceptance criteria `
@@ -217,6 +223,9 @@ export function generateFeatures(config: MasterConfig): string {
       }
       if (s.style?.borderRadius) {
         spec += `- [ ] Border radius: ${s.style.borderRadius}\n`
+      }
+      if (s.style?.imageEffect && s.style.imageEffect !== 'none') {
+        spec += `- [ ] Image effect: \`${s.style.imageEffect}\` applied to image containers\n`
       }
       if (s.layout?.columns) {
         spec += `- [ ] ${s.layout.columns}-column grid layout on desktop\n`

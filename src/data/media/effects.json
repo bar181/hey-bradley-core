@@ -50,6 +50,37 @@
       "label": "Vignette",
       "css": "radial-gradient(ellipse, transparent 50%, rgba(0,0,0,0.5))",
       "description": "Dark edges that draw focus to the center of the image"
+    },
+    {
+      "id": "holographic",
+      "label": "Holographic Shimmer",
+      "cssClass": "effect-holographic",
+      "description": "Rainbow glow border with subtle scale-up on hover for a futuristic look"
+    },
+    {
+      "id": "tilt-3d",
+      "label": "3D Tilt",
+      "cssClass": "effect-tilt-3d",
+      "description": "Perspective-based 3D rotation on hover for depth and interactivity"
+    },
+    {
+      "id": "sepia-to-color",
+      "label": "Sepia to Color",
+      "cssClass": "effect-sepia-to-color",
+      "description": "Starts in vintage sepia tone, reveals full color on hover"
+    },
+    {
+      "id": "reveal-slide",
+      "label": "Reveal Slide",
+      "cssClass": "effect-reveal-slide",
+      "description": "Dark overlay slides away on hover to reveal the full image"
+    },
+    {
+      "id": "fade-in-scroll",
+      "label": "Fade In on Scroll",
+      "cssClass": "effect-fade-in-scroll",
+      "requiresJs": true,
+      "description": "Image fades in with upward motion when scrolled into view"
     }
   ]
 }

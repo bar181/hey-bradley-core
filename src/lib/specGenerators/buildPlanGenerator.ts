@@ -2,6 +2,24 @@ import type { MasterConfig } from '@/lib/schemas'
 import { getStr } from '@/lib/sectionContent'
 import { SECTION_LABELS, VARIANT_DESCRIPTIONS, describeComponentProps } from './helpers'
 
+/** Human-readable descriptions for each image effect */
+const IMAGE_EFFECT_DESCRIPTIONS: Record<string, string> = {
+  'ken-burns': 'Slow cinematic zoom animation (20s loop)',
+  'slow-pan': 'Horizontal panning animation (25s loop)',
+  'zoom-hover': 'Scale up on mouse hover (500ms)',
+  'click-enlarge': 'Opens full-size in lightbox modal',
+  'gradient-overlay': 'Dark gradient fading up from bottom',
+  'parallax': 'Background scrolls slower than foreground',
+  'glass-blur': 'Frosted glass blur overlay',
+  'grayscale-hover': 'Grayscale default, full color on hover',
+  'vignette': 'Dark edges, light center',
+  'holographic': 'Rainbow glow + scale on hover',
+  'tilt-3d': '3D perspective tilt on hover',
+  'sepia-to-color': 'Sepia default, full color on hover',
+  'reveal-slide': 'Overlay slides away on hover',
+  'fade-in-scroll': 'Fades in when scrolled into view',
+}
+
 /**
  * Build Plan Generator — THE CRITICAL ONE.
  * An AI agent reads this and builds the site section-by-section with 90% accuracy.
@@ -86,6 +104,12 @@ export function generateBuildPlan(config: MasterConfig): string {
     if (s.style?.color) spec += `- **Text color:** \`${s.style.color}\`\n`
     if (s.style?.fontFamily) spec += `- **Font override:** ${s.style.fontFamily}\n`
     if (s.style?.borderRadius) spec += `- **Border radius:** ${s.style.borderRadius}\n`
+    if (s.style?.imageEffect && s.style.imageEffect !== 'none') {
+      const effectName = s.style.imageEffect
+      const effectDesc = IMAGE_EFFECT_DESCRIPTIONS[effectName] || effectName
+      spec += `- **Image Effect:** \`${effectName}\` — ${effectDesc}\n`
+      spec += `  - Apply CSS class "${effectName}" to the image container\n`
+    }
 
     // Content heading/subheading
     if (heading) spec += `- **Section heading:** "${heading}"\n`
@@ -112,6 +136,32 @@ export function generateBuildPlan(config: MasterConfig): string {
 
     spec += `---\n\n`
   })
+
+  // Content Guidelines (from site context)
+  const purpose = (site as Record<string, unknown>).purpose as string || 'marketing'
+  const audience = (site as Record<string, unknown>).audience as string || 'consumer'
+  const tone = (site as Record<string, unknown>).tone as string || 'casual'
+  const brandName = (site as Record<string, unknown>).brandName as string || title
+  const voiceAttributes = (site as Record<string, unknown>).voiceAttributes as string[] || []
+
+  spec += `## Content Guidelines\n\n`
+  spec += `- **Site purpose:** ${purpose}\n`
+  spec += `- **Target audience:** ${audience}\n`
+  spec += `- **Brand name:** ${brandName}\n`
+  spec += `- **Tone:** ${tone}\n`
+  if (voiceAttributes.length > 0) spec += `- **Voice attributes:** ${voiceAttributes.join(', ')}\n`
+  spec += `\n`
+
+  const toneCtaMap: Record<string, string> = {
+    formal: 'Use professional, direct CTAs (e.g., "Request a Demo", "Contact Us")',
+    casual: 'Use friendly, approachable CTAs (e.g., "Get Started", "Try It Free")',
+    playful: 'Use energetic, fun CTAs (e.g., "Let\'s Go!", "Jump In")',
+    technical: 'Use precise, capability-focused CTAs (e.g., "View Documentation", "Start Building")',
+    warm: 'Use welcoming, personal CTAs (e.g., "Join Our Community", "Learn More")',
+    bold: 'Use confident, action-driven CTAs (e.g., "Start Now", "Claim Your Spot")',
+  }
+  spec += `**CTA Style Recommendation:** ${toneCtaMap[tone] || toneCtaMap.casual}\n\n`
+  spec += `---\n\n`
 
   // Phase 3: Responsive + Polish
   spec += `## Phase 3: Responsive & Polish\n\n`

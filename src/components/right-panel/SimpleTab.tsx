@@ -2,6 +2,7 @@ import { Palette } from 'lucide-react'
 import { useUIStore } from '@/store/uiStore'
 import { useConfigStore } from '@/store/configStore'
 import { ThemeSimple } from './simple/ThemeSimple'
+import { SiteContextEditor } from './simple/SiteContextEditor'
 import { SectionSimple } from './simple/SectionSimple'
 import { FeaturesSectionSimple } from './simple/FeaturesSectionSimple'
 import { CTASectionSimple } from './simple/CTASectionSimple'
@@ -38,6 +39,10 @@ export function SimpleTab() {
 
   if (selectedContext.type === 'theme') {
     return <ThemeSimple />
+  }
+
+  if (selectedContext.type === 'site-context') {
+    return <SiteContextEditor />
   }
 
   const section = config.sections.find((s) => s.id === selectedContext.sectionId)

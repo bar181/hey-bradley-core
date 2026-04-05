@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import type { Section } from '@/lib/schemas'
-import { getStr } from '@/lib/sectionContent'
+import { getStr, getImageEffectClass } from '@/lib/sectionContent'
+import { LightboxModal } from '@/components/ui/LightboxModal'
 
 /* --------------------------------------------------------------------- */
 /*  GalleryGrid — Equal-size image grid (3 cols default)                   */
@@ -15,6 +17,9 @@ const DEFAULT_IMAGES = [
 ]
 
 export function GalleryGrid({ section }: { section: Section }) {
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
+  const effectClass = getImageEffectClass(section)
+  const isClickEnlarge = section.style?.imageEffect === 'click-enlarge'
   const cols = section.layout.columns ?? 3
   const items = section.components
     .filter((c) => c.enabled)
@@ -55,11 +60,12 @@ export function GalleryGrid({ section }: { section: Section }) {
       )}
       <div className={`mx-auto max-w-6xl grid grid-cols-1 ${gridClass} gap-4`}>
         {images.map((img, idx) => (
-          <div key={img.id} className="group relative overflow-hidden rounded-2xl aspect-square shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl opacity-0 animate-card-reveal" style={{ animationDelay: `${idx * 100}ms` }}>
+          <div key={img.id} className={`group relative overflow-hidden rounded-2xl aspect-square shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl opacity-0 animate-card-reveal ${effectClass}`} style={{ animationDelay: `${idx * 100}ms` }}>
             <img
               src={img.url}
               alt={img.caption || 'Gallery image'}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105${isClickEnlarge ? ' cursor-pointer' : ''}`}
+              onClick={isClickEnlarge ? () => setLightboxSrc(img.url) : undefined}
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
             />
             {img.caption && (
@@ -70,6 +76,9 @@ export function GalleryGrid({ section }: { section: Section }) {
           </div>
         ))}
       </div>
+      {lightboxSrc && (
+        <LightboxModal src={lightboxSrc} isOpen onClose={() => setLightboxSrc(null)} />
+      )}
     </section>
   )
 }

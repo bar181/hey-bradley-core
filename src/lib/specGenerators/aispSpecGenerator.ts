@@ -51,13 +51,21 @@ export function generateAISPSpec(config: MasterConfig): string {
   spec += `    Section : 𝕋 := { type: SectionType, id: 𝕊, variant: 𝕊, heading: 𝕊?, subheading: 𝕊?,\n`
   spec += `                      layout: Layout, style: Style, components: Component 𝕃 },\n`
   spec += `    Layout : 𝕋 := { display: 𝕊, direction: 𝕊?, columns: ℕ?, gap: 𝕊, padding: 𝕊 },\n`
-  spec += `    Style : 𝕋 := { background: 𝕊, color: 𝕊, fontFamily: 𝕊?, borderRadius: 𝕊? },\n`
+  spec += `    Style : 𝕋 := { background: 𝕊, color: 𝕊, fontFamily: 𝕊?, borderRadius: 𝕊?, imageEffect: ImageEffect? },\n`
+  spec += `    ImageEffect : 𝕋 := {none, ken-burns, slow-pan, zoom-hover, click-enlarge, gradient-overlay, parallax, glass-blur, grayscale-hover, vignette, holographic, tilt-3d, sepia-to-color, reveal-slide, fade-in-scroll},\n`
   spec += `    Component : 𝕋 := { id: 𝕊, type: 𝕊, enabled: 𝔹, props: Map⟨𝕊, Any⟩ },\n`
   spec += `    SectionType : 𝕋 := {${[...new Set(enabled.map(s => s.type))].join(', ')}},\n`
   // Brownfield types (ADR-033) — notation only, activates with repo connect
   spec += `    BrownfieldOp : 𝕋 := { reuse: Path → Component, extends: Base → Override, imports: Module → Schema },\n`
   spec += `    CodebaseRef : 𝕋 := { repo: 𝕊, branch: 𝕊, path: 𝕊, hash: Hash? }\n`
   spec += `  }\n\n`
+
+  // Site context
+  const purpose = (site as Record<string, unknown>).purpose as string || 'marketing'
+  const audience = (site as Record<string, unknown>).audience as string || 'consumer'
+  const tone = (site as Record<string, unknown>).tone as string || 'casual'
+  const brandName = (site as Record<string, unknown>).brandName as string || site.title || ''
+  const voiceAttributes = (site as Record<string, unknown>).voiceAttributes as string[] || []
 
   // ─── Global Λ — Site + Theme bindings ───
   spec += `  Λ := {\n`
@@ -66,6 +74,15 @@ export function generateAISPSpec(config: MasterConfig): string {
   if (site.description) spec += `      description: ${esc(site.description)},\n`
   if (site.author) spec += `      author: ${esc(site.author)},\n`
   if (site.domain) spec += `      domain: ${esc(site.domain)}\n`
+  spec += `    },\n`
+  spec += `    context := {\n`
+  spec += `      purpose: ${esc(purpose)},\n`
+  spec += `      audience: ${esc(audience)},\n`
+  spec += `      tone: ${esc(tone)},\n`
+  spec += `      brand: ${esc(brandName)},\n`
+  if (voiceAttributes.length > 0) {
+    spec += `      voice: [${voiceAttributes.map(v => esc(v)).join(', ')}]\n`
+  }
   spec += `    },\n`
   spec += `    theme := ${esc(theme.preset || 'custom')},\n`
   spec += `    mode := ${esc(theme.mode)},\n`
@@ -135,6 +152,9 @@ export function generateAISPSpec(config: MasterConfig): string {
     if (subheading) spec += `      subheading: ${esc(subheading)},\n`
     if (s.style?.background) spec += `      background: ${esc(s.style.background)},\n`
     if (s.style?.color) spec += `      color: ${esc(s.style.color)},\n`
+    if (s.style?.imageEffect && s.style.imageEffect !== 'none') {
+      spec += `      Λ.fx := { effect:=${esc(s.style.imageEffect)}, target:="img-container", css:="animation: ${s.style.imageEffect}" },\n`
+    }
     if (s.layout?.columns) spec += `      columns: ${s.layout.columns},\n`
     if (s.layout?.gap) spec += `      gap: ${esc(s.layout.gap)},\n`
     if (s.layout?.padding) spec += `      padding: ${esc(s.layout.padding)},\n`

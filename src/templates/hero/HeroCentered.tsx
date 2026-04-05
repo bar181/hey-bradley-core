@@ -1,14 +1,20 @@
+import { useState } from 'react'
 import { Sparkles } from 'lucide-react'
 import type { Section } from '@/lib/schemas'
 import { resolveHeroContent } from '@/lib/schemas'
+import { getImageEffectClass } from '@/lib/sectionContent'
 
 import { Badge } from '@/components/ui/badge'
+import { LightboxModal } from '@/components/ui/LightboxModal'
 
 interface HeroCenteredProps {
   section: Section
 }
 
 export function HeroCentered({ section }: HeroCenteredProps) {
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
+  const effectClass = getImageEffectClass(section)
+  const isClickEnlarge = section.style?.imageEffect === 'click-enlarge'
   const hero = resolveHeroContent(section)
   const videoComp = section.components.find(c => c.id === 'heroVideo')
   const videoUrl = videoComp?.enabled ? (videoComp?.props?.url as string) || '' : ''
@@ -101,11 +107,12 @@ export function HeroCentered({ section }: HeroCenteredProps) {
 
         {/* Inline hero image (below content) */}
         {imageUrl && (
-          <div className="mt-8 w-full max-w-4xl">
+          <div className={`mt-8 w-full max-w-4xl overflow-hidden rounded-xl ${effectClass}`}>
             <img
               src={imageUrl}
               alt={imageAlt}
-              className="w-full rounded-xl object-cover shadow-2xl max-h-[500px]"
+              className={`w-full object-cover shadow-2xl max-h-[500px]${isClickEnlarge ? ' cursor-pointer' : ''}`}
+              onClick={isClickEnlarge ? () => setLightboxSrc(imageUrl) : undefined}
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
             />
           </div>
@@ -129,6 +136,9 @@ export function HeroCentered({ section }: HeroCenteredProps) {
           </p>
         )}
       </div>
+      {lightboxSrc && (
+        <LightboxModal src={lightboxSrc} alt={imageAlt} isOpen onClose={() => setLightboxSrc(null)} />
+      )}
     </section>
   )
 }

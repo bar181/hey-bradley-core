@@ -6,6 +6,7 @@ const TABS: { key: ActiveTab; label: string; expert?: boolean }[] = [
   { key: 'REALITY', label: 'Preview' },
   { key: 'XAI_DOCS', label: 'Blueprints' },
   { key: 'DATA', label: 'Data', expert: true },
+  { key: 'AISP', label: 'AISP', expert: true },
   { key: 'WORKFLOW', label: 'Pipeline', expert: true },
 ]
 

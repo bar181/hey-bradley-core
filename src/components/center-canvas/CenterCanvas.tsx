@@ -4,6 +4,7 @@ import { TabBar } from './TabBar'
 import { RealityTab } from './RealityTab'
 import { DataTab } from './DataTab'
 import { XAIDocsTab } from './XAIDocsTab'
+import { AISPTab } from './AISPTab'
 import { WorkflowTab } from './WorkflowTab'
 
 export function CenterCanvas() {
@@ -25,6 +26,7 @@ export function CenterCanvas() {
         {activeTab === 'REALITY' && <RealityTab />}
         {activeTab === 'DATA' && <DataTab />}
         {activeTab === 'XAI_DOCS' && <XAIDocsTab />}
+        {activeTab === 'AISP' && <AISPTab />}
         {activeTab === 'WORKFLOW' && <WorkflowTab />}
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { Palette, LayoutList, MessageSquare, Mic } from 'lucide-react'
+import { Palette, LayoutList, MessageSquare, Mic, Settings } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { useUIStore } from '@/store/uiStore'
 import type { LeftPanelTab } from '@/store/uiStore'
@@ -26,6 +26,7 @@ export function LeftPanel() {
   }
 
   const isThemeSelected = selectedContext?.type === 'theme'
+  const isSiteContextSelected = selectedContext?.type === 'site-context'
 
   return (
     <div className="bg-hb-bg h-full flex flex-col">
@@ -52,6 +53,27 @@ export function LeftPanel() {
       {/* Tab content */}
       {activeTab === 'builder' && (
         <div className="flex-1 overflow-auto px-3 pt-3 animate-fade-in-up" data-builder-panel>
+          {/* Site Settings row */}
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={() => setSelectedContext({ type: 'site-context' })}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                setSelectedContext({ type: 'site-context' })
+              }
+            }}
+            className={cn(
+              'flex items-center gap-2.5 px-3 py-2 rounded-md cursor-pointer transition-colors border border-transparent mb-1',
+              isSiteContextSelected
+                ? 'bg-hb-accent text-white border-hb-accent'
+                : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-accent/25'
+            )}
+          >
+            <Settings size={14} className={isSiteContextSelected ? 'text-white/70' : 'text-hb-text-muted'} />
+            <span className={cn('text-sm', isSiteContextSelected ? 'text-white font-medium' : 'text-hb-text-primary')}>Site Settings</span>
+          </div>
+
           {/* Theme row */}
           <div
             role="button"

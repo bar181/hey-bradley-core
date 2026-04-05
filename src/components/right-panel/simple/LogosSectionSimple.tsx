@@ -172,6 +172,8 @@ export function LogosSectionSimple({ sectionId }: { sectionId: string }) {
                     <ImagePicker
                       value={imageUrl}
                       onChange={(url) => updateProp(item.id, 'imageUrl', url)}
+                      onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
+                      currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
                       label="Choose Logo"
                       mode="image"
                     />

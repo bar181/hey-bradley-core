@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback } from 'react'
 import {
   ArrowUp,
   ArrowDown,
@@ -18,6 +18,7 @@ import { useConfigStore } from '@/store/configStore'
 import { resolveHeroContent } from '@/lib/schemas'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
 
+// Preset maps to section.variant
 const sectionPresets = [
   { name: 'Modern' },
   { name: 'Minimalist' },
@@ -26,17 +27,31 @@ const sectionPresets = [
 ]
 
 const directionButtons = [
-  { icon: ArrowUp },
-  { icon: ArrowDown },
-  { icon: ArrowLeft },
-  { icon: ArrowRight },
+  { icon: ArrowUp, direction: 'column' as const },
+  { icon: ArrowDown, direction: 'column' as const },
+  { icon: ArrowLeft, direction: 'row' as const },
+  { icon: ArrowRight, direction: 'row' as const },
 ]
 
 const alignButtons = [
-  { icon: AlignLeft, id: 'left' },
-  { icon: AlignCenter, id: 'center' },
-  { icon: AlignRight, id: 'right' },
+  { icon: AlignLeft, id: 'start' as const },
+  { icon: AlignCenter, id: 'center' as const },
+  { icon: AlignRight, id: 'end' as const },
 ]
+
+const WIDTH_MAP: Record<string, string> = {
+  Narrow: '768px',
+  Medium: '1024px',
+  Wide: '1280px',
+  Full: '100%',
+}
+
+const WIDTH_REVERSE: Record<string, string> = {
+  '768px': 'Narrow',
+  '1024px': 'Medium',
+  '1280px': 'Wide',
+  '100%': 'Full',
+}
 
 interface SectionExpertProps {
   sectionId: string
@@ -47,33 +62,103 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
   const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
   const section = config.sections.find((s) => s.id === sectionId)
 
-  const [selectedPreset, setSelectedPreset] = useState('Modern')
-  const [headingLevel, setHeadingLevel] = useState('H1')
-  const [primaryButton, setPrimaryButton] = useState(true)
-  const [secondaryButton, setSecondaryButton] = useState(true)
-  const [selectedAlign, setSelectedAlign] = useState('center')
-  const [width, setWidth] = useState('Full')
-  const [aspect, setAspect] = useState('16:9')
-  const [buttonStyle, setButtonStyle] = useState('Filled')
-  const [buttonSize, setButtonSize] = useState('M')
-  const [badgePosition, setBadgePosition] = useState('Top')
-
   if (!section) return null
 
   const hero = resolveHeroContent(section)
 
+  // --- Read from config store (not local state) ---
   const headline = hero.heading?.text ?? ''
   const subtitle = hero.subheading ?? ''
   const ctaText = hero.cta?.text ?? ''
-  const padding = (section.layout as Record<string, unknown>)?.padding as string ?? '64px'
-  const gap = (section.layout as Record<string, unknown>)?.gap as string ?? '24px'
+  const layout = section.layout as Record<string, unknown>
+  const padding = (layout?.padding as string) ?? '64px'
+  const gap = (layout?.gap as string) ?? '24px'
+  const maxWidth = (layout?.maxWidth as string) ?? '1280px'
+  const direction = (layout?.direction as string) ?? 'column'
+  const align = (layout?.align as string) ?? 'center'
 
+  // Derive width label from maxWidth
+  const widthLabel = WIDTH_REVERSE[maxWidth] ?? 'Wide'
+
+  // Variant / preset from section
+  const selectedPreset = (section.variant ?? 'modern')
+
+  // Heading level from headline component
+  const headlineComp = section.components.find((c) => c.id === 'headline')
+  const headingLevel = `H${(headlineComp?.props?.level as number) ?? 1}`
+
+  // Component toggles
   const eyebrowBadge = hero.badge?.show ?? true
+  const primaryButton = hero.cta?.show ?? true
+  const secondaryButtonComp = section.components.find((c) => c.id === 'secondaryCta')
+  const secondaryButton = secondaryButtonComp?.enabled ?? true
   const heroImage = hero.image?.show ?? false
   const trustBadges = hero.trustBadges?.show ?? true
 
+  // Button props from components
+  const primaryCtaComp = section.components.find((c) => c.id === 'primaryCta')
+  const buttonStyle = (primaryCtaComp?.props?.style as string) ?? 'Filled'
+  const buttonSize = (primaryCtaComp?.props?.size as string) ?? 'M'
+
+  // Badge position from eyebrow component
+  const eyebrowComp = section.components.find((c) => c.id === 'eyebrow')
+  const badgePosition = (eyebrowComp?.props?.position as string) ?? 'Top'
+
+  // --- Store update handlers ---
+  const setPreset = (name: string) => {
+    setSectionConfig(sectionId, { variant: name.toLowerCase() })
+  }
+
+  const setHeadingLevel = (level: string) => {
+    const numLevel = parseInt(level.replace('H', ''), 10)
+    setSectionConfig(sectionId, {
+      components: updateComponentProps(section, 'headline', { level: numLevel }),
+    })
+  }
+
+  const setDirection = (dir: string) => {
+    setSectionConfig(sectionId, { layout: { ...layout, direction: dir } })
+  }
+
+  const setAlign = (id: string) => {
+    setSectionConfig(sectionId, { layout: { ...layout, align: id } })
+  }
+
+  const setWidth = (label: string) => {
+    const value = WIDTH_MAP[label] ?? '1280px'
+    setSectionConfig(sectionId, { layout: { ...layout, maxWidth: value } })
+  }
+
+  const setMaxWidth = (value: string) => {
+    setSectionConfig(sectionId, { layout: { ...layout, maxWidth: value } })
+  }
+
+  const setButtonStyle = (style: string) => {
+    setSectionConfig(sectionId, {
+      components: updateComponentProps(section, 'primaryCta', { style }),
+    })
+  }
+
+  const setButtonSize = (size: string) => {
+    setSectionConfig(sectionId, {
+      components: updateComponentProps(section, 'primaryCta', { size }),
+    })
+  }
+
+  const setBadgePosition = (position: string) => {
+    setSectionConfig(sectionId, {
+      components: updateComponentProps(section, 'eyebrow', { position }),
+    })
+  }
+
   const setEyebrowBadge = (val: boolean) => {
     setSectionConfig(sectionId, { components: setComponentEnabled(section, 'eyebrow', val) })
+  }
+  const setPrimaryButton = (val: boolean) => {
+    setSectionConfig(sectionId, { components: setComponentEnabled(section, 'primaryCta', val) })
+  }
+  const setSecondaryButton = (val: boolean) => {
+    setSectionConfig(sectionId, { components: setComponentEnabled(section, 'secondaryCta', val) })
   }
   const setHeroImage = (val: boolean) => {
     setSectionConfig(sectionId, { components: setComponentEnabled(section, 'heroImage', val) })
@@ -82,36 +167,45 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
     setSectionConfig(sectionId, { components: setComponentEnabled(section, 'trustBadges', val) })
   }
 
+  // Build AISP-like summary from real config
+  const aispSummary = buildAISPSummary(section, hero)
+
+  const handleCopyAISP = useCallback(() => {
+    navigator.clipboard.writeText(aispSummary).catch(() => {
+      /* clipboard may be unavailable */
+    })
+  }, [aispSummary])
+
   const components = [
     {
       label: 'Eyebrow Badge',
       enabled: eyebrowBadge,
       onChange: setEyebrowBadge,
-      props: null,
+      props: eyebrowBadge ? `Position: ${badgePosition}` : null,
     },
     {
       label: 'Primary Button',
       enabled: primaryButton,
       onChange: setPrimaryButton,
-      props: 'Size: M | Style: Filled | Color: accent',
+      props: primaryButton ? `Size: ${buttonSize} | Style: ${buttonStyle}` : null,
     },
     {
       label: 'Secondary Button',
       enabled: secondaryButton,
       onChange: setSecondaryButton,
-      props: 'Size: M | Style: Outline | Color: accent',
+      props: secondaryButton ? 'Style: Outline' : null,
     },
     {
       label: 'Hero Image',
       enabled: heroImage,
       onChange: setHeroImage,
-      props: 'Aspect: 16:9 | Fit: cover',
+      props: heroImage ? 'Fit: cover' : null,
     },
     {
       label: 'Trust Badges',
       enabled: trustBadges,
       onChange: setTrustBadges,
-      props: 'Layout: row | Gap: 16px',
+      props: trustBadges ? `Layout: ${direction} | Gap: ${gap}` : null,
     },
   ]
 
@@ -124,10 +218,10 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
               <button
                 key={preset.name}
                 type="button"
-                onClick={() => setSelectedPreset(preset.name)}
+                onClick={() => setPreset(preset.name)}
                 className={cn(
                   'bg-hb-surface rounded-lg border p-3 cursor-pointer text-left transition-colors',
-                  preset.name === selectedPreset
+                  preset.name.toLowerCase() === selectedPreset
                     ? 'border-hb-accent bg-hb-accent-light'
                     : 'border-hb-border hover:border-hb-accent'
                 )}
@@ -148,9 +242,9 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
               Layout variant
             </span>
             <div className="bg-hb-surface rounded p-2 font-mono text-xs text-hb-text-muted">
-              <div>display: flex</div>
-              <div>direction: column</div>
-              <div>align: center</div>
+              <div>display: {String(layout?.display ?? 'flex')}</div>
+              <div>direction: {direction}</div>
+              <div>align: {align}</div>
             </div>
           </div>
         </div>
@@ -217,7 +311,11 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
                   <p className="text-sm text-hb-text-secondary">No image selected</p>
                   <p className="text-xs text-hb-text-muted mt-0.5">PNG, JPG up to 5MB</p>
                 </div>
-                <button className="px-3 py-1.5 text-xs font-mono uppercase text-hb-text-secondary border border-hb-border rounded-md hover:text-hb-text-primary hover:border-hb-text-muted transition-colors">
+                <button
+                  type="button"
+                  className="px-3 py-1.5 text-xs font-mono uppercase text-hb-text-secondary border border-hb-border rounded-md hover:text-hb-text-primary hover:border-hb-text-muted transition-colors opacity-50 cursor-not-allowed"
+                  title="Image picker coming soon"
+                >
                   Browse
                 </button>
               </div>
@@ -267,11 +365,17 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
               DIRECTION
             </span>
             <div className="flex gap-1">
-              {directionButtons.map(({ icon: Icon }, i) => (
+              {directionButtons.map(({ icon: Icon, direction: dir }, i) => (
                 <button
                   key={i}
                   type="button"
-                  className="w-7 h-7 rounded border border-hb-border flex items-center justify-center text-hb-text-muted hover:text-hb-text-primary hover:border-hb-accent transition-colors"
+                  onClick={() => setDirection(dir)}
+                  className={cn(
+                    'w-7 h-7 rounded border flex items-center justify-center transition-colors',
+                    direction === dir && (i < 2 ? direction === 'column' : direction === 'row')
+                      ? 'bg-hb-accent/20 text-hb-accent border-hb-accent'
+                      : 'border-hb-border text-hb-text-muted hover:text-hb-text-primary hover:border-hb-accent'
+                  )}
                 >
                   <Icon size={14} />
                 </button>
@@ -288,10 +392,10 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
                 <button
                   key={id}
                   type="button"
-                  onClick={() => setSelectedAlign(id)}
+                  onClick={() => setAlign(id)}
                   className={cn(
                     'w-7 h-7 rounded border flex items-center justify-center transition-colors',
-                    id === selectedAlign
+                    id === align
                       ? 'bg-hb-accent text-white border-hb-accent'
                       : 'border-hb-border text-hb-text-muted hover:text-hb-text-primary hover:border-hb-accent'
                   )}
@@ -310,7 +414,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
               type="text"
               value={padding}
               onChange={(e) =>
-                setSectionConfig(sectionId, { layout: { padding: e.target.value } })
+                setSectionConfig(sectionId, { layout: { ...layout, padding: e.target.value } })
               }
               className="font-mono text-xs bg-hb-surface border border-hb-border rounded px-2 py-1 w-16 text-right text-hb-text-primary"
             />
@@ -324,7 +428,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
               type="text"
               value={gap}
               onChange={(e) =>
-                setSectionConfig(sectionId, { layout: { gap: e.target.value } })
+                setSectionConfig(sectionId, { layout: { ...layout, gap: e.target.value } })
               }
               className="font-mono text-xs bg-hb-surface border border-hb-border rounded px-2 py-1 w-16 text-right text-hb-text-primary"
             />
@@ -336,19 +440,8 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
             </span>
             <SegmentedControl
               options={['Narrow', 'Medium', 'Wide', 'Full']}
-              value={width}
+              value={widthLabel}
               onChange={setWidth}
-            />
-          </div>
-
-          <div>
-            <span className="font-mono text-xs uppercase text-hb-text-muted mb-1.5 block">
-              ASPECT RATIO
-            </span>
-            <SegmentedControl
-              options={['2:1', '16:9', 'Full']}
-              value={aspect}
-              onChange={setAspect}
             />
           </div>
 
@@ -358,7 +451,8 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
             </span>
             <input
               type="text"
-              defaultValue="1280px"
+              value={maxWidth}
+              onChange={(e) => setMaxWidth(e.target.value)}
               className="font-mono text-xs bg-hb-surface border border-hb-border rounded px-2 py-1 w-16 text-right text-hb-text-primary"
             />
           </div>
@@ -416,69 +510,56 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
         </span>
         <button
           type="button"
+          onClick={handleCopyAISP}
           className="text-hb-text-muted hover:text-hb-text-primary transition-colors"
+          title="Copy AISP to clipboard"
         >
           <Copy size={14} />
         </button>
       </div>
 
       <div className="bg-hb-surface rounded-lg p-3 font-mono text-xs leading-relaxed overflow-auto max-h-48">
-        <pre className="whitespace-pre-wrap">
-          <span className="text-hb-accent">@aisp</span>
-          <span className="text-hb-success"> 1.2</span>
-          {'\n'}
-          <span className="text-hb-accent">@page</span>
-          <span className="text-hb-success"> index</span>
-          {'\n'}
-          <span className="text-hb-accent">@version</span>
-          <span className="text-hb-success"> 1.0.0-RC1</span>
-          {'\n\n'}
-          <span className="text-hb-accent">@section</span>
-          <span className="text-hb-success"> hero hero-01</span>
-          {' {\n'}
-          {'    '}
-          <span className="text-hb-accent">@layout</span>
-          <span className="text-hb-success"> flex column center</span>
-          {'\n'}
-          {'    '}
-          <span className="text-hb-accent">@gap</span>
-          <span className="text-hb-warning"> 24</span>
-          <span className="text-hb-success">px</span>
-          {'\n'}
-          {'    '}
-          <span className="text-hb-accent">@padding</span>
-          <span className="text-hb-warning"> 64</span>
-          <span className="text-hb-success">px</span>
-          {'\n\n'}
-          {'    '}
-          <span className="text-hb-accent">@heading</span>
-          <span className="text-hb-text-muted">[1]</span>
-          <span className="text-hb-success"> "Ship Code at the</span>
-          {'\n'}
-          {'      '}
-          <span className="text-hb-success">Speed of Thought"</span>
-          {' {\n'}
-          {'        '}
-          <span className="text-hb-accent">@size</span>
-          <span className="text-hb-warning"> 48</span>
-          <span className="text-hb-success">px</span>
-          {'\n'}
-          {'        '}
-          <span className="text-hb-accent">@weight</span>
-          <span className="text-hb-warning"> 700</span>
-          {'\n'}
-          {'    }\n\n'}
-          {'    '}
-          <span className="text-hb-accent">@subheading</span>
-          <span className="text-hb-success"> "Build AI-native..."</span>
-          {'\n'}
-          {'    '}
-          <span className="text-hb-accent">@cta</span>
-          <span className="text-hb-success"> "Get Started"</span>
-          <span className="text-hb-text-muted"> → #pricing</span>
-          {'\n}'}
+        <pre className="whitespace-pre-wrap text-hb-text-secondary">
+          {aispSummary}
         </pre>
       </div>
     </div>
   )
+}
+
+// ---------------------------------------------------------------------------
+// Build a text AISP summary from real section config
+// ---------------------------------------------------------------------------
+
+function buildAISPSummary(
+  section: { type: string; id: string; variant?: string; layout: Record<string, unknown>; style: Record<string, unknown>; components: Array<{ id: string; type: string; enabled: boolean; props: Record<string, unknown> }> },
+  _hero: { heading?: { text?: string; level?: number; size?: string; weight?: number }; subheading?: string; cta?: { text?: string; url?: string } }
+): string {
+  const lines: string[] = []
+  lines.push(`@aisp 2.0`)
+  lines.push(`@section ${section.type} ${section.id}`)
+  if (section.variant) {
+    lines.push(`  @variant ${section.variant}`)
+  }
+  const lay = section.layout
+  lines.push(`  @layout ${lay.display ?? 'flex'} ${lay.direction ?? 'column'} ${lay.align ?? 'center'}`)
+  if (lay.gap) lines.push(`  @gap ${lay.gap}`)
+  if (lay.padding) lines.push(`  @padding ${lay.padding}`)
+  if (lay.maxWidth) lines.push(`  @maxWidth ${lay.maxWidth}`)
+
+  // Components summary
+  for (const comp of section.components) {
+    if (!comp.enabled) continue
+    const text = (comp.props?.text as string) ?? ''
+    if (text) {
+      lines.push(`  @${comp.id} "${text.length > 40 ? text.slice(0, 40) + '...' : text}"`)
+    }
+  }
+
+  // Style
+  const style = section.style
+  if (style?.background) lines.push(`  @bg ${style.background}`)
+  if (style?.color) lines.push(`  @color ${style.color}`)
+
+  return lines.join('\n')
 }

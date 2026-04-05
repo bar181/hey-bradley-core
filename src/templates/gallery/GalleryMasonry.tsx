@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import type { Section } from '@/lib/schemas'
-import { getStr } from '@/lib/sectionContent'
+import { getStr, getImageEffectClass } from '@/lib/sectionContent'
+import { LightboxModal } from '@/components/ui/LightboxModal'
 
 /* --------------------------------------------------------------------- */
 /*  GalleryMasonry — Pinterest-style mixed sizes (alternating tall/short) */
@@ -15,6 +17,9 @@ const DEFAULT_IMAGES = [
 ]
 
 export function GalleryMasonry({ section }: { section: Section }) {
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
+  const effectClass = getImageEffectClass(section)
+  const isClickEnlarge = section.style?.imageEffect === 'click-enlarge'
   const items = section.components
     .filter((c) => c.enabled)
     .sort((a, b) => a.order - b.order)
@@ -50,7 +55,7 @@ export function GalleryMasonry({ section }: { section: Section }) {
         {images.map((img, i) => (
           <div
             key={img.id}
-            className="group relative overflow-hidden rounded-lg break-inside-avoid opacity-0 animate-card-reveal"
+            className={`group relative overflow-hidden rounded-lg break-inside-avoid opacity-0 animate-card-reveal ${effectClass}`}
             style={{ animationDelay: `${i * 100}ms` }}
           >
             <img
@@ -58,7 +63,8 @@ export function GalleryMasonry({ section }: { section: Section }) {
               alt={img.caption || 'Gallery image'}
               className={`w-full object-cover transition-transform duration-300 group-hover:scale-105 ${
                 i % 3 === 0 ? 'aspect-[3/4]' : i % 3 === 1 ? 'aspect-square' : 'aspect-[4/3]'
-              }`}
+              }${isClickEnlarge ? ' cursor-pointer' : ''}`}
+              onClick={isClickEnlarge ? () => setLightboxSrc(img.url) : undefined}
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
             />
             {img.caption && (
@@ -69,6 +75,9 @@ export function GalleryMasonry({ section }: { section: Section }) {
           </div>
         ))}
       </div>
+      {lightboxSrc && (
+        <LightboxModal src={lightboxSrc} isOpen onClose={() => setLightboxSrc(null)} />
+      )}
     </section>
   )
 }

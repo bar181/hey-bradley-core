@@ -14,7 +14,21 @@ const SITE_DEFAULTS = {
   project: '',
   version: '1.0.0-RC1',
   spec: 'aisp-1.2' as const,
+  purpose: 'marketing' as const,
+  audience: 'consumer' as const,
+  tone: 'casual' as const,
+  brandName: '',
+  tagline: '',
+  voiceAttributes: [] as string[],
 }
+
+export const sitePurposeSchema = z.enum(['marketing', 'portfolio', 'saas', 'blog', 'agency', 'restaurant'])
+export const siteAudienceSchema = z.enum(['consumer', 'business', 'developer', 'enterprise'])
+export const siteToneSchema = z.enum(['formal', 'casual', 'playful', 'technical', 'warm', 'bold'])
+
+export type SitePurpose = z.infer<typeof sitePurposeSchema>
+export type SiteAudience = z.infer<typeof siteAudienceSchema>
+export type SiteTone = z.infer<typeof siteToneSchema>
 
 export const siteSchema = z.object({
   title: z.string().default(''),
@@ -27,6 +41,12 @@ export const siteSchema = z.object({
   spec: z.literal('aisp-1.2').default('aisp-1.2'),
   favicon: z.string().optional(),
   ogImage: z.string().optional(),
+  purpose: sitePurposeSchema.optional().default('marketing'),
+  audience: siteAudienceSchema.optional().default('consumer'),
+  tone: siteToneSchema.optional().default('casual'),
+  brandName: z.string().optional().default(''),
+  tagline: z.string().optional().default(''),
+  voiceAttributes: z.array(z.string()).optional().default([]),
 })
 
 export type Site = z.infer<typeof siteSchema>

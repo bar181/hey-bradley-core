@@ -98,7 +98,8 @@
         "background": "linear-gradient(135deg, #09090b 0%, #1e1b4b 50%, #09090b 100%)",
         "color": "#fafafa",
         "fontFamily": "Inter",
-        "borderRadius": "0px"
+        "borderRadius": "0px",
+        "imageEffect": "ken-burns"
       },
       "components": [
         {
@@ -130,7 +131,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "Nexus Labs gives engineering teams the building blocks to deploy, monitor, and scale AI workloads — without managing infrastructure. From model serving to vector search, everything runs on our global edge network."
+            "text": "Nexus Labs gives engineering teams the building blocks to deploy, monitor, and scale AI workloads \u2014 without managing infrastructure. From model serving to vector search, everything runs on our global edge network."
           }
         },
         {
@@ -312,7 +313,8 @@
       },
       "style": {
         "background": "#18181b",
-        "color": "#fafafa"
+        "color": "#fafafa",
+        "imageEffect": "parallax"
       },
       "components": [
         {
@@ -548,7 +550,8 @@
       },
       "style": {
         "background": "#09090b",
-        "color": "#fafafa"
+        "color": "#fafafa",
+        "imageEffect": "zoom-hover"
       },
       "components": [
         {
@@ -792,7 +795,8 @@
       },
       "style": {
         "background": "#18181b",
-        "color": "#fafafa"
+        "color": "#fafafa",
+        "imageEffect": "grayscale-hover"
       },
       "components": [
         {
@@ -883,7 +887,7 @@
           "order": 1,
           "props": {
             "question": "How does pricing work for inference?",
-            "answer": "You pay per inference on the Starter and Pro plans, with generous monthly allowances included. Enterprise customers get volume discounts and committed-use pricing. There are never surprise bills — we alert you before you approach limits."
+            "answer": "You pay per inference on the Starter and Pro plans, with generous monthly allowances included. Enterprise customers get volume discounts and committed-use pricing. There are never surprise bills \u2014 we alert you before you approach limits."
           }
         },
         {
@@ -903,7 +907,7 @@
           "order": 3,
           "props": {
             "question": "Can I migrate off Nexus Labs if I need to?",
-            "answer": "Yes. Your models, configs, and data are always yours. Export everything with a single CLI command. We use open standards like ONNX and Docker — no proprietary lock-in."
+            "answer": "Yes. Your models, configs, and data are always yours. Export everything with a single CLI command. We use open standards like ONNX and Docker \u2014 no proprietary lock-in."
           }
         }
       ],
@@ -927,7 +931,8 @@
       },
       "style": {
         "background": "linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%)",
-        "color": "#ffffff"
+        "color": "#ffffff",
+        "imageEffect": "gradient-overlay"
       },
       "components": [
         {
@@ -1058,7 +1063,7 @@
           "enabled": true,
           "order": 4,
           "props": {
-            "text": "© 2026 Nexus Labs Inc. SOC 2 Type II certified. GDPR compliant."
+            "text": "\u00a9 2026 Nexus Labs Inc. SOC 2 Type II certified. GDPR compliant."
           }
         }
       ],

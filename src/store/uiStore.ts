@@ -2,13 +2,14 @@ import { create } from 'zustand'
 
 export type InteractionMode = 'LISTEN' | 'BUILD'
 export type RightPanelTab = 'SIMPLE' | 'EXPERT'
-export type ActiveTab = 'REALITY' | 'DATA' | 'XAI_DOCS' | 'WORKFLOW'
+export type ActiveTab = 'REALITY' | 'DATA' | 'XAI_DOCS' | 'AISP' | 'WORKFLOW'
 
 export type LeftPanelTab = 'builder' | 'chat' | 'listen'
 export type PreviewWidth = 'full' | 'desktop' | 'tablet' | 'mobile'
 
 export type SelectedContext =
   | { type: 'theme' }
+  | { type: 'site-context' }
   | { type: 'section'; sectionId: string }
   | null
 

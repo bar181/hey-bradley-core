@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import type { Section } from '@/lib/schemas'
-import { getStr } from '@/lib/sectionContent'
+import { getStr, getImageEffectClass } from '@/lib/sectionContent'
+import { LightboxModal } from '@/components/ui/LightboxModal'
 
 /* --------------------------------------------------------------------- */
 /*  GalleryCarousel — Horizontal scroll with overflow-x-auto, snap scroll */
@@ -15,6 +17,9 @@ const DEFAULT_IMAGES = [
 ]
 
 export function GalleryCarousel({ section }: { section: Section }) {
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
+  const effectClass = getImageEffectClass(section)
+  const isClickEnlarge = section.style?.imageEffect === 'click-enlarge'
   const items = section.components
     .filter((c) => c.enabled)
     .sort((a, b) => a.order - b.order)
@@ -51,13 +56,14 @@ export function GalleryCarousel({ section }: { section: Section }) {
           {images.map((img, idx) => (
             <div
               key={img.id}
-              className="group relative flex-none w-72 md:w-96 snap-center overflow-hidden rounded-lg opacity-0 animate-card-reveal"
+              className={`group relative flex-none w-72 md:w-96 snap-center overflow-hidden rounded-lg opacity-0 animate-card-reveal ${effectClass}`}
               style={{ animationDelay: `${idx * 100}ms` }}
             >
               <img
                 src={img.url}
                 alt={img.caption || 'Gallery image'}
-                className="w-full aspect-[4/3] object-cover transition-transform duration-300 group-hover:scale-105"
+                className={`w-full aspect-[4/3] object-cover transition-transform duration-300 group-hover:scale-105${isClickEnlarge ? ' cursor-pointer' : ''}`}
+                onClick={isClickEnlarge ? () => setLightboxSrc(img.url) : undefined}
                 onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
               />
               {img.caption && (
@@ -69,6 +75,9 @@ export function GalleryCarousel({ section }: { section: Section }) {
           ))}
         </div>
       </div>
+      {lightboxSrc && (
+        <LightboxModal src={lightboxSrc} isOpen onClose={() => setLightboxSrc(null)} />
+      )}
     </section>
   )
 }

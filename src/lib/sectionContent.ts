@@ -17,3 +17,9 @@ export function getItems(section: Section): Array<Record<string, unknown>> {
   const items = section.content?.items
   return Array.isArray(items) ? items : []
 }
+
+/** Resolve the CSS class name for the section's image effect. Returns '' for none/undefined. */
+export function getImageEffectClass(section: Section): string {
+  const effect = section.style?.imageEffect
+  return effect && effect !== 'none' ? effect : ''
+}

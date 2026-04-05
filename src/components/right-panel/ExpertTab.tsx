@@ -24,5 +24,9 @@ export function ExpertTab() {
     return <ThemeExpert />
   }
 
+  if (selectedContext.type === 'site-context') {
+    return <ThemeExpert />
+  }
+
   return <SectionExpert sectionId={selectedContext.sectionId} />
 }

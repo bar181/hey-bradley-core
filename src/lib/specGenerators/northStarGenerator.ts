@@ -31,12 +31,31 @@ export function generateNorthStar(config: MasterConfig): string {
     heroHeadline, ctaText, hasTestimonials, hasPricing, hasNumbers,
   }
 
+  const purpose = (site as Record<string, unknown>).purpose as string || 'marketing'
+  const audience = (site as Record<string, unknown>).audience as string || 'consumer'
+  const tone = (site as Record<string, unknown>).tone as string || 'casual'
+  const brandName = (site as Record<string, unknown>).brandName as string || title
+  const tagline = (site as Record<string, unknown>).tagline as string || ''
+  const voiceAttributes = (site as Record<string, unknown>).voiceAttributes as string[] || []
+
   // --- Header (not part of template sections) ---
   let spec = `# North Star: ${title}\n\n`
   spec += `**Generated:** ${new Date().toISOString().split('T')[0]}\n`
   spec += `**Spec Version:** ${site.version || '1.0.0-RC1'}\n\n`
   spec += `This North Star document defines the product vision, market fit, and success criteria for ${title}. `
   spec += `It serves as the strategic guide for all design and development decisions, ensuring alignment between stakeholders on the project's core purpose and target audience.\n\n`
+
+  // Site Context
+  spec += `## Site Context\n\n`
+  spec += `| Property | Value |\n|----------|-------|\n`
+  spec += `| **Site Purpose** | ${purpose} |\n`
+  spec += `| **Target Audience** | ${audience} |\n`
+  spec += `| **Brand Name** | ${brandName} |\n`
+  if (tagline) spec += `| **Tagline** | ${tagline} |\n`
+  spec += `| **Tone** | ${tone} |\n`
+  if (voiceAttributes.length > 0) spec += `| **Voice** | ${voiceAttributes.join(', ')} |\n`
+  spec += `\n`
+
   spec += `---\n\n`
 
   // --- Template-driven sections ---
@@ -152,6 +171,11 @@ const sectionRenderers: Record<string, SectionRenderer> = {
     s += `3. **Mobile responsive:** All ${ctx.enabled.length} sections render correctly at 375px\n`
     s += `4. **Accessibility:** WCAG 2.1 AA contrast ratios on all text\n`
     s += `5. **Performance:** Initial paint < 2 seconds on 4G connection\n`
+    const effectSections = ctx.enabled.filter(sec => sec.style?.imageEffect && sec.style.imageEffect !== 'none')
+    if (effectSections.length > 0) {
+      const effects = [...new Set(effectSections.map(sec => sec.style!.imageEffect!))]
+      s += `6. **Image effects:** ${effects.join(', ')} effects render smoothly at 60fps\n`
+    }
     return s
   },
 }

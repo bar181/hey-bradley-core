@@ -1,8 +1,10 @@
 import type { Section } from '@/lib/schemas'
+import { getImageEffectClass } from '@/lib/sectionContent'
 
 const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&auto=format&q=80'
 
 export function ImageParallax({ section }: { section: Section }) {
+  const effectClass = getImageEffectClass(section)
   const comp = section.components.find((c) => c.id === 'image')
   const imageUrl = (comp?.props?.imageUrl as string) || DEFAULT_IMAGE
   const heading = (comp?.props?.heading as string) || ''
@@ -10,7 +12,7 @@ export function ImageParallax({ section }: { section: Section }) {
 
   return (
     <section
-      className="relative h-[400px] flex items-center justify-center"
+      className={`relative h-[400px] flex items-center justify-center ${effectClass}`}
       style={{
         backgroundImage: `url(${imageUrl})`,
         backgroundAttachment: 'fixed',

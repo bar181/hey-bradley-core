@@ -19,10 +19,15 @@ export function generateSADD(config: MasterConfig): string {
   // Shared context passed to each section renderer
   const ctx = { site, theme, sections, enabled, title, sectionTypes }
 
+  const purpose = (site as Record<string, unknown>).purpose as string || 'marketing'
+  const audience = (site as Record<string, unknown>).audience as string || 'consumer'
+  const tone = (site as Record<string, unknown>).tone as string || 'casual'
+
   // --- Header (not part of template sections) ---
   let spec = `# Architecture: ${title}\n\n`
   spec += `**Generated:** ${new Date().toISOString().split('T')[0]}\n`
   spec += `**Spec Version:** ${site.version || '1.0.0-RC1'}\n\n`
+  spec += `**Site Context:** ${purpose} site targeting ${audience} audience with a ${tone} tone.\n\n`
   spec += `This Software Architecture and Design Document provides the complete technical specification for ${title}. `
   spec += `It covers the technology stack, component architecture, design tokens, and data model — everything an engineering team needs to implement the site from specification.\n\n`
   spec += `---\n\n`
@@ -136,14 +141,15 @@ const sectionRenderers: Record<string, SectionRenderer> = {
 
   section_inventory(num, label, ctx) {
     let s = `## ${num}. ${label}\n\n`
-    s += `| # | Type | Variant | Components | Background |\n`
-    s += `|---|------|---------|------------|------------|\n`
+    s += `| # | Type | Variant | Components | Background | Image Effect |\n`
+    s += `|---|------|---------|------------|------------|-------------|\n`
     ctx.enabled.forEach((sec, i) => {
       const sLabel = SECTION_LABELS[sec.type] || sec.type
       const variant = sec.variant || 'default'
       const compCount = (sec.components ?? []).filter(c => c.enabled).length
       const bg = sec.style?.background || 'theme default'
-      s += `| ${i + 1} | ${sLabel} | ${variant} | ${compCount} | \`${bg}\` |\n`
+      const effect = sec.style?.imageEffect && sec.style.imageEffect !== 'none' ? sec.style.imageEffect : ''
+      s += `| ${i + 1} | ${sLabel} | ${variant} | ${compCount} | \`${bg}\` |${effect ? ` ${effect}` : ''}\n`
     })
     s += `\n`
     return s
@@ -177,9 +183,12 @@ const sectionRenderers: Record<string, SectionRenderer> = {
     s += `  variant?: string\n`
     s += `  content: Record<string, unknown>  // { heading?, subheading?, ...sectionSpecific }\n`
     s += `  layout: { display: string, direction?: string, columns?: number, gap: string, padding: string, align?: string, maxWidth?: string }\n`
-    s += `  style: { background: string, color: string, fontFamily?: string, borderRadius?: string }\n`
+    s += `  style: { background: string, color: string, fontFamily?: string, borderRadius?: string, imageEffect?: ImageEffect }\n`
     s += `  components: Component[]\n`
-    s += `}\n`
+    s += `}\n\n`
+    s += `type ImageEffect = 'none' | 'ken-burns' | 'slow-pan' | 'zoom-hover' | 'click-enlarge'\n`
+    s += `  | 'gradient-overlay' | 'parallax' | 'glass-blur' | 'grayscale-hover' | 'vignette'\n`
+    s += `  | 'holographic' | 'tilt-3d' | 'sepia-to-color' | 'reveal-slide' | 'fade-in-scroll'\n`
     s += `\`\`\`\n`
     return s
   },

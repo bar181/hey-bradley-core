@@ -1,5 +1,5 @@
 export { layoutSchema, type Layout } from './layout'
-export { styleSchema, type Style } from './style'
+export { styleSchema, imageEffectSchema, type Style, type ImageEffect } from './style'
 export {
   sectionTypeSchema,
   sectionSchema,
@@ -16,11 +16,17 @@ export {
 } from './section'
 export {
   siteSchema,
+  sitePurposeSchema,
+  siteAudienceSchema,
+  siteToneSchema,
   themeSchema,
   themeTypographySchema,
   themeSpacingSchema,
   masterConfigSchema,
   type Site,
+  type SitePurpose,
+  type SiteAudience,
+  type SiteTone,
   type Theme,
   type ThemeTypography,
   type ThemeSpacing,

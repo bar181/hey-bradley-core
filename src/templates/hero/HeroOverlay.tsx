@@ -1,11 +1,13 @@
 import { resolveHeroContent } from '@/lib/schemas'
 import type { Section } from '@/lib/schemas'
+import { getImageEffectClass } from '@/lib/sectionContent'
 import { Sparkles } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 
 export function HeroOverlay({ section }: { section: Section }) {
   const hero = resolveHeroContent(section)
+  const effectClass = getImageEffectClass(section)
   const bgImageComp = section.components.find(c => c.id === 'backgroundImage')
   const imageComp = bgImageComp?.enabled ? bgImageComp : section.components.find(c => c.id === 'heroImage')
   const videoComp = section.components.find(c => c.id === 'heroVideo')
@@ -22,12 +24,14 @@ export function HeroOverlay({ section }: { section: Section }) {
           src={videoUrl}
         />
       ) : imageUrl && imageComp?.enabled ? (
-        <img
-          src={imageUrl}
-          alt={(imageComp?.props?.alt as string) || ''}
-          className="absolute inset-0 w-full h-full object-cover"
-          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
-        />
+        <div className={`absolute inset-0 ${effectClass}`}>
+          <img
+            src={imageUrl}
+            alt={(imageComp?.props?.alt as string) || ''}
+            className="w-full h-full object-cover"
+            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+          />
+        </div>
       ) : null}
 
       {/* Dark overlay gradient */}
