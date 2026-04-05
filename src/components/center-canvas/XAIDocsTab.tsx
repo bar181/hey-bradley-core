@@ -3,13 +3,14 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { useConfigStore } from '@/store/configStore'
 import { cn } from '../../lib/cn'
-import { Copy, Download, Check, Compass, Layers, ListChecks, CheckSquare, FileText } from 'lucide-react'
+import { Copy, Download, Check, Compass, Layers, ListChecks, CheckSquare, FileText, Code, Braces } from 'lucide-react'
 import {
   generateNorthStar,
   generateSADD,
   generateBuildPlan,
   generateFeatures,
   generateHumanSpec,
+  generateAISPSpec,
 } from '@/lib/specGenerators'
 
 // ---------------------------------------------------------------------------
@@ -22,9 +23,65 @@ const SPEC_TABS = [
   { id: 'build-plan', label: 'Build Plan', icon: ListChecks, generator: generateBuildPlan, ext: 'md', format: 'markdown' as const },
   { id: 'features', label: 'Features', icon: CheckSquare, generator: generateFeatures, ext: 'md', format: 'markdown' as const },
   { id: 'human', label: 'Human Spec', icon: FileText, generator: generateHumanSpec, ext: 'md', format: 'markdown' as const },
+  { id: 'aisp', label: 'AISP', icon: Code, generator: generateAISPSpec, ext: 'aisp', format: 'aisp' as const },
+  { id: 'json', label: 'JSON', icon: Braces, generator: null, ext: 'json', format: 'json' as const },
 ] as const
 
 type TabId = typeof SPEC_TABS[number]['id']
+
+// ---------------------------------------------------------------------------
+// AISP Syntax Highlighting (from AISPTab)
+// ---------------------------------------------------------------------------
+
+function AISPHighlighted({ text }: { text: string }) {
+  const lines = text.split('\n')
+  return (
+    <>
+      {lines.map((line, i) => {
+        if (/^\s*[⟦⟧]\s*$/.test(line)) {
+          return <span key={i} className="text-hb-accent font-bold">{line}{'\n'}</span>
+        }
+        const greekMatch = line.match(/^(\s*)([\u03A9\u03A3\u0393\u039B\u0395])(\s*:=\s*)(.*)$/)
+        if (greekMatch) {
+          const [, indent, symbol, op, rest] = greekMatch
+          const symbolColor =
+            symbol === '\u03A9' ? 'text-purple-400' :
+            symbol === '\u03A3' ? 'text-blue-400' :
+            symbol === '\u0393' ? 'text-green-400' :
+            symbol === '\u039B' ? 'text-orange-400' :
+            symbol === '\u0395' ? 'text-red-400' :
+            'text-hb-accent'
+          return (
+            <span key={i}>
+              {indent}
+              <span className={`${symbolColor} font-bold`}>{symbol}</span>
+              <span className="text-hb-text-muted">{op}</span>
+              <span className="text-hb-success">{rest}</span>
+              {'\n'}
+            </span>
+          )
+        }
+        const assignMatch = line.match(/^(\s*)(\S+)(\s*:=\s*)(.*)$/)
+        if (assignMatch) {
+          const [, indent, key, op, value] = assignMatch
+          return (
+            <span key={i}>
+              {indent}
+              <span className="text-hb-text-primary">{key}</span>
+              <span className="text-hb-text-muted">{op}</span>
+              <span className="text-hb-success">{value}</span>
+              {'\n'}
+            </span>
+          )
+        }
+        if (/^\s*%/.test(line)) {
+          return <span key={i} className="text-hb-text-muted italic">{line}{'\n'}</span>
+        }
+        return <span key={i} className="text-hb-text-secondary">{line}{'\n'}</span>
+      })}
+    </>
+  )
+}
 
 // ---------------------------------------------------------------------------
 // Component
@@ -38,7 +95,11 @@ export function XAIDocsTab() {
   const currentTab = SPEC_TABS.find((t) => t.id === activeTab) ?? SPEC_TABS[0]
 
   const specText = useMemo(
-    () => currentTab.generator(config),
+    () => {
+      if (currentTab.format === 'json') return JSON.stringify(config, null, 2)
+      if (currentTab.generator) return currentTab.generator(config)
+      return ''
+    },
     [config, currentTab],
   )
 
@@ -49,7 +110,7 @@ export function XAIDocsTab() {
   }, [specText])
 
   const handleDownload = useCallback(() => {
-    const mimeType = 'text/markdown'
+    const mimeType = currentTab.format === 'json' ? 'application/json' : currentTab.format === 'aisp' ? 'text/plain' : 'text/markdown'
     const blob = new Blob([specText], { type: mimeType })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
@@ -59,7 +120,7 @@ export function XAIDocsTab() {
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
-  }, [specText, activeTab, currentTab.ext])
+  }, [specText, activeTab, currentTab.ext, currentTab.format])
 
   return (
     <div className="space-y-3">
@@ -89,7 +150,7 @@ export function XAIDocsTab() {
       {/* Action buttons */}
       <div className="flex items-center justify-between">
         <span className="text-xs text-hb-text-muted">
-          Markdown
+          {currentTab.format === 'aisp' ? 'AISP 5.1 Crystal Atom' : currentTab.format === 'json' ? 'JSON Config' : 'Markdown'}
         </span>
         <div className="flex items-center gap-2">
           <button
@@ -123,11 +184,32 @@ export function XAIDocsTab() {
           </div>
         </div>
       )}
+      {/* AISP info banner */}
+      {activeTab === 'aisp' && (
+        <div className="rounded-lg border border-hb-accent/20 bg-hb-accent/5 px-4 py-3 flex items-start gap-3">
+          <span className="text-hb-accent text-lg mt-0.5">{'\u2192'}</span>
+          <div className="text-xs text-hb-text-secondary leading-relaxed">
+            <span className="font-semibold text-hb-text-primary">AISP Crystal Atom:</span>{' '}
+            Machine-parseable spec with {'<'}2% ambiguity. Paste into Claude Code for precise reproduction.{' '}
+            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="text-hb-accent hover:underline">Learn more</a>
+          </div>
+        </div>
+      )}
       {/* Spec content */}
       <div className="rounded-lg bg-hb-surface p-5 max-h-[calc(100vh-16rem)] overflow-y-auto">
-        <div className="prose prose-invert dark:prose-invert max-w-none hb-spec-prose">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{specText}</ReactMarkdown>
-        </div>
+        {currentTab.format === 'aisp' ? (
+          <pre className="whitespace-pre-wrap text-sm leading-relaxed font-mono text-hb-text-secondary">
+            <AISPHighlighted text={specText} />
+          </pre>
+        ) : currentTab.format === 'json' ? (
+          <pre className="whitespace-pre-wrap text-sm leading-relaxed font-mono text-hb-text-secondary">
+            {specText}
+          </pre>
+        ) : (
+          <div className="prose prose-invert dark:prose-invert max-w-none hb-spec-prose">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{specText}</ReactMarkdown>
+          </div>
+        )}
       </div>
     </div>
   )

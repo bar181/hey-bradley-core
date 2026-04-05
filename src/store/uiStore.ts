@@ -2,7 +2,7 @@ import { create } from 'zustand'
 
 export type InteractionMode = 'LISTEN' | 'BUILD'
 export type RightPanelTab = 'SIMPLE' | 'EXPERT'
-export type ActiveTab = 'REALITY' | 'DATA' | 'XAI_DOCS' | 'AISP' | 'WORKFLOW'
+export type ActiveTab = 'REALITY' | 'DATA' | 'XAI_DOCS' | 'WORKFLOW'
 
 export type LeftPanelTab = 'builder' | 'chat' | 'listen'
 export type PreviewWidth = 'full' | 'desktop' | 'tablet' | 'mobile'

@@ -1,9 +1,8 @@
-import { Monitor, Tablet, Smartphone, Undo2, Redo2, Sun, Moon, Menu, X, Eye, PenLine, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, Check, ClipboardCopy, Lock, Unlock, Shield, ShieldOff, Save, FolderOpen, Download, Upload } from 'lucide-react'
+import { Monitor, Tablet, Smartphone, Undo2, Redo2, Sun, Moon, Menu, X, Eye, PenLine, Check, Lock, Unlock, Shield, ShieldOff, Save } from 'lucide-react'
 
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore, type PreviewWidth } from '@/store/uiStore'
 import { useProjectStore } from '@/store/projectStore'
-import { generateAISPSpec } from '@/components/center-canvas/XAIDocsTab'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -23,10 +22,6 @@ export function TopBar() {
   const setPreviewWidth = useUIStore((s) => s.setPreviewWidth)
   const isPreviewMode = useUIStore((s) => s.isPreviewMode)
   const setPreviewMode = useUIStore((s) => s.setPreviewMode)
-  const leftPanelVisible = useUIStore((s) => s.leftPanelVisible)
-  const setLeftPanelVisible = useUIStore((s) => s.setLeftPanelVisible)
-  const rightPanelVisible = useUIStore((s) => s.rightPanelVisible)
-  const setRightPanelVisible = useUIStore((s) => s.setRightPanelVisible)
   const designLocked = useUIStore((s) => s.designLocked)
   const toggleDesignLock = useUIStore((s) => s.toggleDesignLock)
   const brandLocked = useUIStore((s) => s.brandLocked)
@@ -35,38 +30,18 @@ export function TopBar() {
   // Project management
   const isDirty = useConfigStore((s) => s.isDirty)
   const config = useConfigStore((s) => s.config)
-  const loadConfig = useConfigStore((s) => s.loadConfig)
   const markSaved = useConfigStore((s) => s.markSaved)
-  const projects = useProjectStore((s) => s.projects)
-  const activeProject = useProjectStore((s) => s.activeProject)
   const saveProject = useProjectStore((s) => s.saveProject)
-  const loadProjectFromStore = useProjectStore((s) => s.loadProject)
-  const deleteProjectFromStore = useProjectStore((s) => s.deleteProject)
-  const exportProject = useProjectStore((s) => s.exportProject)
-  const importProject = useProjectStore((s) => s.importProject)
 
   const [saveOpen, setSaveOpen] = useState(false)
-  const [loadOpen, setLoadOpen] = useState(false)
   const [saveName, setSaveName] = useState('')
   const saveRef = useRef<HTMLDivElement>(null)
-  const loadRef = useRef<HTMLDivElement>(null)
-  const importRef = useRef<HTMLInputElement>(null)
 
   // Site chrome dark/light mode
   const [chromeLight, setChromeLight] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [shareCopied, setShareCopied] = useState(false)
-  const [specCopied, setSpecCopied] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
-
-  const handleCopySpec = useCallback(() => {
-    const config = useConfigStore.getState().config
-    const spec = generateAISPSpec(config)
-    navigator.clipboard.writeText(spec).then(() => {
-      setSpecCopied(true)
-      setTimeout(() => setSpecCopied(false), 2000)
-    })
-  }, [])
 
   const handleShare = useCallback(() => {
     const config = useConfigStore.getState().config
@@ -82,11 +57,8 @@ export function TopBar() {
     })
   }, [])
 
-  // Default save name from site title or active project
+  // Default save name from site title
   const defaultSaveName = config.site?.title || 'Untitled Project'
-  const isUpdate = projects.some(
-    (p) => p.slug === (saveName || defaultSaveName).toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
-  )
 
   const handleSave = useCallback(() => {
     const name = saveName.trim() || defaultSaveName
@@ -106,88 +78,17 @@ export function TopBar() {
     setSaveName('')
   }, [saveName, defaultSaveName, saveProject, markSaved])
 
-  const handleLoad = useCallback((slug: string) => {
-    const loaded = loadProjectFromStore(slug)
-    if (loaded) {
-      loadConfig(loaded)
-      // Restore lock state
-      try {
-        const raw = localStorage.getItem(`hb-locks-${slug}`)
-        if (raw) {
-          const locks = JSON.parse(raw) as { designLocked?: boolean; brandLocked?: boolean }
-          useUIStore.getState().setDesignLocked(locks.designLocked ?? false)
-          useUIStore.getState().setBrandLocked(locks.brandLocked ?? false)
-        } else {
-          useUIStore.getState().setDesignLocked(false)
-          useUIStore.getState().setBrandLocked(false)
-        }
-      } catch {
-        useUIStore.getState().setDesignLocked(false)
-        useUIStore.getState().setBrandLocked(false)
-      }
-    }
-    setLoadOpen(false)
-  }, [loadProjectFromStore, loadConfig])
-
-  const handleDelete = useCallback((slug: string) => {
-    deleteProjectFromStore(slug)
-  }, [deleteProjectFromStore])
-
-  const handleExport = useCallback(() => {
-    const currentConfig = useConfigStore.getState().config
-    const uiState = useUIStore.getState()
-    const name = currentConfig.site?.title || 'untitled-project'
-    // Wrap config with lock state for export
-    const exportData = {
-      ...currentConfig,
-      _locks: {
-        designLocked: uiState.designLocked,
-        brandLocked: uiState.brandLocked,
-      },
-    }
-    exportProject(exportData as unknown as typeof currentConfig, name)
-  }, [exportProject])
-
-  const handleImport = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    try {
-      // Read raw JSON to extract locks before validation strips them
-      const text = await file.text()
-      const raw = JSON.parse(text) as Record<string, unknown>
-      const locks = raw._locks as { designLocked?: boolean; brandLocked?: boolean } | undefined
-
-      // Re-create File for importProject (it reads the file separately)
-      const newFile = new File([text], file.name, { type: file.type })
-      const imported = await importProject(newFile)
-      loadConfig(imported)
-
-      // Restore lock state from imported file
-      if (locks) {
-        useUIStore.getState().setDesignLocked(locks.designLocked ?? false)
-        useUIStore.getState().setBrandLocked(locks.brandLocked ?? false)
-      }
-    } catch {
-      // Import failed -- invalid file
-    }
-    // Reset input so the same file can be re-imported
-    if (importRef.current) importRef.current.value = ''
-  }, [importProject, loadConfig])
-
-  // Close save/load dropdowns on outside click
+  // Close save dropdown on outside click
   useEffect(() => {
-    if (!saveOpen && !loadOpen) return
+    if (!saveOpen) return
     const handler = (e: MouseEvent) => {
-      if (saveOpen && saveRef.current && !saveRef.current.contains(e.target as Node)) {
+      if (saveRef.current && !saveRef.current.contains(e.target as Node)) {
         setSaveOpen(false)
-      }
-      if (loadOpen && loadRef.current && !loadRef.current.contains(e.target as Node)) {
-        setLoadOpen(false)
       }
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
-  }, [saveOpen, loadOpen])
+  }, [saveOpen])
 
   useEffect(() => {
     document.documentElement.classList.toggle('light-chrome', chromeLight)
@@ -273,24 +174,6 @@ export function TopBar() {
           </button>
         ))}
         <div className="w-px h-4 bg-white/20 mx-1" />
-        {/* Toggle left panel */}
-        <button
-          onClick={() => setLeftPanelVisible(!leftPanelVisible)}
-          className="p-1 text-white/60 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
-          aria-label={leftPanelVisible ? 'Hide left panel' : 'Show left panel'}
-          title={leftPanelVisible ? 'Hide left panel' : 'Show left panel'}
-        >
-          {leftPanelVisible ? <PanelLeftClose size={16} /> : <PanelLeftOpen size={16} />}
-        </button>
-        {/* Toggle right panel */}
-        <button
-          onClick={() => setRightPanelVisible(!rightPanelVisible)}
-          className="p-1 text-white/60 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
-          aria-label={rightPanelVisible ? 'Hide right panel' : 'Show right panel'}
-          title={rightPanelVisible ? 'Hide right panel' : 'Show right panel'}
-        >
-          {rightPanelVisible ? <PanelRightClose size={16} /> : <PanelRightOpen size={16} />}
-        </button>
         <button
           onClick={toggleDesignLock}
           className={`p-1 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded ${
@@ -333,7 +216,7 @@ export function TopBar() {
         {/* Save project */}
         <div className="relative" ref={saveRef}>
           <button
-            onClick={() => { setSaveOpen(!saveOpen); setLoadOpen(false); setSaveName('') }}
+            onClick={() => { setSaveOpen(!saveOpen); setSaveName('') }}
             className="p-1 text-white/60 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
             aria-label="Save project"
             title="Save project"
@@ -356,93 +239,12 @@ export function TopBar() {
                 onClick={handleSave}
                 className="mt-2 w-full px-3 py-1.5 rounded bg-hb-accent text-white text-xs font-mono uppercase tracking-wider hover:bg-hb-accent/90 transition-colors"
               >
-                {isUpdate ? 'Update' : 'Save'}
+                Save
               </button>
             </div>
           )}
         </div>
 
-        {/* Load project */}
-        <div className="relative" ref={loadRef}>
-          <button
-            onClick={() => { setLoadOpen(!loadOpen); setSaveOpen(false) }}
-            className="p-1 text-white/60 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
-            aria-label="Load project"
-            title="Load project"
-          >
-            <FolderOpen size={16} />
-          </button>
-          {loadOpen && (
-            <div className="absolute top-8 right-0 w-72 bg-hb-surface border border-hb-border rounded-lg shadow-xl z-50 py-2 max-h-64 overflow-y-auto">
-              {projects.length === 0 ? (
-                <p className="px-3 py-2 text-xs text-hb-text-muted">No saved projects</p>
-              ) : (
-                projects.map((p) => (
-                  <div
-                    key={p.slug}
-                    className={`flex items-center justify-between px-3 py-2 hover:bg-hb-surface-hover transition-colors cursor-pointer group ${activeProject === p.slug ? 'bg-hb-accent/10' : ''}`}
-                  >
-                    <button
-                      onClick={() => handleLoad(p.slug)}
-                      className="flex-1 text-left min-w-0"
-                    >
-                      <div className="text-sm text-hb-text-primary truncate">{p.name}</div>
-                      <div className="text-[10px] text-hb-text-muted">
-                        {p.sectionCount} sections &middot; {new Date(p.savedAt).toLocaleDateString()}
-                      </div>
-                    </button>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); handleDelete(p.slug) }}
-                      className="ml-2 p-1 text-hb-text-muted hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all rounded"
-                      aria-label={`Delete ${p.name}`}
-                      title="Delete project"
-                    >
-                      <X size={12} />
-                    </button>
-                  </div>
-                ))
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Export */}
-        <button
-          onClick={handleExport}
-          className="p-1 text-white/60 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
-          aria-label="Export project as JSON"
-          title="Export project as JSON"
-        >
-          <Download size={16} />
-        </button>
-
-        {/* Import */}
-        <button
-          onClick={() => importRef.current?.click()}
-          className="p-1 text-white/60 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
-          aria-label="Import project from JSON"
-          title="Import project from JSON"
-        >
-          <Upload size={16} />
-        </button>
-        <input
-          ref={importRef}
-          type="file"
-          accept=".json"
-          onChange={handleImport}
-          className="hidden"
-          aria-hidden="true"
-        />
-
-        <div className="w-px h-4 bg-white/20 mx-1" />
-        <button
-          onClick={handleCopySpec}
-          className="p-1 text-white/60 hover:text-hb-accent transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
-          aria-label="Copy AISP Spec"
-          title="Copy AISP Spec"
-        >
-          {specCopied ? <Check size={16} className="text-green-400" /> : <ClipboardCopy size={16} />}
-        </button>
         <button
           onClick={handleShare}
           className="ml-1 border border-white/20 text-white/80 font-mono text-xs uppercase px-3 py-1 rounded hover:bg-white/10 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent flex items-center gap-1"
@@ -512,12 +314,6 @@ export function TopBar() {
               className="flex items-center gap-2 w-full px-3 py-2 text-sm text-hb-text-primary hover:bg-hb-surface-hover transition-colors"
             >
               {isPreviewMode ? <><PenLine size={14} /> Exit Preview</> : <><Eye size={14} /> Preview Site</>}
-            </button>
-            <button
-              onClick={() => { handleCopySpec(); setMenuOpen(false) }}
-              className="flex items-center gap-2 w-full px-3 py-2 text-sm text-hb-text-primary hover:bg-hb-surface-hover transition-colors"
-            >
-              {specCopied ? <><Check size={14} className="text-green-400" /> Spec Copied!</> : <><ClipboardCopy size={14} /> Copy AISP Spec</>}
             </button>
           </div>
         )}
