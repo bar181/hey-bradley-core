@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 12: Content Intelligence — Hey Bradley Wiki</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0b0f1a; --surface: #131825; --surface-2: #1a2035; --border: #2a3050;
+    --text: #e2e8f0; --text-muted: #95a0b8; --accent: #6c8cff;
+    --accent-glow: rgba(108, 140, 255, 0.25); --green: #4ade80; --amber: #fbbf24;
+    --red: #f87171; --cyan: #22d3ee; --purple: #a78bfa; --radius: 12px;
+  }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; }
+  a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+  .hero { position: relative; padding: 72px 0 48px; text-align: center; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -60%; left: 50%; transform: translateX(-50%); width: 700px; height: 700px; background: radial-gradient(circle, var(--accent-glow) 0%, rgba(167,139,250,0.12) 40%, transparent 70%); pointer-events: none; }
+  .hero h1 { font-size: 2.75rem; font-weight: 800; letter-spacing: -0.03em; background: linear-gradient(135deg, #fff 30%, var(--accent) 70%, var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; position: relative; }
+  .hero .subtitle { margin-top: 12px; font-size: 1.1rem; color: var(--text-muted); position: relative; max-width: 680px; margin-left: auto; margin-right: auto; }
+  .badges { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 24px; position: relative; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border: 1px solid var(--border); background: var(--surface); }
+  .badge.phase { border-color: var(--cyan); color: var(--cyan); background: rgba(34,211,238,0.08); }
+  .badge.perf { border-color: var(--green); color: var(--green); }
+  .badge.wip { border-color: var(--amber); color: var(--amber); background: rgba(251,191,36,0.08); }
+  .key-takeaway { background: linear-gradient(135deg, rgba(108,140,255,0.08), rgba(167,139,250,0.08)); border: 1px solid rgba(108,140,255,0.3); border-radius: var(--radius); padding: 20px 24px; margin-top: 24px; text-align: left; position: relative; }
+  .key-takeaway h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin-bottom: 8px; }
+  .key-takeaway p { font-size: 0.95rem; color: var(--text); line-height: 1.6; }
+  .section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-top: 32px; }
+  .section:hover { border-color: rgba(108,140,255,0.3); }
+  .section h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .section h2 .icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+  .section p, .section li { color: var(--text-muted); font-size: 0.95rem; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+  th { text-align: left; padding: 10px 14px; background: var(--surface-2); border-bottom: 2px solid var(--border); color: var(--text); font-weight: 600; }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+  tr:hover td { background: rgba(108,140,255,0.04); }
+  .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 16px; }
+  .metric { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: center; }
+  .metric .value { font-size: 1.8rem; font-weight: 800; color: var(--accent); }
+  .metric .label { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .feature-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-top: 14px; }
+  .feature-card h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .feature-card ul { padding-left: 20px; }
+  .feature-card li { margin: 4px 0; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 600; }
+  .tag.planned { background: rgba(251,191,36,0.15); color: var(--amber); }
+  .tag.init { background: rgba(108,140,255,0.15); color: var(--accent); }
+  .tag.p0 { background: rgba(248,113,113,0.15); color: var(--red); }
+  .nav { display: flex; justify-content: space-between; padding: 16px 0; border-top: 1px solid var(--border); margin-top: 48px; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="hero">
+    <h1>Phase 12: Content Intelligence</h1>
+    <p class="subtitle">Teaching Hey Bradley to understand what kind of site is being built. Site context, image effects, tab restoration, and a full UX cleanup across all 20 section editors.</p>
+    <div class="badges">
+      <span class="badge phase">Phase 12</span>
+      <span class="badge wip">In Progress</span>
+      <span class="badge perf">Target: 85+</span>
+      <span class="badge" style="border-color:var(--purple);color:var(--purple)">159 Source Files</span>
+      <span class="badge" style="border-color:var(--cyan);color:var(--cyan)">12 Themes</span>
+    </div>
+    <div class="key-takeaway">
+      <h3>What Phase 12 Changes</h3>
+      <p>Phase 12 adds the intelligence layer. Instead of generating the same generic specs for every project, Hey Bradley will understand purpose (marketing vs. portfolio vs. SaaS), audience (consumer vs. developer vs. enterprise), and tone (formal vs. casual vs. playful). Every spec generator produces different output based on these choices. A fun food blog gets different content than a Fortune 500 SaaS product page.</p>
+    </div>
+  </div>
+
+  <!-- Metrics at Init -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(108,140,255,0.15);color:var(--accent)">&#x1F4CA;</span> Codebase at Phase 12 Start</h2>
+    <div class="metric-grid">
+      <div class="metric"><div class="value">159</div><div class="label">Source Files</div></div>
+      <div class="metric"><div class="value">14.7K</div><div class="label">Lines TS/TSX</div></div>
+      <div class="metric"><div class="value">258+</div><div class="label">Media Assets</div></div>
+      <div class="metric"><div class="value">71</div><div class="label">Tests Passing</div></div>
+    </div>
+  </div>
+
+  <!-- Site Context System -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(74,222,128,0.15);color:var(--green)">&#x1F9E0;</span> Site Context System <span class="tag planned">PLANNED</span></h2>
+    <p>The core Phase 12 feature. A new <code>SiteContext</code> interface adds structured metadata to every project:</p>
+    <div class="feature-card">
+      <h3>Context Fields</h3>
+      <ul>
+        <li><strong>Purpose</strong> &mdash; marketing, portfolio, saas, blog, agency, restaurant, ecommerce</li>
+        <li><strong>Audience</strong> &mdash; consumer, business, developer, enterprise, creative</li>
+        <li><strong>Tone</strong> &mdash; formal, casual, playful, technical, warm, bold</li>
+        <li><strong>Content Guidelines</strong> &mdash; max words per section, visual density, CTA style</li>
+        <li><strong>Brand Guidelines</strong> &mdash; brand name, tagline, voice attributes, words to avoid</li>
+      </ul>
+    </div>
+    <div class="feature-card">
+      <h3>How It Feeds Into Specs</h3>
+      <ul>
+        <li>North Star generator uses purpose + audience to shape the vision statement</li>
+        <li>Build Plan uses tone + content guidelines to set copy length and CTA approach</li>
+        <li>AISP Crystal Atom encodes context as Lambda bindings for machine consumption</li>
+        <li>All 6 spec generators produce audience-appropriate output</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Image Effects Suite -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(167,139,250,0.15);color:var(--purple)">&#x1F3A8;</span> Image Effects Suite <span class="tag planned">PLANNED</span></h2>
+    <p>Eight CSS image effects wired to the ImagePicker component, plus a lightbox modal for click-to-enlarge:</p>
+    <table>
+      <thead><tr><th>#</th><th>Effect</th><th>Behavior</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Ken Burns</td><td>Slow cinematic zoom, 20s infinite loop</td></tr>
+        <tr><td>2</td><td>Slow Pan</td><td>Horizontal pan across image, 25s infinite</td></tr>
+        <tr><td>3</td><td>Zoom on Hover</td><td>Scale up smoothly on mouse hover</td></tr>
+        <tr><td>4</td><td>Click to Enlarge</td><td>Lightbox modal with full-resolution image</td></tr>
+        <tr><td>5</td><td>Gradient Transparency</td><td>Dark gradient overlay from bottom</td></tr>
+        <tr><td>6</td><td>Parallax Scroll</td><td>Background moves slower than foreground</td></tr>
+        <tr><td>7</td><td>Glass Blur</td><td>Frosted glass effect with backdrop-filter</td></tr>
+        <tr><td>8</td><td>Grayscale to Color</td><td>Grayscale default, full color on hover</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px">A new <code>LightboxModal.tsx</code> component handles the click-to-enlarge effect with dark backdrop, ESC-to-close, and click-outside-to-close behavior. The ImagePicker gains an Effect Selector panel where users choose effects stored as <code>style.imageEffect</code> in the section JSON.</p>
+  </div>
+
+  <!-- Tab Restoration + UX Cleanup -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(248,113,113,0.15);color:var(--red)">&#x1F527;</span> Tab Restoration + UX Cleanup <span class="tag p0">P0 FIX</span></h2>
+    <div class="feature-card">
+      <h3>Tab Restoration (EXPERT Mode)</h3>
+      <ul>
+        <li><strong>Data tab</strong> &mdash; raw JSON config with CodeMirror editor, hidden during P10 cleanup</li>
+        <li><strong>Workflow tab</strong> &mdash; visitor journey flow diagram (Hero &rarr; Sections &rarr; CTA &rarr; Footer)</li>
+        <li><strong>AISP tab</strong> &mdash; relocated from Blueprints sub-tab to its own top-level tab with syntax highlighting</li>
+        <li><strong>Tab order (EXPERT)</strong> &mdash; Preview | Blueprints | Data | AISP | Workflow</li>
+        <li><strong>Tab order (SIMPLE)</strong> &mdash; Preview | Blueprints</li>
+      </ul>
+    </div>
+    <div class="feature-card">
+      <h3>Section-by-Section UX Audit</h3>
+      <ul>
+        <li>Audit all 20 section types: every button, toggle, text input, and layout variant</li>
+        <li>Document and fix all broken controls</li>
+        <li>Enforce SIMPLE vs EXPERT mode boundaries (color pickers, spacing, font weight &rarr; EXPERT only)</li>
+        <li>SIMPLE mode: layout variant, content inputs, one image input, light/dark toggle only</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Enhanced Simulations + Examples -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(34,211,238,0.15);color:var(--cyan)">&#x1F4AC;</span> Enhanced Simulations + New Examples <span class="tag planned">PLANNED</span></h2>
+    <div class="feature-card">
+      <h3>New Chat Commands</h3>
+      <ul>
+        <li>"make it professional" &rarr; sets tone to formal</li>
+        <li>"target developers" &rarr; sets audience to developer</li>
+        <li>"set tone to playful" &rarr; updates tone in real-time</li>
+        <li>"this is for enterprise clients" &rarr; sets audience to enterprise</li>
+      </ul>
+    </div>
+    <div class="feature-card">
+      <h3>New Example Sites</h3>
+      <ul>
+        <li><strong>Fun Blog</strong> &mdash; casual tone, consumer audience, rich visuals</li>
+        <li><strong>Developer Portfolio</strong> &mdash; technical tone, developer audience, minimal visuals</li>
+        <li><strong>Enterprise SaaS</strong> &mdash; formal tone, enterprise audience, prominent CTAs</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Execution Plan -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(251,191,36,0.15);color:var(--amber)">&#x1F680;</span> Execution Plan</h2>
+    <table>
+      <thead><tr><th>Step</th><th>Task</th><th>Estimate</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Tab restoration (Data, Workflow, confirm Blueprints)</td><td>1 hour</td></tr>
+        <tr><td>2</td><td>AISP tab relocation (Blueprints &rarr; top-nav)</td><td>1 hour</td></tr>
+        <tr><td>3</td><td>Image effects audit + completion</td><td>2-3 hours</td></tr>
+        <tr><td>4</td><td>Click to Enlarge lightbox component</td><td>1 hour</td></tr>
+        <tr><td>5</td><td>Kitchen Sink verification with effects</td><td>30 min</td></tr>
+        <tr><td>6</td><td>Section-by-section UX cleanup</td><td>3-4 hours</td></tr>
+        <tr><td>7</td><td>Site Context system</td><td>3-4 hours</td></tr>
+        <tr><td>8</td><td>Enhanced simulations + new examples</td><td>2 hours</td></tr>
+        <tr><td>9</td><td>Quality pass + phase close</td><td>1.5 hours</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px"><strong>Total estimate:</strong> 16-18 hours of swarm time. <strong>Rule:</strong> Fix what exists before adding new features. Tab restoration and UX cleanup before Site Context.</p>
+  </div>
+
+  <!-- What's Next -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(74,222,128,0.15);color:var(--green)">&#x2192;</span> What Comes Next</h2>
+    <p>Phase 13 is planned as <strong>LLM Integration</strong> &mdash; connecting the Claude API so chat and listen become real rather than simulated. The Site Context system from Phase 12 provides the structured metadata that LLM prompts need to generate audience-appropriate content. Phase 12 must be complete before LLM integration begins.</p>
+  </div>
+
+  <div class="nav">
+    <a href="13-phase-11-website.html">&larr; Phase 11: Website</a>
+    <a href="index.html">Wiki Home</a>
+  </div>
+
+</div>
+</body>
+</html>

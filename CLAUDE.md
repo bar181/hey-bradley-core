@@ -40,16 +40,29 @@
 
 ## Project Status
 
-- **Current Phase:** Phase 11 CLOSED (83/100), Phase 12 next
-- **Codebase:** 100K+ total lines, 159 TS/TSX source files, ~38,600 lines (TS/TSX/JSON/CSS)
+- **Current Phase:** Phase 12 IN PROGRESS (init complete, sprints pending)
+- **Codebase:** 100K+ total lines, 159 TS/TSX source files, ~38,700 lines (TS/TSX/JSON/CSS)
 - **Themes:** 12 (agency, blog, creative, elegant, minimalist, neon, personal, portfolio, professional, saas, startup, wellness)
 - **Examples:** 10 (bakery, blank, consulting, education, fitforge, florist, kitchen-sink, launchpad, photography, restaurant)
-- **Images:** 258+ in media library
+- **Images:** 258 in media library catalog
 - **Website Pages:** 4 (About, Open Core, How I Built This, Docs)
 - **Chat Commands:** 10+ simulated requirements with multi-section transformations
 - **Listen Demos:** 3 distinct site types
 - **Spec Generators:** 6 (North Star, SADD, Build Plan, Features, Human Spec, AISP)
-- **Tests:** 71 passing
+- **Tests:** 77 passing (10 spec files)
+
+### Phase Roadmap
+
+| Phase | Focus | Status |
+|-------|-------|--------|
+| P11 | Website + enhanced demos + brand/design locks | CLOSED (83/100) |
+| P12 | Content Intelligence: site context, image effects, UX cleanup | IN PROGRESS |
+| P13 | Advanced Features: 10+ examples, blog editor, multi-page, ZIP export, a11y | NEXT |
+| P14 | LLM Integration: AI-powered site generation (Stage 3 start) | PLANNED |
+| P15 | Database + Auth: persistent storage, user accounts | PLANNED |
+| P16 | Collaboration: multi-user editing, sharing, templates marketplace | PLANNED |
+| P17 | Performance + Scale: optimization, CDN, caching, monitoring | PLANNED |
+| P18 | Open Core Launch: public release, documentation, community | PLANNED |
 
 ## AISP (AI Symbolic Protocol) 
 see full details in /workspaces/hey-bradley-core/plans/initial-plans/00.aisp-reference.md 
