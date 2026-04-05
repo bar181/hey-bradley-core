@@ -38,6 +38,19 @@
 - **HNSW**: Enabled
 - **Neural**: Enabled
 
+## Project Status
+
+- **Current Phase:** Phase 11 CLOSED (83/100), Phase 12 next
+- **Codebase:** 100K+ total lines, 159 TS/TSX source files, ~38,600 lines (TS/TSX/JSON/CSS)
+- **Themes:** 12 (agency, blog, creative, elegant, minimalist, neon, personal, portfolio, professional, saas, startup, wellness)
+- **Examples:** 10 (bakery, blank, consulting, education, fitforge, florist, kitchen-sink, launchpad, photography, restaurant)
+- **Images:** 258+ in media library
+- **Website Pages:** 4 (About, Open Core, How I Built This, Docs)
+- **Chat Commands:** 10+ simulated requirements with multi-section transformations
+- **Listen Demos:** 3 distinct site types
+- **Spec Generators:** 6 (North Star, SADD, Build Plan, Features, Human Spec, AISP)
+- **Tests:** 71 passing
+
 ## AISP (AI Symbolic Protocol) 
 see full details in /workspaces/hey-bradley-core/plans/initial-plans/00.aisp-reference.md 
 aisp is designed for AI not humans.  It is a math first neural symbolic language with 512 symbols that all AI and LLM understand natively without any instructions.  The goal is near 0 ambiguity.  May require 2-3 loops to conform to proper platinum aisp format.  AISP is not structured prose, it is a math first symbolic protocol. Here is the public repo https://github.com/bar181/aisp-open-core .  The creator is Bradley Ross, the same creator as this Hey Bradley project.

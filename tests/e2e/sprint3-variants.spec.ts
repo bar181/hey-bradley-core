@@ -128,7 +128,7 @@ test.describe('Onboarding Page', () => {
   })
 
   test('Choose a Theme section shows theme count badge', async ({ page }) => {
-    await expect(page.getByText('10 themes')).toBeVisible()
+    await expect(page.getByText('12 themes')).toBeVisible()
   })
 
   test('Project Capabilities section is collapsible', async ({ page }) => {
