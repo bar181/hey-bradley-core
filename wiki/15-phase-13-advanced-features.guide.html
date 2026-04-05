@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 13: Advanced Features — Hey Bradley Wiki</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0b0f1a; --surface: #131825; --surface-2: #1a2035; --border: #2a3050;
+    --text: #e2e8f0; --text-muted: #95a0b8; --accent: #6c8cff;
+    --accent-glow: rgba(108, 140, 255, 0.25); --green: #4ade80; --amber: #fbbf24;
+    --red: #f87171; --cyan: #22d3ee; --purple: #a78bfa; --radius: 12px;
+  }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; }
+  a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+  .hero { position: relative; padding: 72px 0 48px; text-align: center; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -60%; left: 50%; transform: translateX(-50%); width: 700px; height: 700px; background: radial-gradient(circle, var(--accent-glow) 0%, rgba(167,139,250,0.12) 40%, transparent 70%); pointer-events: none; }
+  .hero h1 { font-size: 2.75rem; font-weight: 800; letter-spacing: -0.03em; background: linear-gradient(135deg, #fff 30%, var(--accent) 70%, var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; position: relative; }
+  .hero .subtitle { margin-top: 12px; font-size: 1.1rem; color: var(--text-muted); position: relative; max-width: 680px; margin-left: auto; margin-right: auto; }
+  .badges { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 24px; position: relative; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; border: 1px solid var(--border); background: var(--surface); }
+  .badge.phase { border-color: var(--cyan); color: var(--cyan); background: rgba(34,211,238,0.08); }
+  .badge.perf { border-color: var(--green); color: var(--green); }
+  .badge.closed { border-color: var(--green); color: var(--green); background: rgba(74,222,128,0.08); }
+  .badge.wip { border-color: var(--amber); color: var(--amber); background: rgba(251,191,36,0.08); }
+  .key-takeaway { background: linear-gradient(135deg, rgba(108,140,255,0.08), rgba(167,139,250,0.08)); border: 1px solid rgba(108,140,255,0.3); border-radius: var(--radius); padding: 20px 24px; margin-top: 24px; text-align: left; position: relative; }
+  .key-takeaway h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin-bottom: 8px; }
+  .key-takeaway p { font-size: 0.95rem; color: var(--text); line-height: 1.6; }
+  .section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-top: 32px; }
+  .section:hover { border-color: rgba(108,140,255,0.3); }
+  .section h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .section h2 .icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+  .section p, .section li { color: var(--text-muted); font-size: 0.95rem; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+  th { text-align: left; padding: 10px 14px; background: var(--surface-2); border-bottom: 2px solid var(--border); color: var(--text); font-weight: 600; }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+  tr:hover td { background: rgba(108,140,255,0.04); }
+  .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 16px; }
+  .metric { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: center; }
+  .metric .value { font-size: 1.8rem; font-weight: 800; color: var(--accent); }
+  .metric .label { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .feature-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-top: 14px; }
+  .feature-card h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .feature-card ul { padding-left: 20px; }
+  .feature-card li { margin: 4px 0; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 600; }
+  .tag.shipped { background: rgba(74,222,128,0.15); color: var(--green); }
+  .tag.partial { background: rgba(251,191,36,0.15); color: var(--amber); }
+  .tag.p0 { background: rgba(248,113,113,0.15); color: var(--red); }
+  .nav { display: flex; justify-content: space-between; padding: 16px 0; border-top: 1px solid var(--border); margin-top: 48px; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="hero">
+    <h1>Phase 13: Advanced Features</h1>
+    <p class="subtitle">Blog section type, multi-page architecture, ZIP export, content expansion to 15 examples and 300 images, and a full accessibility audit across the builder shell.</p>
+    <div class="badges">
+      <span class="badge phase">Phase 13</span>
+      <span class="badge closed">76/100</span>
+      <span class="badge perf">3 ADRs</span>
+      <span class="badge" style="border-color:var(--purple);color:var(--purple)">170 Source Files</span>
+      <span class="badge" style="border-color:var(--cyan);color:var(--cyan)">16 Section Types</span>
+    </div>
+    <div class="key-takeaway">
+      <h3>What Phase 13 Changes</h3>
+      <p>Phase 13 adds structural depth. Hey Bradley gains a dedicated blog section type with 4 layout variants, a multi-page architecture that lets sites grow beyond single-page layouts, and a one-click ZIP export for handing off specs to developers or AI tools. The content library grows to 15 examples and 300 images, and 13 accessibility fixes bring the builder closer to WCAG AA compliance.</p>
+    </div>
+  </div>
+
+  <!-- Metrics -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(108,140,255,0.15);color:var(--accent)">&#x1F4CA;</span> Codebase at Phase 13 Close</h2>
+    <div class="metric-grid">
+      <div class="metric"><div class="value">170</div><div class="label">Source Files</div></div>
+      <div class="metric"><div class="value">16.6K</div><div class="label">Lines TS/TSX</div></div>
+      <div class="metric"><div class="value">300+</div><div class="label">Media Assets</div></div>
+      <div class="metric"><div class="value">87</div><div class="label">Tests Passing</div></div>
+    </div>
+    <table style="margin-top:20px">
+      <thead><tr><th>Metric</th><th>Phase 12 End</th><th>Phase 13 End</th><th>Delta</th></tr></thead>
+      <tbody>
+        <tr><td>Source files (TS/TSX)</td><td>159</td><td>170</td><td>+11</td></tr>
+        <tr><td>Examples</td><td>13</td><td>15</td><td>+2</td></tr>
+        <tr><td>Media images</td><td>258</td><td>300+</td><td>+42</td></tr>
+        <tr><td>Section types</td><td>15</td><td>16</td><td>+1 (blog)</td></tr>
+        <tr><td>Listen demos</td><td>3</td><td>4</td><td>+1 (food blog)</td></tr>
+        <tr><td>ADRs</td><td>33</td><td>36</td><td>+3 (034-036)</td></tr>
+        <tr><td>Tests</td><td>87</td><td>87</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Blog Section Type -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(167,139,250,0.15);color:var(--purple)">&#x1F4DD;</span> Blog Section Type <span class="tag shipped">SHIPPED</span></h2>
+    <p>ADR-034 introduces <code>blog</code> as the 16th section type with a dedicated data model for articles (title, excerpt, author, date, tags, featured image) and 4 template variants:</p>
+    <table>
+      <thead><tr><th>Variant</th><th>Component</th><th>Layout</th></tr></thead>
+      <tbody>
+        <tr><td>Card Grid</td><td>BlogCardGrid.tsx</td><td>3-column responsive grid of article cards with featured images</td></tr>
+        <tr><td>List Excerpts</td><td>BlogListExcerpts.tsx</td><td>Vertical list with thumbnail left, text right</td></tr>
+        <tr><td>Featured Grid</td><td>BlogFeaturedGrid.tsx</td><td>Large featured article at top, 2-column grid below</td></tr>
+        <tr><td>Minimal</td><td>BlogMinimal.tsx</td><td>Text-only, typography-focused, no images</td></tr>
+      </tbody>
+    </table>
+    <div class="feature-card">
+      <h3>Blog Editor (BlogSectionSimple)</h3>
+      <ul>
+        <li><strong>Layout variant selector</strong> &mdash; switch between 4 variants in real-time</li>
+        <li><strong>Article management</strong> &mdash; add/remove articles with title, excerpt, author inputs</li>
+        <li><strong>ImagePicker integration</strong> &mdash; featured image selection from 300+ media library</li>
+        <li><strong>Toggle controls</strong> &mdash; show/hide dates and tags per section</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Multi-Page Architecture -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(34,211,238,0.15);color:var(--cyan)">&#x1F4C4;</span> Multi-Page Architecture <span class="tag shipped">SHIPPED</span></h2>
+    <p>ADR-035 adds an optional <code>pages[]</code> array to MasterConfig. Each page has its own id, title, slug, isHome flag, and independent sections array. Existing single-page configs work unchanged.</p>
+    <div class="feature-card">
+      <h3>Architecture</h3>
+      <ul>
+        <li><strong>PageConfig schema</strong> &mdash; <code>{ id, title, slug, isHome, sections[] }</code></li>
+        <li><strong>configStore methods</strong> &mdash; addPage, removePage, reorderPages, enableMultiPage</li>
+        <li><strong>Hash routing</strong> &mdash; <code>#/about</code>, <code>#/services</code> without React Router</li>
+        <li><strong>MultiPageNav component</strong> &mdash; theme-colored navigation bar in preview</li>
+        <li><strong>Backward compatible</strong> &mdash; configs without <code>pages</code> render as single-page</li>
+      </ul>
+    </div>
+    <div class="feature-card">
+      <h3>Spec Integration</h3>
+      <ul>
+        <li>Build Plan generator outputs per-page specs when multi-page is enabled</li>
+        <li>Page management UI in left panel with "Enable Multi-Page" button</li>
+        <li>Each page maintains independent section ordering</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ZIP Export -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(74,222,128,0.15);color:var(--green)">&#x1F4E6;</span> ZIP Export <span class="tag shipped">SHIPPED</span></h2>
+    <p>ADR-036 adds one-click project export. The <code>exportProjectAsZip()</code> utility uses JSZip for browser-side generation &mdash; no server required, works fully offline.</p>
+    <div class="feature-card">
+      <h3>Export Contents</h3>
+      <ul>
+        <li><code>specs/north-star.md</code> &mdash; North Star vision document</li>
+        <li><code>specs/architecture.md</code> &mdash; SADD architecture spec</li>
+        <li><code>specs/build-plan.md</code> &mdash; Build plan with per-page output</li>
+        <li><code>specs/features.md</code> &mdash; Feature breakdown</li>
+        <li><code>specs/human-spec.md</code> &mdash; Human-readable spec</li>
+        <li><code>specs/aisp.aisp</code> &mdash; Machine-readable AISP Crystal Atom</li>
+        <li><code>config.json</code> &mdash; Full MasterConfig</li>
+        <li><code>README.md</code> &mdash; Project overview</li>
+      </ul>
+    </div>
+    <p style="margin-top:12px">Export button is located in the TopBar with a download icon. Downloads trigger via the browser Blob API.</p>
+  </div>
+
+  <!-- Content Expansion -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(251,191,36,0.15);color:var(--amber)">&#x1F5BC;</span> Content Expansion <span class="tag shipped">SHIPPED</span></h2>
+    <div class="feature-card">
+      <h3>15 Examples</h3>
+      <ul>
+        <li><strong>New: Summit Realty Group</strong> &mdash; real estate agency, professional theme, property listings</li>
+        <li><strong>New: Barrett &amp; Associates</strong> &mdash; law firm, elegant theme, practice areas and team</li>
+        <li>All 15 examples have complete siteContext (purpose, audience, tone, brand)</li>
+        <li>Full list: bakery, blank, consulting, dev-portfolio, education, enterprise-saas, fitforge, florist, fun-blog, kitchen-sink, launchpad, law-firm, photography, real-estate, restaurant</li>
+      </ul>
+    </div>
+    <div class="feature-card">
+      <h3>300+ Images</h3>
+      <ul>
+        <li>42 new entries added across 7 categories: food, real estate, legal, nature, tech, people, abstract</li>
+        <li>Media catalog: 3,921 lines in images.json</li>
+      </ul>
+    </div>
+    <div class="feature-card">
+      <h3>4th Listen Demo</h3>
+      <ul>
+        <li>Food blog demo sequence &mdash; voice-driven blog building</li>
+        <li>Sets tone=casual, purpose=blog, audience=consumer</li>
+        <li>Listen tab grid updated to 2x2 layout</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Accessibility -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(248,113,113,0.15);color:var(--red)">&#x267F;</span> Accessibility Improvements <span class="tag shipped">SHIPPED</span></h2>
+    <p>Full a11y audit conducted across the builder shell. 13 issues identified and fixed across 6 files:</p>
+    <table>
+      <thead><tr><th>Component</th><th>Fix</th></tr></thead>
+      <tbody>
+        <tr><td>TabBar</td><td><code>role="tablist"</code>, <code>aria-selected</code> on active tab</td></tr>
+        <tr><td>LeftPanel</td><td>ARIA roles on tab navigation elements</td></tr>
+        <tr><td>LightboxModal</td><td><code>aria-modal</code>, visible close button with label</td></tr>
+        <tr><td>PanelLayout</td><td><code>aria-labels</code> on panel toggle buttons</td></tr>
+        <tr><td>RealityTab</td><td><code>aria-labels</code> on section action buttons (move, delete)</td></tr>
+        <tr><td>XAIDocsTab</td><td><code>focus-visible</code> rings on copy and download buttons</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px"><strong>WCAG AA verified:</strong> Primary text contrast 12.5:1, secondary 9.2:1, muted 7.0:1. All image templates have meaningful alt text. Heading hierarchy follows h1 &rarr; h2 &rarr; h3 structure.</p>
+  </div>
+
+  <!-- Phase History -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(108,140,255,0.15);color:var(--accent)">&#x1F4C8;</span> Phase Score History</h2>
+    <table>
+      <thead><tr><th>Phase</th><th>Score</th><th>Focus</th></tr></thead>
+      <tbody>
+        <tr><td>P1</td><td>77</td><td>Project scaffolding</td></tr>
+        <tr><td>P2</td><td>82</td><td>Theme system</td></tr>
+        <tr><td>P3</td><td>73</td><td>Editor panels</td></tr>
+        <tr><td>P4</td><td>84</td><td>Template variants</td></tr>
+        <tr><td>P5</td><td>67</td><td>Spec generators</td></tr>
+        <tr><td>P6</td><td>78</td><td>Chat/Listen simulation</td></tr>
+        <tr><td>P7</td><td>75</td><td>Polish + tests</td></tr>
+        <tr><td>P8</td><td>88</td><td>Kitchen Sink + images</td></tr>
+        <tr><td>P9</td><td>85</td><td>Pre-LLM MVP</td></tr>
+        <tr><td>P10</td><td>80</td><td>JSON + AISP</td></tr>
+        <tr><td>P11</td><td>83</td><td>Website + demos</td></tr>
+        <tr><td>P12</td><td>78</td><td>Content intelligence</td></tr>
+        <tr style="font-weight:700"><td>P13</td><td>76</td><td>Advanced features</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- What's Next -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(74,222,128,0.15);color:var(--green)">&#x2192;</span> What Comes Next</h2>
+    <p>Phase 14 focuses on <strong>test expansion and quality hardening</strong>. The test suite has been static at 87 since Phase 12, and the 100+ target remains unmet. Phase 14 will also deliver pre-built multi-page example configs, persona-based quality reviews, and polish passes on the new blog and multi-page features before moving toward LLM integration.</p>
+  </div>
+
+  <div class="nav">
+    <a href="14-phase-12-content-intelligence.guide.html">&larr; Phase 12: Content Intelligence</a>
+    <a href="index.html">Wiki Home</a>
+  </div>
+
+</div>
+</body>
+</html>

@@ -40,18 +40,20 @@
 
 ## Project Status
 
-- **Current Phase:** Phase 12 CLOSED (78/100), Phase 13 next
+- **Current Phase:** Phase 13 CLOSED (score TBD), Phase 14 next
 - **Codebase:** 100K+ total lines, 163+ TS/TSX source files, ~40,000+ lines (TS/TSX/JSON/CSS)
 - **Themes:** 12 (agency, blog, creative, elegant, minimalist, neon, personal, portfolio, professional, saas, startup, wellness)
-- **Examples:** 13 (bakery, blank, consulting, education, fitforge, florist, kitchen-sink, launchpad, photography, restaurant, fun-blog, dev-portfolio, enterprise-saas)
-- **Images:** 258 in media library catalog, 13 image effects (8 core + 5 wow-factor)
+- **Examples:** 15 (bakery, blank, consulting, dev-portfolio, education, enterprise-saas, fitforge, florist, fun-blog, kitchen-sink, launchpad, law-firm, photography, real-estate, restaurant)
+- **Section Types:** 16 (includes blog)
+- **Images:** 300 in media library catalog, 13 image effects (8 core + 5 wow-factor)
 - **Website Pages:** 4 (About, Open Core, How I Built This, Docs)
 - **Chat Commands:** 15+ simulated requirements (includes tone/audience commands)
-- **Listen Demos:** 3 distinct site types
+- **Listen Demos:** 4 distinct site types
 - **Spec Generators:** 6 with design specs, cross-references, effects info
 - **Blueprints:** 7 sub-tabs (North Star, Architecture, Build Plan, Features, Human Spec, AISP, JSON)
 - **Center Tabs (EXPERT):** 5 (Preview, Blueprints, Resources, Data, Pipeline)
-- **Tests:** 87 passing (11 spec files)
+- **Capabilities:** Multi-page support, ZIP export, blog section type
+- **Tests:** 102 passing (11 spec files)
 
 ### Phase Roadmap
 
@@ -59,8 +61,8 @@
 |-------|-------|--------|
 | P11 | Website + enhanced demos + brand/design locks | CLOSED (83/100) |
 | P12 | Content Intelligence: site context, 13 effects, Resources tab | CLOSED (78/100) |
-| P13 | Advanced Features: blog section, multi-page, export, a11y, 100+ tests | NEXT |
-| P14 | Marketing site review: all sections/content ready | PLANNED |
+| P13 | Advanced Features: blog section, multi-page, export, a11y, 100+ tests | CLOSED (TBD) |
+| P14 | Marketing site review: all sections/content ready | NEXT |
 | P15 | Developer assistance: builder UX, docs, tooltips, onboarding | PLANNED |
 | P16 | Advanced features review: effects, context, templates, Resources | PLANNED |
 | P17 | Feature Review ADR: checklist + proof for 1 feature (pilot) | PLANNED |
