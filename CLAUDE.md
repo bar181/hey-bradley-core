@@ -40,29 +40,34 @@
 
 ## Project Status
 
-- **Current Phase:** Phase 12 IN PROGRESS (init complete, sprints pending)
-- **Codebase:** 100K+ total lines, 159 TS/TSX source files, ~38,700 lines (TS/TSX/JSON/CSS)
+- **Current Phase:** Phase 12 CLOSED (78/100), Phase 13 next
+- **Codebase:** 100K+ total lines, 163+ TS/TSX source files, ~40,000+ lines (TS/TSX/JSON/CSS)
 - **Themes:** 12 (agency, blog, creative, elegant, minimalist, neon, personal, portfolio, professional, saas, startup, wellness)
-- **Examples:** 10 (bakery, blank, consulting, education, fitforge, florist, kitchen-sink, launchpad, photography, restaurant)
-- **Images:** 258 in media library catalog
+- **Examples:** 13 (bakery, blank, consulting, education, fitforge, florist, kitchen-sink, launchpad, photography, restaurant, fun-blog, dev-portfolio, enterprise-saas)
+- **Images:** 258 in media library catalog, 13 image effects (8 core + 5 wow-factor)
 - **Website Pages:** 4 (About, Open Core, How I Built This, Docs)
-- **Chat Commands:** 10+ simulated requirements with multi-section transformations
+- **Chat Commands:** 15+ simulated requirements (includes tone/audience commands)
 - **Listen Demos:** 3 distinct site types
-- **Spec Generators:** 6 (North Star, SADD, Build Plan, Features, Human Spec, AISP)
-- **Tests:** 77 passing (10 spec files)
+- **Spec Generators:** 6 with design specs, cross-references, effects info
+- **Blueprints:** 7 sub-tabs (North Star, Architecture, Build Plan, Features, Human Spec, AISP, JSON)
+- **Center Tabs (EXPERT):** 5 (Preview, Blueprints, Resources, Data, Pipeline)
+- **Tests:** 87 passing (11 spec files)
 
 ### Phase Roadmap
 
 | Phase | Focus | Status |
 |-------|-------|--------|
 | P11 | Website + enhanced demos + brand/design locks | CLOSED (83/100) |
-| P12 | Content Intelligence: site context, image effects, UX cleanup | IN PROGRESS |
-| P13 | Advanced Features: 10+ examples, blog editor, multi-page, ZIP export, a11y | NEXT |
-| P14 | LLM Integration: AI-powered site generation (Stage 3 start) | PLANNED |
-| P15 | Database + Auth: persistent storage, user accounts | PLANNED |
-| P16 | Collaboration: multi-user editing, sharing, templates marketplace | PLANNED |
-| P17 | Performance + Scale: optimization, CDN, caching, monitoring | PLANNED |
-| P18 | Open Core Launch: public release, documentation, community | PLANNED |
+| P12 | Content Intelligence: site context, 13 effects, Resources tab | CLOSED (78/100) |
+| P13 | Advanced Features: blog section, multi-page, export, a11y, 100+ tests | NEXT |
+| P14 | Marketing site review: all sections/content ready | PLANNED |
+| P15 | Developer assistance: builder UX, docs, tooltips, onboarding | PLANNED |
+| P16 | Advanced features review: effects, context, templates, Resources | PLANNED |
+| P17 | Feature Review ADR: checklist + proof for 1 feature (pilot) | PLANNED |
+| P18 | Comprehensive review: all features/sections using P17 checklist | PLANNED |
+| P19 | System-wide review: all requirements before LLM stage | PLANNED |
+| P20-22 | Pre-LLM simulations: prompt templates, response validation, JSON updates | PLANNED |
+| P23+ | LLM integration: real AI, API keys, streaming | PLANNED |
 
 ## AISP (AI Symbolic Protocol) 
 see full details in /workspaces/hey-bradley-core/plans/initial-plans/00.aisp-reference.md 

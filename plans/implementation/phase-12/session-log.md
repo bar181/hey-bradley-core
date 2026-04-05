@@ -2,7 +2,7 @@
 
 **Phase:** 12 — Content Intelligence, Image Effects, UX Cleanup  
 **Started:** 2026-04-05  
-**Status:** IN PROGRESS  
+**Status:** CLOSED  
 
 ---
 
@@ -45,28 +45,56 @@
 ### Actions Taken
 | # | Action | Result | Commit |
 |---|--------|--------|--------|
-| 13 | Researched all key files (7 areas, exact paths/lines) | Full codebase map for build agents | — |
-| 14 | 5-agent build swarm launched | AISP tab, effects, lightbox, site context, cleanup | pending |
-| 15 | P0-1 AISP tab relocation COMPLETE | New AISPTab.tsx, TabBar updated, Blueprints trimmed to 5 tabs | pending |
-| 16 | Wow-factor image effects research | Holographic, 3D flip, sepia-to-color, image splitting identified | — |
-| 17 | P0-2 Image effects wiring | Agent running | pending |
-| 18 | P0-3 LightboxModal build | Agent running | pending |
-| 19 | P0-4 Site Context system | Agent running | pending |
-| 20 | P1 Section editor cleanup | Agent running | pending |
+| 13 | Researched key files (7 areas, exact paths/lines) | Full codebase map | — |
+| 14 | 8-agent build swarm (AISP, effects, lightbox, site context, cleanup, wow effects, image consistency, specs) | All 8 completed | `a014de7` |
+| 15 | P0-1 AISP tab relocation | AISPTab.tsx, TabBar, Blueprints → 5 sub-tabs | `a014de7` |
+| 16 | P0-2 Image effects pipeline | Schema → editors → 11 renderers → Kitchen Sink | `a014de7` |
+| 17 | P0-3 LightboxModal | 9 templates wired (4 gallery, 3 image, 2 hero) | `a014de7` |
+| 18 | P0-4 Site Context system | 6 schema fields, editor, left panel, 6 generators | `a014de7` |
+| 19 | P1 Section editor cleanup | 10 Expert controls fixed, 15 SIMPLE editors clean | `a014de7` |
+| 20 | 5 wow-factor effects | Holographic, 3D tilt, sepia-to-color, reveal, fade-in | `a014de7` |
+| 21 | Image consistency | Gallery + Image editors → ImagePicker | `a014de7` |
+| 22 | Specs integration | All 6 generators output effect info | `a014de7` |
 
 ### Decisions Made
-5. **Parallel build swarm** — 5 agents with exact file paths, no overlap
-6. **Additional wow-factor effects** — holographic, 3D tilt, sepia-to-color, reveal/split beyond the original 8
+5. **Parallel build swarm** — 8 agents with exact file paths, no overlap
+6. **13 total effects** — 8 core + 5 wow-factor bonus
 
 ---
 
-## Metrics Tracking
+## Session 3: 12A Corrections + 12B (2026-04-05)
 
-| Metric | Start of Phase | Current | Target |
-|--------|---------------|---------|--------|
-| Tests passing | 77 | 87 | 90+ |
-| Composite score | 15/100 | TBD | 85+ |
-| P0 items | 8 | 7 remaining | 0 |
-| P1 items | 9 | 9 remaining | 0 |
-| Source files | 159 | 159+ | — |
-| Media assets | 258 | 258 | — |
+### Actions Taken
+| # | Action | Result | Commit |
+|---|--------|--------|--------|
+| 23 | AISP moved back to Blueprints (per Bradley feedback) | 7 sub-tabs: NS, Arch, BP, Feat, HS, AISP, JSON | `e0c043e` |
+| 24 | JSON sub-tab added to Blueprints | Live config view | `e0c043e` |
+| 25 | TopBar cleanup | Removed panel toggles, load, import/export, AISP copy | `e0c043e` |
+| 26 | Resources tab (12B) | 4 sub-sections: Templates, AISP Guide, Media, Wiki | `acf0002` |
+| 27 | Blueprints enhancements (12B) | Design specs + cross-refs in all 6 generators | `acf0002` |
+| 28 | 5 chat commands for tone/audience | professional, developers, playful, enterprise, casual | `acf0002` |
+| 29 | 3 new examples (13 total) | Fun blog, dev portfolio, enterprise SaaS | `acf0002` |
+| 30 | Living checklist finalized | All 12A + 12B items marked complete | `1f6dfd3` |
+
+### Decisions Made
+7. **AISP stays in Blueprints** — Bradley corrected: AISP belongs alongside other specs, not separate
+8. **JSON is a Blueprints sub-tab** — the JSON IS the site, core feedback loop
+9. **TopBar simplification** — remove clutter, keep essential controls only
+10. **Resources tab in EXPERT mode** — developer reference, not grandma-facing
+
+---
+
+## Final Metrics
+
+| Metric | Start of Phase | End of Phase | Delta |
+|--------|---------------|-------------|-------|
+| Tests passing | 77 | 87 | +10 |
+| Examples | 10 | 13 | +3 |
+| Image effects | 0 wired | 13 wired | +13 |
+| Blueprints sub-tabs | 6 | 7 | +1 (JSON) |
+| Center tabs (EXPERT) | 4 | 5 | +1 (Resources) |
+| Chat commands | 10+ | 15+ | +5 |
+| Spec generator features | basic | design specs + cross-refs + effects | enhanced |
+| New components | 0 | 4 (AISPTab, LightboxModal, SiteContextEditor, ResourcesTab) | +4 |
+| Commits | — | 6 | — |
+| Lines changed | — | ~5,800+ | — |
