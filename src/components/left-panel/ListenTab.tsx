@@ -1,9 +1,19 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { Play, Settings, Wand2 } from 'lucide-react'
-import { buildDemoSequence, runDemo } from '@/lib/demoSimulator'
+import { Play, Settings } from 'lucide-react'
+import { buildDemoFromCaptions, runDemo } from '@/lib/demoSimulator'
 import { EXAMPLE_SITES } from '@/data/examples'
+import listenSequences from '@/data/sequences/listen-sequences.json'
 import { useUIStore } from '@/store/uiStore'
 import { Button } from '@/components/ui/button'
+
+interface DemoSequenceConfig {
+  id: string
+  label: string
+  exampleSlug: string
+  exampleName: string
+  swatchColors: string[]
+  captions: { text: string; delay: number }[]
+}
 
 const DEFAULTS = {
   pulseSpeed: 3, // seconds (3000ms)
@@ -36,6 +46,9 @@ export function ListenTab() {
   const [simText, setSimText] = useState('')
   const simTimersRef = useRef<ReturnType<typeof setTimeout>[]>([])
   const demoCleanupRef = useRef<(() => void) | null>(null)
+
+  // Demo sequences from JSON
+  const demoSequences = listenSequences as DemoSequenceConfig[]
 
   // Helper to track burst timeouts
   const burstTimeout = (fn: () => void, ms: number) => {
@@ -83,14 +96,16 @@ export function ListenTab() {
   }, [])
 
   // Simulate Input: burst + typewriter user text then demo simulator
-  const runSimulateInput = useCallback(() => {
+  const runSimulateInput = useCallback((demoConfig: DemoSequenceConfig) => {
     if (simActiveRef.current || burstActiveRef.current) return
     simActiveRef.current = true
     setSimActive(true)
     runBurstAnimation()
 
-    // Pick a random example site
-    const example = EXAMPLE_SITES[Math.floor(Math.random() * EXAMPLE_SITES.length)]
+    // Find the matching example site
+    const example = EXAMPLE_SITES.find(e =>
+      e.name === demoConfig.exampleName,
+    ) ?? EXAMPLE_SITES[0]
     const userText = 'build me a ' + example.name.toLowerCase()
 
     // Phase 1: Typewriter user text
@@ -104,9 +119,13 @@ export function ListenTab() {
         const t = setTimeout(typeUser, 40)
         simTimersRef.current.push(t)
       } else {
-        // User text stays 3 seconds then start demo simulator
+        // User text stays 3 seconds then start demo simulator with custom captions
         const t = setTimeout(() => {
-          const sequence = buildDemoSequence(example.config, example.name)
+          const sequence = buildDemoFromCaptions(
+            example.config,
+            example.name,
+            demoConfig.captions,
+          )
           demoCleanupRef.current = runDemo(
             sequence,
             (caption) => {
@@ -247,15 +266,31 @@ export function ListenTab() {
       {/* C) Buttons — compact bottom section */}
       <div className="px-4 pb-4 space-y-2 flex flex-col items-center">
         <div className="w-full max-w-[300px] space-y-2">
-          <Button
-            variant="outline"
-            onClick={runSimulateInput}
-            disabled={simActive || burstActive}
-            className="w-full flex items-center justify-center gap-2 h-auto py-2.5 rounded-xl bg-[#A51C30]/15 backdrop-blur-sm text-[#C1283E] font-semibold text-xs tracking-wider uppercase hover:bg-[#A51C30]/25 transition-colors border border-[#A51C30]/25 disabled:opacity-40 disabled:cursor-not-allowed"
-          >
-            <Wand2 size={14} />
-            {simActive ? 'Playing Demo...' : 'Watch a Demo'}
-          </Button>
+          {/* Demo sequence cards */}
+          <div className="grid grid-cols-3 gap-2">
+            {demoSequences.map((demo) => (
+              <button
+                key={demo.id}
+                type="button"
+                onClick={() => runSimulateInput(demo)}
+                disabled={simActive || burstActive}
+                className="group flex flex-col items-center gap-1.5 rounded-xl px-2 py-2.5 bg-white/5 border border-white/10 hover:bg-[#A51C30]/15 hover:border-[#A51C30]/25 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                <div className="flex gap-0.5">
+                  {demo.swatchColors.map((color, i) => (
+                    <div
+                      key={i}
+                      className="w-3 h-3 rounded-full border border-white/10"
+                      style={{ backgroundColor: color }}
+                    />
+                  ))}
+                </div>
+                <span className="text-[10px] font-semibold text-white/60 group-hover:text-[#C1283E] transition-colors text-center leading-tight tracking-wide uppercase">
+                  {simActive ? '...' : demo.label}
+                </span>
+              </button>
+            ))}
+          </div>
 
           <Button
             variant="outline"

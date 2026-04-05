@@ -27,6 +27,7 @@ interface UIStore {
   leftPanelVisible: boolean
   rightPanelVisible: boolean
   designLocked: boolean
+  brandLocked: boolean
 
   setInteractionMode: (mode: InteractionMode) => void
   setActiveTab: (tab: ActiveTab) => void
@@ -39,6 +40,9 @@ interface UIStore {
   setLeftPanelVisible: (visible: boolean) => void
   setRightPanelVisible: (visible: boolean) => void
   toggleDesignLock: () => void
+  toggleBrandLock: () => void
+  setDesignLocked: (locked: boolean) => void
+  setBrandLocked: (locked: boolean) => void
 }
 
 export const useUIStore = create<UIStore>((set) => ({
@@ -53,6 +57,7 @@ export const useUIStore = create<UIStore>((set) => ({
   leftPanelVisible: true,
   rightPanelVisible: true,
   designLocked: false,
+  brandLocked: false,
 
   setInteractionMode: (mode) => set({ interactionMode: mode }),
   setPreviewWidth: (width) => set({ previewWidth: width }),
@@ -60,6 +65,9 @@ export const useUIStore = create<UIStore>((set) => ({
   setLeftPanelVisible: (visible) => set({ leftPanelVisible: visible }),
   setRightPanelVisible: (visible) => set({ rightPanelVisible: visible }),
   toggleDesignLock: () => set((state) => ({ designLocked: !state.designLocked })),
+  toggleBrandLock: () => set((state) => ({ brandLocked: !state.brandLocked })),
+  setDesignLocked: (locked) => set({ designLocked: locked }),
+  setBrandLocked: (locked) => set({ brandLocked: locked }),
   setActiveTab: (tab) => set({ activeTab: tab }),
   setRightPanelTab: (tab) => set({ rightPanelTab: tab }),
   setLeftPanelTab: (tab) => set({ leftPanelTab: tab }),

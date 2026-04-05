@@ -1,120 +1,55 @@
 [
   {
+    "id": "bakery",
+    "label": "Build a Bakery",
     "exampleSlug": "bakery",
+    "exampleName": "Sweet Spot Bakery",
+    "swatchColors": ["#22c55e", "#0a1a14", "#f0fdf4"],
     "captions": [
       { "text": "Creating your bakery website...", "delay": 0 },
-      { "text": "Applying a warm wellness theme with earthy greens.", "delay": 1500 },
-      { "text": "Adding a hero section with fresh bread imagery.", "delay": 3500 },
-      { "text": "Showcasing your signature pastries and artisan breads.", "delay": 5500 },
-      { "text": "Sharing glowing customer reviews.", "delay": 7500 },
-      { "text": "Highlighting daily baking numbers and milestones.", "delay": 9500 },
-      { "text": "Placing a call to action for online orders.", "delay": 11500 },
-      { "text": "Adding the footer with bakery hours and location.", "delay": 13500 },
-      { "text": "Sweet Spot Bakery is ready!", "delay": 15500 }
+      { "text": "Applying a warm wellness theme with earthy greens.", "delay": 1800 },
+      { "text": "Adding a hero section with fresh bread imagery.", "delay": 3800 },
+      { "text": "Showcasing your signature pastries and artisan breads.", "delay": 5800 },
+      { "text": "Sharing glowing customer reviews.", "delay": 7800 },
+      { "text": "Placing a call to action for online orders.", "delay": 9800 },
+      { "text": "Highlighting daily baking numbers and milestones.", "delay": 11800 },
+      { "text": "Adding the footer with bakery hours and location.", "delay": 13800 },
+      { "text": "Your bakery website is ready! Switch to Build mode to customize.", "delay": 15800 }
     ]
   },
   {
+    "id": "saas",
+    "label": "Build a SaaS",
     "exampleSlug": "launchpad",
+    "exampleName": "LaunchPad AI",
+    "swatchColors": ["#6366f1", "#0a0a1a", "#f8fafc"],
     "captions": [
       { "text": "Building your SaaS landing page...", "delay": 0 },
-      { "text": "Setting a dark, technical theme for LaunchPad AI.", "delay": 1500 },
-      { "text": "Creating a bold hero section with your product headline.", "delay": 3500 },
-      { "text": "Laying out feature columns to explain what you do.", "delay": 5500 },
-      { "text": "Setting up pricing tiers for comparison.", "delay": 7500 },
-      { "text": "Adding key metrics to show traction.", "delay": 9500 },
-      { "text": "Placing a strong signup call to action.", "delay": 11500 },
-      { "text": "Finishing with a clean footer and legal links.", "delay": 13500 },
-      { "text": "LaunchPad AI is live!", "delay": 15500 }
+      { "text": "Setting a dark, technical theme for LaunchPad AI.", "delay": 1800 },
+      { "text": "Creating a bold hero section with your product headline.", "delay": 3800 },
+      { "text": "Laying out feature columns to explain what you do.", "delay": 5800 },
+      { "text": "Setting up pricing tiers for plan comparison.", "delay": 7800 },
+      { "text": "Adding key metrics to show traction.", "delay": 9800 },
+      { "text": "Placing a strong signup call to action.", "delay": 11800 },
+      { "text": "Finishing with a clean footer and legal links.", "delay": 13800 },
+      { "text": "Your SaaS website is ready! Switch to Build mode to customize.", "delay": 15800 }
     ]
   },
   {
+    "id": "portfolio",
+    "label": "Build a Portfolio",
     "exampleSlug": "photography",
+    "exampleName": "Sarah Chen Photography",
+    "swatchColors": ["#e4e4e7", "#0c0c0c", "#ffffff"],
     "captions": [
       { "text": "Creating your photography portfolio...", "delay": 0 },
-      { "text": "Applying a dramatic portfolio theme.", "delay": 1500 },
-      { "text": "Building a cinematic hero for a bold first impression.", "delay": 3500 },
-      { "text": "Adding a stunning photo gallery of your best work.", "delay": 5500 },
-      { "text": "Including client testimonials for social proof.", "delay": 7500 },
-      { "text": "Placing a call to action so clients can book sessions.", "delay": 9500 },
-      { "text": "Wrapping up with a minimal footer.", "delay": 11500 },
-      { "text": "Sarah Chen Photography is ready!", "delay": 13500 }
-    ]
-  },
-  {
-    "exampleSlug": "consulting",
-    "captions": [
-      { "text": "Creating your corporate consulting site...", "delay": 0 },
-      { "text": "Using a clean, professional theme.", "delay": 1500 },
-      { "text": "Setting up a confident hero section.", "delay": 3500 },
-      { "text": "Outlining your key service offerings.", "delay": 5500 },
-      { "text": "Displaying your impressive track record in numbers.", "delay": 7500 },
-      { "text": "Adding client testimonials to reinforce credibility.", "delay": 9500 },
-      { "text": "Answering common questions in an FAQ section.", "delay": 11500 },
-      { "text": "Placing a consultation call to action.", "delay": 13500 },
-      { "text": "Adding a professional footer with office details.", "delay": 15500 },
-      { "text": "GreenLeaf Consulting is ready!", "delay": 17500 }
-    ]
-  },
-  {
-    "exampleSlug": "fitforge",
-    "captions": [
-      { "text": "Building your fitness studio site...", "delay": 0 },
-      { "text": "Going bold and energetic with a dark creative theme.", "delay": 1500 },
-      { "text": "Creating a powerful hero to pump people up.", "delay": 3500 },
-      { "text": "Showcasing your classes and training programs.", "delay": 5500 },
-      { "text": "Highlighting member stats and achievements.", "delay": 7500 },
-      { "text": "Adding real member transformation stories.", "delay": 9500 },
-      { "text": "Placing a free trial signup call to action.", "delay": 11500 },
-      { "text": "Adding footer with gym hours and social links.", "delay": 13500 },
-      { "text": "FitForge Fitness is ready!", "delay": 15500 }
-    ]
-  },
-  {
-    "exampleSlug": "florist",
-    "captions": [
-      { "text": "Creating your boutique florist website...", "delay": 0 },
-      { "text": "Applying a soft, organic personal theme.", "delay": 1500 },
-      { "text": "Adding a gentle hero with fresh floral arrangements.", "delay": 3500 },
-      { "text": "Building a gallery of your most beautiful bouquets.", "delay": 5500 },
-      { "text": "Listing services for weddings, events, and deliveries.", "delay": 7500 },
-      { "text": "Sharing happy customer testimonials.", "delay": 9500 },
-      { "text": "Adding a warm call to action for orders.", "delay": 11500 },
-      { "text": "Finishing with shop hours and location in the footer.", "delay": 13500 },
-      { "text": "Bloom & Petal is ready!", "delay": 15500 }
-    ]
-  },
-  {
-    "exampleSlug": "kitchen-sink",
-    "captions": [
-      { "text": "Building the ultimate demo with every section type...", "delay": 0 },
-      { "text": "Going with a SaaS theme for the full showcase.", "delay": 1500 },
-      { "text": "Hero section to set the stage.", "delay": 3000 },
-      { "text": "Feature columns for key selling points.", "delay": 4500 },
-      { "text": "Adding a rich text content block.", "delay": 6000 },
-      { "text": "Full-width image for visual impact.", "delay": 7500 },
-      { "text": "Impressive statistics in the numbers section.", "delay": 9000 },
-      { "text": "Pricing tables for plan comparison.", "delay": 10500 },
-      { "text": "Photo gallery for visual storytelling.", "delay": 12000 },
-      { "text": "Customer testimonials for social proof.", "delay": 13500 },
-      { "text": "Trusted partner logos for credibility.", "delay": 15000 },
-      { "text": "Meet the team section.", "delay": 16500 },
-      { "text": "FAQ section for common questions.", "delay": 18000 },
-      { "text": "A strong call to action.", "delay": 19500 },
-      { "text": "Visual divider for clean separation.", "delay": 21000 },
-      { "text": "Complete footer to tie it all together.", "delay": 22500 },
-      { "text": "Kitchen Sink Demo is complete!", "delay": 24000 }
-    ]
-  },
-  {
-    "exampleSlug": "blank",
-    "captions": [
-      { "text": "Starting with a blank canvas...", "delay": 0 },
-      { "text": "Setting up a minimalist foundation.", "delay": 1500 },
-      { "text": "Adding a simple hero as your starting point.", "delay": 3500 },
-      { "text": "Basic content columns for your first blocks.", "delay": 5500 },
-      { "text": "A starter call to action.", "delay": 7500 },
-      { "text": "Minimal footer to complete the base.", "delay": 9500 },
-      { "text": "Blank Canvas is ready! Build anything from here.", "delay": 11500 }
+      { "text": "Applying a dramatic dark portfolio theme.", "delay": 1800 },
+      { "text": "Building a cinematic hero for a bold first impression.", "delay": 3800 },
+      { "text": "Adding a stunning photo gallery of your best work.", "delay": 5800 },
+      { "text": "Including client testimonials for social proof.", "delay": 7800 },
+      { "text": "Placing a call to action so clients can book sessions.", "delay": 9800 },
+      { "text": "Wrapping up with a minimal footer.", "delay": 11800 },
+      { "text": "Your portfolio website is ready! Switch to Build mode to customize.", "delay": 13800 }
     ]
   }
 ]

@@ -4,6 +4,8 @@ import photography from './photography.json'
 import consulting from './consulting.json'
 import fitforge from './fitforge.json'
 import florist from './florist.json'
+import restaurant from './restaurant.json'
+import education from './education.json'
 import kitchenSink from './kitchen-sink.json'
 import blank from './blank.json'
 import type { MasterConfig } from '@/lib/schemas'
@@ -51,6 +53,18 @@ export const EXAMPLE_SITES: ExampleSite[] = [
     description: 'Boutique florist with delicate, organic light theme',
     theme: 'Personal',
     config: florist as unknown as MasterConfig,
+  },
+  {
+    name: 'The Corner Table',
+    description: 'Farm-to-table restaurant with warm, inviting design',
+    theme: 'Wellness',
+    config: restaurant as unknown as MasterConfig,
+  },
+  {
+    name: 'CodeCraft Academy',
+    description: 'Online coding school with energetic, modern design',
+    theme: 'Startup',
+    config: education as unknown as MasterConfig,
   },
   {
     name: 'Kitchen Sink Demo',

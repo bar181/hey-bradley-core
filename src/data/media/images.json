@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "total": 208,
+  "total": 258,
   "categories": [
     "food",
     "technology",
@@ -11,7 +11,10 @@
     "architecture",
     "people",
     "abstract",
-    "products"
+    "products",
+    "healthcare",
+    "education",
+    "real-estate"
   ],
   "images": [
     {

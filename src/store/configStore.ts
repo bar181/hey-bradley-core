@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { deepMerge } from '@/lib/deepMerge'
 import type { MasterConfig, Section, SectionType, PatchSource } from '@/lib/schemas'
+import { useUIStore } from '@/store/uiStore'
 import defaultConfig from '@/data/default-config.json'
 import saas from '@/data/themes/saas.json'
 import agency from '@/data/themes/agency.json'
@@ -12,6 +13,8 @@ import wellness from '@/data/themes/wellness.json'
 import minimalist from '@/data/themes/minimalist.json'
 import creative from '@/data/themes/creative.json'
 import blog from '@/data/themes/blog.json'
+import elegant from '@/data/themes/elegant.json'
+import neon from '@/data/themes/neon.json'
 
 const DEFAULT_CONFIG: MasterConfig = defaultConfig as unknown as MasterConfig
 
@@ -26,6 +29,8 @@ const THEMES: Record<string, Record<string, unknown>> = {
   minimalist: minimalist as unknown as Record<string, unknown>,
   creative: creative as unknown as Record<string, unknown>,
   blog: blog as unknown as Record<string, unknown>,
+  elegant: elegant as unknown as Record<string, unknown>,
+  neon: neon as unknown as Record<string, unknown>,
 }
 
 const HISTORY_LIMIT = 100
@@ -231,6 +236,7 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
   },
 
   applyVibe: (themeName) => {
+    if (useUIStore.getState().designLocked) return
     const themeData = THEMES[themeName] as
       | { theme?: Record<string, unknown>; sections?: Array<{ type?: string; components?: Array<{ id?: string; type?: string; props?: Record<string, unknown> }> }> }
       | undefined
@@ -286,6 +292,7 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
   },
 
   applyPalette: (paletteIndex: number) => {
+    if (useUIStore.getState().designLocked) return
     const { config, history } = get()
     const newHistory = [...history, config].slice(-HISTORY_LIMIT)
     const theme = config.theme as unknown as Record<string, unknown>
@@ -305,6 +312,7 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
   },
 
   setPalette: (palette) => {
+    if (useUIStore.getState().designLocked) return
     const { config, history } = get()
     const newHistory = [...history, config].slice(-HISTORY_LIMIT)
     const p = palette
@@ -320,6 +328,7 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
   },
 
   applyFont: (fontFamily: string) => {
+    if (useUIStore.getState().designLocked) return
     const { config, history } = get()
     const newHistory = [...history, config].slice(-HISTORY_LIMIT)
     const newTheme = {
@@ -334,6 +343,7 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
   },
 
   toggleMode: () => {
+    if (useUIStore.getState().designLocked) return
     const { config, history } = get()
     const newHistory = [...history, config].slice(-HISTORY_LIMIT)
     const newMode = config.theme.mode === 'dark' ? 'light' : 'dark'

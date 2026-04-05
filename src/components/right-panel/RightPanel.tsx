@@ -1,3 +1,4 @@
+import { Lock, Shield } from 'lucide-react'
 import { useUIStore } from '@/store/uiStore'
 import { useConfigStore } from '@/store/configStore'
 import { Toggle } from '@/components/shared/Toggle'
@@ -21,6 +22,8 @@ const sectionTypeLabel: Record<string, string> = {
 export function RightPanel() {
   const selectedContext = useUIStore((s) => s.selectedContext)
   const rightPanelTab = useUIStore((s) => s.rightPanelTab)
+  const designLocked = useUIStore((s) => s.designLocked)
+  const brandLocked = useUIStore((s) => s.brandLocked)
   const sections = useConfigStore((s) => s.config.sections)
   const toggleSectionEnabled = useConfigStore((s) => s.toggleSectionEnabled)
 
@@ -48,6 +51,21 @@ export function RightPanel() {
               onChange={() => toggleSectionEnabled(sectionMeta.id)}
               size="sm"
             />
+          )}
+        </div>
+      )}
+
+      {(designLocked || brandLocked) && (
+        <div className="flex items-center gap-2 px-4 py-1.5 border-b border-hb-border bg-hb-accent/5">
+          {designLocked && (
+            <span className="flex items-center gap-1 text-[10px] font-medium text-hb-accent">
+              <Lock size={10} /> Design
+            </span>
+          )}
+          {brandLocked && (
+            <span className="flex items-center gap-1 text-[10px] font-medium text-hb-accent">
+              <Shield size={10} /> Brand
+            </span>
           )}
         </div>
       )}

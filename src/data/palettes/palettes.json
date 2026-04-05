@@ -68,5 +68,19 @@
     { "name": "Ink", "bgPrimary": "#0a0a0a", "bgSecondary": "#171717", "textPrimary": "#fafafa", "textSecondary": "#a3a3a3", "accentPrimary": "#fafafa", "accentSecondary": "#d4d4d4" },
     { "name": "Blue", "bgPrimary": "#f8fafc", "bgSecondary": "#f1f5f9", "textPrimary": "#0f172a", "textSecondary": "#64748b", "accentPrimary": "#0f172a", "accentSecondary": "#334155" },
     { "name": "Sage", "bgPrimary": "#f6f7f4", "bgSecondary": "#ecede8", "textPrimary": "#1a2e1a", "textSecondary": "#6b7c6b", "accentPrimary": "#1a2e1a", "accentSecondary": "#3d5c3d" }
+  ],
+  "elegant": [
+    { "name": "Default", "bgPrimary": "#faf8f5", "bgSecondary": "#f0ebe3", "textPrimary": "#1a1a2e", "textSecondary": "#4a4a5e", "accentPrimary": "#d4a574", "accentSecondary": "#c4935a" },
+    { "name": "Midnight Gold", "bgPrimary": "#1a1a2e", "bgSecondary": "#25253e", "textPrimary": "#faf8f5", "textSecondary": "#c4b5a0", "accentPrimary": "#d4a574", "accentSecondary": "#e8b888" },
+    { "name": "Rose", "bgPrimary": "#fdf2f4", "bgSecondary": "#fce7ec", "textPrimary": "#1a1a2e", "textSecondary": "#6b5b6e", "accentPrimary": "#be4d6f", "accentSecondary": "#d4698a" },
+    { "name": "Sage", "bgPrimary": "#f5f7f2", "bgSecondary": "#e8ede2", "textPrimary": "#1a2e1a", "textSecondary": "#4a5e4a", "accentPrimary": "#7a9a6a", "accentSecondary": "#93b383" },
+    { "name": "Charcoal", "bgPrimary": "#fafafa", "bgSecondary": "#f0f0f0", "textPrimary": "#1a1a1a", "textSecondary": "#5a5a5a", "accentPrimary": "#3a3a3a", "accentSecondary": "#555555" }
+  ],
+  "neon": [
+    { "name": "Default", "bgPrimary": "#0a0a0a", "bgSecondary": "#141414", "textPrimary": "#f0f0f0", "textSecondary": "#86efac", "accentPrimary": "#00ff88", "accentSecondary": "#00cc6a" },
+    { "name": "Cyber Pink", "bgPrimary": "#0a0a0a", "bgSecondary": "#1a0a1a", "textPrimary": "#f0f0f0", "textSecondary": "#f9a8d4", "accentPrimary": "#ff00aa", "accentSecondary": "#ec4899" },
+    { "name": "Electric Blue", "bgPrimary": "#0a0a0a", "bgSecondary": "#0a0a1e", "textPrimary": "#f0f0f0", "textSecondary": "#93c5fd", "accentPrimary": "#3b82f6", "accentSecondary": "#60a5fa" },
+    { "name": "Toxic", "bgPrimary": "#0a0a0a", "bgSecondary": "#0a1a0a", "textPrimary": "#f0f0f0", "textSecondary": "#bef264", "accentPrimary": "#84cc16", "accentSecondary": "#a3e635" },
+    { "name": "Amber Glow", "bgPrimary": "#0a0a0a", "bgSecondary": "#1a1400", "textPrimary": "#f0f0f0", "textSecondary": "#fde68a", "accentPrimary": "#f59e0b", "accentSecondary": "#fbbf24" }
   ]
 }

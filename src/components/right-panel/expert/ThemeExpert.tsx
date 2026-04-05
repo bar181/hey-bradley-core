@@ -1,11 +1,14 @@
+import { Lock } from 'lucide-react'
 import { RightAccordion } from '../RightAccordion'
 import { PaletteSelector } from '../simple/PaletteSelector'
 import { FontSelector } from '../simple/FontSelector'
 import { useConfigStore } from '@/store/configStore'
+import { useUIStore } from '@/store/uiStore'
 import { resolveColors } from '@/lib/resolveColors'
 
 export function ThemeExpert() {
   const theme = useConfigStore((s) => s.config.theme)
+  const designLocked = useUIStore((s) => s.designLocked)
   const colors = resolveColors(theme)
 
   const cssVars = [
@@ -19,6 +22,12 @@ export function ThemeExpert() {
 
   return (
     <div>
+      {designLocked && (
+        <div className="flex items-center gap-1.5 px-2.5 py-2 mb-3 rounded-lg bg-hb-accent/10 border border-hb-accent/20">
+          <Lock size={14} className="text-hb-accent shrink-0" />
+          <span className="text-xs font-medium text-hb-accent">Design locked</span>
+        </div>
+      )}
       {/* Color Palette */}
       <RightAccordion id="palette" label="Color Palette" defaultOpen>
         <PaletteSelector />

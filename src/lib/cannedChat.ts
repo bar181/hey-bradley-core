@@ -1,11 +1,17 @@
 /**
  * Canned chat command parser for simulated Bradley AI.
  * Matches user text to predefined actions that modify the site config.
+ * Supports single commands, natural-language aliases, and multi-part requests.
  */
 
 export interface ChatResult {
   response: string
   action: string | null
+}
+
+export interface MultiChatResult {
+  response: string
+  actions: Array<{ action: string; label: string }>
 }
 
 const SECTION_ALIASES: Record<string, string> = {
@@ -25,10 +31,16 @@ const SECTION_ALIASES: Record<string, string> = {
   faq: 'questions',
   faqs: 'questions',
   numbers: 'numbers',
+  stats: 'numbers',
+  statistics: 'numbers',
   'value props': 'numbers',
   'value prop': 'numbers',
   values: 'numbers',
   gallery: 'gallery',
+  photos: 'gallery',
+  images: 'gallery',
+  team: 'team',
+  'team section': 'team',
   footer: 'footer',
   menu: 'menu',
   navbar: 'menu',
@@ -44,7 +56,42 @@ const THEME_ALIASES: Record<string, string> = {
   professional: 'professional',
   wellness: 'wellness',
   minimalist: 'minimalist',
+  creative: 'creative',
+  blog: 'blog',
 }
+
+/** Natural-language theme triggers — phrases that map to a theme */
+const THEME_PHRASES: Array<{ patterns: string[]; theme: string }> = [
+  { patterns: ['blue theme', 'change colors to blue', 'blue color'], theme: 'saas' },
+  { patterns: ['green theme', 'change colors to green', 'green color', 'green'], theme: 'wellness' },
+  { patterns: ['make it professional', 'professional look', 'corporate'], theme: 'professional' },
+  { patterns: ['make it bold', 'bold', 'creative', 'make it creative', 'expressive'], theme: 'creative' },
+  { patterns: ['make it minimal', 'minimal', 'clean', 'make it clean', 'simple'], theme: 'minimalist' },
+]
+
+/** Section keywords used for multi-part parsing */
+const SECTION_KEYWORDS: Array<{ keywords: string[]; type: string; label: string }> = [
+  { keywords: ['pricing', 'price', 'prices', 'plans'], type: 'pricing', label: 'pricing' },
+  { keywords: ['testimonials', 'testimonial', 'quotes', 'reviews'], type: 'quotes', label: 'testimonials' },
+  { keywords: ['faq', 'faqs', 'questions', 'q&a'], type: 'questions', label: 'FAQ' },
+  { keywords: ['stats', 'statistics', 'numbers', 'metrics'], type: 'numbers', label: 'stats' },
+  { keywords: ['gallery', 'photos', 'images', 'portfolio gallery'], type: 'gallery', label: 'gallery' },
+  { keywords: ['team', 'team section', 'our team', 'about team'], type: 'team', label: 'team' },
+  { keywords: ['features', 'feature', 'columns'], type: 'columns', label: 'features' },
+]
+
+/** Theme keywords used for multi-part parsing */
+const THEME_KEYWORDS: Array<{ keywords: string[]; theme: string; label: string }> = [
+  { keywords: ['saas', 'software', 'tech'], theme: 'saas', label: 'SaaS theme' },
+  { keywords: ['agency'], theme: 'agency', label: 'agency theme' },
+  { keywords: ['portfolio'], theme: 'portfolio', label: 'portfolio theme' },
+  { keywords: ['startup'], theme: 'startup', label: 'startup theme' },
+  { keywords: ['wellness', 'health', 'spa', 'yoga'], theme: 'wellness', label: 'wellness theme' },
+  { keywords: ['professional', 'corporate', 'business'], theme: 'professional', label: 'professional theme' },
+  { keywords: ['minimalist', 'minimal', 'clean'], theme: 'minimalist', label: 'minimalist theme' },
+  { keywords: ['creative', 'bold', 'expressive'], theme: 'creative', label: 'creative theme' },
+  { keywords: ['personal', 'blog'], theme: 'personal', label: 'personal theme' },
+]
 
 function matchSection(text: string): string | null {
   const lower = text.toLowerCase().trim()
@@ -59,24 +106,124 @@ function matchTheme(text: string): string | null {
   return THEME_ALIASES[lower] ?? null
 }
 
+/**
+ * Parse a multi-part natural language request.
+ * Returns null if input does not look like a multi-part request.
+ */
+export function parseMultiPartCommand(input: string): MultiChatResult | null {
+  const lower = input.toLowerCase().trim()
+
+  // Only trigger multi-part parsing for longer, sentence-like inputs
+  const hasConjunction = /\b(with|and|,|\+)\b/.test(lower)
+  const wordCount = lower.split(/\s+/).length
+  if (!hasConjunction || wordCount < 5) return null
+
+  const actions: Array<{ action: string; label: string }> = []
+  const labels: string[] = []
+
+  // Detect theme from the input
+  let themeDetected = false
+  for (const tk of THEME_KEYWORDS) {
+    for (const kw of tk.keywords) {
+      if (lower.includes(kw) && !themeDetected) {
+        actions.push({ action: `applyVibe:${tk.theme}`, label: tk.label })
+        labels.push(`Applying ${tk.label}`)
+        themeDetected = true
+        break
+      }
+    }
+    if (themeDetected) break
+  }
+
+  // Detect sections from the input
+  for (const sk of SECTION_KEYWORDS) {
+    for (const kw of sk.keywords) {
+      if (lower.includes(kw)) {
+        actions.push({ action: `addSection:${sk.type}`, label: sk.label })
+        labels.push(`Adding ${sk.label}`)
+        break
+      }
+    }
+  }
+
+  // Detect dark/light mode
+  if (/\bdark\b/.test(lower)) {
+    actions.push({ action: 'toggleMode:dark', label: 'dark mode' })
+    labels.push('Switching to dark mode')
+  } else if (/\blight\b/.test(lower)) {
+    actions.push({ action: 'toggleMode:light', label: 'light mode' })
+    labels.push('Switching to light mode')
+  }
+
+  // Only return multi-part result if we matched 2+ actions
+  if (actions.length < 2) return null
+
+  const typePart = themeDetected
+    ? `Setting up your ${actions[0].label.replace(' theme', '')} landing page`
+    : 'Building your page'
+  const steps = labels.map((l) => `${l}...`).join(' ')
+  const response = `${typePart}... ${steps} Done!`
+
+  return { response, actions }
+}
+
 export function parseChatCommand(input: string): ChatResult {
   const trimmed = input.trim()
   const lower = trimmed.toLowerCase()
 
-  // Dark mode
-  if (lower === 'dark' || lower === 'dark mode' || lower === 'make it dark' || lower === 'go dark') {
+  // Dark mode — expanded triggers
+  if (
+    lower === 'dark' ||
+    lower === 'dark mode' ||
+    lower === 'make it dark' ||
+    lower === 'go dark' ||
+    lower === 'show me a dark theme'
+  ) {
     return { response: 'going dark', action: 'toggleMode:dark' }
   }
 
-  // Light mode
-  if (lower === 'light' || lower === 'light mode' || lower === 'make it light' || lower === 'go light') {
+  // Light mode — expanded triggers
+  if (
+    lower === 'light' ||
+    lower === 'light mode' ||
+    lower === 'make it light' ||
+    lower === 'go light' ||
+    lower === 'show me a light theme'
+  ) {
     return { response: 'switching to light', action: 'toggleMode:light' }
   }
 
-  // Add section
-  const addMatch = lower.match(/^add\s+(.+)/)
+  // Natural-language theme phrases (e.g. "change colors to blue")
+  for (const tp of THEME_PHRASES) {
+    for (const pattern of tp.patterns) {
+      if (lower === pattern || lower === `${pattern} theme`) {
+        return {
+          response: `applying ${tp.theme} theme`,
+          action: `applyVibe:${tp.theme}`,
+        }
+      }
+    }
+  }
+
+  // Bare section name (e.g. "pricing", "testimonials", "faq", "gallery")
+  const bareSection = matchSection(lower)
+  if (bareSection) {
+    return { response: `added ${bareSection}`, action: `addSection:${bareSection}` }
+  }
+
+  // Add section (e.g. "add pricing", "add a gallery")
+  const addMatch = lower.match(/^add\s+(?:a\s+)?(.+)/)
   if (addMatch) {
     const section = matchSection(addMatch[1])
+    if (section) {
+      return { response: `added ${section}`, action: `addSection:${section}` }
+    }
+  }
+
+  // Section-specific phrases (e.g. "team section", "pricing section")
+  const sectionPhraseMatch = lower.match(/^(.+?)\s+section$/)
+  if (sectionPhraseMatch) {
+    const section = matchSection(sectionPhraseMatch[1])
     if (section) {
       return { response: `added ${section}`, action: `addSection:${section}` }
     }
@@ -95,10 +242,10 @@ export function parseChatCommand(input: string): ChatResult {
   const headlineMatch = trimmed.match(/^(?:headline|change headline to|set headline)\s+(.+)/i)
   if (headlineMatch) {
     const text = headlineMatch[1]
-    return { response: `updated headline`, action: `headline:${text}` }
+    return { response: 'updated headline', action: `headline:${text}` }
   }
 
-  // Theme change
+  // Theme change (e.g. "theme saas", "switch to portfolio")
   const themeMatch = lower.match(/^(?:theme|use|switch to|apply)\s+(.+?)(?:\s+theme)?$/)
   if (themeMatch) {
     const theme = matchTheme(themeMatch[1])
@@ -107,9 +254,57 @@ export function parseChatCommand(input: string): ChatResult {
     }
   }
 
+  // Bare theme name (e.g. just "saas" or "portfolio")
+  const bareTheme = matchTheme(lower)
+  if (bareTheme) {
+    return { response: `applying ${bareTheme} theme`, action: `applyVibe:${bareTheme}` }
+  }
+
   // Fallback
   return {
-    response: `hmm, try "dark mode", "add pricing", or "headline Hello"`,
+    response: 'hmm, try "dark mode", "add pricing", or "headline Hello"',
     action: null,
   }
 }
+
+/** Predefined simulated-requirement presets */
+export interface SimulatedRequirement {
+  name: string
+  description: string
+  actions: Array<{ action: string; label: string }>
+}
+
+export const SIMULATED_REQUIREMENTS: SimulatedRequirement[] = [
+  {
+    name: 'SaaS Startup',
+    description: 'SaaS theme + dark + pricing + testimonials + stats',
+    actions: [
+      { action: 'applyVibe:saas', label: 'SaaS theme' },
+      { action: 'toggleMode:dark', label: 'dark mode' },
+      { action: 'addSection:pricing', label: 'pricing' },
+      { action: 'addSection:quotes', label: 'testimonials' },
+      { action: 'addSection:numbers', label: 'stats' },
+    ],
+  },
+  {
+    name: 'Local Business',
+    description: 'Wellness theme + light + gallery + testimonials + FAQ',
+    actions: [
+      { action: 'applyVibe:wellness', label: 'wellness theme' },
+      { action: 'toggleMode:light', label: 'light mode' },
+      { action: 'addSection:gallery', label: 'gallery' },
+      { action: 'addSection:quotes', label: 'testimonials' },
+      { action: 'addSection:questions', label: 'FAQ' },
+    ],
+  },
+  {
+    name: 'Portfolio',
+    description: 'Portfolio theme + dark + gallery + team',
+    actions: [
+      { action: 'applyVibe:portfolio', label: 'portfolio theme' },
+      { action: 'toggleMode:dark', label: 'dark mode' },
+      { action: 'addSection:gallery', label: 'gallery' },
+      { action: 'addSection:team', label: 'team' },
+    ],
+  },
+]

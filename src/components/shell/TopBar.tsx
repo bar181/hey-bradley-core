@@ -1,4 +1,4 @@
-import { Monitor, Tablet, Smartphone, Undo2, Redo2, Sun, Moon, Menu, X, Eye, PenLine, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, Check, ClipboardCopy, Lock, Unlock, Save, FolderOpen, Download, Upload } from 'lucide-react'
+import { Monitor, Tablet, Smartphone, Undo2, Redo2, Sun, Moon, Menu, X, Eye, PenLine, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, Check, ClipboardCopy, Lock, Unlock, Shield, ShieldOff, Save, FolderOpen, Download, Upload } from 'lucide-react'
 
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore, type PreviewWidth } from '@/store/uiStore'
@@ -29,6 +29,8 @@ export function TopBar() {
   const setRightPanelVisible = useUIStore((s) => s.setRightPanelVisible)
   const designLocked = useUIStore((s) => s.designLocked)
   const toggleDesignLock = useUIStore((s) => s.toggleDesignLock)
+  const brandLocked = useUIStore((s) => s.brandLocked)
+  const toggleBrandLock = useUIStore((s) => s.toggleBrandLock)
 
   // Project management
   const isDirty = useConfigStore((s) => s.isDirty)
@@ -90,6 +92,15 @@ export function TopBar() {
     const name = saveName.trim() || defaultSaveName
     const currentConfig = useConfigStore.getState().config
     saveProject(name, currentConfig)
+    // Persist lock state alongside project
+    const slug = name.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'untitled'
+    const uiState = useUIStore.getState()
+    try {
+      localStorage.setItem(`hb-locks-${slug}`, JSON.stringify({
+        designLocked: uiState.designLocked,
+        brandLocked: uiState.brandLocked,
+      }))
+    } catch { /* localStorage full */ }
     markSaved()
     setSaveOpen(false)
     setSaveName('')
@@ -99,6 +110,21 @@ export function TopBar() {
     const loaded = loadProjectFromStore(slug)
     if (loaded) {
       loadConfig(loaded)
+      // Restore lock state
+      try {
+        const raw = localStorage.getItem(`hb-locks-${slug}`)
+        if (raw) {
+          const locks = JSON.parse(raw) as { designLocked?: boolean; brandLocked?: boolean }
+          useUIStore.getState().setDesignLocked(locks.designLocked ?? false)
+          useUIStore.getState().setBrandLocked(locks.brandLocked ?? false)
+        } else {
+          useUIStore.getState().setDesignLocked(false)
+          useUIStore.getState().setBrandLocked(false)
+        }
+      } catch {
+        useUIStore.getState().setDesignLocked(false)
+        useUIStore.getState().setBrandLocked(false)
+      }
     }
     setLoadOpen(false)
   }, [loadProjectFromStore, loadConfig])
@@ -109,16 +135,38 @@ export function TopBar() {
 
   const handleExport = useCallback(() => {
     const currentConfig = useConfigStore.getState().config
+    const uiState = useUIStore.getState()
     const name = currentConfig.site?.title || 'untitled-project'
-    exportProject(currentConfig, name)
+    // Wrap config with lock state for export
+    const exportData = {
+      ...currentConfig,
+      _locks: {
+        designLocked: uiState.designLocked,
+        brandLocked: uiState.brandLocked,
+      },
+    }
+    exportProject(exportData as unknown as typeof currentConfig, name)
   }, [exportProject])
 
   const handleImport = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
     try {
-      const imported = await importProject(file)
+      // Read raw JSON to extract locks before validation strips them
+      const text = await file.text()
+      const raw = JSON.parse(text) as Record<string, unknown>
+      const locks = raw._locks as { designLocked?: boolean; brandLocked?: boolean } | undefined
+
+      // Re-create File for importProject (it reads the file separately)
+      const newFile = new File([text], file.name, { type: file.type })
+      const imported = await importProject(newFile)
       loadConfig(imported)
+
+      // Restore lock state from imported file
+      if (locks) {
+        useUIStore.getState().setDesignLocked(locks.designLocked ?? false)
+        useUIStore.getState().setBrandLocked(locks.brandLocked ?? false)
+      }
     } catch {
       // Import failed -- invalid file
     }
@@ -252,6 +300,16 @@ export function TopBar() {
           title={designLocked ? 'Design locked — content editing only' : 'Design unlocked'}
         >
           {designLocked ? <Lock size={16} /> : <Unlock size={16} />}
+        </button>
+        <button
+          onClick={toggleBrandLock}
+          className={`p-1 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded ${
+            brandLocked ? 'text-hb-accent' : 'text-white/60 hover:text-white'
+          }`}
+          aria-label={brandLocked ? 'Unlock brand editing' : 'Lock brand editing'}
+          title={brandLocked ? 'Brand locked — SEO & brand fields read-only' : 'Brand unlocked'}
+        >
+          {brandLocked ? <Shield size={16} /> : <ShieldOff size={16} />}
         </button>
         <div className="w-px h-4 bg-white/20 mx-1" />
         <button

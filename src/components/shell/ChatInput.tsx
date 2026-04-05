@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect } from 'react'
-import { SendHorizontal } from 'lucide-react'
+import { useState, useRef, useEffect, useCallback } from 'react'
+import { SendHorizontal, Zap } from 'lucide-react'
 import { cn } from '@/lib/cn'
-import { parseChatCommand } from '@/lib/cannedChat'
+import { parseChatCommand, parseMultiPartCommand, SIMULATED_REQUIREMENTS } from '@/lib/cannedChat'
+import type { SimulatedRequirement, MultiChatResult } from '@/lib/cannedChat'
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore } from '@/store/uiStore'
 import { EXAMPLE_SITES } from '@/data/examples'
@@ -18,6 +19,7 @@ export interface ChatMessage {
 
 const MAX_MESSAGES = 20
 const TYPEWRITER_SPEED = 30 // ms per character
+const MULTI_STEP_DELAY = 500 // ms between multi-part actions
 
 export function ChatInput() {
   const [messages, setMessages] = useState<ChatMessage[]>([])
@@ -32,6 +34,7 @@ export function ChatInput() {
   const inputRef = useRef<HTMLInputElement>(null)
   const nextId = useRef(0)
   const demoCleanupRef = useRef<(() => void) | null>(null)
+  const multiStepTimerRef = useRef<ReturnType<typeof setTimeout>[]>([])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -56,10 +59,11 @@ export function ChatInput() {
     return () => clearTimeout(timer)
   }, [typingText, typingFull])
 
-  // Cleanup demo on unmount
+  // Cleanup demo and multi-step timers on unmount
   useEffect(() => {
     return () => {
       demoCleanupRef.current?.()
+      multiStepTimerRef.current.forEach(clearTimeout)
     }
   }, [])
 
@@ -90,7 +94,7 @@ export function ChatInput() {
     setMessages((prev) => [...prev.slice(-MAX_MESSAGES + 1), { id, role: 'user', text }])
   }
 
-  const executeAction = (action: string) => {
+  const executeAction = useCallback((action: string) => {
     const store = useConfigStore.getState()
     const [cmd, ...rest] = action.split(':')
     const arg = rest.join(':')
@@ -133,7 +137,36 @@ export function ChatInput() {
         store.applyVibe(arg)
         break
     }
-  }
+  }, [])
+
+  /**
+   * Execute a multi-part request with staggered delays for visual effect.
+   * Each action fires ~500ms apart, with a typewriter response at the end.
+   */
+  const executeMultiPart = useCallback(
+    (result: MultiChatResult) => {
+      // Clear any previous timers
+      multiStepTimerRef.current.forEach(clearTimeout)
+      multiStepTimerRef.current = []
+
+      const { actions, response } = result
+
+      actions.forEach(({ action }, i) => {
+        const timer = setTimeout(() => {
+          executeAction(action)
+        }, i * MULTI_STEP_DELAY)
+        multiStepTimerRef.current.push(timer)
+      })
+
+      // After all actions complete, start the typewriter response
+      const finalTimer = setTimeout(() => {
+        setTypingText('')
+        setTypingFull(response)
+      }, actions.length * MULTI_STEP_DELAY)
+      multiStepTimerRef.current.push(finalTimer)
+    },
+    [executeAction]
+  )
 
   const handleSend = () => {
     const text = input.trim()
@@ -144,11 +177,34 @@ export function ChatInput() {
     setIsProcessing(true)
 
     setTimeout(() => {
+      // Try multi-part parsing first
+      const multiResult = parseMultiPartCommand(text)
+      if (multiResult) {
+        executeMultiPart(multiResult)
+        return
+      }
+
+      // Fall back to single command
       const result = parseChatCommand(text)
       if (result.action) executeAction(result.action)
       // Start typewriter
       setTypingText('')
       setTypingFull(result.response)
+    }, 400)
+  }
+
+  const handleSimulatedRequirement = (req: SimulatedRequirement) => {
+    if (isProcessing || demoActive) return
+
+    addUserMessage(req.name)
+    setIsProcessing(true)
+
+    const labels = req.actions.map((a) => a.label)
+    const steps = labels.map((l) => `Adding ${l}...`).join(' ')
+    const response = `Setting up ${req.name}... ${steps} Done!`
+
+    setTimeout(() => {
+      executeMultiPart({ response, actions: req.actions })
     }, 400)
   }
 
@@ -207,6 +263,29 @@ export function ChatInput() {
                 ))}
               </div>
             </div>
+
+            {/* Simulated Requirements */}
+            <div className="space-y-2 pt-2">
+              <p className="text-xs text-hb-text-muted uppercase tracking-wider font-medium flex items-center gap-1">
+                <Zap size={10} className="text-hb-accent" />
+                Simulated requirements
+              </p>
+              <div className="grid grid-cols-3 gap-2">
+                {SIMULATED_REQUIREMENTS.map((req) => (
+                  <Button
+                    key={req.name}
+                    variant="outline"
+                    onClick={() => handleSimulatedRequirement(req)}
+                    disabled={isProcessing || demoActive}
+                    className="text-left px-3 py-2.5 h-auto rounded-lg border border-hb-accent/20 bg-hb-surface hover:bg-hb-accent/5 hover:border-hb-accent/40 transition-all text-xs disabled:opacity-40 disabled:cursor-not-allowed group flex flex-col items-start"
+                    data-testid={`sim-req-${req.name.toLowerCase().replace(/\s+/g, '-')}`}
+                  >
+                    <span className="font-medium text-hb-accent group-hover:text-hb-accent transition-colors">{req.name}</span>
+                    <span className="block text-hb-text-muted mt-0.5 text-[10px] leading-tight">{req.description}</span>
+                  </Button>
+                ))}
+              </div>
+            </div>
           </div>
         )}
         {messages.map((msg) => (
@@ -235,7 +314,7 @@ export function ChatInput() {
       {/* Hint — when empty and focused */}
       {isFocused && !input && messages.length === 0 && (
         <div className="px-4 py-1.5 text-xs text-hb-text-muted border-t border-hb-border/50">
-          try: <span className="text-hb-text-secondary">"dark mode"</span> · <span className="text-hb-text-secondary">"add pricing"</span> · <span className="text-hb-text-secondary">"headline Hello"</span>
+          try: <span className="text-hb-text-secondary">"dark mode"</span> · <span className="text-hb-text-secondary">"add pricing"</span> · <span className="text-hb-text-secondary">"build a SaaS page with pricing and testimonials"</span>
         </div>
       )}
 

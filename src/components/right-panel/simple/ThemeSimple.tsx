@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
-import { Sun, Moon, ChevronDown, Check, Settings, Globe } from 'lucide-react'
+import { Sun, Moon, ChevronDown, Check, Settings, Globe, Lock, Shield } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore } from '@/store/uiStore'
@@ -94,10 +94,12 @@ function HexColorInput({
   label,
   value,
   onChange,
+  disabled = false,
 }: {
   label: string
   value: string
   onChange: (hex: string) => void
+  disabled?: boolean
 }) {
   const [local, setLocal] = useState(value)
   const debouncedLocal = useDebounce(local, 300)
@@ -134,12 +136,13 @@ function HexColorInput({
   const invalid = local.length > 0 && !isValidHex(local)
 
   return (
-    <div className="flex items-center gap-1.5">
+    <div className={cn('flex items-center gap-1.5', disabled && 'opacity-50 pointer-events-none')}>
       {/* Color swatch via native picker */}
       <input
         type="color"
         value={isValidHex(local) ? local : '#000000'}
         onChange={handlePicker}
+        disabled={disabled}
         className="w-6 h-6 rounded border border-hb-border cursor-pointer shrink-0 p-0 bg-transparent"
         title={`Pick color for ${label}`}
       />
@@ -150,6 +153,7 @@ function HexColorInput({
         onChange={handleText}
         placeholder="#000000"
         maxLength={7}
+        disabled={disabled}
         className={cn(
           'bg-hb-surface border rounded px-1.5 py-1 text-xs text-hb-text-primary w-[76px] focus:border-hb-accent focus:outline-none transition-colors font-mono',
           invalid ? 'border-red-500/60' : 'border-hb-border',
@@ -174,6 +178,7 @@ function SiteSettingsSection() {
   const favicon = useConfigStore((s) => (s.config.site as Record<string, unknown>).favicon as string | undefined) ?? ''
   const ogImage = useConfigStore((s) => (s.config.site as Record<string, unknown>).ogImage as string | undefined) ?? ''
   const applyPatch = useConfigStore((s) => s.applyPatch)
+  const brandLocked = useUIStore((s) => s.brandLocked)
 
   // Find logo URL from the navbar section's logo component
   const logoUrl = useConfigStore((s) => {
@@ -221,8 +226,14 @@ function SiteSettingsSection() {
 
       {open && (
         <div className="space-y-3 rounded-lg border border-hb-border bg-hb-surface p-3">
+          {brandLocked && (
+            <div className="flex items-center gap-1.5 px-2 py-1.5 rounded bg-hb-accent/10 border border-hb-accent/20">
+              <Shield size={12} className="text-hb-accent shrink-0" />
+              <span className="text-[10px] font-medium text-hb-accent">Brand locked — fields are read-only</span>
+            </div>
+          )}
           {/* SEO Fields */}
-          <div className="space-y-2">
+          <div className={cn('space-y-2', brandLocked && 'opacity-50')}>
             <div className="flex items-center gap-1.5 text-[10px] font-semibold text-hb-text-muted uppercase tracking-wider">
               <Globe size={10} />
               SEO &amp; Meta
@@ -230,27 +241,27 @@ function SiteSettingsSection() {
 
             <label className="block">
               <span className="text-[10px] text-hb-text-muted mb-0.5 block">Site Title</span>
-              <input type="text" value={title} onChange={(e) => patch('title', e.target.value)} className={INPUT} placeholder="My Website" />
+              <input type="text" value={title} onChange={(e) => patch('title', e.target.value)} readOnly={brandLocked} className={cn(INPUT, brandLocked && 'cursor-not-allowed')} placeholder="My Website" />
             </label>
 
             <label className="block">
               <span className="text-[10px] text-hb-text-muted mb-0.5 block">Description</span>
-              <textarea value={description} onChange={(e) => patch('description', e.target.value)} rows={2} className={cn(INPUT, 'resize-none')} placeholder="A short description of your site" />
+              <textarea value={description} onChange={(e) => patch('description', e.target.value)} readOnly={brandLocked} rows={2} className={cn(INPUT, 'resize-none', brandLocked && 'cursor-not-allowed')} placeholder="A short description of your site" />
             </label>
 
             <label className="block">
               <span className="text-[10px] text-hb-text-muted mb-0.5 block">Author</span>
-              <input type="text" value={author} onChange={(e) => patch('author', e.target.value)} className={INPUT} placeholder="Jane Doe" />
+              <input type="text" value={author} onChange={(e) => patch('author', e.target.value)} readOnly={brandLocked} className={cn(INPUT, brandLocked && 'cursor-not-allowed')} placeholder="Jane Doe" />
             </label>
 
             <label className="block">
               <span className="text-[10px] text-hb-text-muted mb-0.5 block">Domain</span>
-              <input type="text" value={domain} onChange={(e) => patch('domain', e.target.value)} className={INPUT} placeholder="example.com" />
+              <input type="text" value={domain} onChange={(e) => patch('domain', e.target.value)} readOnly={brandLocked} className={cn(INPUT, brandLocked && 'cursor-not-allowed')} placeholder="example.com" />
             </label>
 
             <label className="block">
               <span className="text-[10px] text-hb-text-muted mb-0.5 block">Email</span>
-              <input type="text" value={email} onChange={(e) => patch('email', e.target.value)} className={INPUT} placeholder="hello@example.com" />
+              <input type="text" value={email} onChange={(e) => patch('email', e.target.value)} readOnly={brandLocked} className={cn(INPUT, brandLocked && 'cursor-not-allowed')} placeholder="hello@example.com" />
             </label>
           </div>
 
@@ -258,24 +269,24 @@ function SiteSettingsSection() {
           <div className="border-t border-hb-border" />
 
           {/* Brand Fields */}
-          <div className="space-y-2">
+          <div className={cn('space-y-2', brandLocked && 'opacity-50')}>
             <div className="text-[10px] font-semibold text-hb-text-muted uppercase tracking-wider">
               Brand
             </div>
 
             <label className="block">
               <span className="text-[10px] text-hb-text-muted mb-0.5 block">Logo URL</span>
-              <input type="text" value={logoUrl} onChange={(e) => patchLogo(e.target.value)} className={INPUT} placeholder="https://example.com/logo.png" />
+              <input type="text" value={logoUrl} onChange={(e) => patchLogo(e.target.value)} readOnly={brandLocked} className={cn(INPUT, brandLocked && 'cursor-not-allowed')} placeholder="https://example.com/logo.png" />
             </label>
 
             <label className="block">
               <span className="text-[10px] text-hb-text-muted mb-0.5 block">Favicon URL</span>
-              <input type="text" value={favicon} onChange={(e) => patch('favicon', e.target.value)} className={INPUT} placeholder="https://example.com/favicon.ico" />
+              <input type="text" value={favicon} onChange={(e) => patch('favicon', e.target.value)} readOnly={brandLocked} className={cn(INPUT, brandLocked && 'cursor-not-allowed')} placeholder="https://example.com/favicon.ico" />
             </label>
 
             <label className="block">
               <span className="text-[10px] text-hb-text-muted mb-0.5 block">OG Image URL</span>
-              <input type="text" value={ogImage} onChange={(e) => patch('ogImage', e.target.value)} className={INPUT} placeholder="https://example.com/og.png" />
+              <input type="text" value={ogImage} onChange={(e) => patch('ogImage', e.target.value)} readOnly={brandLocked} className={cn(INPUT, brandLocked && 'cursor-not-allowed')} placeholder="https://example.com/og.png" />
             </label>
           </div>
         </div>
@@ -309,9 +320,15 @@ export function ThemeSimple() {
   }
 
   return (
-    <div className={cn('space-y-4', designLocked && 'opacity-50 pointer-events-none')}>
+    <div className="space-y-4">
+      {designLocked && (
+        <div className="flex items-center gap-1.5 px-2.5 py-2 rounded-lg bg-hb-accent/10 border border-hb-accent/20">
+          <Lock size={14} className="text-hb-accent shrink-0" />
+          <span className="text-xs font-medium text-hb-accent">Design locked — theme, colors, and fonts are read-only</span>
+        </div>
+      )}
       {/* Current theme selector — dropdown style */}
-      <div>
+      <div className={cn(designLocked && 'opacity-50 pointer-events-none')}>
         <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Theme</div>
 
         {/* Selected theme display */}
@@ -381,6 +398,7 @@ export function ThemeSimple() {
       </div>
 
       {/* Editable palette colors */}
+      <div className={cn(designLocked && 'opacity-50 pointer-events-none')}>
       {currentPalette && (
         <div>
           <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Your Colors</div>
@@ -390,6 +408,7 @@ export function ThemeSimple() {
                 key={key}
                 label={label}
                 value={currentPalette[key]}
+                disabled={designLocked}
                 onChange={(hex) => {
                   setPalette({ ...currentPalette, [key]: hex })
                 }}
@@ -398,9 +417,10 @@ export function ThemeSimple() {
           </div>
         </div>
       )}
+      </div>
 
       {/* Palette presets */}
-      <div>
+      <div className={cn(designLocked && 'opacity-50 pointer-events-none')}>
         <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Colors</div>
         <div className="space-y-0.5 rounded-lg border border-hb-border bg-hb-surface overflow-hidden max-h-[240px] overflow-y-auto">
           {PALETTE_PRESETS.map((preset) => {
@@ -410,6 +430,7 @@ export function ThemeSimple() {
                 key={preset.name}
                 type="button"
                 onClick={() => setPalette(preset.colors)}
+                disabled={designLocked}
                 className={cn(
                   'w-full flex items-center gap-2.5 px-3 py-2 text-left transition-colors',
                   isSelected
@@ -435,7 +456,7 @@ export function ThemeSimple() {
       </div>
 
       {/* Mode toggle */}
-      <div>
+      <div className={cn(designLocked && 'opacity-50 pointer-events-none')}>
         <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Mode</div>
         <div className="flex rounded-lg border border-hb-border overflow-hidden">
           {MODE_OPTIONS.map(({ value, icon: Icon, label }) => (
@@ -443,6 +464,7 @@ export function ThemeSimple() {
               key={value}
               type="button"
               onClick={() => handleModeChange(value)}
+              disabled={designLocked}
               className={cn(
                 'flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-medium transition-colors',
                 currentMode === value

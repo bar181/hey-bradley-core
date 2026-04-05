@@ -1,0 +1,605 @@
+{
+  "meta": {
+    "name": "Elegant",
+    "slug": "elegant",
+    "description": "For luxury brands, high-end services, and refined experiences",
+    "tags": [
+      "light",
+      "serif",
+      "luxury",
+      "refined"
+    ],
+    "mood": "Luxurious and refined",
+    "heroVariant": "overlay"
+  },
+  "theme": {
+    "preset": "elegant",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#faf8f5",
+      "bgSecondary": "#f0ebe3",
+      "textPrimary": "#1a1a2e",
+      "textSecondary": "#4a4a5e",
+      "accentPrimary": "#d4a574",
+      "accentSecondary": "#c4935a"
+    },
+    "alternativePalettes": [
+      {
+        "name": "Midnight Gold",
+        "bgPrimary": "#1a1a2e",
+        "bgSecondary": "#25253e",
+        "textPrimary": "#faf8f5",
+        "textSecondary": "#c4b5a0",
+        "accentPrimary": "#d4a574",
+        "accentSecondary": "#e8b888"
+      },
+      {
+        "name": "Rose",
+        "bgPrimary": "#fdf2f4",
+        "bgSecondary": "#fce7ec",
+        "textPrimary": "#1a1a2e",
+        "textSecondary": "#6b5b6e",
+        "accentPrimary": "#be4d6f",
+        "accentSecondary": "#d4698a"
+      },
+      {
+        "name": "Sage",
+        "bgPrimary": "#f5f7f2",
+        "bgSecondary": "#e8ede2",
+        "textPrimary": "#1a2e1a",
+        "textSecondary": "#4a5e4a",
+        "accentPrimary": "#7a9a6a",
+        "accentSecondary": "#93b383"
+      },
+      {
+        "name": "Charcoal",
+        "bgPrimary": "#fafafa",
+        "bgSecondary": "#f0f0f0",
+        "textPrimary": "#1a1a1a",
+        "textSecondary": "#5a5a5a",
+        "accentPrimary": "#3a3a3a",
+        "accentSecondary": "#555555"
+      }
+    ],
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "DM Serif Display",
+      "headingWeight": 400,
+      "baseSize": "16px",
+      "lineHeight": 1.8
+    },
+    "spacing": {
+      "sectionPadding": "96px",
+      "containerMaxWidth": "1100px",
+      "componentGap": "32px"
+    },
+    "borderRadius": "8px",
+    "alternatePalette": {
+      "bgPrimary": "#1a1a2e",
+      "bgSecondary": "#25253e",
+      "textPrimary": "#faf8f5",
+      "textSecondary": "#c4b5a0",
+      "accentPrimary": "#d4a574",
+      "accentSecondary": "#c4935a"
+    }
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#faf8f5",
+        "color": "#1a1a2e"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Hey Bradley"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Get Started",
+            "url": "#pricing"
+          }
+        }
+      ]
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "overlay",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "96px 24px",
+        "maxWidth": "1100px"
+      },
+      "style": {
+        "background": "#faf8f5",
+        "color": "#1a1a2e",
+        "fontFamily": "DM Serif Display",
+        "borderRadius": "0px"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Crafted with Intention",
+            "icon": "sparkles",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Build Websites by Just Talking",
+            "level": 1,
+            "size": "60px",
+            "weight": 400
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Describe what you want, watch it appear in real-time, and get beautiful websites."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Start Building",
+            "url": "#pricing",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "See How It Works",
+            "url": "#about",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "heroImage",
+          "type": "image",
+          "enabled": false,
+          "order": 5,
+          "props": {}
+        },
+        {
+          "id": "backgroundImage",
+          "type": "image",
+          "enabled": true,
+          "order": 6,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600&auto=format&q=80",
+            "alt": "Elegant minimalist interior with warm lighting",
+            "aspect": "16:9"
+          }
+        },
+        {
+          "id": "heroVideo",
+          "type": "video",
+          "enabled": false,
+          "order": 7,
+          "props": {}
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 8,
+          "props": {
+            "text": "Trusted by 500+ teams worldwide",
+            "show": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "columns",
+      "id": "features-01",
+      "enabled": false,
+      "order": 1,
+      "variant": "grid-3col",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#f0ebe3",
+        "color": "#1a1a2e"
+      },
+      "components": [
+        {
+          "id": "f1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "gem",
+            "title": "Your First Feature",
+            "description": "Build and deploy in seconds, not days."
+          }
+        },
+        {
+          "id": "f2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "target",
+            "title": "Precise Specs",
+            "description": "Designs with pixel-perfect accuracy."
+          }
+        },
+        {
+          "id": "f3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "crown",
+            "title": "Premium Quality",
+            "description": "Production-grade output from day one."
+          }
+        }
+      ],
+      "content": {
+        "heading": "What We Offer",
+        "subheading": "Everything you need to succeed"
+      }
+    },
+    {
+      "type": "pricing",
+      "id": "pricing-01",
+      "enabled": false,
+      "order": 2,
+      "variant": "3-tier",
+      "layout": {
+        "display": "flex",
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#faf8f5",
+        "color": "#1a1a2e"
+      },
+      "components": [
+        {
+          "id": "tier-1",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "name": "Essentials",
+            "price": "$0",
+            "period": "month",
+            "features": "1 project,Basic support,5GB storage",
+            "ctaText": "Get Started",
+            "ctaUrl": "#signup",
+            "highlighted": false
+          }
+        },
+        {
+          "id": "tier-2",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "name": "Professional",
+            "price": "$29",
+            "period": "month",
+            "features": "Unlimited projects,Priority support,50GB storage,Custom domain",
+            "ctaText": "Start Free Trial",
+            "ctaUrl": "#signup",
+            "highlighted": true
+          }
+        },
+        {
+          "id": "tier-3",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "name": "Enterprise",
+            "price": "$99",
+            "period": "month",
+            "features": "Everything in Pro,SSO/SAML,Unlimited storage,Dedicated support,SLA",
+            "ctaText": "Contact Sales",
+            "ctaUrl": "#contact",
+            "highlighted": false
+          }
+        }
+      ],
+      "content": {
+        "heading": "Investment",
+        "subheading": "Choose the plan that works for you"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": false,
+      "order": 3,
+      "variant": "single",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "96px 24px"
+      },
+      "style": {
+        "background": "#f0ebe3",
+        "color": "#1a1a2e"
+      },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "This platform transformed how we build websites. The AI-first approach saves us hours every week.",
+            "author": "Sarah Chen",
+            "role": "Head of Design, Acme Inc"
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "The specification engine is a game-changer. We went from vague briefs to precise, actionable specs in minutes.",
+            "author": "Marcus Johnson",
+            "role": "CTO, StartupFlow"
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "I'm not technical at all, and I built my entire personal website in one afternoon. Incredible.",
+            "author": "Emily Rodriguez",
+            "role": "Freelance Writer"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Words of Praise",
+        "subheading": "Hear from our distinguished clients"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": false,
+      "order": 4,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "96px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "#faf8f5",
+        "color": "#1a1a2e"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Ready to build something amazing?",
+            "level": 2,
+            "size": "40px",
+            "weight": 400
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Start building your next project with Hey Bradley."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Begin Now",
+            "url": "#signup",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ]
+    },
+    {
+      "type": "numbers",
+      "id": "value-props-01",
+      "enabled": false,
+      "order": 5,
+      "variant": "numbers",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#f0ebe3",
+        "color": "#1a1a2e"
+      },
+      "components": [
+        {
+          "id": "vp-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "500+",
+            "label": "Teams",
+            "description": "Using Hey Bradley worldwide"
+          }
+        },
+        {
+          "id": "vp-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "2%",
+            "label": "Ambiguity",
+            "description": "Design accuracy"
+          }
+        },
+        {
+          "id": "vp-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "< 100ms",
+            "label": "Updates",
+            "description": "Real-time preview rendering"
+          }
+        },
+        {
+          "id": "vp-4",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "value": "12",
+            "label": "Themes",
+            "description": "Professional design presets"
+          }
+        }
+      ],
+      "content": {
+        "heading": "By The Numbers",
+        "subheading": "Results that speak for themselves"
+      }
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": false,
+      "order": 6,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#1a1a2e",
+        "color": "#faf8f5"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Hey Bradley"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Product",
+            "links": "Features,Pricing,Templates,Changelog"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Company",
+            "links": "About,Blog,Careers,Contact"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Legal",
+            "links": "Privacy,Terms,Security"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "\u00a9 2026 Hey Bradley. All rights reserved."
+          }
+        }
+      ]
+    }
+  ]
+}

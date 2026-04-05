@@ -99,6 +99,59 @@ export function buildDemoSequence(config: MasterConfig, name: string): DemoSeque
   return { name, steps }
 }
 
+/**
+ * Build a demo sequence from a MasterConfig using custom caption strings.
+ *
+ * Each caption corresponds to a demo step:
+ * - Caption 0 → load config with all non-menu sections disabled
+ * - Caption 1 → theme pause (no section enabled)
+ * - Captions 2..N-2 → enable sections one-by-one in order
+ * - Caption N-1 → final "ready" caption (no action)
+ *
+ * If there are more section-enable captions than sections, the extras
+ * are shown as cosmetic pauses. If fewer, remaining sections batch-enable
+ * on the last section caption.
+ */
+export function buildDemoFromCaptions(
+  config: MasterConfig,
+  name: string,
+  captions: { text: string; delay: number }[],
+): DemoSequence {
+  const enabledSections = config.sections.filter(s => s.enabled && s.type !== 'menu')
+  const steps: DemoStep[] = []
+
+  captions.forEach((cap, idx) => {
+    steps.push({
+      caption: cap.text,
+      delayMs: cap.delay,
+      action: () => {
+        if (idx === 0) {
+          // Load config with everything disabled except menu
+          const modifiedConfig: MasterConfig = {
+            ...config,
+            sections: config.sections.map(s => ({
+              ...s,
+              enabled: s.type === 'menu',
+            })),
+          }
+          useConfigStore.getState().loadConfig(modifiedConfig)
+        } else if (idx === 1) {
+          // Theme pause — no action
+        } else if (idx < captions.length - 1) {
+          // Enable a section (map caption index to section index)
+          const sectionIdx = idx - 2
+          if (sectionIdx < enabledSections.length) {
+            useConfigStore.getState().toggleSectionEnabled(enabledSections[sectionIdx].id)
+          }
+        }
+        // Last caption is the "ready" message — no action
+      },
+    })
+  })
+
+  return { name, steps }
+}
+
 export type DemoCleanup = () => void
 
 /**

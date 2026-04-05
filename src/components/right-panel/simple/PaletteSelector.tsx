@@ -1,5 +1,6 @@
 import { cn } from '@/lib/cn'
 import { useConfigStore } from '@/store/configStore'
+import { useUIStore } from '@/store/uiStore'
 import { THEME_REGISTRY } from '@/data/themes/index'
 
 interface PaletteEntry {
@@ -15,6 +16,7 @@ interface PaletteEntry {
 export function PaletteSelector() {
   const preset = useConfigStore((s) => s.config.theme.preset)
   const applyPalette = useConfigStore((s) => s.applyPalette)
+  const designLocked = useUIStore((s) => s.designLocked)
   const currentBgPrimary = useConfigStore((s) => {
     const t = s.config.theme as Record<string, unknown>
     const p = t.palette as Record<string, string> | undefined
@@ -39,7 +41,7 @@ export function PaletteSelector() {
   const allPalettes = [defaultPalette, ...alternatives]
 
   return (
-    <div>
+    <div className={cn(designLocked && 'opacity-50 pointer-events-none')}>
       <div className="text-xs font-medium text-hb-text-muted uppercase tracking-wide mb-1.5">Palette</div>
       <div className="space-y-0.5">
       {allPalettes.map((palette, index) => {

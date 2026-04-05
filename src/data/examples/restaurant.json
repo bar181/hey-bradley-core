@@ -1,0 +1,525 @@
+{
+  "site": {
+    "title": "The Corner Table",
+    "description": "Farm-to-table dining in the heart of downtown — seasonal menus, craft cocktails, and unforgettable evenings",
+    "author": "The Corner Table",
+    "email": "hello@thecornertable.com",
+    "domain": "thecornertable.com",
+    "project": "the-corner-table",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2"
+  },
+  "theme": {
+    "preset": "wellness",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#1a1210",
+      "bgSecondary": "#2a1f1a",
+      "textPrimary": "#faf5f0",
+      "textSecondary": "#d4c4b0",
+      "accentPrimary": "#c47d3f",
+      "accentSecondary": "#e09850"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#faf5f0",
+      "bgSecondary": "#f0e8de",
+      "textPrimary": "#1a1210",
+      "textSecondary": "#6b5b4e",
+      "accentPrimary": "#c47d3f",
+      "accentSecondary": "#e09850"
+    },
+    "typography": {
+      "fontFamily": "Georgia",
+      "headingFamily": "Georgia",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "12px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#1a1210",
+        "color": "#faf5f0"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "The Corner Table"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Reserve a Table",
+            "url": "#cta"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "overlay",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "#1a1210",
+        "color": "#faf5f0",
+        "fontFamily": "Georgia",
+        "borderRadius": "0px"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Farm-to-Table Since 2018",
+            "icon": "sparkles",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Where Every Meal Tells a Story",
+            "level": 1,
+            "size": "56px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Seasonal dishes crafted from locally sourced ingredients, paired with handpicked wines and craft cocktails in a warm, intimate setting downtown."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "View Our Menu",
+            "url": "#features",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Make a Reservation",
+            "url": "#cta",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "heroImage",
+          "type": "image",
+          "enabled": false,
+          "order": 5,
+          "props": {}
+        },
+        {
+          "id": "backgroundImage",
+          "type": "image",
+          "enabled": true,
+          "order": 6,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&auto=format&q=80",
+            "alt": "Elegantly plated fine dining dish in warm ambient light",
+            "aspect": "16:9"
+          }
+        },
+        {
+          "id": "heroVideo",
+          "type": "video",
+          "enabled": false,
+          "order": 7,
+          "props": {}
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 8,
+          "props": {
+            "text": "Rated 4.9 stars by 1,200+ diners",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "features-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "image-cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#2a1f1a",
+        "color": "#faf5f0"
+      },
+      "components": [
+        {
+          "id": "f1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "utensils",
+            "title": "Seasonal Small Plates",
+            "description": "Shareable starters that change with the harvest. Think burrata with heirloom tomatoes in summer, roasted root vegetables in winter.",
+            "image": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&q=80",
+            "imageAlt": "Beautifully plated seasonal appetizer"
+          }
+        },
+        {
+          "id": "f2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "flame",
+            "title": "Wood-Fired Mains",
+            "description": "Our open-flame kitchen turns out perfectly seared steaks, whole roasted fish, and house-made pastas you won't stop thinking about.",
+            "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&q=80",
+            "imageAlt": "Wood-fired steak with charred vegetables"
+          }
+        },
+        {
+          "id": "f3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "wine",
+            "title": "Craft Cocktails & Wine",
+            "description": "A curated wine list from small-batch vineyards and signature cocktails made with house-infused spirits and fresh botanicals.",
+            "image": "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&auto=format&q=80",
+            "imageAlt": "Craft cocktail with fresh herb garnish"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Our Menu",
+        "subheading": "Seasonal plates made with ingredients from local farms"
+      }
+    },
+    {
+      "type": "gallery",
+      "id": "gallery-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "16px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#1a1210",
+        "color": "#faf5f0"
+      },
+      "components": [
+        {
+          "id": "g1",
+          "type": "image",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "imageUrl": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&auto=format&q=80",
+            "caption": "Signature tasting plate"
+          }
+        },
+        {
+          "id": "g2",
+          "type": "image",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "imageUrl": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&auto=format&q=80",
+            "caption": "Our dining room"
+          }
+        },
+        {
+          "id": "g3",
+          "type": "image",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "imageUrl": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&q=80",
+            "caption": "Farm-fresh ingredients"
+          }
+        },
+        {
+          "id": "g4",
+          "type": "image",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "imageUrl": "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&auto=format&q=80",
+            "caption": "Craft cocktails"
+          }
+        },
+        {
+          "id": "g5",
+          "type": "image",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "imageUrl": "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&q=80",
+            "caption": "Wood-fired dishes"
+          }
+        },
+        {
+          "id": "g6",
+          "type": "image",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "imageUrl": "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&auto=format&q=80",
+            "caption": "Dessert selection"
+          }
+        }
+      ],
+      "content": {
+        "heading": "A Taste of the Experience",
+        "subheading": "Moments from our kitchen and dining room"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#2a1f1a",
+        "color": "#faf5f0"
+      },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "The tasting menu was a revelation. Every course told a story about the season and the land. We'll be back every quarter.",
+            "author": "David & Sophie Nakamura",
+            "role": "Anniversary Dinner",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "I brought a client here for a business dinner and the service was impeccable. Attentive without being intrusive — exactly what you want.",
+            "author": "Rachel Okonkwo",
+            "role": "Business Dinner",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "The cocktail program alone is worth the visit. The rosemary old fashioned is the best I've ever had, and the food matches that quality.",
+            "author": "Marco Delgado",
+            "role": "Regular Guest",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "What Our Guests Say",
+        "subheading": "Stories from evenings at The Corner Table"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "#1a1210",
+        "color": "#faf5f0"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Your Table Is Waiting",
+            "level": 2,
+            "size": "36px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Open Tuesday through Saturday, 5 PM to 11 PM. Reserve online or call us at (503) 555-0142 for same-day availability."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Reserve a Table",
+            "url": "#reserve",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#1a1210",
+        "color": "#faf5f0"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "The Corner Table"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Dine",
+            "links": "Menu,Wine List,Private Events,Gift Cards"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Visit",
+            "links": "Hours,Location,Parking,Accessibility"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Connect",
+            "links": "Instagram,Facebook,Newsletter"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "\u00a9 2026 The Corner Table. Farm-to-table dining in the heart of downtown."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

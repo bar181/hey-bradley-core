@@ -1,0 +1,591 @@
+{
+  "site": {
+    "title": "CodeCraft Academy",
+    "description": "Learn to code with project-based courses taught by senior engineers from top tech companies",
+    "author": "CodeCraft Academy",
+    "email": "hello@codecraftacademy.com",
+    "domain": "codecraftacademy.com",
+    "project": "codecraft-academy",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2"
+  },
+  "theme": {
+    "preset": "startup",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#030712",
+      "bgSecondary": "#111827",
+      "textPrimary": "#f9fafb",
+      "textSecondary": "#9ca3af",
+      "accentPrimary": "#8b5cf6",
+      "accentSecondary": "#a78bfa"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#f9fafb",
+      "textPrimary": "#030712",
+      "textSecondary": "#6b7280",
+      "accentPrimary": "#8b5cf6",
+      "accentSecondary": "#a78bfa"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Inter",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "12px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#030712",
+        "color": "#f9fafb"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "CodeCraft Academy"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Start Learning",
+            "url": "#pricing"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #030712 0%, #1e1b4b 50%, #030712 100%)",
+        "color": "#f9fafb",
+        "fontFamily": "Inter",
+        "borderRadius": "0px"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Spring 2026 Cohort Now Enrolling",
+            "icon": "sparkles",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Learn to Code by Building Real Products",
+            "level": 1,
+            "size": "56px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Project-based courses taught by senior engineers from Google, Meta, and Stripe. Go from zero to job-ready in 12 weeks with mentorship, code reviews, and a portfolio you're proud of."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Explore Courses",
+            "url": "#features",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Watch Demo Lesson",
+            "url": "#about",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "heroImage",
+          "type": "image",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&auto=format&q=80",
+            "alt": "Code editor with colorful syntax highlighting on laptop",
+            "aspect": "16:9",
+            "position": "below",
+            "shadow": true
+          }
+        },
+        {
+          "id": "backgroundImage",
+          "type": "image",
+          "enabled": false,
+          "order": 6,
+          "props": {}
+        },
+        {
+          "id": "heroVideo",
+          "type": "video",
+          "enabled": false,
+          "order": 7,
+          "props": {}
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 8,
+          "props": {
+            "text": "Trusted by 8,000+ students across 40 countries",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "features-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "grid-3col",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#111827",
+        "color": "#f9fafb"
+      },
+      "components": [
+        {
+          "id": "f1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "code",
+            "title": "Project-Based Learning",
+            "description": "No toy exercises. Build real applications — APIs, dashboards, mobile apps — that solve actual problems and impress employers."
+          }
+        },
+        {
+          "id": "f2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "users",
+            "title": "1-on-1 Mentorship",
+            "description": "Weekly sessions with a senior engineer who reviews your code, answers questions, and guides your career trajectory."
+          }
+        },
+        {
+          "id": "f3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "briefcase",
+            "title": "Career Support",
+            "description": "Resume workshops, mock interviews, and direct introductions to hiring partners at 200+ tech companies worldwide."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Why CodeCraft",
+        "subheading": "Everything you need to launch your engineering career"
+      }
+    },
+    {
+      "type": "pricing",
+      "id": "pricing-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "3-tier",
+      "layout": {
+        "display": "flex",
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#030712",
+        "color": "#f9fafb"
+      },
+      "components": [
+        {
+          "id": "tier-1",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "name": "Self-Paced",
+            "price": "$299",
+            "period": "course",
+            "features": "Full curriculum access,Community Discord,Project templates,Certificate of completion",
+            "ctaText": "Start Learning",
+            "ctaUrl": "#signup",
+            "highlighted": false
+          }
+        },
+        {
+          "id": "tier-2",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "name": "Mentored",
+            "price": "$899",
+            "period": "course",
+            "features": "Everything in Self-Paced,Weekly 1-on-1 mentorship,Code reviews on every project,Priority support,Career coaching session",
+            "ctaText": "Apply Now",
+            "ctaUrl": "#apply",
+            "highlighted": true
+          }
+        },
+        {
+          "id": "tier-3",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "name": "Bootcamp",
+            "price": "$2,499",
+            "period": "12 weeks",
+            "features": "Everything in Mentored,Full-time immersive program,Daily standups,Portfolio review,Job placement assistance,Interview prep",
+            "ctaText": "Apply for Bootcamp",
+            "ctaUrl": "#apply",
+            "highlighted": false
+          }
+        }
+      ],
+      "content": {
+        "heading": "Choose Your Path",
+        "subheading": "Flexible plans for every learning style and budget"
+      }
+    },
+    {
+      "type": "numbers",
+      "id": "numbers-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "counters",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#111827",
+        "color": "#f9fafb"
+      },
+      "components": [
+        {
+          "id": "n-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "8,000+",
+            "label": "Students Enrolled",
+            "description": "Across 40 countries"
+          }
+        },
+        {
+          "id": "n-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "94%",
+            "label": "Completion Rate",
+            "description": "Industry-leading"
+          }
+        },
+        {
+          "id": "n-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "$85K",
+            "label": "Avg Starting Salary",
+            "description": "For bootcamp grads"
+          }
+        },
+        {
+          "id": "n-4",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "value": "200+",
+            "label": "Hiring Partners",
+            "description": "Top tech companies"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Results That Speak",
+        "subheading": "Our graduates are building careers at companies they love"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#030712",
+        "color": "#f9fafb"
+      },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "I went from writing my first line of code to landing a junior dev role at Shopify in 5 months. The mentorship made all the difference.",
+            "author": "Priya Sharma",
+            "role": "Software Engineer, Shopify",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "The project-based approach is genius. Instead of watching tutorials, I was building actual apps from week one. My portfolio got me three interviews.",
+            "author": "Tyler Washington",
+            "role": "Frontend Developer, Stripe",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "As a career changer from teaching, I needed structure and support. CodeCraft gave me both. The community here is incredibly supportive.",
+            "author": "Ana Petrova",
+            "role": "Full Stack Developer, Vercel",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "Student Stories",
+        "subheading": "Hear from engineers who started right where you are"
+      }
+    },
+    {
+      "type": "questions",
+      "id": "faq-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "accordion",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "gap": "0",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#111827",
+        "color": "#f9fafb"
+      },
+      "components": [
+        {
+          "id": "q-1",
+          "type": "faq-item",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "question": "Do I need any prior coding experience?",
+            "answer": "Not at all. Our Foundations track starts from absolute zero. If you can use a computer and follow instructions, you can learn to code with us."
+          }
+        },
+        {
+          "id": "q-2",
+          "type": "faq-item",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "question": "How much time do I need to commit each week?",
+            "answer": "Self-paced students typically spend 10-15 hours per week. The full-time bootcamp requires 40+ hours per week for 12 weeks."
+          }
+        },
+        {
+          "id": "q-3",
+          "type": "faq-item",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "question": "What languages and technologies will I learn?",
+            "answer": "Our core curriculum covers JavaScript, TypeScript, React, Node.js, SQL, and Git. Advanced tracks add Python, cloud infrastructure, and system design."
+          }
+        },
+        {
+          "id": "q-4",
+          "type": "faq-item",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "question": "Is there a money-back guarantee?",
+            "answer": "Yes. If you complete the first two weeks and feel it's not for you, we'll refund 100% of your tuition — no questions asked."
+          }
+        },
+        {
+          "id": "q-5",
+          "type": "faq-item",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "question": "Do you offer job placement support?",
+            "answer": "Bootcamp graduates get full career support including resume reviews, mock interviews, and introductions to our network of 200+ hiring partners."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Frequently Asked Questions",
+        "subheading": "Everything you need to know before enrolling"
+      }
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 6,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#030712",
+        "color": "#f9fafb"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "CodeCraft Academy"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Courses",
+            "links": "Foundations,Frontend,Backend,Full Stack"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Community",
+            "links": "Discord,Blog,Student Stories,Events"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Company",
+            "links": "About,Careers,Partnerships,Contact"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "\u00a9 2026 CodeCraft Academy. Building the next generation of engineers."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}
