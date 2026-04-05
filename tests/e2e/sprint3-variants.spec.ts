@@ -165,8 +165,8 @@ test.describe('Spec Generators', () => {
   })
 
   test('XAI Docs tab is accessible from tab bar', async ({ page }) => {
-    // The tab bar has Preview, Data, Specs, Pipeline
-    const tabBar = page.locator('button, a').filter({ hasText: /^Specs$/ }).first()
+    // The tab bar has Preview, Blueprints (Data + Pipeline hidden in SIMPLE mode)
+    const tabBar = page.locator('button, a').filter({ hasText: /^Blueprints$/ }).first()
     const visible = await tabBar.isVisible().catch(() => false)
     expect(visible).toBeTruthy()
   })

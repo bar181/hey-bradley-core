@@ -113,6 +113,29 @@ export function XAIDocsTab() {
         </div>
       </div>
 
+      {/* How to use this spec */}
+      {activeTab === 'build-plan' && (
+        <div className="rounded-lg border border-hb-accent/20 bg-hb-accent/5 px-4 py-3 flex items-start gap-3">
+          <span className="text-hb-accent text-lg mt-0.5">→</span>
+          <div className="text-xs text-hb-text-secondary leading-relaxed">
+            <span className="font-semibold text-hb-text-primary">How to use:</span>{' '}
+            Copy this Build Plan → open Claude Code → paste as your prompt with{' '}
+            <span className="font-mono text-hb-accent">"Build this in React + Tailwind"</span>{' '}
+            → your site is ready in minutes. The spec includes exact colors, fonts, copy, and component structure for 90%+ reproduction.
+          </div>
+        </div>
+      )}
+      {activeTab === 'aisp' && (
+        <div className="rounded-lg border border-hb-accent/20 bg-hb-accent/5 px-4 py-3 flex items-start gap-3">
+          <span className="text-hb-accent text-lg mt-0.5">→</span>
+          <div className="text-xs text-hb-text-secondary leading-relaxed">
+            <span className="font-semibold text-hb-text-primary">AISP Crystal Atom:</span>{' '}
+            This formal specification uses mathematical notation (Ω, Σ, Γ, Λ, Ε) for machine-parseable, near-zero ambiguity specs.
+            AI agent swarms can parse this with {"<"}2% interpretation gap. Paste into Claude Code for the most precise reproduction.
+          </div>
+        </div>
+      )}
+
       {/* Spec content */}
       <div className="rounded-lg bg-hb-surface p-5 max-h-[calc(100vh-16rem)] overflow-y-auto">
         {currentTab.format === 'aisp' ? (

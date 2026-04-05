@@ -2,20 +2,22 @@ import { cn } from '../../lib/cn'
 import { useUIStore, type ActiveTab } from '../../store/uiStore'
 import { FileText } from 'lucide-react'
 
-const TABS: { key: ActiveTab; label: string }[] = [
+const TABS: { key: ActiveTab; label: string; expert?: boolean }[] = [
   { key: 'REALITY', label: 'Preview' },
-  { key: 'DATA', label: 'Data' },
-  { key: 'XAI_DOCS', label: 'Specs' },
-  { key: 'WORKFLOW', label: 'Pipeline' },
+  { key: 'XAI_DOCS', label: 'Blueprints' },
+  { key: 'DATA', label: 'Data', expert: true },
+  { key: 'WORKFLOW', label: 'Pipeline', expert: true },
 ]
 
 export function TabBar() {
   const activeTab = useUIStore((s) => s.activeTab)
   const setActiveTab = useUIStore((s) => s.setActiveTab)
+  const rightPanelTab = useUIStore((s) => s.rightPanelTab)
+  const isExpert = rightPanelTab === 'EXPERT'
 
   return (
     <div className="flex flex-row gap-0 border-b border-hb-border bg-hb-bg items-center">
-      {TABS.map((tab) => {
+      {TABS.filter((tab) => !tab.expert || isExpert).map((tab) => {
         const isSpecs = tab.key === 'XAI_DOCS'
         const isActive = activeTab === tab.key
 

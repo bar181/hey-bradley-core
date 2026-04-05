@@ -8,7 +8,7 @@ const INITIAL_SHOWCASE = {
   id: -1,
   style: "whiteboard",
   title: "TELL BRADLEY WHAT YOU WANT. WATCH IT APPEAR.",
-  subtitle: "Your AI website builder. Just describe your dream website and watch it come to life.",
+  subtitle: "Your spec-driven website builder. Describe your vision. Get enterprise-grade specifications. Build with AI in minutes.",
   cta: "Get Started",
   ctaSecondary: "Explore Builder",
   link: "/new-project",

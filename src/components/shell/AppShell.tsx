@@ -9,6 +9,18 @@ import { useAutoSave } from '@/lib/persistence'
 export function AppShell() {
   useAutoSave()
 
+  // Auto-select hero section so right panel isn't empty on load
+  useEffect(() => {
+    const { selectedContext, setSelectedContext } = useUIStore.getState()
+    if (!selectedContext || selectedContext.type === 'theme') {
+      const sections = useConfigStore.getState().config.sections
+      const hero = sections.find((s) => s.type === 'hero' && s.enabled)
+      if (hero) {
+        setSelectedContext({ type: 'section', sectionId: hero.id })
+      }
+    }
+  }, [])
+
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {

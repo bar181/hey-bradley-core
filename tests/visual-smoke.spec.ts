@@ -7,11 +7,13 @@ test.describe('Visual Smoke Tests', () => {
   });
 
   test('Data Tab renders valid JSON without raw HTML', async ({ page }) => {
-    // Expand developer tabs first
-    const devToggle = page.locator('button[aria-label="Show developer tabs"]').first();
-    if (await devToggle.isVisible()) await devToggle.click();
-    await page.waitForTimeout(300);
-    // Navigate to Data Tab
+    // Switch to EXPERT mode first (Data tab hidden in SIMPLE mode)
+    const expertBtn = page.locator('button').filter({ hasText: 'EXPERT' }).first();
+    if (await expertBtn.isVisible()) {
+      await expertBtn.click();
+      await page.waitForTimeout(300);
+    }
+    // Navigate to Data Tab (now visible in expert mode)
     const dataBtn = page.locator('button').filter({ hasText: 'Data' }).first();
     await dataBtn.click();
     await page.waitForTimeout(1000);
@@ -37,22 +39,32 @@ test.describe('Visual Smoke Tests', () => {
     await page.screenshot({ path: 'tests/screenshots/reality-tab.png' });
   });
 
-  test('All 4 tabs navigable without errors', async ({ page }) => {
+  test('All visible tabs navigable without errors', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push(e.message));
 
-    // Expand developer tabs
-    const devToggle = page.locator('button[aria-label="Show developer tabs"]').first();
-    if (await devToggle.isVisible()) await devToggle.click();
-    await page.waitForTimeout(300);
-
-    for (const tabName of ['Preview', 'Data', 'Specs', 'Pipeline']) {
+    // SIMPLE mode: Preview + Blueprints visible. EXPERT mode: + Data + Pipeline
+    for (const tabName of ['Preview', 'Blueprints']) {
       const tab = page.locator('button').filter({ hasText: tabName }).first();
       if (await tab.count() > 0) {
         await tab.click();
         await page.waitForTimeout(500);
       }
       await page.screenshot({ path: `tests/screenshots/tab-${tabName.toLowerCase().replace(' ', '-')}.png` });
+    }
+
+    // Switch to EXPERT and verify Data + Pipeline tabs appear
+    const expertBtn = page.locator('button').filter({ hasText: 'EXPERT' }).first();
+    if (await expertBtn.isVisible()) {
+      await expertBtn.click();
+      await page.waitForTimeout(300);
+    }
+    for (const tabName of ['Data', 'Pipeline']) {
+      const tab = page.locator('button').filter({ hasText: tabName }).first();
+      if (await tab.count() > 0) {
+        await tab.click();
+        await page.waitForTimeout(500);
+      }
     }
 
     expect(errors).toHaveLength(0);
