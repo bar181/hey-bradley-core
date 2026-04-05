@@ -31,14 +31,16 @@ export function LeftPanel() {
   return (
     <div className="bg-hb-bg h-full flex flex-col">
       {/* Tab bar — 3 tabs */}
-      <div className="flex border-b border-hb-border">
+      <div role="tablist" aria-label="Left panel tabs" className="flex border-b border-hb-border">
         {TABS.map(({ value, icon: Icon, label }) => (
           <button
             key={value}
             type="button"
+            role="tab"
+            aria-selected={activeTab === value}
             onClick={() => handleTabChange(value)}
             className={cn(
-              'flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-medium transition-colors',
+              'flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded-t',
               activeTab === value
                 ? 'text-hb-accent border-b-2 border-hb-accent'
                 : 'text-hb-text-muted hover:text-hb-text-secondary'

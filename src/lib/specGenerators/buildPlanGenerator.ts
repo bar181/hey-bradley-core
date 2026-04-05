@@ -20,6 +20,72 @@ const IMAGE_EFFECT_DESCRIPTIONS: Record<string, string> = {
   'fade-in-scroll': 'Fades in when scrolled into view',
 }
 
+/** Generate markdown spec for a single section */
+function formatSectionSpec(
+  s: MasterConfig['sections'][0],
+  index: number,
+): string {
+  let out = ''
+  const label = SECTION_LABELS[s.type] || s.type
+  const variant = s.variant || 'default'
+  const variantDesc = VARIANT_DESCRIPTIONS[s.type]?.[variant] || variant
+  const heading = getStr(s, 'heading') || undefined
+  const subheading = getStr(s, 'subheading') || undefined
+  const activeComps = (s.components ?? []).filter((c) => c.enabled)
+
+  out += `### Section ${index + 1}: ${label}\n\n`
+  out += `- **Type:** \`${s.type}\`\n`
+  out += `- **Variant:** \`${variant}\` — ${variantDesc}\n`
+  out += `- **ID:** \`${s.id}\`\n`
+
+  if (s.layout) {
+    const layoutParts: string[] = []
+    if (s.layout.display) layoutParts.push(`display: ${s.layout.display}`)
+    if (s.layout.direction) layoutParts.push(`direction: ${s.layout.direction}`)
+    if (s.layout.columns) layoutParts.push(`columns: ${s.layout.columns}`)
+    if (s.layout.gap) layoutParts.push(`gap: ${s.layout.gap}`)
+    if (s.layout.padding) layoutParts.push(`padding: ${s.layout.padding}`)
+    if (s.layout.align) layoutParts.push(`align: ${s.layout.align}`)
+    if (s.layout.maxWidth) layoutParts.push(`max-width: ${s.layout.maxWidth}`)
+    if (layoutParts.length > 0) out += `- **Layout:** ${layoutParts.join(', ')}\n`
+  }
+
+  if (s.style?.background) out += `- **Background:** \`${s.style.background}\`\n`
+  if (s.style?.color) out += `- **Text color:** \`${s.style.color}\`\n`
+  if (s.style?.fontFamily) out += `- **Font override:** ${s.style.fontFamily}\n`
+  if (s.style?.borderRadius) out += `- **Border radius:** ${s.style.borderRadius}\n`
+  if (s.style?.imageEffect && s.style.imageEffect !== 'none') {
+    const effectName = s.style.imageEffect
+    const effectDesc = IMAGE_EFFECT_DESCRIPTIONS[effectName] || effectName
+    out += `- **Image Effect:** \`${effectName}\` — ${effectDesc}\n`
+    out += `  - Apply CSS class "${effectName}" to the image container\n`
+  }
+
+  if (heading) out += `- **Section heading:** "${heading}"\n`
+  if (subheading) out += `- **Section subheading:** "${subheading}"\n`
+
+  out += `\n`
+
+  if (activeComps.length > 0) {
+    out += `**Components (${activeComps.length}):**\n\n`
+    activeComps.forEach((c) => {
+      out += `#### \`${c.id}\` (${c.type})\n\n`
+      const propLines = describeComponentProps(c)
+      if (propLines.length > 0) {
+        propLines.forEach((line) => {
+          out += `- ${line}\n`
+        })
+      } else {
+        out += `- _(no props)_\n`
+      }
+      out += `\n`
+    })
+  }
+
+  out += `---\n\n`
+  return out
+}
+
 /**
  * Build Plan Generator — THE CRITICAL ONE.
  * An AI agent reads this and builds the site section-by-section with 90% accuracy.
@@ -69,73 +135,37 @@ export function generateBuildPlan(config: MasterConfig): string {
   spec += `}\n`
   spec += `\`\`\`\n\n`
 
+  // Multi-page support (ADR-035)
+  const hasPages = Array.isArray(config.pages) && config.pages.length > 0
+
   // Phase 2: Section-by-Section Build
   spec += `## Phase 2: Build Each Section\n\n`
-  spec += `Build the following ${enabled.length} sections in order. Each section is a standalone React component.\n\n`
 
-  enabled.forEach((s, i) => {
-    const label = SECTION_LABELS[s.type] || s.type
-    const variant = s.variant || 'default'
-    const variantDesc = VARIANT_DESCRIPTIONS[s.type]?.[variant] || variant
-    const heading = getStr(s, 'heading') || undefined
-    const subheading = getStr(s, 'subheading') || undefined
-    const activeComps = (s.components ?? []).filter((c) => c.enabled)
+  if (hasPages) {
+    spec += `This is a **multi-page site** with ${config.pages!.length} pages. Build each page as a separate route.\n\n`
+    spec += `### Navigation\n\n`
+    spec += `Auto-generate a navigation bar from page titles: ${config.pages!.map((p) => `"${p.title}"`).join(', ')}\n`
+    spec += `Use hash routing (e.g., \`#/about\`, \`#/contact\`). Home page is the default route.\n\n`
 
-    spec += `### Section ${i + 1}: ${label}\n\n`
-    spec += `- **Type:** \`${s.type}\`\n`
-    spec += `- **Variant:** \`${variant}\` — ${variantDesc}\n`
-    spec += `- **ID:** \`${s.id}\`\n`
+    config.pages!.forEach((page) => {
+      const pageEnabled = page.sections.filter((s) => s.enabled)
+      spec += `---\n\n`
+      spec += `## Page: ${page.title}${page.isHome ? ' (Home)' : ''}\n\n`
+      spec += `- **Slug:** \`${page.slug || '/'}\`\n`
+      spec += `- **Sections:** ${pageEnabled.length}\n\n`
 
-    // Layout
-    if (s.layout) {
-      const layoutParts: string[] = []
-      if (s.layout.display) layoutParts.push(`display: ${s.layout.display}`)
-      if (s.layout.direction) layoutParts.push(`direction: ${s.layout.direction}`)
-      if (s.layout.columns) layoutParts.push(`columns: ${s.layout.columns}`)
-      if (s.layout.gap) layoutParts.push(`gap: ${s.layout.gap}`)
-      if (s.layout.padding) layoutParts.push(`padding: ${s.layout.padding}`)
-      if (s.layout.align) layoutParts.push(`align: ${s.layout.align}`)
-      if (s.layout.maxWidth) layoutParts.push(`max-width: ${s.layout.maxWidth}`)
-      if (layoutParts.length > 0) spec += `- **Layout:** ${layoutParts.join(', ')}\n`
-    }
-
-    // Style
-    if (s.style?.background) spec += `- **Background:** \`${s.style.background}\`\n`
-    if (s.style?.color) spec += `- **Text color:** \`${s.style.color}\`\n`
-    if (s.style?.fontFamily) spec += `- **Font override:** ${s.style.fontFamily}\n`
-    if (s.style?.borderRadius) spec += `- **Border radius:** ${s.style.borderRadius}\n`
-    if (s.style?.imageEffect && s.style.imageEffect !== 'none') {
-      const effectName = s.style.imageEffect
-      const effectDesc = IMAGE_EFFECT_DESCRIPTIONS[effectName] || effectName
-      spec += `- **Image Effect:** \`${effectName}\` — ${effectDesc}\n`
-      spec += `  - Apply CSS class "${effectName}" to the image container\n`
-    }
-
-    // Content heading/subheading
-    if (heading) spec += `- **Section heading:** "${heading}"\n`
-    if (subheading) spec += `- **Section subheading:** "${subheading}"\n`
-
-    spec += `\n`
-
-    // Components with FULL detail
-    if (activeComps.length > 0) {
-      spec += `**Components (${activeComps.length}):**\n\n`
-      activeComps.forEach((c) => {
-        spec += `#### \`${c.id}\` (${c.type})\n\n`
-        const propLines = describeComponentProps(c)
-        if (propLines.length > 0) {
-          propLines.forEach((line) => {
-            spec += `- ${line}\n`
-          })
-        } else {
-          spec += `- _(no props)_\n`
-        }
-        spec += `\n`
+      pageEnabled.forEach((s, i) => {
+        spec += formatSectionSpec(s, i)
       })
-    }
+    })
+  }
 
-    spec += `---\n\n`
-  })
+  if (!hasPages) {
+    spec += `Build the following ${enabled.length} sections in order. Each section is a standalone React component.\n\n`
+    enabled.forEach((s, i) => {
+      spec += formatSectionSpec(s, i)
+    })
+  }
 
   // Content Guidelines (from site context)
   const purpose = (site as Record<string, unknown>).purpose as string || 'marketing'

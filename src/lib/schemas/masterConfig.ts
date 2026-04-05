@@ -141,6 +141,20 @@ export const themeSchema = z.object({
 export type Theme = z.infer<typeof themeSchema>
 
 // ---------------------------------------------------------------------------
+// Page schema (ADR-035: Multi-Page Architecture)
+// ---------------------------------------------------------------------------
+
+export const pageSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  slug: z.string(),
+  isHome: z.boolean().optional().default(false),
+  sections: z.array(sectionSchema).default(() => []),
+})
+
+export type PageConfig = z.infer<typeof pageSchema>
+
+// ---------------------------------------------------------------------------
 // Master config (three-level hierarchy: site + theme + sections)
 // ---------------------------------------------------------------------------
 
@@ -154,6 +168,7 @@ export const masterConfigSchema = z.object({
     borderRadius: '12px',
   })),
   sections: z.array(sectionSchema).default(() => []),
+  pages: z.array(pageSchema).optional(),
 })
 
 export type MasterConfig = z.infer<typeof masterConfigSchema>

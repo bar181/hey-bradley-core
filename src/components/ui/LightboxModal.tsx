@@ -31,11 +31,20 @@ export function LightboxModal({ src, alt, isOpen, onClose }: LightboxModalProps)
   return createPortal(
     <div
       role="dialog"
+      aria-modal="true"
       aria-label={alt || 'Enlarged image'}
       className="fixed inset-0 z-[9999] flex items-center justify-center animate-lightbox-fade-in"
       style={{ backgroundColor: 'rgba(0,0,0,0.85)' }}
       onClick={onClose}
     >
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute top-4 right-4 text-white/70 hover:text-white text-2xl font-bold bg-black/40 rounded-full w-10 h-10 flex items-center justify-center focus-visible:ring-2 focus-visible:ring-white transition-colors"
+        aria-label="Close enlarged image"
+      >
+        &times;
+      </button>
       <img
         src={src}
         alt={alt || 'Enlarged image'}

@@ -1,8 +1,9 @@
-import { Monitor, Tablet, Smartphone, Undo2, Redo2, Sun, Moon, Menu, X, Eye, PenLine, Check, Lock, Unlock, Shield, ShieldOff, Save } from 'lucide-react'
+import { Monitor, Tablet, Smartphone, Undo2, Redo2, Sun, Moon, Menu, X, Eye, PenLine, Check, Lock, Unlock, Shield, ShieldOff, Save, Download } from 'lucide-react'
 
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore, type PreviewWidth } from '@/store/uiStore'
 import { useProjectStore } from '@/store/projectStore'
+import { exportProjectAsZip } from '@/lib/exportProject'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -245,6 +246,14 @@ export function TopBar() {
           )}
         </div>
 
+        <button
+          onClick={() => exportProjectAsZip(useConfigStore.getState().config)}
+          className="p-1 text-white/60 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
+          aria-label="Export project as ZIP"
+          title="Export all specs as ZIP"
+        >
+          <Download size={16} />
+        </button>
         <button
           onClick={handleShare}
           className="ml-1 border border-white/20 text-white/80 font-mono text-xs uppercase px-3 py-1 rounded hover:bg-white/10 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent flex items-center gap-1"

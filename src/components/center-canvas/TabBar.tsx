@@ -17,7 +17,7 @@ export function TabBar() {
   const isExpert = rightPanelTab === 'EXPERT'
 
   return (
-    <div className="flex flex-row gap-0 border-b border-hb-border bg-hb-bg items-center">
+    <div role="tablist" aria-label="Canvas tabs" className="flex flex-row gap-0 border-b border-hb-border bg-hb-bg items-center">
       {TABS.filter((tab) => !tab.expert || isExpert).map((tab) => {
         const isSpecs = tab.key === 'XAI_DOCS'
         const isActive = activeTab === tab.key
@@ -25,9 +25,11 @@ export function TabBar() {
         return (
           <button
             key={tab.key}
+            role="tab"
+            aria-selected={isActive}
             onClick={() => setActiveTab(tab.key)}
             className={cn(
-              'px-4 py-2.5 text-xs font-medium cursor-pointer transition-colors inline-flex items-center gap-1.5',
+              'px-4 py-2.5 text-xs font-medium cursor-pointer transition-colors inline-flex items-center gap-1.5 focus-visible:ring-2 focus-visible:ring-hb-accent rounded-t',
               isActive
                 ? 'text-hb-accent border-b-2 border-hb-accent -mb-px'
                 : isSpecs

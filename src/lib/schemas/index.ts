@@ -23,6 +23,7 @@ export {
   themeTypographySchema,
   themeSpacingSchema,
   masterConfigSchema,
+  pageSchema,
   type Site,
   type SitePurpose,
   type SiteAudience,
@@ -31,5 +32,6 @@ export {
   type ThemeTypography,
   type ThemeSpacing,
   type MasterConfig,
+  type PageConfig,
 } from './masterConfig'
 export { patchEnvelopeSchema, type PatchSource, type PatchEnvelope } from './patch'

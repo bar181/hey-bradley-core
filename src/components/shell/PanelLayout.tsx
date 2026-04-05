@@ -32,7 +32,8 @@ export function PanelLayout() {
         <button
           type="button"
           onClick={() => useUIStore.getState().setPreviewMode(false)}
-          className="fixed top-4 right-4 z-50 flex items-center gap-2 px-4 py-2 rounded-lg bg-black/70 backdrop-blur-sm text-white text-sm font-medium hover:bg-black/90 transition-colors border border-white/10 shadow-lg"
+          className="fixed top-4 right-4 z-50 flex items-center gap-2 px-4 py-2 rounded-lg bg-black/70 backdrop-blur-sm text-white text-sm font-medium hover:bg-black/90 transition-colors border border-white/10 shadow-lg focus-visible:ring-2 focus-visible:ring-white"
+          aria-label="Exit preview mode"
         >
           <X size={14} />
           Exit Preview
@@ -52,8 +53,9 @@ export function PanelLayout() {
           <button
             type="button"
             onClick={() => useUIStore.getState().setLeftPanelVisible(false)}
-            className="absolute top-2 right-2 z-10 w-6 h-6 rounded-md bg-hb-surface border border-hb-border text-hb-text-muted hover:text-hb-text-primary hover:border-hb-accent transition-all flex items-center justify-center"
+            className="absolute top-2 right-2 z-10 w-6 h-6 rounded-md bg-hb-surface border border-hb-border text-hb-text-muted hover:text-hb-text-primary hover:border-hb-accent transition-all flex items-center justify-center focus-visible:ring-2 focus-visible:ring-hb-accent"
             title="Hide left panel"
+            aria-label="Hide left panel"
           >
             <PanelLeftClose size={12} />
           </button>
@@ -65,8 +67,9 @@ export function PanelLayout() {
         <button
           type="button"
           onClick={() => useUIStore.getState().setLeftPanelVisible(true)}
-          className="w-8 shrink-0 bg-hb-surface border-r border-hb-border flex items-center justify-center text-hb-text-muted hover:text-hb-text-primary transition-colors"
+          className="w-8 shrink-0 bg-hb-surface border-r border-hb-border flex items-center justify-center text-hb-text-muted hover:text-hb-text-primary transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent"
           title="Show left panel"
+          aria-label="Show left panel"
         >
           <PanelLeftOpen size={14} />
         </button>
@@ -88,8 +91,9 @@ export function PanelLayout() {
               <button
                 type="button"
                 onClick={() => useUIStore.getState().setRightPanelVisible(false)}
-                className="absolute top-2 left-2 z-10 w-6 h-6 rounded-md bg-hb-surface border border-hb-border text-hb-text-muted hover:text-hb-text-primary hover:border-hb-accent transition-all flex items-center justify-center"
+                className="absolute top-2 left-2 z-10 w-6 h-6 rounded-md bg-hb-surface border border-hb-border text-hb-text-muted hover:text-hb-text-primary hover:border-hb-accent transition-all flex items-center justify-center focus-visible:ring-2 focus-visible:ring-hb-accent"
                 title="Hide right panel"
+                aria-label="Hide right panel"
               >
                 <PanelRightClose size={12} />
               </button>
@@ -105,8 +109,9 @@ export function PanelLayout() {
           <button
             type="button"
             onClick={() => useUIStore.getState().setRightPanelVisible(true)}
-            className="w-8 shrink-0 bg-hb-surface border-l border-hb-border flex items-center justify-center text-hb-text-muted hover:text-hb-text-primary transition-colors"
+            className="w-8 shrink-0 bg-hb-surface border-l border-hb-border flex items-center justify-center text-hb-text-muted hover:text-hb-text-primary transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent"
             title="Show right panel"
+            aria-label="Show right panel"
           >
             <PanelRightOpen size={14} />
           </button>

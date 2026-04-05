@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { deepMerge } from '@/lib/deepMerge'
-import type { MasterConfig, Section, SectionType, PatchSource } from '@/lib/schemas'
+import type { MasterConfig, Section, SectionType, PatchSource, PageConfig } from '@/lib/schemas'
 import { useUIStore } from '@/store/uiStore'
 import defaultConfig from '@/data/default-config.json'
 import saas from '@/data/themes/saas.json'
@@ -42,6 +42,9 @@ interface ConfigStore {
   isDirty: boolean
   lastSavedAt: Date | null
 
+  // Multi-page (ADR-035)
+  activePage: string | null
+
   applyPatch: (patch: Record<string, unknown>, source: PatchSource) => void
   setSectionConfig: (sectionId: string, patch: Record<string, unknown>) => void
   addSection: (type: SectionType, afterIndex?: number) => void
@@ -64,6 +67,35 @@ interface ConfigStore {
   markSaved: () => void
   loadConfig: (config: MasterConfig) => void
   resetToDefaults: () => void
+
+  // Multi-page management (ADR-035)
+  addPage: (title: string) => void
+  removePage: (pageId: string) => void
+  reorderPages: (fromIndex: number, toIndex: number) => void
+  setActivePage: (pageId: string | null) => void
+  getActivePageSections: () => Section[]
+  enableMultiPage: () => void
+  isMultiPage: () => boolean
+}
+
+/** Get sections for the active context (page-aware) */
+function getActiveSections(config: MasterConfig, activePage: string | null): Section[] {
+  if (activePage && config.pages && config.pages.length > 0) {
+    const page = config.pages.find((p) => p.id === activePage)
+    if (page) return page.sections
+  }
+  return config.sections
+}
+
+/** Return a new config with updated sections for the active context */
+function withUpdatedSections(config: MasterConfig, activePage: string | null, sections: Section[]): MasterConfig {
+  if (activePage && config.pages && config.pages.length > 0) {
+    const newPages = config.pages.map((p) =>
+      p.id === activePage ? { ...p, sections } : p
+    )
+    return { ...config, pages: newPages }
+  }
+  return { ...config, sections }
 }
 
 export const useConfigStore = create<ConfigStore>((set, get) => ({
@@ -72,6 +104,7 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
   future: [],
   isDirty: false,
   lastSavedAt: null,
+  activePage: null,
 
   applyPatch: (patch, _source) => {
     const { config, history } = get()
@@ -81,14 +114,15 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
   },
 
   setSectionConfig: (sectionId, patch) => {
-    const { config, history } = get()
+    const { config, history, activePage } = get()
     const newHistory = [...history, config].slice(-HISTORY_LIMIT)
-    const newSections = config.sections.map((section) => {
+    const currentSections = getActiveSections(config, activePage)
+    const newSections = currentSections.map((section) => {
       if (section.id !== sectionId) return section
       return deepMerge(section as unknown as Record<string, unknown>, patch) as unknown as Section
     })
     set({
-      config: { ...config, sections: newSections },
+      config: withUpdatedSections(config, activePage, newSections),
       history: newHistory,
       future: [],
       isDirty: true,
@@ -180,11 +214,13 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
           components: getDefaultComponents(),
         }
 
-    const sections = [...config.sections]
+    const { activePage } = get()
+    const currentSections = getActiveSections(config, activePage)
+    const sections = [...currentSections]
     const insertAt = afterIndex !== undefined ? afterIndex + 1 : sections.length
     sections.splice(insertAt, 0, newSection)
     set({
-      config: { ...config, sections },
+      config: withUpdatedSections(config, activePage, sections),
       history: newHistory,
       future: [],
       isDirty: true,
@@ -192,10 +228,11 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
   },
 
   removeSection: (sectionId) => {
-    const { config, history } = get()
+    const { config, history, activePage } = get()
     const newHistory = [...history, config].slice(-HISTORY_LIMIT)
+    const currentSections = getActiveSections(config, activePage)
     set({
-      config: { ...config, sections: config.sections.filter((s) => s.id !== sectionId) },
+      config: withUpdatedSections(config, activePage, currentSections.filter((s) => s.id !== sectionId)),
       history: newHistory,
       future: [],
       isDirty: true,
@@ -203,12 +240,13 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
   },
 
   reorderSections: (newOrder) => {
-    const { config, history } = get()
+    const { config, history, activePage } = get()
     const newHistory = [...history, config].slice(-HISTORY_LIMIT)
-    const sectionMap = new Map(config.sections.map((s) => [s.id, s]))
+    const currentSections = getActiveSections(config, activePage)
+    const sectionMap = new Map(currentSections.map((s) => [s.id, s]))
     const reordered = newOrder.map((id) => sectionMap.get(id)).filter(Boolean) as Section[]
     set({
-      config: { ...config, sections: reordered },
+      config: withUpdatedSections(config, activePage, reordered),
       history: newHistory,
       future: [],
       isDirty: true,
@@ -216,26 +254,28 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
   },
 
   duplicateSection: (sectionId) => {
-    const { config, history } = get()
-    const section = config.sections.find((s) => s.id === sectionId)
+    const { config, history, activePage } = get()
+    const currentSections = getActiveSections(config, activePage)
+    const section = currentSections.find((s) => s.id === sectionId)
     if (!section) return
     const newHistory = [...history, config].slice(-HISTORY_LIMIT)
     const newId = `${section.type}-${crypto.randomUUID().slice(0, 8)}`
     const duplicated = { ...JSON.parse(JSON.stringify(section)), id: newId }
-    const index = config.sections.findIndex((s) => s.id === sectionId)
-    const sections = [...config.sections]
+    const index = currentSections.findIndex((s) => s.id === sectionId)
+    const sections = [...currentSections]
     sections.splice(index + 1, 0, duplicated)
-    set({ config: { ...config, sections }, history: newHistory, future: [], isDirty: true })
+    set({ config: withUpdatedSections(config, activePage, sections), history: newHistory, future: [], isDirty: true })
   },
 
   toggleSectionEnabled: (sectionId) => {
-    const { config, history } = get()
+    const { config, history, activePage } = get()
     const newHistory = [...history, config].slice(-HISTORY_LIMIT)
-    const sections = config.sections.map((s) =>
+    const currentSections = getActiveSections(config, activePage)
+    const sections = currentSections.map((s) =>
       s.id === sectionId ? { ...s, enabled: !s.enabled } : s
     )
     set({
-      config: { ...config, sections },
+      config: withUpdatedSections(config, activePage, sections),
       history: newHistory,
       future: [],
       isDirty: true,
@@ -436,6 +476,147 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     set({
       config: DEFAULT_CONFIG,
       history: [...history, config].slice(-HISTORY_LIMIT),
+      future: [],
+      isDirty: true,
+    })
+  },
+
+  // -------------------------------------------------------------------------
+  // Multi-page management (ADR-035)
+  // -------------------------------------------------------------------------
+
+  isMultiPage: () => {
+    const { config } = get()
+    return Array.isArray(config.pages) && config.pages.length > 0
+  },
+
+  getActivePageSections: () => {
+    const { config, activePage } = get()
+    if (!config.pages || config.pages.length === 0 || activePage === null) {
+      return config.sections
+    }
+    const page = config.pages.find((p) => p.id === activePage)
+    return page ? page.sections : config.sections
+  },
+
+  setActivePage: (pageId) => {
+    set({ activePage: pageId })
+  },
+
+  enableMultiPage: () => {
+    const { config, history } = get()
+    if (config.pages && config.pages.length > 0) return // already multi-page
+    const newHistory = [...history, config].slice(-HISTORY_LIMIT)
+    const homePageId = `page-${crypto.randomUUID().slice(0, 8)}`
+    const homePage: PageConfig = {
+      id: homePageId,
+      title: 'Home',
+      slug: '',
+      isHome: true,
+      sections: [...config.sections],
+    }
+    set({
+      config: { ...config, pages: [homePage] },
+      activePage: homePageId,
+      history: newHistory,
+      future: [],
+      isDirty: true,
+    })
+  },
+
+  addPage: (title) => {
+    const { config, history } = get()
+    const newHistory = [...history, config].slice(-HISTORY_LIMIT)
+    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+    const pageId = `page-${crypto.randomUUID().slice(0, 8)}`
+    const palette = config.theme.palette
+
+    // Default sections for common page types
+    const PAGE_TEMPLATES: Record<string, Section[]> = {
+      about: [
+        { type: 'hero', id: `hero-${crypto.randomUUID().slice(0, 8)}`, layout: { display: 'flex', gap: '24px', padding: '48px' }, content: { heading: 'About Us', subheading: 'Our story and mission' }, style: { background: palette?.bgPrimary ?? '#1E1E1E', color: palette?.textPrimary ?? '#F3F3F1' }, enabled: true, components: [{ id: 'headline', type: 'heading', enabled: true, order: 0, props: { text: 'About Us' } }, { id: 'sub', type: 'subheading', enabled: true, order: 1, props: { text: 'Our story and mission' } }] },
+        { type: 'text', id: `text-${crypto.randomUUID().slice(0, 8)}`, layout: { display: 'flex', gap: '24px', padding: '48px' }, content: { heading: 'Our Story' }, style: { background: palette?.bgSecondary ?? '#2A2A2A', color: palette?.textPrimary ?? '#F3F3F1' }, enabled: true, components: [{ id: 'content', type: 'text-content', enabled: true, order: 0, props: { heading: 'Our Story', body: 'Share your company story here. Tell visitors what makes you unique, how you got started, and what drives your mission.' } }] },
+        { type: 'team', id: `team-${crypto.randomUUID().slice(0, 8)}`, layout: { display: 'flex', gap: '24px', padding: '48px', columns: 3 }, content: { heading: 'Meet the Team' }, style: { background: palette?.bgPrimary ?? '#1E1E1E', color: palette?.textPrimary ?? '#F3F3F1' }, enabled: true, components: [{ id: 'member-1', type: 'team-member', enabled: true, order: 0, props: { name: 'Team Member', role: 'Founder', imageUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&q=80', description: 'Brief bio goes here.' } }] },
+      ],
+      contact: [
+        { type: 'hero', id: `hero-${crypto.randomUUID().slice(0, 8)}`, layout: { display: 'flex', gap: '24px', padding: '48px' }, content: { heading: 'Get in Touch', subheading: 'We would love to hear from you' }, style: { background: palette?.bgPrimary ?? '#1E1E1E', color: palette?.textPrimary ?? '#F3F3F1' }, enabled: true, components: [{ id: 'headline', type: 'heading', enabled: true, order: 0, props: { text: 'Get in Touch' } }, { id: 'sub', type: 'subheading', enabled: true, order: 1, props: { text: 'We would love to hear from you' } }] },
+        { type: 'text', id: `text-${crypto.randomUUID().slice(0, 8)}`, layout: { display: 'flex', gap: '24px', padding: '48px' }, content: { heading: 'Contact Information' }, style: { background: palette?.bgSecondary ?? '#2A2A2A', color: palette?.textPrimary ?? '#F3F3F1' }, enabled: true, components: [{ id: 'content', type: 'text-content', enabled: true, order: 0, props: { heading: 'Contact Information', body: 'Email: hello@example.com\nPhone: (555) 123-4567\nAddress: 123 Main St, Your City' } }] },
+        { type: 'action', id: `action-${crypto.randomUUID().slice(0, 8)}`, layout: { display: 'flex', gap: '24px', padding: '48px' }, content: { heading: 'Send Us a Message' }, style: { background: palette?.bgPrimary ?? '#1E1E1E', color: palette?.textPrimary ?? '#F3F3F1' }, enabled: true, components: [{ id: 'headline', type: 'heading', enabled: true, order: 0, props: { text: 'Send Us a Message' } }, { id: 'cta', type: 'button', enabled: true, order: 1, props: { text: 'Contact Us', url: '#' } }] },
+      ],
+      blog: [
+        { type: 'hero', id: `hero-${crypto.randomUUID().slice(0, 8)}`, layout: { display: 'flex', gap: '24px', padding: '48px' }, content: { heading: 'Blog', subheading: 'Latest news and articles' }, style: { background: palette?.bgPrimary ?? '#1E1E1E', color: palette?.textPrimary ?? '#F3F3F1' }, enabled: true, components: [{ id: 'headline', type: 'heading', enabled: true, order: 0, props: { text: 'Blog' } }, { id: 'sub', type: 'subheading', enabled: true, order: 1, props: { text: 'Latest news and articles' } }] },
+        { type: 'blog', id: `blog-${crypto.randomUUID().slice(0, 8)}`, layout: { display: 'flex', gap: '24px', padding: '48px', columns: 3 }, content: { heading: 'Latest Articles', subheading: 'Stay up to date', showDates: true, showTags: true }, style: { background: palette?.bgSecondary ?? '#2A2A2A', color: palette?.textPrimary ?? '#F3F3F1' }, enabled: true, components: [{ id: 'article-1', type: 'blog-article', enabled: true, order: 0, props: { title: 'Getting Started', excerpt: 'Everything you need to know to hit the ground running.', author: 'Team', date: '2026-04-01', tags: 'guide', featuredImage: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&auto=format&q=80' } }] },
+      ],
+    }
+
+    // Look for a matching template, or provide generic defaults
+    const templateKey = Object.keys(PAGE_TEMPLATES).find((k) => slug.includes(k))
+    const defaultSections: Section[] = templateKey
+      ? PAGE_TEMPLATES[templateKey]
+      : [
+          { type: 'hero', id: `hero-${crypto.randomUUID().slice(0, 8)}`, layout: { display: 'flex', gap: '24px', padding: '48px' }, content: { heading: title, subheading: '' }, style: { background: palette?.bgPrimary ?? '#1E1E1E', color: palette?.textPrimary ?? '#F3F3F1' }, enabled: true, components: [{ id: 'headline', type: 'heading', enabled: true, order: 0, props: { text: title } }] },
+        ]
+
+    const newPage: PageConfig = {
+      id: pageId,
+      title,
+      slug,
+      isHome: false,
+      sections: defaultSections,
+    }
+
+    // If not yet multi-page, enable it first
+    let pages = config.pages
+    if (!pages || pages.length === 0) {
+      const homePageId = `page-${crypto.randomUUID().slice(0, 8)}`
+      pages = [{
+        id: homePageId,
+        title: 'Home',
+        slug: '',
+        isHome: true,
+        sections: [...config.sections],
+      }]
+    }
+
+    set({
+      config: { ...config, pages: [...pages, newPage] },
+      activePage: pageId,
+      history: newHistory,
+      future: [],
+      isDirty: true,
+    })
+  },
+
+  removePage: (pageId) => {
+    const { config, history } = get()
+    if (!config.pages) return
+    const page = config.pages.find((p) => p.id === pageId)
+    if (!page || page.isHome) return // cannot remove home page
+    const newHistory = [...history, config].slice(-HISTORY_LIMIT)
+    const newPages = config.pages.filter((p) => p.id !== pageId)
+    const { activePage } = get()
+    const newActive = activePage === pageId
+      ? (newPages.find((p) => p.isHome)?.id ?? newPages[0]?.id ?? null)
+      : activePage
+    set({
+      config: { ...config, pages: newPages },
+      activePage: newActive,
+      history: newHistory,
+      future: [],
+      isDirty: true,
+    })
+  },
+
+  reorderPages: (fromIndex, toIndex) => {
+    const { config, history } = get()
+    if (!config.pages) return
+    const newHistory = [...history, config].slice(-HISTORY_LIMIT)
+    const pages = [...config.pages]
+    const [moved] = pages.splice(fromIndex, 1)
+    pages.splice(toIndex, 0, moved)
+    set({
+      config: { ...config, pages },
+      history: newHistory,
       future: [],
       isDirty: true,
     })

@@ -155,16 +155,18 @@ export function XAIDocsTab() {
         <div className="flex items-center gap-2">
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 rounded-md bg-hb-surface px-3 py-1.5 text-xs font-medium text-hb-text-secondary hover:text-hb-text-primary transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 rounded-md bg-hb-surface px-3 py-1.5 text-xs font-medium text-hb-text-secondary hover:text-hb-text-primary transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-hb-accent"
             title="Copy to clipboard"
+            aria-label="Copy spec to clipboard"
           >
             {copied ? <Check className="h-3.5 w-3.5 text-hb-success" /> : <Copy className="h-3.5 w-3.5" />}
             {copied ? 'Copied' : 'Copy'}
           </button>
           <button
             onClick={handleDownload}
-            className="flex items-center gap-1.5 rounded-md bg-hb-surface px-3 py-1.5 text-xs font-medium text-hb-text-secondary hover:text-hb-text-primary transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 rounded-md bg-hb-surface px-3 py-1.5 text-xs font-medium text-hb-text-secondary hover:text-hb-text-primary transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-hb-accent"
             title={`Download as .${currentTab.ext}`}
+            aria-label={`Download spec as .${currentTab.ext}`}
           >
             <Download className="h-3.5 w-3.5" />
             .{currentTab.ext}

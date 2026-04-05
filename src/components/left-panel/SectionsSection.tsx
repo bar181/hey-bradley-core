@@ -22,6 +22,9 @@ import {
   FileText,
   Award,
   Users,
+  Plus,
+  X,
+  Files,
   type LucideIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/cn'
@@ -106,12 +109,26 @@ const SECTION_TYPES: SectionType[] = [
 ]
 
 export function SectionsSection() {
-  const sections = useConfigStore((s) => s.config.sections)
+  const sections = useConfigStore((s) => {
+    const activePage = s.activePage
+    if (activePage && s.config.pages && s.config.pages.length > 0) {
+      const page = s.config.pages.find((p) => p.id === activePage)
+      if (page) return page.sections
+    }
+    return s.config.sections
+  })
   const toggleSectionEnabled = useConfigStore((s) => s.toggleSectionEnabled)
   const addSection = useConfigStore((s) => s.addSection)
   const removeSection = useConfigStore((s) => s.removeSection)
   const duplicateSection = useConfigStore((s) => s.duplicateSection)
   const reorderSections = useConfigStore((s) => s.reorderSections)
+  const pages = useConfigStore((s) => s.config.pages)
+  const activePage = useConfigStore((s) => s.activePage)
+  const setActivePage = useConfigStore((s) => s.setActivePage)
+  const addPage = useConfigStore((s) => s.addPage)
+  const removePage = useConfigStore((s) => s.removePage)
+  const enableMultiPage = useConfigStore((s) => s.enableMultiPage)
+  const isMultiPage = useConfigStore((s) => s.isMultiPage())
   const [localOrder, setLocalOrder] = useState<string[] | null>(null)
   const selectedContext = useUIStore((s) => s.selectedContext)
   const setSelectedContext = useUIStore((s) => s.setSelectedContext)
@@ -119,6 +136,9 @@ export function SectionsSection() {
   const [showHidden, setShowHidden] = useState(false)
   const [dragId, setDragId] = useState<string | null>(null)
   const [dropTarget, setDropTarget] = useState<number | null>(null)
+  const [showAddPage, setShowAddPage] = useState(false)
+  const [newPageTitle, setNewPageTitle] = useState('')
+  const [confirmDeletePageId, setConfirmDeletePageId] = useState<string | null>(null)
 
   const orderedSections = localOrder
     ? localOrder
@@ -307,8 +327,105 @@ export function SectionsSection() {
     )
   }
 
+  const handleAddPage = () => {
+    if (!newPageTitle.trim()) return
+    addPage(newPageTitle.trim())
+    setNewPageTitle('')
+    setShowAddPage(false)
+    setLocalOrder(null)
+  }
+
+  const handleDeletePage = (pageId: string) => {
+    if (confirmDeletePageId === pageId) {
+      removePage(pageId)
+      setConfirmDeletePageId(null)
+    } else {
+      setConfirmDeletePageId(pageId)
+      setTimeout(() => setConfirmDeletePageId(null), 3000)
+    }
+  }
+
   return (
     <div className="flex flex-col gap-1">
+      {/* Page selector (multi-page mode) */}
+      {isMultiPage && pages && (
+        <div className="mb-2 rounded-lg border border-hb-border bg-hb-surface/50 p-1.5">
+          <div className="flex items-center gap-1.5 mb-1.5 px-1">
+            <Files size={12} className="text-hb-text-muted" />
+            <span className="text-xs text-hb-text-muted font-medium uppercase tracking-wider flex-1">Pages</span>
+            <button
+              type="button"
+              onClick={() => setShowAddPage(!showAddPage)}
+              className="p-0.5 rounded text-hb-text-muted hover:text-hb-accent hover:bg-hb-surface-hover"
+              title="Add page"
+            >
+              <Plus size={12} />
+            </button>
+          </div>
+          <div className="flex flex-wrap gap-1">
+            {pages.map((page) => (
+              <div key={page.id} className="flex items-center">
+                <button
+                  type="button"
+                  onClick={() => { setActivePage(page.id); setLocalOrder(null) }}
+                  className={cn(
+                    'px-2 py-1 text-xs rounded-md transition-all',
+                    activePage === page.id
+                      ? 'bg-hb-accent text-white font-medium'
+                      : 'text-hb-text-secondary hover:bg-hb-surface-hover'
+                  )}
+                >
+                  {page.title}
+                </button>
+                {!page.isHome && activePage === page.id && (
+                  <button
+                    type="button"
+                    onClick={() => handleDeletePage(page.id)}
+                    className={cn(
+                      'p-0.5 rounded ml-0.5',
+                      confirmDeletePageId === page.id
+                        ? 'text-red-400 animate-pulse'
+                        : 'text-hb-text-muted/40 hover:text-red-400'
+                    )}
+                    title={confirmDeletePageId === page.id ? 'Click again to confirm' : 'Delete page'}
+                  >
+                    <X size={10} />
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+          {showAddPage && (
+            <div className="flex items-center gap-1 mt-1.5">
+              <input
+                type="text"
+                value={newPageTitle}
+                onChange={(e) => setNewPageTitle(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') handleAddPage(); if (e.key === 'Escape') setShowAddPage(false) }}
+                placeholder="Page name..."
+                className="flex-1 px-2 py-1 text-xs rounded bg-hb-surface border border-hb-border text-hb-text-primary placeholder:text-hb-text-muted/50 focus:outline-none focus:border-hb-accent"
+                autoFocus
+              />
+              <button type="button" onClick={handleAddPage} className="px-2 py-1 text-xs rounded bg-hb-accent text-white hover:bg-hb-accent/80">
+                Add
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Enable multi-page button (single-page mode) */}
+      {!isMultiPage && (
+        <button
+          type="button"
+          onClick={enableMultiPage}
+          className="flex items-center gap-1.5 w-full px-3 py-1.5 mb-1 text-xs text-hb-text-muted hover:text-hb-accent hover:bg-hb-surface-hover rounded-md transition-colors"
+        >
+          <Files size={12} />
+          Enable Multi-Page
+        </button>
+      )}
+
       {/* Enabled sections */}
       {enabledSections.map((section, index) => renderSectionRow(section, index))}
 

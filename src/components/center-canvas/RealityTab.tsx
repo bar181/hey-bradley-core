@@ -140,7 +140,8 @@ function AddSectionDivider({ afterIndex }: { afterIndex: number }) {
       <button
         type="button"
         onClick={() => setShowPicker(!showPicker)}
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-hb-surface border border-hb-border rounded-full px-3 py-1 text-xs text-hb-text-muted hover:text-hb-accent hover:border-hb-accent/50 shadow-sm z-10"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-hb-surface border border-hb-border rounded-full px-3 py-1 text-xs text-hb-text-muted hover:text-hb-accent hover:border-hb-accent/50 shadow-sm z-10 focus-visible:ring-2 focus-visible:ring-hb-accent focus-visible:opacity-100"
+        aria-label="Add section"
       >
         + Add Section
       </button>
@@ -178,7 +179,14 @@ function SectionWrapper({
   const scrollRef = useScrollReveal<HTMLDivElement>()
   const reorderSections = useConfigStore((s) => s.reorderSections)
   const removeSection = useConfigStore((s) => s.removeSection)
-  const sections = useConfigStore((s) => s.config.sections)
+  const sections = useConfigStore((s) => {
+    const ap = s.activePage
+    if (ap && s.config.pages && s.config.pages.length > 0) {
+      const page = s.config.pages.find((p) => p.id === ap)
+      if (page) return page.sections
+    }
+    return s.config.sections
+  })
   const setSelectedContext = useUIStore((s) => s.setSelectedContext)
   const setRightPanelVisible = useUIStore((s) => s.setRightPanelVisible)
 
@@ -221,8 +229,9 @@ function SectionWrapper({
               handleMove('up')
             }}
             disabled={index === 0}
-            className="p-1.5 rounded hover:bg-hb-surface-hover text-hb-text-muted disabled:opacity-30"
+            className="p-1.5 rounded hover:bg-hb-surface-hover text-hb-text-muted disabled:opacity-30 focus-visible:ring-2 focus-visible:ring-hb-accent"
             title="Move up"
+            aria-label="Move section up"
           >
             <ChevronUp size={14} />
           </button>
@@ -232,8 +241,9 @@ function SectionWrapper({
               handleMove('down')
             }}
             disabled={index === totalEnabled - 1}
-            className="p-1.5 rounded hover:bg-hb-surface-hover text-hb-text-muted disabled:opacity-30"
+            className="p-1.5 rounded hover:bg-hb-surface-hover text-hb-text-muted disabled:opacity-30 focus-visible:ring-2 focus-visible:ring-hb-accent"
             title="Move down"
+            aria-label="Move section down"
           >
             <ChevronDown size={14} />
           </button>
@@ -243,8 +253,9 @@ function SectionWrapper({
               e.stopPropagation()
               removeSection(section.id)
             }}
-            className="p-1.5 rounded hover:bg-red-500/10 text-hb-text-muted hover:text-red-400"
-            title="Delete"
+            className="p-1.5 rounded hover:bg-red-500/10 text-hb-text-muted hover:text-red-400 focus-visible:ring-2 focus-visible:ring-hb-accent"
+            title="Delete section"
+            aria-label="Delete section"
           >
             <Trash2 size={14} />
           </button>
@@ -268,8 +279,54 @@ const PREVIEW_WIDTH_MAP = {
   mobile: '375px',
 } as const
 
+function MultiPageNav() {
+  const pages = useConfigStore((s) => s.config.pages)
+  const activePage = useConfigStore((s) => s.activePage)
+  const setActivePage = useConfigStore((s) => s.setActivePage)
+  const palette = useConfigStore((s) => s.config.theme.palette)
+
+  if (!pages || pages.length === 0) return null
+
+  return (
+    <nav
+      className="flex items-center gap-6 px-6 py-3 text-sm"
+      style={{
+        background: palette?.bgSecondary ?? '#2A2A2A',
+        color: palette?.textPrimary ?? '#F3F3F1',
+        borderBottom: `1px solid ${palette?.bgPrimary ?? '#1E1E1E'}22`,
+      }}
+    >
+      {pages.map((page) => (
+        <button
+          key={page.id}
+          type="button"
+          onClick={() => setActivePage(page.id)}
+          className="transition-opacity hover:opacity-100"
+          style={{
+            opacity: activePage === page.id ? 1 : 0.6,
+            fontWeight: activePage === page.id ? 600 : 400,
+            borderBottom: activePage === page.id ? `2px solid ${palette?.accentPrimary ?? '#3B82F6'}` : '2px solid transparent',
+            paddingBottom: '2px',
+            color: palette?.textPrimary ?? '#F3F3F1',
+          }}
+        >
+          {page.title}
+        </button>
+      ))}
+    </nav>
+  )
+}
+
 export function RealityTab() {
-  const sections = useConfigStore((s) => s.config.sections)
+  const sections = useConfigStore((s) => {
+    const ap = s.activePage
+    if (ap && s.config.pages && s.config.pages.length > 0) {
+      const page = s.config.pages.find((p) => p.id === ap)
+      if (page) return page.sections
+    }
+    return s.config.sections
+  })
+  const isMultiPage = useConfigStore((s) => Array.isArray(s.config.pages) && s.config.pages.length > 0)
   const previewWidth = useUIStore((s) => s.previewWidth)
   const selectedContext = useUIStore((s) => s.selectedContext)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -294,6 +351,7 @@ export function RealityTab() {
   if (enabledSections.length === 0) {
     return (
       <div ref={containerRef} className="min-h-full flex items-center justify-center p-8">
+        {isMultiPage && <MultiPageNav />}
         <div className="text-center">
           <div className="w-16 h-16 rounded-full bg-hb-accent/10 flex items-center justify-center mx-auto mb-4">
             <Layout size={28} className="text-hb-accent" />
@@ -307,6 +365,7 @@ export function RealityTab() {
 
   return (
     <div ref={containerRef} className="min-h-full">
+      {isMultiPage && <MultiPageNav />}
       <div
         className="mx-auto transition-all duration-300"
         style={{ maxWidth: isPreviewMode ? '100%' : PREVIEW_WIDTH_MAP[previewWidth] }}
