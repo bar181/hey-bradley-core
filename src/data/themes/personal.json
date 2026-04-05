@@ -10,7 +10,19 @@
       "authentic"
     ],
     "mood": "Friendly and authentic",
-    "heroVariant": "split-left"
+    "heroVariant": "split-left",
+    "recommendedSections": ["hero", "columns", "text", "quotes", "image", "action", "footer"],
+    "defaultContext": {
+      "purpose": "portfolio",
+      "audience": "consumer",
+      "tone": "casual"
+    },
+    "chatMappings": {
+      "make it brighter": "Switch to Cool alternative palette with sky blue accents",
+      "make it darker": "Switch to alternate dark palette with deep indigo backgrounds",
+      "make it bolder": "Switch to Rose palette with vibrant red-pink accents",
+      "make it softer": "Switch to Warm palette with earthy amber tones"
+    }
   },
   "theme": {
     "preset": "personal",

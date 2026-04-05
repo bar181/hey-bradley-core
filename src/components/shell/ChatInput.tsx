@@ -1,15 +1,40 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { SendHorizontal, Zap } from 'lucide-react'
+import { SendHorizontal, Lightbulb, X } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { parseChatCommand, parseMultiPartCommand, SIMULATED_REQUIREMENTS } from '@/lib/cannedChat'
 import type { SimulatedRequirement, MultiChatResult } from '@/lib/cannedChat'
 import { useConfigStore } from '@/store/configStore'
-import { useUIStore } from '@/store/uiStore'
-import { EXAMPLE_SITES } from '@/data/examples'
-import { buildDemoSequence, runDemo } from '@/lib/demoSimulator'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import type { SectionType } from '@/lib/schemas'
+
+/* ── Chat examples for the dialog ── */
+const CHAT_EXAMPLE_CATEGORIES = [
+  {
+    title: 'Site Templates',
+    items: [
+      'Build me a bakery website',
+      'Create a SaaS landing page',
+      'Make a photography portfolio',
+    ],
+  },
+  {
+    title: 'Common Updates',
+    items: [
+      'Add a pricing section',
+      'Add testimonials',
+      'Change to dark mode',
+    ],
+  },
+  {
+    title: 'Style Changes',
+    items: [
+      'Make it professional',
+      'Target developers',
+      'Make it casual',
+    ],
+  },
+] as const
 
 export interface ChatMessage {
   id: number
@@ -28,12 +53,11 @@ export function ChatInput() {
   const [isFocused, setIsFocused] = useState(false)
   const [typingText, setTypingText] = useState('')
   const [typingFull, setTypingFull] = useState('')
-  const [demoActive, setDemoActive] = useState(false)
-  const [selectedExample, setSelectedExample] = useState(0)
+  const demoActive = false
+  const [showExamplesDialog, setShowExamplesDialog] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const nextId = useRef(0)
-  const demoCleanupRef = useRef<(() => void) | null>(null)
   const multiStepTimerRef = useRef<ReturnType<typeof setTimeout>[]>([])
 
   useEffect(() => {
@@ -62,32 +86,9 @@ export function ChatInput() {
   // Cleanup demo and multi-step timers on unmount
   useEffect(() => {
     return () => {
-      demoCleanupRef.current?.()
       multiStepTimerRef.current.forEach(clearTimeout)
     }
   }, [])
-
-  const startDemo = (example: typeof EXAMPLE_SITES[0]) => {
-    setDemoActive(true)
-    const sequence = buildDemoSequence(example.config, example.name)
-    const cleanup = runDemo(
-      sequence,
-      (caption) => {
-        // Show caption as a bradley message with typewriter
-        setTypingText('')
-        setTypingFull(caption)
-      },
-      () => {
-        setDemoActive(false)
-        const id = nextId.current++
-        setMessages((prev) => [...prev.slice(-MAX_MESSAGES + 1), { id, role: 'bradley', text: 'your site is ready! switching to Builder now.' }])
-        useUIStore.getState().setLeftPanelTab('builder')
-        useUIStore.getState().setRightPanelVisible(true)
-      }
-    )
-    // Store cleanup ref for cancellation
-    demoCleanupRef.current = cleanup
-  }
 
   const addUserMessage = (text: string) => {
     const id = nextId.current++
@@ -100,6 +101,14 @@ export function ChatInput() {
     const arg = rest.join(':')
 
     switch (cmd) {
+      case 'compound': {
+        // Execute multiple sub-actions separated by |
+        const subActions = arg.split('|')
+        for (const sub of subActions) {
+          executeAction(sub)
+        }
+        break
+      }
       case 'toggleMode': {
         const currentMode = store.config.theme.mode
         if (arg !== currentMode) store.toggleMode()
@@ -127,6 +136,20 @@ export function ChatInput() {
             store.setSectionConfig(heroSection.id, {
               components: heroSection.components.map((c) =>
                 c.id === 'headline' ? { ...c, props: { ...c.props, text: arg } } : c
+              ),
+            })
+          }
+        }
+        break
+      }
+      case 'heroCta': {
+        const heroSection = store.config.sections.find((s) => s.type === 'hero')
+        if (heroSection) {
+          const ctaComp = heroSection.components.find((c) => c.id === 'cta')
+          if (ctaComp) {
+            store.setSectionConfig(heroSection.id, {
+              components: heroSection.components.map((c) =>
+                c.id === 'cta' ? { ...c, props: { ...c.props, text: arg } } : c
               ),
             })
           }
@@ -231,68 +254,9 @@ export function ChatInput() {
         data-testid="chat-messages"
       >
         {messages.length === 0 && !typingFull && !demoActive && (
-          <div className="px-4 py-6 space-y-4">
+          <div className="px-4 py-6">
             <div className="text-sm text-hb-text-muted py-2">
               hi! tell me what to build.
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <p className="text-xs text-hb-text-muted uppercase tracking-wider font-medium">Quick demos</p>
-                <div className="flex items-center gap-1.5">
-                  <select
-                    value={selectedExample}
-                    onChange={(e) => {
-                      const idx = Number(e.target.value)
-                      setSelectedExample(idx)
-                      startDemo(EXAMPLE_SITES[idx])
-                    }}
-                    disabled={isProcessing || demoActive}
-                    className="text-[10px] bg-hb-surface border border-hb-border rounded px-1.5 py-0.5 text-hb-text-secondary outline-none focus:border-hb-accent/50 disabled:opacity-40 disabled:cursor-not-allowed"
-                    aria-label="Pick an example site"
-                  >
-                    {EXAMPLE_SITES.map((ex, idx) => (
-                      <option key={ex.name} value={idx}>{ex.name}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                {EXAMPLE_SITES.map((example) => (
-                  <Button
-                    key={example.name}
-                    variant="outline"
-                    onClick={() => startDemo(example)}
-                    disabled={isProcessing || demoActive}
-                    className="text-left px-3 py-2.5 h-auto rounded-lg border border-hb-border bg-hb-surface hover:bg-hb-surface-hover hover:border-hb-accent/30 transition-all text-xs disabled:opacity-40 disabled:cursor-not-allowed group flex flex-col items-start"
-                  >
-                    <span className="font-medium text-hb-text-primary group-hover:text-hb-accent transition-colors">{example.name}</span>
-                    <span className="block text-hb-text-muted mt-0.5 text-[10px]">{example.theme}</span>
-                  </Button>
-                ))}
-              </div>
-            </div>
-
-            {/* Simulated Requirements */}
-            <div className="space-y-2 pt-2">
-              <p className="text-xs text-hb-text-muted uppercase tracking-wider font-medium flex items-center gap-1">
-                <Zap size={10} className="text-hb-accent" />
-                Simulated requirements
-              </p>
-              <div className="grid grid-cols-3 gap-2">
-                {SIMULATED_REQUIREMENTS.map((req) => (
-                  <Button
-                    key={req.name}
-                    variant="outline"
-                    onClick={() => handleSimulatedRequirement(req)}
-                    disabled={isProcessing || demoActive}
-                    className="text-left px-3 py-2.5 h-auto rounded-lg border border-hb-accent/20 bg-hb-surface hover:bg-hb-accent/5 hover:border-hb-accent/40 transition-all text-xs disabled:opacity-40 disabled:cursor-not-allowed group flex flex-col items-start"
-                    data-testid={`sim-req-${req.name.toLowerCase().replace(/\s+/g, '-')}`}
-                  >
-                    <span className="font-medium text-hb-accent group-hover:text-hb-accent transition-colors">{req.name}</span>
-                    <span className="block text-hb-text-muted mt-0.5 text-[10px] leading-tight">{req.description}</span>
-                  </Button>
-                ))}
-              </div>
             </div>
           </div>
         )}
@@ -323,6 +287,109 @@ export function ChatInput() {
       {isFocused && !input && messages.length === 0 && (
         <div className="px-4 py-1.5 text-xs text-hb-text-muted border-t border-hb-border/50">
           try: <span className="text-hb-text-secondary">"dark mode"</span> · <span className="text-hb-text-secondary">"add pricing"</span> · <span className="text-hb-text-secondary">"build a SaaS page with pricing and testimonials"</span>
+        </div>
+      )}
+
+      {/* Try an Example button */}
+      <div className="px-3 py-1.5 border-t border-hb-border/50">
+        <Button
+          variant="ghost"
+          onClick={() => setShowExamplesDialog(true)}
+          disabled={isProcessing || demoActive}
+          className="w-full flex items-center justify-center gap-2 h-auto py-2 text-xs text-hb-text-muted hover:text-hb-accent hover:bg-hb-accent/5 transition-colors disabled:opacity-40"
+          data-testid="try-example-btn"
+        >
+          <Lightbulb size={14} />
+          Try an Example
+        </Button>
+      </div>
+
+      {/* Examples dialog */}
+      {showExamplesDialog && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+          onClick={() => setShowExamplesDialog(false)}
+          onKeyDown={(e) => { if (e.key === 'Escape') setShowExamplesDialog(false) }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Chat examples"
+        >
+          <div
+            className="bg-hb-bg border border-hb-border rounded-xl shadow-2xl w-full max-w-md mx-4 max-h-[80vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-4 py-3 border-b border-hb-border">
+              <h2 className="text-sm font-semibold text-hb-text-primary">Try an Example</h2>
+              <button
+                type="button"
+                onClick={() => setShowExamplesDialog(false)}
+                className="text-hb-text-muted hover:text-hb-text-primary transition-colors"
+                aria-label="Close dialog"
+              >
+                <X size={16} />
+              </button>
+            </div>
+            <div className="p-4 space-y-4">
+              {CHAT_EXAMPLE_CATEGORIES.map((cat) => (
+                <div key={cat.title}>
+                  <p className="text-xs text-hb-text-muted uppercase tracking-wider font-medium mb-2">{cat.title}</p>
+                  <div className="space-y-1.5">
+                    {cat.items.map((item) => (
+                      <button
+                        key={item}
+                        type="button"
+                        onClick={() => {
+                          setShowExamplesDialog(false)
+                          setInput(item)
+                          // Auto-send after a brief tick so input is set
+                          setTimeout(() => {
+                            addUserMessage(item)
+                            setIsProcessing(true)
+                            setTimeout(() => {
+                              const multiResult = parseMultiPartCommand(item)
+                              if (multiResult) {
+                                executeMultiPart(multiResult)
+                                return
+                              }
+                              const result = parseChatCommand(item)
+                              if (result.action) executeAction(result.action)
+                              setTypingText('')
+                              setTypingFull(result.response)
+                            }, 400)
+                          }, 50)
+                        }}
+                        className="w-full text-left px-3 py-2 rounded-lg text-sm text-hb-text-primary bg-hb-surface hover:bg-hb-surface-hover hover:text-hb-accent border border-hb-border/50 hover:border-hb-accent/30 transition-all"
+                      >
+                        {item}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+
+              {/* Simulated requirements in dialog */}
+              <div>
+                <p className="text-xs text-hb-text-muted uppercase tracking-wider font-medium mb-2">Multi-step Presets</p>
+                <div className="space-y-1.5">
+                  {SIMULATED_REQUIREMENTS.map((req) => (
+                    <button
+                      key={req.name}
+                      type="button"
+                      onClick={() => {
+                        setShowExamplesDialog(false)
+                        handleSimulatedRequirement(req)
+                      }}
+                      className="w-full text-left px-3 py-2 rounded-lg border border-hb-accent/20 bg-hb-surface hover:bg-hb-accent/5 hover:border-hb-accent/40 transition-all"
+                      data-testid={`sim-req-${req.name.toLowerCase().replace(/\s+/g, '-')}`}
+                    >
+                      <span className="text-sm font-medium text-hb-accent">{req.name}</span>
+                      <span className="block text-hb-text-muted text-[10px] leading-tight mt-0.5">{req.description}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

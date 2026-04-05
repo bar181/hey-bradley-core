@@ -10,7 +10,19 @@
       "readable"
     ],
     "mood": "Editorial and readable",
-    "heroVariant": "split-right"
+    "heroVariant": "split-right",
+    "recommendedSections": ["hero", "text", "columns", "quotes", "image", "action", "footer"],
+    "defaultContext": {
+      "purpose": "blog",
+      "audience": "consumer",
+      "tone": "casual"
+    },
+    "chatMappings": {
+      "make it brighter": "Switch to Rose alternative palette with warm pink accents",
+      "make it darker": "Switch to Ink alternative palette with deep sepia backgrounds",
+      "make it bolder": "Switch to Sage palette with stronger contrast headlines",
+      "make it softer": "Reduce heading weight and switch to Slate palette with cool neutrals"
+    }
   },
   "theme": {
     "preset": "blog",

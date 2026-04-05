@@ -1,10 +1,13 @@
 import { Code } from 'lucide-react'
 import { useUIStore } from '@/store/uiStore'
+import { useConfigStore } from '@/store/configStore'
 import { ThemeExpert } from './expert/ThemeExpert'
 import { SectionExpert } from './expert/SectionExpert'
+import { NavbarSectionExpert } from './expert/NavbarSectionExpert'
 
 export function ExpertTab() {
   const selectedContext = useUIStore((s) => s.selectedContext)
+  const sections = useConfigStore((s) => s.config.sections)
 
   if (!selectedContext) {
     return (
@@ -26,6 +29,11 @@ export function ExpertTab() {
 
   if (selectedContext.type === 'site-context') {
     return <ThemeExpert />
+  }
+
+  const section = sections.find((s) => s.id === selectedContext.sectionId)
+  if (section?.type === 'menu') {
+    return <NavbarSectionExpert sectionId={selectedContext.sectionId} />
   }
 
   return <SectionExpert sectionId={selectedContext.sectionId} />

@@ -16,8 +16,15 @@ const EXAMPLE_PREVIEW_SLUGS: Record<string, string> = {
   'GreenLeaf Consulting': 'consulting',
   'FitForge Fitness': 'fitforge',
   'Bloom & Petal': 'florist',
+  'The Corner Table': 'restaurant',
+  'CodeCraft Academy': 'education',
   'Kitchen Sink Demo': 'kitchen-sink',
   'Blank Canvas': 'blank',
+  'The Daily Scoop': 'fun-blog',
+  'Alex Chen — Dev Portfolio': 'dev-portfolio',
+  'CloudSync Enterprise': 'enterprise-saas',
+  'Summit Realty Group': 'real-estate',
+  'Barrett & Associates': 'law-firm',
 }
 
 interface ThemeMeta {
@@ -121,6 +128,7 @@ function ExampleCard({
   description,
   theme,
   palette,
+  sectionCount,
   onSelect,
 }: {
   name: string
@@ -128,33 +136,58 @@ function ExampleCard({
   description: string
   theme: string
   palette: { bg: string; accent: string; text: string }
+  sectionCount: number
   onSelect: () => void
 }) {
+  const [imgFailed, setImgFailed] = useState(false)
+
   return (
     <button
       type="button"
       onClick={onSelect}
       className="group rounded-xl border border-[#e5e1dc] bg-white overflow-hidden transition-all hover:shadow-lg hover:border-[#A51C30]/30 hover:-translate-y-0.5 text-left"
     >
-      {/* Preview screenshot */}
-      <div className="relative overflow-hidden bg-[#f0ede8]">
-        <img
-          src={`/previews/example-${slug}.png`}
-          alt={`${name} preview`}
-          loading="lazy"
-          className="aspect-[16/10] w-full object-cover object-top"
-          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
-        />
-        {/* Palette dots overlay */}
-        <div className="absolute bottom-2 left-2 flex gap-1">
-          {[palette.accent, palette.text, palette.bg].map((c, i) => (
-            <div
-              key={i}
-              className="w-3 h-3 rounded-full border border-white/30 shadow-sm"
-              style={{ backgroundColor: c }}
-            />
-          ))}
-        </div>
+      {/* Preview screenshot or palette fallback */}
+      <div className="relative overflow-hidden bg-[#f0ede8] aspect-[16/10]">
+        {!imgFailed ? (
+          <img
+            src={`/previews/example-${slug}.png`}
+            alt={`${name} preview`}
+            loading="lazy"
+            className="w-full h-full object-cover object-top"
+            onError={() => setImgFailed(true)}
+          />
+        ) : (
+          <div
+            className="w-full h-full flex flex-col items-center justify-center gap-2"
+            style={{ background: `linear-gradient(135deg, ${palette.bg} 0%, ${palette.accent}33 100%)` }}
+          >
+            <div className="flex gap-1.5">
+              {[palette.accent, palette.text, palette.bg].map((c, i) => (
+                <div
+                  key={i}
+                  className="w-5 h-5 rounded-full border-2 border-white/40 shadow-sm"
+                  style={{ backgroundColor: c }}
+                />
+              ))}
+            </div>
+            <span className="text-[11px] font-medium opacity-70" style={{ color: palette.text }}>
+              {sectionCount} sections
+            </span>
+          </div>
+        )}
+        {/* Palette dots overlay (on image) */}
+        {!imgFailed && (
+          <div className="absolute bottom-2 left-2 flex gap-1">
+            {[palette.accent, palette.text, palette.bg].map((c, i) => (
+              <div
+                key={i}
+                className="w-3 h-3 rounded-full border border-white/30 shadow-sm"
+                style={{ backgroundColor: c }}
+              />
+            ))}
+          </div>
+        )}
         <div className="absolute top-2 right-2 text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-black/40 backdrop-blur-sm text-white">
           {theme}
         </div>
@@ -564,6 +597,7 @@ export function Onboarding() {
                         description={example.description}
                         theme={example.theme}
                         palette={getExamplePalette(example.config as { theme?: { palette?: { bgPrimary?: string; accentPrimary?: string; textPrimary?: string } } })}
+                        sectionCount={example.config.sections?.length ?? 0}
                         onSelect={() => handleExampleSelect(example)}
                       />
                     ))}

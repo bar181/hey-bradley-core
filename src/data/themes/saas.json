@@ -10,7 +10,19 @@
       "technical"
     ],
     "mood": "Premium and technical",
-    "heroVariant": "centered"
+    "heroVariant": "centered",
+    "recommendedSections": ["hero", "columns", "pricing", "numbers", "quotes", "questions", "logos", "action", "footer"],
+    "defaultContext": {
+      "purpose": "saas",
+      "audience": "developer",
+      "tone": "technical"
+    },
+    "chatMappings": {
+      "make it brighter": "Switch to Emerald alternative palette with vivid green accents",
+      "make it darker": "Deepen bgPrimary to pure black and switch to Monochrome palette",
+      "make it bolder": "Switch to Amber palette with warm gold highlights on dark backgrounds",
+      "make it softer": "Switch to Blue Steel palette with muted slate-blue tones"
+    }
   },
   "theme": {
     "preset": "saas",

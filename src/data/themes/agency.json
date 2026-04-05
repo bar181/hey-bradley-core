@@ -10,7 +10,19 @@
       "professional"
     ],
     "mood": "Professional and bold",
-    "heroVariant": "split-right"
+    "heroVariant": "split-right",
+    "recommendedSections": ["hero", "columns", "quotes", "pricing", "team", "logos", "action", "footer"],
+    "defaultContext": {
+      "purpose": "agency",
+      "audience": "business",
+      "tone": "formal"
+    },
+    "chatMappings": {
+      "make it brighter": "Switch to Coral alternative palette with warm orange accents",
+      "make it darker": "Switch to alternate dark palette with deep navy backgrounds",
+      "make it bolder": "Increase heading weight to 900 and switch accentPrimary to a stronger red",
+      "make it softer": "Switch to Forest alternative palette with muted green tones"
+    }
   },
   "theme": {
     "preset": "agency",

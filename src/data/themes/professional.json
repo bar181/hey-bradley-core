@@ -10,7 +10,19 @@
       "trustworthy"
     ],
     "mood": "Trustworthy and corporate",
-    "heroVariant": "centered"
+    "heroVariant": "centered",
+    "recommendedSections": ["hero", "columns", "numbers", "quotes", "team", "pricing", "questions", "footer"],
+    "defaultContext": {
+      "purpose": "marketing",
+      "audience": "business",
+      "tone": "formal"
+    },
+    "chatMappings": {
+      "make it brighter": "Switch to Teal alternative palette with vibrant teal accents",
+      "make it darker": "Switch to alternate dark palette with deep charcoal backgrounds",
+      "make it bolder": "Switch to Burgundy palette with strong red accents on warm backgrounds",
+      "make it softer": "Switch to Mono palette with understated grayscale tones"
+    }
   },
   "theme": {
     "preset": "professional",

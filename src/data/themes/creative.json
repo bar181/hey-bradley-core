@@ -10,7 +10,19 @@
       "bold"
     ],
     "mood": "Bold and expressive",
-    "heroVariant": "centered"
+    "heroVariant": "centered",
+    "recommendedSections": ["hero", "gallery", "image", "columns", "quotes", "action", "footer"],
+    "defaultContext": {
+      "purpose": "portfolio",
+      "audience": "consumer",
+      "tone": "playful"
+    },
+    "chatMappings": {
+      "make it brighter": "Switch to Electric alternative palette with vivid blue and purple",
+      "make it darker": "Deepen bgPrimary to pure black and reduce text contrast",
+      "make it bolder": "Switch to Flame palette with hot orange accents",
+      "make it softer": "Switch to Mono palette with neutral grayscale tones"
+    }
   },
   "theme": {
     "preset": "creative",

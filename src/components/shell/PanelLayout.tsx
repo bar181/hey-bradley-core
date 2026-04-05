@@ -85,7 +85,7 @@ export function PanelLayout() {
           </Panel>
           <ResizeHandle />
           <Panel defaultSize={30} minSize={15} collapsible>
-            <aside className="bg-hb-surface h-full overflow-hidden border-l border-hb-border relative" aria-label="Section editor">
+            <aside className="bg-hb-surface h-full overflow-hidden border-l border-hb-border relative min-w-[200px]" aria-label="Section editor">
               <RightPanel />
               {/* Collapse button inside right panel */}
               <button

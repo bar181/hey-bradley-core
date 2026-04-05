@@ -10,7 +10,19 @@
       "energetic"
     ],
     "mood": "Energetic and futuristic",
-    "heroVariant": "centered"
+    "heroVariant": "centered",
+    "recommendedSections": ["hero", "columns", "pricing", "numbers", "action", "questions", "footer"],
+    "defaultContext": {
+      "purpose": "marketing",
+      "audience": "consumer",
+      "tone": "playful"
+    },
+    "chatMappings": {
+      "make it brighter": "Switch to Neon alternative palette with vivid green glow",
+      "make it darker": "Deepen bgPrimary and switch to Gold palette with dark amber",
+      "make it bolder": "Switch to Sunset palette with hot pink-red accents",
+      "make it softer": "Switch to Cyan palette with cool teal-blue tones"
+    }
   },
   "theme": {
     "preset": "startup",

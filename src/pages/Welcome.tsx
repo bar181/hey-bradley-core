@@ -517,8 +517,34 @@ export function Welcome() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0b0f1a] flex items-center justify-center p-4 lg:p-6" role="main">
-      <div className="w-full max-w-[1200px] min-h-[calc(100vh-48px)] md:h-[calc(100vh-48px)] flex flex-col md:flex-row rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#0b0f1a]">
+    <main className="min-h-screen bg-[#0b0f1a] flex flex-col items-center justify-center p-4 lg:p-6" role="main">
+      {/* Hero Statement */}
+      <div className="w-full max-w-[1200px] text-center mb-8 lg:mb-10">
+        <h1 className="text-3xl lg:text-4xl font-bold text-white tracking-tight leading-tight">
+          The whiteboard that writes your specs.
+        </h1>
+        <p className="text-lg lg:text-xl text-neutral-400 mt-4 max-w-2xl mx-auto">
+          Describe what you want. See it build in real-time.
+          <br />
+          Get enterprise specifications that any AI can execute on the first try.
+        </p>
+        <div className="mt-6 flex gap-4 justify-center">
+          <Link
+            to="/new-project"
+            className="px-8 py-3 rounded-xl font-semibold bg-white text-neutral-900 hover:bg-neutral-100 transition-all shadow-lg hover:shadow-xl"
+          >
+            Try the Builder &rarr;
+          </Link>
+          <Link
+            to="/how-i-built-this"
+            className="px-8 py-3 rounded-xl font-semibold bg-transparent border border-white/30 text-white hover:bg-white/10 transition-all"
+          >
+            Read the Story &rarr;
+          </Link>
+        </div>
+      </div>
+
+      <div className="w-full max-w-[1200px] min-h-[500px] md:h-[calc(100vh-260px)] flex flex-col md:flex-row rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#0b0f1a]">
         {/* Left Panel - Chat */}
         <div className="w-full md:w-[45%] flex flex-col flex-1 md:flex-none bg-[#111827]/50 min-h-0">
           {/* Chat Header */}

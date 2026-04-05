@@ -1,25 +1,27 @@
 import { Link } from 'react-router-dom'
-import { ArrowLeft, Check, Lock, Key, Sparkles } from 'lucide-react'
+import { ArrowLeft, Check, Lock, Key, Sparkles, Globe, Code } from 'lucide-react'
 
 const FREE_FEATURES = [
   'Full visual builder with drag-and-drop sections',
-  '10 themes with 57 section variants',
-  '8 example websites to start from',
+  '12 themes with 60+ section variants',
+  '10 example websites across diverse industries',
   '6 enterprise spec generators (North Star, SADD, Build Plan, Features, Human Spec, AISP)',
-  'Local project save and load (JSON)',
-  'Image upload and management',
-  'Real-time preview canvas',
-  'Hex color picker and font controls',
+  'Local project save and load (JSON export/import)',
+  '258+ curated images in the media library',
+  'Real-time preview canvas with responsive modes',
+  'Hex color picker, font controls, and palette switching',
+  'Brand and design locks for project identity protection',
+  'Simulated chat and listen modes for demo workflows',
 ]
 
 const COMING_FEATURES = [
-  'AISP intent agents that parse natural language into specs',
-  'Hosted LLM chat and listen modes',
-  'Cloud persistence and project sharing',
-  'Team collaboration with role-based access',
+  'AI chat mode with real LLM integration for natural language site building',
+  'AI listen mode with voice-to-spec conversion',
+  'Cloud persistence with Supabase (user accounts, saved projects)',
+  'Team collaboration with role-based access control',
   'Brownfield analysis for existing codebases',
-  'Custom theme builder with AI suggestions',
-  'Version history and spec diffing',
+  'Custom theme builder with AI-powered suggestions',
+  'Version history with spec diffing',
   'CI/CD integration for spec-to-deploy pipelines',
 ]
 
@@ -27,17 +29,17 @@ const TIERS = [
   {
     name: 'Community',
     price: 'Free',
-    description: 'Everything you need to build and generate specs locally.',
-    features: ['Full builder access', '10 themes, 57 variants', '8 examples', '6 spec generators', 'Local save/load', 'Image upload'],
-    cta: 'Get Started',
+    description: 'The full builder, 12 themes, 10 examples, 6 spec generators, and local persistence. Everything you need to design and spec a website.',
+    features: ['Full visual builder', '12 themes, 60+ variants', '10 example sites', '6 spec generators', 'JSON export/import', '258+ media images', 'Brand and design locks'],
+    cta: 'Start Building',
     ctaLink: '/new-project',
     highlight: false,
   },
   {
     name: 'Pro',
     price: '$29/mo',
-    description: 'AI-powered modes and cloud features for serious builders.',
-    features: ['Everything in Community', 'AI chat mode', 'AI listen mode', 'Cloud persistence', 'Project sharing links', 'Priority support'],
+    description: 'AI-powered chat and listen modes, cloud persistence, and project sharing for teams that ship faster.',
+    features: ['Everything in Community', 'AI chat mode (Claude)', 'AI listen mode (voice)', 'Cloud project storage', 'Shareable project links', 'Priority support', 'BYOK option included'],
     cta: 'Coming Soon',
     ctaLink: '#',
     highlight: true,
@@ -45,8 +47,8 @@ const TIERS = [
   {
     name: 'Enterprise',
     price: 'Custom',
-    description: 'Team collaboration, brownfield analysis, and dedicated support.',
-    features: ['Everything in Pro', 'Team workspaces', 'Brownfield codebase analysis', 'SSO and RBAC', 'Dedicated onboarding', 'Custom integrations'],
+    description: 'Team workspaces, brownfield codebase analysis, SSO, and dedicated onboarding for organizations.',
+    features: ['Everything in Pro', 'Team workspaces', 'Brownfield analysis', 'SSO and RBAC', 'Dedicated onboarding', 'Custom integrations', 'SLA guarantee'],
     cta: 'Contact Us',
     ctaLink: '#',
     highlight: false,
@@ -79,9 +81,41 @@ export function OpenCore() {
             Open Core, Open Future
           </h1>
           <p className="text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed">
-            The full builder is free and always will be. Commercial features add
-            AI-powered modes, cloud persistence, and team collaboration.
+            The full builder is free and always will be. You get 12 themes, 10
+            examples, 6 spec generators, and a visual builder that turns ideas into
+            precise specifications. Commercial features add AI-powered modes, cloud
+            persistence, and team collaboration.
           </p>
+        </div>
+      </section>
+
+      {/* Philosophy */}
+      <section className="max-w-5xl mx-auto px-6 py-16">
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="flex items-start gap-4 bg-white/5 border border-white/10 rounded-2xl p-8">
+            <Globe className="w-8 h-8 text-emerald-400 shrink-0 mt-1" />
+            <div>
+              <h3 className="text-lg font-semibold mb-2">Why Open Core?</h3>
+              <p className="text-neutral-400 leading-relaxed text-sm">
+                Building one product and cutting the open-source release at the natural
+                boundary where the next feature requires infrastructure. Everything
+                that runs in your browser ships free. Cloud storage, real AI, and team
+                features are where the commercial tier begins.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-start gap-4 bg-white/5 border border-white/10 rounded-2xl p-8">
+            <Code className="w-8 h-8 text-indigo-400 shrink-0 mt-1" />
+            <div>
+              <h3 className="text-lg font-semibold mb-2">For Agentic Engineers</h3>
+              <p className="text-neutral-400 leading-relaxed text-sm">
+                The open-source builder includes clear placeholders where LLM and
+                database connections attach. Any skilled engineer can wire their own
+                Claude API key, connect a Supabase instance, or plug in a custom LLM.
+                You are not paying for tokens or hosting&mdash;the architecture is yours.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -129,9 +163,11 @@ export function OpenCore() {
             <h2 className="text-2xl font-bold">Bring Your Own Key (BYOK)</h2>
           </div>
           <p className="text-neutral-300 leading-relaxed max-w-2xl">
-            Add your Claude API key to unlock AI chat and listen modes today&mdash;no
-            subscription needed. Your key stays in your browser&apos;s local storage and
-            is never sent to our servers. Full AI-powered building with zero vendor lock-in.
+            When AI modes launch, you will be able to add your own Claude API key to
+            unlock chat and listen modes without a subscription. Your key stays in
+            your browser&apos;s local storage and is never sent to our servers. Full
+            AI-powered building with zero vendor lock-in. The BYOK option will also
+            be included in every Pro plan at no additional cost.
           </p>
         </div>
       </section>
@@ -175,6 +211,17 @@ export function OpenCore() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* CTA */}
+      <section className="max-w-5xl mx-auto px-6 py-16 text-center">
+        <p className="text-neutral-500 mb-6">The Community edition is available now. No sign-up required.</p>
+        <Link
+          to="/new-project"
+          className="inline-flex px-8 py-3 bg-[#A51C30] text-white font-semibold rounded-xl hover:bg-[#8B1729] transition-colors shadow-lg"
+        >
+          Start Building for Free
+        </Link>
       </section>
     </main>
   )

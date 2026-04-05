@@ -10,7 +10,19 @@
       "dramatic"
     ],
     "mood": "Visual and dramatic",
-    "heroVariant": "overlay"
+    "heroVariant": "overlay",
+    "recommendedSections": ["hero", "gallery", "image", "columns", "quotes", "text", "action", "footer"],
+    "defaultContext": {
+      "purpose": "portfolio",
+      "audience": "consumer",
+      "tone": "casual"
+    },
+    "chatMappings": {
+      "make it brighter": "Switch to Gold alternative palette with warm yellow accents",
+      "make it darker": "Deepen bgPrimary and switch to Ocean palette with deep blue",
+      "make it bolder": "Switch to Purple palette with vivid violet accents",
+      "make it softer": "Switch to Warm palette with muted rose and stone tones"
+    }
   },
   "theme": {
     "preset": "portfolio",

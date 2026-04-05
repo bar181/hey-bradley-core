@@ -88,8 +88,8 @@ import {
 } from 'lucide-react'
 
 const DIVIDER_SECTION_TYPES: { type: SectionType; name: string; icon: LucideIcon }[] = [
-  { type: 'menu', name: 'Top Menu', icon: Navigation },
-  { type: 'hero', name: 'Main Banner', icon: Star },
+  { type: 'menu', name: 'Navigation Bar', icon: Navigation },
+  { type: 'hero', name: 'Hero', icon: Star },
   { type: 'columns', name: 'Columns', icon: Grid3X3 },
   { type: 'pricing', name: 'Pricing', icon: DollarSign },
   { type: 'action', name: 'Action Block', icon: ArrowRight },
@@ -107,7 +107,7 @@ const DIVIDER_SECTION_TYPES: { type: SectionType; name: string; icon: LucideIcon
 ]
 
 const SECTION_LABELS: Record<string, string> = {
-  hero: 'Main Banner',
+  hero: 'Hero',
   columns: 'Columns',
   action: 'Action Block',
   pricing: 'Pricing',
@@ -115,7 +115,7 @@ const SECTION_LABELS: Record<string, string> = {
   quotes: 'Quotes',
   questions: 'Questions',
   numbers: 'Numbers',
-  menu: 'Top Menu',
+  menu: 'Navigation Bar',
   gallery: 'Gallery',
   image: 'Image',
   divider: 'Spacer',

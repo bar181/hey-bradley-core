@@ -2,7 +2,7 @@
 
 ## What is AISP?
 
-AISP (AI Specification Protocol) is a self-validating, proof-carrying protocol designed for high-density, low-ambiguity AI-to-AI communication. Created by Bradley Ross, it uses Category Theory and Natural Deduction to guarantee ambiguity below 2% (`Ambig(D) < 0.02`), creating a zero-trust architecture for autonomous agent swarms. In the Hey Bradley project, AISP defines the formal structure of website specification documents so that AI agents and renderers can parse them deterministically.
+AISP (AI Symbolic Protocol) is a self-validating, proof-carrying protocol designed for high-density, low-ambiguity AI-to-AI communication. Created by Bradley Ross, it uses Category Theory and Natural Deduction to guarantee ambiguity below 2% (`Ambig(D) < 0.02`), creating a zero-trust architecture for autonomous agent swarms. In the Hey Bradley project, AISP defines the formal structure of website specification documents so that AI agents and renderers can parse them deterministically.
 
 ---
 

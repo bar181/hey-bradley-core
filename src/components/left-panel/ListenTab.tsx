@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { Play, Settings } from 'lucide-react'
+import { Play, Settings, Mic, X } from 'lucide-react'
 import { buildDemoFromCaptions, runDemo } from '@/lib/demoSimulator'
 import { EXAMPLE_SITES } from '@/data/examples'
 import listenSequences from '@/data/sequences/listen-sequences.json'
@@ -46,6 +46,8 @@ export function ListenTab() {
   const [simText, setSimText] = useState('')
   const simTimersRef = useRef<ReturnType<typeof setTimeout>[]>([])
   const demoCleanupRef = useRef<(() => void) | null>(null)
+
+  const [showDemoDialog, setShowDemoDialog] = useState(false)
 
   // Demo sequences from JSON
   const demoSequences = listenSequences as DemoSequenceConfig[]
@@ -185,9 +187,9 @@ export function ListenTab() {
   }, [randomMode])
 
   return (
-    <div className="flex-1 flex flex-col bg-[var(--hb-bg,#1a1a1a)] overflow-hidden">
-      {/* A) Orb area — top section with padding */}
-      <div className="flex-1 flex items-center justify-center p-6 relative">
+    <div className="flex-1 flex flex-col h-full bg-[var(--hb-bg,#1a1a1a)] overflow-hidden">
+      {/* A) Orb area — top section */}
+      <div className="flex-1 flex items-center justify-center p-6 relative min-h-0">
         {/* Layer 4: Outer halo */}
         <div
           className="absolute rounded-full"
@@ -238,7 +240,7 @@ export function ListenTab() {
         />
       </div>
 
-      {/* B) Caption area — fixed height, between orb and buttons */}
+      {/* B) Caption area — middle, grows to fill */}
       <div className="min-h-[80px] px-4 flex items-center justify-center">
         {simPhase !== 'idle' ? (
           <div className={`w-full rounded-xl px-4 py-3 backdrop-blur-md ${
@@ -263,45 +265,22 @@ export function ListenTab() {
         )}
       </div>
 
-      {/* C) Buttons — compact bottom section */}
-      <div className="px-4 pb-4 space-y-2 flex flex-col items-center">
+      {/* C) Bottom controls — pushed to bottom */}
+      <div className="mt-auto px-4 pb-4 space-y-2 flex flex-col items-center">
         <div className="w-full max-w-[300px] space-y-2">
-          {/* Demo sequence cards */}
-          <div className="grid grid-cols-2 gap-2">
-            {demoSequences.map((demo) => (
-              <button
-                key={demo.id}
-                type="button"
-                onClick={() => runSimulateInput(demo)}
-                disabled={simActive || burstActive}
-                className="group flex flex-col items-center gap-1.5 rounded-xl px-2 py-2.5 bg-white/5 border border-white/10 hover:bg-[#A51C30]/15 hover:border-[#A51C30]/25 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                <div className="flex gap-0.5">
-                  {demo.swatchColors.map((color, i) => (
-                    <div
-                      key={i}
-                      className="w-3 h-3 rounded-full border border-white/10"
-                      style={{ backgroundColor: color }}
-                    />
-                  ))}
-                </div>
-                <span className="text-[10px] font-semibold text-white/60 group-hover:text-[#C1283E] transition-colors text-center leading-tight tracking-wide uppercase">
-                  {simActive ? '...' : demo.label}
-                </span>
-              </button>
-            ))}
-          </div>
-
+          {/* Watch a Demo button */}
           <Button
-            variant="outline"
-            onClick={runBurstAnimation}
-            disabled={burstActive}
-            className="w-full flex items-center justify-center gap-2 h-auto py-3 rounded-xl bg-white/10 backdrop-blur-sm text-white font-semibold text-sm tracking-wider uppercase hover:bg-white/15 transition-colors border border-white/10 disabled:opacity-60"
+            variant="ghost"
+            onClick={() => setShowDemoDialog(true)}
+            disabled={simActive || burstActive}
+            className="w-full flex items-center justify-center gap-2 h-auto py-2 text-xs text-white/50 hover:text-[#C1283E] hover:bg-[#A51C30]/5 transition-colors disabled:opacity-40"
+            data-testid="watch-demo-btn"
           >
-            <Play size={16} fill="currentColor" />
-            {burstActive ? `Listening ${Math.ceil(burstRemaining)}s` : 'Start Listening'}
+            <Mic size={14} />
+            Watch a Demo
           </Button>
 
+          {/* Settings toggle */}
           <Button
             variant="ghost"
             onClick={() => setShowSettings(!showSettings)}
@@ -332,8 +311,75 @@ export function ListenTab() {
               <SliderRow label="Size" value={maxSize} min={100} max={400} step={10} suffix="px" onChange={setMaxSize} />
             </div>
           )}
+
+          {/* LISTENING button — very bottom */}
+          <Button
+            variant="outline"
+            onClick={runBurstAnimation}
+            disabled={burstActive}
+            className="w-full flex items-center justify-center gap-2 h-auto py-3 rounded-xl bg-white/10 backdrop-blur-sm text-white font-semibold text-sm tracking-wider uppercase hover:bg-white/15 transition-colors border border-white/10 disabled:opacity-60"
+          >
+            <Play size={16} fill="currentColor" />
+            {burstActive ? `Listening ${Math.ceil(burstRemaining)}s` : 'Start Listening'}
+          </Button>
         </div>
       </div>
+
+      {/* Demo dialog */}
+      {showDemoDialog && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+          onClick={() => setShowDemoDialog(false)}
+          onKeyDown={(e) => { if (e.key === 'Escape') setShowDemoDialog(false) }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Demo options"
+        >
+          <div
+            className="bg-[#1a1a1a] border border-white/10 rounded-xl shadow-2xl w-full max-w-sm mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+              <h2 className="text-sm font-semibold text-white">Watch a Demo</h2>
+              <button
+                type="button"
+                onClick={() => setShowDemoDialog(false)}
+                className="text-white/40 hover:text-white transition-colors"
+                aria-label="Close dialog"
+              >
+                <X size={16} />
+              </button>
+            </div>
+            <div className="p-4 space-y-2">
+              {demoSequences.map((demo) => (
+                <button
+                  key={demo.id}
+                  type="button"
+                  onClick={() => {
+                    setShowDemoDialog(false)
+                    runSimulateInput(demo)
+                  }}
+                  disabled={simActive || burstActive}
+                  className="w-full group flex items-center gap-3 rounded-xl px-4 py-3 bg-white/5 border border-white/10 hover:bg-[#A51C30]/15 hover:border-[#A51C30]/25 transition-all disabled:opacity-40 disabled:cursor-not-allowed text-left"
+                >
+                  <div className="flex gap-0.5 shrink-0">
+                    {demo.swatchColors.map((color, i) => (
+                      <div
+                        key={i}
+                        className="w-3 h-3 rounded-full border border-white/10"
+                        style={{ backgroundColor: color }}
+                      />
+                    ))}
+                  </div>
+                  <span className="text-sm font-medium text-white/70 group-hover:text-[#C1283E] transition-colors">
+                    {demo.label}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       <style>{`
         @keyframes orb-pulse {

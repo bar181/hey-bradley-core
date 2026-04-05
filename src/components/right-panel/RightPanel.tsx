@@ -7,7 +7,7 @@ import { SimpleTab } from './SimpleTab'
 import { ExpertTab } from './ExpertTab'
 
 const sectionTypeLabel: Record<string, string> = {
-  hero: 'Main Banner',
+  hero: 'Hero',
   columns: 'Content Cards',
   action: 'Action Block',
   pricing: 'Pricing',
@@ -15,7 +15,7 @@ const sectionTypeLabel: Record<string, string> = {
   quotes: 'Quotes',
   questions: 'Questions',
   numbers: 'Numbers',
-  menu: 'Top Menu',
+  menu: 'Navigation Bar',
   gallery: 'Gallery',
 }
 

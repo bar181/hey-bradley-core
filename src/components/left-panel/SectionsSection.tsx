@@ -52,8 +52,8 @@ const sectionIconMap: Record<string, LucideIcon> = {
 }
 
 const sectionNameMap: Record<string, string> = {
-  menu: 'Top Menu',
-  hero: 'Main Banner',
+  menu: 'Navigation Bar',
+  hero: 'Hero',
   columns: 'Content Cards',
   action: 'Action Block',
   pricing: 'Pricing',
@@ -446,7 +446,7 @@ export function SectionsSection() {
             )}
 
             {/* Add section types list */}
-            <div className="mt-1 rounded-lg border border-hb-border bg-hb-surface overflow-y-auto max-h-[320px]">
+            <div className="mt-1 rounded-lg border border-hb-border bg-hb-surface">
               <div className="px-3 py-1.5 text-xs text-hb-text-muted font-medium uppercase tracking-wider border-b border-hb-border">
                 Add New Section
               </div>

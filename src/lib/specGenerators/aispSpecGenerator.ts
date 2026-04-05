@@ -111,13 +111,18 @@ export function generateAISPSpec(config: MasterConfig): string {
   }
   spec += `  }\n\n`
 
-  // ─── Global Γ — Brownfield Integration Rules (ADR-033) ───
+  // ─── Global Γ — Site-Level Rules + Brownfield Integration (ADR-033) ───
   spec += `  Γ := {\n`
+  spec += `    % ─── Site-level constraints ───\n`
+  spec += `    R_render: ∀ s ∈ sections : s.enabled = ⊤ ⟹ render(s),\n`
+  spec += `    R_order: ∀ i, j ∈ ℕ : i < j ⟹ order(sections[i]) < order(sections[j]),\n`
+  spec += `    R_palette: ∀ p ∈ palette : p ≠ ⊥ ∧ is_color(p),\n`
+  spec += `    R_a11y: ∀ (fg, bg) ∈ {(txt₁, bg₁), (txt₂, bg₂)} : contrast(fg, bg) ≥ 4.5,\n`
+  spec += `    R_font: font_loaded(${esc(theme.typography?.fontFamily || 'Inter')}) = ⊤,\n`
   spec += `    % ─── Brownfield Integration (activates when repo connected) ───\n`
   spec += `    R_reuse: □ IF repo_connected THEN reuse(components, "src/components/"),\n`
   spec += `    R_design_sys: □ IF design_tokens THEN imports(tokens, "src/styles/"),\n`
-  spec += `    R_extends: □ IF base_layout THEN extends(BaseLayout, sections),\n`
-  spec += `    % Note: brownfield analysis requires GitHub Connect (Pro tier)\n`
+  spec += `    R_extends: □ IF base_layout THEN extends(BaseLayout, sections)\n`
   spec += `  }\n\n`
 
   // ─── Per-Section Crystal Atoms ───

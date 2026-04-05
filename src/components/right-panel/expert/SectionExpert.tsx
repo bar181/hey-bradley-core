@@ -1,4 +1,3 @@
-import { useCallback } from 'react'
 import {
   ArrowUp,
   ArrowDown,
@@ -7,7 +6,6 @@ import {
   AlignLeft,
   AlignCenter,
   AlignRight,
-  Copy,
   Image as ImageIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/cn'
@@ -166,15 +164,6 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
   const setTrustBadges = (val: boolean) => {
     setSectionConfig(sectionId, { components: setComponentEnabled(section, 'trustBadges', val) })
   }
-
-  // Build AISP-like summary from real config
-  const aispSummary = buildAISPSummary(section, hero)
-
-  const handleCopyAISP = useCallback(() => {
-    navigator.clipboard.writeText(aispSummary).catch(() => {
-      /* clipboard may be unavailable */
-    })
-  }, [aispSummary])
 
   const components = [
     {
@@ -501,65 +490,6 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
         </div>
       </RightAccordion>
 
-      {/* RAW AISP SPEC - always visible, not in accordion */}
-      <div className="border-t border-hb-border my-3" />
-
-      <div className="flex items-center justify-between mb-2">
-        <span className="font-mono text-xs uppercase text-hb-text-muted">
-          RAW AISP SPEC
-        </span>
-        <button
-          type="button"
-          onClick={handleCopyAISP}
-          className="text-hb-text-muted hover:text-hb-text-primary transition-colors"
-          title="Copy AISP to clipboard"
-        >
-          <Copy size={14} />
-        </button>
-      </div>
-
-      <div className="bg-hb-surface rounded-lg p-3 font-mono text-xs leading-relaxed overflow-auto max-h-48">
-        <pre className="whitespace-pre-wrap text-hb-text-secondary">
-          {aispSummary}
-        </pre>
-      </div>
     </div>
   )
-}
-
-// ---------------------------------------------------------------------------
-// Build a text AISP summary from real section config
-// ---------------------------------------------------------------------------
-
-function buildAISPSummary(
-  section: { type: string; id: string; variant?: string; layout: Record<string, unknown>; style: Record<string, unknown>; components: Array<{ id: string; type: string; enabled: boolean; props: Record<string, unknown> }> },
-  _hero: { heading?: { text?: string; level?: number; size?: string; weight?: number }; subheading?: string; cta?: { text?: string; url?: string } }
-): string {
-  const lines: string[] = []
-  lines.push(`@aisp 2.0`)
-  lines.push(`@section ${section.type} ${section.id}`)
-  if (section.variant) {
-    lines.push(`  @variant ${section.variant}`)
-  }
-  const lay = section.layout
-  lines.push(`  @layout ${lay.display ?? 'flex'} ${lay.direction ?? 'column'} ${lay.align ?? 'center'}`)
-  if (lay.gap) lines.push(`  @gap ${lay.gap}`)
-  if (lay.padding) lines.push(`  @padding ${lay.padding}`)
-  if (lay.maxWidth) lines.push(`  @maxWidth ${lay.maxWidth}`)
-
-  // Components summary
-  for (const comp of section.components) {
-    if (!comp.enabled) continue
-    const text = (comp.props?.text as string) ?? ''
-    if (text) {
-      lines.push(`  @${comp.id} "${text.length > 40 ? text.slice(0, 40) + '...' : text}"`)
-    }
-  }
-
-  // Style
-  const style = section.style
-  if (style?.background) lines.push(`  @bg ${style.background}`)
-  if (style?.color) lines.push(`  @color ${style.color}`)
-
-  return lines.join('\n')
 }

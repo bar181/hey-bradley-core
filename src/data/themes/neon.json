@@ -10,7 +10,19 @@
       "electric"
     ],
     "mood": "Electric and futuristic",
-    "heroVariant": "centered"
+    "heroVariant": "centered",
+    "recommendedSections": ["hero", "columns", "numbers", "pricing", "gallery", "action", "footer"],
+    "defaultContext": {
+      "purpose": "saas",
+      "audience": "developer",
+      "tone": "technical"
+    },
+    "chatMappings": {
+      "make it brighter": "Switch to Electric Blue palette with vivid blue glow accents",
+      "make it darker": "Deepen bgSecondary and reduce textSecondary luminance",
+      "make it bolder": "Switch to Cyber Pink palette with hot magenta accents",
+      "make it softer": "Switch to Amber Glow palette with warm golden tones"
+    }
   },
   "theme": {
     "preset": "neon",

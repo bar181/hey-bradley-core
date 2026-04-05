@@ -1,33 +1,53 @@
 import { Link } from 'react-router-dom'
-import { ArrowLeft, BookOpen, Palette, Layout, FileText } from 'lucide-react'
+import { ArrowLeft, BookOpen, Palette, Layout, FileText, Zap, ExternalLink } from 'lucide-react'
 
-const GETTING_STARTED = [
-  { step: 1, title: 'Pick a Template', description: 'Choose from 10 themes and 8 example sites, or start from a blank canvas.' },
-  { step: 2, title: 'Customize', description: 'Add, remove, and reorder sections. Tweak colors, fonts, images, and content in the visual builder.' },
-  { step: 3, title: 'Export Your Spec', description: 'Generate up to 6 enterprise-grade specification documents with one click.' },
+const QUICK_START = [
+  {
+    step: 1,
+    title: 'Pick a Theme',
+    description: 'Choose from 12 professional themes or start with one of 10 pre-built example sites. Each theme includes a full color palette, font stack, and section styling.',
+  },
+  {
+    step: 2,
+    title: 'Add and Customize Sections',
+    description: 'Add sections like hero banners, pricing tables, testimonials, galleries, and more. Reorder them with drag-and-drop, tweak colors with the hex picker, and swap images from the 258+ media library.',
+  },
+  {
+    step: 3,
+    title: 'Generate Specs',
+    description: 'Click the Blueprints tab to generate up to 6 enterprise-grade specification documents. Export your entire project as JSON to hand off to any developer or AI agent.',
+  },
+]
+
+const WORKFLOW_STEPS = [
+  { label: 'Pick theme or example', detail: 'Start from a pre-built site or choose a blank canvas with your preferred theme.' },
+  { label: 'Customize in the builder', detail: 'Use SIMPLE mode for easy edits or EXPERT mode for full control over JSON, colors, fonts, and section variants.' },
+  { label: 'Preview your site', detail: 'Toggle preview mode to see your site as visitors would. Check desktop, tablet, and mobile views.' },
+  { label: 'Generate specifications', detail: 'Open the Blueprints tab to produce North Star, Architecture, Build Plan, Features, Human Spec, and AISP documents.' },
+  { label: 'Export and build', detail: 'Download your config as JSON. Hand it to a developer, feed it to an AI agent, or use the AISP spec for automated implementation.' },
 ]
 
 const SECTION_TYPES = [
-  { type: 'menu', name: 'Top Menu', variants: 2, description: 'Navigation bar with logo and links' },
-  { type: 'hero', name: 'Main Banner', variants: 4, description: 'Main banner with headline and button' },
-  { type: 'columns', name: 'Content Cards', variants: 8, description: 'Cards with images, icons, and text' },
-  { type: 'pricing', name: 'Pricing', variants: 3, description: 'Pricing plans and tiers' },
-  { type: 'action', name: 'Action Block', variants: 4, description: 'Section with button and message' },
-  { type: 'footer', name: 'Footer', variants: 4, description: 'Page footer with links' },
-  { type: 'quotes', name: 'Quotes', variants: 4, description: 'Customer testimonials and quotes' },
-  { type: 'questions', name: 'Questions', variants: 4, description: 'Frequently asked questions' },
-  { type: 'numbers', name: 'Numbers', variants: 4, description: 'Key value propositions and stats' },
-  { type: 'gallery', name: 'Gallery', variants: 4, description: 'Image gallery' },
-  { type: 'image', name: 'Image', variants: 4, description: 'A big photo with optional text on top' },
-  { type: 'divider', name: 'Spacer', variants: 3, description: 'A line or space between sections' },
-  { type: 'text', name: 'Text', variants: 3, description: 'A block of text for articles or stories' },
-  { type: 'logos', name: 'Logo Cloud', variants: 3, description: 'Show partner or sponsor logos in a row' },
+  { type: 'menu', name: 'Navigation Bar', variants: 2, description: 'Navigation bar with logo and links' },
+  { type: 'hero', name: 'Hero', variants: 4, description: 'Main banner with headline, image, and call-to-action' },
+  { type: 'columns', name: 'Content Cards', variants: 8, description: 'Cards with images, icons, and text in grid layouts' },
+  { type: 'pricing', name: 'Pricing', variants: 3, description: 'Pricing plans and tier comparison' },
+  { type: 'action', name: 'Action Block', variants: 4, description: 'Section with button and message for conversions' },
+  { type: 'footer', name: 'Footer', variants: 4, description: 'Page footer with links and branding' },
+  { type: 'quotes', name: 'Quotes', variants: 4, description: 'Customer testimonials and social proof' },
+  { type: 'questions', name: 'Questions', variants: 4, description: 'Frequently asked questions with accordion' },
+  { type: 'numbers', name: 'Numbers', variants: 4, description: 'Key metrics, stats, and value propositions' },
+  { type: 'gallery', name: 'Gallery', variants: 4, description: 'Image gallery with lightbox and effects' },
+  { type: 'image', name: 'Image', variants: 4, description: 'Full-width photo with optional text overlay' },
+  { type: 'divider', name: 'Spacer', variants: 3, description: 'Visual separator between sections' },
+  { type: 'text', name: 'Text', variants: 3, description: 'Long-form content for articles or about pages' },
+  { type: 'logos', name: 'Logo Cloud', variants: 3, description: 'Partner or sponsor logos in a row' },
   { type: 'team', name: 'Team', variants: 3, description: 'Team member cards with photos and roles' },
-  { type: 'cta', name: 'Call to Action', variants: 2, description: 'Focused call-to-action section' },
-  { type: 'features', name: 'Features', variants: 2, description: 'Feature highlights with icons' },
+  { type: 'cta', name: 'Call to Action', variants: 2, description: 'Focused conversion section' },
+  { type: 'features', name: 'Features', variants: 2, description: 'Feature highlights with icons and descriptions' },
   { type: 'faq', name: 'FAQ', variants: 2, description: 'Expandable question-and-answer blocks' },
-  { type: 'testimonials', name: 'Testimonials', variants: 1, description: 'Social proof and reviews' },
-  { type: 'value-props', name: 'Value Props', variants: 1, description: 'Key selling points' },
+  { type: 'testimonials', name: 'Testimonials', variants: 1, description: 'Social proof and customer reviews' },
+  { type: 'value-props', name: 'Value Props', variants: 1, description: 'Key selling points for your product' },
 ]
 
 const THEMES = [
@@ -41,15 +61,17 @@ const THEMES = [
   { slug: 'minimalist', name: 'Minimalist', color: '#1F2937', description: 'Pure typography and whitespace, stripped to essentials' },
   { slug: 'creative', name: 'Creative', color: '#DC2626', description: 'Music, entertainment, events, art, expressive brands' },
   { slug: 'blog', name: 'Blog', color: '#7C3AED', description: 'Writers, publishers, newsletters, content creators' },
+  { slug: 'elegant', name: 'Elegant', color: '#D4A574', description: 'Luxury brands, high-end services, refined experiences' },
+  { slug: 'neon', name: 'Neon', color: '#00FF88', description: 'Gaming, nightlife, crypto, cutting-edge tech' },
 ]
 
 const SPEC_GENERATORS = [
-  { name: 'North Star', description: 'High-level project vision, goals, success metrics, and guiding principles for the entire site.' },
-  { name: 'SADD', description: 'Software Architecture & Design Document covering tech stack, data flow, components, and deployment.' },
-  { name: 'Build Plan', description: 'Sprint-by-sprint implementation plan with tasks, priorities, estimates, and dependencies.' },
+  { name: 'North Star', description: 'High-level project vision, goals, success metrics, and guiding principles. The "why" behind everything.' },
+  { name: 'Architecture (SADD)', description: 'Software Architecture and Design Document covering tech stack, component structure, data flow, and deployment.' },
+  { name: 'Build Plan', description: 'Sprint-by-sprint implementation plan with tasks, priorities, time estimates, and dependencies.' },
   { name: 'Features', description: 'Detailed feature inventory mapping every section to acceptance criteria and user stories.' },
-  { name: 'Human Spec', description: 'Plain-English specification readable by non-technical stakeholders with visual references.' },
-  { name: 'AISP Spec', description: 'Machine-verifiable Crystal Atom specification for AI agents with typed fields and validation rules.' },
+  { name: 'Human Spec', description: 'Plain-English specification readable by non-technical stakeholders. No jargon, clear visual references.' },
+  { name: 'AISP Spec', description: 'Machine-verifiable Crystal Atom specification for AI agents. Typed fields, validation rules, and mathematical precision.' },
 ]
 
 export function Docs() {
@@ -84,17 +106,46 @@ export function Docs() {
         </p>
       </section>
 
-      {/* Getting Started */}
+      {/* Quick Start */}
       <section className="max-w-5xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold text-neutral-900 mb-8">Getting Started</h2>
+        <div className="flex items-center gap-3 mb-8">
+          <Zap className="w-6 h-6 text-[#A51C30]" />
+          <h2 className="text-3xl font-bold text-neutral-900">Quick Start</h2>
+        </div>
         <div className="grid md:grid-cols-3 gap-6">
-          {GETTING_STARTED.map((item) => (
+          {QUICK_START.map((item) => (
             <div key={item.step} className="bg-white rounded-2xl border border-neutral-200 p-8 shadow-sm">
               <div className="w-10 h-10 rounded-full bg-[#A51C30] text-white flex items-center justify-center font-bold text-lg mb-4">
                 {item.step}
               </div>
               <h3 className="text-lg font-semibold text-neutral-900 mb-2">{item.title}</h3>
               <p className="text-neutral-500 text-sm leading-relaxed">{item.description}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-8 text-center">
+          <Link
+            to="/new-project"
+            className="inline-flex px-8 py-3 bg-[#A51C30] text-white font-semibold rounded-xl hover:bg-[#8B1729] transition-colors shadow-lg"
+          >
+            Open the Builder
+          </Link>
+        </div>
+      </section>
+
+      {/* Workflow */}
+      <section className="max-w-5xl mx-auto px-6 py-16">
+        <h2 className="text-3xl font-bold text-neutral-900 mb-8">Full Workflow</h2>
+        <div className="space-y-4">
+          {WORKFLOW_STEPS.map((step, i) => (
+            <div key={i} className="flex items-start gap-4 bg-white rounded-xl border border-neutral-200 p-6 shadow-sm">
+              <div className="w-8 h-8 rounded-full bg-neutral-100 text-neutral-500 flex items-center justify-center font-bold text-sm shrink-0">
+                {i + 1}
+              </div>
+              <div>
+                <h3 className="font-semibold text-neutral-900 mb-1">{step.label}</h3>
+                <p className="text-sm text-neutral-500">{step.detail}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -142,7 +193,12 @@ export function Docs() {
           <Palette className="w-6 h-6 text-[#A51C30]" />
           <h2 className="text-3xl font-bold text-neutral-900">Theme Reference</h2>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <p className="text-neutral-500 mb-6">
+          Each theme includes a primary palette, 4 alternative palettes, a dark/light
+          alternate mode, and custom typography. Switch between them in the builder
+          sidebar.
+        </p>
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {THEMES.map((t) => (
             <div key={t.slug} className="bg-white rounded-2xl border border-neutral-200 p-4 shadow-sm text-center">
               <div
@@ -162,6 +218,10 @@ export function Docs() {
           <FileText className="w-6 h-6 text-[#A51C30]" />
           <h2 className="text-3xl font-bold text-neutral-900">Spec Generator Reference</h2>
         </div>
+        <p className="text-neutral-500 mb-6">
+          Hey Bradley generates 6 specification documents from your site config. Open
+          the Blueprints tab in the builder to see them all.
+        </p>
         <div className="grid md:grid-cols-2 gap-4">
           {SPEC_GENERATORS.map((spec) => (
             <div key={spec.name} className="bg-white rounded-2xl border border-neutral-200 p-6 shadow-sm">
@@ -169,6 +229,47 @@ export function Docs() {
               <p className="text-neutral-500 text-sm leading-relaxed">{spec.description}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Resources */}
+      <section className="max-w-5xl mx-auto px-6 py-16">
+        <h2 className="text-3xl font-bold text-neutral-900 mb-8">Resources</h2>
+        <div className="grid md:grid-cols-3 gap-4">
+          <a
+            href="https://github.com/bar181/aisp-open-core"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 bg-white rounded-xl border border-neutral-200 p-5 shadow-sm hover:border-[#A51C30]/30 transition-colors"
+          >
+            <ExternalLink className="w-5 h-5 text-[#A51C30] shrink-0" />
+            <div>
+              <h3 className="font-semibold text-neutral-900 text-sm">AISP Protocol Guide</h3>
+              <p className="text-xs text-neutral-400">Open-source reference for the AI Symbolic Protocol</p>
+            </div>
+          </a>
+          <a
+            href="https://github.com/bar181/hey-bradley-core"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 bg-white rounded-xl border border-neutral-200 p-5 shadow-sm hover:border-[#A51C30]/30 transition-colors"
+          >
+            <ExternalLink className="w-5 h-5 text-[#A51C30] shrink-0" />
+            <div>
+              <h3 className="font-semibold text-neutral-900 text-sm">GitHub Repository</h3>
+              <p className="text-xs text-neutral-400">Source code, issues, and documentation</p>
+            </div>
+          </a>
+          <Link
+            to="/how-i-built-this"
+            className="flex items-center gap-3 bg-white rounded-xl border border-neutral-200 p-5 shadow-sm hover:border-[#A51C30]/30 transition-colors"
+          >
+            <ExternalLink className="w-5 h-5 text-[#A51C30] shrink-0" />
+            <div>
+              <h3 className="font-semibold text-neutral-900 text-sm">How I Built This</h3>
+              <p className="text-xs text-neutral-400">Phase-by-phase development story and methodology</p>
+            </div>
+          </Link>
         </div>
       </section>
 

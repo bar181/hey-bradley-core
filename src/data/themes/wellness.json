@@ -10,7 +10,19 @@
       "serene"
     ],
     "mood": "Calm and serene",
-    "heroVariant": "overlay"
+    "heroVariant": "overlay",
+    "recommendedSections": ["hero", "image", "columns", "quotes", "text", "numbers", "action", "footer"],
+    "defaultContext": {
+      "purpose": "marketing",
+      "audience": "consumer",
+      "tone": "casual"
+    },
+    "chatMappings": {
+      "make it brighter": "Switch to Lavender alternative palette with soft purple accents",
+      "make it darker": "Deepen bgPrimary and switch to Sand palette with warm earth tones",
+      "make it bolder": "Switch to Blush palette with vibrant rose-pink accents",
+      "make it softer": "Switch to Ocean palette with calm blue-water tones"
+    }
   },
   "theme": {
     "preset": "wellness",

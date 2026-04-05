@@ -10,7 +10,19 @@
       "refined"
     ],
     "mood": "Luxurious and refined",
-    "heroVariant": "overlay"
+    "heroVariant": "overlay",
+    "recommendedSections": ["hero", "image", "columns", "quotes", "team", "gallery", "action", "footer"],
+    "defaultContext": {
+      "purpose": "marketing",
+      "audience": "consumer",
+      "tone": "formal"
+    },
+    "chatMappings": {
+      "make it brighter": "Switch to Rose alternative palette with soft pink accents",
+      "make it darker": "Switch to Midnight Gold palette with deep navy and gold accents",
+      "make it bolder": "Increase heading weight and switch to Charcoal palette",
+      "make it softer": "Switch to Sage palette with muted green and earth tones"
+    }
   },
   "theme": {
     "preset": "elegant",

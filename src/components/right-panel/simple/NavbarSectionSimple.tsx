@@ -16,6 +16,7 @@ export function NavbarSectionSimple({ sectionId }: { sectionId: string }) {
 
   const getComp = (id: string) => section.components.find((c) => c.id === id)
   const logoText = (getComp('logo')?.props?.text as string) ?? ''
+  const logoEnabled = getComp('logo')?.enabled ?? true
   const ctaText = (getComp('cta')?.props?.text as string) ?? ''
   const ctaEnabled = getComp('cta')?.enabled ?? true
 
@@ -43,7 +44,11 @@ export function NavbarSectionSimple({ sectionId }: { sectionId: string }) {
       <RightAccordion id={`navbar-elements-${sectionId}`} label="Show / Hide">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <Switch checked onCheckedChange={() => {}} className="scale-[0.6] shrink-0 opacity-50" />
+            <Switch
+              checked={logoEnabled}
+              onCheckedChange={(v) => handleToggle('logo', v)}
+              className="scale-[0.6] shrink-0"
+            />
             <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Logo Text</span>
           </div>
           <div className="flex items-center gap-2">
@@ -60,7 +65,7 @@ export function NavbarSectionSimple({ sectionId }: { sectionId: string }) {
       {/* ─── CONTENT ─── */}
       <RightAccordion id={`navbar-content-${sectionId}`} label="Content">
         <div className="space-y-3">
-          <div className="space-y-1">
+          <div className={cn(!logoEnabled && 'opacity-25 pointer-events-none', 'space-y-1')}>
             <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Logo Text</span>
             <input
               type="text"

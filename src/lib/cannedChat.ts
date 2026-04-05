@@ -167,9 +167,57 @@ export function parseMultiPartCommand(input: string): MultiChatResult | null {
   return { response, actions }
 }
 
+/**
+ * Compound commands that make multiple config changes at once.
+ * Checked before single-command parsing so they take priority.
+ */
+const COMPOUND_COMMANDS: Array<{
+  patterns: string[]
+  response: string
+  actions: string[]
+}> = [
+  {
+    patterns: ['make this brighter', 'make it brighter', 'brighten it', 'brighter'],
+    response: 'Brightening up! Switched to light mode with a clean, fresh look.',
+    actions: ['toggleMode:light'],
+  },
+  {
+    patterns: ['add pricing section', 'add a pricing section', 'add pricing page'],
+    response: 'Added pricing section and updated your hero CTA to reference plans.',
+    actions: ['addSection:pricing', 'heroCta:View Plans'],
+  },
+  {
+    patterns: ['build me a bakery website', 'bakery website', 'make a bakery site'],
+    response: 'Building a cozy bakery site with warm tones, gallery, and testimonials!',
+    actions: ['applyVibe:wellness', 'toggleMode:light', 'addSection:gallery', 'addSection:quotes'],
+  },
+  {
+    patterns: ['create a saas landing page', 'saas landing page', 'make a saas page'],
+    response: 'Setting up a SaaS landing page with dark mode, pricing, and stats!',
+    actions: ['applyVibe:saas', 'toggleMode:dark', 'addSection:pricing', 'addSection:numbers'],
+  },
+  {
+    patterns: ['make a photography portfolio', 'photography portfolio', 'photo portfolio'],
+    response: 'Creating a dramatic portfolio with gallery and dark theme!',
+    actions: ['applyVibe:portfolio', 'toggleMode:dark', 'addSection:gallery', 'addSection:team'],
+  },
+]
+
 export function parseChatCommand(input: string): ChatResult {
   const trimmed = input.trim()
   const lower = trimmed.toLowerCase()
+
+  // Compound commands — multi-property changes
+  for (const cmd of COMPOUND_COMMANDS) {
+    for (const pattern of cmd.patterns) {
+      if (lower === pattern) {
+        return {
+          response: cmd.response,
+          action: `compound:${cmd.actions.join('|')}`,
+        }
+      }
+    }
+  }
 
   // Dark mode — expanded triggers
   if (

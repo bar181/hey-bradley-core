@@ -10,7 +10,19 @@
       "elegant"
     ],
     "mood": "Clean and elegant",
-    "heroVariant": "minimal"
+    "heroVariant": "minimal",
+    "recommendedSections": ["hero", "text", "divider", "image", "action", "footer"],
+    "defaultContext": {
+      "purpose": "portfolio",
+      "audience": "consumer",
+      "tone": "formal"
+    },
+    "chatMappings": {
+      "make it brighter": "Switch to Cream alternative palette with warm off-white backgrounds",
+      "make it darker": "Switch to Ink alternative palette with pure black backgrounds",
+      "make it bolder": "Switch to Blue palette and increase heading weight",
+      "make it softer": "Switch to Sage palette with muted green-gray tones"
+    }
   },
   "theme": {
     "preset": "minimalist",
