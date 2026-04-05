@@ -84,13 +84,7 @@ test.describe('Brand Lock', () => {
     // After clicking, the button aria-label changes to "Unlock brand editing"
     await expect(page.locator('button[aria-label="Unlock brand editing"]')).toBeVisible()
 
-    // The ThemeSimple panel should show "Brand locked" indicator
-    // Click Theme in left panel to see the brand locked message
-    const themeItem = page.locator('[role="button"]').filter({ hasText: 'Theme' }).first()
-    if (await themeItem.isVisible()) {
-      await themeItem.click()
-      await page.waitForTimeout(300)
-      await expect(page.locator('text=Brand locked')).toBeVisible({ timeout: 5000 })
-    }
+    // The RightPanel header shows a "Brand" badge when brand is locked
+    await expect(page.locator('span:has-text("Brand")').first()).toBeVisible({ timeout: 5000 })
   })
 })

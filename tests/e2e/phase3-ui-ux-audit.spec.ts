@@ -141,10 +141,11 @@ test.describe('2. Builder Page (/builder)', () => {
     expect(panelCount).toBeGreaterThanOrEqual(3)
   })
 
-  test('all 4 tabs work', async ({ page }) => {
+  test('all visible tabs work', async ({ page }) => {
     await goToBuilder(page)
 
-    const tabs = ['Preview', 'Data', 'Specs', 'Pipeline']
+    // In SIMPLE mode only Preview + Blueprints are shown; Data/Pipeline are expert-only
+    const tabs = ['Preview', 'Blueprints']
     const tabResults: string[] = []
 
     for (const tab of tabs) {
@@ -160,7 +161,7 @@ test.describe('2. Builder Page (/builder)', () => {
     }
 
     const allOk = tabResults.every(r => r.includes('OK'))
-    record('Builder', 'All 4 tabs work', allOk, tabResults.join(', '), 'P0')
+    record('Builder', 'All visible tabs work', allOk, tabResults.join(', '), 'P0')
 
     expect(allOk).toBeTruthy()
   })

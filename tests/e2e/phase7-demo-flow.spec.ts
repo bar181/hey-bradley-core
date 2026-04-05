@@ -55,23 +55,20 @@ test.describe('Phase 7: Demo Flow', () => {
   })
 
   // ─── PW4: Listen tab shows orb controls ───
-  test('PW4: listen tab shows orb and demo button', async ({ page }) => {
+  test('PW4: listen tab shows orb and start listening button', async ({ page }) => {
     await page.locator('button').filter({ hasText: 'Listen' }).first().click()
     await page.waitForTimeout(300)
 
-    await expect(page.locator('text=Watch a Demo')).toBeVisible()
     await expect(page.locator('text=Start Listening')).toBeVisible()
   })
 
-  // ─── PW5: All 4 center tabs visible ───
-  test('PW5: all 4 center tabs are visible', async ({ page }) => {
-    // These are button tabs in the center canvas TabBar
+  // ─── PW5: Center tabs visible (Preview + Blueprints in simple mode) ───
+  test('PW5: center tabs are visible', async ({ page }) => {
+    // In SIMPLE mode, only Preview + Blueprints are shown; Data/Pipeline are expert-only
     const tabBar = page.locator('.flex.flex-row.gap-0.border-b')
 
     await expect(tabBar.locator('button', { hasText: 'Preview' })).toBeVisible()
-    await expect(tabBar.locator('button', { hasText: 'Data' })).toBeVisible()
-    await expect(tabBar.locator('button', { hasText: 'Specs' })).toBeVisible()
-    await expect(tabBar.locator('button', { hasText: 'Pipeline' })).toBeVisible()
+    await expect(tabBar.locator('button', { hasText: 'Blueprints' })).toBeVisible()
   })
 
   // ─── PW6: 404 page for unknown routes ───
@@ -83,14 +80,14 @@ test.describe('Phase 7: Demo Flow', () => {
     await expect(page.locator('text=Back to Home')).toBeVisible()
   })
 
-  // ─── PW7: Specs tab shows 6 spec generator tabs ───
-  test('PW7: specs tab shows AISP output', async ({ page }) => {
-    // Click the Specs tab in the center canvas
-    const specsBtn = page.locator('button').filter({ hasText: 'Specs' }).first()
-    await specsBtn.click()
+  // ─── PW7: Blueprints tab shows spec generators ───
+  test('PW7: blueprints tab shows spec generators', async ({ page }) => {
+    // Click the Blueprints tab in the center canvas
+    const blueprintsBtn = page.locator('button').filter({ hasText: 'Blueprints' }).first()
+    await blueprintsBtn.click()
     await page.waitForTimeout(500)
 
-    // The Specs tab has 6 sub-tabs: North Star, Architecture, Build Plan, Features, Human Spec, AISP Spec
+    // The Blueprints tab has sub-tabs including North Star and Build Plan
     await expect(page.getByRole('button', { name: 'North Star' })).toBeVisible({ timeout: 3000 })
     await expect(page.getByRole('button', { name: 'Build Plan' })).toBeVisible({ timeout: 3000 })
   })
