@@ -1,0 +1,595 @@
+{
+  "site": {
+    "title": "Summit Realty Group",
+    "description": "Premier real estate agency helping clients buy, sell, and rent properties",
+    "author": "Summit Realty Group",
+    "email": "info@summitrealtygroup.com",
+    "domain": "summitrealtygroup.com",
+    "project": "summit-realty-group",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "consumer",
+    "tone": "warm"
+  },
+  "theme": {
+    "preset": "professional",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#f8fafc",
+      "textPrimary": "#0f172a",
+      "textSecondary": "#475569",
+      "accentPrimary": "#1e40af",
+      "accentSecondary": "#2563eb"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#09090b",
+      "bgSecondary": "#18181b",
+      "textPrimary": "#fafafa",
+      "textSecondary": "#a1a1aa",
+      "accentPrimary": "#1e40af",
+      "accentSecondary": "#2563eb"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Inter",
+      "headingWeight": 600,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#ffffff",
+        "color": "#0f172a"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Summit Realty Group"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Schedule a Viewing",
+            "url": "#cta"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "overlay",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "#ffffff",
+        "color": "#0f172a",
+        "fontFamily": "Inter",
+        "borderRadius": "0px"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Top-Rated Agency Since 2015",
+            "icon": "award",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Find Your Dream Home With Experts Who Care",
+            "level": 1,
+            "size": "56px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Whether you're buying your first home, selling a cherished property, or searching for the perfect rental, Summit Realty Group makes every step feel effortless."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Browse Listings",
+            "url": "#gallery",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Meet Our Team",
+            "url": "#features",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "heroImage",
+          "type": "image",
+          "enabled": false,
+          "order": 5,
+          "props": {}
+        },
+        {
+          "id": "backgroundImage",
+          "type": "image",
+          "enabled": true,
+          "order": 6,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&auto=format&q=80",
+            "alt": "Beautiful modern home exterior with lush landscaping",
+            "aspect": "16:9"
+          }
+        },
+        {
+          "id": "heroVideo",
+          "type": "video",
+          "enabled": false,
+          "order": 7,
+          "props": {}
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 8,
+          "props": {
+            "text": "Over 1,200 families helped find their perfect home",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "features-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#f8fafc",
+        "color": "#0f172a"
+      },
+      "components": [
+        {
+          "id": "f1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "home",
+            "title": "Buying",
+            "description": "From your first showing to the closing table, we guide you through every step of finding and purchasing your ideal property."
+          }
+        },
+        {
+          "id": "f2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "dollar-sign",
+            "title": "Selling",
+            "description": "Strategic pricing, professional staging, and targeted marketing ensure your home sells quickly and for top dollar."
+          }
+        },
+        {
+          "id": "f3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "key",
+            "title": "Rentals",
+            "description": "Browse our curated collection of rental properties or let us manage your investment with full-service property management."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Our Services",
+        "subheading": "Expert guidance for every real estate need"
+      }
+    },
+    {
+      "type": "gallery",
+      "id": "gallery-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "16px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#ffffff",
+        "color": "#0f172a"
+      },
+      "components": [
+        {
+          "id": "g-1",
+          "type": "gallery-image",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&auto=format&q=80",
+            "alt": "Luxury modern home with pool",
+            "caption": "Lakeside Villa — $1.2M"
+          }
+        },
+        {
+          "id": "g-2",
+          "type": "gallery-image",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&auto=format&q=80",
+            "alt": "Elegant living room interior",
+            "caption": "Downtown Penthouse — $895K"
+          }
+        },
+        {
+          "id": "g-3",
+          "type": "gallery-image",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&auto=format&q=80",
+            "alt": "Charming craftsman home exterior",
+            "caption": "Maple Street Cottage — $485K"
+          }
+        },
+        {
+          "id": "g-4",
+          "type": "gallery-image",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&auto=format&q=80",
+            "alt": "Modern kitchen with marble countertops",
+            "caption": "Summit Heights — $720K"
+          }
+        },
+        {
+          "id": "g-5",
+          "type": "gallery-image",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&auto=format&q=80",
+            "alt": "Spacious backyard with garden",
+            "caption": "Garden Estate — $950K"
+          }
+        },
+        {
+          "id": "g-6",
+          "type": "gallery-image",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&auto=format&q=80",
+            "alt": "Contemporary townhome facade",
+            "caption": "Harbor Row Townhome — $565K"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Featured Properties",
+        "subheading": "Hand-picked listings from our current portfolio"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "stars",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#f8fafc",
+        "color": "#0f172a"
+      },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "Summit Realty found us the perfect family home in just three weeks. Their local knowledge and patient approach made all the difference.",
+            "author": "David & Maria Chen",
+            "role": "First-time Homebuyers",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "We sold above asking price in five days. Their staging advice and marketing strategy were absolutely world-class.",
+            "author": "Patricia Okonkwo",
+            "role": "Home Seller",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "As an investor with twelve rental units, Summit manages everything seamlessly. They treat my properties like their own.",
+            "author": "Marcus Rivera",
+            "role": "Property Investor",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "Client Stories",
+        "subheading": "Hear from families and investors we've helped"
+      }
+    },
+    {
+      "type": "numbers",
+      "id": "numbers-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "counters",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#ffffff",
+        "color": "#0f172a"
+      },
+      "components": [
+        {
+          "id": "n-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "1,200+",
+            "label": "Properties Sold",
+            "description": "Since 2015"
+          }
+        },
+        {
+          "id": "n-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "98%",
+            "label": "Happy Clients",
+            "description": "5-star satisfaction"
+          }
+        },
+        {
+          "id": "n-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "10",
+            "label": "Years Experience",
+            "description": "Local market experts"
+          }
+        },
+        {
+          "id": "n-4",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "value": "14 Days",
+            "label": "Avg. Time to Sell",
+            "description": "Fastest in the region"
+          }
+        }
+      ],
+      "content": {
+        "heading": "By the Numbers",
+        "subheading": "A decade of delivering exceptional results"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "#f8fafc",
+        "color": "#0f172a"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Ready to Find Your Perfect Home?",
+            "level": 2,
+            "size": "36px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Schedule a free consultation with one of our experienced agents. We'll listen to your needs and match you with the right property."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Schedule a Viewing",
+            "url": "#contact",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 6,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#0f172a",
+        "color": "#f8fafc"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Summit Realty Group"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Services",
+            "links": "Buying,Selling,Rentals,Property Management"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Company",
+            "links": "About,Our Agents,Careers,Press"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Connect",
+            "links": "Instagram,Facebook,LinkedIn,Newsletter"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "\u00a9 2026 Summit Realty Group. Licensed in all 50 states."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

@@ -51,5 +51,23 @@
       { "text": "Wrapping up with a minimal footer.", "delay": 11800 },
       { "text": "Your portfolio website is ready! Switch to Build mode to customize.", "delay": 13800 }
     ]
+  },
+  {
+    "id": "food-blog",
+    "label": "Build a Food Blog",
+    "exampleSlug": "fun-blog",
+    "exampleName": "The Daily Scoop",
+    "swatchColors": ["#f97316", "#fffbf0", "#1a1a2e"],
+    "captions": [
+      { "text": "Building your casual food blog...", "delay": 0 },
+      { "text": "Setting a warm, playful creative theme with orange accents.", "delay": 1800 },
+      { "text": "Adding a hero section with a vibrant food photo.", "delay": 3800 },
+      { "text": "Writing an intro about your food philosophy.", "delay": 5800 },
+      { "text": "Creating a photo gallery of recent recipes and eats.", "delay": 7800 },
+      { "text": "Previewing a featured article with a sneak peek.", "delay": 9800 },
+      { "text": "Placing a subscribe call to action for your newsletter.", "delay": 11800 },
+      { "text": "Finishing with a fun footer and social links.", "delay": 13800 },
+      { "text": "Your food blog is ready! Switch to Build mode to customize.", "delay": 15800 }
+    ]
   }
 ]

@@ -320,16 +320,16 @@
       }
     },
     {
-      "type": "text",
-      "id": "text-article-01",
+      "type": "blog",
+      "id": "blog-01",
       "enabled": true,
       "order": 3,
-      "variant": "single",
+      "variant": "card-grid",
       "layout": {
-        "display": "flex",
-        "direction": "column",
-        "padding": "64px 24px",
-        "maxWidth": "800px"
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
       },
       "style": {
         "background": "#fff5e0",
@@ -337,18 +337,53 @@
       },
       "components": [
         {
-          "id": "body",
-          "type": "text",
+          "id": "article-1",
+          "type": "blog-article",
           "enabled": true,
           "order": 0,
           "props": {
-            "body": "This week's featured recipe: One-Pan Lemon Garlic Chicken. Throw everything on a sheet pan, set a timer, and pretend you're a culinary genius when dinner's ready in 30 minutes. We tested it three times (okay, we ate it three times) and it's foolproof. Full recipe dropping Wednesday."
+            "title": "One-Pan Lemon Garlic Chicken",
+            "excerpt": "Throw everything on a sheet pan, set a timer, and pretend you're a culinary genius when dinner's ready in 30 minutes.",
+            "author": "The Daily Scoop",
+            "date": "2026-03-28",
+            "tags": "recipe, chicken, easy",
+            "featuredImage": "https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=600&auto=format&q=80"
+          }
+        },
+        {
+          "id": "article-2",
+          "type": "blog-article",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "title": "The Best Taco Trucks in Town",
+            "excerpt": "We ate our way through 14 taco trucks so you don't have to. (Okay, you should still go. But now you know where.)",
+            "author": "The Daily Scoop",
+            "date": "2026-03-21",
+            "tags": "review, tacos, street food",
+            "featuredImage": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&auto=format&q=80"
+          }
+        },
+        {
+          "id": "article-3",
+          "type": "blog-article",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "title": "Why Sourdough Is Worth the Wait",
+            "excerpt": "Yes, it takes 3 days. Yes, your kitchen will smell like a bakery. Yes, it's absolutely worth every second.",
+            "author": "The Daily Scoop",
+            "date": "2026-03-14",
+            "tags": "baking, sourdough, bread",
+            "featuredImage": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&auto=format&q=80"
           }
         }
       ],
       "content": {
-        "heading": "This Week's Feature",
-        "subheading": "A sneak peek at what's coming"
+        "heading": "Latest Posts",
+        "subheading": "What we've been writing about lately",
+        "showDates": true,
+        "showTags": true
       }
     },
     {

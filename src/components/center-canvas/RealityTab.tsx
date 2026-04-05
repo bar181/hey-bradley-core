@@ -62,6 +62,10 @@ import { LogosGrid } from '@/templates/logos/LogosGrid'
 import { TeamCards } from '@/templates/team/TeamCards'
 import { TeamGrid } from '@/templates/team/TeamGrid'
 import { TeamMinimal } from '@/templates/team/TeamMinimal'
+import { BlogCardGrid } from '@/templates/blog/BlogCardGrid'
+import { BlogListExcerpts } from '@/templates/blog/BlogListExcerpts'
+import { BlogFeaturedGrid } from '@/templates/blog/BlogFeaturedGrid'
+import { BlogMinimal } from '@/templates/blog/BlogMinimal'
 import {
   Star,
   Grid3X3,
@@ -99,6 +103,7 @@ const DIVIDER_SECTION_TYPES: { type: SectionType; name: string; icon: LucideIcon
   { type: 'text', name: 'Text', icon: FileText },
   { type: 'logos', name: 'Logo Cloud', icon: Award },
   { type: 'team', name: 'Team', icon: Users },
+  { type: 'blog', name: 'Blog', icon: FileText },
 ]
 
 const SECTION_LABELS: Record<string, string> = {
@@ -117,6 +122,7 @@ const SECTION_LABELS: Record<string, string> = {
   text: 'Text',
   logos: 'Logo Cloud',
   team: 'Team',
+  blog: 'Blog',
 }
 
 function AddSectionDivider({ afterIndex }: { afterIndex: number }) {
@@ -522,6 +528,18 @@ function renderSection(section: ReturnType<typeof useConfigStore.getState>['conf
         return <TeamMinimal section={section} />
       default:
         return <TeamCards section={section} />
+    }
+  }
+  if (section.type === 'blog') {
+    switch (section.variant) {
+      case 'list-excerpts':
+        return <BlogListExcerpts section={section} />
+      case 'featured-grid':
+        return <BlogFeaturedGrid section={section} />
+      case 'minimal':
+        return <BlogMinimal section={section} />
+      default:
+        return <BlogCardGrid section={section} />
     }
   }
   return (

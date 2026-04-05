@@ -1,0 +1,530 @@
+{
+  "site": {
+    "title": "Barrett & Associates",
+    "description": "Trusted legal counsel for businesses and individuals since 1998",
+    "author": "Barrett & Associates",
+    "email": "contact@barrettlaw.com",
+    "domain": "barrettlaw.com",
+    "project": "barrett-associates",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "business",
+    "tone": "formal"
+  },
+  "theme": {
+    "preset": "elegant",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#faf8f5",
+      "bgSecondary": "#f0ebe3",
+      "textPrimary": "#1a1a2e",
+      "textSecondary": "#4a4a5e",
+      "accentPrimary": "#d4a574",
+      "accentSecondary": "#c4935a"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#1a1a2e",
+      "bgSecondary": "#25253e",
+      "textPrimary": "#faf8f5",
+      "textSecondary": "#c4b5a0",
+      "accentPrimary": "#d4a574",
+      "accentSecondary": "#e8b888"
+    },
+    "typography": {
+      "fontFamily": "Georgia",
+      "headingFamily": "Georgia",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "4px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#faf8f5",
+        "color": "#1a1a2e"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Barrett & Associates"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Free Consultation",
+            "url": "#cta"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "overlay",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "#faf8f5",
+        "color": "#1a1a2e",
+        "fontFamily": "Georgia",
+        "borderRadius": "0px"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Established 1998",
+            "icon": "shield",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Trusted Counsel Built on Decades of Excellence",
+            "level": 1,
+            "size": "52px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Barrett & Associates provides sophisticated legal representation to businesses, entrepreneurs, and individuals. Our attorneys combine deep expertise with a commitment to achieving the best possible outcomes for every client."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Request a Consultation",
+            "url": "#cta",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Our Practice Areas",
+            "url": "#features",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "heroImage",
+          "type": "image",
+          "enabled": false,
+          "order": 5,
+          "props": {}
+        },
+        {
+          "id": "backgroundImage",
+          "type": "image",
+          "enabled": true,
+          "order": 6,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1600&auto=format&q=80",
+            "alt": "Elegant law library with leather-bound books and mahogany shelving",
+            "aspect": "16:9"
+          }
+        },
+        {
+          "id": "heroVideo",
+          "type": "video",
+          "enabled": false,
+          "order": 7,
+          "props": {}
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 8,
+          "props": {
+            "text": "Recognized by Best Lawyers in America for 12 consecutive years",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "features-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#f0ebe3",
+        "color": "#1a1a2e"
+      },
+      "components": [
+        {
+          "id": "f1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "briefcase",
+            "title": "Corporate Law",
+            "description": "Mergers and acquisitions, corporate governance, and commercial transactions for companies of every size, from startups to publicly traded enterprises."
+          }
+        },
+        {
+          "id": "f2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "scale",
+            "title": "Litigation",
+            "description": "Strategic advocacy in complex commercial disputes, employment matters, and regulatory enforcement actions across state and federal courts."
+          }
+        },
+        {
+          "id": "f3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "lightbulb",
+            "title": "Intellectual Property",
+            "description": "Patent prosecution, trademark registration, trade secret protection, and IP litigation to safeguard your most valuable business assets."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Practice Areas",
+        "subheading": "Comprehensive legal services across corporate, litigation, and IP"
+      }
+    },
+    {
+      "type": "text",
+      "id": "text-history-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "single",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "padding": "64px 24px",
+        "maxWidth": "800px"
+      },
+      "style": {
+        "background": "#faf8f5",
+        "color": "#1a1a2e"
+      },
+      "components": [
+        {
+          "id": "body",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "body": "Founded in 1998 by Catherine Barrett, our firm has grown from a three-person practice into a nationally recognized team of 45 attorneys. We have successfully represented clients in matters involving hundreds of millions of dollars while maintaining the personal attention and responsiveness of a boutique firm. Our philosophy is simple: understand the client's business, anticipate the challenges, and deliver results that matter."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Our History",
+        "subheading": "Over 25 years of principled legal practice"
+      }
+    },
+    {
+      "type": "team",
+      "id": "team-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#f0ebe3",
+        "color": "#1a1a2e"
+      },
+      "components": [
+        {
+          "id": "m1",
+          "type": "team-member",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "name": "Catherine Barrett",
+            "role": "Managing Partner",
+            "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&q=80",
+            "bio": "Harvard Law School. Former federal prosecutor. Named one of the Top 50 Women in Law by the National Law Journal."
+          }
+        },
+        {
+          "id": "m2",
+          "type": "team-member",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "name": "Jonathan Reeves",
+            "role": "Head of Litigation",
+            "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&q=80",
+            "bio": "Columbia Law School. 20 years of trial experience with a 94% success rate in complex commercial disputes."
+          }
+        },
+        {
+          "id": "m3",
+          "type": "team-member",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "name": "Priya Sharma",
+            "role": "IP Practice Lead",
+            "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&q=80",
+            "bio": "Stanford Law School. Former USPTO examiner. Has secured over 500 patents for technology and life sciences clients."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Our Attorneys",
+        "subheading": "Experienced advocates dedicated to your success"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#faf8f5",
+        "color": "#1a1a2e"
+      },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "Barrett & Associates guided us through a complex acquisition with remarkable precision. Their attention to detail saved us from potential liabilities worth millions.",
+            "author": "Richard Torres",
+            "role": "CEO, Meridian Technologies",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "When our patent portfolio was challenged, Priya and her team mounted an extraordinary defense. We retained every critical asset.",
+            "author": "Dr. Emily Huang",
+            "role": "CTO, BioVantage Labs",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "They combine the sophistication of a large firm with the personal service of a trusted advisor. I recommend them without reservation.",
+            "author": "James Whitfield",
+            "role": "Founder, Whitfield Capital",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "Client Testimonials",
+        "subheading": "Trusted by industry leaders across the country"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "#f0ebe3",
+        "color": "#1a1a2e"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Schedule Your Free Consultation",
+            "level": 2,
+            "size": "36px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Speak with one of our attorneys about your legal matter at no cost. We will assess your situation and outline a clear path forward."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Book a Consultation",
+            "url": "#contact",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 6,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#1a1a2e",
+        "color": "#faf8f5"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Barrett & Associates"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Practice Areas",
+            "links": "Corporate,Litigation,Intellectual Property,Employment"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Firm",
+            "links": "About,Attorneys,Careers,News"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Contact",
+            "links": "New York,Boston,Washington DC,Email"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "\u00a9 2026 Barrett & Associates LLP. All rights reserved. Attorney Advertising."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

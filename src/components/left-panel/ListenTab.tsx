@@ -267,7 +267,7 @@ export function ListenTab() {
       <div className="px-4 pb-4 space-y-2 flex flex-col items-center">
         <div className="w-full max-w-[300px] space-y-2">
           {/* Demo sequence cards */}
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 gap-2">
             {demoSequences.map((demo) => (
               <button
                 key={demo.id}

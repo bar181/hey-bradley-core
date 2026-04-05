@@ -18,6 +18,7 @@ import { DividerSectionSimple } from './simple/DividerSectionSimple'
 import { TextSectionSimple } from './simple/TextSectionSimple'
 import { LogosSectionSimple } from './simple/LogosSectionSimple'
 import { TeamSectionSimple } from './simple/TeamSectionSimple'
+import { BlogSectionSimple } from './simple/BlogSectionSimple'
 
 export function SimpleTab() {
   const selectedContext = useUIStore((s) => s.selectedContext)
@@ -64,6 +65,7 @@ export function SimpleTab() {
     case 'text': return <TextSectionSimple sectionId={section.id} />
     case 'logos': return <LogosSectionSimple sectionId={section.id} />
     case 'team': return <TeamSectionSimple sectionId={section.id} />
+    case 'blog': return <BlogSectionSimple sectionId={section.id} />
     default: return <SectionSimple sectionId={section.id} />
   }
 }

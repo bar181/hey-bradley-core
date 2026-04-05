@@ -148,12 +148,19 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       { id: 'member-3', type: 'team-member', enabled: true, order: 2, props: { name: 'Aisha Patel', role: 'Head of Design', imageUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&auto=format&q=80', description: 'Previously led design at Figma.' } },
     ]
 
+    const defaultBlogComponents = [
+      { id: 'article-1', type: 'blog-article', enabled: true, order: 0, props: { title: 'Getting Started with Our Platform', excerpt: 'Everything you need to know to hit the ground running with your new account.', author: 'Sarah Chen', date: '2026-03-28', tags: 'guide, getting-started', featuredImage: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&auto=format&q=80' } },
+      { id: 'article-2', type: 'blog-article', enabled: true, order: 1, props: { title: 'Design Tips for Modern Websites', excerpt: 'Learn the principles behind clean, effective web design that converts visitors.', author: 'Marcus Rivera', date: '2026-03-21', tags: 'design, tips', featuredImage: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&auto=format&q=80' } },
+      { id: 'article-3', type: 'blog-article', enabled: true, order: 2, props: { title: 'The Future of Content Creation', excerpt: 'How AI and new tools are changing the way we create and share content online.', author: 'Aisha Patel', date: '2026-03-14', tags: 'trends, ai', featuredImage: 'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&auto=format&q=80' } },
+    ]
+
     const getDefaultComponents = () => {
       if (type === 'gallery') return defaultGalleryComponents
       if (type === 'image') return defaultImageComponents
       if (type === 'text') return defaultTextComponents
       if (type === 'logos') return defaultLogosComponents
       if (type === 'team') return defaultTeamComponents
+      if (type === 'blog') return defaultBlogComponents
       return []
     }
 
@@ -166,8 +173,8 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       : {
           type,
           id,
-          layout: { display: 'flex', gap: '24px', padding: '48px', columns: (type === 'gallery' || type === 'logos' || type === 'team') ? 3 : undefined },
-          content: {},
+          layout: { display: 'flex', gap: '24px', padding: '48px', columns: (type === 'gallery' || type === 'logos' || type === 'team' || type === 'blog') ? 3 : undefined },
+          content: type === 'blog' ? { heading: 'Latest Articles', subheading: 'Stay up to date with our latest posts', showDates: true, showTags: true } : {},
           style: { background: config.theme.palette?.bgPrimary ?? '#1E1E1E', color: config.theme.palette?.textPrimary ?? '#F3F3F1' },
           enabled: true,
           components: getDefaultComponents(),

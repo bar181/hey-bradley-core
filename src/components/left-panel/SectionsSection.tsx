@@ -45,6 +45,7 @@ const sectionIconMap: Record<string, LucideIcon> = {
   text: FileText,
   logos: Award,
   team: Users,
+  blog: FileText,
 }
 
 const sectionNameMap: Record<string, string> = {
@@ -63,6 +64,7 @@ const sectionNameMap: Record<string, string> = {
   text: 'Text',
   logos: 'Logo Cloud',
   team: 'Team',
+  blog: 'Blog',
 }
 
 const sectionDescriptionMap: Record<string, string> = {
@@ -81,6 +83,7 @@ const sectionDescriptionMap: Record<string, string> = {
   text: 'A block of text for articles or stories',
   logos: 'Show partner or sponsor logos in a row',
   team: 'Team member cards with photos and roles',
+  blog: 'Blog articles with cards, lists, or featured layout',
 }
 
 const SECTION_TYPES: SectionType[] = [
@@ -99,6 +102,7 @@ const SECTION_TYPES: SectionType[] = [
   'text',
   'logos',
   'team',
+  'blog',
 ]
 
 export function SectionsSection() {

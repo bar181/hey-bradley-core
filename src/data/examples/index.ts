@@ -11,6 +11,8 @@ import blank from './blank.json'
 import funBlog from './fun-blog.json'
 import devPortfolio from './dev-portfolio.json'
 import enterpriseSaas from './enterprise-saas.json'
+import realEstate from './real-estate.json'
+import lawFirm from './law-firm.json'
 import type { MasterConfig } from '@/lib/schemas'
 
 export interface ExampleSite {
@@ -98,5 +100,17 @@ export const EXAMPLE_SITES: ExampleSite[] = [
     description: 'Enterprise SaaS platform with formal, trust-focused design',
     theme: 'SaaS',
     config: enterpriseSaas as unknown as MasterConfig,
+  },
+  {
+    name: 'Summit Realty Group',
+    description: 'Real estate agency with warm, trust-focused professional design',
+    theme: 'Professional',
+    config: realEstate as unknown as MasterConfig,
+  },
+  {
+    name: 'Barrett & Associates',
+    description: 'Law firm with elegant, refined design conveying authority',
+    theme: 'Elegant',
+    config: lawFirm as unknown as MasterConfig,
   },
 ]

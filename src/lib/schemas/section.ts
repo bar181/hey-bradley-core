@@ -5,7 +5,7 @@ import { styleSchema } from './style'
 export const sectionTypeSchema = z.enum([
   'hero', 'menu', 'columns', 'pricing', 'action', 'footer',
   'quotes', 'questions', 'numbers', 'gallery', 'logos', 'team',
-  'image', 'divider', 'text',
+  'image', 'divider', 'text', 'blog',
 ])
 
 export type SectionType = z.infer<typeof sectionTypeSchema>
