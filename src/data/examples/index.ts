@@ -8,6 +8,9 @@ import restaurant from './restaurant.json'
 import education from './education.json'
 import kitchenSink from './kitchen-sink.json'
 import blank from './blank.json'
+import funBlog from './fun-blog.json'
+import devPortfolio from './dev-portfolio.json'
+import enterpriseSaas from './enterprise-saas.json'
 import type { MasterConfig } from '@/lib/schemas'
 
 export interface ExampleSite {
@@ -77,5 +80,23 @@ export const EXAMPLE_SITES: ExampleSite[] = [
     description: 'Minimal starting point — build from scratch',
     theme: 'Minimalist',
     config: blank as unknown as MasterConfig,
+  },
+  {
+    name: 'The Daily Scoop',
+    description: 'Playful food blog with recipes, photos, and casual voice',
+    theme: 'Creative',
+    config: funBlog as unknown as MasterConfig,
+  },
+  {
+    name: 'Alex Chen — Dev Portfolio',
+    description: 'Minimalist developer portfolio with technical tone',
+    theme: 'Minimalist',
+    config: devPortfolio as unknown as MasterConfig,
+  },
+  {
+    name: 'CloudSync Enterprise',
+    description: 'Enterprise SaaS platform with formal, trust-focused design',
+    theme: 'SaaS',
+    config: enterpriseSaas as unknown as MasterConfig,
   },
 ]

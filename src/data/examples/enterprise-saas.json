@@ -1,0 +1,573 @@
+{
+  "site": {
+    "title": "CloudSync Enterprise",
+    "description": "Enterprise-grade cloud synchronization and collaboration platform",
+    "author": "CloudSync Inc.",
+    "email": "sales@cloudsync.io",
+    "domain": "cloudsync.io",
+    "project": "cloudsync-enterprise",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "saas",
+    "audience": "enterprise",
+    "tone": "formal"
+  },
+  "theme": {
+    "preset": "saas",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#020617",
+      "bgSecondary": "#0f172a",
+      "textPrimary": "#f8fafc",
+      "textSecondary": "#94a3b8",
+      "accentPrimary": "#3b82f6",
+      "accentSecondary": "#60a5fa"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#f1f5f9",
+      "textPrimary": "#0f172a",
+      "textSecondary": "#64748b",
+      "accentPrimary": "#2563eb",
+      "accentSecondary": "#3b82f6"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Inter",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1280px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "12px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#020617",
+        "color": "#f8fafc"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "CloudSync"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Request Demo",
+            "url": "#demo"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "overlay",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "96px 24px",
+        "maxWidth": "1280px"
+      },
+      "style": {
+        "background": "#020617",
+        "color": "#f8fafc",
+        "fontFamily": "Inter",
+        "borderRadius": "0px"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Trusted by Fortune 500 companies",
+            "icon": "shield",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Unified Cloud Infrastructure for the Modern Enterprise",
+            "level": 1,
+            "size": "56px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "CloudSync delivers enterprise-grade synchronization, real-time collaboration, and compliance-ready infrastructure. Reduce operational costs by 40% while maintaining SOC 2 and ISO 27001 compliance."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Request a Demo",
+            "url": "#demo",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "View Documentation",
+            "url": "#docs",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "heroImage",
+          "type": "image",
+          "enabled": false,
+          "order": 5,
+          "props": {}
+        },
+        {
+          "id": "backgroundImage",
+          "type": "image",
+          "enabled": true,
+          "order": 6,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&auto=format&q=80",
+            "alt": "Modern server data center with blue lighting",
+            "aspect": "16:9"
+          }
+        },
+        {
+          "id": "heroVideo",
+          "type": "video",
+          "enabled": false,
+          "order": 7,
+          "props": {}
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 8,
+          "props": {
+            "text": "SOC 2 Certified \u00b7 ISO 27001 \u00b7 GDPR Compliant",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "features-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "icon-cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "80px 24px"
+      },
+      "style": {
+        "background": "#0f172a",
+        "color": "#f8fafc"
+      },
+      "components": [
+        {
+          "id": "f1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "zap",
+            "title": "Real-Time Sync",
+            "description": "Sub-millisecond data synchronization across globally distributed nodes with automatic conflict resolution and eventual consistency guarantees."
+          }
+        },
+        {
+          "id": "f2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "shield",
+            "title": "Enterprise Security",
+            "description": "End-to-end encryption, role-based access control, SSO integration, and comprehensive audit logging for regulatory compliance."
+          }
+        },
+        {
+          "id": "f3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "bar-chart",
+            "title": "Advanced Analytics",
+            "description": "Real-time dashboards, custom reporting, and ML-powered anomaly detection to keep your infrastructure running at peak performance."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Enterprise-Grade Capabilities",
+        "subheading": "Built for scale, designed for reliability"
+      }
+    },
+    {
+      "type": "pricing",
+      "id": "pricing-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "3-tier",
+      "layout": {
+        "display": "flex",
+        "gap": "24px",
+        "padding": "80px 24px"
+      },
+      "style": {
+        "background": "#020617",
+        "color": "#f8fafc"
+      },
+      "components": [
+        {
+          "id": "tier-1",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "name": "Team",
+            "price": "$49",
+            "period": "user/month",
+            "features": "Up to 50 users,10 GB sync storage,Standard API access,Email support,99.9% SLA",
+            "ctaText": "Start Free Trial",
+            "ctaUrl": "#signup",
+            "highlighted": false
+          }
+        },
+        {
+          "id": "tier-2",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "name": "Business",
+            "price": "$149",
+            "period": "user/month",
+            "features": "Up to 500 users,100 GB sync storage,Advanced API + webhooks,Priority support,SSO & RBAC,99.95% SLA",
+            "ctaText": "Start Free Trial",
+            "ctaUrl": "#signup",
+            "highlighted": true
+          }
+        },
+        {
+          "id": "tier-3",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "name": "Enterprise",
+            "price": "Custom",
+            "period": "",
+            "features": "Unlimited users,Unlimited storage,Dedicated infrastructure,24/7 phone support,Custom integrations,99.99% SLA,On-premise option",
+            "ctaText": "Contact Sales",
+            "ctaUrl": "#demo",
+            "highlighted": false
+          }
+        }
+      ],
+      "content": {
+        "heading": "Transparent Pricing",
+        "subheading": "Plans that scale with your organization"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "80px 24px"
+      },
+      "style": {
+        "background": "#0f172a",
+        "color": "#f8fafc"
+      },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "CloudSync reduced our cross-region sync latency by 85%. The migration from our legacy system was seamless and the ROI was immediate.",
+            "author": "Sarah Mitchell",
+            "role": "VP Engineering, DataFlow Corp",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "The compliance features alone justified the investment. We passed our SOC 2 audit in half the time with CloudSync's built-in controls.",
+            "author": "James Park",
+            "role": "CISO, FinSecure Holdings",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "We evaluated seven vendors. CloudSync was the only platform that met our performance requirements at scale while staying within budget.",
+            "author": "Linda Zhao",
+            "role": "CTO, Nexus Logistics",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "Trusted by Industry Leaders",
+        "subheading": "See why enterprises choose CloudSync"
+      }
+    },
+    {
+      "type": "numbers",
+      "id": "numbers-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "counters",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "80px 24px"
+      },
+      "style": {
+        "background": "#020617",
+        "color": "#f8fafc"
+      },
+      "components": [
+        {
+          "id": "n-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "99.99%",
+            "label": "Uptime SLA",
+            "description": "Enterprise tier"
+          }
+        },
+        {
+          "id": "n-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "2,500+",
+            "label": "Enterprise Clients",
+            "description": "Across 40 countries"
+          }
+        },
+        {
+          "id": "n-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "<50ms",
+            "label": "Sync Latency",
+            "description": "P99 globally"
+          }
+        },
+        {
+          "id": "n-4",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "value": "40%",
+            "label": "Cost Reduction",
+            "description": "Average savings"
+          }
+        }
+      ],
+      "content": {
+        "heading": "CloudSync by the Numbers",
+        "subheading": "Performance metrics that speak for themselves"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "80px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "#0f172a",
+        "color": "#f8fafc"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Ready to Transform Your Infrastructure?",
+            "level": 2,
+            "size": "40px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Schedule a personalized demo with our solutions team. See how CloudSync can reduce your operational costs while improving reliability."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Schedule a Demo",
+            "url": "#demo",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 6,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#020617",
+        "color": "#94a3b8"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "CloudSync"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Product",
+            "links": "Features,Pricing,Security,Integrations,Changelog"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Resources",
+            "links": "Documentation,API Reference,Status Page,Blog"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Company",
+            "links": "About,Careers,Contact,Legal,Privacy"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "\u00a9 2026 CloudSync Inc. All rights reserved."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

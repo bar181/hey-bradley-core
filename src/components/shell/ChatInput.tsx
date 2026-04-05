@@ -136,6 +136,14 @@ export function ChatInput() {
       case 'applyVibe':
         store.applyVibe(arg)
         break
+      case 'setContext': {
+        const [field, ...valParts] = arg.split(':')
+        const value = valParts.join(':')
+        if (field && value) {
+          store.applyPatch({ site: { [field]: value } }, 'llm-chat')
+        }
+        break
+      }
     }
   }, [])
 

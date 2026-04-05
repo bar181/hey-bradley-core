@@ -5,6 +5,7 @@ import { FileText } from 'lucide-react'
 const TABS: { key: ActiveTab; label: string; expert?: boolean }[] = [
   { key: 'REALITY', label: 'Preview' },
   { key: 'XAI_DOCS', label: 'Blueprints' },
+  { key: 'RESOURCES', label: 'Resources', expert: true },
   { key: 'DATA', label: 'Data', expert: true },
   { key: 'WORKFLOW', label: 'Pipeline', expert: true },
 ]

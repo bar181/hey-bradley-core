@@ -193,6 +193,49 @@ export function parseChatCommand(input: string): ChatResult {
     return { response: 'switching to light', action: 'toggleMode:light' }
   }
 
+  // Tone commands
+  if (lower === 'make it professional' || lower === 'professional tone') {
+    return {
+      response: 'Got it! Set tone to formal. Your specs will now use professional language.',
+      action: 'setContext:tone:formal',
+    }
+  }
+  if (
+    lower === 'set tone to playful' ||
+    lower === 'make it fun' ||
+    lower === 'playful' ||
+    lower === 'playful tone'
+  ) {
+    return {
+      response: 'Got it! Set tone to playful. Your specs will now use fun, upbeat language.',
+      action: 'setContext:tone:playful',
+    }
+  }
+  if (lower === 'casual tone' || lower === 'make it casual') {
+    return {
+      response: 'Got it! Set tone to casual. Your specs will now use relaxed, friendly language.',
+      action: 'setContext:tone:casual',
+    }
+  }
+
+  // Audience commands
+  if (lower === 'target developers' || lower === 'for developers') {
+    return {
+      response: 'Got it! Targeting developer audience. Your specs will reflect technical users.',
+      action: 'setContext:audience:developer',
+    }
+  }
+  if (
+    lower === 'this is for enterprise' ||
+    lower === 'enterprise' ||
+    lower === 'enterprise audience'
+  ) {
+    return {
+      response: 'Got it! Targeting enterprise audience. Your specs will reflect business decision-makers.',
+      action: 'setContext:audience:enterprise',
+    }
+  }
+
   // Natural-language theme phrases (e.g. "change colors to blue")
   for (const tp of THEME_PHRASES) {
     for (const pattern of tp.patterns) {

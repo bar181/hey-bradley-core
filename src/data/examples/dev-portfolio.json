@@ -1,0 +1,468 @@
+{
+  "site": {
+    "title": "Alex Chen \u2014 Full Stack Developer",
+    "description": "Full stack developer specializing in TypeScript, React, and distributed systems",
+    "author": "Alex Chen",
+    "email": "alex@alexchen.dev",
+    "domain": "alexchen.dev",
+    "project": "alex-chen-portfolio",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "portfolio",
+    "audience": "developer",
+    "tone": "technical"
+  },
+  "theme": {
+    "preset": "minimalist",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0c0c0c",
+      "bgSecondary": "#161616",
+      "textPrimary": "#e4e4e7",
+      "textSecondary": "#a1a1aa",
+      "accentPrimary": "#22d3ee",
+      "accentSecondary": "#67e8f9"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#fafafa",
+      "bgSecondary": "#f4f4f5",
+      "textPrimary": "#09090b",
+      "textSecondary": "#71717a",
+      "accentPrimary": "#0891b2",
+      "accentSecondary": "#06b6d4"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Inter",
+      "headingWeight": 600,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "72px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#0c0c0c",
+        "color": "#e4e4e7"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "alex.chen"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Contact",
+            "url": "#contact"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "split",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "flex-start",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "#0c0c0c",
+        "color": "#e4e4e7",
+        "fontFamily": "Inter",
+        "borderRadius": "0px"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Open to opportunities",
+            "icon": "terminal",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Alex Chen",
+            "level": 1,
+            "size": "56px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Full stack engineer with 8 years shipping production TypeScript. I build fast, accessible, well-tested apps with React, Node, and Postgres. Currently interested in real-time systems and developer tooling."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "View Projects",
+            "url": "#projects",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "GitHub",
+            "url": "https://github.com",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "heroImage",
+          "type": "image",
+          "enabled": false,
+          "order": 5,
+          "props": {}
+        },
+        {
+          "id": "backgroundImage",
+          "type": "image",
+          "enabled": true,
+          "order": 6,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1600&auto=format&q=80",
+            "alt": "Code on a dark screen",
+            "aspect": "16:9"
+          }
+        },
+        {
+          "id": "heroVideo",
+          "type": "video",
+          "enabled": false,
+          "order": 7,
+          "props": {}
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 8,
+          "props": {
+            "text": "Ex-Stripe \u00b7 Ex-Vercel \u00b7 OSS contributor",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "features-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "icon-cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#161616",
+        "color": "#e4e4e7"
+      },
+      "components": [
+        {
+          "id": "f1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "code",
+            "title": "Frontend",
+            "description": "React, Next.js, TypeScript, Tailwind CSS, Zustand, React Query, Playwright"
+          }
+        },
+        {
+          "id": "f2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "server",
+            "title": "Backend",
+            "description": "Node.js, Express, Fastify, PostgreSQL, Redis, GraphQL, tRPC, Prisma"
+          }
+        },
+        {
+          "id": "f3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "cloud",
+            "title": "Infrastructure",
+            "description": "AWS, Docker, Kubernetes, Terraform, GitHub Actions, Vercel, Cloudflare"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Tech Stack",
+        "subheading": "Tools and technologies I use daily"
+      }
+    },
+    {
+      "type": "gallery",
+      "id": "gallery-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "16px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#0c0c0c",
+        "color": "#e4e4e7"
+      },
+      "components": [
+        {
+          "id": "g-1",
+          "type": "gallery-image",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&q=80",
+            "alt": "Analytics dashboard with dark theme",
+            "caption": "Real-time analytics dashboard"
+          }
+        },
+        {
+          "id": "g-2",
+          "type": "gallery-image",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&q=80",
+            "alt": "Business metrics dashboard",
+            "caption": "SaaS metrics platform"
+          }
+        },
+        {
+          "id": "g-3",
+          "type": "gallery-image",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&auto=format&q=80",
+            "alt": "Data visualization on large screen",
+            "caption": "Data visualization tool"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Selected Projects",
+        "subheading": "Recent work and open-source contributions"
+      }
+    },
+    {
+      "type": "text",
+      "id": "text-about-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "single",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "padding": "64px 24px",
+        "maxWidth": "800px"
+      },
+      "style": {
+        "background": "#161616",
+        "color": "#e4e4e7"
+      },
+      "components": [
+        {
+          "id": "body",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "body": "I'm a full stack engineer based in San Francisco. After stints at Stripe and Vercel, I went independent to focus on developer tooling and real-time collaboration systems. I care deeply about code quality, test coverage, and shipping software that doesn't break at 3 AM. When I'm not coding, I'm contributing to open-source projects or writing about TypeScript patterns on my blog."
+          }
+        }
+      ],
+      "content": {
+        "heading": "About",
+        "subheading": "A bit about me and what drives my work"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "#0c0c0c",
+        "color": "#e4e4e7"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Let's Build Something",
+            "level": 2,
+            "size": "36px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Available for contract work, consulting, and interesting open-source collaborations. Reach out and let's talk."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Get in Touch",
+            "url": "mailto:alex@alexchen.dev",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#0c0c0c",
+        "color": "#a1a1aa"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "alex.chen"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Links",
+            "links": "GitHub,LinkedIn,Blog,Resume"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Projects",
+            "links": "Dashboard,CLI Tool,OSS Library"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Contact",
+            "links": "Email,Twitter,Schedule a Call"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "\u00a9 2026 Alex Chen. Built with TypeScript and good intentions."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}
