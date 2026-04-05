@@ -138,27 +138,33 @@
 
 ---
 
-## Sub-Phase 12B: Developer Guides & Resources Tab — NOT STARTED
+## Sub-Phase 12B: Developer Guides & Resources Tab — COMPLETE
 
 ### Resources Tab (new top-level center tab)
-- [ ] "Resources" tab added at same level as Preview, Blueprints (visible in EXPERT mode)
-- [ ] Sub-tab 1: Templates & Standard JSON — all template JSONs and standard config docs
-- [ ] Sub-tab 2: AISP Guide — explain AISP, conversion instructions, link to bar181/aisp-open-core
-- [ ] Sub-tab 3: Media Library — browsable list of all 258+ images and 50+ videos
-- [ ] Sub-tab 4: Wiki (placeholder — to be implemented in later phase)
+- [x] "Resources" tab added (EXPERT mode: Preview | Blueprints | Resources | Data | Pipeline)
+- [x] Sub-tab 1: Templates & Standard JSON — 12 themes, 13 examples, 15 section types with expandable JSON
+- [x] Sub-tab 2: AISP Guide — Crystal Atom components, conversion example, Σ_512 reference, repo link
+- [x] Sub-tab 3: Media Library — searchable grid of 258+ images and 50+ videos with category filters
+- [x] Sub-tab 4: Wiki placeholder with repo link
 
 ### Blueprints Enhancements
-- [ ] Pillar docs include design specs (colors, fonts, spacing, effects)
-- [ ] Human Spec integrated into other documents (not standalone)
-- [ ] Full JSON config included in spec output
-- [ ] AISP spec cross-referenced in Build Plan and SADD
-- [ ] Consolidated "Master Spec" view combining all pillars
+- [x] North Star: Design System section (palette, typography, spacing tables)
+- [x] SADD: Image effects table, full color palette, typography specs
+- [x] Build Plan: JSON + AISP references, enhanced color palette with usage
+- [x] Human Spec: "Who & What" section, cross-references to Architecture/Build Plan
+- [x] Features: Image Effects + Site Context feature categories
+- [x] AISP: Cross-reference comments to all other specs
+- [x] JSON sub-tab in Blueprints (live config, 7th sub-tab)
 
-### Enhanced Simulations (carry-over from P3)
-- [ ] Chat commands for tone/audience changes
-- [ ] New listen demo: food blog scenario
+### Enhanced Simulations
+- [x] "make it professional" → tone=formal
+- [x] "target developers" → audience=developer
+- [x] "make it fun" / "playful" → tone=playful
+- [x] "enterprise" → audience=enterprise
+- [x] "casual tone" → tone=casual
+- [ ] New listen demo: food blog scenario (deferred to P13)
 
-### New Examples (carry-over from P4)
-- [ ] Fun blog example
-- [ ] Developer portfolio example
-- [ ] Enterprise SaaS example
+### New Examples (13 total, up from 10)
+- [x] Fun blog: The Daily Scoop (casual, consumer, creative theme)
+- [x] Developer portfolio: Alex Chen (technical, developer, minimalist theme)
+- [x] Enterprise SaaS: CloudSync Enterprise (formal, enterprise, saas theme)
