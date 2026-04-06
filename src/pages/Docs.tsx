@@ -23,7 +23,7 @@ const WORKFLOW_STEPS = [
   { label: 'Pick theme or example', detail: 'Start from a pre-built site or choose a blank canvas with your preferred theme.' },
   { label: 'Customize in the builder', detail: 'Use SIMPLE mode for easy edits or EXPERT mode for full control over JSON, colors, fonts, and section variants.' },
   { label: 'Preview your site', detail: 'Toggle preview mode to see your site as visitors would. Check desktop, tablet, and mobile views.' },
-  { label: 'Generate specifications', detail: 'Open the Blueprints tab to produce North Star, Architecture, Build Plan, Features, Human Spec, and AISP documents.' },
+  { label: 'Generate specifications', detail: 'Open the Blueprints tab to produce North Star, Architecture, Build Plan, Features, Specifications, and AISP documents.' },
   { label: 'Export and build', detail: 'Download your config as JSON. Hand it to a developer, feed it to an AI agent, or use the AISP spec for automated implementation.' },
 ]
 
@@ -70,7 +70,7 @@ const SPEC_GENERATORS = [
   { name: 'Architecture (SADD)', description: 'Software Architecture and Design Document covering tech stack, component structure, data flow, and deployment.' },
   { name: 'Build Plan', description: 'Sprint-by-sprint implementation plan with tasks, priorities, time estimates, and dependencies.' },
   { name: 'Features', description: 'Detailed feature inventory mapping every section to acceptance criteria and user stories.' },
-  { name: 'Human Spec', description: 'Plain-English specification readable by non-technical stakeholders. No jargon, clear visual references.' },
+  { name: 'Specifications', description: 'Plain-English specification readable by non-technical stakeholders. No jargon, clear visual references.' },
   { name: 'AISP Spec', description: 'Machine-verifiable Crystal Atom specification for AI agents. Typed fields, validation rules, and mathematical precision.' },
 ]
 

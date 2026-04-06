@@ -56,7 +56,7 @@ export const SPEC_TYPE_LABELS: Record<SpecType, string> = {
   'sadd': 'Architecture (SADD)',
   'build-plan': 'Build Plan',
   'features': 'Features Specification',
-  'human-spec': 'Human Spec',
+  'human-spec': 'Specifications',
   'aisp': 'AISP Crystal Atom',
 }
 

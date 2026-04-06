@@ -22,7 +22,7 @@ const SPEC_TABS = [
   { id: 'architecture', label: 'Architecture', icon: Layers, generator: generateSADD, ext: 'md', format: 'markdown' as const },
   { id: 'build-plan', label: 'Build Plan', icon: ListChecks, generator: generateBuildPlan, ext: 'md', format: 'markdown' as const },
   { id: 'features', label: 'Features', icon: CheckSquare, generator: generateFeatures, ext: 'md', format: 'markdown' as const },
-  { id: 'human', label: 'Human Spec', icon: FileText, generator: generateHumanSpec, ext: 'md', format: 'markdown' as const },
+  { id: 'human', label: 'Specifications', icon: FileText, generator: generateHumanSpec, ext: 'md', format: 'markdown' as const },
   { id: 'aisp', label: 'AISP', icon: Code, generator: generateAISPSpec, ext: 'aisp', format: 'aisp' as const },
   { id: 'json', label: 'JSON', icon: Braces, generator: null, ext: 'json', format: 'json' as const },
 ] as const

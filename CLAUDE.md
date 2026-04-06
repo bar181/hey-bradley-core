@@ -40,19 +40,21 @@
 
 ## Project Status
 
-- **Current Phase:** Phase 13 CLOSED (score TBD), Phase 14 next
-- **Codebase:** 100K+ total lines, 163+ TS/TSX source files, ~40,000+ lines (TS/TSX/JSON/CSS)
+- **Current Phase:** Phase 14 CLOSED (74/100), Phase 15 next
+- **Codebase:** 100K+ total lines, 171 TS/TSX source files, ~17,000 lines (TS/TSX)
 - **Themes:** 12 (agency, blog, creative, elegant, minimalist, neon, personal, portfolio, professional, saas, startup, wellness)
 - **Examples:** 15 (bakery, blank, consulting, dev-portfolio, education, enterprise-saas, fitforge, florist, fun-blog, kitchen-sink, launchpad, law-firm, photography, real-estate, restaurant)
 - **Section Types:** 16 (includes blog)
 - **Images:** 300 in media library catalog, 13 image effects (8 core + 5 wow-factor)
-- **Website Pages:** 4 (About, Open Core, How I Built This, Docs)
-- **Chat Commands:** 15+ simulated requirements (includes tone/audience commands)
+- **Website Pages:** 4 (About, Open Core, How I Built This, Docs) — all with real content
+- **Chat Commands:** 15+ simulated requirements (includes 5 compound commands)
 - **Listen Demos:** 4 distinct site types
 - **Spec Generators:** 6 with design specs, cross-references, effects info
 - **Blueprints:** 7 sub-tabs (North Star, Architecture, Build Plan, Features, Human Spec, AISP, JSON)
 - **Center Tabs (EXPERT):** 5 (Preview, Blueprints, Resources, Data, Pipeline)
-- **Capabilities:** Multi-page support, ZIP export, blog section type
+- **Capabilities:** Multi-page support, ZIP export, blog section type, AISP Crystal Atom output
+- **ADRs:** 37 (through ADR-037: JSON Architecture Separation)
+- **Deferred Features:** 34 documented in plans/deferred-features.md
 - **Tests:** 102 passing (11 spec files)
 
 ### Phase Roadmap
@@ -61,9 +63,9 @@
 |-------|-------|--------|
 | P11 | Website + enhanced demos + brand/design locks | CLOSED (83/100) |
 | P12 | Content Intelligence: site context, 13 effects, Resources tab | CLOSED (78/100) |
-| P13 | Advanced Features: blog section, multi-page, export, a11y, 100+ tests | CLOSED (TBD) |
-| P14 | Marketing site review: all sections/content ready | NEXT |
-| P15 | Developer assistance: builder UX, docs, tooltips, onboarding | PLANNED |
+| P13 | Advanced Features: blog section, multi-page, export, a11y, 100+ tests | CLOSED (76/100) |
+| P14 | Marketing review: 20 issues fixed, AISP validation, UI/UX cleanup | CLOSED (74/100) |
+| P15 | Developer assistance: builder UX, docs, tooltips, onboarding | NEXT |
 | P16 | Advanced features review: effects, context, templates, Resources | PLANNED |
 | P17 | Feature Review ADR: checklist + proof for 1 feature (pilot) | PLANNED |
 | P18 | Comprehensive review: all features/sections using P17 checklist | PLANNED |

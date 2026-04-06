@@ -62,7 +62,7 @@ const INNOVATIONS = [
     icon: Code,
     title: 'Spec-First Development',
     description:
-      '6 spec generators produce enterprise-grade documents from a single config: North Star vision, Software Architecture (SADD), Build Plan, Feature inventory, Human Spec (plain English), and AISP Spec (machine-verifiable).',
+      '6 spec generators produce enterprise-grade documents from a single config: North Star vision, Software Architecture (SADD), Build Plan, Feature inventory, Specifications (plain English), and AISP Spec (machine-verifiable).',
   },
 ]
 

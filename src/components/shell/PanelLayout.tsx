@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from 'react-resizable-panels'
-import { X, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { CenterCanvas } from '@/components/center-canvas/CenterCanvas'
 import { LeftPanel } from '@/components/left-panel/LeftPanel'
 import { RightPanel } from '@/components/right-panel/RightPanel'
@@ -44,79 +44,66 @@ export function PanelLayout() {
   }
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-full relative">
       {/* Left panel — fixed width, toggle via display */}
       {leftPanelVisible && (
-        <aside className="w-[320px] min-w-[280px] max-w-[320px] shrink-0 bg-hb-surface h-full overflow-y-auto border-r border-hb-border relative" aria-label="Builder tools">
+        <aside className="w-[320px] min-w-[280px] max-w-[320px] shrink-0 bg-hb-surface h-full overflow-y-auto border-r border-hb-border" aria-label="Builder tools">
           <LeftPanel />
-          {/* Collapse button inside left panel */}
-          <button
-            type="button"
-            onClick={() => useUIStore.getState().setLeftPanelVisible(false)}
-            className="absolute top-2 right-2 z-10 w-6 h-6 rounded-md bg-hb-surface border border-hb-border text-hb-text-muted hover:text-hb-text-primary hover:border-hb-accent transition-all flex items-center justify-center focus-visible:ring-2 focus-visible:ring-hb-accent"
-            title="Hide left panel"
-            aria-label="Hide left panel"
-          >
-            <PanelLeftClose size={12} />
-          </button>
         </aside>
       )}
 
-      {/* Show left panel button when collapsed */}
-      {!leftPanelVisible && (
-        <button
-          type="button"
-          onClick={() => useUIStore.getState().setLeftPanelVisible(true)}
-          className="w-8 shrink-0 bg-hb-surface border-r border-hb-border flex items-center justify-center text-hb-text-muted hover:text-hb-text-primary transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent"
-          title="Show left panel"
-          aria-label="Show left panel"
-        >
-          <PanelLeftOpen size={14} />
-        </button>
-      )}
+      {/* Left panel toggle — at border between left panel and canvas */}
+      <button
+        type="button"
+        onClick={() => {
+          const store = useUIStore.getState()
+          leftPanelVisible ? store.setLeftPanelVisible(false) : store.setLeftPanelVisible(true)
+        }}
+        className="hidden md:flex absolute top-2 z-20 w-5 h-8 items-center justify-center rounded-r bg-hb-surface border border-l-0 border-hb-border text-hb-text-muted hover:text-hb-text-primary hover:border-hb-accent transition-all focus-visible:ring-2 focus-visible:ring-hb-accent"
+        style={{ left: leftPanelVisible ? '320px' : '0px' }}
+        title={leftPanelVisible ? 'Hide left panel' : 'Show left panel'}
+        aria-label={leftPanelVisible ? 'Hide left panel' : 'Show left panel'}
+      >
+        {leftPanelVisible ? <ChevronLeft size={12} /> : <ChevronRight size={12} />}
+      </button>
 
       {/* Center + Right — resizable split */}
-      {rightPanelVisible ? (
-        <PanelGroup orientation="horizontal" className="flex-1">
-          <Panel defaultSize={70} minSize={40}>
-            <main className="bg-hb-bg h-full overflow-hidden">
-              <CenterCanvas />
-            </main>
-          </Panel>
-          <ResizeHandle />
-          <Panel defaultSize={30} minSize={15} collapsible>
-            <aside className="bg-hb-surface h-full overflow-hidden border-l border-hb-border relative min-w-[200px]" aria-label="Section editor">
-              <RightPanel />
-              {/* Collapse button inside right panel */}
-              <button
-                type="button"
-                onClick={() => useUIStore.getState().setRightPanelVisible(false)}
-                className="absolute top-2 left-2 z-10 w-6 h-6 rounded-md bg-hb-surface border border-hb-border text-hb-text-muted hover:text-hb-text-primary hover:border-hb-accent transition-all flex items-center justify-center focus-visible:ring-2 focus-visible:ring-hb-accent"
-                title="Hide right panel"
-                aria-label="Hide right panel"
-              >
-                <PanelRightClose size={12} />
-              </button>
-            </aside>
-          </Panel>
-        </PanelGroup>
-      ) : (
-        <div className="flex-1 flex">
-          <main className="flex-1 bg-hb-bg h-full overflow-hidden">
+      <div className="flex-1 flex min-w-0">
+        {rightPanelVisible ? (
+          <PanelGroup orientation="horizontal" className="flex-1">
+            <Panel defaultSize={70} minSize={40}>
+              <main className="bg-hb-bg h-full overflow-hidden pl-3">
+                <CenterCanvas />
+              </main>
+            </Panel>
+            <ResizeHandle />
+            <Panel defaultSize={30} minSize={15} collapsible>
+              <aside className="bg-hb-surface h-full overflow-hidden border-l border-hb-border min-w-[200px]" aria-label="Section editor">
+                <RightPanel />
+              </aside>
+            </Panel>
+          </PanelGroup>
+        ) : (
+          <main className="flex-1 bg-hb-bg h-full overflow-hidden pl-3">
             <CenterCanvas />
           </main>
-          {/* Show right panel button when collapsed */}
-          <button
-            type="button"
-            onClick={() => useUIStore.getState().setRightPanelVisible(true)}
-            className="w-8 shrink-0 bg-hb-surface border-l border-hb-border flex items-center justify-center text-hb-text-muted hover:text-hb-text-primary transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent"
-            title="Show right panel"
-            aria-label="Show right panel"
-          >
-            <PanelRightOpen size={14} />
-          </button>
-        </div>
-      )}
+        )}
+
+        {/* Right panel toggle — at right edge of canvas area */}
+        <button
+          type="button"
+          onClick={() => {
+            const store = useUIStore.getState()
+            rightPanelVisible ? store.setRightPanelVisible(false) : store.setRightPanelVisible(true)
+          }}
+          className="hidden md:flex absolute top-2 right-0 z-20 w-5 h-8 items-center justify-center rounded-l bg-hb-surface border border-r-0 border-hb-border text-hb-text-muted hover:text-hb-text-primary hover:border-hb-accent transition-all focus-visible:ring-2 focus-visible:ring-hb-accent"
+          style={{ right: rightPanelVisible ? undefined : '0px' }}
+          title={rightPanelVisible ? 'Hide right panel' : 'Show right panel'}
+          aria-label={rightPanelVisible ? 'Hide right panel' : 'Show right panel'}
+        >
+          {rightPanelVisible ? <ChevronRight size={12} /> : <ChevronLeft size={12} />}
+        </button>
+      </div>
     </div>
   )
 }

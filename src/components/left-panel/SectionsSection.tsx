@@ -127,7 +127,6 @@ export function SectionsSection() {
   const setActivePage = useConfigStore((s) => s.setActivePage)
   const addPage = useConfigStore((s) => s.addPage)
   const removePage = useConfigStore((s) => s.removePage)
-  const enableMultiPage = useConfigStore((s) => s.enableMultiPage)
   const isMultiPage = useConfigStore((s) => s.isMultiPage())
   const [localOrder, setLocalOrder] = useState<string[] | null>(null)
   const selectedContext = useUIStore((s) => s.selectedContext)
@@ -418,11 +417,12 @@ export function SectionsSection() {
       {!isMultiPage && (
         <button
           type="button"
-          onClick={enableMultiPage}
-          className="flex items-center gap-1.5 w-full px-3 py-1.5 mb-1 text-xs text-hb-text-muted hover:text-hb-accent hover:bg-hb-surface-hover rounded-md transition-colors"
+          disabled
+          className="flex items-center gap-1.5 w-full px-3 py-1.5 mb-1 text-xs text-hb-text-muted opacity-50 cursor-not-allowed rounded-md"
+          title="Coming in a future update"
         >
           <Files size={12} />
-          Enable Multi-Page
+          Multi-Page (Coming Soon)
         </button>
       )}
 

@@ -5,7 +5,7 @@ const FREE_FEATURES = [
   'Full visual builder with drag-and-drop sections',
   '12 themes with 60+ section variants',
   '10 example websites across diverse industries',
-  '6 enterprise spec generators (North Star, SADD, Build Plan, Features, Human Spec, AISP)',
+  '6 enterprise spec generators (North Star, SADD, Build Plan, Features, Specifications, AISP)',
   'Local project save and load (JSON export/import)',
   '258+ curated images in the media library',
   'Real-time preview canvas with responsive modes',
