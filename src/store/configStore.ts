@@ -343,7 +343,12 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     const { config, history } = get()
     const newHistory = [...history, config].slice(-HISTORY_LIMIT)
     const theme = config.theme as unknown as Record<string, unknown>
-    const alts = (theme.alternativePalettes as Array<Record<string, unknown>>) || []
+    // Look up alternativePalettes from config.theme first, then fall back to theme registry
+    let alts = (theme.alternativePalettes as Array<Record<string, unknown>>) || []
+    if (alts.length === 0 && config.theme.preset) {
+      const registryTheme = THEMES[config.theme.preset] as { theme?: { alternativePalettes?: Array<Record<string, unknown>> } } | undefined
+      alts = registryTheme?.theme?.alternativePalettes || []
+    }
     const palette = paletteIndex === 0 ? theme.palette : alts[paletteIndex - 1]
     if (!palette) return
     const p = palette as Record<string, string>

@@ -7,7 +7,13 @@
     "domain": "nexuslabs.dev",
     "project": "nexus-labs",
     "version": "1.0.0-RC1",
-    "spec": "aisp-1.2"
+    "spec": "aisp-1.2",
+    "purpose": "saas",
+    "audience": "developer",
+    "tone": "technical",
+    "brandName": "Nexus Labs",
+    "tagline": "AI-powered infrastructure for the next generation",
+    "voiceAttributes": ["technical", "innovative", "bold"]
   },
   "theme": {
     "preset": "saas",

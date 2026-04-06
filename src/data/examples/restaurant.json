@@ -7,7 +7,13 @@
     "domain": "thecornertable.com",
     "project": "the-corner-table",
     "version": "1.0.0-RC1",
-    "spec": "aisp-1.2"
+    "spec": "aisp-1.2",
+    "purpose": "restaurant",
+    "audience": "consumer",
+    "tone": "warm",
+    "brandName": "The Corner Table",
+    "tagline": "Farm-to-table dining in the heart of downtown",
+    "voiceAttributes": ["warm", "inviting", "seasonal"]
   },
   "theme": {
     "preset": "wellness",

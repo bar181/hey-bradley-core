@@ -7,7 +7,13 @@
     "domain": "fitforgefitness.com",
     "project": "fitforge-fitness",
     "version": "1.0.0-RC1",
-    "spec": "aisp-1.2"
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "consumer",
+    "tone": "bold",
+    "brandName": "FitForge Fitness",
+    "tagline": "Forge your best self",
+    "voiceAttributes": ["bold", "energetic", "motivating"]
   },
   "theme": {
     "preset": "creative",

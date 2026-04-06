@@ -7,7 +7,13 @@
     "domain": "greenleafconsulting.com",
     "project": "greenleaf-consulting",
     "version": "1.0.0-RC1",
-    "spec": "aisp-1.2"
+    "spec": "aisp-1.2",
+    "purpose": "agency",
+    "audience": "business",
+    "tone": "formal",
+    "brandName": "GreenLeaf Consulting",
+    "tagline": "Strategic consulting that grows with your business",
+    "voiceAttributes": ["professional", "trustworthy", "strategic"]
   },
   "theme": {
     "preset": "professional",

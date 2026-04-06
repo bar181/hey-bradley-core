@@ -7,7 +7,13 @@
     "domain": "sweetspotbakery.com",
     "project": "sweet-spot-bakery",
     "version": "1.0.0-RC1",
-    "spec": "aisp-1.2"
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "consumer",
+    "tone": "warm",
+    "brandName": "Sweet Spot Bakery",
+    "tagline": "Handcrafted pastries and fresh bread since 2019",
+    "voiceAttributes": ["warm", "inviting", "artisan"]
   },
   "theme": {
     "preset": "wellness",

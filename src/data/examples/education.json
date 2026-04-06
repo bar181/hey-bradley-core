@@ -7,7 +7,13 @@
     "domain": "codecraftacademy.com",
     "project": "codecraft-academy",
     "version": "1.0.0-RC1",
-    "spec": "aisp-1.2"
+    "spec": "aisp-1.2",
+    "purpose": "saas",
+    "audience": "developer",
+    "tone": "casual",
+    "brandName": "CodeCraft Academy",
+    "tagline": "Learn to code with project-based courses",
+    "voiceAttributes": ["energetic", "modern", "approachable"]
   },
   "theme": {
     "preset": "startup",
