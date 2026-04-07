@@ -8,7 +8,7 @@ test.describe('JSON Core Loop Smoke Test', () => {
 
   test('right panel text change → preview updates', async ({ page }) => {
     // 1. Click Hero in left panel
-    await page.locator('[role="button"]').filter({ hasText: 'Main Banner' }).first().click();
+    await page.locator('[role="button"]').filter({ hasText: 'Hero' }).first().click();
     await page.waitForTimeout(500);
 
     // 2. Find and clear the headline textarea, type new text
@@ -36,12 +36,12 @@ test.describe('JSON Core Loop Smoke Test', () => {
   });
 
   test('component toggle → preview updates', async ({ page }) => {
-    // 1. Click Main Banner in left panel (use Builder tab)
+    // 1. Click Hero in left panel (use Builder tab)
     const builderTab = page.locator('button').filter({ hasText: 'Builder' }).first();
     await builderTab.click();
     await page.waitForTimeout(300);
 
-    await page.locator('[role="button"]').filter({ hasText: 'Main Banner' }).first().click();
+    await page.locator('[role="button"]').filter({ hasText: 'Hero' }).first().click();
     await page.waitForTimeout(500);
 
     // 2. Toggle Social Proof off if the switch exists

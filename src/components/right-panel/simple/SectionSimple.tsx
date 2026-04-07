@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 import { cn } from '@/lib/cn'
+import { Tooltip } from '@/components/ui/Tooltip'
 import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
@@ -117,22 +118,23 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
           {HERO_LAYOUTS.map((layout) => {
             const LayoutIcon = layout.icon
             return (
-              <button
-                key={layout.id}
-                type="button"
-                onClick={() => applyHeroLayout(layout)}
-                className={cn(
-                  'flex flex-col items-center justify-center gap-1.5 h-16 rounded-lg transition-all',
-                  currentLayoutId === layout.id
-                    ? 'border-2 border-hb-accent bg-hb-accent/5'
-                    : 'border border-hb-border/40 hover:border-hb-accent/30'
-                )}
-              >
-                <LayoutIcon size={20} className={cn(
-                  currentLayoutId === layout.id ? 'text-hb-accent' : 'text-hb-text-muted'
-                )} />
-                <span className="text-[11px] font-medium text-hb-text-primary">{layout.label}</span>
-              </button>
+              <Tooltip key={layout.id} content="Change section layout" position="top">
+                <button
+                  type="button"
+                  onClick={() => applyHeroLayout(layout)}
+                  className={cn(
+                    'flex flex-col items-center justify-center gap-1.5 h-16 rounded-lg transition-all w-full',
+                    currentLayoutId === layout.id
+                      ? 'border-2 border-hb-accent bg-hb-accent/5'
+                      : 'border border-hb-border/40 hover:border-hb-accent/30'
+                  )}
+                >
+                  <LayoutIcon size={20} className={cn(
+                    currentLayoutId === layout.id ? 'text-hb-accent' : 'text-hb-text-muted'
+                  )} />
+                  <span className="text-[11px] font-medium text-hb-text-primary">{layout.label}</span>
+                </button>
+              </Tooltip>
             )
           })}
         </div>

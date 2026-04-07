@@ -5,6 +5,7 @@ import type { LeftPanelTab } from '@/store/uiStore'
 import { SectionsSection } from './SectionsSection'
 import { ChatInput } from '@/components/shell/ChatInput'
 import { ListenTab } from './ListenTab'
+import { Tooltip } from '@/components/ui/Tooltip'
 
 const TABS = [
   { value: 'builder' as const, icon: LayoutList, label: 'Builder' },
@@ -56,46 +57,50 @@ export function LeftPanel() {
       {activeTab === 'builder' && (
         <div className="flex-1 overflow-auto px-3 pt-3 animate-fade-in-up" data-builder-panel>
           {/* Site Settings row */}
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={() => setSelectedContext({ type: 'site-context' })}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                setSelectedContext({ type: 'site-context' })
-              }
-            }}
-            className={cn(
-              'flex items-center gap-2.5 px-3 py-2 rounded-md cursor-pointer transition-colors border border-transparent mb-1',
-              isSiteContextSelected
-                ? 'bg-hb-accent text-white border-hb-accent'
-                : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-accent/25'
-            )}
-          >
-            <Settings size={14} className={isSiteContextSelected ? 'text-white/70' : 'text-hb-text-muted'} />
-            <span className={cn('text-sm', isSiteContextSelected ? 'text-white font-medium' : 'text-hb-text-primary')}>Site Settings</span>
-          </div>
+          <Tooltip content="Configure site purpose, audience, and tone" position="right">
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => setSelectedContext({ type: 'site-context' })}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setSelectedContext({ type: 'site-context' })
+                }
+              }}
+              className={cn(
+                'flex items-center gap-2.5 px-3 py-2 rounded-md cursor-pointer transition-colors border border-transparent mb-1',
+                isSiteContextSelected
+                  ? 'bg-hb-accent text-white border-hb-accent'
+                  : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-accent/25'
+              )}
+            >
+              <Settings size={14} className={isSiteContextSelected ? 'text-white/70' : 'text-hb-text-muted'} />
+              <span className={cn('text-sm', isSiteContextSelected ? 'text-white font-medium' : 'text-hb-text-primary')}>Site Settings</span>
+            </div>
+          </Tooltip>
 
           {/* Theme row */}
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={() => setSelectedContext({ type: 'theme' })}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                setSelectedContext({ type: 'theme' })
-              }
-            }}
-            className={cn(
-              'flex items-center gap-2.5 px-3 py-2 rounded-md cursor-pointer transition-colors border border-transparent',
-              isThemeSelected
-                ? 'bg-hb-accent text-white border-hb-accent'
-                : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-accent/25'
-            )}
-          >
-            <Palette size={14} className={isThemeSelected ? 'text-white/70' : 'text-hb-text-muted'} />
-            <span className={cn('text-sm', isThemeSelected ? 'text-white font-medium' : 'text-hb-text-primary')}>Theme</span>
-          </div>
+          <Tooltip content="Choose visual theme and colors" position="right">
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => setSelectedContext({ type: 'theme' })}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setSelectedContext({ type: 'theme' })
+                }
+              }}
+              className={cn(
+                'flex items-center gap-2.5 px-3 py-2 rounded-md cursor-pointer transition-colors border border-transparent',
+                isThemeSelected
+                  ? 'bg-hb-accent text-white border-hb-accent'
+                  : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-accent/25'
+              )}
+            >
+              <Palette size={14} className={isThemeSelected ? 'text-white/70' : 'text-hb-text-muted'} />
+              <span className={cn('text-sm', isThemeSelected ? 'text-white font-medium' : 'text-hb-text-primary')}>Theme</span>
+            </div>
+          </Tooltip>
 
           {/* Divider */}
           <div className="border-t border-hb-border my-2 mx-1" />

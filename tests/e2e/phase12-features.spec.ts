@@ -195,9 +195,9 @@ test.describe('Section Editor Controls', () => {
     await page.waitForTimeout(2000)
   })
 
-  test('clicking Main Banner shows editor with headline input', async ({ page }) => {
-    // Click Main Banner in left panel
-    await page.locator('[role="button"]').filter({ hasText: 'Main Banner' }).first().click()
+  test('clicking Hero shows editor with headline input', async ({ page }) => {
+    // Click Hero in left panel
+    await page.locator('[role="button"]').filter({ hasText: 'Hero' }).first().click()
     await page.waitForTimeout(500)
 
     // The right panel should show the hero editor with data-testid inputs

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { ArrowLeft, Check, Lock, Key, Sparkles, Globe, Code } from 'lucide-react'
+import { Check, Lock, Key, Sparkles, Globe, Code } from 'lucide-react'
+import { MarketingNav } from '@/components/MarketingNav'
 
 const FREE_FEATURES = [
   'Full visual builder with drag-and-drop sections',
@@ -58,20 +59,7 @@ const TIERS = [
 export function OpenCore() {
   return (
     <main className="min-h-screen bg-[#0b0f1a] text-white">
-      {/* Nav */}
-      <nav className="sticky top-0 z-50 bg-[#0b0f1a]/90 backdrop-blur-sm border-b border-white/10">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-neutral-400 hover:text-white transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-            <span className="font-semibold">Hey Bradley</span>
-          </Link>
-          <div className="flex items-center gap-6 text-sm font-medium">
-            <Link to="/about" className="text-neutral-500 hover:text-white transition-colors">About</Link>
-            <Link to="/how-i-built-this" className="text-neutral-500 hover:text-white transition-colors">How I Built This</Link>
-            <Link to="/docs" className="text-neutral-500 hover:text-white transition-colors">Docs</Link>
-          </div>
-        </div>
-      </nav>
+      <MarketingNav />
 
       {/* Hero */}
       <section className="relative overflow-hidden">

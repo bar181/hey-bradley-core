@@ -2,12 +2,15 @@ import { useEffect } from 'react'
 import { TopBar } from './TopBar'
 import { StatusBar } from './StatusBar'
 import { PanelLayout } from './PanelLayout'
+import { ShortcutHelp } from '@/components/ui/ShortcutHelp'
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore } from '@/store/uiStore'
 import { useAutoSave } from '@/lib/persistence'
+import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts'
 
 export function AppShell() {
   useAutoSave()
+  const { helpOpen, closeHelp } = useKeyboardShortcuts()
 
   // Auto-select hero section so right panel isn't empty on load
   useEffect(() => {
@@ -55,6 +58,7 @@ export function AppShell() {
         <PanelLayout />
       </main>
       {!isPreviewMode && <StatusBar />}
+      <ShortcutHelp open={helpOpen} onClose={closeHelp} />
     </div>
   )
 }

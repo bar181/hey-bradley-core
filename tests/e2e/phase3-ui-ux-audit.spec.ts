@@ -174,7 +174,7 @@ test.describe('2. Builder Page (/builder)', () => {
     const hasTheme = await themeItem.isVisible()
 
     // Hero section row
-    const heroItem = page.locator('[role="button"]').filter({ hasText: 'Main Banner' }).first()
+    const heroItem = page.locator('[role="button"]').filter({ hasText: 'Hero' }).first()
     const hasHero = await heroItem.isVisible()
 
     record('Builder', 'Left panel has Theme item', hasTheme, hasTheme ? 'Visible' : 'Not found', 'P1')
@@ -216,7 +216,7 @@ test.describe('2. Builder Page (/builder)', () => {
     await goToBuilder(page)
 
     // Click Hero in left panel
-    const heroItem = page.locator('[role="button"]').filter({ hasText: 'Main Banner' }).first()
+    const heroItem = page.locator('[role="button"]').filter({ hasText: 'Hero' }).first()
     await heroItem.click()
     await page.waitForTimeout(300)
 
@@ -288,7 +288,7 @@ test.describe('4. Section Editors', () => {
     await goToBuilder(page)
 
     // Click Hero section in left panel
-    const heroItem = page.locator('[role="button"]').filter({ hasText: 'Main Banner' }).first()
+    const heroItem = page.locator('[role="button"]').filter({ hasText: 'Hero' }).first()
     if (await heroItem.isVisible()) await heroItem.click()
     await page.waitForTimeout(500)
 
@@ -409,7 +409,7 @@ test.describe('4. Section Editors', () => {
 
   test('Menu section editor', async ({ page }) => {
     await goToBuilder(page)
-    const item = page.locator('[role="button"]').filter({ hasText: 'Top Menu' }).first()
+    const item = page.locator('[role="button"]').filter({ hasText: 'Navigation Bar' }).first()
     if (await item.isVisible()) {
       await item.click()
       await page.waitForTimeout(300)
@@ -493,7 +493,7 @@ test.describe('6. Section CRUD', () => {
 
     // Count initial section rows in left panel
     const sectionRows = page.locator('[role="button"]').filter({
-      hasText: /^(Main Banner|Columns|Pricing|Action Block|Questions|Quotes|Numbers|Footer|Top Menu|Gallery)/
+      hasText: /^(Hero|Content Cards|Pricing|Action Block|Questions|Quotes|Numbers|Footer|Navigation Bar|Gallery)/
     })
     const initialCount = await sectionRows.count()
     record('Section CRUD', 'Initial section count', initialCount > 0, `${initialCount} sections`, 'P0')

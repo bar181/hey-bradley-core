@@ -4,7 +4,7 @@ import { useUIStore } from '@/store/uiStore'
 import type { SectionType } from '@/lib/schemas/section'
 import { useThemeVars } from '@/lib/useThemeVars'
 import { useScrollReveal } from '@/lib/useScrollReveal'
-import { ErrorBoundary } from '@/components/ErrorBoundary'
+import { ErrorBoundary, SectionErrorFallback } from '@/components/ui/ErrorBoundary'
 import { HeroCentered } from '@/templates/hero/HeroCentered'
 import { HeroSplit } from '@/templates/hero/HeroSplit'
 import { HeroOverlay } from '@/templates/hero/HeroOverlay'
@@ -356,8 +356,8 @@ export function RealityTab() {
           <div className="w-16 h-16 rounded-full bg-hb-accent/10 flex items-center justify-center mx-auto mb-4">
             <Layout size={28} className="text-hb-accent" />
           </div>
-          <p className="text-lg text-hb-text-muted font-medium">No sections yet</p>
-          <p className="text-sm text-hb-text-muted/60 mt-2">Add a section from the left panel to get started</p>
+          <p className="text-lg text-hb-text-muted font-medium">Your site preview will appear here.</p>
+          <p className="text-sm text-hb-text-muted/60 mt-2">Start by adding sections from the left panel.</p>
         </div>
       </div>
     )
@@ -375,7 +375,7 @@ export function RealityTab() {
 
           if (isPreviewMode) {
             return (
-              <ErrorBoundary key={section.id}>
+              <ErrorBoundary key={section.id} fallback={<SectionErrorFallback type={section.type} />}>
                 <div
                   className="animate-fade-in-up"
                   style={{ animationDelay: `${i * 80}ms` }}
@@ -387,7 +387,7 @@ export function RealityTab() {
           }
 
           return (
-            <ErrorBoundary key={section.id}>
+            <ErrorBoundary key={section.id} fallback={<SectionErrorFallback type={section.type} />}>
               <div>
                 <SectionWrapper
                   section={section}

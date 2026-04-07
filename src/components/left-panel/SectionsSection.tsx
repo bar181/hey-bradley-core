@@ -28,6 +28,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/cn'
+import { Tooltip } from '@/components/ui/Tooltip'
 import { useUIStore } from '@/store/uiStore'
 import { useConfigStore } from '@/store/configStore'
 import type { SectionType } from '@/lib/schemas/section'
@@ -239,20 +240,22 @@ export function SectionsSection() {
           )}
         >
           {/* Drag handle */}
-          <div
-            draggable
-            onDragStart={(e) => {
-              e.dataTransfer.setData('sectionId', section.id)
-              setDragId(section.id)
-            }}
-            onDragEnd={() => {
-              setDragId(null)
-              setDropTarget(null)
-            }}
-            className="cursor-grab active:cursor-grabbing p-0.5 text-hb-text-muted/40 hover:text-hb-text-muted"
-          >
-            <GripVertical size={14} />
-          </div>
+          <Tooltip content="Drag to reorder" position="right">
+            <div
+              draggable
+              onDragStart={(e) => {
+                e.dataTransfer.setData('sectionId', section.id)
+                setDragId(section.id)
+              }}
+              onDragEnd={() => {
+                setDragId(null)
+                setDropTarget(null)
+              }}
+              className="cursor-grab active:cursor-grabbing p-0.5 text-hb-text-muted/40 hover:text-hb-text-muted"
+            >
+              <GripVertical size={14} />
+            </div>
+          </Tooltip>
 
           <Icon size={14} className="text-hb-text-muted shrink-0" />
           <span className="text-sm flex-1 truncate text-hb-text-primary">
@@ -260,17 +263,18 @@ export function SectionsSection() {
           </span>
 
           {/* Eye toggle */}
-          <button
-            type="button"
-            title={section.enabled ? 'Hide section' : 'Show section'}
-            onClick={(e) => {
-              e.stopPropagation()
-              toggleSectionEnabled(section.id)
-            }}
-            className="p-0.5 text-hb-text-muted hover:text-hb-text-secondary"
-          >
-            {section.enabled ? <Eye size={13} /> : <EyeOff size={13} />}
-          </button>
+          <Tooltip content="Toggle section visibility" position="left">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation()
+                toggleSectionEnabled(section.id)
+              }}
+              className="p-0.5 text-hb-text-muted hover:text-hb-text-secondary"
+            >
+              {section.enabled ? <Eye size={13} /> : <EyeOff size={13} />}
+            </button>
+          </Tooltip>
         </div>
 
         {/* Action bar — only for selected section */}
@@ -427,18 +431,30 @@ export function SectionsSection() {
       )}
 
       {/* Enabled sections */}
+      {enabledSections.length === 0 && (
+        <div className="rounded-lg border border-hb-border bg-hb-surface/50 p-4 text-center">
+          <p className="text-sm text-hb-text-muted font-medium">No sections yet</p>
+          <p className="text-xs text-hb-text-muted/60 mt-1.5 leading-relaxed">
+            Click &quot;More Sections&quot; below to add your first section.
+            <br />
+            Or try loading an example from the Examples tab.
+          </p>
+        </div>
+      )}
       {enabledSections.map((section, index) => renderSectionRow(section, index))}
 
       {/* More Sections — hidden sections + add new */}
       <div className="mt-1">
-        <button
-          type="button"
-          onClick={() => setShowHidden(!showHidden)}
-          className="flex items-center gap-1.5 w-full px-3 py-1.5 text-xs text-hb-text-muted hover:text-hb-text-secondary transition-colors"
-        >
-          <ChevronRight size={12} className={cn('transition-transform', showHidden && 'rotate-90')} />
-          More Sections
-        </button>
+        <Tooltip content="Add a new section" position="right">
+          <button
+            type="button"
+            onClick={() => setShowHidden(!showHidden)}
+            className="flex items-center gap-1.5 w-full px-3 py-1.5 text-xs text-hb-text-muted hover:text-hb-text-secondary transition-colors"
+          >
+            <ChevronRight size={12} className={cn('transition-transform', showHidden && 'rotate-90')} />
+            More Sections
+          </button>
+        </Tooltip>
         {showHidden && (
           <div className="flex flex-col gap-1 mt-1">
             {hiddenSections.map((section, index) =>

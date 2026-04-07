@@ -78,7 +78,7 @@ test.describe('Visual Smoke Tests', () => {
     expect(rightText).toContain('THEME');
 
     // Verify a section item exists in the left panel (may be scrolled out of view in resizable panel)
-    const sectionItems = page.locator('[data-builder-panel] button, [data-builder-panel] div').filter({ hasText: 'Main Banner' });
+    const sectionItems = page.locator('[data-builder-panel] button, [data-builder-panel] div').filter({ hasText: 'Hero' });
     const count = await sectionItems.count();
     expect(count).toBeGreaterThanOrEqual(1);
 

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { ArrowLeft, BookOpen, Palette, Layout, FileText, Zap, ExternalLink } from 'lucide-react'
+import { BookOpen, Palette, Layout, FileText, Zap, ExternalLink } from 'lucide-react'
+import { MarketingNav } from '@/components/MarketingNav'
 
 const QUICK_START = [
   {
@@ -79,20 +80,7 @@ export function Docs() {
 
   return (
     <main className="min-h-screen bg-[#faf8f5] text-neutral-800">
-      {/* Nav */}
-      <nav className="sticky top-0 z-50 bg-[#faf8f5]/90 backdrop-blur-sm border-b border-neutral-200">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-neutral-600 hover:text-neutral-900 transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-            <span className="font-semibold">Hey Bradley</span>
-          </Link>
-          <div className="flex items-center gap-6 text-sm font-medium">
-            <Link to="/about" className="text-neutral-500 hover:text-neutral-900 transition-colors">About</Link>
-            <Link to="/open-core" className="text-neutral-500 hover:text-neutral-900 transition-colors">Open Core</Link>
-            <Link to="/how-i-built-this" className="text-neutral-500 hover:text-neutral-900 transition-colors">How I Built This</Link>
-          </div>
-        </div>
-      </nav>
+      <MarketingNav />
 
       {/* Hero */}
       <section className="max-w-5xl mx-auto px-6 py-20 text-center">

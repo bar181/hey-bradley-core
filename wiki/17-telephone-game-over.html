@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Telephone Game Is Over — Hey Bradley</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface-hover: #22252f;
+    --border: #2a2d3a;
+    --text: #e4e4e7;
+    --text-muted: #9ca3af;
+    --text-dim: #6b7280;
+    --accent: #818cf8;
+    --accent-hover: #6366f1;
+    --green: #34d399;
+    --green-dim: rgba(52, 211, 153, 0.15);
+    --red: #f87171;
+    --red-dim: rgba(248, 113, 113, 0.15);
+    --amber: #fbbf24;
+    --amber-dim: rgba(251, 191, 36, 0.15);
+    --purple: #a78bfa;
+    --cyan: #22d3ee;
+    --pink: #f472b6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(15, 17, 23, 0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+  .nav a:hover { color: var(--text); }
+  .nav .logo { font-size: 1.125rem; font-weight: 700; color: var(--text); }
+  .nav-links { display: flex; gap: 1.5rem; }
+
+  /* SECTIONS */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+  .section-alt {
+    background: var(--surface);
+  }
+  .section-wide {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 6rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .hero .tagline {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--green);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+  .hero p {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* TYPOGRAPHY */
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+  .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .label-red { color: var(--red); }
+  .label-green { color: var(--green); }
+  .label-purple { color: var(--purple); }
+  .label-amber { color: var(--amber); }
+  .label-cyan { color: var(--cyan); }
+  .text-red { color: var(--red); }
+  .text-green { color: var(--green); }
+  .text-purple { color: var(--purple); }
+  .text-amber { color: var(--amber); }
+  .text-muted { color: var(--text-muted); }
+
+  p { margin-bottom: 1rem; }
+
+  /* STAT BOX */
+  .stat-box {
+    background: var(--red-dim);
+    border: 1px solid rgba(248, 113, 113, 0.3);
+    border-radius: 1rem;
+    padding: 3rem;
+    text-align: center;
+    margin: 2rem 0;
+  }
+  .stat-box .number {
+    font-size: 4rem;
+    font-weight: 800;
+    color: var(--red);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  /* BLOCKQUOTE */
+  blockquote {
+    border-left: 4px solid var(--border);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 1.125rem;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 0.75rem;
+    font-style: normal;
+    font-size: 0.875rem;
+    color: var(--text-dim);
+  }
+
+  /* TIMELINE */
+  .timeline { margin: 2rem 0; }
+  .timeline-step {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .timeline-dot {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: var(--green-dim);
+    border: 1px solid rgba(52, 211, 153, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--green);
+    font-weight: 700;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+  .timeline-content h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  .timeline-content p {
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+
+  /* CARDS */
+  .card-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .card-grid-5 { grid-template-columns: repeat(5, 1fr); }
+
+  .card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.5rem;
+  }
+
+  /* CODE BLOCK */
+  .code-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+    line-height: 1.8;
+    overflow-x: auto;
+    white-space: pre;
+    color: var(--text-muted);
+  }
+
+  /* COMPARISON BARS */
+  .bar-container {
+    margin-bottom: 1.5rem;
+  }
+  .bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+  .bar-track {
+    height: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 0.5rem;
+  }
+  .bar-fill-red { background: linear-gradient(to right, #ef4444, #f87171); }
+  .bar-fill-green { background: linear-gradient(to right, #10b981, #34d399); }
+
+  /* TABLE */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+  .data-table th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .data-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(42, 45, 58, 0.5);
+    color: var(--text-muted);
+  }
+  .data-table tr.highlight { background: var(--green-dim); }
+  .data-table tr.highlight td { color: var(--green); font-weight: 500; }
+
+  /* TIER GRID */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  .tier-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 2rem;
+  }
+  .tier-card h3 { font-size: 1.25rem; font-weight: 700; }
+  .tier-card .price { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem; }
+  .tier-card ul { list-style: none; }
+  .tier-card ul li {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    padding: 0.25rem 0;
+  }
+  .tier-card ul li::before {
+    content: '\2713';
+    color: var(--green);
+    margin-right: 0.5rem;
+  }
+
+  /* CTA */
+  .cta-section {
+    text-align: center;
+    padding: 5rem 2rem;
+  }
+  .cta-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .btn {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.2s;
+    margin: 0.5rem;
+  }
+  .btn-primary { background: white; color: #111; }
+  .btn-primary:hover { background: #e5e5e5; }
+  .btn-secondary { background: transparent; border: 1px solid rgba(255,255,255,0.3); color: white; }
+  .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 0.875rem;
+  }
+  footer a { color: var(--text-muted); text-decoration: none; }
+  footer a:hover { color: var(--text); }
+
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 2rem; }
+    .card-grid-2, .card-grid-4, .card-grid-5 { grid-template-columns: 1fr; }
+    .tier-grid { grid-template-columns: 1fr; }
+    .stat-box .number { font-size: 3rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <a href="/" class="logo">Hey Bradley</a>
+  <div class="nav-links">
+    <a href="/about">About</a>
+    <a href="/aisp">AISP</a>
+    <a href="/research">Research</a>
+    <a href="/open-core">Open Core</a>
+    <a href="/docs">Docs</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="tagline">A story about what happens when everyone can build</div>
+  <h1>At 10 AM she had an idea.<br>By lunch it was in production.</h1>
+  <p>Not because the AI got smarter. Because for the first time, she could show exactly what she meant &mdash; and the specs were precise enough that any AI could build it on the first try.</p>
+</div>
+
+<!-- ACT I: THE PROBLEM -->
+<div class="section">
+  <div class="label label-red">Act I &mdash; The Problem Nobody Fixed</div>
+  <h2>The most expensive game of<br>telephone in history.</h2>
+  <p>Every piece of software ever built started the same way: a picture in someone's head.</p>
+  <p>A nurse imagines a better patient intake form. A bakery owner sees the website she wants. A founder has the dashboard that will change everything. The picture is vivid, specific, and completely trapped inside their skull.</p>
+  <p>Then the telephone game begins.</p>
+  <p>She describes it to someone who writes it down. The write-up goes to a designer who interprets it. The design goes to a developer who approximates it. Each handoff degrades the signal &mdash; industry research consistently finds that 40-65% of implementation intent is lost in translation.</p>
+
+  <div class="stat-box">
+    <div class="number">40&ndash;65%</div>
+    <div>of implementation intent is lost in translation.</div>
+  </div>
+
+  <blockquote>
+    &ldquo;I described exactly what I wanted. What I got back looked nothing like it.&rdquo;
+    <cite>&mdash; Every person who ever commissioned software</cite>
+  </blockquote>
+</div>
+
+<!-- ACT II: THE INSIGHT -->
+<div class="section-alt">
+  <div class="section">
+    <div class="label label-purple">Act II &mdash; The Insight</div>
+    <h2>The whiteboard was always<br>the most important tool.</h2>
+    <p>Not the IDE. Not the CI/CD pipeline. Not the database. The whiteboard.</p>
+    <p>The place where people stood around arguing about what to build. Sketching boxes and arrows. Pointing at a corner of the board and saying &ldquo;imagine it looks like this.&rdquo; That&rsquo;s where every real decision happened.</p>
+    <p>The AI revolution solved the wrong half of the problem. It made the telephone game faster &mdash; but it didn&rsquo;t fix the telephone game itself.</p>
+    <p>The concept-to-spec portion of development expanded to <strong>55% of total effort</strong>. It became the bottleneck. And it still runs on whiteboards, Google Docs, and hope.</p>
+  </div>
+</div>
+
+<!-- ACT III: THE SOLUTION -->
+<div class="section">
+  <div class="label label-green">Act III &mdash; The Same Day, Different Ending</div>
+  <h2>What happens when the<br>telephone game ends.</h2>
+  <p>A nurse has been frustrated with the patient intake form for two years. She knows exactly what it should look like. Today she opens Hey Bradley.</p>
+
+  <div class="timeline">
+    <div class="timeline-step">
+      <div class="timeline-dot">10 AM</div>
+      <div class="timeline-content">
+        <h4>The Idea</h4>
+        <p>She says: &lsquo;Patient intake form with a progress bar, clear sections for medical history, and a confirmation screen.&rsquo; The form takes shape on screen while she talks.</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-dot">10:20</div>
+      <div class="timeline-content">
+        <h4>The Specs</h4>
+        <p>Twenty minutes of adjustments. The form looks exactly like what she imagined. Underneath, six enterprise specification documents were generated automatically.</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-dot">11:30</div>
+      <div class="timeline-content">
+        <h4>The Build</h4>
+        <p>IT pastes the specs into an AI coding tool. The form is built &mdash; and it integrates with the existing system because the specs understood what was already there.</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-dot">12 PM</div>
+      <div class="timeline-content">
+        <h4>Production</h4>
+        <p>Deployed. Patients use the new form that afternoon. No Jira ticket. No six-month backlog. No &lsquo;that&rsquo;s not what I meant.&rsquo;</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- THE INNOVATION: AISP -->
+<div class="section-alt">
+  <div class="section">
+    <div class="label label-purple">The Innovation</div>
+    <h2>Why it works: a specification language<br>designed for zero ambiguity.</h2>
+    <p>The reason the telephone game persists isn&rsquo;t that people are bad at communicating. It&rsquo;s that there&rsquo;s no language designed for this particular translation.</p>
+
+    <div class="code-block">// Crystal Atom &mdash; five formal components. Nothing left to interpret.
+&#10214;
+  &Omega; := { Patient intake form with progress bar and confirmation }
+  &Sigma; := { Form:{sections:[Demographics, History, Medications, Confirm]} }
+  &Gamma; := { R1: reuse existing PatientAuth from src/auth/
+         R2: validate against existing patient_records schema }
+  &Lambda; := { route:="/intake/new", db:=patients, api:=POST /api/v2/intake }
+  &Epsilon; := { V1: VERIFY 4 sections render, V2: progress bar advances per step }
+&#10215;</div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-top: 2rem;">
+      <div class="stat-box" style="background: var(--red-dim); border-color: rgba(248, 113, 113, 0.3);">
+        <div class="number" style="font-size: 3rem;">50%</div>
+        <div>Traditional spec ambiguity</div>
+      </div>
+      <div class="stat-box" style="background: var(--green-dim); border-color: rgba(52, 211, 153, 0.3);">
+        <div class="number" style="font-size: 3rem; color: var(--green);">&lt;2%</div>
+        <div>AISP Crystal Atom ambiguity</div>
+      </div>
+      <div class="card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+        <div style="font-size: 2rem; font-weight: 800;">1st try</div>
+        <div class="text-muted" style="font-size: 0.875rem; margin-top: 0.5rem;">Any AI builds it right because there&rsquo;s nothing to misinterpret</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="section">
+  <div class="label label-amber">How It Works</div>
+  <h2>Idea &rarr; See it &rarr; Spec it &rarr; Ship it</h2>
+  <div class="card-grid card-grid-4" style="margin-top: 2rem;">
+    <div class="card">
+      <h3>Describe</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">Type, talk, or click. Three interaction modes. The picture in your head becomes visible in seconds.</p>
+    </div>
+    <div class="card">
+      <h3>See it live</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">A real prototype materializes. Five seconds per change. Iterate at the speed of conversation.</p>
+    </div>
+    <div class="card">
+      <h3>Specs generated</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">Six enterprise documents &mdash; AISP Crystal Atoms &mdash; created automatically. Under 2% ambiguity.</p>
+    </div>
+    <div class="card">
+      <h3>Ship it</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">Paste specs into any AI coding tool. One command. Built, tested, deployed. What you approved is what ships.</p>
+    </div>
+  </div>
+</div>
+
+<!-- USE CASES -->
+<div class="section-alt">
+  <div class="section">
+    <div class="label label-amber">Not Just the Nurse</div>
+    <h2>Everyone who ever dreamed about<br>a product can build it.</h2>
+    <div class="card-grid card-grid-2" style="margin-top: 2rem;">
+      <div class="card">
+        <h3>The bakery owner</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Warm colors, photos of my pastries, online ordering. Five minutes later she&rsquo;s looking at the website she imagined for three years.</p>
+        <p style="font-style: italic; color: var(--amber); font-size: 0.875rem;">&ldquo;I didn&rsquo;t need to explain it. I could just show it.&rdquo;</p>
+      </div>
+      <div class="card">
+        <h3>The accountant</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Drowning in reconciliation spreadsheets for years. Describes the dashboard he wishes existed. Specs go to an AI agent. Deployed before he leaves.</p>
+        <p style="font-style: italic; color: var(--amber); font-size: 0.875rem;">&ldquo;I didn&rsquo;t ask permission. I just built it.&rdquo;</p>
+      </div>
+      <div class="card">
+        <h3>The startup team</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Five stakeholders on Zoom. The prototype builds while they argue. When the call ends, the specs already exist. One PR. Done before lunch.</p>
+        <p style="font-style: italic; color: var(--amber); font-size: 0.875rem;">&ldquo;The whiteboard finally builds what we drew.&rdquo;</p>
+      </div>
+      <div class="card">
+        <h3>The enterprise team</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Fifteen teams, one specification language. Typed, versioned, auditable. When compliance asks &lsquo;why was this built?&rsquo; &mdash; the spec is the audit trail.</p>
+        <p style="font-style: italic; color: var(--amber); font-size: 0.875rem;">&ldquo;Everyone is finally building the same thing.&rdquo;</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- THE LANDSCAPE -->
+<div class="section">
+  <div class="label label-cyan">The Landscape</div>
+  <h2>What people use today &mdash;<br>and where intent goes to die.</h2>
+  <table class="data-table" style="margin-top: 2rem;">
+    <thead>
+      <tr>
+        <th>Tool</th>
+        <th>What it produces</th>
+        <th>Speed</th>
+        <th>Who can use it</th>
+        <th>Does intent survive?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Whiteboard</td>
+        <td>A photograph nobody looks at again</td>
+        <td>Real-time</td>
+        <td>Everyone</td>
+        <td class="text-red">Dies after the meeting</td>
+      </tr>
+      <tr>
+        <td>Google Docs</td>
+        <td>Requirements one person interpreted</td>
+        <td>Days to write</td>
+        <td>Everyone</td>
+        <td class="text-red">Degrades 40-65% per handoff</td>
+      </tr>
+      <tr>
+        <td>Figma</td>
+        <td>Mockups developers approximate</td>
+        <td>Hours per screen</td>
+        <td>Designers</td>
+        <td class="text-amber">Partially &mdash; visual only, no logic</td>
+      </tr>
+      <tr>
+        <td>AI coding tools</td>
+        <td>Code from prompts</td>
+        <td>30-60 sec</td>
+        <td>Engineers</td>
+        <td class="text-amber">Only as precise as the prompt</td>
+      </tr>
+      <tr class="highlight">
+        <td>Hey Bradley</td>
+        <td>Prototype + AISP specs</td>
+        <td>5 seconds</td>
+        <td>Everyone</td>
+        <td>Preserved at &lt;2% ambiguity</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- OPEN SOURCE -->
+<div class="section-alt">
+  <div class="section">
+    <div class="label label-cyan">Open Source, Open Standard</div>
+    <h2>Two open projects.<br>One commercial future.</h2>
+    <div class="card-grid card-grid-2" style="margin-top: 2rem;">
+      <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" class="card" style="text-decoration: none; color: inherit;">
+        <h3>AISP 5.1 &mdash; The Specification Language</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Crystal Atom notation, &Sigma;&#8325;&#8321;&#8322; symbol set, tier assessment, validation tools, and the formal ambiguity measurement methodology. Open standard. MIT license.</p>
+        <p class="text-green" style="font-size: 0.875rem; font-weight: 500;">github.com/bar181/aisp-open-core &rarr;</p>
+      </a>
+      <a href="https://github.com/bar181/hey-bradley-core" target="_blank" rel="noopener noreferrer" class="card" style="text-decoration: none; color: inherit;">
+        <h3>Hey Bradley &mdash; The Reference Implementation</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Visual builder that generates AISP specs from human interactions. React + TypeScript + Tailwind. 12 themes, 258+ images, 6 spec generators. MIT license.</p>
+        <p class="text-green" style="font-size: 0.875rem; font-weight: 500;">github.com/bar181/hey-bradley-core &rarr;</p>
+      </a>
+    </div>
+
+    <div class="tier-grid">
+      <div class="tier-card">
+        <h3>Community</h3>
+        <div class="price">Free forever</div>
+        <ul>
+          <li>AISP spec language and validator</li>
+          <li>Hey Bradley builder (self-hosted)</li>
+          <li>All template variants</li>
+          <li>6 spec generators</li>
+          <li>Full Playwright test suite</li>
+        </ul>
+      </div>
+      <div class="tier-card" style="border-color: var(--accent);">
+        <h3>Pro</h3>
+        <div class="price">Coming 2026</div>
+        <ul>
+          <li>Everything in Community</li>
+          <li>AI-powered chat and voice</li>
+          <li>Brownfield codebase analysis</li>
+          <li>Custom brand assets</li>
+          <li>Hosted version with cloud persistence</li>
+        </ul>
+      </div>
+      <div class="tier-card">
+        <h3>Enterprise</h3>
+        <div class="price">By arrangement</div>
+        <ul>
+          <li>Everything in Pro</li>
+          <li>Multi-user collaboration</li>
+          <li>AISP spec versioning</li>
+          <li>SSO and role-based access</li>
+          <li>CI/CD integration</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>The telephone game is over.</h2>
+  <p class="text-muted" style="max-width: 600px; margin: 0 auto 2rem; font-size: 1.125rem;">
+    Describe what you see. Watch it appear.<br>
+    Specs generated automatically. Any AI builds it.<br>
+    What you approved is what ships.
+  </p>
+  <a href="/new-project" class="btn btn-primary">Try the Builder</a>
+  <a href="https://github.com/bar181/hey-bradley-core" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">View Source on GitHub</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>Harvard ALM Capstone &mdash; Digital Media Design &mdash; May 2026</p>
+  <p style="margin-top: 0.5rem;">Bradley Ross &mdash; Creator of AISP</p>
+  <div style="margin-top: 1rem; display: flex; gap: 1.5rem; justify-content: center;">
+    <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer">AISP Repo</a>
+    <a href="https://github.com/bar181/hey-bradley-core" target="_blank" rel="noopener noreferrer">Hey Bradley Repo</a>
+    <a href="/about">About</a>
+  </div>
+</footer>
+
+</body>
+</html>

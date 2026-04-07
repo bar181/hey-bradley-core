@@ -105,7 +105,7 @@ test.describe('Phase 2 Smoke Tests', () => {
   // ── Test 4: Edit headline in hero editor updates preview ──
   test('editing hero headline updates preview', async ({ page }) => {
     // Click Hero in left panel
-    await page.locator('[role="button"]').filter({ hasText: 'Main Banner' }).first().click()
+    await page.locator('[role="button"]').filter({ hasText: 'Hero' }).first().click()
     await page.waitForTimeout(500)
 
     // Expand Content accordion if needed
@@ -130,7 +130,7 @@ test.describe('Phase 2 Smoke Tests', () => {
   // ── Test 5: Toggle component visibility ──
   test('toggling eyebrow badge changes preview', async ({ page }) => {
     // Click Hero
-    await page.locator('[role="button"]').filter({ hasText: 'Main Banner' }).first().click()
+    await page.locator('[role="button"]').filter({ hasText: 'Hero' }).first().click()
     await page.waitForTimeout(500)
 
     // Expand Content accordion

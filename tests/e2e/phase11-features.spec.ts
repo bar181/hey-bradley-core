@@ -31,7 +31,13 @@ test.describe('Chat Commands', () => {
   })
 
   test('simulated requirement buttons exist: SaaS Startup, Local Business, Portfolio', async ({ page }) => {
-    // The simulated requirement buttons should be visible in the chat area
+    // Open the "Try an Example" dialog first (sim-req buttons are inside it)
+    const tryExampleBtn = page.locator('[data-testid="try-example-btn"]')
+    await expect(tryExampleBtn).toBeVisible({ timeout: 5000 })
+    await tryExampleBtn.click()
+    await page.waitForTimeout(500)
+
+    // The simulated requirement buttons should be visible inside the dialog
     await expect(page.locator('[data-testid="sim-req-saas-startup"]')).toBeVisible({ timeout: 5000 })
     await expect(page.locator('[data-testid="sim-req-local-business"]')).toBeVisible({ timeout: 5000 })
     await expect(page.locator('[data-testid="sim-req-portfolio"]')).toBeVisible({ timeout: 5000 })
@@ -46,11 +52,11 @@ test.describe('Website Pages', () => {
     await expect(page.locator('text=Meet Bradley')).toBeVisible({ timeout: 5000 })
   })
 
-  test('/docs renders with "Getting Started" and section reference table', async ({ page }) => {
+  test('/docs renders with "Quick Start" and section reference table', async ({ page }) => {
     await page.goto('/docs')
     await page.waitForLoadState('networkidle')
 
-    await expect(page.locator('text=Getting Started')).toBeVisible({ timeout: 5000 })
+    await expect(page.locator('text=Quick Start')).toBeVisible({ timeout: 5000 })
     await expect(page.locator('text=Section Reference')).toBeVisible({ timeout: 5000 })
   })
 })

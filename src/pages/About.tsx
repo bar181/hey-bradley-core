@@ -1,131 +1,121 @@
 import { Link } from 'react-router-dom'
-import { ArrowLeft, Sparkles, Cpu, Users, BookOpen, Atom, Heart, GraduationCap } from 'lucide-react'
+import { Sparkles, Heart, Atom, BookOpen, GraduationCap, ArrowRight } from 'lucide-react'
+import { MarketingNav } from '@/components/MarketingNav'
 
 export function About() {
   return (
-    <main className="min-h-screen bg-[#faf8f5] text-neutral-800">
-      {/* Nav */}
-      <nav className="sticky top-0 z-50 bg-[#faf8f5]/90 backdrop-blur-sm border-b border-neutral-200">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-neutral-600 hover:text-neutral-900 transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-            <span className="font-semibold">Hey Bradley</span>
-          </Link>
-          <div className="flex items-center gap-6 text-sm font-medium">
-            <Link to="/open-core" className="text-neutral-500 hover:text-neutral-900 transition-colors">Open Core</Link>
-            <Link to="/how-i-built-this" className="text-neutral-500 hover:text-neutral-900 transition-colors">How I Built This</Link>
-            <Link to="/docs" className="text-neutral-500 hover:text-neutral-900 transition-colors">Docs</Link>
-          </div>
-        </div>
-      </nav>
+    <main className="min-h-screen bg-[#0b0f1a] text-white">
+      <MarketingNav />
 
       {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#A51C30]/5 via-transparent to-amber-50/30" />
-        <div className="relative max-w-5xl mx-auto px-6 py-20 text-center">
-          <span className="inline-flex items-center gap-2 bg-[#A51C30]/10 text-[#A51C30] px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
+      <section className="relative overflow-hidden py-24">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#A51C30]/10 via-transparent to-amber-900/10" />
+        <div className="relative max-w-5xl mx-auto px-6 text-center">
+          <span className="inline-flex items-center gap-2 bg-[#A51C30]/20 text-[#A51C30] px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
             <GraduationCap className="w-4 h-4" />
             Harvard ALM Capstone 2026
           </span>
-          <h1 className="text-5xl lg:text-6xl font-bold tracking-tight text-neutral-900 mb-6">
-            Meet Bradley
+          <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+            Meet Bradley.
           </h1>
-          <p className="text-xl text-neutral-500 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed">
             I&apos;m Bradley Ross, a Harvard Extension ALM candidate who got tired of
             watching great ideas die in the gap between &ldquo;what I imagined&rdquo;
-            and &ldquo;what got built.&rdquo; Hey Bradley is my answer&mdash;a
-            spec-driven website builder that turns conversations into precise,
-            machine-verifiable specifications.
+            and &ldquo;what got built.&rdquo; Hey Bradley is my answer.
           </p>
         </div>
       </section>
 
-      {/* The Story */}
-      <section className="max-w-5xl mx-auto px-6 py-16">
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-10 h-10 rounded-xl bg-[#A51C30]/10 flex items-center justify-center">
-            <Heart className="w-5 h-5 text-[#A51C30]" />
+      {/* The Insight */}
+      <section className="py-20 bg-[#111827]">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 rounded-xl bg-[#A51C30]/20 flex items-center justify-center">
+              <Heart className="w-5 h-5 text-[#A51C30]" />
+            </div>
+            <h2 className="text-3xl font-bold">The Insight</h2>
           </div>
-          <h2 className="text-3xl font-bold text-neutral-900">The Story</h2>
-        </div>
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-white rounded-2xl border border-neutral-200 p-8 shadow-sm">
-            <h3 className="text-lg font-semibold text-neutral-900 mb-3">The Problem</h3>
-            <p className="text-neutral-600 leading-relaxed">
-              Every software project starts with a conversation. A founder describes
-              their vision, a designer sketches wireframes, a PM writes tickets, a
-              developer interprets code. Each handoff is a game of telephone&mdash;and
-              research shows up to 55% of development rework comes from requirements
-              that were lost in translation. I wanted to build a tool that captures
-              intent at the source and preserves it all the way to the finished product.
-            </p>
-          </div>
-          <div className="bg-white rounded-2xl border border-neutral-200 p-8 shadow-sm">
-            <h3 className="text-lg font-semibold text-neutral-900 mb-3">The Capstone</h3>
-            <p className="text-neutral-600 leading-relaxed">
-              Hey Bradley is my Harvard Extension capstone project for the ALM in
-              Software Engineering. It explores a question that matters: can we create
-              a specification format so precise that AI agents can execute it without
-              guesswork? The answer is AISP&mdash;the AI Symbolic Protocol&mdash;a
-              math-first notation system with 512 symbols that any LLM understands
-              natively. The platform you see here is the proof that it works.
-            </p>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+              <h3 className="text-lg font-semibold mb-3">The Telephone Game</h3>
+              <p className="text-neutral-400 leading-relaxed">
+                Every software project starts with a conversation. A founder describes
+                their vision, a designer sketches wireframes, a PM writes tickets, a
+                developer interprets code. Each handoff is a game of telephone &mdash;
+                and research shows 40-65% of implementation intent is lost in
+                translation. I wanted to build a tool that captures intent at the source
+                and preserves it all the way to the finished product.
+              </p>
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+              <h3 className="text-lg font-semibold mb-3">The Capstone</h3>
+              <p className="text-neutral-400 leading-relaxed">
+                Hey Bradley is my Harvard Extension capstone project for the ALM in
+                Digital Media Design. It explores a question that matters: can we create
+                a specification format so precise that AI agents can execute it without
+                guesswork? The answer is AISP &mdash; the AI Symbolic Protocol &mdash;
+                a math-first notation system with 512 symbols that any LLM understands
+                natively. The platform you see here is the proof that it works.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* The AISP Protocol */}
-      <section className="max-w-5xl mx-auto px-6 py-16">
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-10 h-10 rounded-xl bg-[#A51C30]/10 flex items-center justify-center">
-            <Atom className="w-5 h-5 text-[#A51C30]" />
+      {/* AISP */}
+      <section className="py-20 bg-[#0b0f1a]">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
+              <Atom className="w-5 h-5 text-purple-400" />
+            </div>
+            <h2 className="text-3xl font-bold">The AISP Protocol</h2>
           </div>
-          <h2 className="text-3xl font-bold text-neutral-900">The AISP Protocol</h2>
-        </div>
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-white rounded-2xl border border-neutral-200 p-8 shadow-sm">
-            <h3 className="text-lg font-semibold text-neutral-900 mb-3">What is AISP?</h3>
-            <p className="text-neutral-600 leading-relaxed">
-              The <strong>AI Symbolic Protocol</strong> is a proof-based specification
-              format that eliminates ambiguity from software documentation. Instead of
-              vague descriptions that lose meaning as they pass from stakeholder to
-              developer, AISP encodes intent as structured, machine-verifiable atoms.
-              It uses a library of 512 mathematical symbols that all major LLMs
-              understand without any special training or prompting.
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+              <h3 className="text-lg font-semibold mb-3">What is AISP?</h3>
+              <p className="text-neutral-400 leading-relaxed">
+                The <strong className="text-white">AI Symbolic Protocol</strong> is a proof-based
+                specification format that eliminates ambiguity from software
+                documentation. Instead of vague descriptions that lose meaning as they
+                pass from stakeholder to developer, AISP encodes intent as structured,
+                machine-verifiable atoms. It uses a library of 512 mathematical symbols
+                that all major LLMs understand without any special training.
+              </p>
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+              <h3 className="text-lg font-semibold mb-3">Crystal Atoms</h3>
+              <p className="text-neutral-400 leading-relaxed">
+                Every section in a Hey Bradley spec is a <strong className="text-white">Crystal
+                Atom</strong> &mdash; a self-contained unit with typed fields, variant rules,
+                and validation constraints. Atoms compose into molecules (pages) and
+                organisms (full sites), creating specifications that AI agents can
+                execute without guesswork. The target: less than 2% ambiguity per atom.
+              </p>
+            </div>
+          </div>
+          <div className="mt-6 bg-white/5 border border-white/10 rounded-2xl p-8">
+            <p className="text-neutral-400 leading-relaxed text-sm">
+              AISP is open source and available at{' '}
+              <a
+                href="https://github.com/bar181/aisp-open-core"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-purple-400 underline hover:text-purple-300"
+              >
+                github.com/bar181/aisp-open-core
+              </a>
+              . It is designed for AI, not humans &mdash; a math-first neural symbolic
+              language where the goal is near-zero ambiguity between what you specify
+              and what gets built.
             </p>
           </div>
-          <div className="bg-white rounded-2xl border border-neutral-200 p-8 shadow-sm">
-            <h3 className="text-lg font-semibold text-neutral-900 mb-3">Crystal Atoms</h3>
-            <p className="text-neutral-600 leading-relaxed">
-              Every section in a Hey Bradley spec is a <strong>Crystal Atom</strong>&mdash;a
-              self-contained unit with typed fields, variant rules, and validation
-              constraints. Atoms compose into molecules (pages) and organisms (full
-              sites), creating specifications that AI agents can execute without guesswork.
-              The target: less than 2% ambiguity per atom, verified mathematically.
-            </p>
-          </div>
-        </div>
-        <div className="mt-6 bg-neutral-50 rounded-2xl border border-neutral-200 p-8">
-          <p className="text-neutral-600 leading-relaxed text-sm">
-            AISP is open source and available at{' '}
-            <a
-              href="https://github.com/bar181/aisp-open-core"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#A51C30] underline hover:text-[#8B1729]"
-            >
-              github.com/bar181/aisp-open-core
-            </a>
-            . It is designed for AI, not humans&mdash;a math-first neural symbolic
-            language where the goal is near-zero ambiguity between what you specify
-            and what gets built.
-          </p>
         </div>
       </section>
 
       {/* The Vision */}
-      <section className="bg-neutral-900 text-white">
-        <div className="max-w-5xl mx-auto px-6 py-16">
+      <section className="py-20 bg-[#111827]">
+        <div className="max-w-5xl mx-auto px-6">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
               <BookOpen className="w-5 h-5 text-white" />
@@ -134,22 +124,19 @@ export function About() {
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
-              <h3 className="text-lg font-semibold mb-3 text-[#A51C30]">The Telephone Game</h3>
+              <h3 className="text-lg font-semibold mb-3 text-[#A51C30]">End the Telephone Game</h3>
               <p className="text-neutral-400 leading-relaxed">
-                Software specs degrade every time they change hands. Stakeholders
-                describe intent, PMs write tickets, developers interpret code. Each
-                handoff introduces drift. Hey Bradley captures your vision at the
-                source and locks it into a format that cannot be misunderstood&mdash;by
-                humans or machines.
+                Software specs degrade every time they change hands. Hey Bradley
+                captures your vision at the source and locks it into a format that
+                cannot be misunderstood &mdash; by humans or machines.
               </p>
             </div>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
-              <h3 className="text-lg font-semibold mb-3 text-[#A51C30]">The 55% Bottleneck</h3>
+              <h3 className="text-lg font-semibold mb-3 text-[#A51C30]">Fix the 55% Bottleneck</h3>
               <p className="text-neutral-400 leading-relaxed">
-                Research shows up to 55% of development rework comes from
-                miscommunicated requirements. Spec-driven development with AISP
-                targets this bottleneck by making specifications the single source of
-                truth that both humans and AI can parse without interpretation.
+                More than half of development effort goes to communicating intent.
+                Spec-driven development with AISP targets this bottleneck by making
+                specifications the single source of truth.
               </p>
             </div>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
@@ -157,115 +144,80 @@ export function About() {
               <p className="text-neutral-400 leading-relaxed">
                 Write your spec, not your code. Hey Bradley generates 6 enterprise-grade
                 specification documents from a single config. When AI agents use those
-                specs to build, they produce exactly what was specified&mdash;closing
-                the gap between imagination and implementation.
+                specs, they produce exactly what was specified.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Built with Agentic Engineering */}
-      <section className="max-w-5xl mx-auto px-6 py-16">
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-10 h-10 rounded-xl bg-[#A51C30]/10 flex items-center justify-center">
-            <Cpu className="w-5 h-5 text-[#A51C30]" />
-          </div>
-          <h2 className="text-3xl font-bold text-neutral-900">Built with Agentic Engineering</h2>
-        </div>
-        <p className="text-neutral-600 text-lg mb-8 max-w-3xl leading-relaxed">
-          Hey Bradley wasn&apos;t built the traditional way. One human orchestrating
-          up to 30 AI agents in parallel swarms produced over 100K lines of code across
-          470+ files in under 50 hours&mdash;a project that COCOMO estimates would
-          take a team of 12 nearly 20 months.
-        </p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { label: 'Lines of Code', value: '100K+' },
-            { label: 'Files', value: '470+' },
-            { label: 'AI Agents', value: '30+' },
-            { label: 'Development Hours', value: '~50' },
-          ].map((stat) => (
-            <div
-              key={stat.label}
-              className="bg-white rounded-2xl border border-neutral-200 p-6 text-center shadow-sm"
-            >
-              <div className="text-3xl font-bold text-[#A51C30] mb-1">{stat.value}</div>
-              <div className="text-sm text-neutral-500">{stat.label}</div>
+      {/* The Journey */}
+      <section className="py-20 bg-[#0b0f1a]">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 rounded-xl bg-[#A51C30]/20 flex items-center justify-center">
+              <Sparkles className="w-5 h-5 text-[#A51C30]" />
             </div>
-          ))}
-        </div>
-        <div className="mt-8 bg-white rounded-2xl border border-neutral-200 p-8 shadow-sm">
-          <div className="flex items-center gap-3 mb-4">
-            <Users className="w-5 h-5 text-neutral-400" />
-            <h3 className="text-lg font-semibold text-neutral-900">The Team</h3>
+            <h2 className="text-3xl font-bold">The Capstone Journey</h2>
           </div>
-          <p className="text-neutral-600 leading-relaxed">
-            1 human + AI agent swarms (up to 14 running in parallel). Using the SPARC
-            methodology (Specification, Pseudocode, Architecture, Refinement,
-            Completion), ADR-driven architecture decisions, and hierarchical mesh
-            topologies to coordinate coder, reviewer, tester, planner, and researcher
-            agents across every sprint. The result: 12 themes, 10 example sites,
-            258+ images, 6 spec generators, and a visual builder that anyone can use.
+          <p className="text-neutral-400 text-lg mb-8 max-w-3xl leading-relaxed">
+            Hey Bradley is a Harvard Extension ALM capstone exploring whether AI
+            agents can execute formal specifications without human interpretation.
+            The project spans five stages from presentation through open-source
+            release and beyond.
           </p>
-        </div>
-      </section>
-
-      {/* Five-Stage Journey */}
-      <section className="max-w-5xl mx-auto px-6 py-16">
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-10 h-10 rounded-xl bg-[#A51C30]/10 flex items-center justify-center">
-            <Sparkles className="w-5 h-5 text-[#A51C30]" />
-          </div>
-          <h2 className="text-3xl font-bold text-neutral-900">The Roadmap</h2>
-        </div>
-        <div className="space-y-4">
-          {[
-            { stage: '1', name: 'Presentation', description: 'Capstone demo with canned simulations, 10 themes, visual builder, and spec generation.', status: 'Complete' },
-            { stage: '2', name: 'Pre-LLM MVP', description: 'Full builder with image upload, brand management, project persistence, and section completeness.', status: 'Complete' },
-            { stage: '3', name: 'LLM MVP', description: 'Real AI chat and listen modes, BYOK API keys, streaming responses, and intelligent content suggestions.', status: 'Planned' },
-            { stage: '4', name: 'Open Core', description: 'Public open-source release of the free builder. Commercial features split to a pro tier.', status: 'Planned' },
-            { stage: '5', name: 'Post-Open-Core', description: 'Cloud persistence, team collaboration, template marketplace, and enterprise features.', status: 'Future' },
-          ].map((item) => (
-            <div key={item.stage} className="flex items-start gap-4 bg-white rounded-xl border border-neutral-200 p-6 shadow-sm">
-              <div className="w-8 h-8 rounded-full bg-[#A51C30] text-white flex items-center justify-center font-bold text-sm shrink-0">
-                {item.stage}
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-1">
-                  <h3 className="font-semibold text-neutral-900">{item.name}</h3>
-                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                    item.status === 'Complete' ? 'bg-emerald-100 text-emerald-700' :
-                    item.status === 'Planned' ? 'bg-amber-100 text-amber-700' :
-                    'bg-neutral-100 text-neutral-500'
-                  }`}>{item.status}</span>
+          <div className="space-y-4">
+            {[
+              { stage: '1', name: 'Presentation', description: 'Capstone demo with canned simulations, themes, visual builder, and spec generation.', status: 'Complete' },
+              { stage: '2', name: 'Pre-LLM MVP', description: 'Full builder with image upload, brand management, project persistence, and color picker.', status: 'Complete' },
+              { stage: '3', name: 'LLM MVP', description: 'Real AI chat and listen modes, BYOK API keys, streaming responses, and intelligent suggestions.', status: 'Planned' },
+              { stage: '4', name: 'Open Core', description: 'Public open-source release of the free builder. Commercial features split to a pro tier.', status: 'Planned' },
+              { stage: '5', name: 'Post-Open-Core', description: 'Cloud persistence, team collaboration, template marketplace, and enterprise features.', status: 'Future' },
+            ].map((item) => (
+              <div key={item.stage} className="flex items-start gap-4 bg-white/5 border border-white/10 rounded-xl p-6">
+                <div className="w-8 h-8 rounded-full bg-[#A51C30] text-white flex items-center justify-center font-bold text-sm shrink-0">
+                  {item.stage}
                 </div>
-                <p className="text-sm text-neutral-500">{item.description}</p>
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-1">
+                    <h3 className="font-semibold">{item.name}</h3>
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                      item.status === 'Complete' ? 'bg-emerald-500/20 text-emerald-400' :
+                      item.status === 'Planned' ? 'bg-amber-500/20 text-amber-400' :
+                      'bg-white/10 text-neutral-400'
+                    }`}>{item.status}</span>
+                  </div>
+                  <p className="text-sm text-neutral-400">{item.description}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="max-w-5xl mx-auto px-6 py-16 text-center">
-        <h2 className="text-3xl font-bold text-neutral-900 mb-4">Ready to try it?</h2>
-        <p className="text-neutral-500 mb-8">Jump straight into the builder and see what spec-driven development feels like.</p>
-        <div className="flex items-center justify-center gap-4">
-          <Link
-            to="/new-project"
-            className="px-8 py-3 bg-[#A51C30] text-white font-semibold rounded-xl hover:bg-[#8B1729] transition-colors shadow-lg"
-          >
-            Start Building
-          </Link>
-          <Link
-            to="/docs"
-            className="px-8 py-3 border border-neutral-300 text-neutral-700 font-semibold rounded-xl hover:bg-neutral-100 transition-colors"
-          >
-            Read the Docs
-          </Link>
+      <section className="py-20 bg-gradient-to-b from-[#111827] to-[#0b0f1a] text-center">
+        <div className="max-w-3xl mx-auto px-6">
+          <h2 className="text-3xl font-bold mb-4">Ready to try it?</h2>
+          <p className="text-neutral-400 mb-8">Jump into the builder and see what spec-driven development feels like.</p>
+          <div className="flex items-center justify-center gap-4">
+            <Link to="/new-project" className="inline-flex items-center gap-2 px-8 py-3 bg-[#A51C30] text-white font-semibold rounded-xl hover:bg-[#8B1729] transition-colors shadow-lg">
+              Start Building <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link to="/docs" className="px-8 py-3 border border-white/20 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors">
+              Read the Docs
+            </Link>
+          </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="py-12 border-t border-white/10 bg-[#0b0f1a]">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <p className="text-sm text-neutral-500 mb-2">Harvard ALM Capstone &mdash; Digital Media Design &mdash; May 2026</p>
+          <p className="text-sm text-neutral-500">Bradley Ross &mdash; Creator of AISP</p>
+        </div>
+      </footer>
     </main>
   )
 }

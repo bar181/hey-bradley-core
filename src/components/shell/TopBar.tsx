@@ -4,6 +4,7 @@ import { useConfigStore } from '@/store/configStore'
 import { useUIStore, type PreviewWidth } from '@/store/uiStore'
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Tooltip } from '@/components/ui/Tooltip'
 
 const DEVICE_BUTTONS: { icon: typeof Monitor; width: PreviewWidth; label: string }[] = [
   { icon: Monitor, width: 'desktop', label: 'Desktop' },
@@ -69,64 +70,68 @@ export function TopBar() {
 
       {/* Right: Desktop controls (hidden below md) */}
       <div className="hidden md:flex items-center gap-2">
-        <button
-          onClick={() => setChromeLight(!chromeLight)}
-          className="p-1 text-white/60 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
-          aria-label={chromeLight ? 'Switch to dark mode' : 'Switch to light mode'}
-          title={chromeLight ? 'Switch to dark mode' : 'Switch to light mode'}
-        >
-          {chromeLight ? <Moon size={14} /> : <Sun size={14} />}
-        </button>
+        <Tooltip content="Switch light/dark editor chrome" position="bottom">
+          <button
+            onClick={() => setChromeLight(!chromeLight)}
+            className="p-1 text-white/60 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
+            aria-label={chromeLight ? 'Switch to dark mode' : 'Switch to light mode'}
+          >
+            {chromeLight ? <Moon size={14} /> : <Sun size={14} />}
+          </button>
+        </Tooltip>
         <div className="w-px h-4 bg-white/20 mx-1" />
         {DEVICE_BUTTONS.map(({ icon: Icon, width, label }) => (
-          <button
-            key={width}
-            onClick={() => handleDeviceClick(width)}
-            className={`p-1 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded ${
-              previewWidth === width
-                ? 'text-white'
-                : 'text-white/60 hover:text-white'
-            }`}
-            aria-label={`Preview at ${label}`}
-            title={`Preview at ${label}`}
-          >
-            <Icon size={16} />
-          </button>
+          <Tooltip key={width} content={`Preview at ${label.toLowerCase()} size`} position="bottom">
+            <button
+              onClick={() => handleDeviceClick(width)}
+              className={`p-1 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded ${
+                previewWidth === width
+                  ? 'text-white'
+                  : 'text-white/60 hover:text-white'
+              }`}
+              aria-label={`Preview at ${label}`}
+            >
+              <Icon size={16} />
+            </button>
+          </Tooltip>
         ))}
         <div className="w-px h-4 bg-white/20 mx-1" />
-        <button
-          onClick={toggleDesignLock}
-          className={`p-1 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded ${
-            designLocked ? 'text-hb-accent' : 'text-white/60 hover:text-white'
-          }`}
-          aria-label={designLocked ? 'Unlock design editing' : 'Lock design editing'}
-          title={designLocked ? 'Design locked — content editing only' : 'Design unlocked'}
-        >
-          {designLocked ? <Lock size={16} /> : <Unlock size={16} />}
-        </button>
-        <button
-          onClick={toggleBrandLock}
-          className={`p-1 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded ${
-            brandLocked ? 'text-hb-accent' : 'text-white/60 hover:text-white'
-          }`}
-          aria-label={brandLocked ? 'Unlock brand editing' : 'Lock brand editing'}
-          title={brandLocked ? 'Brand locked — SEO & brand fields read-only' : 'Brand unlocked'}
-        >
-          {brandLocked ? <Shield size={16} /> : <ShieldOff size={16} />}
-        </button>
+        <Tooltip content="Lock design — content editing only" position="bottom">
+          <button
+            onClick={toggleDesignLock}
+            className={`p-1 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded ${
+              designLocked ? 'text-hb-accent' : 'text-white/60 hover:text-white'
+            }`}
+            aria-label={designLocked ? 'Unlock design editing' : 'Lock design editing'}
+          >
+            {designLocked ? <Lock size={16} /> : <Unlock size={16} />}
+          </button>
+        </Tooltip>
+        <Tooltip content="Lock brand — SEO fields read-only" position="bottom">
+          <button
+            onClick={toggleBrandLock}
+            className={`p-1 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded ${
+              brandLocked ? 'text-hb-accent' : 'text-white/60 hover:text-white'
+            }`}
+            aria-label={brandLocked ? 'Unlock brand editing' : 'Lock brand editing'}
+          >
+            {brandLocked ? <Shield size={16} /> : <ShieldOff size={16} />}
+          </button>
+        </Tooltip>
         <div className="w-px h-4 bg-white/20 mx-1" />
-        <button
-          onClick={() => setPreviewMode(!isPreviewMode)}
-          className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-mono uppercase tracking-wider transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent ${
-            isPreviewMode
-              ? 'bg-hb-accent text-white'
-              : 'text-white/60 hover:text-white hover:bg-white/10'
-          }`}
-          aria-label={isPreviewMode ? 'Exit preview' : 'Preview site'}
-          title={isPreviewMode ? 'Exit preview (Esc)' : 'Preview full site'}
-        >
-          {isPreviewMode ? <><PenLine size={14} /> Edit</> : <><Eye size={14} /> Preview</>}
-        </button>
+        <Tooltip content="Toggle between preview and edit mode" position="bottom">
+          <button
+            onClick={() => setPreviewMode(!isPreviewMode)}
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-mono uppercase tracking-wider transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent ${
+              isPreviewMode
+                ? 'bg-hb-accent text-white'
+                : 'text-white/60 hover:text-white hover:bg-white/10'
+            }`}
+            aria-label={isPreviewMode ? 'Exit preview' : 'Preview site'}
+          >
+            {isPreviewMode ? <><PenLine size={14} /> Edit</> : <><Eye size={14} /> Preview</>}
+          </button>
+        </Tooltip>
         {/* Save status indicator */}
         <span className={`text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded ${isDirty ? 'text-amber-400/80' : 'text-green-400/80'}`}>
           {isDirty ? 'Unsaved' : 'Saved'}

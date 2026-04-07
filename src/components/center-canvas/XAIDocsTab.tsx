@@ -91,6 +91,7 @@ export function XAIDocsTab() {
   const [activeTab, setActiveTab] = useState<TabId>('north-star')
   const [copied, setCopied] = useState(false)
   const config = useConfigStore((s) => s.config)
+  const hasSections = config.sections.some((s) => s.enabled)
 
   const currentTab = SPEC_TABS.find((t) => t.id === activeTab) ?? SPEC_TABS[0]
 
@@ -195,6 +196,13 @@ export function XAIDocsTab() {
             Machine-parseable spec with {'<'}2% ambiguity. Paste into Claude Code for precise reproduction.{' '}
             <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="text-hb-accent hover:underline">Learn more</a>
           </div>
+        </div>
+      )}
+      {/* Empty state */}
+      {!hasSections && (
+        <div className="rounded-lg border border-hb-border bg-hb-surface/50 p-8 text-center">
+          <p className="text-sm text-hb-text-muted font-medium">Add some sections to generate specifications.</p>
+          <p className="text-xs text-hb-text-muted/60 mt-1.5">Your specs will appear here as you build your site.</p>
         </div>
       )}
       {/* Spec content */}
