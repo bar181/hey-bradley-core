@@ -1,0 +1,8 @@
+[submodule "upstreams/ruflo"]
+	path = upstreams/ruflo
+	url = https://github.com/ruvnet/ruflo.git
+	shallow = true
+[submodule "upstreams/ruvector"]
+	path = upstreams/ruvector
+	url = https://github.com/ruvnet/RuVector.git
+	shallow = true
