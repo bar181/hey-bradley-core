@@ -216,13 +216,16 @@ test.describe('2. Builder Page (/builder)', () => {
     await goToBuilder(page)
 
     // Click Hero in left panel
-    const heroItem = page.locator('[role="button"]').filter({ hasText: 'Hero' }).first()
+    const heroItem = page.getByRole('button', { name: 'Hero', exact: true }).first()
     await heroItem.click()
-    await page.waitForTimeout(300)
+    await page.waitForTimeout(500)
 
-    const hasDesign = await page.getByText('Design', { exact: false }).first().isVisible()
-    const hasVisuals = await page.getByText('Visuals').first().isVisible()
-    const hasContent = await page.getByText('Content', { exact: false }).first().isVisible()
+    // Check within the right panel (section editor) for accordion labels
+    const rightPanel = page.locator('aside[aria-label="Section editor"]')
+    await expect(rightPanel).toBeVisible({ timeout: 3000 })
+    const hasDesign = await rightPanel.getByText('Design', { exact: true }).first().isVisible()
+    const hasVisuals = await rightPanel.getByText('Visuals', { exact: true }).first().isVisible()
+    const hasContent = await rightPanel.getByText('Content', { exact: true }).first().isVisible()
 
     record('Builder', 'Hero: Design accordion', hasDesign, hasDesign ? 'Visible' : 'Not found', 'P0')
     record('Builder', 'Hero: Visuals accordion', hasVisuals, hasVisuals ? 'Visible' : 'Not found', 'P0')

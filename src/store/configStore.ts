@@ -150,12 +150,12 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
 
     // Default gallery items with Unsplash images
     const defaultGalleryComponents = [
-      { id: 'g1', type: 'image', enabled: true, order: 0, props: { imageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&auto=format&q=80', caption: 'Mountain Vista' } },
-      { id: 'g2', type: 'image', enabled: true, order: 1, props: { imageUrl: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&auto=format&q=80', caption: 'Golden Sunrise' } },
-      { id: 'g3', type: 'image', enabled: true, order: 2, props: { imageUrl: 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=600&auto=format&q=80', caption: 'Forest Path' } },
-      { id: 'g4', type: 'image', enabled: true, order: 3, props: { imageUrl: 'https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=600&auto=format&q=80', caption: 'Waterfall' } },
-      { id: 'g5', type: 'image', enabled: true, order: 4, props: { imageUrl: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&auto=format&q=80', caption: 'Misty Valley' } },
-      { id: 'g6', type: 'image', enabled: true, order: 5, props: { imageUrl: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&auto=format&q=80', caption: 'Sunlit Forest' } },
+      { id: 'g1', type: 'gallery-image', enabled: true, order: 0, props: { imageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&auto=format&q=80', caption: 'Mountain Vista' } },
+      { id: 'g2', type: 'gallery-image', enabled: true, order: 1, props: { imageUrl: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&auto=format&q=80', caption: 'Golden Sunrise' } },
+      { id: 'g3', type: 'gallery-image', enabled: true, order: 2, props: { imageUrl: 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=600&auto=format&q=80', caption: 'Forest Path' } },
+      { id: 'g4', type: 'gallery-image', enabled: true, order: 3, props: { imageUrl: 'https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=600&auto=format&q=80', caption: 'Waterfall' } },
+      { id: 'g5', type: 'gallery-image', enabled: true, order: 4, props: { imageUrl: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&auto=format&q=80', caption: 'Misty Valley' } },
+      { id: 'g6', type: 'gallery-image', enabled: true, order: 5, props: { imageUrl: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&auto=format&q=80', caption: 'Sunlit Forest' } },
     ]
 
     // Default components for new section types

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phase 15: Developer Assistance | Hey Bradley</title>
+  <style>
+    :root { --bg: #0b0f1a; --surface: #111827; --border: #1f2937; --text: #e5e7eb; --muted: #9ca3af; --accent: #818cf8; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    .container { max-width: 800px; margin: 0 auto; padding: 3rem 1.5rem; }
+    h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+    h2 { font-size: 1.5rem; font-weight: 600; margin: 2.5rem 0 1rem; color: var(--accent); }
+    h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
+    p, li { color: var(--muted); margin-bottom: 0.75rem; }
+    .badge { display: inline-block; background: rgba(129,140,248,0.15); color: var(--accent); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1rem; }
+    .score { font-size: 4rem; font-weight: 700; color: var(--accent); }
+    .score-label { font-size: 1rem; color: var(--muted); }
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.25rem; text-align: center; }
+    .stat-value { font-size: 1.75rem; font-weight: 700; color: white; }
+    .stat-label { font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; }
+    ul { padding-left: 1.5rem; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; margin: 1rem 0; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .nav { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); }
+    .nav a { margin-right: 1.5rem; font-size: 0.9rem; }
+    kbd { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px; font-family: monospace; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <a href="index.html">Wiki</a>
+    <a href="16-phase-14-marketing-review.guide.html">Phase 14</a>
+    <a href="#">Phase 15</a>
+  </div>
+
+  <div class="container">
+    <span class="badge">Phase 15 — Closed</span>
+    <h1>Developer Assistance</h1>
+    <p>Make the builder self-explanatory for anyone encountering it for the first time. Every panel, toggle, and tab should have contextual help. Error states should guide the user. The codebase should be leaner and better tested.</p>
+
+    <div style="text-align: center; margin: 2rem 0;">
+      <div class="score">85</div>
+      <div class="score-label">Composite Score /100</div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="stat-value">111</div><div class="stat-label">Tests Passing</div></div>
+      <div class="stat"><div class="stat-value">25+</div><div class="stat-label">Tooltips</div></div>
+      <div class="stat"><div class="stat-value">4</div><div class="stat-label">Keyboard Shortcuts</div></div>
+      <div class="stat"><div class="stat-value">8</div><div class="stat-label">Marketing Pages</div></div>
+      <div class="stat"><div class="stat-value">6</div><div class="stat-label">New ADRs</div></div>
+      <div class="stat"><div class="stat-value">0</div><div class="stat-label">Failing Tests</div></div>
+    </div>
+
+    <h2>What Shipped</h2>
+
+    <h3>Tooltips Everywhere</h3>
+    <p>A CSS-only tooltip component (no external library) now covers every control in the builder: TopBar buttons, center tabs, left panel items, section controls, layout presets, and the SIMPLE/EXPERT toggle. Over 25 tooltip instances across 7 files.</p>
+
+    <h3>Keyboard Shortcuts</h3>
+    <div class="card">
+      <p style="margin-bottom: 0.5rem;"><kbd>Ctrl+P</kbd> Toggle preview mode</p>
+      <p style="margin-bottom: 0.5rem;"><kbd>Ctrl+E</kbd> Toggle SIMPLE / EXPERT</p>
+      <p style="margin-bottom: 0.5rem;"><kbd>?</kbd> Open keyboard shortcuts help</p>
+      <p style="margin-bottom: 0;"><kbd>Esc</kbd> Close modals and overlays</p>
+    </div>
+
+    <h3>Error Boundaries &amp; Empty States</h3>
+    <p>Every section renderer is wrapped in an ErrorBoundary with a recovery action. Empty states guide users when no sections exist, no blueprint is selected, or no section is being edited.</p>
+
+    <h3>Marketing Site Overhaul</h3>
+    <ul>
+      <li><strong>Welcome page:</strong> Don Miller StoryBrand framework &mdash; &ldquo;The whiteboard that writes your specs&rdquo; + telephone game narrative</li>
+      <li><strong>AISP page:</strong> Crystal Atom components, Sigma-512 symbol set, ambiguity comparison</li>
+      <li><strong>Research page:</strong> Three research findings on the concept-to-spec bottleneck</li>
+      <li><strong>Sticky navigation:</strong> Consistent nav across all 8 marketing pages</li>
+    </ul>
+
+    <h3>ADRs 038&ndash;043: Swarm Protocol</h3>
+    <ul>
+      <li><strong>038:</strong> 5-stage swarm protocol (Ingest &rarr; Execute &rarr; Verify &rarr; Close &rarr; Handoff)</li>
+      <li><strong>039:</strong> Agent roles (Lead, Specialist, Quality)</li>
+      <li><strong>040:</strong> Human-swarm communication format</li>
+      <li><strong>041:</strong> Automated quality gates (pre-commit, pre-push, end-of-phase)</li>
+      <li><strong>042:</strong> Grounding document auto-generation</li>
+      <li><strong>043:</strong> Test regression prevention (monotonically non-decreasing)</li>
+    </ul>
+
+    <h2>Code Quality</h2>
+    <div class="card">
+      <p><strong>TypeScript:</strong> Zero errors (tsc --noEmit clean)</p>
+      <p><strong>Console.log:</strong> Zero in src/</p>
+      <p><strong>Build:</strong> Green (5.85s)</p>
+      <p style="margin-bottom: 0;"><strong>Bundle:</strong> 2,060 KB (537 KB gzip) &mdash; code-splitting deferred to Phase 16</p>
+    </div>
+
+    <h2>What&rsquo;s Next: Phase 16</h2>
+    <p>Advanced Features Review &mdash; deep audit of image effects (13 &times; applicable sections), site context impact on specs, spec generator accuracy at 88%+, and Resources tab completeness. Target: 115+ tests.</p>
+  </div>
+</body>
+</html>

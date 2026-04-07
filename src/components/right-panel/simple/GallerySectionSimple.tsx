@@ -31,7 +31,7 @@ export function GallerySectionSimple({ sectionId }: { sectionId: string }) {
   const currentVariant = section.variant || 'grid'
 
   const galleryItems = section.components
-    .filter((c) => c.type === 'gallery-image')
+    .filter((c) => c.type === 'gallery-image' || c.type === 'gallery-item')
     .sort((a, b) => a.order - b.order)
 
   const applyLayout = useCallback(

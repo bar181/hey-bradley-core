@@ -56,8 +56,24 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
     }, [sectionId, section, setSectionConfig]
   )
 
+  const isVideoUrl = (url: string) => /\.(mp4|webm|mov|ogg)(\?|$)/i.test(url)
+
   const updateUrl = useCallback(
     (componentId: string, url: string) => {
+      // If a video URL is selected but target is an image component, route to heroVideo instead
+      if (isVideoUrl(url) && componentId !== 'heroVideo') {
+        const updatedComponents = section.components.map((c) => {
+          if (c.id === 'heroVideo') return { ...c, enabled: true, props: { ...c.props, url } }
+          if (c.id === componentId) return { ...c, enabled: false }
+          return c
+        })
+        const heroLayout = (section.layout as Record<string, unknown>).heroLayout as string | undefined
+        setSectionConfig(sectionId, {
+          components: updatedComponents,
+          layout: { ...section.layout, heroLayout: heroLayout === 'bg-image' ? 'bg-video' : heroLayout },
+        })
+        return
+      }
       setSectionConfig(sectionId, {
         components: section.components.map((c) => c.id === componentId ? { ...c, props: { ...c.props, url } } : c),
       })

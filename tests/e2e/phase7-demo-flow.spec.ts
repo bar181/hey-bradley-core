@@ -7,18 +7,22 @@ test.describe('Phase 7: Demo Flow', () => {
     await page.waitForTimeout(500)
   })
 
-  // ─── PW1: Chat quick-demo buttons ───
+  // ─── PW1: Chat example dialog has demo presets ───
   test('PW1: chat quick-demo buttons are visible', async ({ page }) => {
     // Switch to Chat tab in the left panel
     await page.locator('button').filter({ hasText: 'Chat' }).first().click()
     await page.waitForTimeout(300)
 
-    // Quick demo buttons should be visible inside the chat area
-    const chatMessages = page.locator('[data-testid="chat-messages"]')
-    await expect(chatMessages.getByRole('button', { name: /Sweet Spot Bakery/ })).toBeVisible()
-    await expect(chatMessages.getByRole('button', { name: /LaunchPad AI/ })).toBeVisible()
-    await expect(chatMessages.getByRole('button', { name: /Sarah Chen Photography/ })).toBeVisible()
-    await expect(chatMessages.getByRole('button', { name: /GreenLeaf Consulting/ })).toBeVisible()
+    // Click "Try an Example" to open the examples dialog
+    await page.locator('[data-testid="try-example-btn"]').click()
+    await page.waitForTimeout(300)
+
+    // Dialog should show example categories with chat commands
+    const dialog = page.locator('[role="dialog"]')
+    await expect(dialog.getByText('Site Templates')).toBeVisible()
+    await expect(dialog.getByText('Build me a bakery website')).toBeVisible()
+    await expect(dialog.getByText('Create a SaaS landing page')).toBeVisible()
+    await expect(dialog.getByText('Multi-step Presets')).toBeVisible()
   })
 
   // ─── PW2: Demo button triggers typewriter captions ───
@@ -26,9 +30,10 @@ test.describe('Phase 7: Demo Flow', () => {
     await page.locator('button').filter({ hasText: 'Chat' }).first().click()
     await page.waitForTimeout(300)
 
-    // Click the bakery demo button
-    const chatMessages = page.locator('[data-testid="chat-messages"]')
-    await chatMessages.locator('button', { hasText: 'Sweet Spot Bakery' }).click()
+    // Open examples dialog and click a demo
+    await page.locator('[data-testid="try-example-btn"]').click()
+    await page.waitForTimeout(300)
+    await page.locator('[role="dialog"]').getByText('Build me a bakery website').click()
 
     // Wait for a bradley message to appear (typewriter effect produces these)
     await expect(

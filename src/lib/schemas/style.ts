@@ -3,6 +3,7 @@ import { z } from 'zod'
 export const imageEffectSchema = z.enum([
   'none', 'ken-burns', 'slow-pan', 'zoom-hover', 'click-enlarge',
   'gradient-overlay', 'parallax', 'glass-blur', 'grayscale-hover', 'vignette',
+  'holographic', 'tilt-3d', 'sepia-to-color', 'reveal-slide', 'fade-in-scroll',
 ])
 
 export type ImageEffect = z.infer<typeof imageEffectSchema>
