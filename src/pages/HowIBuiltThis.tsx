@@ -71,7 +71,7 @@ export function HowIBuiltThis() {
   const maxScore = 100
 
   return (
-    <main className="min-h-screen bg-[#0b0f1a] text-white">
+    <main className="min-h-screen bg-[#1a1a1a] text-white">
       <MarketingNav />
 
       {/* Hero */}

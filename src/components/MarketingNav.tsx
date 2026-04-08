@@ -12,7 +12,7 @@ export function MarketingNav() {
   const location = useLocation()
 
   return (
-    <nav className="sticky top-0 z-50 bg-[#0b0f1a]/90 backdrop-blur-md border-b border-white/10">
+    <nav className="sticky top-0 z-50 bg-[#1a1a1a]/90 backdrop-blur-md border-b border-white/10">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link to="/" className="text-xl font-bold text-white tracking-tight hover:text-white/90 transition-colors">
           Hey Bradley

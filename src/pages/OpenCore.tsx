@@ -4,14 +4,14 @@ import { MarketingNav } from '@/components/MarketingNav'
 
 export function OpenCore() {
   return (
-    <main className="min-h-screen bg-[#0b0f1a] text-white">
+    <main className="min-h-screen bg-[#1a1a1a] text-white">
       <MarketingNav />
 
       {/* Hero */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/10 via-transparent to-purple-600/10" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#A51C30]/10 via-transparent to-[#A51C30]/5" />
         <div className="relative max-w-4xl mx-auto px-6 py-24 text-center">
-          <p className="text-sm uppercase tracking-[0.2em] text-indigo-400 mb-4 font-medium">Open Source &middot; MIT License</p>
+          <p className="text-sm uppercase tracking-[0.2em] text-[#A51C30] mb-4 font-medium">Open Source &middot; MIT License</p>
           <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.1]">
             The 55% problem<br />nobody&apos;s solving.
           </h1>
@@ -86,7 +86,7 @@ export function OpenCore() {
       {/* What Open Core Means */}
       <section className="border-t border-white/5">
         <div className="max-w-4xl mx-auto px-6 py-20">
-          <p className="text-xs uppercase tracking-[0.2em] text-indigo-400 font-medium mb-4">The model</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-[#A51C30] font-medium mb-4">The model</p>
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">What &ldquo;open core&rdquo; means here.</h2>
           <div className="space-y-4 text-neutral-400 leading-relaxed max-w-3xl">
             <p>
@@ -196,13 +196,13 @@ export function OpenCore() {
               <div className="pt-3 border-t border-white/10">
                 <div className="flex items-center justify-between mb-2">
                   <div>
-                    <span className="text-sm font-semibold text-indigo-400">Hey Bradley + AISP</span>
+                    <span className="text-sm font-semibold text-[#A51C30]">Hey Bradley + AISP</span>
                     <span className="text-xs text-neutral-500 ml-2">Spec-first development</span>
                   </div>
-                  <span className="text-xs text-indigo-400 font-medium">Solves the other 55%</span>
+                  <span className="text-xs text-[#A51C30] font-medium">Solves the other 55%</span>
                 </div>
                 <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                  <div className="h-full w-[95%] bg-gradient-to-r from-indigo-500 to-purple-400 rounded-full" />
+                  <div className="h-full w-[95%] bg-gradient-to-r from-[#A51C30] to-[#d4a574] rounded-full" />
                 </div>
                 <p className="text-xs text-neutral-500 mt-1.5">
                   Designed to complement every tool above. Generate the specs in one meeting,
@@ -243,14 +243,14 @@ export function OpenCore() {
           {/* Crystal Atom example */}
           <div className="bg-[#131825] border border-white/10 rounded-2xl p-6 font-mono text-sm leading-[2.2] overflow-x-auto text-neutral-400">
             <span className="text-neutral-600">{'// Crystal Atom — five formal components. Nothing left to interpret.'}</span><br />
-            <span className="text-indigo-400 font-bold">{'⟦'}</span><br />
+            <span className="text-[#A51C30] font-bold">{'⟦'}</span><br />
             {'  '}<span className="text-amber-400">&Omega;</span>{' := { Patient intake form with progress bar and confirmation }'}<br />
             {'  '}<span className="text-amber-400">&Sigma;</span>{' := { Form:{sections:[Demographics, History, Medications, Confirm]} }'}<br />
             {'  '}<span className="text-amber-400">&Gamma;</span>{' := { R1: reuse existing PatientAuth from src/auth/'}<br />
             {'         R2: validate against existing patient_records schema }'}<br />
             {'  '}<span className="text-amber-400">&Lambda;</span>{' := { route:="/intake/new", db:=patients, api:=POST /api/v2/intake }'}<br />
             {'  '}<span className="text-amber-400">&Epsilon;</span>{' := { V1: VERIFY 4 sections render, V2: progress bar advances per step }'}<br />
-            <span className="text-indigo-400 font-bold">{'⟧'}</span>
+            <span className="text-[#A51C30] font-bold">{'⟧'}</span>
           </div>
           <p className="text-xs text-neutral-500 mt-3 text-center">
             AISP is open source.{' '}
@@ -258,7 +258,7 @@ export function OpenCore() {
               href="https://github.com/bar181/aisp-open-core"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-indigo-400 hover:underline"
+              className="text-[#A51C30] hover:underline"
             >
               Explore the protocol &rarr;
             </a>
@@ -321,7 +321,7 @@ export function OpenCore() {
               href="https://github.com/bar181/hey-bradley-core"
               target="_blank"
               rel="noopener noreferrer"
-              className="group bg-white/[0.03] border border-white/10 rounded-2xl p-8 hover:border-indigo-500/40 transition-colors no-underline"
+              className="group bg-white/[0.03] border border-white/10 rounded-2xl p-8 hover:border-[#A51C30]/40 transition-colors no-underline"
             >
               <h3 className="text-lg font-semibold mb-2 text-white">Hey Bradley</h3>
               <p className="text-sm text-neutral-500 mb-1">The reference implementation</p>
@@ -329,7 +329,7 @@ export function OpenCore() {
                 Visual builder that generates AISP specs from human interactions. React + TypeScript + Tailwind.
                 12 themes, 15 examples, 300+ images, 6 spec generators, 13 image effects.
               </p>
-              <span className="inline-flex items-center gap-1 text-sm text-indigo-400 font-medium group-hover:underline">
+              <span className="inline-flex items-center gap-1 text-sm text-[#A51C30] font-medium group-hover:underline">
                 github.com/bar181/hey-bradley-core <ArrowRight className="w-3.5 h-3.5" />
               </span>
             </a>

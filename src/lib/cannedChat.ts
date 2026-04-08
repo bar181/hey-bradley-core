@@ -201,6 +201,11 @@ const COMPOUND_COMMANDS: Array<{
     response: 'Creating a dramatic portfolio with gallery and dark theme!',
     actions: ['applyVibe:portfolio', 'toggleMode:dark', 'addSection:gallery', 'addSection:team'],
   },
+  {
+    patterns: ['build a harvard capstone research site', 'capstone research site', 'harvard capstone', 'build a research site', 'research site'],
+    response: 'Building a Harvard capstone research site — dark crimson theme with blog, gallery, stats, and storytelling sections!',
+    actions: ['loadExample:Hey Bradley — Capstone'],
+  },
 ]
 
 export function parseChatCommand(input: string): ChatResult {

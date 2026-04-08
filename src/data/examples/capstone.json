@@ -1,0 +1,799 @@
+{
+  "site": {
+    "title": "Hey Bradley — The Whiteboard That Ships",
+    "description": "Spec-first website builder. Describe what you want, see it build in real-time, get enterprise specifications any AI can execute.",
+    "author": "Bradley Ross",
+    "email": "hello@heybradley.com",
+    "domain": "hey-bradley.vercel.app",
+    "project": "hey-bradley-capstone",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "research",
+    "audience": "enterprise",
+    "tone": "authoritative",
+    "brandName": "Hey Bradley",
+    "tagline": "The telephone game is over.",
+    "voiceAttributes": ["authoritative", "research-driven", "narrative"]
+  },
+  "theme": {
+    "preset": "elegant",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#1a1a1a",
+      "bgSecondary": "#242424",
+      "textPrimary": "#fafafa",
+      "textSecondary": "#a1a1aa",
+      "accentPrimary": "#A51C30",
+      "accentSecondary": "#d4a574"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#faf8f5",
+      "bgSecondary": "#f0ebe4",
+      "textPrimary": "#1a1a1a",
+      "textSecondary": "#6b7280",
+      "accentPrimary": "#A51C30",
+      "accentSecondary": "#d4a574"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Inter",
+      "headingWeight": 700,
+      "baseSize": "17px",
+      "lineHeight": 1.8
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1100px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "16px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#1a1a1a",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Hey Bradley"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Try the Builder",
+            "url": "#cta"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "overlay",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "100px 24px",
+        "maxWidth": "1100px"
+      },
+      "style": {
+        "background": "#1a1a1a",
+        "color": "#fafafa",
+        "fontFamily": "Inter",
+        "borderRadius": "0px"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Harvard ALM Capstone 2026",
+            "icon": "graduation-cap",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "At 10 AM she had an idea. By lunch it was in production.",
+            "level": 1,
+            "size": "52px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Not because the AI got smarter. Because for the first time, she could show exactly what she meant — and the specs were precise enough that any AI could build it on the first try."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Try the Builder",
+            "url": "#cta",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Read the Research",
+            "url": "#research",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "heroImage",
+          "type": "image",
+          "enabled": false,
+          "order": 5,
+          "props": {}
+        },
+        {
+          "id": "backgroundImage",
+          "type": "image",
+          "enabled": true,
+          "order": 6,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1600&auto=format&q=80",
+            "alt": "Team collaborating at a whiteboard",
+            "overlay": 0.75
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "numbers",
+      "id": "numbers-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "counters",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#242424",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "n-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "55%",
+            "label": "Pre-Code Effort",
+            "description": "The bottleneck nobody talks about"
+          }
+        },
+        {
+          "id": "n-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "<2%",
+            "label": "AISP Ambiguity",
+            "description": "Down from 40-65% industry baseline"
+          }
+        },
+        {
+          "id": "n-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "100K+",
+            "label": "Lines of Code",
+            "description": "Built by 1 human + AI agent swarms"
+          }
+        },
+        {
+          "id": "n-4",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "value": "1st try",
+            "label": "Build Accuracy",
+            "description": "Any AI executes AISP specs correctly"
+          }
+        }
+      ],
+      "content": {
+        "heading": "The Research in Numbers",
+        "subheading": ""
+      }
+    },
+    {
+      "type": "columns",
+      "id": "problem-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "image-cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "80px 24px"
+      },
+      "style": {
+        "background": "#1a1a1a",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "f1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "mic",
+            "title": "Listen Mode",
+            "description": "Start talking with your team. Hey Bradley listens and builds while you discuss. Enterprise-grade AISP specs generate automatically in real time.",
+            "image": "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=600&auto=format&q=80",
+            "imageAlt": "Team in discussion around a conference table"
+          }
+        },
+        {
+          "id": "f2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "message-square",
+            "title": "Chat Mode",
+            "description": "Explain your ideas in natural language. AISP agents handle intent decomposition — breaking your description into design decisions and specifications.",
+            "image": "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&auto=format&q=80",
+            "imageAlt": "Person typing on a laptop in a creative workspace"
+          }
+        },
+        {
+          "id": "f3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "sliders-horizontal",
+            "title": "Builder Mode",
+            "description": "Fine-tune every detail directly. 12 themes, 13 image effects, 300+ images — full visual control with no LLM required. What you see is what gets spec'd.",
+            "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&q=80",
+            "imageAlt": "Design interface with visual controls and live preview"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Three Ways to Build",
+        "subheading": "Listen. Chat. Build. Each mode generates the same enterprise-grade AISP specifications."
+      }
+    },
+    {
+      "type": "image",
+      "id": "image-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "full-width",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#242424",
+        "color": "#fafafa",
+        "imageEffect": "parallax"
+      },
+      "components": [
+        {
+          "id": "img",
+          "type": "image",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1600&auto=format&q=80",
+            "alt": "The whiteboard — where every real decision happens",
+            "aspect": "21:9",
+            "caption": "The whiteboard was always the most important tool. Not the IDE. Not the CI/CD pipeline. The whiteboard."
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "research-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "alternating",
+      "layout": {
+        "display": "grid",
+        "columns": 2,
+        "gap": "48px",
+        "padding": "80px 24px"
+      },
+      "style": {
+        "background": "#1a1a1a",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "r1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "trending-down",
+            "title": "The Problem Nobody Fixed",
+            "description": "Every piece of software starts as a picture in someone's head. Then the telephone game begins — she describes it to someone who writes it down, the write-up goes to a designer who interprets it, the design goes to a developer who approximates it. Industry research finds 40-65% of intent is lost at each handoff. AI made the game faster, but didn't fix the game itself."
+          }
+        },
+        {
+          "id": "r2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "lightbulb",
+            "title": "The Insight",
+            "description": "AI coding tools compressed the 'writing code' portion from 35% to 15% of total effort. But nobody improved the whiteboard — the concept-to-spec work expanded to 55% of total effort. The bottleneck shifted from coding to specification. The AI revolution solved the wrong half of the problem."
+          }
+        }
+      ],
+      "content": {
+        "heading": "The Research",
+        "subheading": "Why AI made the telephone game faster — but didn't fix it"
+      }
+    },
+    {
+      "type": "blog",
+      "id": "blog-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "card-grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#242424",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "article-1",
+          "type": "blog-article",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "title": "The Telephone Game Is Over",
+            "excerpt": "Every piece of software ever built started the same way: a picture in someone's head. This is the story of what happens when that picture survives all the way to production.",
+            "author": "Bradley Ross",
+            "date": "2026-04-01",
+            "tags": "research, methodology, AISP",
+            "featuredImage": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&auto=format&q=80"
+          }
+        },
+        {
+          "id": "article-2",
+          "type": "blog-article",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "title": "AISP: Near-Zero Ambiguity",
+            "excerpt": "A math-first symbolic language with 512 symbols that all AI architectures understand natively. How Crystal Atom notation reduces spec ambiguity from 40-65% to under 2%.",
+            "author": "Bradley Ross",
+            "date": "2026-03-25",
+            "tags": "AISP, Crystal Atom, specification",
+            "featuredImage": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&auto=format&q=80"
+          }
+        },
+        {
+          "id": "article-3",
+          "type": "blog-article",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "title": "Building with AI Agent Swarms",
+            "excerpt": "How 100K+ lines of code were built by one human and 15 parallel AI agents — achieving 470x schedule compression over COCOMO estimates.",
+            "author": "Bradley Ross",
+            "date": "2026-03-18",
+            "tags": "agentic, engineering, AI swarms",
+            "featuredImage": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&q=80"
+          }
+        }
+      ],
+      "content": {
+        "heading": "From the Research",
+        "subheading": "Deep dives into spec-first development, AISP, and agentic engineering",
+        "showDates": true,
+        "showTags": true
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "quotes-01",
+      "enabled": true,
+      "order": 6,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#1a1a1a",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "I described exactly what I wanted. What I got back looked nothing like it.",
+            "author": "Every person",
+            "role": "who ever commissioned software",
+            "rating": 0
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "The meeting IS the sprint. The whiteboard IS the specification. What you approved IS what ships.",
+            "author": "The thesis",
+            "role": "Hey Bradley",
+            "rating": 0
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "The specs are so precise the model doesn't matter. Any AI coding tool executes them accurately because there's nothing left to guess.",
+            "author": "The engineer",
+            "role": "who finally sleeps at night",
+            "rating": 0
+          }
+        }
+      ],
+      "content": {
+        "heading": "Voices",
+        "subheading": ""
+      }
+    },
+    {
+      "type": "gallery",
+      "id": "gallery-01",
+      "enabled": true,
+      "order": 7,
+      "variant": "masonry",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "16px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#242424",
+        "color": "#fafafa",
+        "imageEffect": "zoom-hover"
+      },
+      "components": [
+        {
+          "id": "g1",
+          "type": "gallery-item",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "image": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&auto=format&q=80",
+            "alt": "Team collaborating around a whiteboard",
+            "caption": "The Whiteboard Meeting",
+            "category": "Process"
+          }
+        },
+        {
+          "id": "g2",
+          "type": "gallery-item",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "image": "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=600&auto=format&q=80",
+            "alt": "Team discussion generating real-time specs",
+            "caption": "Listen Mode in Action",
+            "category": "Modes"
+          }
+        },
+        {
+          "id": "g3",
+          "type": "gallery-item",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&q=80",
+            "alt": "Analytics dashboard showing spec generation",
+            "caption": "Specs Generated in Real Time",
+            "category": "Output"
+          }
+        },
+        {
+          "id": "g4",
+          "type": "gallery-item",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "image": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&auto=format&q=80",
+            "alt": "Mathematical notation representing AISP Crystal Atoms",
+            "caption": "AISP Crystal Atom Notation",
+            "category": "Research"
+          }
+        },
+        {
+          "id": "g5",
+          "type": "gallery-item",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "image": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&q=80",
+            "alt": "Server infrastructure representing AI agent swarms",
+            "caption": "15-Agent Swarm Architecture",
+            "category": "Engineering"
+          }
+        },
+        {
+          "id": "g6",
+          "type": "gallery-item",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "image": "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&auto=format&q=80",
+            "alt": "Developer working with AI coding tools",
+            "caption": "One Paste. One Command. One Ship.",
+            "category": "Workflow"
+          }
+        }
+      ],
+      "content": {
+        "heading": "The Journey",
+        "subheading": "From whiteboard to production — the visual story"
+      }
+    },
+    {
+      "type": "text",
+      "id": "text-listen-01",
+      "enabled": true,
+      "order": 8,
+      "variant": "single",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "padding": "80px 24px"
+      },
+      "style": {
+        "background": "#1a1a1a",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "content",
+          "type": "rich-text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "heading": "The Meeting That Built Itself",
+            "body": "Here is something nobody tells you about building software: the most important room in any company is not the server room. It is the conference room.\n\nFive people sit around a table. A product manager has a vision. A designer has opinions. An engineer has constraints. A stakeholder has a deadline. And a founder has a dream that sounds nothing like what anyone else in the room imagines.\n\nThey talk for an hour. They sketch on a whiteboard. They point at things and say 'imagine it looks like this.' When the meeting ends, someone writes a Google Doc. The doc goes to a designer who interprets it. The design goes to a developer who approximates it. Six weeks later, the founder looks at the result and says the five words that have haunted software since the beginning: 'That is not what I meant.'\n\nNow picture the same meeting — but Hey Bradley is on the screen.\n\nThe founder says 'I want a landing page with a hero that grabs you, stats that prove we are real, and testimonials from actual customers.' The page begins to take shape while she talks. Listen Mode captures her words and translates them into design decisions in real time. Not a transcript — a living website.\n\n'Make the stats bigger.' Five seconds. 'Move testimonials above the CTA.' Five seconds. 'Can we try a darker palette?' Five seconds.\n\nWhen the meeting ends, the page looks exactly like what everyone imagined — because they all watched it materialize together. And underneath that page, six enterprise specification documents were generated automatically. Every component. Every interaction. Every integration point.\n\nThe engineer pastes the specs into Claude Code. Twenty minutes later, the production site is deployed. Not a prototype. Not a mock. The real thing — built from specs so precise that the AI did not need to guess a single decision.\n\nThe meeting was the sprint. The whiteboard was the specification. And for the first time, what they approved is exactly what shipped."
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text",
+      "id": "text-aisp-01",
+      "enabled": true,
+      "order": 9,
+      "variant": "single",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "padding": "80px 24px"
+      },
+      "style": {
+        "background": "#242424",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "content",
+          "type": "rich-text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "heading": "The Paradox That Changed Everything",
+            "body": "The most counterintuitive finding from the AISP research had nothing to do with ambiguity reduction. It had to do with creativity.\n\nHere is the experiment: take the same specification — a patient intake form for a hospital — and hand it to three different AI coding agents. The first agent gets a traditional spec: 'Build a patient intake form with four sections and a progress bar.' The second gets a detailed Jira ticket with acceptance criteria. The third gets an AISP Crystal Atom with all five components formally defined — objective, structure, grounding rules, bindings, and evaluation criteria.\n\nThe prediction was obvious. Tighter constraints should produce more rigid, less creative output. More rules means less room to breathe. Everyone expected the loosest spec to produce the most interesting result.\n\nThe opposite happened.\n\nThe first agent — the one with the vague spec — produced a generic Bootstrap form. Four divs in a column. It worked, but nobody would call it inspired. The second agent — the Jira ticket — added some polish, but spent three revision cycles asking clarifying questions that were never answered in the original spec.\n\nThe third agent — the Crystal Atom — built something nobody expected. Because it knew the exact constraints (reuse the existing auth system, validate against patient_records, expose at /api/v2/intake), it did not waste tokens guessing infrastructure. Instead, it spent its creative capacity on the parts that were left open: the interaction design, the transition animations, the micro-copy that guides a nervous patient through a medical form.\n\nThe constraints did not limit creativity. They redirected it.\n\nThis is the same principle that makes sonnets more memorable than free verse, and why haiku masters produce more vivid images in seventeen syllables than most poets achieve in a page. When the structure is locked, the mind stops worrying about scaffolding and starts innovating within the frame.\n\nAISP's 512 symbols and five-component Crystal Atom notation are not a cage. They are a trellis — and the creative output grows higher because the structure tells it exactly where to climb."
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 10,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "16px",
+        "padding": "80px 24px"
+      },
+      "style": {
+        "background": "#1a1a1a",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "cta-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "The telephone game is over.",
+            "level": 2,
+            "size": "40px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "cta-text",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Describe what you see. Watch it appear. Specs generated automatically. Any AI builds it. What you approved is what ships."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Try the Builder",
+            "url": "#",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "View Source on GitHub",
+            "url": "https://github.com/bar181/hey-bradley-core",
+            "style": "outline",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 99,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#1a1a1a",
+        "color": "#a1a1aa"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Hey Bradley"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Open Source",
+            "links": "Hey Bradley Repo,AISP Open Core,Documentation"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Research",
+            "links": "The Telephone Game,AISP Protocol,Agentic Engineering"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Harvard ALM Capstone — Digital Media Design — May 2026. Bradley Ross — Creator of AISP."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

@@ -4,7 +4,7 @@ import { MarketingNav } from '@/components/MarketingNav'
 
 export function Research() {
   return (
-    <main className="min-h-screen bg-[#0b0f1a] text-white">
+    <main className="min-h-screen bg-[#1a1a1a] text-white">
       <MarketingNav />
 
       {/* Hero — blog-style with image */}
@@ -15,7 +15,7 @@ export function Research() {
             alt=""
             className="w-full h-full object-cover opacity-20"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0b0f1a]/60 via-[#0b0f1a]/80 to-[#0b0f1a]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a]/60 via-[#1a1a1a]/80 to-[#1a1a1a]" />
         </div>
         <div className="relative max-w-3xl mx-auto px-6 py-28 text-center">
           <p className="text-sm font-semibold text-blue-400 uppercase tracking-widest mb-4">Research</p>
@@ -281,7 +281,7 @@ export function Research() {
       </article>
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-b from-[#0b0f1a] to-[#111827] text-center">
+      <section className="py-20 bg-gradient-to-b from-[#1a1a1a] to-[#242424] text-center">
         <div className="max-w-3xl mx-auto px-6">
           <h2 className="text-3xl font-bold mb-4">See the research in action.</h2>
           <p className="text-neutral-400 mb-8">Try the builder and experience what spec-driven development feels like.</p>
@@ -297,7 +297,7 @@ export function Research() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t border-white/10 bg-[#0b0f1a]">
+      <footer className="py-12 border-t border-white/10 bg-[#1a1a1a]">
         <div className="max-w-5xl mx-auto px-6 text-center">
           <p className="text-sm text-neutral-500 mb-2">Harvard ALM Capstone &mdash; Digital Media Design &mdash; May 2026</p>
           <p className="text-sm text-neutral-500">Bradley Ross &mdash; Creator of AISP</p>

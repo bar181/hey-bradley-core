@@ -25,6 +25,7 @@ const EXAMPLE_PREVIEW_SLUGS: Record<string, string> = {
   'CloudSync Enterprise': 'enterprise-saas',
   'Summit Realty Group': 'real-estate',
   'Barrett & Associates': 'law-firm',
+  'Hey Bradley — Capstone': 'capstone',
 }
 
 interface ThemeMeta {

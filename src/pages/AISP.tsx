@@ -21,7 +21,7 @@ const COMPARISONS = [
 
 export function AISP() {
   return (
-    <main className="min-h-screen bg-[#0b0f1a] text-white">
+    <main className="min-h-screen bg-[#1a1a1a] text-white">
       <MarketingNav />
 
       {/* Hero */}
@@ -52,7 +52,7 @@ export function AISP() {
       </section>
 
       {/* What is AISP */}
-      <section className="py-20 bg-[#111827]">
+      <section className="py-20 bg-[#242424]">
         <div className="max-w-5xl mx-auto px-6">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
@@ -88,7 +88,7 @@ export function AISP() {
       </section>
 
       {/* The 5 Components */}
-      <section className="py-20 bg-[#0b0f1a]">
+      <section className="py-20 bg-[#1a1a1a]">
         <div className="max-w-5xl mx-auto px-6">
           <h2 className="text-3xl font-bold mb-4">The Five Crystal Atom Components</h2>
           <p className="text-neutral-400 mb-12 max-w-2xl">Each atom encodes the complete specification in five formal components. Nothing is left to interpret.</p>
@@ -105,7 +105,7 @@ export function AISP() {
       </section>
 
       {/* Sigma 512 */}
-      <section className="py-20 bg-[#111827]">
+      <section className="py-20 bg-[#242424]">
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
@@ -140,7 +140,7 @@ export function AISP() {
       </section>
 
       {/* Ambiguity Comparison */}
-      <section className="py-20 bg-[#0b0f1a]">
+      <section className="py-20 bg-[#1a1a1a]">
         <div className="max-w-5xl mx-auto px-6">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
@@ -225,7 +225,7 @@ export function AISP() {
       </section>
 
       {/* Resources */}
-      <section className="py-20 bg-[#111827]">
+      <section className="py-20 bg-[#242424]">
         <div className="max-w-5xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold mb-4">Explore AISP</h2>
           <p className="text-neutral-400 mb-10 max-w-xl mx-auto">
@@ -247,7 +247,7 @@ export function AISP() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t border-white/10 bg-[#0b0f1a]">
+      <footer className="py-12 border-t border-white/10 bg-[#1a1a1a]">
         <div className="max-w-5xl mx-auto px-6 text-center">
           <p className="text-sm text-neutral-500 mb-2">Harvard ALM Capstone &mdash; Digital Media Design &mdash; May 2026</p>
           <p className="text-sm text-neutral-500">Bradley Ross &mdash; Creator of AISP</p>

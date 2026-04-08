@@ -13,6 +13,7 @@ import devPortfolio from './dev-portfolio.json'
 import enterpriseSaas from './enterprise-saas.json'
 import realEstate from './real-estate.json'
 import lawFirm from './law-firm.json'
+import capstone from './capstone.json'
 import type { MasterConfig } from '@/lib/schemas'
 
 export interface ExampleSite {
@@ -112,5 +113,11 @@ export const EXAMPLE_SITES: ExampleSite[] = [
     description: 'Law firm with elegant, refined design conveying authority',
     theme: 'Elegant',
     config: lawFirm as unknown as MasterConfig,
+  },
+  {
+    name: 'Hey Bradley — Capstone',
+    description: 'Research site with blog, gallery, and Don Miller storytelling — Harvard crimson palette',
+    theme: 'Elegant',
+    config: capstone as unknown as MasterConfig,
   },
 ]

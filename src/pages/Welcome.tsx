@@ -375,14 +375,14 @@ export function Welcome() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0b0f1a] text-white" role="main">
+    <main className="min-h-screen bg-[#1a1a1a] text-white" role="main">
       <MarketingNav />
 
       {/* HERO */}
       <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0b0f1a] via-[#111827] to-[#0b0f1a]" />
-        <div className="absolute top-20 right-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 left-1/4 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] via-[#242424] to-[#1a1a1a]" />
+        <div className="absolute top-20 right-1/4 w-96 h-96 bg-[#A51C30]/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 left-1/4 w-80 h-80 bg-[#A51C30]/5 rounded-full blur-3xl" />
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-white/80 text-sm font-medium mb-8">
@@ -398,7 +398,7 @@ export function Welcome() {
           >
             The whiteboard that
             <br />
-            <span className="bg-gradient-to-r from-indigo-400 to-emerald-400 bg-clip-text text-transparent">writes your specs.</span>
+            <span className="bg-gradient-to-r from-[#A51C30] to-[#d4a574] bg-clip-text text-transparent">writes your specs.</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -426,7 +426,7 @@ export function Welcome() {
       </section>
 
       {/* PROBLEM */}
-      <section className="py-24 bg-[#111827]">
+      <section className="py-24 bg-[#242424]">
         <div className="max-w-5xl mx-auto px-6">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
             <p className="text-sm font-semibold text-red-400 uppercase tracking-widest mb-4">The Problem</p>
@@ -477,19 +477,19 @@ export function Welcome() {
       </section>
 
       {/* CHAT DEMO — split panel with start button */}
-      <section className="py-20 bg-[#0b0f1a]">
+      <section className="py-20 bg-[#1a1a1a]">
         <div className="max-w-6xl mx-auto px-6">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-10">
-            <p className="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-4">See It In Action</p>
+            <p className="text-sm font-semibold text-[#A51C30] uppercase tracking-widest mb-4">See It In Action</p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-              Watch the builder <span className="text-indigo-400">respond.</span>
+              Watch the builder <span className="text-[#A51C30]">respond.</span>
             </h2>
           </motion.div>
 
-          <div className="w-full max-w-[1100px] mx-auto h-[600px] md:h-[550px] flex flex-col md:flex-row rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#0b0f1a]">
+          <div className="w-full max-w-[1100px] mx-auto h-[600px] md:h-[550px] flex flex-col md:flex-row rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#1a1a1a]">
             {/* Left — Chat */}
-            <div className="w-full md:w-[45%] flex flex-col flex-1 md:flex-none bg-[#111827]/50 min-h-0">
-              <div className="p-5 border-b border-white/10 bg-[#0b0f1a]/80">
+            <div className="w-full md:w-[45%] flex flex-col flex-1 md:flex-none bg-[#242424]/50 min-h-0">
+              <div className="p-5 border-b border-white/10 bg-[#1a1a1a]/80">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-[#A51C30] flex items-center justify-center">
@@ -546,7 +546,7 @@ export function Welcome() {
                 )}
               </div>
 
-              <div className="p-4 border-t border-white/10 bg-[#0b0f1a]/80">
+              <div className="p-4 border-t border-white/10 bg-[#1a1a1a]/80">
                 <div className="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-2.5 border border-white/10">
                   <input type="text" placeholder="Type your message..." className="flex-1 bg-transparent text-sm outline-none text-white placeholder:text-white/30" disabled />
                   <button className="p-1.5 rounded-full text-white/30" disabled><Send className="w-4 h-4" /></button>
@@ -580,7 +580,7 @@ export function Welcome() {
       </section>
 
       {/* SOLUTION */}
-      <section className="py-24 bg-[#0b0f1a]">
+      <section className="py-24 bg-[#1a1a1a]">
         <div className="max-w-5xl mx-auto px-6">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
             <p className="text-sm font-semibold text-emerald-400 uppercase tracking-widest mb-4">The Solution</p>
@@ -604,10 +604,10 @@ export function Welcome() {
       </section>
 
       {/* THREE MODES */}
-      <section className="py-24 bg-[#111827]">
+      <section className="py-24 bg-[#242424]">
         <div className="max-w-6xl mx-auto px-6">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16">
-            <p className="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-4">Three Ways to Build</p>
+            <p className="text-sm font-semibold text-[#A51C30] uppercase tracking-widest mb-4">Three Ways to Build</p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
               Listen. Chat. Build.
             </h2>
@@ -620,7 +620,7 @@ export function Welcome() {
             viewport={{ once: true }}
             className="relative rounded-3xl overflow-hidden mb-8"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-[#A51C30]/20 via-[#111827] to-[#A51C30]/10" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#A51C30]/20 via-[#242424] to-[#A51C30]/10" />
             {/* Pulsing red glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#A51C30]/15 blur-[100px] animate-pulse" />
             <div className="relative grid md:grid-cols-2 gap-8 p-10 lg:p-14 items-center">
@@ -671,8 +671,8 @@ export function Welcome() {
               </div>
               <div className="p-8">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
-                    <MessageSquare className="w-5 h-5 text-indigo-400" />
+                  <div className="w-10 h-10 rounded-full bg-[#A51C30]/20 border border-[#A51C30]/30 flex items-center justify-center">
+                    <MessageSquare className="w-5 h-5 text-[#A51C30]" />
                   </div>
                   <span className="text-lg font-bold text-white">Chat Mode</span>
                 </div>
@@ -719,7 +719,7 @@ export function Welcome() {
       </section>
 
       {/* THE INNOVATION — storytelling, no raw code */}
-      <section className="py-24 bg-[#0b0f1a]">
+      <section className="py-24 bg-[#1a1a1a]">
         <div className="max-w-5xl mx-auto px-6">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="mb-12">
             <p className="text-sm font-semibold text-purple-400 uppercase tracking-widest mb-4">The Innovation</p>
@@ -772,7 +772,7 @@ export function Welcome() {
       </section>
 
       {/* USE CASES — with images */}
-      <section className="py-24 bg-[#111827]">
+      <section className="py-24 bg-[#242424]">
         <div className="max-w-5xl mx-auto px-6">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16">
             <p className="text-sm font-semibold text-amber-400 uppercase tracking-widest mb-4">Who It Serves</p>
@@ -812,7 +812,7 @@ export function Welcome() {
       </section>
 
       {/* THEME SHOWCASE */}
-      <section className="py-24 bg-[#0b0f1a]">
+      <section className="py-24 bg-[#1a1a1a]">
         <div className="max-w-6xl mx-auto px-6">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-12">
             <p className="text-sm font-semibold text-pink-400 uppercase tracking-widest mb-4">12 Themes, 300+ Images</p>
@@ -840,7 +840,7 @@ export function Welcome() {
       </section>
 
       {/* OPEN SOURCE */}
-      <section className="py-24 bg-[#111827]">
+      <section className="py-24 bg-[#242424]">
         <div className="max-w-5xl mx-auto px-6">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16">
             <p className="text-sm font-semibold text-cyan-400 uppercase tracking-widest mb-4">Open Source</p>
@@ -881,7 +881,7 @@ export function Welcome() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 bg-gradient-to-b from-[#0b0f1a] to-[#111827]">
+      <section className="py-24 bg-gradient-to-b from-[#1a1a1a] to-[#242424]">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
             The telephone game is over.
@@ -902,7 +902,7 @@ export function Welcome() {
       </section>
 
       {/* FOOTER */}
-      <footer className="py-12 border-t border-white/10 bg-[#0b0f1a]">
+      <footer className="py-12 border-t border-white/10 bg-[#1a1a1a]">
         <div className="max-w-5xl mx-auto px-6 text-center">
           <p className="text-sm text-neutral-500 mb-2">Harvard ALM Capstone &mdash; Digital Media Design &mdash; May 2026</p>
           <p className="text-sm text-neutral-500">Bradley Ross &mdash; Creator of AISP</p>

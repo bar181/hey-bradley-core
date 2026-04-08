@@ -4,6 +4,7 @@ import { cn } from '@/lib/cn'
 import { parseChatCommand, parseMultiPartCommand, SIMULATED_REQUIREMENTS } from '@/lib/cannedChat'
 import type { SimulatedRequirement, MultiChatResult } from '@/lib/cannedChat'
 import { useConfigStore } from '@/store/configStore'
+import { EXAMPLE_SITES } from '@/data/examples'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import type { SectionType } from '@/lib/schemas'
@@ -15,7 +16,7 @@ const CHAT_EXAMPLE_CATEGORIES = [
     items: [
       'Build me a bakery website',
       'Create a SaaS landing page',
-      'Make a photography portfolio',
+      'Build a Harvard capstone research site',
     ],
   },
   {
@@ -165,6 +166,11 @@ export function ChatInput() {
         if (field && value) {
           store.applyPatch({ site: { [field]: value } }, 'llm-chat')
         }
+        break
+      }
+      case 'loadExample': {
+        const example = EXAMPLE_SITES.find((e) => e.name === arg)
+        if (example) store.loadConfig(example.config)
         break
       }
     }
