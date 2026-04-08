@@ -1,19 +1,149 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, Send, RotateCcw, FileText, Eye, Cpu, Rocket, Quote } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Sparkles, Send, RotateCcw, Mic, MessageSquare, SlidersHorizontal, Quote } from "lucide-react";
 import { MarketingNav } from "@/components/MarketingNav";
+import bradPixar from "@/assets/bradley/brad_pixar.webp";
+
+/* ── Showcase data ── */
+
+interface HeroShowcase {
+  id: number;
+  style: string;
+  title: string;
+  subtitle: string;
+  cta: string;
+  ctaSecondary: string;
+  link: string;
+  linkSecondary: string;
+  titleColor: string;
+  subtitleColor: string;
+  ctaStyle: string;
+  ctaSecondaryStyle: string;
+  backgroundImage?: string;
+  overlay?: string;
+  backgroundColor?: string;
+  gradient?: string;
+  accent?: string;
+  decorations?: boolean;
+  image?: string;
+}
+
+const INITIAL_SHOWCASE: HeroShowcase = {
+  id: -1,
+  style: "whiteboard",
+  title: "TELL BRADLEY WHAT YOU WANT. WATCH IT APPEAR.",
+  subtitle: "Your AI website builder. Just describe your dream website and watch it come to life.",
+  cta: "Get Started",
+  ctaSecondary: "Explore Builder",
+  link: "/new-project",
+  linkSecondary: "/builder",
+  gradient: "bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900",
+  titleColor: "text-white",
+  subtitleColor: "text-neutral-400",
+  ctaStyle: "bg-white text-neutral-900 hover:bg-neutral-100",
+  ctaSecondaryStyle: "bg-transparent border border-white/30 text-white hover:bg-white/10",
+};
+
+const HERO_SHOWCASES: HeroShowcase[] = [
+  {
+    id: 0,
+    style: "background-image",
+    title: "Listen Mode",
+    subtitle: "Create websites in real time as you speak",
+    cta: "Start Listening",
+    ctaSecondary: "Try Builder",
+    link: "/builder",
+    linkSecondary: "/builder",
+    backgroundImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80",
+    overlay: "bg-gradient-to-r from-black/80 via-black/60 to-black/40",
+    titleColor: "text-white",
+    subtitleColor: "text-white/80",
+    ctaStyle: "bg-white text-black hover:bg-white/90",
+    ctaSecondaryStyle: "bg-transparent border border-white/50 text-white hover:bg-white/10",
+  },
+  {
+    id: 1,
+    style: "minimal",
+    title: "Builder Mode",
+    subtitle: "For fine tuning precision",
+    cta: "Open Builder",
+    ctaSecondary: "New Project",
+    link: "/builder",
+    linkSecondary: "/new-project",
+    backgroundColor: "bg-[#fafafa]",
+    titleColor: "text-neutral-900",
+    subtitleColor: "text-neutral-500",
+    ctaStyle: "bg-neutral-900 text-white hover:bg-neutral-800",
+    ctaSecondaryStyle: "bg-transparent border border-neutral-300 text-neutral-700 hover:bg-neutral-100",
+    accent: "border-l-4 border-neutral-900",
+  },
+  {
+    id: 2,
+    style: "harvard",
+    title: "Harvard Research",
+    subtitle: "Capstone on AI First Documentation",
+    cta: "Explore Builder",
+    ctaSecondary: "New Project",
+    link: "/builder",
+    linkSecondary: "/new-project",
+    backgroundColor: "bg-[#1e1e1e]",
+    gradient: "bg-gradient-to-br from-[#A51C30] via-[#1e1e1e] to-[#1e1e1e]",
+    titleColor: "text-white",
+    subtitleColor: "text-[#A51C30]",
+    ctaStyle: "bg-[#A51C30] text-white hover:bg-[#8B1729]",
+    ctaSecondaryStyle: "bg-transparent border border-[#A51C30]/50 text-[#A51C30] hover:bg-[#A51C30]/10",
+  },
+  {
+    id: 3,
+    style: "saas",
+    title: "AI Symbolic Protocol",
+    subtitle: "Proof-based specifications with near-zero ambiguity",
+    cta: "Explore Protocol",
+    ctaSecondary: "Try Builder",
+    link: "/builder",
+    linkSecondary: "/builder",
+    gradient: "bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500",
+    titleColor: "text-white",
+    subtitleColor: "text-indigo-200",
+    ctaStyle: "bg-white text-indigo-600 hover:bg-indigo-50",
+    ctaSecondaryStyle: "bg-transparent border border-white/30 text-white hover:bg-white/10",
+    decorations: true,
+  },
+  {
+    id: 4,
+    style: "creator",
+    title: "Bradley Ross",
+    subtitle: "Creator & Visionary",
+    cta: "Get Started",
+    ctaSecondary: "New Project",
+    link: "/builder",
+    linkSecondary: "/new-project",
+    backgroundColor: "bg-white",
+    gradient: "bg-gradient-to-br from-amber-50 via-white to-rose-50",
+    titleColor: "text-neutral-800",
+    subtitleColor: "text-pink-500",
+    ctaStyle: "bg-neutral-900 text-white hover:bg-neutral-800",
+    ctaSecondaryStyle: "bg-transparent border border-neutral-300 text-neutral-700 hover:bg-neutral-100",
+    image: bradPixar,
+  },
+];
 
 const CONVERSATION = [
-  { type: "user", text: "Hey Bradley! Let's create a website that is beautiful, intuitive, and captures attention." },
-  { type: "ai", text: "Great choice! Here's a beautiful full-screen design that really pops..." },
-  { type: "user", text: "That's amazing! Can we try something more minimal and refined?" },
-  { type: "ai", text: "Of course! Here's a nice clean layout with plenty of breathing room..." },
-  { type: "user", text: "This is for an academic research project at Harvard." },
-  { type: "ai", text: "Love it! Here's a polished academic look with Harvard's classic colors..." },
-  { type: "user", text: "Can you show me something more modern and tech-forward?" },
-  { type: "ai", text: "You got it! Here's a sleek, modern look with bold colors and sharp text..." },
+  { type: "user", text: "Hey Bradley! Let's create a website that is beautiful, intuitive, and captures attention.", triggerShowcase: null },
+  { type: "ai", text: "Great choice! Here's a beautiful full-screen design that really pops...", triggerShowcase: 0 },
+  { type: "user", text: "That's amazing! Can we try something more minimal and refined?", triggerShowcase: null },
+  { type: "ai", text: "Of course! Here's a nice clean layout with plenty of breathing room...", triggerShowcase: 1 },
+  { type: "user", text: "This is for an academic research project at Harvard.", triggerShowcase: null },
+  { type: "ai", text: "Love it! Here's a polished academic look with Harvard's classic colors...", triggerShowcase: 2 },
+  { type: "user", text: "Can you show me something more modern and tech-forward?", triggerShowcase: null },
+  { type: "ai", text: "You got it! Here's a sleek, modern look with bold colors and sharp text...", triggerShowcase: 3 },
+  { type: "user", text: "I'd love to see the creator's personal touch.", triggerShowcase: null },
+  { type: "ai", text: "Here's the person behind it all. Ready to build something together?", triggerShowcase: 4 },
 ];
+
+/* ── Timeline step ── */
+
 function TimelineStep({ time, title, description, index }: { time: string; title: string; description: string; index: number }) {
   return (
     <motion.div
@@ -36,53 +166,212 @@ function TimelineStep({ time, title, description, index }: { time: string; title
     </motion.div>
   );
 }
+
+/* ── Main component ── */
+
 export function Welcome() {
-  const [displayedMessages, setDisplayedMessages] = useState<Array<{type: string; text: string; isComplete: boolean}>>([]);
+  const [displayedMessages, setDisplayedMessages] = useState<Array<{ type: string; text: string; isComplete: boolean }>>([]);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
+  const [currentShowcaseIndex, setCurrentShowcaseIndex] = useState(-1);
   const [animationKey, setAnimationKey] = useState(0);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [isRunning, setIsRunning] = useState(false);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const el = chatContainerRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
   }, [displayedMessages]);
 
   useEffect(() => {
+    if (!isRunning) return;
     if (currentMessageIndex >= CONVERSATION.length) return;
     const msg = CONVERSATION[currentMessageIndex];
     if (currentCharIndex < msg.text.length) {
       const t = setTimeout(() => {
-        setDisplayedMessages(prev => {
+        setDisplayedMessages((prev) => {
           const next = [...prev];
           if (next.length <= currentMessageIndex) {
+            if (msg.triggerShowcase !== null) setCurrentShowcaseIndex(msg.triggerShowcase);
             next.push({ type: msg.type, text: msg.text.charAt(0), isComplete: false });
           } else {
             next[currentMessageIndex] = { ...next[currentMessageIndex], text: msg.text.substring(0, currentCharIndex + 1) };
           }
           return next;
         });
-        setCurrentCharIndex(p => p + 1);
+        setCurrentCharIndex((p) => p + 1);
       }, msg.type === "user" ? 30 : 25);
       return () => clearTimeout(t);
     } else {
-      setDisplayedMessages(prev => {
+      setDisplayedMessages((prev) => {
         const next = [...prev];
         if (next[currentMessageIndex]) next[currentMessageIndex].isComplete = true;
         return next;
       });
       const t = setTimeout(() => {
-        setCurrentMessageIndex(p => p + 1);
+        setCurrentMessageIndex((p) => p + 1);
         setCurrentCharIndex(0);
       }, msg.type === "user" ? 800 : 1500);
       return () => clearTimeout(t);
     }
-  }, [currentMessageIndex, currentCharIndex, animationKey]);
+  }, [currentMessageIndex, currentCharIndex, animationKey, isRunning]);
+
+  const startAnimation = () => {
+    setDisplayedMessages([]);
+    setCurrentMessageIndex(0);
+    setCurrentCharIndex(0);
+    setCurrentShowcaseIndex(-1);
+    setAnimationKey((p) => p + 1);
+    setIsRunning(true);
+  };
 
   const resetAnimation = () => {
     setDisplayedMessages([]);
     setCurrentMessageIndex(0);
     setCurrentCharIndex(0);
-    setAnimationKey(p => p + 1);
+    setCurrentShowcaseIndex(-1);
+    setAnimationKey((p) => p + 1);
+    setIsRunning(true);
+  };
+
+  const currentShowcase: HeroShowcase = currentShowcaseIndex === -1 ? INITIAL_SHOWCASE : HERO_SHOWCASES[currentShowcaseIndex];
+
+  /* ── Showcase renderer ── */
+
+  const renderHeroShowcase = () => {
+    if (currentShowcaseIndex === -1) {
+      return (
+        <div className={`absolute inset-0 ${INITIAL_SHOWCASE.gradient} rounded-2xl overflow-hidden`}>
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 lg:p-12">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.6 }} className="mb-4">
+              <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-white/80 text-sm font-medium">
+                <Sparkles className="w-4 h-4" />
+                Your AI Website Builder
+              </span>
+            </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className={`text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight leading-tight ${INITIAL_SHOWCASE.titleColor}`}
+            >
+              {INITIAL_SHOWCASE.title}
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+              className={`text-lg lg:text-xl mt-6 max-w-lg ${INITIAL_SHOWCASE.subtitleColor}`}
+            >
+              {INITIAL_SHOWCASE.subtitle}
+            </motion.p>
+            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.8 }} className="mt-4 text-sm text-neutral-500 max-w-md">
+              No coding needed. No design skills required.
+            </motion.div>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 0.6 }} className="mt-10 flex gap-4">
+              <Link to={INITIAL_SHOWCASE.link} className={`px-8 py-4 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl ${INITIAL_SHOWCASE.ctaStyle}`}>{INITIAL_SHOWCASE.cta}</Link>
+              <Link to={INITIAL_SHOWCASE.linkSecondary} className={`px-8 py-4 rounded-xl font-semibold transition-all ${INITIAL_SHOWCASE.ctaSecondaryStyle}`}>{INITIAL_SHOWCASE.ctaSecondary}</Link>
+            </motion.div>
+          </div>
+        </div>
+      );
+    }
+
+    switch (currentShowcase.style) {
+      case "background-image":
+        return (
+          <div className="absolute inset-0 rounded-2xl overflow-hidden">
+            <img src={currentShowcase.backgroundImage} alt="" className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
+            <div className={`absolute inset-0 ${currentShowcase.overlay}`} />
+            <div className="absolute inset-0 flex flex-col items-start justify-center p-12 lg:p-16">
+              <motion.h1 initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.8 }} className={`text-5xl lg:text-7xl font-bold tracking-tight ${currentShowcase.titleColor}`}>{currentShowcase.title}</motion.h1>
+              <motion.p initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5, duration: 0.8 }} className={`text-xl lg:text-2xl mt-4 max-w-md ${currentShowcase.subtitleColor}`}>{currentShowcase.subtitle}</motion.p>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.6 }} className="mt-8 flex gap-4">
+                <Link to={currentShowcase.link} className={`px-8 py-4 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl ${currentShowcase.ctaStyle}`}>{currentShowcase.cta}</Link>
+                <Link to={currentShowcase.linkSecondary} className={`px-8 py-4 rounded-xl font-semibold transition-all ${currentShowcase.ctaSecondaryStyle}`}>{currentShowcase.ctaSecondary}</Link>
+              </motion.div>
+            </div>
+          </div>
+        );
+
+      case "minimal":
+        return (
+          <div className={`absolute inset-0 ${currentShowcase.backgroundColor} rounded-2xl overflow-hidden flex items-center justify-center`}>
+            <div className={`text-center ${currentShowcase.accent} pl-8`}>
+              <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8 }} className={`text-6xl lg:text-8xl font-extralight tracking-tight ${currentShowcase.titleColor}`}>{currentShowcase.title}</motion.h1>
+              <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.8 }} className={`text-xl lg:text-2xl mt-6 font-light ${currentShowcase.subtitleColor}`}>{currentShowcase.subtitle}</motion.p>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.6 }} className="mt-10 flex gap-4 justify-center">
+                <Link to={currentShowcase.link} className={`px-10 py-4 font-medium transition-all ${currentShowcase.ctaStyle}`}>{currentShowcase.cta}</Link>
+                <Link to={currentShowcase.linkSecondary} className={`px-10 py-4 font-medium transition-all ${currentShowcase.ctaSecondaryStyle}`}>{currentShowcase.ctaSecondary}</Link>
+              </motion.div>
+            </div>
+          </div>
+        );
+
+      case "harvard":
+        return (
+          <div className={`absolute inset-0 ${currentShowcase.gradient} rounded-2xl overflow-hidden`}>
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 lg:p-12">
+              <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2, duration: 0.6 }} className="mb-6">
+                <span className="text-[#A51C30] text-sm font-semibold tracking-[0.3em] uppercase">Harvard Capstone</span>
+              </motion.div>
+              <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.8 }} className={`text-5xl lg:text-7xl font-bold tracking-tight ${currentShowcase.titleColor}`}>{currentShowcase.title}</motion.h1>
+              <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.8 }} className={`text-2xl lg:text-3xl mt-4 font-semibold ${currentShowcase.subtitleColor}`}>{currentShowcase.subtitle}</motion.p>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.6 }} className="mt-10 flex gap-4">
+                <Link to={currentShowcase.link} className={`px-8 py-4 rounded-xl font-semibold transition-all shadow-lg ${currentShowcase.ctaStyle}`}>{currentShowcase.cta}</Link>
+                <Link to={currentShowcase.linkSecondary} className={`px-8 py-4 rounded-xl font-semibold transition-all ${currentShowcase.ctaSecondaryStyle}`}>{currentShowcase.ctaSecondary}</Link>
+              </motion.div>
+            </div>
+          </div>
+        );
+
+      case "saas":
+        return (
+          <div className={`absolute inset-0 ${currentShowcase.gradient} rounded-2xl overflow-hidden`}>
+            {currentShowcase.decorations && (
+              <>
+                <div className="absolute top-10 right-10 w-20 h-20 bg-white/10 rounded-full blur-xl" />
+                <div className="absolute bottom-20 left-20 w-32 h-32 bg-white/5 rounded-full blur-2xl" />
+                <div className="absolute top-1/2 right-1/4 w-16 h-16 bg-white/10 rounded-lg rotate-45 blur-lg" />
+              </>
+            )}
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 lg:p-12">
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.6 }} className="mb-4">
+                <span className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white text-sm">
+                  <Sparkles className="w-4 h-4" />
+                  New Protocol
+                </span>
+              </motion.div>
+              <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.8 }} className={`text-4xl lg:text-6xl font-bold tracking-tight ${currentShowcase.titleColor}`}>{currentShowcase.title}</motion.h1>
+              <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.8 }} className={`text-lg lg:text-xl mt-4 max-w-md ${currentShowcase.subtitleColor}`}>{currentShowcase.subtitle}</motion.p>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.6 }} className="mt-10 flex gap-4">
+                <Link to={currentShowcase.link} className={`px-8 py-4 rounded-xl font-semibold transition-all shadow-lg ${currentShowcase.ctaStyle}`}>{currentShowcase.cta}</Link>
+                <Link to={currentShowcase.linkSecondary} className={`px-8 py-4 rounded-xl font-semibold transition-all ${currentShowcase.ctaSecondaryStyle}`}>{currentShowcase.ctaSecondary}</Link>
+              </motion.div>
+            </div>
+          </div>
+        );
+
+      case "creator":
+        return (
+          <div className={`absolute inset-0 ${currentShowcase.gradient} rounded-2xl overflow-hidden`}>
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 lg:p-12">
+              <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2, duration: 0.8 }} className="mb-6">
+                <img src={currentShowcase.image} alt="Bradley Ross" className="w-32 h-32 lg:w-40 lg:h-40 rounded-full object-cover shadow-2xl border-4 border-white" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
+              </motion.div>
+              <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.8 }} className={`text-5xl lg:text-7xl font-bold tracking-tight ${currentShowcase.titleColor}`}>{currentShowcase.title}</motion.h1>
+              <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.8 }} className={`text-2xl lg:text-3xl mt-2 font-semibold ${currentShowcase.subtitleColor}`}>{currentShowcase.subtitle}</motion.p>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.6 }} className="mt-10 flex gap-4">
+                <Link to={currentShowcase.link} className={`px-8 py-4 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl ${currentShowcase.ctaStyle}`}>{currentShowcase.cta}</Link>
+                <Link to={currentShowcase.linkSecondary} className={`px-8 py-4 rounded-xl font-semibold transition-all ${currentShowcase.ctaSecondaryStyle}`}>{currentShowcase.ctaSecondary}</Link>
+              </motion.div>
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
   };
 
   return (
@@ -90,7 +379,7 @@ export function Welcome() {
       <MarketingNav />
 
       {/* HERO */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0b0f1a] via-[#111827] to-[#0b0f1a]" />
         <div className="absolute top-20 right-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl" />
         <div className="absolute bottom-20 left-1/4 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl" />
@@ -187,6 +476,109 @@ export function Welcome() {
         </div>
       </section>
 
+      {/* CHAT DEMO — split panel with start button */}
+      <section className="py-20 bg-[#0b0f1a]">
+        <div className="max-w-6xl mx-auto px-6">
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-10">
+            <p className="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-4">See It In Action</p>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
+              Watch the builder <span className="text-indigo-400">respond.</span>
+            </h2>
+          </motion.div>
+
+          <div className="w-full max-w-[1100px] mx-auto h-[600px] md:h-[550px] flex flex-col md:flex-row rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#0b0f1a]">
+            {/* Left — Chat */}
+            <div className="w-full md:w-[45%] flex flex-col flex-1 md:flex-none bg-[#111827]/50 min-h-0">
+              <div className="p-5 border-b border-white/10 bg-[#0b0f1a]/80">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-[#A51C30] flex items-center justify-center">
+                      <Sparkles className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <span className="font-bold text-white">Hey Bradley</span>
+                      <p className="text-xs text-white/50">Chat Demo</p>
+                    </div>
+                  </div>
+                  {isRunning && (
+                    <button type="button" onClick={resetAnimation} className="p-2 rounded-full text-white/40 hover:text-white/70 hover:bg-white/10 transition-colors" title="Restart">
+                      <RotateCcw className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <div ref={chatContainerRef} className="flex-1 p-5 overflow-y-auto relative">
+                {!isRunning && displayedMessages.length === 0 ? (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
+                    <p className="text-neutral-500 text-sm mb-6 max-w-xs">
+                      Watch a conversation with Hey Bradley. Each message triggers a new visual design on the right.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={startAnimation}
+                      className="px-10 py-5 rounded-2xl font-bold text-xl bg-[#A51C30] text-white hover:bg-[#8B1729] transition-all shadow-lg hover:shadow-2xl hover:scale-105 transform"
+                    >
+                      Start Demo
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {displayedMessages.map((message, index) => (
+                      <motion.div
+                        key={`${animationKey}-${index}`}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
+                      >
+                        <div className={`max-w-[90%] rounded-2xl px-4 py-3 ${message.type === "user" ? "bg-[#2563EB] text-white rounded-tr-sm" : "bg-[#1a1f2e] border border-white/10 rounded-tl-sm"}`}>
+                          <p className={`leading-relaxed ${message.type === "user" ? "text-base font-medium" : "text-base text-white/90"}`}>
+                            {message.text}
+                            {index === displayedMessages.length - 1 && !message.isComplete && (
+                              <motion.span animate={{ opacity: [1, 0] }} transition={{ duration: 0.5, repeat: Infinity }} className={`inline-block w-0.5 h-4 ml-1 align-middle ${message.type === "user" ? "bg-white" : "bg-[#A51C30]"}`} />
+                            )}
+                          </p>
+                        </div>
+                      </motion.div>
+                    ))}
+                    <div />
+                  </div>
+                )}
+              </div>
+
+              <div className="p-4 border-t border-white/10 bg-[#0b0f1a]/80">
+                <div className="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-2.5 border border-white/10">
+                  <input type="text" placeholder="Type your message..." className="flex-1 bg-transparent text-sm outline-none text-white placeholder:text-white/30" disabled />
+                  <button className="p-1.5 rounded-full text-white/30" disabled><Send className="w-4 h-4" /></button>
+                </div>
+              </div>
+            </div>
+
+            {/* Right — Showcase */}
+            <div className="flex-1 relative overflow-hidden bg-black/20 p-4 hidden md:block">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`${animationKey}-${currentShowcaseIndex}`}
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.02 }}
+                  transition={{ duration: 0.8, ease: "easeInOut" }}
+                  className="absolute inset-4"
+                >
+                  {renderHeroShowcase()}
+                </motion.div>
+              </AnimatePresence>
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                <button onClick={() => setCurrentShowcaseIndex(-1)} aria-label="Intro" className={`w-2 h-2 rounded-full transition-all duration-300 ${currentShowcaseIndex === -1 ? "bg-white w-6" : "bg-white/40 hover:bg-white/60"}`} />
+                {HERO_SHOWCASES.map((_, idx) => (
+                  <button key={idx} onClick={() => setCurrentShowcaseIndex(idx)} aria-label={HERO_SHOWCASES[idx].title} className={`w-2 h-2 rounded-full transition-all duration-300 ${idx === currentShowcaseIndex ? "bg-white w-6" : "bg-white/40 hover:bg-white/60"}`} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* SOLUTION */}
       <section className="py-24 bg-[#0b0f1a]">
         <div className="max-w-5xl mx-auto px-6">
@@ -211,133 +603,156 @@ export function Welcome() {
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
+      {/* THREE MODES */}
       <section className="py-24 bg-[#111827]">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-6">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16">
-            <p className="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-4">How It Works</p>
+            <p className="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-4">Three Ways to Build</p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-              Idea &rarr; See it &rarr; Spec it &rarr; Ship it
+              Listen. Chat. Build.
             </h2>
           </motion.div>
 
-          {/* 4-step cards */}
-          <div className="grid md:grid-cols-4 gap-6 mb-20">
-            {[
-              { icon: FileText, title: "Describe", desc: "Type, talk, or click. Three interaction modes. The picture in your head becomes visible in seconds.", color: "text-indigo-400", bg: "bg-indigo-500/10 border-indigo-500/20" },
-              { icon: Eye, title: "See it live", desc: "A real prototype materializes. Five seconds per change. Iterate at the speed of conversation.", color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20" },
-              { icon: Cpu, title: "Specs generated", desc: "Six enterprise documents — AISP Crystal Atoms — created automatically. Under 2% ambiguity.", color: "text-amber-400", bg: "bg-amber-500/10 border-amber-500/20" },
-              { icon: Rocket, title: "Ship it", desc: "Paste specs into any AI coding tool. One command. Built, tested, deployed. What you approved is what ships.", color: "text-pink-400", bg: "bg-pink-500/10 border-pink-500/20" },
-            ].map((step, i) => (
-              <motion.div
-                key={step.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                className={`rounded-2xl border p-8 ${step.bg}`}
-              >
-                <step.icon className={`w-8 h-8 ${step.color} mb-4`} />
-                <h3 className="text-xl font-semibold text-white mb-2">{step.title}</h3>
-                <p className="text-neutral-400 leading-relaxed text-sm">{step.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Chat animation demo */}
-          <div className="max-w-2xl mx-auto">
-            <div className="rounded-2xl border border-white/10 bg-[#0b0f1a] overflow-hidden shadow-2xl">
-              <div className="p-4 border-b border-white/10 bg-[#0b0f1a]/80 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#A51C30] flex items-center justify-center">
-                    <Sparkles className="w-5 h-5 text-white" />
+          {/* Listen Mode — hero treatment with pulsing red glow */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="relative rounded-3xl overflow-hidden mb-8"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-[#A51C30]/20 via-[#111827] to-[#A51C30]/10" />
+            {/* Pulsing red glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#A51C30]/15 blur-[100px] animate-pulse" />
+            <div className="relative grid md:grid-cols-2 gap-8 p-10 lg:p-14 items-center">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-full bg-[#A51C30]/20 border border-[#A51C30]/40 flex items-center justify-center">
+                    <Mic className="w-6 h-6 text-[#A51C30]" />
                   </div>
                   <div>
-                    <span className="font-bold text-white">Hey Bradley</span>
-                    <p className="text-xs text-white/50">Chat Demo</p>
+                    <span className="text-lg font-bold text-white">Listen Mode</span>
+                    <span className="block text-xs text-[#A51C30] font-medium uppercase tracking-wider">Unique to Hey Bradley</span>
                   </div>
                 </div>
-                <button type="button" onClick={resetAnimation} className="p-2 rounded-full text-white/40 hover:text-white/70 hover:bg-white/10 transition-colors" title="Restart animation">
-                  <RotateCcw className="w-4 h-4" />
-                </button>
+                <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4">
+                  The whiteboard that writes<br />your specs in real time.
+                </h3>
+                <p className="text-neutral-400 leading-relaxed mb-4">
+                  Start talking with your team. Hey Bradley listens and builds while you discuss.
+                  A website takes shape as you describe it&mdash;no typing, no clicks, just conversation.
+                  Enterprise-grade AISP specifications generate automatically in both machine-readable
+                  and human-readable formats.
+                </p>
+                <p className="text-neutral-500 text-sm italic">
+                  The meeting is the sprint. The whiteboard is the specification.
+                </p>
               </div>
-              <div className="h-72 overflow-y-auto p-4 space-y-3">
-                {displayedMessages.map((message, index) => (
-                  <motion.div
-                    key={`${animationKey}-${index}`}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
-                  >
-                    <div className={`max-w-[85%] rounded-2xl px-4 py-3 ${
-                      message.type === "user"
-                        ? "bg-[#2563EB] text-white rounded-tr-sm"
-                        : "bg-[#1a1f2e] border border-white/10 rounded-tl-sm"
-                    }`}>
-                      <p className={`leading-relaxed text-sm ${message.type === "user" ? "" : "text-white/90"}`}>
-                        {message.text}
-                        {index === displayedMessages.length - 1 && !message.isComplete && (
-                          <motion.span animate={{ opacity: [1, 0] }} transition={{ duration: 0.5, repeat: Infinity }} className={`inline-block w-0.5 h-4 ml-1 align-middle ${message.type === "user" ? "bg-white" : "bg-[#A51C30]"}`} />
-                        )}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
-                <div ref={messagesEndRef} />
-              </div>
-              <div className="p-4 border-t border-white/10">
-                <div className="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-3 border border-white/10">
-                  <input type="text" placeholder="Type your message..." className="flex-1 bg-transparent text-sm outline-none text-white placeholder:text-white/30" disabled />
-                  <button className="p-2 rounded-full text-white/30" disabled><Send className="w-4 h-4" /></button>
+              <div className="relative">
+                <img src="/previews/theme-startup.png" alt="Listen mode building a website in real time" className="rounded-xl border border-white/10 shadow-2xl w-full" />
+                {/* Pulsing recording indicator */}
+                <div className="absolute top-4 right-4 flex items-center gap-2 bg-black/60 backdrop-blur-sm rounded-full px-3 py-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#A51C30] animate-pulse" />
+                  <span className="text-xs text-white/80 font-medium">Listening...</span>
                 </div>
               </div>
             </div>
+          </motion.div>
+
+          {/* Chat + Builder modes side by side */}
+          <div className="grid md:grid-cols-2 gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden"
+            >
+              <div className="relative">
+                <img src="/previews/theme-saas.png" alt="Chat mode building a SaaS website" className="w-full border-b border-white/10" />
+              </div>
+              <div className="p-8">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
+                    <MessageSquare className="w-5 h-5 text-indigo-400" />
+                  </div>
+                  <span className="text-lg font-bold text-white">Chat Mode</span>
+                </div>
+                <p className="text-neutral-400 leading-relaxed text-sm mb-3">
+                  Explain your ideas in natural language. AISP agents handle intent decomposition
+                  and translation&mdash;breaking your description into design decisions and
+                  specifications automatically. The AI understands what you mean, not just what you say.
+                </p>
+                <p className="text-neutral-500 text-xs">
+                  Powered by AISP intent and decomposition agents for precise translation.
+                </p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden"
+            >
+              <div className="relative">
+                <img src="/previews/theme-creative.png" alt="Builder mode with fine-tuning controls" className="w-full border-b border-white/10" />
+              </div>
+              <div className="p-8">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+                    <SlidersHorizontal className="w-5 h-5 text-emerald-400" />
+                  </div>
+                  <span className="text-lg font-bold text-white">Builder Mode</span>
+                </div>
+                <p className="text-neutral-400 leading-relaxed text-sm mb-3">
+                  Fine-tune every detail directly. Themes, layouts, image effects, typography,
+                  colors&mdash;full visual control with no LLM required. Every change you make
+                  generates specifications in real time. What you see is exactly what gets spec&rsquo;d.
+                </p>
+                <p className="text-neutral-500 text-xs">
+                  No AI calls needed. 12 themes, 13 image effects, 300+ curated images.
+                </p>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* CRYSTAL ATOM */}
+      {/* THE INNOVATION — storytelling, no raw code */}
       <section className="py-24 bg-[#0b0f1a]">
         <div className="max-w-5xl mx-auto px-6">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="mb-12">
             <p className="text-sm font-semibold text-purple-400 uppercase tracking-widest mb-4">The Innovation</p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-              A specification language designed
-              <br />for <span className="text-purple-400">zero ambiguity.</span>
+              Why &ldquo;make it pop&rdquo; means
+              <br />something different to <span className="text-purple-400">everyone.</span>
             </h2>
-            <p className="text-lg text-neutral-400 max-w-2xl">
-              The telephone game persists because there is no language designed for this
-              particular translation. AISP Crystal Atoms change that.
-            </p>
           </motion.div>
-          <div className="grid md:grid-cols-2 gap-8 items-start">
-            {/* Code block */}
+          <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-              <pre className="bg-[#1a1d27] border border-white/10 rounded-2xl p-8 text-sm leading-relaxed font-mono overflow-x-auto">
-                <code className="text-neutral-300">
-{`// Crystal Atom — five formal components
-⟦
-  Ω := { Patient intake form with progress bar }
-  Σ := { Form:{sections:[Demographics, History,
-         Medications, Confirm]} }
-  Γ := { R1: reuse existing PatientAuth
-         R2: validate against patient_records }
-  Λ := { route:="/intake/new", db:=patients,
-         api:=POST /api/v2/intake }
-  Ε := { V1: VERIFY 4 sections render
-         V2: progress bar advances per step }
-⟧`}
-                </code>
-              </pre>
-              <div className="mt-4 flex gap-4 text-sm">
-                <span className="text-purple-400 font-medium">Ω Objective</span>
-                <span className="text-indigo-400 font-medium">Σ Structure</span>
-                <span className="text-emerald-400 font-medium">Γ Grounding</span>
-                <span className="text-amber-400 font-medium">Λ Logistics</span>
-                <span className="text-pink-400 font-medium">Ε Evaluation</span>
-              </div>
+              <p className="text-lg text-neutral-300 leading-relaxed mb-6">
+                The telephone game persists because human language is inherently ambiguous.
+                &ldquo;Add a form&rdquo; means something different to every developer who reads it.
+                Traditional specs&mdash;Jira tickets, Google Docs, even Figma annotations&mdash;still
+                leave 40&ndash;65% of implementation decisions to interpretation.
+              </p>
+              <p className="text-lg text-neutral-300 leading-relaxed mb-6">
+                AISP (AI Symbolic Protocol) is a math-first symbolic language with 512 symbols that
+                all AI architectures understand natively. Every design decision is encoded with
+                five formal components: what to build, what shape it takes, what constraints apply,
+                what values to use, and how to verify it works. <strong className="text-white">Nothing
+                left to interpret.</strong>
+              </p>
+              <p className="text-neutral-400 leading-relaxed mb-8">
+                The result: specification ambiguity drops from the industry baseline of 40&ndash;65%
+                to under 2%. Any AI coding tool&mdash;Claude Code, Cursor, Codex&mdash;executes
+                the same Crystal Atom and produces the same result. The premium is in the
+                blueprint, not the compiler.
+              </p>
+              <Link to="/open-core" className="inline-flex items-center gap-2 text-purple-400 font-medium hover:text-purple-300 transition-colors">
+                See how it works in practice <ArrowRight className="w-4 h-4" />
+              </Link>
             </motion.div>
-            {/* Comparison */}
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="space-y-6">
               <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-8 text-center">
                 <p className="text-6xl font-bold text-red-400 mb-2">50%</p>
@@ -356,7 +771,7 @@ export function Welcome() {
         </div>
       </section>
 
-      {/* USE CASES */}
+      {/* USE CASES — with images */}
       <section className="py-24 bg-[#111827]">
         <div className="max-w-5xl mx-auto px-6">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16">
@@ -368,10 +783,10 @@ export function Welcome() {
           </motion.div>
           <div className="grid md:grid-cols-2 gap-6">
             {[
-              { title: "The bakery owner", quote: "I didn't need to explain it. I could just show it.", desc: "Warm colors, photos of pastries, online ordering. Five minutes later she is looking at the website she imagined for three years." },
-              { title: "The accountant", quote: "I didn't ask permission. I just built it.", desc: "Drowning in reconciliation spreadsheets for years. Describes the dashboard he wishes existed. Specs go to an AI agent. Deployed before he leaves." },
-              { title: "The startup team", quote: "The whiteboard finally builds what we drew.", desc: "Five stakeholders on Zoom. The prototype builds while they argue. When the call ends, the specs already exist. One PR. Done before lunch." },
-              { title: "The enterprise team", quote: "Everyone is finally building the same thing.", desc: "Fifteen teams, one specification language. Typed, versioned, auditable. When compliance asks 'why was this built?' the spec is the audit trail." },
+              { title: "The bakery owner", quote: "I didn't need to explain it. I could just show it.", desc: "Warm colors, photos of pastries, online ordering. Five minutes later she is looking at the website she imagined for three years.", image: "/previews/example-bakery.png" },
+              { title: "The photographer", quote: "My portfolio finally looks the way I shoot.", desc: "Full-bleed images, minimal chrome, gallery effects. The website matches the visual standard of the work itself.", image: "/previews/example-photography.png" },
+              { title: "The startup team", quote: "The whiteboard finally builds what we drew.", desc: "Five stakeholders on Zoom. The prototype builds while they argue. When the call ends, the specs already exist. One PR. Done before lunch.", image: "/previews/example-launchpad.png" },
+              { title: "The consulting firm", quote: "Everyone is finally building the same thing.", desc: "Professional credibility in minutes. Typed specifications, versioned, auditable. When compliance asks 'why was this built?' — the spec is the audit trail.", image: "/previews/example-consulting.png" },
             ].map((card, i) => (
               <motion.div
                 key={card.title}
@@ -379,13 +794,16 @@ export function Welcome() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="bg-white/5 border border-white/10 rounded-2xl p-8"
+                className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden"
               >
-                <h3 className="text-lg font-semibold text-white mb-3">{card.title}</h3>
-                <p className="text-neutral-400 text-sm leading-relaxed mb-4">{card.desc}</p>
-                <div className="flex items-start gap-2 text-amber-400/80 text-sm italic">
-                  <Quote className="w-4 h-4 shrink-0 mt-0.5" />
-                  <span>{card.quote}</span>
+                <img src={card.image} alt={card.title} className="w-full h-40 object-cover object-top border-b border-white/10" />
+                <div className="p-6">
+                  <h3 className="text-lg font-semibold text-white mb-2">{card.title}</h3>
+                  <p className="text-neutral-400 text-sm leading-relaxed mb-3">{card.desc}</p>
+                  <div className="flex items-start gap-2 text-amber-400/80 text-sm italic">
+                    <Quote className="w-4 h-4 shrink-0 mt-0.5" />
+                    <span>{card.quote}</span>
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -393,16 +811,44 @@ export function Welcome() {
         </div>
       </section>
 
-      {/* OPEN SOURCE */}
+      {/* THEME SHOWCASE */}
       <section className="py-24 bg-[#0b0f1a]">
+        <div className="max-w-6xl mx-auto px-6">
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-12">
+            <p className="text-sm font-semibold text-pink-400 uppercase tracking-widest mb-4">12 Themes, 300+ Images</p>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
+              Start with a vision. Not a blank page.
+            </h2>
+          </motion.div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {["agency", "portfolio", "saas", "wellness", "minimalist", "creative", "startup", "professional"].map((theme, i) => (
+              <motion.div
+                key={theme}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05, duration: 0.4 }}
+                className="relative group rounded-xl overflow-hidden border border-white/10 hover:border-white/20 transition-colors"
+              >
+                <img src={`/previews/theme-${theme}.png`} alt={`${theme} theme`} className="w-full aspect-[4/3] object-cover object-top" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <span className="absolute bottom-2 left-3 text-xs font-medium text-white/80 capitalize">{theme}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* OPEN SOURCE */}
+      <section className="py-24 bg-[#111827]">
         <div className="max-w-5xl mx-auto px-6">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16">
             <p className="text-sm font-semibold text-cyan-400 uppercase tracking-widest mb-4">Open Source</p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-              Two open projects. One commercial future.
+              Two open projects. One methodology.
             </h2>
           </motion.div>
-          <div className="grid md:grid-cols-2 gap-8 mb-16">
+          <div className="grid md:grid-cols-2 gap-8">
             <motion.a
               href="https://github.com/bar181/aisp-open-core"
               target="_blank"
@@ -427,44 +873,15 @@ export function Welcome() {
               className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:border-cyan-500/40 transition-colors block"
             >
               <h3 className="text-xl font-bold text-white mb-2">Hey Bradley &mdash; The Reference Implementation</h3>
-              <p className="text-neutral-400 text-sm leading-relaxed mb-4">Visual builder that generates AISP specs from human interactions. React + TypeScript + Tailwind. 12 themes, 258+ images, 6 spec generators. MIT license.</p>
+              <p className="text-neutral-400 text-sm leading-relaxed mb-4">Visual builder that generates AISP specs from human interactions. React + TypeScript + Tailwind. 12 themes, 300+ images, 6 spec generators. MIT license.</p>
               <span className="text-cyan-400 text-sm font-medium">github.com/bar181/hey-bradley-core &rarr;</span>
             </motion.a>
-          </div>
-
-          {/* Tiers */}
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { tier: "Community", price: "Free forever", features: ["AISP spec language and validator", "Hey Bradley builder (self-hosted)", "All template variants", "6 spec generators", "Full Playwright test suite"] },
-              { tier: "Pro", price: "Coming 2026", features: ["Everything in Community", "AI-powered chat and voice", "Brownfield codebase analysis", "Custom brand assets", "Hosted version with cloud"] },
-              { tier: "Enterprise", price: "By arrangement", features: ["Everything in Pro", "Multi-user collaboration", "AISP spec versioning", "SSO and role-based access", "CI/CD integration"] },
-            ].map((t, i) => (
-              <motion.div
-                key={t.tier}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                className={`rounded-2xl p-8 border ${i === 0 ? "bg-white/5 border-white/10" : i === 1 ? "bg-indigo-500/10 border-indigo-500/30" : "bg-white/5 border-white/10"}`}
-              >
-                <h3 className="text-xl font-bold text-white mb-1">{t.tier}</h3>
-                <p className="text-sm text-neutral-400 mb-6">{t.price}</p>
-                <ul className="space-y-2">
-                  {t.features.map(f => (
-                    <li key={f} className="text-sm text-neutral-300 flex items-start gap-2">
-                      <span className="text-emerald-400 mt-0.5">&#10003;</span>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-24 bg-gradient-to-b from-[#111827] to-[#0b0f1a]">
+      <section className="py-24 bg-gradient-to-b from-[#0b0f1a] to-[#111827]">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
             The telephone game is over.
