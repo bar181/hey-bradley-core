@@ -630,5 +630,5 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
 
 // Expose store for Playwright/E2E testing in dev mode
 if (import.meta.env.DEV) {
-  ;(window as Record<string, unknown>).__configStore = useConfigStore
+  ;(window as unknown as Record<string, unknown>).__configStore = useConfigStore
 }
