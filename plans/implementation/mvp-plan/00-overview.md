@@ -143,6 +143,18 @@ A fresh user, never having used Hey Bradley, in a private browser, on a 13" lapt
 
 If any step fails, MVP is not done.
 
+## 8.1 Interactive Validation (LLM phases)
+
+Phase 18 (and Phase 19's STT addition) ship as **three small steps each**, not single pushes. The user gates every transition.
+
+| Step | What proves out | Demoable artefact |
+|---|---|---|
+| 1 | The wire — one hardcoded round trip mutates the JSON and re-renders | Test button in Settings |
+| 2 | The contract — one real user prompt with full validation + golden test | Chat input itself |
+| 3 | The depth — all starters, fallback, mutex, audit, cost cap | Full DoD per phase |
+
+If Step 1 fails (CORS, key shape, browser issue), it's solved *before* validator code is written. This is the difference between debugging a 50 LOC integration and bisecting 700 LOC of pipeline.
+
 ## 9. Operating Model
 
 ### 9.1 Cadence

@@ -94,6 +94,25 @@
 
 ## Phase 18 — Real Chat Mode (LLM → JSON Patches)
 
+### Interactive Validation Gates (each step demos to user before advancing)
+
+#### Step 1 — Wire the loop
+- [ ] Temporary test button in `LLMSettings.tsx` triggers a single hardcoded round-trip
+- [ ] Pressing it changes the hero heading to "Hello from LLM" within 8 s
+- [ ] Failure shows a one-line toast; no mutation
+- [ ] Before/after screenshots in `phase-18/session-log.md`
+
+#### Step 2 — One real user prompt
+- [ ] Test button removed; chat input drives the loop
+- [ ] Starter prompt *"Make the hero say '…'."* updates preview within 4 s p50 on Haiku
+- [ ] Full system prompt assembled (Crystal Atom + current JSON + output rule)
+- [ ] `responseParser.ts` + `patchValidator.ts` enforce envelope and path whitelist for `replace`
+- [ ] One golden Playwright test passes against mocked adapter
+- [ ] `llm_calls` row written for each call
+
+#### Step 3 — Advanced: full DoD
+- (covered by the deliverables and tests sections below)
+
 ### Deliverables
 - [ ] `src/lib/schemas/patches.ts` (`JSONPatchSchema`, `PatchEnvelopeSchema`)
 - [ ] `src/contexts/intelligence/prompts/system.ts` builds the Crystal Atom + current JSON + output rule

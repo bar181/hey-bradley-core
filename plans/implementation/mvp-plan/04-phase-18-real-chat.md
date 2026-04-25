@@ -15,6 +15,79 @@ This is the keystone of the MVP. The user explicitly said the LLM's job is "retu
 
 ---
 
+## 0. Interactive Validation — Build the Loop in Three Steps
+
+> **Directive:** do not implement Phase 18 as a single push. Stage it. Each step is a working, demonstrable end-to-end loop; later steps add depth without redesigning.
+
+### Step 1 — Wire the loop (≈ 4 hours)
+
+**Goal:** prove that *one* round trip — browser → LLM → JSON → store → re-render — actually works on this hardware, this network, this key.
+
+**Scope (kept deliberately small):**
+- Hardcoded user prompt button (e.g., a temporary **[Run Step 1 test]** button in `LLMSettings.tsx`): clicking it calls `adapter.complete()` once with a fixed system prompt and a fixed user prompt: *"Return a JSON object that replaces the hero heading text with the string 'Hello from LLM'."*
+- The system prompt is the *minimum viable* version — only `Σ` and `Γ:R1, R8` from the Crystal Atom (envelope shape + JSON-only output rule). No history, no site JSON, no site context.
+- Response is parsed with a 3-line tolerant `JSON.parse` (no Zod yet).
+- Apply directly via `configStore.applyPatches(envelope.patches)`.
+- No fallback, no validator, no audit, no cost meter.
+
+**Acceptance for Step 1:**
+- [ ] Pressing the test button changes the visible hero heading to "Hello from LLM" within 8 s.
+- [ ] On failure (network/parse) the button shows a one-line error toast; nothing is mutated.
+- [ ] One screenshot in `phase-18/session-log.md` showing before/after.
+
+**Why this matters:** if Step 1 doesn't work, nothing downstream will. It's also the smallest possible thing the user can demo to confirm "yes the LLM is driving the JSON".
+
+### Step 2 — One real user prompt end-to-end (≈ 1–2 days)
+
+**Goal:** wire the actual chat input to the same loop, with one prompt template, full validation, on a real golden test.
+
+**Scope:**
+- Remove the temporary test button. The chat input itself drives the loop.
+- One starter prompt is wired: *"Make the hero say '{your headline}'."*
+- Build out the full system prompt from `07-prompts-and-aisp.md` §1 (Crystal Atom + current JSON + output rule).
+- `responseParser.ts` Zod-validates against `PatchEnvelopeSchema`.
+- `patchValidator.ts` enforces the path whitelist for the `replace` op only.
+- One Playwright test: type the prompt → assert heading text changed.
+- Audit log row written for every call (success and failure).
+- Latency timed and recorded; expect ≤ 4 s p50 on Haiku.
+
+**Acceptance for Step 2:**
+- [ ] Typing *"Make the hero say 'Bake Joy Daily.'"* updates the preview within 4 s p50.
+- [ ] `tests/chat-real.spec.ts` golden envelope passes against a mocked adapter.
+- [ ] An invalid response shape (forced via fixture) reverts cleanly with an inline banner.
+- [ ] `llm_calls` table contains the corresponding row (status, tokens, cost).
+
+**Why this matters:** by the end of Step 2, the contract is real: prompt → patch → render is the whole product, not a bench test.
+
+### Step 3 — Advanced: full DoD (≈ 2–3 days)
+
+**Goal:** bring Phase 18 to the full Definition of Done in §5 below.
+
+**Scope (anything not in Steps 1–2):**
+- All 5 starter prompts pass golden tests (`07 §3`).
+- `add` and `remove` ops fully validated (sections + theme paths).
+- Multi-patch apply atomic; abort the whole batch on any failure.
+- Canned `cannedChat.parseChatCommand` fallback wired for parse / network / validate failures.
+- In-flight mutex (`intelligenceStore.inFlight`) prevents concurrent calls from chat or listen.
+- Cost-cap pre-check (stub from Phase 17) refuses calls above ceiling.
+- Unsafe value regex (`javascript:`, `data:text/html`, prototype-pollution path segments) rejected by validator.
+- Two negative tests in `tests/chat-fallback.spec.ts` (parse fail + network fail).
+- ADR-044 and ADR-045 merged.
+
+**Acceptance for Step 3:** every DoD item in §5 below ✓.
+
+### Staging summary
+
+| Step | What works at the end | Effort | Demo to user? |
+|---|---|---:|---|
+| 1 | One hardcoded round-trip mutates the hero | 4 h | Yes — "the wire works" |
+| 2 | One real user prompt with validation | 1–2 d | Yes — "the contract works" |
+| 3 | All 5 starters, fallback, audit, mutex | 2–3 d | Yes — "the phase is shippable" |
+
+The user gates each transition. If Step 1 reveals a CORS or key issue, we resolve it *there* — not after writing 700 lines of validator code.
+
+---
+
 ## 1. Specification (S)
 
 ### 1.1 What changes
