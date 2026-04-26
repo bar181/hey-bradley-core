@@ -206,15 +206,17 @@ export const PatchEnvelopeSchema = z.object({
 export type PatchEnvelope = z.infer<typeof PatchEnvelopeSchema>;
 ```
 
-### 3.5 Patch validation rules
+### 3.5 Patch validation rules — narrowed (April 26)
+
+For MVP the editable surface is **theme + hero + article only**. The validator imports `ALLOWED_PATHS` from `src/lib/schemas/patchPaths.ts` (single source of truth shared with the prompt builder; see `07-prompts-and-aisp.md` §5).
 
 `patchValidator.ts` rejects any patch where:
 
-- The path resolves into something outside `/sections/...` or `/theme/...` or top-level whitelisted keys (`/page`, `/version`, `/siteContext/*`).
-- An `add` to `/sections/-` (append) carries an unknown `type`.
-- A `replace` writes a value whose Zod section schema fails.
-- A `remove` references an ID that does not exist.
-- A patch path includes script tags or any `javascript:` URL in a string value.
+- The op is anything other than `replace`. (MVP allows `replace` only; `add` and `remove` are deferred to post-MVP and would re-open shape changes.)
+- The path is not in `ALLOWED_PATHS` (≈ 18 specific paths).
+- A path segment contains `__proto__`, `constructor`, or `prototype` (prototype-pollution guard).
+- The new value, if a string, matches `/(javascript:|data:text\/html|vbscript:|<script|on\w+=)/i` (XSS guard).
+- The new value, if applied, would cause the per-path Zod schema to fail (e.g. `/sections/0/content/heading/level` must be 1..6).
 
 Failure → return list of reasons → caller falls back to canned reply.
 

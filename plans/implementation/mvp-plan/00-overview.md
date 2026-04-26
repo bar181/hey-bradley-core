@@ -219,6 +219,20 @@ Standard agent set per phase:
 
 ## 12. Out of Scope (explicit)
 
+### 12.1 Narrowed editable surface (April 26 update)
+
+For MVP only **three things are user-editable through chat / listen**:
+
+1. **Theme** — colors (6 slots), heading + body font, base spacing scale.
+2. **Hero section** — heading text + level, subheading, CTA (text + URL), background, layout variant.
+3. **Article page** — single-page blog/article with title, body, author, hero image, background.
+
+Everything else (other section types, multi-page authoring, advanced layout knobs, image effects beyond the basic background) is **read-only in the LLM pipeline** for MVP. The Kitchen Sink example still exists as a *developer-facing* reference, but the novice path only sees the three editable surfaces above.
+
+This narrowing is what makes the patch validator and prompt feasible at Step 2 of Phase 18 — the path whitelist drops from "everything under /sections" to roughly **15 paths** (see `07-prompts-and-aisp.md` §5). It also means the canonical end-to-end demo is the **blog-style page** built from the Hero + Article sections.
+
+Out of scope (continued):
+
 - Auth, accounts, cloud sync, sharing
 - Multi-user collaboration
 - Server-side anything

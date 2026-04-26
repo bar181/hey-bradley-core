@@ -116,19 +116,21 @@ The router that picks 2.1/2.2/2.3/2.4 is a **simple switch**. No heuristics, no 
 
 ---
 
-## 3. Five Starter Prompts (user-facing)
+## 3. Five Starter Prompts (user-facing) — narrowed to theme + hero + article (April 26)
 
-These appear in the lightbulb dialog as one-tap examples for novices. Each was chosen because it produces a clean 1–3-patch result.
+These appear in the lightbulb dialog as one-tap examples for novices. Each was chosen because it produces a clean 1–3-patch result *within the narrowed editable surface* (theme, hero, article only).
 
 | # | Prompt | Expected patch shape |
 |---|---|---|
 | 1 | *Make the hero say "Bake Joy Daily."* | `replace /sections/0/content/heading/text "Bake Joy Daily."` |
-| 2 | *Add a pricing section with three plans.* | `add /sections/- {…full pricing section…}` |
-| 3 | *Change the accent color to forest green.* | `replace /theme/colors/accent "#14532d"` |
-| 4 | *Remove the testimonials section.* | `remove /sections/<idx-of-testimonials>` |
-| 5 | *Make this site for a Brooklyn bakery.* | up to 3: replace `/siteContext/purpose`, `/siteContext/audience`, `/theme/colors/accent` |
+| 2 | *Change the accent color to forest green.* | `replace /theme/colors/accent "#14532d"` |
+| 3 | *Use a serif font for headings.* | `replace /theme/fonts/heading "Instrument Serif"` |
+| 4 | *Make the hero subheading say "Fresh from our oven."* | `replace /sections/0/content/subheading "Fresh from our oven."` |
+| 5 | *Write a short blog article about sourdough bread.* | up to 4 replaces against the article section: `/content/title`, `/content/body`, `/content/author`, `/content/heroImage` |
 
 Each starter has a recorded "golden" expected envelope used as a unit test in `tests/chat-real.spec.ts`.
+
+> Add/remove of sections is **out of scope for MVP**. The site shape (one hero + one article + footer) is fixed by the starter example. Post-MVP re-opens add/remove via the same envelope.
 
 ---
 
@@ -158,25 +160,42 @@ If a third example is enabled later, prefer one with `remove` to balance op cove
 
 ---
 
-## 5. Path Whitelist (validator-side)
+## 5. Path Whitelist (validator-side) — narrowed to theme + hero + article
 
-The patch validator (Phase 18) enforces that every patch path matches one of:
+The patch validator (Phase 18) enforces that every patch path matches one of these. **`replace` is the only allowed op for MVP. `add` and `remove` are deferred post-MVP.**
 
 ```
-/page
-/version
-/sections                         (only as /sections/- with op=add)
-/sections/{n}                     (op in {replace, remove})
-/sections/{n}/content/**          (op in {add, replace, remove})
-/sections/{n}/layout/**           (op in {add, replace, remove})
-/sections/{n}/style/**            (op in {add, replace, remove})
-/theme/**                         (op in {add, replace, remove})
-/siteContext/purpose              (op in {add, replace})
-/siteContext/audience             (op in {add, replace})
-/siteContext/tone                 (op in {add, replace})
+# Theme (fully editable)
+/theme/colors/{primary,secondary,accent,background,foreground,muted}
+/theme/fonts/{heading,body}
+/theme/spacing/{xs,sm,md,lg,xl}
+/theme/radius
+
+# Hero section — fixed at /sections/0 in the starter examples
+/sections/0/content/heading/text
+/sections/0/content/heading/level
+/sections/0/content/subheading
+/sections/0/content/cta/text
+/sections/0/content/cta/url
+/sections/0/style/background
+/sections/0/layout/variant
+
+# Article section — referenced by id "article-01" in the starter examples
+/sections/<article-idx>/content/title
+/sections/<article-idx>/content/body
+/sections/<article-idx>/content/author
+/sections/<article-idx>/content/heroImage
+/sections/<article-idx>/style/background
+
+# Site context (lightly editable)
+/siteContext/purpose
+/siteContext/audience
+/siteContext/tone
 ```
 
-`{n}` is bounded by current section count + 1. Anything else is rejected before apply.
+The validator computes `<article-idx>` by scanning the current JSON for the section with `id == "article-01"`. Anything else is rejected before apply.
+
+This whitelist is the **single source of truth**. It lives in code at `src/lib/schemas/patchPaths.ts` (Phase 18 §3.2) and is template-injected into the system prompt; both prompt builder and validator import the same exported array. No drift.
 
 ---
 

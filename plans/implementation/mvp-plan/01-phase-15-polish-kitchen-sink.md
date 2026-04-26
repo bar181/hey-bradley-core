@@ -13,18 +13,23 @@
 
 This phase is **subtractive**. We are removing complexity, not adding features. The two new things — Kitchen Sink and Blog Page — exist because the user explicitly requested them. Everything else is polish, fixes, and simplification.
 
+> **Scope alignment with the narrowed MVP (April 26):** the editable surface for chat/listen is **theme + hero + article only** (see `00-overview.md` §12.1). DRAFT mode therefore hides every section editor *except* hero + article + footer (footer kept so the page has a bottom). Kitchen Sink remains as a *developer-facing* reference accessed only from EXPERT.
+
 ---
 
 ## 1. Specification (S)
 
 ### 1.1 What changes
 
-1. **Kitchen Sink example** is added to `src/data/examples/`. It is one site config that includes every section type and every variant we currently render, used as a regression-canary and a reference page. (`ADR-038`)
-2. **Standard Blog Page** example is added — a single-page demo of the existing `blog` section type plus three short posts inline. Not a multi-page editor; just a pre-built blog landing. (`ADR-039`)
-3. **Novice simplification pass.** In DRAFT mode the left panel hides any control whose label uses tech jargon (e.g., "Variant", "Layout Schema", "Slot Token"). They remain accessible in EXPERT mode unchanged.
-4. **Stage-1 DoD fixes.** Close the 12 outstanding items from `master-backlog.md` Stage 1: AISP A+ fix, 6 spec generators present, image picker 200+, console scrub, design-lock toggle, etc.
-5. **Branch name renames** in DRAFT to plain English: e.g., "Inspector" → "Edit", "Variant" → "Style", "Section Registry" → not shown in DRAFT.
-6. **No new section types**, no new themes, no new effects. Polish only.
+1. **Kitchen Sink example** is added to `src/data/examples/`. Used by developers as a regression canary; **not** shown in DRAFT-mode onboarding. (`ADR-038`)
+2. **Standard Blog Page** example is added (`blog-standard.json`) — Hero + Article + Footer. This is the canonical novice starter and the end-to-end LLM-loop demo. (`ADR-039`)
+3. **Novice simplification (aggressive).** In DRAFT mode:
+   - Left panel shows editors for **only** the section types in the narrowed surface (hero, article, footer-as-decoration). All other section editors are hidden.
+   - Center tabs in DRAFT collapse from 5 to **2**: Reality (preview) and Data (read-only JSON view). Blueprints/Resources/Pipeline are EXPERT-only.
+   - Top-bar control budget: ≤ 6 interactive elements (logo, mode toggle, save, export, settings, theme picker). No more.
+4. **Stage-1 DoD fixes.** Close outstanding Stage-1 items in `master-backlog.md` *that fall inside the narrowed scope* (AISP polish, console scrub, design-lock toggle, persona-rubric authored). Items outside scope are moved to `deferred-features.md`.
+5. **Plain-English labels in DRAFT.** "Inspector" → "Edit", "Variant" → "Style", "Section Registry" not shown in DRAFT, "Schema/Slot/Token" not shown.
+6. **No new section types**, no new themes, no new effects.
 
 ### 1.2 What does **not** change
 
