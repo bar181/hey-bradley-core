@@ -26,12 +26,23 @@ let warnedNoLocks = false;
 //    BroadcastChannel('hb-db'). Peers mark their singleton stale; the NEXT
 //    `getDB()` re-hydrates from IndexedDB. The current call is never blocked.
 // 3. Browsers without `navigator.locks` skip the lock with a one-time DEV warn.
-const channel: BroadcastChannel | null =
-  typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel(CHANNEL_NAME) : null;
-if (channel) {
-  channel.onmessage = (e: MessageEvent<{ type?: string }>) => {
+
+let channelInstance: BroadcastChannel | null = null;
+
+/**
+ * Lazily create (or return) the BroadcastChannel. After `closeDB()` /
+ * `closeBroadcastChannel()` clears it, the next call rebuilds it so cross-tab
+ * invalidation continues to work post-import.
+ */
+function getChannel(): BroadcastChannel | null {
+  if (channelInstance) return channelInstance;
+  if (typeof BroadcastChannel === 'undefined') return null;
+  const ch = new BroadcastChannel(CHANNEL_NAME);
+  ch.onmessage = (e: MessageEvent<{ type?: string }>) => {
     if (e.data?.type === INVALIDATE_MSG) isStale = true;
   };
+  channelInstance = ch;
+  return ch;
 }
 
 /**
@@ -66,6 +77,9 @@ export async function initDB(): Promise<Database> {
     await runMigrations(db);
 
     dbInstance = db;
+    // Re-register the BroadcastChannel listener on every fresh init so peers
+    // continue to invalidate this tab after closeDB() / import flows.
+    getChannel();
     return db;
   })();
 
@@ -107,7 +121,7 @@ export async function persist(): Promise<void> {
   const flush = async (): Promise<void> => {
     const bytes = dbInstance!.export();
     await idbSet(IDB_KEY, bytes);
-    channel?.postMessage({ type: INVALIDATE_MSG });
+    getChannel()?.postMessage({ type: INVALIDATE_MSG });
   };
   if ('locks' in navigator) {
     await navigator.locks.request(LOCK_NAME, { mode: 'exclusive' }, flush);
@@ -122,7 +136,8 @@ export async function persist(): Promise<void> {
 
 /** Close the BroadcastChannel; call from unload paths or test teardown. */
 export function closeBroadcastChannel(): void {
-  channel?.close();
+  channelInstance?.close();
+  channelInstance = null;
 }
 
 /**
@@ -135,4 +150,33 @@ export async function closeDB(): Promise<void> {
   dbInstance = null;
   SQL = null;
   closeBroadcastChannel();
+}
+
+/**
+ * Build a sanitized clone of the live DB for export.
+ * Caller is responsible for closing the returned Database.
+ */
+export async function cloneDBForExport(): Promise<Database> {
+  if (!dbInstance) {
+    throw new Error('[persistence] cloneDBForExport() called before initDB() resolved');
+  }
+  if (!SQL) {
+    throw new Error('[persistence] cloneDBForExport() called without SQL runtime');
+  }
+  const bytes = dbInstance.export();
+  return new SQL.Database(bytes);
+}
+
+/**
+ * Load arbitrary bytes into a throwaway sql.js Database (e.g. to inspect
+ * an imported bundle's schema_version). Caller must close().
+ */
+export async function loadDBFromBytes(bytes: Uint8Array): Promise<Database> {
+  if (!SQL) {
+    // SQL is initialized as a side-effect of initDB(); fall back to a fresh
+    // load when called outside that flow.
+    await initDB();
+  }
+  if (!SQL) throw new Error('[persistence] sql.js runtime unavailable');
+  return new SQL.Database(bytes);
 }

@@ -2,6 +2,7 @@
 // Spec: plans/implementation/mvp-plan/02-phase-16-local-db.md §3.4 (schema), §4 (refinement).
 // Decision record: docs/adr/ADR-041-schema-versioning.md (pre-migration snapshot strategy).
 
+import type { Database } from 'sql.js';
 import { getDB, persist } from '../db';
 
 const BACKUP_KEY = 'pre_migration_backup';
@@ -60,16 +61,40 @@ function b64ToBytes(s: string): Uint8Array {
   return Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
 }
 
-export async function snapshotPreMigration(): Promise<void> {
-  const bytes = getDB().export();
+function tableExists(db: Database, name: string): boolean {
+  try {
+    const stmt = db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name = ?");
+    try {
+      stmt.bind([name]);
+      return stmt.step();
+    } finally {
+      stmt.free();
+    }
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Snapshot the current DB bytes into kv['pre_migration_backup'] BEFORE a
+ * migration runs. Accepts an optional Database so it can be invoked from
+ * `runMigrations` (which runs before `getDB()` is wired). When `kv` does
+ * not yet exist (very first init), this is a no-op.
+ */
+export async function snapshotPreMigration(db?: Database): Promise<void> {
+  const target = db ?? getDB();
+  if (!tableExists(target, 'kv')) return;
+  const bytes = target.export();
   const encoded = bytesToB64(bytes);
-  const stmt = getDB().prepare('INSERT OR REPLACE INTO kv (k, v) VALUES (?, ?)');
+  const stmt = target.prepare('INSERT OR REPLACE INTO kv (k, v) VALUES (?, ?)');
   try {
     stmt.run([BACKUP_KEY, encoded]);
   } finally {
     stmt.free();
   }
-  await persist();
+  // Only flush to IndexedDB when running through the singleton; raw-db calls
+  // come from initDB before dbInstance is set, where persist() would throw.
+  if (!db) await persist();
 }
 
 export async function restorePreMigration(): Promise<Uint8Array | null> {
@@ -77,6 +102,16 @@ export async function restorePreMigration(): Promise<Uint8Array | null> {
   return encoded ? b64ToBytes(encoded) : null;
 }
 
-export function clearPreMigration(): void {
+export function clearPreMigration(db?: Database): void {
+  if (db) {
+    if (!tableExists(db, 'kv')) return;
+    const stmt = db.prepare('DELETE FROM kv WHERE k = ?');
+    try {
+      stmt.run([BACKUP_KEY]);
+    } finally {
+      stmt.free();
+    }
+    return;
+  }
   kvDelete(BACKUP_KEY);
 }

@@ -9,6 +9,11 @@ import {
   type ProjectRow,
 } from '@/contexts/persistence/repositories/projects'
 import { kvGet, kvSet } from '@/contexts/persistence/repositories/kv'
+import {
+  exportProject as bundleExportProject,
+  importBundle,
+  downloadBundle,
+} from '@/contexts/persistence/exportImport'
 import { useConfigStore } from '@/store/configStore'
 
 // ---------------------------------------------------------------------------
@@ -31,9 +36,10 @@ interface ProjectStore {
   loadProject: (slug: string) => MasterConfig | null
   deleteProject: (slug: string) => void
   listProjects: () => ProjectMeta[]
-  exportProject: (config: MasterConfig, name: string) => void
-  importProject: (file: File) => Promise<MasterConfig>
+  exportProject: (slug: string) => Promise<void>
+  importProject: (file: File) => Promise<void>
   refreshList: () => void
+  hydrateLastProjectAfterDB: () => Promise<void>
 }
 
 const LAST_PROJECT_KEY = 'lastProjectId'
@@ -92,32 +98,34 @@ function readInitialActive(): string | null {
   }
 }
 
-function hydrateLastProject(slug: string | null): void {
-  if (!slug) return
-  try {
-    const row = repoGet(slug)
-    if (!row) return
-    const parsed = JSON.parse(row.config_json) as unknown
-    const validated = masterConfigSchema.parse(parsed)
-    useConfigStore.getState().loadConfig(validated)
-  } catch {
-    // Bad row — leave configStore at defaults.
-  }
-}
-
 // ---------------------------------------------------------------------------
 // Store
 // ---------------------------------------------------------------------------
 
-const initialActive = readInitialActive()
-hydrateLastProject(initialActive)
-
 export const useProjectStore = create<ProjectStore>((set, get) => ({
-  projects: readProjectList(),
-  activeProject: initialActive,
+  // Hydration is deferred until after initDB() resolves; main.tsx invokes
+  // hydrateLastProjectAfterDB() at boot. Until then, lists are empty and
+  // activeProject is null — safe defaults that won't crash the UI.
+  projects: [],
+  activeProject: null,
 
   refreshList: () => {
     set({ projects: readProjectList() })
+  },
+
+  hydrateLastProjectAfterDB: async () => {
+    const slug = readInitialActive()
+    set({ projects: readProjectList(), activeProject: slug })
+    if (!slug) return
+    try {
+      const row = repoGet(slug)
+      if (!row) return
+      const parsed = JSON.parse(row.config_json) as unknown
+      const validated = masterConfigSchema.parse(parsed)
+      useConfigStore.getState().loadConfig(validated)
+    } catch {
+      // Bad row — leave configStore at defaults.
+    }
   },
 
   saveProject: (name, config) => {
@@ -154,39 +162,34 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
     return get().projects
   },
 
-  exportProject: (config, name) => {
-    const json = JSON.stringify(config, null, 2)
-    const blob = new Blob([json], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-
-    const slug = toSlug(name)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `${slug}.hey-bradley.json`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
+  exportProject: async (slug) => {
+    const row = repoGet(slug)
+    if (!row) return
+    const blob = await bundleExportProject(slug)
+    await downloadBundle(blob, `${slug}.heybradley`)
   },
 
   importProject: async (file) => {
-    return new Promise<MasterConfig>((resolve, reject) => {
-      const reader = new FileReader()
-      reader.onload = () => {
-        try {
-          const text = reader.result as string
-          const parsed = JSON.parse(text)
+    await importBundle(file)
+    // Refresh the list and re-hydrate the active project from the freshly
+    // imported DB so the UI reflects the new state.
+    set({ projects: readProjectList() })
+    const slug = readInitialActive()
+    set({ activeProject: slug })
+    if (slug) {
+      try {
+        const row = repoGet(slug)
+        if (row) {
+          const parsed = JSON.parse(row.config_json) as unknown
           const validated = masterConfigSchema.parse(parsed)
-          resolve(validated)
-        } catch {
-          reject(new Error('Invalid project file. The JSON could not be validated.'))
+          useConfigStore.getState().loadConfig(validated)
+          // Re-persist via repoUpsert is unnecessary — the imported DB
+          // already contains the row.
         }
+      } catch {
+        // Tolerate validation failures; UI keeps current config.
       }
-      reader.onerror = () => {
-        reject(new Error('Failed to read the file.'))
-      }
-      reader.readAsText(file)
-    })
+    }
   },
 }))
 

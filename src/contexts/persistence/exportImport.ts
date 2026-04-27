@@ -4,13 +4,20 @@
 
 import JSZip from 'jszip';
 import { set as idbSet } from 'idb-keyval';
-import { closeBroadcastChannel, getDB, initDB } from './db';
-import { runMigrations } from './migrations';
+import { cloneDBForExport, closeDB, initDB, loadDBFromBytes } from './db';
+import { knownMigrationCount, runMigrations } from './migrations';
 import { getProject, listProjects, upsertProject, type ProjectRow } from './repositories/projects';
+
+// Re-export the JSZip ctor so test/dev code can reach it without re-resolving
+// the bare specifier (Vite pre-bundles only modules referenced from source).
+export { default as JSZip } from 'jszip';
 
 const IDB_KEY = 'hb-db';
 const ZIP_TYPE = 'application/zip';
 const SQLITE_HEADER = [0x53, 0x51, 0x4c, 0x69, 0x74, 0x65, 0x20, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x74, 0x20, 0x33, 0x00];
+
+// kv keys that must NEVER ship inside an exported bundle.
+export const SENSITIVE_KV_KEYS = new Set<string>(['byok_key', 'pre_migration_backup']);
 
 export class ImportBundleError extends Error {
   constructor(message: string) {
@@ -34,10 +41,30 @@ function rowToJson(r: ProjectRow): ProjectJsonSingle {
   return { id: r.id, name: r.name, config, created_at: r.created_at, updated_at: r.updated_at };
 }
 
+/**
+ * Produce sanitized DB bytes for export. Strips SENSITIVE_KV_KEYS from a
+ * temporary clone, exports it, and discards the clone.
+ */
+async function exportSanitizedDBBytes(): Promise<Uint8Array> {
+  const clone = await cloneDBForExport();
+  try {
+    const placeholders = Array.from(SENSITIVE_KV_KEYS).map(() => '?').join(', ');
+    const stmt = clone.prepare(`DELETE FROM kv WHERE k IN (${placeholders})`);
+    try {
+      stmt.run(Array.from(SENSITIVE_KV_KEYS));
+    } finally {
+      stmt.free();
+    }
+    return clone.export();
+  } finally {
+    clone.close();
+  }
+}
+
 async function buildZip(projectPayload: ProjectJsonSingle | ProjectJsonMany): Promise<Blob> {
   const zip = new JSZip();
   zip.file('project.json', JSON.stringify(projectPayload, null, 2));
-  zip.file('db.sqlite', getDB().export());
+  zip.file('db.sqlite', await exportSanitizedDBBytes());
   const ab = await zip.generateAsync({ type: 'arraybuffer' });
   return new Blob([ab], { type: ZIP_TYPE });
 }
@@ -59,6 +86,18 @@ function isSqliteFile(bytes: Uint8Array): boolean {
     if (bytes[i] !== SQLITE_HEADER[i]) return false;
   }
   return true;
+}
+
+async function readSchemaVersionFromBytes(bytes: Uint8Array): Promise<number> {
+  const db = await loadDBFromBytes(bytes);
+  try {
+    const res = db.exec('SELECT version FROM schema_version LIMIT 1');
+    if (!res.length || !res[0].values.length) return 0;
+    const v = res[0].values[0][0];
+    return typeof v === 'number' ? v : 0;
+  } finally {
+    db.close();
+  }
 }
 
 function isProjectJsonMany(v: unknown): v is ProjectJsonMany {
@@ -84,7 +123,17 @@ export async function importBundle(file: File | Blob): Promise<{ projectsImporte
   if (dbEntry) {
     const bytes = new Uint8Array(await dbEntry.async('arraybuffer'));
     if (!isSqliteFile(bytes)) throw new ImportBundleError('db.sqlite has invalid SQLite header');
-    closeBroadcastChannel();
+
+    // Reject bundles whose schema version is newer than what this build knows.
+    const importedVersion = await readSchemaVersionFromBytes(bytes);
+    const maxKnown = knownMigrationCount();
+    if (importedVersion > maxKnown) {
+      throw new ImportBundleError('Imported DB schema is newer than this build');
+    }
+
+    // Drop the singleton (and its BroadcastChannel) so initDB() will re-load
+    // from the freshly-written IDB bytes instead of returning the stale cache.
+    await closeDB();
     await idbSet(IDB_KEY, bytes);
     const db = await initDB();
     await runMigrations(db);

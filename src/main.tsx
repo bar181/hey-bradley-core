@@ -14,6 +14,7 @@ import { NotFound } from '@/pages/NotFound'
 import { initDB } from '@/contexts/persistence/db'
 import { migrateLegacyLocalStorage } from '@/contexts/persistence/legacyMigration'
 import { setupAutosave } from '@/contexts/persistence/autosave'
+import { useProjectStore } from '@/store/projectStore'
 import './index.css'
 
 function ScrollToTop() {
@@ -28,10 +29,11 @@ const root = createRoot(rootEl)
 root.render(<div>Loading…</div>)
 
 initDB()
-  .then(() => {
+  .then(async () => {
     const { migrated } = migrateLegacyLocalStorage()
     if (import.meta.env.DEV && migrated > 0) console.info(`[persistence] migrated ${migrated} legacy projects`)
     setupAutosave()
+    await useProjectStore.getState().hydrateLastProjectAfterDB()
     root.render(
       <StrictMode>
         <BrowserRouter>
