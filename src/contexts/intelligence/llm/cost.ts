@@ -24,3 +24,16 @@ export function usd(model: string, inTokens: number, outTokens: number): number 
 export function estimateTokens(text: string): number {
   return Math.ceil(text.length / 4);
 }
+
+/**
+ * Conservative upper-bound projected USD for a single call. Used by
+ * auditedComplete's pre-call cap check (P18 Step 2) to refuse calls that
+ * would push the session over the cap. Unknown models return 0 (free).
+ */
+export function estimateMaxCostForModel(
+  model: string,
+  inTokens: number,
+  outTokensMax = 1024,
+): number {
+  return usd(model, inTokens, outTokensMax);
+}

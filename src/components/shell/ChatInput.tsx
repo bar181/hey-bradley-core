@@ -4,12 +4,18 @@ import { cn } from '@/lib/cn'
 import { parseChatCommand, parseMultiPartCommand, SIMULATED_REQUIREMENTS } from '@/lib/cannedChat'
 import type { SimulatedRequirement, MultiChatResult } from '@/lib/cannedChat'
 import { useConfigStore } from '@/store/configStore'
+import { useIntelligenceStore } from '@/store/intelligenceStore'
 import { useUIStore } from '@/store/uiStore'
 import { EXAMPLE_SITES } from '@/data/examples'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ChatExplainer } from '@/components/shell/ChatExplainer'
-import type { SectionType } from '@/lib/schemas'
+import type { SectionType, MasterConfig } from '@/lib/schemas'
+import { buildSystemPrompt } from '@/contexts/intelligence/prompts/system'
+import { parseResponse } from '@/contexts/intelligence/llm/responseParser'
+import { validatePatches } from '@/contexts/intelligence/llm/patchValidator'
+import { applyPatches } from '@/contexts/intelligence/applyPatches'
+import { auditedComplete } from '@/contexts/intelligence/llm/auditedComplete'
 
 /* ── Chat examples for the dialog ── */
 const CHAT_EXAMPLE_CATEGORIES = [
@@ -208,6 +214,52 @@ export function ChatInput() {
     [executeAction]
   )
 
+  const runCannedFallback = useCallback((text: string) => {
+    const multiResult = parseMultiPartCommand(text)
+    if (multiResult) {
+      executeMultiPart(multiResult)
+      return
+    }
+    const result = parseChatCommand(text)
+    if (result.action) executeAction(result.action)
+    setTypingText('')
+    setTypingFull(result.response)
+  }, [executeMultiPart, executeAction])
+
+  /**
+   * Primary path (Phase 18 Step 2): build system prompt, call adapter
+   * (FixtureAdapter in DEV), parse + validate + apply. Any failure mode
+   * routes silently to the canned fallback so demos never break.
+   */
+  const runLLMPipeline = useCallback(async (text: string): Promise<boolean> => {
+    const adapter = useIntelligenceStore.getState().adapter
+    if (!adapter) return false
+    const configState = useConfigStore.getState()
+    const systemPrompt = buildSystemPrompt({
+      configJson: configState.config,
+      history: messages.slice(-6).map((m) => ({ role: m.role, text: m.text })),
+    })
+    // P18 Step 2 (A4): every chat call MUST go through auditedComplete so the
+    // cost-cap pre-check fires and an llm_calls audit row is written. Calling
+    // adapter.complete directly bypasses both — do not regress this.
+    const res = await auditedComplete(adapter, { systemPrompt, userPrompt: text }, { source: 'chat' })
+    if (!res.ok) return false
+    const parsed = parseResponse(res.json)
+    if (!parsed.ok) return false
+    const errs = validatePatches(parsed.envelope.patches, configState.config)
+    if (errs.length > 0) return false
+    let next: MasterConfig
+    try {
+      next = applyPatches(configState.config, parsed.envelope.patches) as MasterConfig
+    } catch {
+      return false
+    }
+    useConfigStore.setState({ config: next, isDirty: true })
+    setTypingText('')
+    setTypingFull(parsed.envelope.summary ?? 'Done.')
+    return true
+  }, [messages])
+
   const handleSend = () => {
     const text = input.trim()
     if (!text || isProcessing) return
@@ -217,19 +269,12 @@ export function ChatInput() {
     setIsProcessing(true)
 
     setTimeout(() => {
-      // Try multi-part parsing first
-      const multiResult = parseMultiPartCommand(text)
-      if (multiResult) {
-        executeMultiPart(multiResult)
-        return
-      }
-
-      // Fall back to single command
-      const result = parseChatCommand(text)
-      if (result.action) executeAction(result.action)
-      // Start typewriter
-      setTypingText('')
-      setTypingFull(result.response)
+      // Primary: full LLM pipeline against the active adapter (FixtureAdapter
+      // in DEV). On any failure (parse / validate / apply / no-fixture-match)
+      // fall back silently to the canned chat command parser.
+      void runLLMPipeline(text).then((ok) => {
+        if (!ok) runCannedFallback(text)
+      }).catch(() => runCannedFallback(text))
     }, 400)
   }
 
@@ -355,15 +400,9 @@ export function ChatInput() {
                             addUserMessage(item)
                             setIsProcessing(true)
                             setTimeout(() => {
-                              const multiResult = parseMultiPartCommand(item)
-                              if (multiResult) {
-                                executeMultiPart(multiResult)
-                                return
-                              }
-                              const result = parseChatCommand(item)
-                              if (result.action) executeAction(result.action)
-                              setTypingText('')
-                              setTypingFull(result.response)
+                              void runLLMPipeline(item).then((ok) => {
+                                if (!ok) runCannedFallback(item)
+                              }).catch(() => runCannedFallback(item))
                             }, 400)
                           }, 50)
                         }}

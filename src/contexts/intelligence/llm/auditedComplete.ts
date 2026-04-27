@@ -10,10 +10,16 @@ import { recordLLMCall, type LLMCallStatus } from '@/contexts/persistence/reposi
 import { activeSession, startSession } from '@/contexts/persistence/repositories/sessions';
 import { useProjectStore } from '@/store/projectStore';
 import { redactKeyShapes } from './keys';
+import { estimateTokens, estimateMaxCostForModel } from './cost';
 
 const DEFAULT_CAP_USD = 1.0;
 const MIN_CAP_USD = 0.10;
 const MAX_CAP_USD = 20.0;
+// Per-call wall-clock ceiling. Real adapters set their own timeouts but this
+// is the last-line safety net so a hung adapter cannot wedge the chat.
+const CALL_TIMEOUT_MS = 30_000;
+// Conservative output-token upper bound for projected-cost math.
+const PROJECTED_OUT_TOKENS_MAX = 1024;
 
 function getCapUsd(): number {
   const env = (import.meta as { env?: Record<string, string | undefined> }).env ?? {};
@@ -47,13 +53,27 @@ export async function auditedComplete(
   const store = useIntelligenceStore.getState();
   const cap = getCapUsd();
 
-  // Pre-call cap check: if current session spend already at/above cap, refuse.
-  if (store.sessionUsd >= cap) {
+  // Projected pre-call cost: input tokens at sysPrompt+userPrompt + a 1024
+  // output-token ceiling. Unknown models => 0 (free path stays unblocked).
+  const projectedInTokens = estimateTokens(req.systemPrompt + req.userPrompt);
+  const projected = estimateMaxCostForModel(adapter.model(), projectedInTokens, PROJECTED_OUT_TOKENS_MAX);
+
+  // P18 Step 2: refuse if EITHER current spend is already at/above cap, OR
+  // adding this call's projected upper bound would push us over.
+  const wouldExceed = store.sessionUsd + projected >= cap;
+  const decision: 'allow' | 'cost_cap' = wouldExceed ? 'cost_cap' : 'allow';
+
+  if (import.meta.env.DEV) {
+    // eslint-disable-next-line no-console
+    console.debug('[auditedComplete]', { sessionUsd: store.sessionUsd, projected, cap, decision });
+  }
+
+  if (decision === 'cost_cap') {
     return {
       ok: false,
       error: {
         kind: 'cost_cap',
-        detail: `Session spend ($${store.sessionUsd.toFixed(4)}) at cap ($${cap.toFixed(2)})`,
+        detail: `Session spend ($${store.sessionUsd.toFixed(4)}) + projected ($${projected.toFixed(4)}) >= cap ($${cap.toFixed(2)})`,
       },
     };
   }
@@ -70,7 +90,18 @@ export async function auditedComplete(
     };
   }
 
-  const res = await adapter.complete(req);
+  // P18 Step 2: race adapter.complete against a 30s wall-clock timeout. The
+  // adapter's own AbortController (when present) handles the network layer;
+  // this is the last-line guarantee that the chat thread cannot wedge.
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeoutPromise = new Promise<LLMResponse>((resolve) => {
+    timer = setTimeout(
+      () => resolve({ ok: false, error: { kind: 'timeout' } }),
+      CALL_TIMEOUT_MS,
+    );
+  });
+  const res = await Promise.race([adapter.complete(req), timeoutPromise]);
+  if (timer) clearTimeout(timer);
 
   if (res.ok) {
     // FIX 6: audit insert is the source of truth — write it BEFORE bumping the
