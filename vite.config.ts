@@ -9,4 +9,8 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  assetsInclude: ['**/*.wasm'],
+  optimizeDeps: {
+    exclude: ['sql.js'],
+  },
 })
