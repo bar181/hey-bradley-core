@@ -444,7 +444,7 @@ export function SectionsSection() {
       )}
 
       {/* Enable multi-page button (single-page mode) */}
-      {!isMultiPage && (
+      {!isMultiPage && !isDraft && (
         <button
           type="button"
           disabled

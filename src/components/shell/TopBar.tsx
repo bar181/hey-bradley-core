@@ -80,16 +80,18 @@ export function TopBar() {
 
       {/* Right: Desktop controls (hidden below md) */}
       <div className="hidden md:flex items-center gap-2">
-        <Tooltip content="Switch light/dark editor chrome" position="bottom">
-          <button
-            onClick={() => setChromeLight(!chromeLight)}
-            className="p-1 text-white/60 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
-            aria-label={chromeLight ? 'Switch to dark mode' : 'Switch to light mode'}
-            title="Switch the editor between light and dark colors."
-          >
-            {chromeLight ? <Moon size={14} /> : <Sun size={14} />}
-          </button>
-        </Tooltip>
+        {!isDraft && (
+          <Tooltip content="Switch light/dark editor chrome" position="bottom">
+            <button
+              onClick={() => setChromeLight(!chromeLight)}
+              className="p-1 text-white/60 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
+              aria-label={chromeLight ? 'Switch to dark mode' : 'Switch to light mode'}
+              title="Switch the editor between light and dark colors."
+            >
+              {chromeLight ? <Moon size={14} /> : <Sun size={14} />}
+            </button>
+          </Tooltip>
+        )}
         {/* DRAFT-mode top-bar control budget: device + lock controls are EXPERT-only. */}
         {!isDraft && (
           <>
@@ -202,14 +204,16 @@ export function TopBar() {
               </div>
             </div>
             <div className="h-px bg-hb-border mx-3 my-1" />
-            <button
-              onClick={() => { setChromeLight(!chromeLight); setMenuOpen(false) }}
-              className="flex items-center gap-2 w-full px-3 py-2 text-sm text-hb-text-primary hover:bg-hb-surface-hover transition-colors"
-              title="Switch the editor between light and dark colors."
-            >
-              {chromeLight ? <Moon size={14} /> : <Sun size={14} />}
-              {chromeLight ? 'Dark Mode' : 'Light Mode'}
-            </button>
+            {!isDraft && (
+              <button
+                onClick={() => { setChromeLight(!chromeLight); setMenuOpen(false) }}
+                className="flex items-center gap-2 w-full px-3 py-2 text-sm text-hb-text-primary hover:bg-hb-surface-hover transition-colors"
+                title="Switch the editor between light and dark colors."
+              >
+                {chromeLight ? <Moon size={14} /> : <Sun size={14} />}
+                {chromeLight ? 'Dark Mode' : 'Light Mode'}
+              </button>
+            )}
             <button
               onClick={() => { setPreviewMode(!isPreviewMode); setMenuOpen(false) }}
               className="flex items-center gap-2 w-full px-3 py-2 text-sm text-hb-text-primary hover:bg-hb-surface-hover transition-colors"

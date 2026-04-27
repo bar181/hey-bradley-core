@@ -5,7 +5,7 @@ const STORAGE_KEY = 'hb-chat-explainer-dismissed'
 
 const STEPS = [
   { Icon: Pencil, label: 'Type a sentence.' },
-  { Icon: Braces, label: 'I update the JSON.' },
+  { Icon: Braces, label: 'I rebuild your page.' },
   { Icon: Sparkles, label: 'Your page changes.' },
 ] as const
 
