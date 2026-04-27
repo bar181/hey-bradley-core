@@ -1,0 +1,217 @@
+{
+  "site": {
+    "title": "Stories from the kitchen",
+    "description": "Personal blog about baking — real recipes, real results, written by a home baker for home bakers.",
+    "author": "Bradley",
+    "email": "hello@storiesfromthekitchen.com",
+    "domain": "storiesfromthekitchen.com",
+    "project": "stories-from-the-kitchen",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "Personal blog about baking",
+    "audience": "Home bakers",
+    "tone": "Warm, conversational",
+    "brandName": "Stories from the kitchen",
+    "tagline": "Real recipes, real results.",
+    "voiceAttributes": ["warm", "conversational", "honest"]
+  },
+  "theme": {
+    "preset": "personal",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#faf8f5",
+      "bgSecondary": "#f1ece4",
+      "textPrimary": "#1f1a14",
+      "textSecondary": "#6b5e4f",
+      "accentPrimary": "#e8772e",
+      "accentSecondary": "#c45f1c"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#1f1a14",
+      "bgSecondary": "#2a231b",
+      "textPrimary": "#faf8f5",
+      "textSecondary": "#d4c5b0",
+      "accentPrimary": "#e8772e",
+      "accentSecondary": "#f59455"
+    },
+    "typography": {
+      "fontFamily": "DM Sans",
+      "headingFamily": "DM Sans",
+      "headingWeight": 700,
+      "baseSize": "17px",
+      "lineHeight": 1.75
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "780px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "12px"
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "20px",
+        "padding": "96px 24px",
+        "maxWidth": "780px"
+      },
+      "style": {
+        "background": "#faf8f5",
+        "color": "#1f1a14",
+        "fontFamily": "DM Sans",
+        "borderRadius": "0px"
+      },
+      "components": [
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Stories from the kitchen",
+            "level": 1,
+            "size": "56px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Real recipes, real results."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Read the latest",
+            "url": "#article-01",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "article",
+      "id": "article-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "single",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "padding": "64px 24px",
+        "maxWidth": "720px",
+        "gap": "24px"
+      },
+      "style": {
+        "background": "#faf8f5",
+        "color": "#1f1a14",
+        "fontFamily": "DM Sans"
+      },
+      "components": [
+        {
+          "id": "title",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "How sourdough taught me patience",
+            "level": 1,
+            "size": "40px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "byline",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "By Bradley · April 2026"
+          }
+        },
+        {
+          "id": "heroImage",
+          "type": "image",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "url": "/images/sourdough-1.jpg",
+            "alt": "A round sourdough loaf, scored and freshly baked, resting on a linen cloth.",
+            "aspect": "16:9"
+          }
+        },
+        {
+          "id": "body",
+          "type": "text",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "body": "I used to think baking was about precision. Weigh the flour to the gram, hit the oven temperature exactly, set a timer for every step. That worked for cookies and cakes — recipes where the chemistry is fast and forgiving. Then I tried sourdough, and sourdough laughed at my timers.\n\nThe first three loaves were bricks. Dense, sour in the wrong way, with a crumb so tight you could use it as a doorstop. I followed a famous recipe to the letter and got a famously bad result. The problem wasn't the recipe. The problem was that I kept reading the clock instead of reading the dough. The clock said \"bulk ferment for four hours,\" but my kitchen was cold, my starter was sluggish, and my dough wasn't ready. I baked it anyway, because the timer said so. Brick.\n\nSomewhere around loaf number seven, I stopped looking at the clock. I started poking the dough — really poking it, watching how it sprang back, noticing how the surface changed from tacky to satiny over the course of a morning. I started watching the bubbles climb the side of the bowl. I started smelling the difference between \"young\" and \"ready.\" The clock became a suggestion, and the dough became the actual instruction. The next loaf had ears. The one after that had ears and a crackling crust and a crumb you could see daylight through.\n\nSourdough didn't teach me a recipe. It taught me to slow down enough to notice what was actually happening in front of me. That turns out to be a useful thing to learn, in baking and in just about everything else."
+          }
+        }
+      ],
+      "content": {
+        "title": "How sourdough taught me patience",
+        "author": "Bradley",
+        "heroImage": "/images/sourdough-1.jpg"
+      }
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "minimal",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "12px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#f1ece4",
+        "color": "#6b5e4f"
+      },
+      "components": [
+        {
+          "id": "nav",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "heading": "",
+            "links": "Home,Archive,About"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "© 2026 Stories from the kitchen. Written by Bradley."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

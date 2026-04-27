@@ -14,6 +14,7 @@ import enterpriseSaas from './enterprise-saas.json'
 import realEstate from './real-estate.json'
 import lawFirm from './law-firm.json'
 import capstone from './capstone.json'
+import blogStandard from './blog-standard.json'
 import type { MasterConfig } from '@/lib/schemas'
 
 export interface ExampleSite {
@@ -119,5 +120,11 @@ export const EXAMPLE_SITES: ExampleSite[] = [
     description: 'Research site with blog, gallery, and Don Miller storytelling — Harvard crimson palette',
     theme: 'Elegant',
     config: capstone as unknown as MasterConfig,
+  },
+  {
+    name: 'Stories from the kitchen',
+    description: 'Standard blog page — hero, single article, minimal footer; warm precision palette',
+    theme: 'Personal',
+    config: blogStandard as unknown as MasterConfig,
   },
 ]

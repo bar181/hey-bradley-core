@@ -1,5 +1,7 @@
 # Master Checklist — MVP Implementation Plan
 
+> Persona scoring rubric: see [`personas-rubric.md`](./personas-rubric.md) (Grandma, Framer User, Capstone Reviewer).
+
 > Single source of truth. Tick items as they land. When all green, MVP is shipped.
 > Format: each phase has DoD + ADRs + tests. Roll-up totals at the end.
 
