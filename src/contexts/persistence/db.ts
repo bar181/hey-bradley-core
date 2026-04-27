@@ -4,6 +4,7 @@
 
 import { get as idbGet, set as idbSet } from 'idb-keyval';
 import type { Database, SqlJsStatic } from 'sql.js';
+import { runMigrations } from './migrations';
 
 const IDB_KEY = 'hb-db';
 const WASM_DIR = '/sqljs';
@@ -43,11 +44,18 @@ export async function initDB(): Promise<Database> {
 
   initPromise = (async () => {
     // sql.js is published as CommonJS; Vite's CJS-interop differs between
-    // dev and prod builds, so we tolerate either shape.
-    const sqljsModule = (await import('sql.js')) as unknown as {
-      default?: (cfg?: { locateFile?: (file: string) => string }) => Promise<SqlJsStatic>;
-    };
-    const initSqlJs = sqljsModule.default ?? (sqljsModule as unknown as NonNullable<typeof sqljsModule.default>);
+    // dev and prod builds, so we tolerate every observed shape:
+    //   prod ESM:  { default: initSqlJs }
+    //   dev CJS:   { default: { default: initSqlJs } }
+    //   plain:     initSqlJs (callable namespace)
+    type InitFn = (cfg?: { locateFile?: (file: string) => string }) => Promise<SqlJsStatic>;
+    const sqljsModule = (await import('sql.js')) as unknown as { default?: InitFn | { default?: InitFn } };
+    const fromDefault = sqljsModule.default;
+    const initSqlJs: InitFn = typeof fromDefault === 'function'
+      ? fromDefault
+      : (typeof (fromDefault as { default?: InitFn } | undefined)?.default === 'function'
+          ? (fromDefault as { default: InitFn }).default
+          : (sqljsModule as unknown as InitFn));
     SQL = await initSqlJs({ locateFile: (file: string) => `${WASM_DIR}/${file}` });
 
     const buf = await idbGet<ArrayBuffer | Uint8Array>(IDB_KEY);
@@ -55,9 +63,7 @@ export async function initDB(): Promise<Database> {
       ? new SQL.Database(new Uint8Array(buf instanceof Uint8Array ? buf : new Uint8Array(buf)))
       : new SQL.Database();
 
-    // TODO(Wave 1 A2): wire migration runner from './migrations' once it lands.
-    // import { runMigrations } from './migrations';
-    // await runMigrations(db);
+    await runMigrations(db);
 
     dbInstance = db;
     return db;

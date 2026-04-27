@@ -143,3 +143,4 @@ playwright-report/
 # sql.js wasm binary copied by scripts/copy-sqljs-wasm.mjs at prebuild
 public/sqljs/sql-wasm.wasm
 
+public/sqljs/sql-wasm-browser.wasm

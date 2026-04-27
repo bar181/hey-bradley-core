@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
+import { del } from 'idb-keyval'
 import { X } from 'lucide-react'
 import { useUIStore } from '@/store/uiStore'
 
@@ -20,7 +21,7 @@ export function SettingsDrawer() {
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [open, handleKeyDown])
 
-  const handleClearLocalData = () => {
+  const handleClearLocalData = async () => {
     const confirmed = window.confirm(
       'This deletes all local projects and chat history. Continue?',
     )
@@ -30,6 +31,7 @@ export function SettingsDrawer() {
     for (const k of keys) {
       if (HB_PREFIXES.some((p) => k === p || k.startsWith(p))) localStorage.removeItem(k)
     }
+    try { await del('hb-db') } catch { /* DB may not be present */ }
     location.reload()
   }
 

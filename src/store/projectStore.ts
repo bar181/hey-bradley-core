@@ -189,3 +189,8 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
     })
   },
 }))
+
+// Expose store for Playwright/E2E testing in dev mode
+if (import.meta.env.DEV) {
+  ;(window as unknown as Record<string, unknown>).__projectStore = useProjectStore
+}
