@@ -1,13 +1,16 @@
+import { useEffect } from 'react'
 import { cn } from '../../lib/cn'
 import { useUIStore, type ActiveTab } from '../../store/uiStore'
 import { FileText } from 'lucide-react'
 import { Tooltip } from '../ui/Tooltip'
 
+// DRAFT mode shows only Reality + Data (read-only). EXPERT shows all.
+// See plans/implementation/mvp-plan/01-phase-15-polish-kitchen-sink.md §1.1.
 const TABS: { key: ActiveTab; label: string; expert?: boolean; tip: string }[] = [
   { key: 'REALITY', label: 'Preview', tip: 'Live site preview' },
-  { key: 'XAI_DOCS', label: 'Blueprints', tip: 'Generated specifications' },
+  { key: 'XAI_DOCS', label: 'Blueprints', expert: true, tip: 'Generated specifications' },
   { key: 'RESOURCES', label: 'Resources', expert: true, tip: 'Templates, AISP guide, media library' },
-  { key: 'DATA', label: 'Data', expert: true, tip: 'Raw JSON configuration' },
+  { key: 'DATA', label: 'Data', tip: 'Raw JSON configuration' },
   { key: 'WORKFLOW', label: 'Pipeline', expert: true, tip: 'Build workflow visualization' },
 ]
 
@@ -17,9 +20,18 @@ export function TabBar() {
   const rightPanelTab = useUIStore((s) => s.rightPanelTab)
   const isExpert = rightPanelTab === 'EXPERT'
 
+  const visibleTabs = TABS.filter((tab) => !tab.expert || isExpert)
+
+  // Active-tab fallback: if the current tab is hidden in DRAFT, snap to Reality.
+  useEffect(() => {
+    if (!visibleTabs.some((t) => t.key === activeTab)) {
+      setActiveTab('REALITY')
+    }
+  }, [isExpert, activeTab, setActiveTab, visibleTabs])
+
   return (
     <div role="tablist" aria-label="Canvas tabs" className="flex flex-row gap-0 border-b border-hb-border bg-hb-bg items-center">
-      {TABS.filter((tab) => !tab.expert || isExpert).map((tab) => {
+      {visibleTabs.map((tab) => {
         const isSpecs = tab.key === 'XAI_DOCS'
         const isActive = activeTab === tab.key
 

@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo, useRef, useEffect } from 'react'
 import { useConfigStore } from '../../store/configStore'
+import { useUIStore } from '../../store/uiStore'
 import { masterConfigSchema } from '../../lib/schemas'
 import CodeMirror from '@uiw/react-codemirror'
 import { json } from '@codemirror/lang-json'
@@ -33,6 +34,9 @@ const DEBOUNCE_MS = 500
 export function DataTab() {
   const config = useConfigStore((s) => s.config)
   const loadConfig = useConfigStore((s) => s.loadConfig)
+  // DRAFT mode = Data is read-only (no inline edit affordances).
+  // See plans/implementation/mvp-plan/01-phase-15-polish-kitchen-sink.md §1.1.
+  const isExpert = useUIStore((s) => s.rightPanelTab) === 'EXPERT'
 
   const [isEditing, setIsEditing] = useState(false)
   const [editValue, setEditValue] = useState('')
@@ -197,6 +201,11 @@ export function DataTab() {
     }
   }, [])
 
+  // If user drops to DRAFT mid-edit, force read-only.
+  useEffect(() => {
+    if (!isExpert && isEditing) cancelEdit()
+  }, [isExpert, isEditing, cancelEdit])
+
   const ghostBtn =
     'inline-flex items-center gap-1.5 font-mono text-xs uppercase text-hb-text-muted hover:text-hb-accent border border-hb-border rounded px-2.5 py-1 transition-colors'
 
@@ -276,18 +285,19 @@ export function DataTab() {
               <span className="w-2 h-2 rounded-full bg-hb-success animate-pulse" />
               <span className="text-xs text-hb-success font-mono uppercase">LIVE</span>
             </div>
-            {/* EDIT toggle */}
-            {isEditing ? (
-              <button className={ghostBtn} onClick={cancelEdit}>
-                <X size={12} />
-                CANCEL
-              </button>
-            ) : (
-              <button className={ghostBtn} onClick={enterEdit}>
-                <Pencil size={12} />
-                EDIT
-              </button>
-            )}
+            {/* EDIT toggle (EXPERT only — DRAFT keeps Data read-only) */}
+            {isExpert &&
+              (isEditing ? (
+                <button className={ghostBtn} onClick={cancelEdit}>
+                  <X size={12} />
+                  CANCEL
+                </button>
+              ) : (
+                <button className={ghostBtn} onClick={enterEdit}>
+                  <Pencil size={12} />
+                  EDIT
+                </button>
+              ))}
           </div>
         </div>
 
@@ -301,17 +311,21 @@ export function DataTab() {
             <Download size={12} />
             EXPORT JSON
           </button>
-          <button className={ghostBtn} onClick={handleImport}>
-            <Upload size={12} />
-            IMPORT JSON
-          </button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".json"
-            onChange={handleFileSelect}
-            className="hidden"
-          />
+          {isExpert && (
+            <>
+              <button className={ghostBtn} onClick={handleImport}>
+                <Upload size={12} />
+                IMPORT JSON
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".json"
+                onChange={handleFileSelect}
+                className="hidden"
+              />
+            </>
+          )}
         </div>
 
         {importError && (

@@ -98,7 +98,7 @@
           "order": 2,
           "props": {
             "text": "Read the latest",
-            "url": "#article-01",
+            "url": "#blog-01",
             "style": "filled",
             "size": "lg"
           }
@@ -107,11 +107,11 @@
       "content": {}
     },
     {
-      "type": "article",
-      "id": "article-01",
+      "type": "blog",
+      "id": "blog-01",
       "enabled": true,
       "order": 1,
-      "variant": "single",
+      "variant": "minimal",
       "layout": {
         "display": "flex",
         "direction": "column",
@@ -126,52 +126,21 @@
       },
       "components": [
         {
-          "id": "title",
-          "type": "heading",
+          "id": "article-1",
+          "type": "blog-article",
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "How sourdough taught me patience",
-            "level": 1,
-            "size": "40px",
-            "weight": 700
-          }
-        },
-        {
-          "id": "byline",
-          "type": "text",
-          "enabled": true,
-          "order": 1,
-          "props": {
-            "text": "By Bradley · April 2026"
-          }
-        },
-        {
-          "id": "heroImage",
-          "type": "image",
-          "enabled": true,
-          "order": 2,
-          "props": {
-            "url": "/images/sourdough-1.jpg",
-            "alt": "A round sourdough loaf, scored and freshly baked, resting on a linen cloth.",
-            "aspect": "16:9"
-          }
-        },
-        {
-          "id": "body",
-          "type": "text",
-          "enabled": true,
-          "order": 3,
-          "props": {
-            "body": "I used to think baking was about precision. Weigh the flour to the gram, hit the oven temperature exactly, set a timer for every step. That worked for cookies and cakes — recipes where the chemistry is fast and forgiving. Then I tried sourdough, and sourdough laughed at my timers.\n\nThe first three loaves were bricks. Dense, sour in the wrong way, with a crumb so tight you could use it as a doorstop. I followed a famous recipe to the letter and got a famously bad result. The problem wasn't the recipe. The problem was that I kept reading the clock instead of reading the dough. The clock said \"bulk ferment for four hours,\" but my kitchen was cold, my starter was sluggish, and my dough wasn't ready. I baked it anyway, because the timer said so. Brick.\n\nSomewhere around loaf number seven, I stopped looking at the clock. I started poking the dough — really poking it, watching how it sprang back, noticing how the surface changed from tacky to satiny over the course of a morning. I started watching the bubbles climb the side of the bowl. I started smelling the difference between \"young\" and \"ready.\" The clock became a suggestion, and the dough became the actual instruction. The next loaf had ears. The one after that had ears and a crackling crust and a crumb you could see daylight through.\n\nSourdough didn't teach me a recipe. It taught me to slow down enough to notice what was actually happening in front of me. That turns out to be a useful thing to learn, in baking and in just about everything else."
+            "title": "How sourdough taught me patience",
+            "excerpt": "I used to think baking was about precision — weigh the flour to the gram, hit the oven temperature exactly, set a timer for every step. That worked for cookies and cakes. Then I tried sourdough, and sourdough laughed at my timers. The first three loaves were bricks. I followed a famous recipe to the letter and got a famously bad result. The problem wasn't the recipe — it was that I kept reading the clock instead of reading the dough. Around loaf number seven, I stopped looking at the clock and started watching the dough: how it sprang back, how the surface went from tacky to satiny, how the bubbles climbed the bowl. The next loaf had ears. Sourdough didn't teach me a recipe — it taught me to slow down enough to notice what was actually happening in front of me.",
+            "author": "Bradley",
+            "date": "2026-04-15",
+            "tags": "baking, sourdough, patience",
+            "featuredImage": "/images/sourdough-1.jpg"
           }
         }
       ],
-      "content": {
-        "title": "How sourdough taught me patience",
-        "author": "Bradley",
-        "heroImage": "/images/sourdough-1.jpg"
-      }
+      "content": {}
     },
     {
       "type": "footer",

@@ -31,7 +31,16 @@ import { cn } from '@/lib/cn'
 import { Tooltip } from '@/components/ui/Tooltip'
 import { useUIStore } from '@/store/uiStore'
 import { useConfigStore } from '@/store/configStore'
+import { applyDraftLabel } from '@/lib/draftRename'
 import type { SectionType } from '@/lib/schemas/section'
+
+// DRAFT-mode narrowed surface: hero + blog (article-as-blog-minimal) + footer.
+// See plans/implementation/mvp-plan/01-phase-15-polish-kitchen-sink.md §1.1.
+const DRAFT_ALLOWED_SECTION_TYPES: ReadonlySet<SectionType> = new Set<SectionType>([
+  'hero',
+  'blog',
+  'footer',
+])
 
 const sectionIconMap: Record<string, LucideIcon> = {
   menu: Navigation,
@@ -132,6 +141,8 @@ export function SectionsSection() {
   const [localOrder, setLocalOrder] = useState<string[] | null>(null)
   const selectedContext = useUIStore((s) => s.selectedContext)
   const setSelectedContext = useUIStore((s) => s.setSelectedContext)
+  const rightPanelTab = useUIStore((s) => s.rightPanelTab)
+  const isDraft = rightPanelTab === 'SIMPLE'
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
   const [showHidden, setShowHidden] = useState(false)
   const [dragId, setDragId] = useState<string | null>(null)
@@ -140,14 +151,24 @@ export function SectionsSection() {
   const [newPageTitle, setNewPageTitle] = useState('')
   const [confirmDeletePageId, setConfirmDeletePageId] = useState<string | null>(null)
 
-  const orderedSections = localOrder
+  const orderedSectionsRaw = localOrder
     ? localOrder
         .map((id) => sections.find((s) => s.id === id))
         .filter(Boolean)
     : sections
 
+  // In DRAFT mode, hide section types outside the narrowed surface (hero/blog/footer).
+  // Underlying config is untouched — these are simply not rendered in the DRAFT panel.
+  const orderedSections = isDraft
+    ? orderedSectionsRaw.filter((s) => !!s && DRAFT_ALLOWED_SECTION_TYPES.has(s.type as SectionType))
+    : orderedSectionsRaw
+
   const enabledSections = orderedSections.filter((s): s is NonNullable<typeof s> => !!s?.enabled)
   const hiddenSections = orderedSections.filter((s): s is NonNullable<typeof s> => !!s && !s.enabled)
+
+  const visibleAddSectionTypes = isDraft
+    ? SECTION_TYPES.filter((t) => DRAFT_ALLOWED_SECTION_TYPES.has(t))
+    : SECTION_TYPES
 
   const moveSection = (index: number, direction: 'up' | 'down') => {
     const target = direction === 'up' ? index - 1 : index + 1
@@ -201,7 +222,8 @@ export function SectionsSection() {
   const renderSectionRow = (section: typeof sections[0], index: number) => {
     if (!section) return null
     const Icon = sectionIconMap[section.type] ?? Star
-    const name = sectionNameMap[section.type] ?? section.type
+    const rawName = sectionNameMap[section.type] ?? section.type
+    const name = isDraft ? applyDraftLabel(rawName) : rawName
     const isSelected =
       selectedContext?.type === 'section' &&
       selectedContext.sectionId === section.id

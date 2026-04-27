@@ -64,9 +64,9 @@ Kitchen Sink exercises the renderer and the JSON schema. It does not need to exe
 - **Narrative compromises** — fitting every section into one coherent site forces some sections to feel ornamental (e.g., a SaaS site rarely needs both a logos marquee and a team grid). Acceptable for a reference example; called out in the onboarding card copy.
 - **Card count growth** — Onboarding rises from 3 to 4 default starters. Trivial UX impact, but a precedent: future "reference" starters need an explicit decision to add.
 
-### Known gaps to close in execution
+### Resolved gaps
 
-Verification of the existing `src/data/examples/kitchen-sink.json` against `src/templates/` (21 directories) finds 14 of 21 template directories represented as direct `section.type` values. The remaining 7 are alias or variant directories whose canonical type is already covered (per ADR-022 Section Type Registry and ADR-023 Section Naming):
+Verification of `src/data/examples/kitchen-sink.json` against `src/templates/` (21 directories) finds 15 of 21 template directories represented as direct `section.type` values. The remaining 6 are alias or variant directories whose canonical type is already covered (per ADR-022 Section Type Registry and ADR-023 Section Naming):
 
 - `navbar` — covered by canonical type `menu`
 - `cta` — covered by canonical type `action`
@@ -74,9 +74,8 @@ Verification of the existing `src/data/examples/kitchen-sink.json` against `src/
 - `testimonials` — covered by canonical type `quotes`
 - `features` — covered by canonical type `columns` (variant `image-cards`)
 - `value-props` — covered by canonical type `numbers` (variant `counters`)
-- `blog` — **not covered**; canonical type `blog` is registered in the schema enum but has no instance in `kitchen-sink.json`
 
-Coverage against the 16-entry canonical type enum in `src/lib/schemas/section.ts` is 15 of 16. The single missing canonical type is `blog`. Adding one `blog` section instance to `kitchen-sink.json` (canonical variant: card grid with three inline posts) closes the gap. This edit is intentionally deferred from this ADR per task scope and should land alongside ADR-039 (Standard Blog Page) so both artifacts ship the blog section at the same time.
+All 16 canonical section types in `src/lib/schemas/section.ts` are now present in `kitchen-sink.json`. The previously missing `blog` canonical type was closed by adding one `blog` section instance (variant `card-grid`, three inline `blog-article` components) between the `text` and `image` sections, threaded into the Nexus Labs SaaS narrative as an engineering blog roll.
 
 ---
 

@@ -306,6 +306,73 @@
       }
     },
     {
+      "type": "blog",
+      "id": "blog-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "card-grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#18181b",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "article-1",
+          "type": "blog-article",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "title": "Shipping a Multi-Region Inference Mesh in 90 Days",
+            "excerpt": "How our platform team rolled out latency-aware routing across 42 edge regions without a single off-hours pager incident.",
+            "author": "James Park",
+            "date": "2026-04-12",
+            "tags": "engineering, infrastructure, edge",
+            "featuredImage": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&q=80"
+          }
+        },
+        {
+          "id": "article-2",
+          "type": "blog-article",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "title": "Vector Search at 2B Queries Per Day: Lessons Learned",
+            "excerpt": "Embedding drift, sharding strategy, and the surprisingly mundane bug that cost us 8ms of P99 latency for three weeks.",
+            "author": "Aisha Patel",
+            "date": "2026-03-30",
+            "tags": "vector-db, performance, postmortem",
+            "featuredImage": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&auto=format&q=80"
+          }
+        },
+        {
+          "id": "article-3",
+          "type": "blog-article",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "title": "Why We Open-Sourced Our Observability Pipeline",
+            "excerpt": "Trust, recruiting, and the quiet realization that our most-loved internal tool was holding back the broader ML community.",
+            "author": "Maya Rodriguez",
+            "date": "2026-03-18",
+            "tags": "open-source, observability, culture",
+            "featuredImage": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=600&auto=format&q=80"
+          }
+        }
+      ],
+      "content": {
+        "heading": "From the Engineering Blog",
+        "subheading": "Field notes on building AI infrastructure at scale",
+        "showDates": true,
+        "showTags": true
+      }
+    },
+    {
       "type": "image",
       "id": "image-01",
       "enabled": true,
