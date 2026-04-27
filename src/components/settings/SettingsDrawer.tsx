@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { del } from 'idb-keyval'
 import { X } from 'lucide-react'
 import { useUIStore } from '@/store/uiStore'
+import { LLMSettings } from './LLMSettings'
 
 export function SettingsDrawer() {
   const open = useUIStore((s) => s.settingsDrawerOpen)
@@ -99,21 +100,7 @@ export function SettingsDrawer() {
           </section>
 
           {/* AI (BYOK) */}
-          <section>
-            <h3 className="text-xs font-mono uppercase tracking-wide text-hb-text-muted mb-2">
-              AI provider
-            </h3>
-            <p className="text-sm text-hb-text-primary mb-2">
-              Bring your own key in Phase 17. Coming soon.
-            </p>
-            <input
-              type="password"
-              disabled
-              placeholder="sk-..."
-              className="w-full px-2 py-1.5 text-sm rounded border border-hb-border bg-hb-bg text-hb-text-muted cursor-not-allowed"
-              aria-label="API key (disabled)"
-            />
-          </section>
+          <LLMSettings />
 
           {/* Cost cap */}
           <section>

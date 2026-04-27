@@ -1,12 +1,14 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useConfigStore } from '@/store/configStore'
 import { useProjectStore } from '@/store/projectStore'
 import { useUIStore } from '@/store/uiStore'
+import { useIntelligenceStore } from '@/store/intelligenceStore'
 import { THEME_REGISTRY } from '@/data/themes/index'
 import { EXAMPLE_SITES } from '@/data/examples'
 
 const STORAGE_KEY = 'hey-bradley-project'
+const LLM_BANNER_DISMISSED_KEY = 'hb-onboarding-llm-banner-dismissed'
 
 /** Map example names to preview screenshot filenames */
 const EXAMPLE_PREVIEW_SLUGS: Record<string, string> = {
@@ -394,9 +396,20 @@ export function Onboarding() {
   const projects = useProjectStore((s) => s.projects)
   const loadProject = useProjectStore((s) => s.loadProject)
   const deleteProject = useProjectStore((s) => s.deleteProject)
+  const hasKey = useIntelligenceStore((s) => s.hasKey)
   const hasSavedProject = typeof window !== 'undefined' && !!localStorage.getItem(STORAGE_KEY)
   const [activeTab, setActiveTab] = useState<'projects' | 'examples'>( projects.length > 0 ? 'projects' : 'examples')
   const [showMoreExamples, setShowMoreExamples] = useState(false)
+  const [bannerDismissed, setBannerDismissed] = useState<boolean>(true)
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    setBannerDismissed(localStorage.getItem(LLM_BANNER_DISMISSED_KEY) === '1')
+  }, [])
+  const dismissBanner = () => {
+    if (typeof window !== 'undefined') localStorage.setItem(LLM_BANNER_DISMISSED_KEY, '1')
+    setBannerDismissed(true)
+  }
+  const showLLMBanner = !hasKey && !bannerDismissed
 
   // Default 4 starter examples (Phase 15 DoD #11): blog → bakery → SaaS → kitchen-sink (reference)
   const DEFAULT_EXAMPLE_NAMES = [
@@ -479,6 +492,19 @@ export function Onboarding() {
       </header>
 
       <div className="max-w-[1400px] mx-auto px-6 py-8">
+        {showLLMBanner && (
+          <div className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-[#e5e1dc] bg-[#faf8f5] px-4 py-2.5 text-xs text-[#6b7280]">
+            <span>Using simulated responses — add an API key in Settings to enable real AI.</span>
+            <button
+              type="button"
+              onClick={dismissBanner}
+              className="text-[#9ca3af] hover:text-[#A51C30] transition-colors px-2"
+              aria-label="Dismiss"
+            >
+              &times;
+            </button>
+          </div>
+        )}
         {/* Hero */}
         <div className="text-center mb-10">
           <h1 className="text-2xl sm:text-3xl font-bold text-[#1a1a1a] tracking-tight">

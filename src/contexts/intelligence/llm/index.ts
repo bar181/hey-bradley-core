@@ -16,3 +16,5 @@ export {
   looksLikeGoogleKey,
 } from './keys';
 export type { BYOKEntry } from './keys';
+export { auditedComplete } from './auditedComplete';
+export type { AuditedCallContext } from './auditedComplete';
