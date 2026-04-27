@@ -4,9 +4,11 @@ import { cn } from '@/lib/cn'
 import { parseChatCommand, parseMultiPartCommand, SIMULATED_REQUIREMENTS } from '@/lib/cannedChat'
 import type { SimulatedRequirement, MultiChatResult } from '@/lib/cannedChat'
 import { useConfigStore } from '@/store/configStore'
+import { useUIStore } from '@/store/uiStore'
 import { EXAMPLE_SITES } from '@/data/examples'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { ChatExplainer } from '@/components/shell/ChatExplainer'
 import type { SectionType } from '@/lib/schemas'
 
 /* ── Chat examples for the dialog ── */
@@ -60,6 +62,7 @@ export function ChatInput() {
   const inputRef = useRef<HTMLInputElement>(null)
   const nextId = useRef(0)
   const multiStepTimerRef = useRef<ReturnType<typeof setTimeout>[]>([])
+  const isDraft = useUIStore((s) => s.rightPanelTab) === 'SIMPLE'
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -398,6 +401,9 @@ export function ChatInput() {
           </div>
         </div>
       )}
+
+      {/* DRAFT-only "How it works" explainer */}
+      {isDraft && <ChatExplainer />}
 
       {/* Input bar — no mic button */}
       <div className="flex items-center gap-2 px-3 py-2 border-t border-hb-border bg-hb-surface">

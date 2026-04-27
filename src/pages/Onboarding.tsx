@@ -131,6 +131,7 @@ function ExampleCard({
   palette,
   sectionCount,
   onSelect,
+  referenceTag,
 }: {
   name: string
   slug: string
@@ -139,6 +140,7 @@ function ExampleCard({
   palette: { bg: string; accent: string; text: string }
   sectionCount: number
   onSelect: () => void
+  referenceTag?: boolean
 }) {
   const [imgFailed, setImgFailed] = useState(false)
 
@@ -387,6 +389,21 @@ export function Onboarding() {
   const deleteProject = useProjectStore((s) => s.deleteProject)
   const hasSavedProject = typeof window !== 'undefined' && !!localStorage.getItem(STORAGE_KEY)
   const [activeTab, setActiveTab] = useState<'projects' | 'examples'>( projects.length > 0 ? 'projects' : 'examples')
+  const [showMoreExamples, setShowMoreExamples] = useState(false)
+
+  // Default 4 starter examples (Phase 15 DoD #11): blog → bakery → SaaS → kitchen-sink (reference)
+  const DEFAULT_EXAMPLE_NAMES = [
+    'Stories from the kitchen',     // blog-standard — canonical novice end-to-end demo
+    'Sweet Spot Bakery',            // bakery
+    'CloudSync Enterprise',         // enterprise-saas — cleanest SaaS in the catalog
+    'Kitchen Sink Demo',            // kitchen-sink — developer-facing reference
+  ] as const
+  const defaultExamples = DEFAULT_EXAMPLE_NAMES
+    .map((n) => EXAMPLE_SITES.find((e) => e.name === n))
+    .filter((e): e is typeof EXAMPLE_SITES[number] => !!e)
+  const moreExamples = EXAMPLE_SITES.filter(
+    (e) => !DEFAULT_EXAMPLE_NAMES.includes(e.name as typeof DEFAULT_EXAMPLE_NAMES[number])
+  )
 
   const handleThemeSelect = (slug: string) => {
     applyVibe(slug)

@@ -1,4 +1,4 @@
-import { Monitor, Tablet, Smartphone, Sun, Moon, Menu, X, Eye, PenLine, Lock, Unlock, Shield, ShieldOff } from 'lucide-react'
+import { Monitor, Tablet, Smartphone, Sun, Moon, Menu, X, Eye, PenLine, Lock, Unlock, Shield, ShieldOff, Settings } from 'lucide-react'
 
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore, type PreviewWidth } from '@/store/uiStore'
@@ -22,8 +22,22 @@ export function TopBar() {
   const toggleDesignLock = useUIStore((s) => s.toggleDesignLock)
   const brandLocked = useUIStore((s) => s.brandLocked)
   const toggleBrandLock = useUIStore((s) => s.toggleBrandLock)
+  // DRAFT mode = SIMPLE right-panel tab (see plans/implementation/mvp-plan/01-phase-15-polish-kitchen-sink.md §1.1).
+  // DRAFT-mode top-bar control budget: ≤ 6 interactive elements
+  // (logo, mode toggle, save, export, settings, theme picker). EXPERT keeps all controls.
+  const isDraft = useUIStore((s) => s.rightPanelTab) === 'SIMPLE'
 
   const isDirty = useConfigStore((s) => s.isDirty)
+
+  const handleSettingsClick = () => {
+    // Settings drawer is being built by another Wave 3 agent; provide the hook now.
+    const state = useUIStore.getState() as unknown as { settingsDrawerOpen?: boolean }
+    if (Object.prototype.hasOwnProperty.call(state, 'settingsDrawerOpen')) {
+      useUIStore.setState({ settingsDrawerOpen: true } as Partial<typeof state>)
+    } else if (import.meta.env.DEV) {
+      console.log('settings clicked')
+    }
+  }
 
   // Site chrome dark/light mode
   const [chromeLight, setChromeLight] = useState(false)
@@ -61,6 +75,7 @@ export function TopBar() {
         onClick={() => navigate('/')}
         className="flex items-center gap-2 shrink-0 text-white hover:text-white/80 transition-colors"
         aria-label="Go to home page"
+        title="Go back to the home page."
       >
         <span className="font-mono font-bold text-lg">Hey Bradley</span>
       </button>
@@ -75,6 +90,7 @@ export function TopBar() {
             onClick={() => setChromeLight(!chromeLight)}
             className="p-1 text-white/60 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
             aria-label={chromeLight ? 'Switch to dark mode' : 'Switch to light mode'}
+            title="Switch the editor between light and dark colors."
           >
             {chromeLight ? <Moon size={14} /> : <Sun size={14} />}
           </button>
@@ -90,6 +106,7 @@ export function TopBar() {
                   : 'text-white/60 hover:text-white'
               }`}
               aria-label={`Preview at ${label}`}
+              title={`See how your page looks on a ${label.toLowerCase()} screen.`}
             >
               <Icon size={16} />
             </button>
@@ -103,6 +120,7 @@ export function TopBar() {
               designLocked ? 'text-hb-accent' : 'text-white/60 hover:text-white'
             }`}
             aria-label={designLocked ? 'Unlock design editing' : 'Lock design editing'}
+            title="Lock the layout so only the words can be changed."
           >
             {designLocked ? <Lock size={16} /> : <Unlock size={16} />}
           </button>

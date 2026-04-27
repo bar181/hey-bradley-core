@@ -29,6 +29,7 @@ interface UIStore {
   rightPanelVisible: boolean
   designLocked: boolean
   brandLocked: boolean
+  settingsDrawerOpen: boolean
 
   setInteractionMode: (mode: InteractionMode) => void
   setActiveTab: (tab: ActiveTab) => void
@@ -44,6 +45,7 @@ interface UIStore {
   toggleBrandLock: () => void
   setDesignLocked: (locked: boolean) => void
   setBrandLocked: (locked: boolean) => void
+  toggleSettingsDrawer: () => void
 }
 
 export const useUIStore = create<UIStore>((set) => ({
@@ -59,6 +61,7 @@ export const useUIStore = create<UIStore>((set) => ({
   rightPanelVisible: true,
   designLocked: false,
   brandLocked: false,
+  settingsDrawerOpen: false,
 
   setInteractionMode: (mode) => set({ interactionMode: mode }),
   setPreviewWidth: (width) => set({ previewWidth: width }),
@@ -69,6 +72,7 @@ export const useUIStore = create<UIStore>((set) => ({
   toggleBrandLock: () => set((state) => ({ brandLocked: !state.brandLocked })),
   setDesignLocked: (locked) => set({ designLocked: locked }),
   setBrandLocked: (locked) => set({ brandLocked: locked }),
+  toggleSettingsDrawer: () => set((state) => ({ settingsDrawerOpen: !state.settingsDrawerOpen })),
   setActiveTab: (tab) => set({ activeTab: tab }),
   setRightPanelTab: (tab) => set({ rightPanelTab: tab }),
   setLeftPanelTab: (tab) => set({ leftPanelTab: tab }),
