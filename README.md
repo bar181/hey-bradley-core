@@ -165,6 +165,83 @@ Open [http://localhost:5173](http://localhost:5173)
 
 ---
 
+## Setting Up the LLM (Phase 17 — BYOK)
+
+> **This is a public repo. No API keys are committed. Hosted demos use Bring-Your-Own-Key.**
+>
+> Per ADR-043 (Trust Boundaries) and ADR-040 (`SENSITIVE_KV_KEYS` strip on export), the deployed bundle ships **no** key. You supply your own at runtime.
+
+### Two paths
+
+| Path | When to use | Where the key lives |
+|---|---|---|
+| **A — Settings panel (BYOK, recommended)** | Production, any deployed instance, casual local development | Browser memory only by default. Optionally persisted to local IndexedDB if you tick *"Remember on this device"*. **Stripped from `.heybradley` exports automatically.** |
+| **B — Dev `.env.local`** | Active LLM-feature development on your own machine only | Bundled into the dev server only. **Never deploy a build with this set** — `vite.config.ts` aborts the build if `VITE_LLM_API_KEY` is non-empty during `npm run build`. |
+
+### Path A — BYOK via Settings (production / shared instances)
+
+1. Run `npm run dev` (or visit your deployed URL).
+2. Open the **Settings** drawer (cog icon, top right).
+3. In the **AI provider** section: pick a provider (Claude / Gemini), paste your key, optionally tick *Remember on this device*, click **Save** then **Test connection**.
+4. Get keys from:
+   - Claude / Anthropic: <https://console.anthropic.com/settings/keys> (key shape `sk-ant-...`)
+   - Gemini / Google AI Studio: <https://aistudio.google.com/apikey> (key shape `AIza...`)
+5. Per-session USD cap defaults to `$1.00`; adjustable in Settings (range $0.10–$20).
+
+### Path B — `.env.local` for dev only
+
+```bash
+cp .env.example .env.local
+# edit .env.local and add your key — ONLY for npm run dev
+```
+
+`.env.local` is in `.gitignore` and **must never be committed**.
+
+### Things you must NOT commit to this repo
+
+- `.env.local` or any `.env.*` file containing a real key (`.env.example` is the only env file that's tracked).
+- Hard-coded API keys anywhere in `src/**/*.ts` / `*.tsx`.
+- Real keys in test fixtures (use synthetic strings — `tests/llm-adapter.spec.ts` shows the pattern with `sk-ant-FAKE…`).
+- Real keys in any committed log, screenshot, prompt, or comment.
+
+### How the repo enforces this
+
+| Layer | Mechanism | Files |
+|---|---|---|
+| Pre-commit | `.husky/pre-commit` runs `scripts/check-secrets.sh` against staged diff; rejects 9 key-shape patterns (Anthropic, OpenAI, Google, HuggingFace, GitHub PAT, Groq, xAI). | `.husky/pre-commit`, `scripts/check-secrets.sh` |
+| Build-time | `vite.config.ts` callback throws if `VITE_LLM_API_KEY` is set during `command === 'build'`. | `vite.config.ts` |
+| Runtime (export) | `.heybradley` zip strips `byok_*` rows from the `kv` table and nulls `llm_calls.error_text` on export. | `src/contexts/persistence/exportImport.ts` |
+| Runtime (logging) | `redactKeyShapes()` redacts SDK error messages before they reach `llm_calls.error_text`. | `src/contexts/intelligence/llm/keys.ts` |
+
+### Secrets that DO live outside the repo
+
+These configuration values are operator-supplied; they live only in your local `.env.local` for development, in the BYOK input field for end users, or in a deploy host's environment variables for hosted demos:
+
+- `VITE_LLM_PROVIDER` — `claude` | `gemini` | `simulated` (this one is OK to deploy publicly)
+- `VITE_LLM_MODEL` — optional override (also public-safe)
+- `VITE_LLM_API_KEY` — **must be empty in any deployed build** (build-time guard catches non-empty)
+- `VITE_LLM_MAX_USD` — per-session USD cap (public-safe)
+
+If you need a hosted demo *with* a default key (no BYOK prompt for visitors), the recommended path post-MVP is a Supabase Edge Function or similar serverless adapter behind the existing `LLMAdapter` interface — keep the key server-side, never bundle it.
+
+### Verifying your setup
+
+```bash
+# Type-check + build
+npx tsc --noEmit
+npm run build
+
+# Run the LLM-adapter tests (uses simulated path; no key needed)
+npx playwright test tests/llm-adapter.spec.ts --reporter=line
+
+# Verify pre-commit guard works
+bash scripts/check-secrets.sh
+```
+
+If any of those fail, the LLM setup is wrong; do not deploy.
+
+---
+
 ## Project Structure
 
 ```
