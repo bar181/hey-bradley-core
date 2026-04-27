@@ -195,8 +195,12 @@ This makes the **revised P20 DoD = 14 + 12 = 26 items**, justifying the 5–7 da
 |---|---:|---|
 | `00-summary.md` (this file) | ~280 LOC | Executive summary, blockers, gap analysis, top-5 priorities |
 | `01-scope-lock.md` | ~200 LOC | Decision-call template for the 12 carryforward items + final P20 DoD list |
-| `02-fix-decomposition.md` | ~280 LOC | File-by-file plan for the 4 known blockers + day-by-day P20 schedule |
-| `MEMORY.md` | ~80 LOC | Cross-session memory anchor: what to know if resuming P20 in a fresh session |
+| `02-fix-decomposition.md` | ~370 LOC | File-by-file plan + day-by-day P20 schedule + §I sprint-alignment agent task (Day 5/6) |
+| `03-c20-abortsignal-goap.md` | ~260 LOC | GOAP plan for the lone open carryforward (C20 AbortSignal) |
+| `MEMORY.md` | ~190 LOC | Cross-session memory anchor: state YAML + 6 ReasoningBank patterns |
+| `../checklist.md` | ~280 LOC | Tickable 28-item P20 DoD broken down by day |
+| `../memory-status.md` | ~150 LOC | Ruvector / HNSW database health audit + restore procedure |
+| `../01-strategic-alignment.md` | ~190 LOC | Mapping P15-P19 actuals onto phase-18 sprint plan; resolves 6 open Qs |
 
 ---
 

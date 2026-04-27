@@ -314,15 +314,53 @@ Add `signal?: AbortSignal` to `LLMRequest`.
 
 ## §F. Day-by-day mapping (cross-link)
 
-| Day | §A cost-cap | §B SECURITY | §C ADR fix | §E.* carryforwards |
-|---|---|---|---|---|
-| Day 1 (Mon) | A.1–A.6 + C20 | — | C.1, C.2 | E.12 (paired) |
-| Day 2 (Tue) | — | B.1–B.3 | — | E.4, E.9 |
-| Day 3 (Wed) | — | — | — | E.1, E.2, E.8, mvp-e2e draft |
-| Day 4 (Thu) | — | — | — | Vercel deploy + getting-started.md |
-| Day 5 (Fri) | — | — | — | E.3, E.5, E.7, deferred-features Disposition |
-| Day 6 (Mon W2) | — | — | — | E.6, E.10, E.11 + persona reviews |
-| Day 7 (Tue W2) | — | — | — | RETRO + REVIEW + Master checklist 100% green + tag |
+| Day | §A cost-cap | §B SECURITY | §C ADR fix | §E.* carryforwards | §I sprint-align |
+|---|---|---|---|---|---|
+| Day 1 (Mon) | A.1–A.6 + C20 | — | C.1, C.2 | E.12 (paired) | — |
+| Day 2 (Tue) | — | B.1–B.3 | — | E.4, E.9 | — |
+| Day 3 (Wed) | — | — | — | E.1, E.2, E.8, mvp-e2e draft | — |
+| Day 4 (Thu) | — | — | — | Vercel deploy + getting-started.md | — |
+| Day 5 (Fri) | — | — | — | E.3, E.5, E.7, deferred-features Disposition | **§I sprint-alignment agent** |
+| Day 6 (Mon W2) | — | — | — | E.6, E.10, E.11 + persona reviews | (or here if Day 5 overflows) |
+| Day 7 (Tue W2) | — | — | — | RETRO + REVIEW + Master checklist 100% green + tag | — |
+
+---
+
+## §I. Sprint-alignment agent task (Day 5 OR Day 6, ~1h)
+
+**Trigger:** 3rd-party feedback per phase-20 directive.
+
+**Prompt for agent (single-shot, autonomous):**
+
+> Read `plans/implementation/phase-20/01-strategic-alignment.md` end-to-end. Then:
+>
+> 1. **Update `plans/implementation/phase-18/roadmap-sprints-a-to-h.md`:**
+>    - Add a "## Actuals through P19" section before the Sprint A header
+>    - For each phase P15-P19, list: composite score + final commit + key deliverable + (if applicable) deviation from original sprint scope
+>    - Mark Sprint F (Listen Mode) as ✅ DONE in P19 (not P36-P39)
+>    - Add re-sequenced sprint table per `01-strategic-alignment.md` §2.2
+>
+> 2. **Update `plans/implementation/phase-18/strategic-vision.md`:**
+>    - For each of the 6 "Open Strategic Questions" (Q1-Q6 at bottom of file), append a "**Resolved:**" line citing the resolution from `01-strategic-alignment.md` §3
+>    - Update the "Full Sprint Roadmap" table to reflect re-sequencing
+>
+> 3. **Author NEW file `plans/implementation/phase-20/strategic-alignment-report.md` (≤300 LOC):**
+>    - Summary of edits made to phase-18 docs (with file:line refs)
+>    - List of re-sequenced sprints with rationale
+>    - Confirmation of capstone-readiness gates
+>    - Any open questions surfaced during the alignment review
+>
+> 4. **Verify alignment with the broader P20-P46 sprint plan:**
+>    - Cross-check `plans/master-backlog.md` (if it exists) against the new sequencing
+>    - Flag any phases that are now obsolete or need re-scoping
+>    - Add notes to `plans/implementation/mvp-plan/STATE.md` §2 runway extending beyond P20
+>
+> 5. **Output:** 3 updated files + 1 new file. Commit with message: `phase-20: strategic alignment with phase-18 plan; mark P19 deviation; resolve 6 open questions`. No source code changes.
+>
+> **Constraints:** Do NOT change any code. Markdown-only. Preserve git history; use Edit (not Write) on existing files. Report which files were edited + line counts.
+
+**Effort:** 30-60 min depending on doc size.
+**Output gate:** changes committed; updated files cross-link to `01-strategic-alignment.md`.
 
 ---
 
