@@ -85,3 +85,27 @@ export function redactKeyShapes(s: string): string {
     .replace(/AIza[0-9A-Za-z_-]{35}/g, '[REDACTED]')
     .replace(/Bearer\s+\S+/g, '[REDACTED]');
 }
+
+/**
+ * SHA-256 hex digest of (systemPrompt + '\n' + userPrompt). Used as the
+ * `llm_logs.prompt_hash` column (D3 of ruvector-research.md): enables fixture
+ * matching and dedup without persisting prompt text. Browser-only (uses
+ * crypto.subtle); falls back to a non-cryptographic stub if subtle is
+ * unavailable so dev/test environments without a SubtleCrypto implementation
+ * still produce deterministic, comparable hashes.
+ */
+export async function hashPrompt(systemPrompt: string, userPrompt: string): Promise<string> {
+  const input = `${systemPrompt}\n${userPrompt}`;
+  const subtle = (globalThis.crypto as Crypto | undefined)?.subtle;
+  if (subtle) {
+    const buf = await subtle.digest('SHA-256', new TextEncoder().encode(input));
+    return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, '0')).join('');
+  }
+  // Deterministic non-crypto fallback (FNV-1a 32-bit, hex-padded).
+  let h = 0x811c9dc5;
+  for (let i = 0; i < input.length; i++) {
+    h ^= input.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return (h >>> 0).toString(16).padStart(64, '0');
+}

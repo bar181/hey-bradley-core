@@ -61,6 +61,10 @@ async function exportSanitizedDBBytes(): Promise<Uint8Array> {
     // strings out of the exported snapshot. The cost is losing diagnostic
     // detail in the zip — a fair trade for the BYOK leak guarantee.
     clone.exec("UPDATE llm_calls SET error_text = NULL WHERE error_text IS NOT NULL");
+    // ADR-047 (multi-provider logging): llm_logs holds raw system_prompt /
+    // user_prompt / response_raw — privacy by default, never ship in a
+    // .heybradley bundle. Drop the entire table contents on export.
+    clone.exec("DELETE FROM llm_logs");
     return clone.export();
   } finally {
     clone.close();

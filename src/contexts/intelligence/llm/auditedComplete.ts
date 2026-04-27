@@ -7,9 +7,10 @@
 import type { LLMAdapter, LLMRequest, LLMResponse, LLMError } from './adapter';
 import { useIntelligenceStore } from '@/store/intelligenceStore';
 import { recordLLMCall, type LLMCallStatus } from '@/contexts/persistence/repositories/llmCalls';
+import { recordLLMLog, updateLLMLog, type LLMLogStatus } from '@/contexts/persistence/repositories/llmLogs';
 import { activeSession, startSession } from '@/contexts/persistence/repositories/sessions';
 import { useProjectStore } from '@/store/projectStore';
-import { redactKeyShapes } from './keys';
+import { redactKeyShapes, hashPrompt } from './keys';
 import { estimateTokens, estimateMaxCostForModel } from './cost';
 
 const DEFAULT_CAP_USD = 1.0;
@@ -35,6 +36,19 @@ function ensureSession(): string {
   const existing = activeSession(projectId);
   if (existing) return existing.id;
   return startSession(projectId).id;
+}
+
+/**
+ * 18b A4: map LLMError.kind onto the llm_logs.status enum. Note llm_logs status
+ * has additional members ('cost_cap', 'rate_limit') vs llm_calls; both are
+ * pre-handled before adapter invocation so they don't reach this mapping in
+ * the adapter-result branch.
+ */
+function logStatusFromError(kind: LLMError['kind']): LLMLogStatus {
+  if (kind === 'timeout') return 'timeout';
+  if (kind === 'invalid_response') return 'validation_failed';
+  if (kind === 'rate_limit') return 'rate_limit';
+  return 'error';
 }
 
 export interface AuditedCallContext {
@@ -102,8 +116,11 @@ export async function auditedComplete(
     }
 
     let session_id: string;
+    let project_id: string;
     try {
       session_id = ensureSession();
+      // ensureSession() already validated activeProject is non-null.
+      project_id = useProjectStore.getState().activeProject as string;
     } catch (e) {
       // FIX 9: precondition_failed is the right kind for "no active project" —
       // semantically distinct from "model returned bad JSON" (invalid_response).
@@ -111,6 +128,35 @@ export async function auditedComplete(
         ok: false,
         error: { kind: 'precondition_failed', detail: e instanceof Error ? e.message : String(e) },
       };
+    }
+
+    // 18b A4: pre-emptively insert an llm_logs row with status='ok'. We update
+    // it after the adapter returns. Failures here are non-fatal: log row is
+    // forensic, not load-bearing for cap math (llm_calls handles that).
+    let logId: number | null = null;
+    const startedAt = Date.now();
+    const requestId = (globalThis.crypto as Crypto | undefined)?.randomUUID?.() ?? `req-${startedAt}-${Math.random().toString(36).slice(2, 10)}`;
+    try {
+      const promptHash = await hashPrompt(req.systemPrompt, req.userPrompt);
+      const row = recordLLMLog({
+        request_id: requestId,
+        parent_request_id: null,
+        session_id, project_id,
+        provider: adapter.name(), model: adapter.model(),
+        prompt_hash: promptHash,
+        system_prompt: req.systemPrompt,
+        user_prompt: req.userPrompt,
+        response_raw: null,
+        patch_count: 0,
+        input_tokens: null, output_tokens: null,
+        cost_usd: null, latency_ms: null,
+        status: 'ok',
+        error_kind: null,
+        started_at: startedAt,
+      });
+      logId = row.id;
+    } catch (e) {
+      if (import.meta.env.DEV) console.warn('[auditedComplete] llm_logs insert failed', e);
     }
 
     // P18 Step 2: race adapter.complete against a 30s wall-clock timeout. The
@@ -147,6 +193,19 @@ export async function auditedComplete(
         return { ok: false, error: { kind: 'invalid_response', detail: 'audit insert failed' } };
       }
       store.recordUsage(res.tokens.in, res.tokens.out, res.cost_usd);
+      // 18b A4: finalize llm_logs row with response + tokens + latency.
+      if (logId !== null) {
+        try {
+          updateLLMLog(logId, {
+            response_raw: JSON.stringify(res.json),
+            output_tokens: res.tokens.out,
+            cost_usd: res.cost_usd,
+            latency_ms: Date.now() - startedAt,
+          });
+        } catch (e) {
+          if (import.meta.env.DEV) console.warn('[auditedComplete] llm_logs update failed', e);
+        }
+      }
       return {
         ok: true,
         json: res.json,
@@ -173,6 +232,19 @@ export async function auditedComplete(
       status,
       error_text: safeDetail,
     });
+    // 18b A4: finalize llm_logs row with status + error_kind (slug only, no
+    // raw detail — that lives on llm_calls.error_text already redacted).
+    if (logId !== null) {
+      try {
+        updateLLMLog(logId, {
+          status: logStatusFromError(res.error.kind),
+          error_kind: res.error.kind,
+          latency_ms: Date.now() - startedAt,
+        });
+      } catch (e) {
+        if (import.meta.env.DEV) console.warn('[auditedComplete] llm_logs error-update failed', e);
+      }
+    }
     return res;
   } finally {
     // FIX 10: ALWAYS release the mutex, even on synchronous throw before await.
