@@ -116,12 +116,12 @@ SPA landing pages. Current roadmap. Free tier.
 
 | Sprint | Range | Focus |
 |---|---|---|
-| A | P18-20 | Chat Foundation — POC LLM call → JSON merge → preview update. Template library defined. Test mode validated. |
+| A | P18-20 | Chat Foundation — POC LLM call → JSON merge → preview update. **P19 sealed Listen mode (Web Speech API)** — Sprint F base pulled forward; original P19 "template library" absorbed into P18. P20 in-flight (MVP close). |
 | B | P21-23 | Simple Chat — Natural language input. 2–3 templates. Section targeting (`/hero-1`). Intent translation (messy → structured). |
 | C | P24-26 | AISP Chat — AISP instruction layer. Shows human the translation steps. 2-step template selection (pick theme → modify). |
 | D | P27-31 | Templates + Content — Template library + creation. Content generation (LLM writes the actual words for hero, articles, bios). Content slots into templates. |
 | E | P32-35 | Clarification & Assumptions — Ambiguity detection. LLM shows its assumptions. UX for options (click/confirm/correct). Assumptions persist to project context. |
-| F | P36-39 | Listen Mode — Voice capture → transcript → intent pipeline. Listen + chat bridge. Review mode (see transcript + actions before firing). |
+| F | P36-39 | **Listen Mode Enhancement** — base Listen shipped P19. Sprint F now scoped as enhancements: P25 intent-pipeline integration, review mode (transcript + actions side-by-side), voice/text chat bridge, polish + advanced error states. |
 | G | P40-43 | Interview Mode — LLM asks questions (text then voice). Interview → project JSON auto-populated. Interview feeds assumptions engine. |
 | H | P44-46 | Post-MVP Upload + References — Style guide upload. Brand voice document. Reference codebase ingestion. Google site builder bridge. |
 | I | P47-49 | Builder Mode Enhancement — UX improvements based on user feedback. Best practices from existing builders. Areas-for-improvement surfaced post-MVP. |
@@ -140,12 +140,12 @@ SPA landing pages. Current roadmap. Free tier.
 
 These shape priorities and need owner alignment before we lock the roadmap.
 
-1. **Do we ship the open-core RC at P46 or earlier?** Sprint H–J (Tiers 2/3) is post-MVP commercial. Could we cut earlier and focus on Tier 1 RC?
-2. **Tier 2/3 build vs partner.** Do we build multi-page + commercial features ourselves, or partner with an existing platform (Vercel, Webflow, Framer) and provide *only* the spec layer?
-3. **Pricing model.** BYOK keeps OSS hosting cost ~zero. Commercial Tier 2 needs a hosted offering — flat subscription, per-project, or per-token markup?
-4. **Self-hosting.** Should Tier 2 also be self-hostable, or strictly hosted? (Self-hosting widens the moat against Lovable; hosted is easier to monetize.)
-5. **Capstone deadline alignment.** Capstone defense May 2026. Which sprints are capstone-presentation-required vs deferrable?
-6. **AISP open-core licensing.** AISP is published at `bar181/aisp-open-core`. Confirm Hey Bradley's use is fully clear of any license friction at the OSS RC.
+1. **Do we ship the open-core RC at P46 or earlier?** Sprint H–J (Tiers 2/3) is post-MVP commercial. Could we cut earlier and focus on Tier 1 RC? — **RESOLVED:** OSS RC ships at end of P20 (capstone-aligned). Sprints I/J/K become post-MVP commercial work; original H (P44-46) RC milestone collapses into P20.
+2. **Tier 2/3 build vs partner.** Do we build multi-page + commercial features ourselves, or partner with an existing platform (Vercel, Webflow, Framer) and provide *only* the spec layer? — **DEFERRED:** Post-MVP, Q3-2026 owner decision. Not blocking MVP.
+3. **Pricing model.** BYOK keeps OSS hosting cost ~zero. Commercial Tier 2 needs a hosted offering — flat subscription, per-project, or per-token markup? — **RESOLVED:** Tier 1 BYOK confirmed (user pays $0 to project, ~$0.001-0.01 per chat to provider; Vercel hobby tier). Tier 2 pricing deferred to post-MVP.
+4. **Self-hosting.** Should Tier 2 also be self-hostable, or strictly hosted? (Self-hosting widens the moat against Lovable; hosted is easier to monetize.) — **DEFERRED:** Tier 1 (the MVP) is already self-hostable (SPA, no backend). Tier 2 self-hosting is a Q3-2026 question; not blocking MVP.
+5. **Capstone deadline alignment.** Capstone defense May 2026. Which sprints are capstone-presentation-required vs deferrable? — **RESOLVED:** Capstone defense **May 2026**. Capstone-required surface = sealed P15-P20 + Sprints B-C if velocity holds (6-phases-per-day reality). Sprint D onwards is post-defense.
+6. **AISP open-core licensing.** AISP is published at `bar181/aisp-open-core`. Confirm Hey Bradley's use is fully clear of any license friction at the OSS RC. — **RESOLVED:** AISP at `bar181/aisp-open-core` is owned by the same author (Bradley Ross). No license friction. Cross-link surfaced in `BlueprintsTab.tsx` AISP sub-tab (P20 Day 6 — C12).
 
 ---
 

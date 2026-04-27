@@ -8,11 +8,30 @@
 
 ---
 
+## Actuals through P19
+
+> **Velocity reality-check (owner, post-P19):** *"P15-P19 + P18b — 6 phases sealed in under one day. Time estimates have been consistently 10-50× too conservative."* All Sprint A-K projections in this doc should be read against this velocity, not the original 4-6-day-per-phase budgets.
+
+| Phase | Composite | Delivered | vs. original plan |
+|---|---|---|---|
+| P15 | 82 | DRAFT/EXPERT modes, UX polish | (pre-Sprint-A) |
+| P16 | 86 | Local SQLite persistence (sql.js + IndexedDB) | (pre-Sprint-A) |
+| P17 | 88 | LLM provider abstraction + BYOK scaffold | (pre-Sprint-A) |
+| P18 | 89 | Real chat pipeline — Crystal Atom system prompt, JSON patches, applier | ✅ matches Sprint A P18 |
+| P18b | 90 | 5-provider matrix + `llm_logs` observability | NEW addendum (not in original plan) |
+| P19 | 88 | Real Listen mode (Web Speech API, voice→pipeline fan-in) | **DEVIATION** — original P19 = "Prompt template library" |
+| P20 | in-flight | MVP close — cost-cap, SECURITY.md, Vercel, personas + 20 P19 carryforward | matches Sprint A P20 (expanded scope) |
+
+**P19 deviation:** the originally-planned "Prompt template library" was effectively absorbed into P18 (Crystal Atom system prompt + path-whitelist validator + 5 starter fixtures + ADR-044/045). P19 instead pulled Sprint F's Listen mode forward to harden the "virtual whiteboard" capstone-demo thesis. See `plans/implementation/phase-20/01-strategic-alignment.md` §2.1.
+
+---
+
 ## Sprint A — Chat Foundation (P18-P20)
 
-- **P18:** Chat POC — LLM call works, returns JSON, merges with project JSON, preview + specs update live.
-- **P19:** Prompt template library — identify and define every LLM API call type, structured + documented, ADRs written.
-- **P20:** Test mode — validate hero, articles, show/hide sections end-to-end. Playwright tests green.
+- **P18:** ✅ Sealed — Chat POC: LLM call works, returns JSON, merges with project JSON, preview + specs update live. (Composite 89.)
+- **P18b:** ✅ Sealed — Provider Expansion + Observability: 5-adapter matrix (Claude/Gemini/OpenRouter/Simulated/AgentProxy) + `llm_logs` ruvector deltas. (Composite 90.)
+- **P19:** ✅ Sealed Listen mode (Web Speech API) — voice → transcript → existing chat pipeline. Sprint F pulled forward. (Composite 88.)
+- **P20:** 🔄 In Flight — MVP close: cost-cap pill + Master Acceptance e2e + Vercel deploy + persona reviews + 20 P19 carryforward items.
 
 ## Sprint B — Simple Chat (P21-P23)
 
@@ -45,12 +64,14 @@
 - **P34:** Options picker — visual theme/variant selector surfaced mid-chat. User clicks, preview updates instantly, chat continues.
 - **P35:** Assumption persistence — accepted assumptions saved to project context so LLM doesn't re-ask same questions.
 
-## Sprint F — Listen Mode (P36-P39)
+## Sprint F — Listen Mode **Enhancement** (P36-P39)
 
-- **P36:** Listen mode POC — architecture defined, mic capture, transcript storage wired to P16 DB, basic transcription working.
-- **P37:** Listen + intent — transcript processed through intent pipeline (P25), extracts actionable to-dos from spoken input.
-- **P38:** Listen + chat bridge — transcripts inform chat context, voice input triggers same chat pipeline as text.
-- **P39:** Listen review mode — user sees transcript + extracted actions side by side, can approve/edit before LLM fires.
+> **Note (post-P19):** Base Listen mode shipped in P19 (Web Speech API, voice→pipeline fan-in). Original phase numbering preserved per owner directive (no -5 shift). Sprint F is now scoped as **enhancements on top of the shipped P19 baseline**.
+
+- **P36:** Listen + intent pipeline integration — wire shipped Listen mode into the P25 intent pipeline so spoken input flows through AISP intent extraction (reuses P25 work, not a re-build).
+- **P37:** Listen review mode — transcript + extracted actions surfaced side-by-side; user approves/edits before LLM fires.
+- **P38:** Listen + chat bridge — voice and text routed through unified intent pipeline; conversation history shared across modes.
+- **P39:** Listen polish + advanced error states — silent-mic detection, partial-transcript recovery, provider-rotation on STT failure, accessibility passes.
 
 ## Sprint G — Interview Mode (P40-P43)
 
@@ -95,12 +116,12 @@
 
 These are explicit decision points the owner should re-review at the start of Phase 18, before this roadmap is locked.
 
-1. **AISP enforcement timing.** Plan above introduces AISP at P24. Should P18-P23 already use a thin AISP wrapper in the system prompt, even if responses are plain JSON, to set the precedent? Or is the "JSON-only POC first, AISP later" sequencing intentional?
-2. **Template-vs-from-scratch boundary.** P26's "LLM never designs from scratch" rule is strong. Should P18 already enforce this (JSON-patches against existing examples only) or is the POC allowed to add fully-formed sections from the model output?
-3. **Listen mode dependency on Interview.** Sprint F (Listen) lands at P36–P39 and Sprint G (Interview) at P40–P43. Should Interview *come first* given that the interview transcript is the cleanest source of intent for the assumptions engine? Re-sequence?
-4. **Content generation scope.** P29-31 generates copy. Are there guardrails on tone, length, or factual claims? Cite hallucination risk explicitly.
-5. **Cost cap evolution.** P17 cap is per-session USD. As multi-call pipelines (Sprint C 2-step, Sprint E clarification) ship, do we need per-action caps too?
-6. **Test discipline as features grow.** Test count is monotonically non-decreasing. Spell out the test target per sprint (e.g. P18 +5, P19 +5, etc.) to avoid drift.
+1. **AISP enforcement timing.** Plan above introduces AISP at P24. Should P18-P23 already use a thin AISP wrapper in the system prompt, even if responses are plain JSON, to set the precedent? Or is the "JSON-only POC first, AISP later" sequencing intentional? — **RESOLVED:** AISP enforced from P18; Crystal Atom lives in `prompts/system.ts` (ADR-045). Full AISP intent layer matures in Sprint C (P24-26).
+2. **Template-vs-from-scratch boundary.** P26's "LLM never designs from scratch" rule is strong. Should P18 already enforce this (JSON-patches against existing examples only) or is the POC allowed to add fully-formed sections from the model output? — **RESOLVED:** JSON-patches against existing examples ONLY from P18. `patchValidator.ts` enforces path whitelist (`patchPaths.ts`); only `add`/`replace`/`remove` ops; no full-section LLM creation. ADR-045 codifies.
+3. **Listen mode dependency on Interview.** Sprint F (Listen) lands at P36–P39 and Sprint G (Interview) at P40–P43. Should Interview *come first* given that the interview transcript is the cleanest source of intent for the assumptions engine? Re-sequence? — **RESOLVED:** Listen-first won (shipped P19 — Web Speech API, ADR-048). Interview stays at P40-P43 and reuses the Listen transcript pipeline.
+4. **Content generation scope.** P29-31 generates copy. Are there guardrails on tone, length, or factual claims? Cite hallucination risk explicitly. — **RESOLVED:** Deferred to Sprint D (P27-31) per original schedule. Hallucination risk acknowledged in `SECURITY.md` (P20 Day 2). Cost-cap + path-whitelist already prevent most footguns at MVP.
+5. **Cost cap evolution.** P17 cap is per-session USD. As multi-call pipelines (Sprint C 2-step, Sprint E clarification) ship, do we need per-action caps too? — **RESOLVED for MVP:** Per-session only ($1.00 default, user-editable). Per-action caps deferred to Sprint C/E when multi-step pipelines actually land.
+6. **Test discipline as features grow.** Test count is monotonically non-decreasing. Spell out the test target per sprint (e.g. P18 +5, P19 +5, etc.) to avoid drift. — **RESOLVED:** Monotonic confirmed: 102→104→107→113→129→36/36→41/41→46/46 through P19 fix-pass-2. P20 projected +14-19 → 65+ targeted post-P20.
 
 ---
 

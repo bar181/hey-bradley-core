@@ -1,9 +1,9 @@
 # Phase 20 — Verify, Cost Caps, MVP Close, Vercel Deploy
 
 > **Stage:** D — MVP Exit
-> **Estimated effort:** 3–4 days
+> **Estimated effort:** 3–4 days (original) / **<1 day @velocity** (post-P19 reality check — P15-P19+P18b sealed in <1 day; original phase budgets observed 10-50× conservative). Re-budget at end-of-phase.
 > **Prerequisite:** Phases 18 and 19 closed.
-> **Successor:** Post-MVP (auth, cloud sync, advanced AISP).
+> **Successor:** **Phase 21 (NEW MVP-planning phase)** — locks the post-P18 sprint plan + scaffolds Sprint B/C preflights. Then Sprint B (P22-P24 if Phase 21 takes the P21 slot, OR P21-P23 if Phase 21 is labelled "Phase α"). See `plans/implementation/phase-21/preflight/00-summary.md` for owner's authoritative draft.
 
 ---
 

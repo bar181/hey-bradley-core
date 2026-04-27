@@ -43,22 +43,27 @@ Why was Listen mode pulled from Sprint F (P36-P39) to P19?
 - **Prompt template library** (original P19) was partially absorbed by P18 itself — the Crystal Atom system prompt + path-whitelist validator + 5 starter fixtures + ADR-044/045 effectively constituted "every LLM API call type structured + documented."
 - **Net result:** Sprint F is now P19 (single phase, not 4); Sprint A's "test mode" became P20; Sprints B-G shift forward 1 phase each.
 
-### 2.2 Re-sequenced sprints (recommend)
+### 2.2 Sprint sequencing — owner directive (post-P20-preflight-v2)
 
-| Sprint | OLD range | NEW range | Status |
-|---|---|---|---|
-| A | P18-20 | P18-P20 | ON TRACK (P18 done, P20 in P20) |
-| B | P21-23 | **P21-22** (compressed) | folds in original P19 prompt-template work |
-| C | P24-26 | **P23-25** | shift -1 |
-| D | P27-31 | **P26-30** | shift -1 |
-| E | P32-35 | **P31-34** | shift -1 |
-| F (Listen) | P36-39 | **P19** ✅ DONE | -17 phases |
-| G | P40-43 | **P35-38** (Interview) | shift -5; Listen done means Interview leans on existing pipeline |
-| H | P44-46 | **P39-41** (RC) | shift -5 |
-| post-MVP I | P47-49 | **P42-44** (Builder enhancements) | shift -5 |
-| post-MVP J | P50+ | **P45+** (Agentic Support System) | shift -5 |
+> **Owner directive:** keep original phase numbering for all Sprints B-K. Re-title Sprint F (P36-P39) to **"Listen Mode Enhancement"** since base Listen shipped in P19. Do NOT shift Sprints B-K by -5 phases; the earlier-proposed re-sequencing table is superseded.
 
-This is the **canonical re-sequencing** — pending the Day-5/6 sprint-alignment agent task that will actually update `roadmap-sprints-a-to-h.md` to reflect it.
+The original phase numbering stands:
+
+| Sprint | Range | Note |
+|---|---|---|
+| A | P18-P20 | P18/P18b/P19 sealed; P20 in-flight (MVP close) |
+| B | P21-P23 | Simple Chat (unchanged) |
+| C | P24-P26 | AISP Chat (unchanged) |
+| D | P27-P31 | Templates + Content (unchanged) |
+| E | P32-P35 | Clarification & Assumptions (unchanged) |
+| F | P36-P39 | **Listen Mode Enhancement** (re-titled — base shipped P19; Sprint F now layers P25 integration + review mode + chat bridge + polish on top) |
+| G | P40-P43 | Interview Mode (unchanged) |
+| H | P44-P46 | Post-MVP Upload + References (unchanged) |
+| I | P47-P49 | Builder Enhancement (unchanged) |
+| J | P50+ | Agentic Support System (unchanged) |
+| K | final | Release (unchanged) |
+
+The earlier "shift -5" recommendation for Sprints B-K is **withdrawn**. Confirming: original phase numbering is canonical. See `phase-21/preflight/00-summary.md` for the authoritative draft.
 
 ---
 
