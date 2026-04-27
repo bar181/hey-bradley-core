@@ -9,13 +9,15 @@
 
 ## Grounding Report
 
-### Current State (Phase 14 Close)
-- **Source files:** 171 TS/TSX
-- **Lines:** ~17,000 TS/TSX
-- **Examples:** 15 (all with siteContext)
+> **HISTORICAL DOC.** This preflight was authored at the start of Phase 15. Phase 19 is now sealed at 88/100 (commit `03e7aa7`). The "current state" snapshot below describes the **Phase 14 close** baseline (the prerequisite for P15), not the live program state. For live counts see `CLAUDE.md` `## Project Status` and `plans/implementation/mvp-plan/STATE.md`.
+
+### Current State (Phase 14 Close — preflight snapshot, NOT current)
+- **Source files:** 171 TS/TSX *(post-P19: 227)*
+- **Lines:** ~17,000 TS/TSX *(post-P19: ~28,400)*
+- **Examples:** 15 (all with siteContext) *(post-P19: 17, adds blog-standard + capstone)*
 - **Themes:** 12 (all with expanded metadata)
-- **Tests:** 102 passing (11 spec files)
-- **ADRs:** 37 (through ADR-037)
+- **Tests:** 102 passing (11 spec files) *(post-P19: 63 Playwright cases across 29 spec files; 46 targeted active for seal-gate)*
+- **ADRs:** 37 (through ADR-037) *(post-P19: 38 files through ADR-048; 11 numbering gaps documented in `docs/adr/README.md`)*
 - **Wiki pages:** 18
 
 ### Key Gaps from Phase 14

@@ -40,8 +40,8 @@
 
 ## Project Status
 
-- **Current Phase:** Phase 19 SEALED (Fix-Pass 2 closed all 18 brutal-reviewer findings); Phase 20 next
-- **Codebase:** 100K+ total lines; ~28,000 lines TS/TSX across 227 source files
+- **Current Phase:** Phase 19 SEALED at 88/100 (commit `03e7aa7`); Phase 20 NEXT
+- **Codebase:** ~63K total lines (TS/TSX/JSON/MD, excl. node_modules); ~28,400 lines TS/TSX across 227 source files
 - **Themes:** 12 (agency, blog, creative, elegant, minimalist, neon, personal, portfolio, professional, saas, startup, wellness)
 - **Examples:** 17 (adds blog-standard + capstone to the original 15)
 - **Section Types:** 16 (includes blog)
@@ -53,9 +53,9 @@
 - **Blueprints:** 7 sub-tabs (North Star, Architecture, Build Plan, Features, Human Spec, AISP, JSON)
 - **Center Tabs (EXPERT):** 5 (Preview, Blueprints, Resources, Data, Pipeline)
 - **Capabilities:** Multi-page support, ZIP export, blog section type, AISP Crystal Atom output, real LLM adapters (Claude/Gemini/OpenRouter), Web-Speech STT (PTT)
-- **ADRs:** 38 ADR files through ADR-048 (STT Web Speech API)
+- **ADRs:** 38 ADR files through ADR-048 (STT Web Speech API). Numbering has 11 documented gaps (002-004, 006-009, 034-037) — see `docs/adr/README.md`.
 - **Deferred Features:** 34 documented in plans/deferred-features.md; 20 P20 carryforward items in plans/implementation/phase-19/deep-dive/05-fix-pass-plan.md §5
-- **Tests:** 63 Playwright cases across 29 spec files (39 targeted active for P19 seal)
+- **Tests:** 63 Playwright cases across 29 spec files (46 targeted active for P19 seal-gate)
 
 ### Phase Roadmap
 
@@ -65,13 +65,14 @@
 | P12 | Content Intelligence: site context, 13 effects, Resources tab | CLOSED (78/100) |
 | P13 | Advanced Features: blog section, multi-page, export, a11y, 100+ tests | CLOSED (76/100) |
 | P14 | Marketing review: 20 issues fixed, AISP validation, UI/UX cleanup | CLOSED (74/100) |
-| P15 | Developer assistance: builder UX, docs, tooltips, onboarding | CLOSED |
-| P16 | Advanced features review: effects, context, templates, Resources | CLOSED |
-| P17 | Feature Review ADR: checklist + proof for 1 feature (pilot) | CLOSED |
-| P18 | Real chat (LLM provider abstraction + JSON-patch contract) | CLOSED |
-| P19 | Real listen (Web Speech STT + voice-to-pipeline + brutal review fix-pass) | CLOSED (88/100) |
-| P20 | Carryforward: image fixtures, ListenTab split, SECURITY.md, vitest | NEXT |
-| P21+ | Multi-intent prompt parser, post-MVP polish | PLANNED |
+| P15 | Polish + Kitchen Sink + Blog + Novice Simplification | CLOSED (82/100) |
+| P16 | Local Database (sql.js + IndexedDB) | CLOSED (86/100) |
+| P17 | LLM Provider Abstraction + Env Var + BYOK Scaffold | CLOSED (88/100) |
+| P18 | Real Chat Mode (LLM → JSON Patches) | CLOSED (89/100) |
+| P18b | Provider Expansion + Observability (5-adapter matrix + llm_logs) | CLOSED (90/100) |
+| P19 | Real Listen Mode (Web Speech STT + voice-to-pipeline + 18-item fix-pass) | CLOSED (88/100) |
+| P20 | Verify, Cost Caps, MVP Close, Vercel Deploy + 20 P19 carryforward items | NEXT |
+| P21+ | Multi-intent prompt parser, post-MVP polish | POST-MVP |
 
 ## AISP (AI Symbolic Protocol) 
 see full details in /workspaces/hey-bradley-core/plans/initial-plans/00.aisp-reference.md 

@@ -79,7 +79,7 @@ After P20, MVP is shipped. Capstone-presentation surface = P15+P16+P17+P18+P19 (
 - Two `console.warn` calls in `auditedComplete` + `recordPipelineFailure` are DEV-gated but will be silently shipped to production builds (gate is at runtime, not build-time). Replace with no-op in production for ~10 LOC saved.
 
 ### Doc drift
-- `CLAUDE.md` still says 37 ADRs / 102 tests; reality at end of P18 is **45 ADRs** (000–037 + 038–045) and **129+ Playwright tests**. Capstone reviewer flagged this in P15 retro; never fixed. ~10 min update.
+- ~~`CLAUDE.md` still says 37 ADRs / 102 tests~~ **RESOLVED 2026-04-27 in post-P19 doc audit.** `CLAUDE.md` `## Project Status` now reads 38 ADRs through ADR-048 + 63 Playwright cases across 29 spec files (46 targeted active for P19 seal-gate) + ~28,400 LOC TS/TSX across 227 source files. ADR numbering convention (11 holes: 002-004, 006-009, 034-037) documented in `docs/adr/README.md`.
 
 ### Architectural future-work (post-MVP signals)
 - Adapter `dispose()` so `clearKey` actually invalidates captured SDK clients.
