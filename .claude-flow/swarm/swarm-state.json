@@ -107,6 +107,24 @@
       },
       "createdAt": "2026-04-27T12:02:13.446Z",
       "updatedAt": "2026-04-27T12:02:13.446Z"
+    },
+    "swarm-1777296946167-loimh6": {
+      "swarmId": "swarm-1777296946167-loimh6",
+      "topology": "hierarchical-mesh",
+      "maxAgents": 14,
+      "status": "running",
+      "agents": [],
+      "tasks": [],
+      "config": {
+        "topology": "hierarchical-mesh",
+        "maxAgents": 14,
+        "strategy": "specialized",
+        "communicationProtocol": "message-bus",
+        "autoScaling": true,
+        "consensusMechanism": "majority"
+      },
+      "createdAt": "2026-04-27T13:35:46.167Z",
+      "updatedAt": "2026-04-27T13:35:46.167Z"
     }
   },
   "version": "3.0.0"
