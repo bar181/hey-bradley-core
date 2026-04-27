@@ -11,11 +11,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ChatExplainer } from '@/components/shell/ChatExplainer'
 import type { SectionType } from '@/lib/schemas'
-import { buildSystemPrompt } from '@/contexts/intelligence/prompts/system'
-import { parseResponse } from '@/contexts/intelligence/llm/responseParser'
-import { validatePatches } from '@/contexts/intelligence/llm/patchValidator'
-import { auditedComplete } from '@/contexts/intelligence/llm/auditedComplete'
-import { recordPipelineFailure } from '@/contexts/intelligence/llm/recordPipelineFailure'
+import { submit as submitChatPipeline } from '@/contexts/intelligence/chatPipeline'
 
 /* ── Chat examples for the dialog ── */
 const CHAT_EXAMPLE_CATEGORIES = [
@@ -248,58 +244,23 @@ export function ChatInput() {
   }, [executeMultiPart, executeAction])
 
   /**
-   * Primary path (Phase 18 Step 2): build system prompt, call adapter
-   * (FixtureAdapter in DEV), parse + validate + apply. Any failure mode
-   * routes silently to the canned fallback so demos never break.
+   * P19 Step 2 (A4): the LLM-pipeline body has been extracted to
+   * `src/contexts/intelligence/chatPipeline.ts` so the listen-mode final
+   * transcript can drive the same JSON-patch flow. ChatInput keeps the canned
+   * fallback executor (it owns the action executor + multi-step typewriter
+   * stagger) and only calls `submit({ source: 'chat', ... })` for the LLM
+   * path. When the pipeline applied patches we drive the typewriter with the
+   * returned summary; otherwise we hand off to runCannedFallback as before.
    */
   const runLLMPipeline = useCallback(async (text: string): Promise<boolean> => {
-    const adapter = useIntelligenceStore.getState().adapter
-    if (!adapter) return false
-    const configState = useConfigStore.getState()
-    const systemPrompt = buildSystemPrompt({
-      configJson: configState.config,
-      history: messages.slice(-6).map((m) => ({ role: m.role, text: m.text })),
-    })
-    // P18 Step 2 (A4): every chat call MUST go through auditedComplete so the
-    // cost-cap pre-check fires and an llm_calls audit row is written. Calling
-    // adapter.complete directly bypasses both — do not regress this.
-    const res = await auditedComplete(adapter, { systemPrompt, userPrompt: text }, { source: 'chat' })
-    if (!res.ok) return false
-    // FIX 8: auditedComplete returns the inserted row's id; downstream
-    // failures UPDATE that row in place (one row per call/decision).
-    const callId = res.auditCallId
-    const parsed = parseResponse(res.json)
-    if (!parsed.ok) {
-      // FIX 9: structured short marker — never raw user/model content.
-      recordPipelineFailure(callId, 'parse', `@root: ${parsed.reason}`)
-      return false
+    const result = await submitChatPipeline({ source: 'chat', text })
+    if (result.ok && !result.fellBackToCanned && result.appliedPatchCount > 0) {
+      setTypingText('')
+      setTypingFull(result.summary)
+      return true
     }
-    const errs = validatePatches(parsed.envelope.patches, configState.config)
-    if (errs.length > 0) {
-      // FIX 9: encode the FIRST reason only and tag with the offending index.
-      // Avoids dumping full patch JSON into the audit log.
-      const first = errs[0]
-      const idxMatch = /^patch\[(\d+)\]/.exec(first)
-      const where = idxMatch ? `@patch[${idxMatch[1]}]` : '@patches'
-      const trimmed = first.replace(/^patch\[\d+\]:\s*/, '')
-      recordPipelineFailure(callId, 'validate', `${where}: ${trimmed}`)
-      return false
-    }
-    try {
-      // FIX 1: single mutation path — configStore.applyPatches wraps the pure
-      // applyPatches helper (structuredClone + RFC-6902 ops), commits via the
-      // canonical setter pattern, and marks isDirty.
-      useConfigStore.getState().applyPatches(parsed.envelope.patches)
-    } catch (e) {
-      // FIX 9: keep apply-failure detail short and structured.
-      const msg = e instanceof Error ? e.message : String(e)
-      recordPipelineFailure(callId, 'apply', `@apply: ${msg}`)
-      return false
-    }
-    setTypingText('')
-    setTypingFull(parsed.envelope.summary ?? 'Done.')
-    return true
-  }, [messages])
+    return false
+  }, [])
 
   const handleSend = () => {
     const text = input.trim()

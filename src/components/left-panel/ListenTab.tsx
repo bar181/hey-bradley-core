@@ -6,6 +6,10 @@ import listenSequences from '@/data/sequences/listen-sequences.json'
 import { useUIStore } from '@/store/uiStore'
 import { useListenStore, type ListenError } from '@/store/listenStore'
 import { Button } from '@/components/ui/button'
+import { submit as submitChatPipeline } from '@/contexts/intelligence/chatPipeline'
+import { appendListenTranscript } from '@/contexts/persistence/repositories/messages'
+import { activeSession, startSession } from '@/contexts/persistence/repositories/sessions'
+import { useProjectStore } from '@/store/projectStore'
 
 // Phase 19 Step 1 (Agent A2): PTT capture path lives ABOVE the canned demo.
 // Step 2 wires `final` → `chatPipeline.submit`; Step 1 only displays it.
@@ -79,6 +83,9 @@ export function ListenTab() {
   const pttAutoStopTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const pttRecordingRef = useRef(false)
   pttRecordingRef.current = pttRecording
+  // P19 Step 2 (A4): Bradley reply banner + busy state for the listen surface.
+  const [pttReply, setPttReply] = useState<string>('')
+  const [pttBusy, setPttBusy] = useState<boolean>(false)
 
   const clearPttTimers = useCallback(() => {
     if (pttHoldGateTimerRef.current) {
@@ -91,19 +98,62 @@ export function ListenTab() {
     }
   }, [])
 
+  /**
+   * P19 Step 2 (A4): drive the same chat pipeline used by ChatInput from a
+   * final voice transcript. Resilient to stop()/transcript races: bails when
+   * the resolved transcript is empty, persists successful turns to
+   * listen_transcripts (P16 schema), and surfaces Bradley's reply in a banner.
+   *
+   * NOTE on resetTranscript: we deliberately do NOT clear the transcript here.
+   * The P19 Step 1 capture spec asserts the final transcript stays visible
+   * after stop(), and clearing immediately after submit breaks that. Instead
+   * the next press (handlePttPressStart) wipes any previous transcript so the
+   * "next hold-talk-release starts fresh" invariant from §3.5 still holds.
+   */
+  const submitListenFinal = useCallback(async (final: string): Promise<void> => {
+    const text = final.trim()
+    if (!text) return
+    setPttBusy(true)
+    try {
+      const result = await submitChatPipeline({ source: 'listen', text })
+      setPttReply(result.summary || '')
+      // Persist ONLY successful turns — fallback hint replies (no canned match)
+      // would otherwise pollute listen_transcripts with the user's garbage. We
+      // ensure a session exists (mirrors auditedComplete's helper) so writes
+      // attribute to the correct session row.
+      if (result.ok) {
+        try {
+          const projectId = useProjectStore.getState().activeProject
+          if (projectId) {
+            const sess = activeSession(projectId) ?? startSession(projectId)
+            appendListenTranscript({ session_id: sess.id, text })
+          }
+        } catch (e) {
+          if (import.meta.env.DEV) console.warn('[listen] persist transcript failed', e)
+        }
+      }
+    } finally {
+      setPttBusy(false)
+    }
+  }, [])
+
   const handlePttPressStart = useCallback(() => {
     if (!pttSupported) return
     pttMouseDownAtRef.current = Date.now()
     clearPttTimers()
     // 250 ms hold gate — only start once the user holds past the threshold.
     pttHoldGateTimerRef.current = setTimeout(() => {
+      // Wipe any previous transcript + reply so this hold-talk-release starts
+      // fresh (P19 Step 2 §3.5). startRecording also clears interim/final, but
+      // we explicitly drop the reply banner here so the user gets a clean UI.
+      setPttReply('')
       useListenStore.getState().startRecording()
       // 12 s auto-stop safety net per phase plan §3.7.
       pttAutoStopTimerRef.current = setTimeout(() => {
-        useListenStore.getState().stopRecording()
+        void useListenStore.getState().stopRecording().then(submitListenFinal)
       }, PTT_AUTO_STOP_MS)
     }, PTT_HOLD_GATE_MS)
-  }, [pttSupported, clearPttTimers])
+  }, [pttSupported, clearPttTimers, submitListenFinal])
 
   const handlePttPressEnd = useCallback(() => {
     if (!pttSupported) return
@@ -120,9 +170,9 @@ export function ListenTab() {
     }
     clearPttTimers()
     if (pttRecordingRef.current) {
-      useListenStore.getState().stopRecording()
+      void useListenStore.getState().stopRecording().then(submitListenFinal)
     }
-  }, [pttSupported, clearPttTimers])
+  }, [pttSupported, clearPttTimers, submitListenFinal])
 
   // Cleanup PTT timers on unmount.
   useEffect(() => {
@@ -417,6 +467,27 @@ export function ListenTab() {
             >
               Dismiss
             </button>
+          </div>
+        )}
+
+        {/* P19 Step 2 (A4): Bradley reply for the listen surface. We're in a
+            different left-panel tab than ChatInput so we cannot share the chat
+            messages list — a small banner here keeps the UX local. */}
+        {pttBusy && (
+          <div
+            data-testid="listen-busy"
+            className="w-full max-w-[300px] rounded-md bg-white/5 border border-white/10 px-3 py-2 text-xs text-white/60"
+          >
+            bradley is thinking…
+          </div>
+        )}
+
+        {pttReply && !pttBusy && (
+          <div
+            data-testid="listen-reply"
+            className="w-full max-w-[300px] rounded-md bg-[#A51C30]/10 border border-[#A51C30]/30 px-3 py-2 text-sm text-white/85"
+          >
+            {pttReply}
           </div>
         )}
 
