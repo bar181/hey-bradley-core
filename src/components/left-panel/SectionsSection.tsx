@@ -488,8 +488,10 @@ export function SectionsSection() {
               <div className="px-3 py-1.5 text-xs text-hb-text-muted font-medium uppercase tracking-wider border-b border-hb-border">
                 Add New Section
               </div>
-              {SECTION_TYPES.map((type) => {
+              {visibleAddSectionTypes.map((type) => {
                 const Icon = sectionIconMap[type] ?? Star
+                const rawAddName = sectionNameMap[type] ?? type
+                const addName = isDraft ? applyDraftLabel(rawAddName) : rawAddName
                 return (
                   <button
                     key={type}
@@ -503,7 +505,7 @@ export function SectionsSection() {
                     />
                     <div className="flex flex-col min-w-0">
                       <span className="text-sm text-hb-text-primary">
-                        {sectionNameMap[type]}
+                        {addName}
                       </span>
                       <span className="text-xs text-hb-text-muted">
                         {sectionDescriptionMap[type]}

@@ -1,11 +1,21 @@
+import { useEffect } from 'react'
 import { Palette, LayoutList, MessageSquare, Mic, Settings } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { useUIStore } from '@/store/uiStore'
 import type { LeftPanelTab } from '@/store/uiStore'
+import { useConfigStore } from '@/store/configStore'
+import type { SectionType } from '@/lib/schemas/section'
 import { SectionsSection } from './SectionsSection'
 import { ChatInput } from '@/components/shell/ChatInput'
 import { ListenTab } from './ListenTab'
 import { Tooltip } from '@/components/ui/Tooltip'
+
+// Mirrors DRAFT_ALLOWED_SECTION_TYPES in SectionsSection.tsx (kept inline; KISS).
+const DRAFT_ALLOWED_SECTION_TYPES: ReadonlySet<SectionType> = new Set<SectionType>([
+  'hero',
+  'blog',
+  'footer',
+])
 
 const TABS = [
   { value: 'builder' as const, icon: LayoutList, label: 'Builder' },
@@ -19,6 +29,34 @@ export function LeftPanel() {
   const selectedContext = useUIStore((s) => s.selectedContext)
   const setSelectedContext = useUIStore((s) => s.setSelectedContext)
   const setRightPanelVisible = useUIStore((s) => s.setRightPanelVisible)
+  const rightPanelTab = useUIStore((s) => s.rightPanelTab)
+  const sections = useConfigStore((s) => {
+    const activePage = s.activePage
+    if (activePage && s.config.pages && s.config.pages.length > 0) {
+      const page = s.config.pages.find((p) => p.id === activePage)
+      if (page) return page.sections
+    }
+    return s.config.sections
+  })
+
+  // DRAFT-mode fallback: if the selected section is now hidden by the narrowed
+  // surface, redirect selection to the first allowed (and enabled) section.
+  useEffect(() => {
+    if (rightPanelTab !== 'SIMPLE') return
+    if (selectedContext?.type !== 'section') return
+    const current = sections.find((s) => s.id === selectedContext.sectionId)
+    if (current && DRAFT_ALLOWED_SECTION_TYPES.has(current.type as SectionType)) return
+    const fallback =
+      sections.find(
+        (s) => s.enabled && DRAFT_ALLOWED_SECTION_TYPES.has(s.type as SectionType),
+      ) ??
+      sections.find((s) => DRAFT_ALLOWED_SECTION_TYPES.has(s.type as SectionType))
+    if (fallback) {
+      setSelectedContext({ type: 'section', sectionId: fallback.id })
+    } else {
+      setSelectedContext({ type: 'theme' })
+    }
+  }, [rightPanelTab, selectedContext, sections, setSelectedContext])
 
   const handleTabChange = (tab: LeftPanelTab) => {
     setLeftPanelTab(tab)
