@@ -1,53 +1,67 @@
-// Spec: plans/implementation/mvp-plan/04-phase-18-real-chat.md §3.6 (apply step).
-// Step 2 of Phase 18: replace-op only, applied to a structuredClone so the
-// caller's input is never mutated. Throws on any individual op failure.
+// Spec: plans/implementation/mvp-plan/04-phase-18-real-chat.md §3.6.
+// Step 3: atomic clone-and-apply (replace/add/remove). Aborts whole batch on
+// any single-op failure (caller's input tree is never mutated).
 
 import type { JSONPatch } from '@/lib/schemas/patches'
 
-/**
- * Atomic clone-and-apply. Caller is expected to have validated the batch via
- * `validatePatches` first; this function still throws if any single op fails
- * so the chat pipeline can fall back cleanly.
- */
+export class MultiPatchError extends Error {
+  // Hand-declared fields for `erasableSyntaxOnly` (no param-property shorthand).
+  readonly index: number
+  readonly cause?: unknown
+  constructor(index: number, message: string, cause?: unknown) {
+    super(message); this.name = 'MultiPatchError'; this.index = index; this.cause = cause
+  }
+}
+
 export function applyPatches(json: unknown, patches: JSONPatch[]): unknown {
   const cloned = structuredClone(json)
-  for (const p of patches) applyOne(cloned, p)
+  for (let i = 0; i < patches.length; i++) {
+    try { applyOne(cloned, patches[i]) }
+    catch (e) {
+      const msg = e instanceof Error ? e.message : String(e)
+      throw new MultiPatchError(i, `applyPatches: op[${i}] failed: ${msg}`, e)
+    }
+  }
   return cloned
 }
 
 function applyOne(root: unknown, patch: JSONPatch): void {
-  if (patch.op !== 'replace') {
-    throw new Error(`applyPatches: op '${patch.op}' not supported in Step 2`)
-  }
-  const segments = patch.path.split('/').slice(1).map(decodeToken)
-  if (segments.length === 0) throw new Error(`applyPatches: empty path`)
+  const segs = patch.path.split('/').slice(1).map((t) => t.replace(/~1/g, '/').replace(/~0/g, '~'))
+  if (segs.length === 0) throw new Error('empty path')
+  const leaf = segs[segs.length - 1]
   let parent: unknown = root
-  for (let i = 0; i < segments.length - 1; i++) {
-    parent = stepInto(parent, segments[i])
-    if (parent === undefined) throw new Error(`applyPatches: missing path '${patch.path}'`)
+  for (let i = 0; i < segs.length - 1; i++) {
+    parent = stepInto(parent, segs[i])
+    if (parent === undefined) throw new Error(`missing path '${patch.path}'`)
   }
-  const leaf = segments[segments.length - 1]
-  if (Array.isArray(parent)) {
-    const idx = Number(leaf)
-    if (!Number.isInteger(idx) || idx < 0 || idx >= parent.length) {
-      throw new Error(`applyPatches: bad array index '${leaf}'`)
+  const isArr = Array.isArray(parent)
+  const isObj = parent !== null && typeof parent === 'object' && !isArr
+  if (!isArr && !isObj) throw new Error(`cannot ${patch.op} under non-object at '${patch.path}'`)
+  if (patch.op === 'add') {
+    if (isArr) {
+      const arr = parent as unknown[]
+      if (leaf === '-') { arr.push(patch.value); return }
+      const idx = Number(leaf)
+      if (!Number.isInteger(idx) || idx < 0 || idx > arr.length) throw new Error(`bad index '${leaf}'`)
+      arr.splice(idx, 0, patch.value); return
     }
-    parent[idx] = patch.value
+    ;(parent as Record<string, unknown>)[leaf] = patch.value
     return
   }
-  if (parent !== null && typeof parent === 'object') {
+  if (patch.op === 'replace' || patch.op === 'remove') {
+    if (isArr) {
+      const arr = parent as unknown[]
+      const idx = Number(leaf)
+      if (!Number.isInteger(idx) || idx < 0 || idx >= arr.length) throw new Error(`bad index '${leaf}'`)
+      if (patch.op === 'replace') arr[idx] = patch.value; else arr.splice(idx, 1)
+      return
+    }
     const obj = parent as Record<string, unknown>
-    if (!Object.prototype.hasOwnProperty.call(obj, leaf)) {
-      throw new Error(`applyPatches: missing key '${leaf}'`)
-    }
-    obj[leaf] = patch.value
+    if (!Object.prototype.hasOwnProperty.call(obj, leaf)) throw new Error(`missing key '${leaf}'`)
+    if (patch.op === 'replace') obj[leaf] = patch.value; else delete obj[leaf]
     return
   }
-  throw new Error(`applyPatches: cannot replace under non-object`)
-}
-
-function decodeToken(tok: string): string {
-  return tok.replace(/~1/g, '/').replace(/~0/g, '~')
+  throw new Error(`unsupported op '${(patch as { op: string }).op}'`)
 }
 
 function stepInto(node: unknown, token: string): unknown {
@@ -55,7 +69,7 @@ function stepInto(node: unknown, token: string): unknown {
     const idx = Number(token)
     return Number.isInteger(idx) && idx >= 0 && idx < node.length ? node[idx] : undefined
   }
-  if (node !== null && typeof node === 'object') {
+  if (node && typeof node === 'object') {
     const obj = node as Record<string, unknown>
     return Object.prototype.hasOwnProperty.call(obj, token) ? obj[token] : undefined
   }

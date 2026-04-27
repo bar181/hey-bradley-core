@@ -20,3 +20,5 @@ export {
 export type { BYOKEntry } from './keys';
 export { auditedComplete } from './auditedComplete';
 export type { AuditedCallContext } from './auditedComplete';
+export { recordPipelineFailure } from './recordPipelineFailure';
+export type { PipelineFailureKind } from './recordPipelineFailure';

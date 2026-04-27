@@ -129,7 +129,10 @@ test.describe('Phase 18 Step 2: chat round-trip', () => {
     const reply = page.getByTestId('chat-msg-bradley')
     await expect(reply.first()).toBeVisible({ timeout: 6000 })
     // cannedChat fallback for unrecognised input — see lib/cannedChat.ts §Fallback.
-    await expect(reply.first()).toContainText(/hmm,? try/i, { timeout: 6000 })
+    // P18 Step 3 (A7) hardened the canned fallback to list 3-5 concrete
+    // examples ("Hmm, I didn't catch that. Try one of: ...") — accept the new
+    // wording too so this Step 2 regression test stays valid post-A7.
+    await expect(reply.first()).toContainText(/hmm,? (try|i didn't catch)/i, { timeout: 6000 })
 
     expect(await getHeroHeading(page)).toBe(before)
     expect(errors).toHaveLength(0)
@@ -159,7 +162,10 @@ test.describe('Phase 18 Step 2: chat round-trip', () => {
     await sendChat(page, 'totallyunmatchableprompt9999')
     const reply = page.getByTestId('chat-msg-bradley')
     await expect(reply.first()).toBeVisible({ timeout: 6000 })
-    await expect(reply.first()).toContainText(/hmm,? try/i, { timeout: 6000 })
+    // P18 Step 3 (A7) hardened the canned fallback to list 3-5 concrete
+    // examples ("Hmm, I didn't catch that. Try one of: ...") — accept the new
+    // wording too so this Step 2 regression test stays valid post-A7.
+    await expect(reply.first()).toContainText(/hmm,? (try|i didn't catch)/i, { timeout: 6000 })
 
     expect(await getHeroHeading(page)).toBe(before)
     expect(errors).toHaveLength(0)

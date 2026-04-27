@@ -25,6 +25,8 @@ interface IntelligenceState {
   sessionTokens: { in: number; out: number }
   hasKey: boolean
   rememberKey: boolean
+  /** P18 Step 3: re-entrancy guard so a second chat submit cannot race the first. */
+  inFlight: boolean
 
   init: () => Promise<void>
   testConnection: () => Promise<boolean>
@@ -34,6 +36,8 @@ interface IntelligenceState {
   resetSession: () => void
   /** Close the active project's session row + clear in-memory session counters. */
   endActiveSession: () => void
+  /** Toggle the in-flight mutex around the chat pipeline. */
+  setInFlight: (value: boolean) => void
 }
 
 // One-time wiring so we end the previous project's session when the active
@@ -50,6 +54,7 @@ export const useIntelligenceStore = create<IntelligenceState>((set, get) => ({
   sessionTokens: { in: 0, out: 0 },
   hasKey: false,
   rememberKey: false,
+  inFlight: false,
 
   init: async () => {
     const { pickAdapter } = await import('@/contexts/intelligence/llm/pickAdapter')
@@ -159,6 +164,8 @@ export const useIntelligenceStore = create<IntelligenceState>((set, get) => ({
     }
     set({ sessionUsd: 0, sessionTokens: { in: 0, out: 0 } })
   },
+
+  setInFlight: (value) => set({ inFlight: value }),
 }))
 
 // Dev-only window exposure mirrors __configStore / __projectStore patterns
