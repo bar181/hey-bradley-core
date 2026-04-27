@@ -17,6 +17,14 @@ interface ImagePickerProps {
   currentEffect?: string
   label?: string
   mode?: 'image' | 'video' | 'both'
+  /**
+   * Picker UI mode.
+   * - 'full' (default): all tabs (photos, videos, effects) and upload zone shown.
+   * - 'library-only': catalog grid + select only. Hides upload zone, video tab,
+   *   effects tab, and all advanced effect controls (Ken Burns, parallax, etc.).
+   *   Used in DRAFT mode for the narrowed MVP scope.
+   */
+  pickerMode?: 'full' | 'library-only'
 }
 
 type TabId = 'photos' | 'videos' | 'effects'
@@ -56,7 +64,11 @@ export function ImagePicker({
   currentEffect,
   label = 'Choose Media',
   mode = 'both',
+  pickerMode = 'full',
 }: ImagePickerProps) {
+  const isLibraryOnly = pickerMode === 'library-only'
+  // In library-only mode, force image-only catalog regardless of media-type prop.
+  const effectiveMode: 'image' | 'video' | 'both' = isLibraryOnly ? 'image' : mode
   const [open, setOpen] = useState(false)
   const [activeTab, setActiveTab] = useState<TabId>('photos')
   const [activeCategory, setActiveCategory] = useState<PhotoCategory>('all')
@@ -143,13 +155,16 @@ export function ImagePicker({
 
   // Determine available tabs
   const tabs: { id: TabId; label: string; icon: typeof Camera }[] = []
-  if (mode === 'image' || mode === 'both') {
+  if (effectiveMode === 'image' || effectiveMode === 'both') {
     tabs.push({ id: 'photos', label: 'Photos', icon: Camera })
   }
-  if (mode === 'video' || mode === 'both') {
+  if (effectiveMode === 'video' || effectiveMode === 'both') {
     tabs.push({ id: 'videos', label: 'Videos', icon: Film })
   }
-  tabs.push({ id: 'effects', label: 'Effects', icon: Sparkles })
+  // Effects tab is hidden in library-only mode (no Ken Burns / parallax / etc.)
+  if (!isLibraryOnly) {
+    tabs.push({ id: 'effects', label: 'Effects', icon: Sparkles })
+  }
 
   // Ensure activeTab is valid for current mode
   const resolvedTab = tabs.some((t) => t.id === activeTab) ? activeTab : tabs[0]?.id ?? 'photos'
@@ -285,7 +300,8 @@ export function ImagePicker({
 
                     {/* Image grid with upload area */}
                     <div className="flex-1 overflow-y-auto p-3">
-                      <ImageUploadZone onConfirm={handleUploadConfirm} />
+                      {/* Upload zone hidden in library-only mode (DRAFT). */}
+                      {!isLibraryOnly && <ImageUploadZone onConfirm={handleUploadConfirm} />}
 
                       {filteredImages.length === 0 ? (
                         <p className="text-xs text-hb-text-muted text-center py-8">

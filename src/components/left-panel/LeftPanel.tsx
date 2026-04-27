@@ -84,6 +84,13 @@ export function LeftPanel() {
                 ? 'text-hb-accent border-b-2 border-hb-accent'
                 : 'text-hb-text-muted hover:text-hb-text-secondary'
             )}
+            title={
+              value === 'builder'
+                ? 'Pick and arrange the sections of your page.'
+                : value === 'chat'
+                  ? 'Tell the assistant what you want and watch it build.'
+                  : 'Watch a guided demo of how the editor works.'
+            }
           >
             <Icon size={13} />
             {label}
@@ -111,6 +118,7 @@ export function LeftPanel() {
                   ? 'bg-hb-accent text-white border-hb-accent'
                   : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-accent/25'
               )}
+              title="Tell us what your site is about and who it is for."
             >
               <Settings size={14} className={isSiteContextSelected ? 'text-white/70' : 'text-hb-text-muted'} />
               <span className={cn('text-sm', isSiteContextSelected ? 'text-white font-medium' : 'text-hb-text-primary')}>Site Settings</span>
@@ -134,6 +142,7 @@ export function LeftPanel() {
                   ? 'bg-hb-accent text-white border-hb-accent'
                   : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-accent/25'
               )}
+              title="Pick the look and colors of your site."
             >
               <Palette size={14} className={isThemeSelected ? 'text-white/70' : 'text-hb-text-muted'} />
               <span className={cn('text-sm', isThemeSelected ? 'text-white font-medium' : 'text-hb-text-primary')}>Theme</span>

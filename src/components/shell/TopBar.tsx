@@ -22,21 +22,15 @@ export function TopBar() {
   const toggleDesignLock = useUIStore((s) => s.toggleDesignLock)
   const brandLocked = useUIStore((s) => s.brandLocked)
   const toggleBrandLock = useUIStore((s) => s.toggleBrandLock)
+  const toggleSettingsDrawer = useUIStore((s) => s.toggleSettingsDrawer)
   // DRAFT mode = SIMPLE right-panel tab (see plans/implementation/mvp-plan/01-phase-15-polish-kitchen-sink.md §1.1).
   // DRAFT-mode top-bar control budget: ≤ 6 interactive elements
   // (logo, mode toggle, save, export, settings, theme picker). EXPERT keeps all controls.
-  const isDraft = useUIStore((s) => s.rightPanelTab) === 'SIMPLE'
 
   const isDirty = useConfigStore((s) => s.isDirty)
 
   const handleSettingsClick = () => {
-    // Settings drawer is being built by another Wave 3 agent; provide the hook now.
-    const state = useUIStore.getState() as unknown as { settingsDrawerOpen?: boolean }
-    if (Object.prototype.hasOwnProperty.call(state, 'settingsDrawerOpen')) {
-      useUIStore.setState({ settingsDrawerOpen: true } as Partial<typeof state>)
-    } else if (import.meta.env.DEV) {
-      console.log('settings clicked')
-    }
+    toggleSettingsDrawer()
   }
 
   // Site chrome dark/light mode
@@ -150,6 +144,16 @@ export function TopBar() {
             title="Switch between editing and previewing your page."
           >
             {isPreviewMode ? <><PenLine size={14} /> Edit</> : <><Eye size={14} /> Preview</>}
+          </button>
+        </Tooltip>
+        <Tooltip content="Open settings" position="bottom">
+          <button
+            onClick={handleSettingsClick}
+            className="p-1 text-white/60 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
+            aria-label="Open settings"
+            title="Open settings."
+          >
+            <Settings size={16} />
           </button>
         </Tooltip>
         {/* Save status indicator */}
