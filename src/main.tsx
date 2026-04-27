@@ -11,6 +11,9 @@ import { OpenCore } from '@/pages/OpenCore'
 import { HowIBuiltThis } from '@/pages/HowIBuiltThis'
 import { Docs } from '@/pages/Docs'
 import { NotFound } from '@/pages/NotFound'
+import { initDB } from '@/contexts/persistence/db'
+import { migrateLegacyLocalStorage } from '@/contexts/persistence/legacyMigration'
+import { setupAutosave } from '@/contexts/persistence/autosave'
 import './index.css'
 
 function ScrollToTop() {
@@ -19,22 +22,55 @@ function ScrollToTop() {
   return null
 }
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Welcome />} />
-        <Route path="/new-project" element={<Onboarding />} />
-        <Route path="/builder" element={<Builder />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/aisp" element={<AISP />} />
-        <Route path="/research" element={<Research />} />
-        <Route path="/open-core" element={<OpenCore />} />
-        <Route path="/how-i-built-this" element={<HowIBuiltThis />} />
-        <Route path="/docs" element={<Docs />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
-  </StrictMode>,
-)
+const rootEl = document.getElementById('root')!
+const root = createRoot(rootEl)
+
+root.render(<div>Loading…</div>)
+
+initDB()
+  .then(() => {
+    const { migrated } = migrateLegacyLocalStorage()
+    if (import.meta.env.DEV && migrated > 0) console.info(`[persistence] migrated ${migrated} legacy projects`)
+    setupAutosave()
+    root.render(
+      <StrictMode>
+        <BrowserRouter>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<Welcome />} />
+            <Route path="/new-project" element={<Onboarding />} />
+            <Route path="/builder" element={<Builder />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/aisp" element={<AISP />} />
+            <Route path="/research" element={<Research />} />
+            <Route path="/open-core" element={<OpenCore />} />
+            <Route path="/how-i-built-this" element={<HowIBuiltThis />} />
+            <Route path="/docs" element={<Docs />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </StrictMode>,
+    )
+  })
+  .catch((err: unknown) => {
+    if (import.meta.env.DEV) console.warn('[persistence] initDB failed; rendering app without local DB', err)
+    root.render(
+      <StrictMode>
+        <BrowserRouter>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<Welcome />} />
+            <Route path="/new-project" element={<Onboarding />} />
+            <Route path="/builder" element={<Builder />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/aisp" element={<AISP />} />
+            <Route path="/research" element={<Research />} />
+            <Route path="/open-core" element={<OpenCore />} />
+            <Route path="/how-i-built-this" element={<HowIBuiltThis />} />
+            <Route path="/docs" element={<Docs />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </StrictMode>,
+    )
+  })

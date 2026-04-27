@@ -1,9 +1,18 @@
 import { create } from 'zustand'
 import { masterConfigSchema } from '@/lib/schemas/masterConfig'
 import type { MasterConfig } from '@/lib/schemas/masterConfig'
+import {
+  listProjects as repoList,
+  getProject as repoGet,
+  upsertProject as repoUpsert,
+  deleteProject as repoDelete,
+  type ProjectRow,
+} from '@/contexts/persistence/repositories/projects'
+import { kvGet, kvSet } from '@/contexts/persistence/repositories/kv'
+import { useConfigStore } from '@/store/configStore'
 
 // ---------------------------------------------------------------------------
-// Types
+// Types — UI contract preserved from the previous localStorage-backed store.
 // ---------------------------------------------------------------------------
 
 export interface ProjectMeta {
@@ -27,11 +36,11 @@ interface ProjectStore {
   refreshList: () => void
 }
 
+const LAST_PROJECT_KEY = 'lastProjectId'
+
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
-const PROJECT_LIST_KEY = 'hb-project-list'
 
 function toSlug(name: string): string {
   return name
@@ -42,31 +51,70 @@ function toSlug(name: string): string {
     || 'untitled'
 }
 
-function projectStorageKey(slug: string): string {
-  return `hb-project-${slug}`
+function rowToMeta(row: ProjectRow): ProjectMeta {
+  // config_json holds the full MasterConfig; we extract the few fields the
+  // listing UI needs without paying for a full schema parse.
+  let sectionCount = 0
+  let theme = 'custom'
+  try {
+    const parsed = JSON.parse(row.config_json) as {
+      sections?: unknown[]
+      theme?: { preset?: string }
+    }
+    sectionCount = Array.isArray(parsed.sections) ? parsed.sections.length : 0
+    theme = parsed.theme?.preset || 'custom'
+  } catch {
+    // Tolerate malformed rows in the listing — load() will validate.
+  }
+  return {
+    slug: row.id,
+    name: row.name,
+    savedAt: new Date(row.updated_at).toISOString(),
+    sectionCount,
+    theme,
+  }
 }
 
 function readProjectList(): ProjectMeta[] {
   try {
-    const raw = localStorage.getItem(PROJECT_LIST_KEY)
-    if (!raw) return []
-    return JSON.parse(raw) as ProjectMeta[]
+    return repoList().map(rowToMeta)
   } catch {
+    // DB not yet initialised (e.g. very early render) — empty list is safe.
     return []
   }
 }
 
-function writeProjectList(projects: ProjectMeta[]): void {
-  localStorage.setItem(PROJECT_LIST_KEY, JSON.stringify(projects))
+function readInitialActive(): string | null {
+  try {
+    return kvGet(LAST_PROJECT_KEY) ?? null
+  } catch {
+    return null
+  }
+}
+
+function hydrateLastProject(slug: string | null): void {
+  if (!slug) return
+  try {
+    const row = repoGet(slug)
+    if (!row) return
+    const parsed = JSON.parse(row.config_json) as unknown
+    const validated = masterConfigSchema.parse(parsed)
+    useConfigStore.getState().loadConfig(validated)
+  } catch {
+    // Bad row — leave configStore at defaults.
+  }
 }
 
 // ---------------------------------------------------------------------------
 // Store
 // ---------------------------------------------------------------------------
 
+const initialActive = readInitialActive()
+hydrateLastProject(initialActive)
+
 export const useProjectStore = create<ProjectStore>((set, get) => ({
   projects: readProjectList(),
-  activeProject: null,
+  activeProject: initialActive,
 
   refreshList: () => {
     set({ projects: readProjectList() })
@@ -74,40 +122,18 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
 
   saveProject: (name, config) => {
     const slug = toSlug(name)
-    const key = projectStorageKey(slug)
-
-    // Serialize and store the config
-    localStorage.setItem(key, JSON.stringify(config))
-
-    // Build meta entry
-    const meta: ProjectMeta = {
-      slug,
-      name,
-      savedAt: new Date().toISOString(),
-      sectionCount: config.sections.length,
-      theme: config.theme?.preset || 'custom',
-    }
-
-    // Upsert into project list
-    const existing = readProjectList()
-    const idx = existing.findIndex((p) => p.slug === slug)
-    if (idx >= 0) {
-      existing[idx] = meta
-    } else {
-      existing.push(meta)
-    }
-    writeProjectList(existing)
-
-    set({ projects: existing, activeProject: slug })
+    repoUpsert({ id: slug, name, config })
+    kvSet(LAST_PROJECT_KEY, slug)
+    set({ projects: readProjectList(), activeProject: slug })
   },
 
   loadProject: (slug) => {
     try {
-      const key = projectStorageKey(slug)
-      const raw = localStorage.getItem(key)
-      if (!raw) return null
-      const parsed = JSON.parse(raw)
+      const row = repoGet(slug)
+      if (!row) return null
+      const parsed = JSON.parse(row.config_json) as unknown
       const validated = masterConfigSchema.parse(parsed)
+      kvSet(LAST_PROJECT_KEY, slug)
       set({ activeProject: slug })
       return validated
     } catch {
@@ -116,15 +142,10 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
   },
 
   deleteProject: (slug) => {
-    const key = projectStorageKey(slug)
-    localStorage.removeItem(key)
-
-    const existing = readProjectList().filter((p) => p.slug !== slug)
-    writeProjectList(existing)
-
+    repoDelete(slug)
     const { activeProject } = get()
     set({
-      projects: existing,
+      projects: readProjectList(),
       activeProject: activeProject === slug ? null : activeProject,
     })
   },
@@ -157,7 +178,7 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
           const parsed = JSON.parse(text)
           const validated = masterConfigSchema.parse(parsed)
           resolve(validated)
-        } catch (err) {
+        } catch {
           reject(new Error('Invalid project file. The JSON could not be validated.'))
         }
       }

@@ -1,6 +1,6 @@
 # Hey Bradley UI/UX Audit Report - Phase 3
 
-**Date**: 2026-04-06
+**Date**: 2026-04-27
 **URL**: http://localhost:5173/
 **Tool**: Playwright automated audit
 **Routes tested**: `/` (onboarding), `/builder` (3-panel editor)
@@ -11,21 +11,99 @@
 
 | Category | Score (1-5) | Pass/Total |
 |----------|:-----------:|:----------:|
-| **Overall** | **NaN** | **0/0** |
+| Builder | 5 | 7/7 |
+| Preview | 5 | 5/5 |
+| Section Editors | 4 | 13/15 |
+| Theme Switching | 5 | 3/3 |
+| Section CRUD | 2 | 1/3 |
+| Font Cascade | 3 | 1/2 |
+| Accessibility | 3 | 2/4 |
+| Responsive | 5 | 2/2 |
+| **Overall** | **4** | **34/41** |
 
 ---
 
 ## Detailed Findings
 
+### Builder
+
+- **[PASS]** Left panel has Theme item: Visible
+- **[PASS]** Left panel has section items: Hero visible
+- **[PASS]** Theme shows theme cards: Found 12 theme cards
+- **[PASS]** Theme shows Light/Dark toggle: Visible
+- **[PASS]** Hero: Design accordion: Visible
+- **[PASS]** Hero: Visuals accordion: Visible
+- **[PASS]** Hero: Content accordion: Visible
+
+### Preview
+
+- **[PASS]** Preview button exists: Visible
+- **[PASS]** Enters preview mode: Exit Preview button visible
+- **[PASS]** Panels hidden in preview: Panels hidden
+- **[PASS]** Screenshot taken: tests/screenshots/preview-mode.png
+- **[PASS]** Escape returns to editor: Returned
+
+### Section Editors
+
+- **[PASS]** Hero: Design cards visible: Found 8 layout cards
+- **[PASS]** Hero: Headline input: Visible
+- **[PASS]** Hero: Subtitle input: Visible
+- **[PASS]** Hero: Badge input: Visible
+- **[PASS]** Hero: Primary CTA input: Visible
+- **[PASS]** Hero: Secondary CTA input: Visible
+- **[FAIL]** Columns: variant selector: Not found
+- **[PASS]** Columns: has inputs: Found 6 inputs
+- **[PASS]** Pricing: has inputs: Found 6 inputs
+- **[FAIL]** Action: variant selector: Not found
+- **[PASS]** Questions: has inputs: Found 6 inputs
+- **[PASS]** Quotes: has inputs: Found 6 inputs
+- **[PASS]** Value Props: has inputs: Found 6 inputs
+- **[PASS]** Footer: has inputs: Found 6 inputs
+- **[PASS]** Menu: has inputs: Found 6 inputs
+
+### Theme Switching
+
+- **[PASS]** All 8 themes switch without crashes: All OK
+- **[PASS]** No JS errors during switching: Clean
+- **[PASS]** Light/Dark toggle works: Toggle clicked without crash
+
+### Section CRUD
+
+- **[FAIL]** Initial section count: 0 sections
+- **[PASS]** Add Section button exists: Visible
+- **[FAIL]** Add section increases count: Before: 0, After: 0
+
+### Font Cascade
+
+- **[PASS]** Expert tab exists: Visible
+- **[FAIL]** Font options available: Found 0 font options
+
+### Accessibility
+
+- **[FAIL]** Buttons have labels: 1 unlabeled: button[21] class=w-8 h-4 relative rounded-full transition-colors duration-200
+- **[PASS]** Inputs have labels/placeholders: All labeled
+- **[PASS]** Focus indicators in CSS: Focus styles found
+- **[FAIL]** Min font size >= 12px: 1 elements below 12px: <span> "Saved" = 10px
+
+### Responsive
+
+- **[PASS]** Mobile: hamburger menu: Visible at 375px
+- **[PASS]** Tablet: renders at 768px: Renders OK
+
 ---
 
 ## P0 Blockers (Must Fix)
 
-No P0 blockers found.
+- **Section CRUD** > Initial section count: 0 sections
+- **Section CRUD** > Add section increases count: Before: 0, After: 0
 
 ## P1 Issues (Should Fix)
 
-No P1 issues found.
+- **Section Editors** > Columns: variant selector: Not found
+- **Section Editors** > Action: variant selector: Not found
+- **Font Cascade** > Font options available: Found 0 font options
+- **Accessibility** > Buttons have labels: 1 unlabeled: button[21] class=w-8 h-4 relative rounded-full transition-colors duration-200
+- **Accessibility** > Min font size >= 12px: 1 elements below 12px: <span> "Saved" = 10px
 
 ## P2 Nice-to-Haves
 
