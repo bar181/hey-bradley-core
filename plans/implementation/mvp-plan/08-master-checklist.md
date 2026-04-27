@@ -57,29 +57,37 @@
 
 ## Phase 16 — Local Database (sql.js + IndexedDB)
 
+> **STATUS: CLOSED 2026-04-27.** 25/25 DoD items PASS. Build green (588.24 KB gzip JS, +32.56 KB vs P15 baseline). Targeted Playwright 5/5 in 21.7s. No persona gate this phase per plan; resumes at P18. Sealed at `212185f`.
+
 ### Deliverables
-- [ ] `src/contexts/persistence/db.ts` (sql.js bootstrap)
-- [ ] `src/contexts/persistence/migrations/000-init.sql` matches §3.4 of the phase doc
-- [ ] `src/contexts/persistence/migrations/index.ts` runner with `schema_version` row
-- [ ] Repositories: `projects`, `sessions`, `messages`, `llmCalls`, `kv`
-- [ ] `src/contexts/persistence/exportImport.ts` produces/consumes `.heybradley` zip
-- [ ] `projectStore` swapped to DB adapter; UI unchanged
-- [ ] Auto-save debounced (800 ms)
-- [ ] Last-project restored on reload
-- [ ] One-time legacy `localStorage` migration runs and clears legacy keys
-- [ ] Settings: "Clear local data" button (with confirm)
-- [ ] Bundle size delta ≤ 800 KB gzip; sql.js wasm code-split
+- [x] `src/contexts/persistence/db.ts` (sql.js bootstrap)
+- [x] `src/contexts/persistence/migrations/000-init.sql` matches §3.4 of the phase doc
+- [x] `src/contexts/persistence/migrations/index.ts` runner with `schema_version` row
+- [x] Repositories: `projects`, `sessions`, `messages`, `llmCalls`, `kv`
+- [x] `src/contexts/persistence/exportImport.ts` produces/consumes `.heybradley` zip
+- [x] `projectStore` swapped to DB adapter; UI unchanged
+- [x] Auto-save debounced (800 ms)
+- [x] Last-project restored on reload
+- [x] One-time legacy `localStorage` migration runs and clears legacy keys
+- [x] Settings: "Clear local data" button (with confirm)
+- [x] Bundle size delta ≤ 800 KB gzip; sql.js wasm code-split
 
 ### ADRs
-- [ ] `docs/adr/ADR-040-local-sqlite-persistence.md` merged
-- [ ] `docs/adr/ADR-041-schema-versioning.md` merged
+- [x] `docs/adr/ADR-040-local-sqlite-persistence.md` merged
+- [x] `docs/adr/ADR-041-schema-versioning.md` merged
 
 ### Tests
-- [ ] `tests/persistence.spec.ts` Playwright: write → reload → assert restored
-- [ ] Round-trip export/import preserves chat history
-- [ ] `npx tsc --noEmit` clean
-- [ ] Build succeeds; bundle inspected
-- [ ] Test count ≥ Phase 15 + 2
+- [x] `tests/persistence.spec.ts` Playwright: write → reload → assert restored
+- [x] Round-trip export/import preserves chat history
+- [x] `npx tsc --noEmit` clean
+- [x] Build succeeds; bundle inspected
+- [x] Test count ≥ Phase 15 + 2
+
+### Phase 16 Commits (chronological)
+- `a85bef6` W2 5 typed CRUD repositories (projects, sessions, messages, llmCalls, kv)
+- `a1bee02` W3 projectStore DB adapter + autosave + cross-tab + legacy migration
+- `0552b2a` W4 exportImport zip + persistence.spec.ts + build verify
+- `212185f` Fix-Pass reviewer must-fix items (cross-tab BroadcastChannel relifecycle, sanitized export clone, schema-version reject on import, kv pre-migration backup)
 
 ---
 
