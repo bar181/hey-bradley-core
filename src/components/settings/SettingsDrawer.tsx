@@ -25,7 +25,11 @@ export function SettingsDrawer() {
       'This deletes all local projects and chat history. Continue?',
     )
     if (!confirmed) return
-    localStorage.clear()
+    const keys = Object.keys(localStorage)
+    const HB_PREFIXES = ['hb-', 'heybradley', 'selectedExampleId']
+    for (const k of keys) {
+      if (HB_PREFIXES.some((p) => k === p || k.startsWith(p))) localStorage.removeItem(k)
+    }
     location.reload()
   }
 

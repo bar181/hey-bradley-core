@@ -3,12 +3,12 @@ import { cn } from '@/lib/cn'
 import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
+import { useUIStore } from '@/store/uiStore'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
 import { LayoutList, Rows3, Grid3X3, Plus, Trash2 } from 'lucide-react'
 import { SectionHeadingEditor } from './SectionHeadingEditor'
-// ImagePicker intentionally not rendered in this editor.
-// DRAFT scope (narrowed MVP) restricts the picker to the hero backgroundImage
-// and the first blog article's featuredImage. EXPERT mode uses its own editor.
+import { ImagePicker } from './ImagePicker'
+
 const INPUT =
   'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
 
@@ -24,6 +24,7 @@ const MAX_LOGOS = 12
 export function LogosSectionSimple({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
   const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
+  const isDraft = useUIStore((s) => s.rightPanelTab) === 'SIMPLE'
   const section = config.sections.find((s) => s.id === sectionId)
 
   if (!section) return null
@@ -168,7 +169,20 @@ export function LogosSectionSimple({ sectionId }: { sectionId: string }) {
                       className={cn(INPUT, 'text-xs')}
                     />
                   </div>
-                  {/* Logo picker hidden in DRAFT (narrowed MVP). */}
+                  {!isDraft && (
+                    <div className="space-y-1">
+                      <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Logo</span>
+                      <ImagePicker
+                        value={imageUrl}
+                        onChange={(url) => updateProp(item.id, 'imageUrl', url)}
+                        onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
+                        currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
+                        label="Choose Logo"
+                        mode="image"
+                        pickerMode="full"
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             )
