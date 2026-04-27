@@ -4,7 +4,7 @@
 
 import { GoogleGenAI } from '@google/genai';
 import type { LLMAdapter, LLMRequest, LLMResponse, LLMProviderName } from './adapter';
-import { redactKeyShapes } from './keys';
+import { safeJson, classifyError } from './adapterUtils';
 
 const DEFAULT_MODEL = 'gemini-2.5-flash';
 const COST_PER_M = { in: 0.075, out: 0.30 } as const; // USD per 1M tokens (Flash)
@@ -68,33 +68,4 @@ export class GeminiAdapter implements LLMAdapter {
   }
 }
 
-function safeJson(text: string): unknown {
-  // Tolerant: strip leading/trailing whitespace + code fences. Phase 18 has the
-  // tolerant parser; this minimal stub just JSON.parses or returns the raw string
-  // wrapped in { __raw: text } so the caller's Zod can decide.
-  const trimmed = text
-    .trim()
-    .replace(/^```(?:json)?\s*/, '')
-    .replace(/\s*```\s*$/, '');
-  try {
-    return JSON.parse(trimmed);
-  } catch {
-    return { __raw: text };
-  }
-}
-
-function classifyError(e: unknown): LLMResponse {
-  const raw = e instanceof Error ? e.message : String(e);
-  // Same defense as claudeAdapter: redact before propagation. See ADR-043.
-  const detail = redactKeyShapes(raw);
-  if (/rate\s*limit|429|RESOURCE_EXHAUSTED/i.test(raw)) {
-    return { ok: false, error: { kind: 'rate_limit', detail } };
-  }
-  if (/timeout|timed out/i.test(raw)) {
-    return { ok: false, error: { kind: 'timeout' } };
-  }
-  if (/network|fetch failed|ECONN/i.test(raw)) {
-    return { ok: false, error: { kind: 'network', detail } };
-  }
-  return { ok: false, error: { kind: 'invalid_response', detail } };
-}
+// P19 Fix-Pass 2 (F7): safeJson + classifyError moved to ./adapterUtils.ts.

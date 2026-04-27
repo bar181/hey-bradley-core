@@ -14,6 +14,20 @@ import { AgentProxyAdapter } from './agentProxyAdapter'
 import { STEP1_FIXTURES } from '@/data/llm-fixtures/step-1'
 import { STEP2_FIXTURES } from '@/data/llm-fixtures/step-2'
 
+// P19 Fix-Pass 2 (F6): warn loudly in DEV if a real API key is bundled into
+// the dev server JS. Vite inlines VITE_* env into the client bundle, so any
+// page load on a non-localhost dev server can read it. KISS: one console.warn
+// at module load, fires once per page (no localStorage gating needed).
+if (import.meta.env.DEV) {
+  const env = (import.meta as { env?: Record<string, string | undefined> }).env ?? {}
+  if (env.VITE_LLM_API_KEY) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      '[security] DEV mode bundles VITE_LLM_API_KEY into the dev server JS — anyone who can load this page can read it. Do not expose dev server beyond localhost.',
+    )
+  }
+}
+
 export interface PickResult {
   adapter: LLMAdapter
   status: 'ok' | 'no_key' | 'fallback'

@@ -89,7 +89,9 @@ export function LeftPanel() {
                 ? 'Pick and arrange the sections of your page.'
                 : value === 'chat'
                   ? 'Tell the assistant what you want and watch it build.'
-                  : 'Watch a guided demo of how the editor works.'
+                  // P19 Fix-Pass 2 (F8): friendlier listen-tab tooltip — was
+                  // "Watch a guided demo …" / "Microphone capture (alpha)".
+                  : 'Speak to Bradley (preview).'
             }
           >
             <Icon size={13} />

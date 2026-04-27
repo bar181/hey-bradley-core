@@ -78,11 +78,22 @@ function renderHistory(history: SystemPromptCtx['history']): string {
   return `RECENT MESSAGES (last ${tail.length}):\n${lines.join('\n')}`
 }
 
+/**
+ * P19 Fix-Pass 2 (F4): sanitize values before interpolating into the system
+ * prompt. Site-context values are user-supplied (purpose/audience/tone) and
+ * could contain quote/newline characters that escape the JSON-like wrapper
+ * we render below — a prompt-injection vector. Strip CR/LF/quotes/backslash
+ * and clamp to 200 chars (KISS — values longer than that are noise anyway).
+ */
+function escapeForPromptInterpolation(s: string): string {
+  return s.replace(/[\r\n"\\]/g, '').slice(0, 200)
+}
+
 function renderSiteContext(ctx: SystemPromptCtx['siteContext']): string {
   if (!ctx) return ''
-  const purpose = ctx.purpose ?? ''
-  const audience = ctx.audience ?? ''
-  const tone = ctx.tone ?? ''
+  const purpose = escapeForPromptInterpolation(ctx.purpose ?? '')
+  const audience = escapeForPromptInterpolation(ctx.audience ?? '')
+  const tone = escapeForPromptInterpolation(ctx.tone ?? '')
   return `SITE CONTEXT: { purpose: "${purpose}", audience: "${audience}", tone: "${tone}" }`
 }
 

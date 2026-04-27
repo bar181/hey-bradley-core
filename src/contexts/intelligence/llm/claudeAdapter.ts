@@ -4,7 +4,7 @@
 
 import Anthropic from '@anthropic-ai/sdk';
 import type { LLMAdapter, LLMRequest, LLMResponse, LLMProviderName } from './adapter';
-import { redactKeyShapes } from './keys';
+import { safeJson, classifyError } from './adapterUtils';
 
 const DEFAULT_MODEL = 'claude-haiku-4-5-20251001';
 const COST_PER_M = { in: 0.25, out: 1.25 } as const; // USD per 1M tokens (Haiku)
@@ -68,34 +68,5 @@ export class ClaudeAdapter implements LLMAdapter {
   }
 }
 
-function safeJson(text: string): unknown {
-  // Tolerant: strip leading/trailing whitespace + code fences. Phase 18 has the
-  // tolerant parser; this minimal stub just JSON.parses or returns the raw string
-  // wrapped in { __raw: text } so the caller's Zod can decide.
-  const trimmed = text
-    .trim()
-    .replace(/^```(?:json)?\s*/, '')
-    .replace(/\s*```\s*$/, '');
-  try {
-    return JSON.parse(trimmed);
-  } catch {
-    return { __raw: text };
-  }
-}
-
-function classifyError(e: unknown): LLMResponse {
-  const raw = e instanceof Error ? e.message : String(e);
-  // SDK errors can echo back malformed Bearer tokens / sk-ant-… prefixes; redact
-  // before the string is propagated to llm_calls.error_text or exports.
-  const detail = redactKeyShapes(raw);
-  if (/rate\s*limit|429/i.test(raw)) {
-    return { ok: false, error: { kind: 'rate_limit', detail } };
-  }
-  if (/timeout|timed out/i.test(raw)) {
-    return { ok: false, error: { kind: 'timeout' } };
-  }
-  if (/network|fetch failed|ECONN/i.test(raw)) {
-    return { ok: false, error: { kind: 'network', detail } };
-  }
-  return { ok: false, error: { kind: 'invalid_response', detail } };
-}
+// P19 Fix-Pass 2 (F7): safeJson + classifyError moved to ./adapterUtils.ts
+// (shared with geminiAdapter + openrouterAdapter).

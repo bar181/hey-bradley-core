@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ChatExplainer } from '@/components/shell/ChatExplainer'
 import type { SectionType } from '@/lib/schemas'
-import { submit as submitChatPipeline } from '@/contexts/intelligence/chatPipeline'
+import { submit as submitChatPipeline, mapChatError } from '@/contexts/intelligence/chatPipeline'
 
 /* ── Chat examples for the dialog ── */
 const CHAT_EXAMPLE_CATEGORIES = [
@@ -45,6 +45,13 @@ export interface ChatMessage {
   id: number
   role: 'user' | 'bradley'
   text: string
+  /**
+   * P19 Fix-Pass 2 (F12): tag the surface that sourced this message. ChatInput
+   * messages default to 'chat'; listen-mode currently renders its reply in a
+   * banner inside ListenTab, but if a future flow merges streams this lets
+   * each bubble be tagged at render time.
+   */
+  source?: 'chat' | 'listen'
 }
 
 const MAX_MESSAGES = 20
@@ -70,6 +77,14 @@ export function ChatInput() {
   // driving an LLM call.
   const inFlight = useIntelligenceStore((s) => s.inFlight)
   const isBusy = isProcessing || inFlight
+
+  // P19 Fix-Pass 2 (F13): show a "simulated mode" pill in the chat header
+  // when the active adapter is FixtureAdapter ('simulated') or AgentProxyAdapter
+  // ('mock') so users know they're not hitting a real LLM. ADR-046 declares
+  // adapter.name() as the canonical provider id.
+  const adapter = useIntelligenceStore((s) => s.adapter)
+  const adapterName = adapter?.name?.() ?? null
+  const isSimulated = adapterName === 'simulated' || adapterName === 'mock'
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -263,6 +278,20 @@ export function ChatInput() {
       setTypingFull(result.summary)
       return true
     }
+    // P19 Fix-Pass 2 (F2): surface kind-specific error copy when the LLM
+    // call failed for an INFRASTRUCTURE reason (cost cap hit, timeout, rate
+    // limit, missing API key). For 'validation_failed' (fixture miss / bad
+    // LLM response) we keep the canned-fallback hint — those failures are
+    // semantically identical to "I didn't catch that" and we shouldn't claim
+    // "the change wasn't safe" when no patch was attempted. `result.ok` is
+    // true when canned matched. When canned matched but errorKind is set,
+    // prefer the canned reply.
+    const surfaceableKinds = new Set(['cost_cap', 'timeout', 'precondition_failed', 'rate_limit'])
+    if (result.errorKind && surfaceableKinds.has(result.errorKind) && !result.ok) {
+      setTypingText('')
+      setTypingFull(mapChatError(result.errorKind))
+      return true
+    }
     return false
   }, [messages])
 
@@ -319,6 +348,18 @@ export function ChatInput() {
 
   return (
     <div className="flex flex-col h-full">
+      {/* P19 Fix-Pass 2 (F13): simulated-mode header pill so users know they
+          aren't hitting a real LLM. Pinned above the messages area. */}
+      {isSimulated && (
+        <div className="px-4 py-1.5 border-b border-hb-border/40">
+          <span
+            data-testid="chat-simulated-pill"
+            className="inline-block px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-hb-surface text-hb-text-muted border border-hb-border/40"
+          >
+            simulated mode
+          </span>
+        </div>
+      )}
       {/* Chat messages — closed captioning style */}
       <div
         className="flex-1 overflow-y-auto px-4 py-3 space-y-1"
@@ -342,6 +383,16 @@ export function ChatInput() {
           >
             {msg.role === 'user' && <span className="font-semibold text-hb-text-secondary">you: </span>}
             {msg.text}
+            {/* P19 Fix-Pass 2 (F12): "via voice" pill so users can see which
+                turns came from PTT. Subtle muted pill, not a banner. */}
+            {msg.source === 'listen' && (
+              <span
+                data-testid="chat-bubble-via-voice"
+                className="ml-2 inline-block px-1.5 py-0.5 rounded text-[10px] uppercase tracking-wider bg-hb-surface text-hb-text-muted border border-hb-border/30"
+              >
+                via voice
+              </span>
+            )}
           </div>
         ))}
         {/* Typewriter in progress */}

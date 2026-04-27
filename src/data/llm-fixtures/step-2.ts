@@ -1,24 +1,17 @@
 // Spec: plans/implementation/mvp-plan/04-phase-18-real-chat.md §0 Step 2 + Step 3,
 //       plans/implementation/mvp-plan/07-prompts-and-aisp.md §3 (5 starter prompts).
 //
-// Step 3 EXTENDS this file in place (kept the STEP2_FIXTURES export name so
-// pickAdapter does not need to change). 5 starter prompts are now wired:
-//   1. hero heading        — replace /sections/1/components/1/props/text
-//   2. theme/accent color  — replace /theme/palette/accentPrimary (default-config)
-//                            and /theme/colors/accent (narrowed-schema configs)
-//   3. serif heading font  — replace /theme/typography/headingFamily
-//   4. hero subheading     — replace /sections/1/components/2/props/text
-//   5. blog article body   — multi-patch: title + excerpt + author against the
-//                            blog-standard active config (article lives at
-//                            /sections/1/components/0/props on blog-standard).
-//
-// HERO_HEADING_PATH and HERO_SUBHEADING_PATH match default-config.json (sections[1]
-// is the hero, components[1] is the headline, components[2] is the subtitle).
+// P19 Fix-Pass 2 (F1): hero/subheading/article fixtures now resolve their patch
+// path against the active MasterConfig at call-time via ./resolvePath helpers.
+// This closes the silent-corruption bug where hardcoded `/sections/1/...` paths
+// wrote into the wrong section when the active example changed (e.g.
+// blog-standard has hero at sections[0], not sections[1]). When the requested
+// section/component is absent we return an empty-patch envelope with a friendly
+// summary instead of writing into the wrong slot.
 
 import type { FixtureEntry, FixtureEnvelope } from '@/contexts/intelligence/llm/fixtureAdapter'
-
-const HERO_HEADING_PATH = '/sections/1/components/1/props/text'
-const HERO_SUBHEADING_PATH = '/sections/1/components/2/props/text'
+import { useConfigStore } from '@/store/configStore'
+import { heroHeadingPath, heroSubheadingPath, blogArticlePath } from './resolvePath'
 
 /** Tiny color-name → hex map for the accent-color starter. */
 const COLOR_HEX: Record<string, string> = {
@@ -37,19 +30,35 @@ export const STEP2_FIXTURES: FixtureEntry[] = [
     matchPattern: /make\s+the\s+hero\s+say\s+["']?(.+?)["']?\.?\s*$/i,
     envelope: ({ match }): FixtureEnvelope => {
       const headline = match[1]
+      const path = heroHeadingPath(useConfigStore.getState().config)
+      if (!path) {
+        return {
+          patches: [],
+          summary: "I couldn't find a hero section to update. Add one first, then try again.",
+        }
+      }
       return {
-        patches: [{ op: 'replace', path: HERO_HEADING_PATH, value: headline }],
+        patches: [{ op: 'replace', path, value: headline }],
         summary: `Updated hero headline to "${headline}".`,
       }
     },
   },
   {
-    // 4. Hero subheading variant — same hero section, different component.
+    // 4. Hero subheading variant — same hero section, first text-typed child.
     matchPattern: /make\s+the\s+hero\s+subheading\s+say\s+["']?(.+?)["']?\.?\s*$/i,
-    envelope: ({ match }): FixtureEnvelope => ({
-      patches: [{ op: 'replace', path: HERO_SUBHEADING_PATH, value: match[1] }],
-      summary: `Updated hero subheading to "${match[1]}".`,
-    }),
+    envelope: ({ match }): FixtureEnvelope => {
+      const path = heroSubheadingPath(useConfigStore.getState().config)
+      if (!path) {
+        return {
+          patches: [],
+          summary: "I couldn't find a hero subheading to update.",
+        }
+      }
+      return {
+        patches: [{ op: 'replace', path, value: match[1] }],
+        summary: `Updated hero subheading to "${match[1]}".`,
+      }
+    },
   },
   {
     // 2. "Change the (theme|accent) color to (green|blue|...)" — map name → hex.
@@ -84,21 +93,31 @@ export const STEP2_FIXTURES: FixtureEntry[] = [
     }),
   },
   {
-    // 5. "Write a short blog article about <topic>" — multi-patch (title + body
-    // + author) against the article inside the blog section. blog-standard.json
-    // has the article at sections[1].components[0]; we hardcode this for Step 3.
-    // The test resets the active config to blog-standard before sending.
+    // 5. "Write a short blog article about <topic>" — multi-patch (title +
+    // excerpt + author) against the article inside the blog section. Path is
+    // resolved at call-time so this works on blog-standard AND any other
+    // example that has a `blog` section with a `blog-article` component.
     matchPattern: /write\s+a\s+short\s+blog\s+article\s+about\s+(.+?)\.?\s*$/i,
     envelope: ({ match }): FixtureEnvelope => {
       const topic = match[1].trim()
+      const config = useConfigStore.getState().config
+      const titlePath = blogArticlePath(config, 'title')
+      const excerptPath = blogArticlePath(config, 'excerpt')
+      const authorPath = blogArticlePath(config, 'author')
+      if (!titlePath || !excerptPath || !authorPath) {
+        return {
+          patches: [],
+          summary: "I couldn't find a blog article to update. Switch to the blog example, or add a blog section first.",
+        }
+      }
       const title = `A short story about ${topic}`
       const excerpt = `Here is a brief reflection on ${topic} — what it taught me, and why it sticks. The first batch never works; the lesson is in the second.`
       const author = 'Bradley'
       return {
         patches: [
-          { op: 'replace', path: '/sections/1/components/0/props/title', value: title },
-          { op: 'replace', path: '/sections/1/components/0/props/excerpt', value: excerpt },
-          { op: 'replace', path: '/sections/1/components/0/props/author', value: author },
+          { op: 'replace', path: titlePath, value: title },
+          { op: 'replace', path: excerptPath, value: excerpt },
+          { op: 'replace', path: authorPath, value: author },
         ],
         summary: `Wrote a 3-patch blog article about ${topic}.`,
       }

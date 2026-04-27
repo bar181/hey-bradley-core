@@ -6,6 +6,7 @@
 
 import type { LLMAdapter, LLMRequest, LLMResponse, LLMProviderName } from './adapter';
 import { redactKeyShapes } from './keys';
+import { safeJson, classifyError } from './adapterUtils';
 
 const DEFAULT_MODEL = 'mistralai/mistral-7b-instruct:free';
 const ENDPOINT = 'https://openrouter.ai/api/v1/chat/completions';
@@ -88,16 +89,4 @@ export class OpenRouterAdapter implements LLMAdapter {
   }
 }
 
-function safeJson(text: string): unknown {
-  const trimmed = text.trim().replace(/^```(?:json)?\s*/, '').replace(/\s*```\s*$/, '');
-  try { return JSON.parse(trimmed); } catch { return { __raw: text }; }
-}
-
-function classifyError(e: unknown): LLMResponse {
-  const raw = e instanceof Error ? e.message : String(e);
-  const detail = redactKeyShapes(raw);
-  if (/rate\s*limit|429/i.test(raw)) return { ok: false, error: { kind: 'rate_limit', detail } };
-  if (/timeout|timed out/i.test(raw)) return { ok: false, error: { kind: 'timeout' } };
-  if (/network|fetch failed|ECONN/i.test(raw)) return { ok: false, error: { kind: 'network', detail } };
-  return { ok: false, error: { kind: 'invalid_response', detail } };
-}
+// P19 Fix-Pass 2 (F7): safeJson + classifyError moved to ./adapterUtils.ts.

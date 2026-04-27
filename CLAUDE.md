@@ -40,10 +40,10 @@
 
 ## Project Status
 
-- **Current Phase:** Phase 14 CLOSED (74/100), Phase 15 next
-- **Codebase:** 100K+ total lines, 171 TS/TSX source files, ~17,000 lines (TS/TSX)
+- **Current Phase:** Phase 19 SEALED (Fix-Pass 2 closed all 18 brutal-reviewer findings); Phase 20 next
+- **Codebase:** 100K+ total lines; ~28,000 lines TS/TSX across 227 source files
 - **Themes:** 12 (agency, blog, creative, elegant, minimalist, neon, personal, portfolio, professional, saas, startup, wellness)
-- **Examples:** 15 (bakery, blank, consulting, dev-portfolio, education, enterprise-saas, fitforge, florist, fun-blog, kitchen-sink, launchpad, law-firm, photography, real-estate, restaurant)
+- **Examples:** 17 (adds blog-standard + capstone to the original 15)
 - **Section Types:** 16 (includes blog)
 - **Images:** 300 in media library catalog, 13 image effects (8 core + 5 wow-factor)
 - **Website Pages:** 4 (About, Open Core, How I Built This, Docs) — all with real content
@@ -52,10 +52,10 @@
 - **Spec Generators:** 6 with design specs, cross-references, effects info
 - **Blueprints:** 7 sub-tabs (North Star, Architecture, Build Plan, Features, Human Spec, AISP, JSON)
 - **Center Tabs (EXPERT):** 5 (Preview, Blueprints, Resources, Data, Pipeline)
-- **Capabilities:** Multi-page support, ZIP export, blog section type, AISP Crystal Atom output
-- **ADRs:** 37 (through ADR-037: JSON Architecture Separation)
-- **Deferred Features:** 34 documented in plans/deferred-features.md
-- **Tests:** 102 passing (11 spec files)
+- **Capabilities:** Multi-page support, ZIP export, blog section type, AISP Crystal Atom output, real LLM adapters (Claude/Gemini/OpenRouter), Web-Speech STT (PTT)
+- **ADRs:** 38 ADR files through ADR-048 (STT Web Speech API)
+- **Deferred Features:** 34 documented in plans/deferred-features.md; 20 P20 carryforward items in plans/implementation/phase-19/deep-dive/05-fix-pass-plan.md §5
+- **Tests:** 63 Playwright cases across 29 spec files (39 targeted active for P19 seal)
 
 ### Phase Roadmap
 
@@ -65,13 +65,13 @@
 | P12 | Content Intelligence: site context, 13 effects, Resources tab | CLOSED (78/100) |
 | P13 | Advanced Features: blog section, multi-page, export, a11y, 100+ tests | CLOSED (76/100) |
 | P14 | Marketing review: 20 issues fixed, AISP validation, UI/UX cleanup | CLOSED (74/100) |
-| P15 | Developer assistance: builder UX, docs, tooltips, onboarding | NEXT |
-| P16 | Advanced features review: effects, context, templates, Resources | PLANNED |
-| P17 | Feature Review ADR: checklist + proof for 1 feature (pilot) | PLANNED |
-| P18 | Comprehensive review: all features/sections using P17 checklist | PLANNED |
-| P19 | System-wide review: all requirements before LLM stage | PLANNED |
-| P20-22 | Pre-LLM simulations: prompt templates, response validation, JSON updates | PLANNED |
-| P23+ | LLM integration: real AI, API keys, streaming | PLANNED |
+| P15 | Developer assistance: builder UX, docs, tooltips, onboarding | CLOSED |
+| P16 | Advanced features review: effects, context, templates, Resources | CLOSED |
+| P17 | Feature Review ADR: checklist + proof for 1 feature (pilot) | CLOSED |
+| P18 | Real chat (LLM provider abstraction + JSON-patch contract) | CLOSED |
+| P19 | Real listen (Web Speech STT + voice-to-pipeline + brutal review fix-pass) | CLOSED (88/100) |
+| P20 | Carryforward: image fixtures, ListenTab split, SECURITY.md, vitest | NEXT |
+| P21+ | Multi-intent prompt parser, post-MVP polish | PLANNED |
 
 ## AISP (AI Symbolic Protocol) 
 see full details in /workspaces/hey-bradley-core/plans/initial-plans/00.aisp-reference.md 

@@ -82,6 +82,10 @@ export function ListenTab() {
 
   const [showDemoDialog, setShowDemoDialog] = useState(false)
 
+  // P19 Fix-Pass 2 (F10): subscribe to the right-panel mode so we can hide the
+  // demo sliders in DRAFT (SIMPLE). Grandma doesn't need orb-pulse tuning.
+  const viewMode = useUIStore((s) => s.rightPanelTab)
+
   // PTT (push-to-talk) — Phase 19 Step 1 wiring (UI only; pipeline in Step 2).
   const pttSupported = useListenStore((s) => s.supported)
   const pttRecording = useListenStore((s) => s.recording)
@@ -193,7 +197,11 @@ export function ListenTab() {
       useListenStore.getState().startRecording()
       // 12 s auto-stop safety net per phase plan §3.7.
       pttAutoStopTimerRef.current = setTimeout(() => {
-        void useListenStore.getState().stopRecording().then(submitListenFinal)
+        // P19 Fix-Pass 2 (F18): catch chain failures so a thrown stopRecording
+        // doesn't unhandled-promise-reject the page.
+        void useListenStore.getState().stopRecording().then(submitListenFinal).catch((e) => {
+          if (import.meta.env.DEV) console.warn('[listen] stopRecording chain failed', e)
+        })
       }, PTT_AUTO_STOP_MS)
     }, PTT_HOLD_GATE_MS)
   }, [pttSupported, pttBusy, clearPttTimers, submitListenFinal])
@@ -221,7 +229,11 @@ export function ListenTab() {
     }
     clearPttTimers()
     if (pttRecordingRef.current) {
-      void useListenStore.getState().stopRecording().then(submitListenFinal)
+      // P19 Fix-Pass 2 (F18): catch chain failures so a thrown stopRecording
+      // doesn't unhandled-promise-reject the page.
+      void useListenStore.getState().stopRecording().then(submitListenFinal).catch((e) => {
+        if (import.meta.env.DEV) console.warn('[listen] stopRecording chain failed', e)
+      })
     }
   }, [pttSupported, clearPttTimers, submitListenFinal])
 
@@ -347,7 +359,12 @@ export function ListenTab() {
       }
     }
     typeUser()
-  }, [simActive, burstActive, runBurstAnimation])
+    // P19 Fix-Pass 2 (F16): the body reads `simActiveRef` / `burstActiveRef`
+    // for the early-return guards, NOT the state values — so the deps array
+    // intentionally only lists `runBurstAnimation`. Listing simActive / burstActive
+    // here would re-create this callback on every state flip and queue stale closures.
+    // uses refs intentionally; see P19 fix-pass
+  }, [runBurstAnimation])
 
   // Cleanup all timers on unmount
   useEffect(() => {
@@ -467,6 +484,29 @@ export function ListenTab() {
       <div className="px-4 pt-2 pb-1 flex flex-col items-center gap-2">
         {pttSupported ? (
           <>
+            {/* P19 Fix-Pass 2 (F9): inline privacy disclosure ABOVE the PTT
+                button, not gated behind first click. The one-line summary is
+                always visible; the long form stays in a details-style
+                expander so the user can read more without leaving the tab. */}
+            <p
+              data-testid="listen-privacy-summary"
+              className="text-xs text-white/55 w-full max-w-[300px] text-center leading-relaxed"
+            >
+              Your voice goes to your browser&apos;s STT service (Apple/Google).
+              Audio is not stored. Transcripts are stored locally and included
+              in exports.{' '}
+              <a
+                href="#"
+                data-testid="listen-privacy-toggle"
+                onClick={(e) => {
+                  e.preventDefault()
+                  setPttPrivacyOpen((prev) => !prev)
+                }}
+                className="underline underline-offset-2 hover:text-white"
+              >
+                {pttPrivacyOpen ? 'Less' : 'More'}
+              </a>
+            </p>
             <button
               type="button"
               data-testid="listen-ptt"
@@ -490,23 +530,6 @@ export function ListenTab() {
               <Mic size={16} />
               {pttBusy ? 'Sending…' : pttRecording ? 'Listening…' : 'Hold to talk'}
             </button>
-            {/* P19 fix: mic privacy disclosure. KISS — one-line subtext +
-                inline expandable block (≤ 5 lines of copy). Default open on
-                first PTT press in this browser session. */}
-            <p className="text-xs text-hb-text-secondary w-full max-w-[300px] text-center">
-              Voice is processed by your browser.{' '}
-              <a
-                href="#"
-                data-testid="listen-privacy-toggle"
-                onClick={(e) => {
-                  e.preventDefault()
-                  setPttPrivacyOpen((prev) => !prev)
-                }}
-                className="underline underline-offset-2 hover:text-white"
-              >
-                Privacy details
-              </a>
-            </p>
             {pttPrivacyOpen && (
               <div
                 data-testid="listen-privacy-details"
@@ -514,8 +537,9 @@ export function ListenTab() {
               >
                 Audio is sent to your browser vendor (Google/Apple) for
                 transcription. Hey Bradley only receives the resulting text —
-                never the audio. Recordings are not stored by Hey Bradley.
-                Stop holding the button to end recording.
+                never the audio. Audio is not stored. The final transcript IS
+                stored locally and is included in `.heybradley` exports. Stop
+                holding the button to end recording.
               </div>
             )}
           </>
@@ -617,17 +641,24 @@ export function ListenTab() {
             Watch a Demo
           </Button>
 
-          {/* Settings toggle */}
-          <Button
-            variant="ghost"
-            onClick={() => setShowSettings(!showSettings)}
-            className="flex items-center gap-1.5 h-auto text-xs text-white/30 hover:text-white/50 transition-colors mx-auto pt-1"
-          >
-            <Settings size={11} />
-            {showSettings ? 'Hide' : 'Show'} settings
-          </Button>
+          {/* Settings toggle — EXPERT-only (F10). DRAFT users have nothing to
+              tune so we hide both the button and the panel. */}
+          {viewMode === 'EXPERT' && (
+            <Button
+              variant="ghost"
+              onClick={() => setShowSettings(!showSettings)}
+              className="flex items-center gap-1.5 h-auto text-xs text-white/30 hover:text-white/50 transition-colors mx-auto pt-1"
+            >
+              <Settings size={11} />
+              {showSettings ? 'Hide' : 'Show'} settings
+            </Button>
+          )}
 
-          {showSettings && (
+          {/* P19 Fix-Pass 2 (F10): demo sliders are an EXPERT-mode-only affordance.
+              In DRAFT (SIMPLE) mode they overwhelm the listen surface — Grandma
+              doesn't need orb-pulse / blur tuning. The settings toggle button
+              also hides because there's nothing to toggle in DRAFT. */}
+          {showSettings && viewMode === 'EXPERT' && (
             <div className="space-y-2 pt-1 border-t border-white/10">
               <SliderRow label="Speed" value={pulseSpeed} min={0.5} max={15} step={0.5} suffix="s" leftHint="Fast" rightHint="Slow" onChange={setPulseSpeed} disabled={randomMode} />
               <div className="flex items-center justify-between py-1">
