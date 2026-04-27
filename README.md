@@ -132,18 +132,23 @@ The XAI DOCS tab generates both human-readable specs and AISP-formatted specs fr
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | Vite + React 18 + TypeScript |
-| Styling | Tailwind CSS 3 + shadcn/ui |
-| State | Zustand (configStore, uiStore, chatStore) |
-| Schemas | Zod (runtime validation, type inference) |
-| Panels | react-resizable-panels |
-| Icons | Lucide React |
-| Drag/Drop | @dnd-kit/core + sortable |
-| Auth (planned) | Supabase |
-| LLM (planned) | Anthropic Claude API |
-| Voice (planned) | Web Speech API / Whisper |
+| Layer | Technology | Status |
+|-------|-----------|--------|
+| Framework | Vite + React 19 + TypeScript | ✅ shipped |
+| Styling | Tailwind CSS + shadcn/ui | ✅ shipped |
+| State | Zustand (configStore, intelligenceStore, listenStore, projectStore, chatStore) | ✅ shipped |
+| Schemas | Zod (runtime validation, type inference, JSON-patch validator) | ✅ shipped |
+| Persistence | sql.js + IndexedDB (cross-tab Web Locks + BroadcastChannel) | ✅ P16 |
+| LLM providers | Anthropic Claude SDK + Google Gemini SDK + OpenRouter (raw fetch) + FixtureAdapter + AgentProxyAdapter (DB-backed mock) | ✅ P17/P18/P18b |
+| Voice / STT | Web Speech API (push-to-talk) | ✅ P19 |
+| BYOK | In-memory by default; optional IndexedDB persist; husky pre-commit + Vite build-time guards (9 key-shape patterns) | ✅ P17 |
+| Cost cap | Per-session USD ceiling, default $1.00, range $0.10–$20 | ✅ P17 (P20 wires CostPill UI) |
+| Audit / observability | `llm_logs` table with prompt-hash + tokens + latency + cost + status enum (30-day retention) | ✅ P18b |
+| Panels | react-resizable-panels | ✅ shipped |
+| Icons | Lucide React | ✅ shipped |
+| Drag/Drop | @dnd-kit/core + sortable | ✅ shipped |
+| Auth (post-MVP) | Supabase | 📅 Sprint H+ |
+| Whisper STT (post-MVP) | Whisper API or local model | 📅 Sprint F enhancement |
 
 ---
 
@@ -269,13 +274,16 @@ hey-bradley/
 
 | Level | Phase | Status |
 |-------|-------|--------|
-| **L1** | Core Builder (Shell, Hero, JSON loop, Listen visual) | 🔄 In Progress |
-| **L2** | Full Site Builder (8 sections, CRUD, vibe onboarding) | 📅 Planned |
-| **L3** | Specification Engine (auto-generated pillar docs) | 📅 Planned |
-| **L4** | Auth & Database (Supabase, project persistence) | 📅 Planned |
-| **L5** | LLM Chat (text → JSON patches, copy suggestions) | 📅 Planned |
-| **L6** | Voice Mode (STT, Listen mode, virtual whiteboard) | 📅 Planned |
-| **L7** | Enterprise Specs (AISP mode, change logs, AI-first export) | 📅 Planned |
+| **L1** | Core Builder (Shell, Hero, JSON loop, Listen visual) | ✅ Sealed (P11-P14) |
+| **L2** | Full Site Builder (16 section types, CRUD, vibe onboarding, multi-page, ZIP export) | ✅ Sealed (P11-P15) |
+| **L3** | Specification Engine (AISP Crystal Atom auto-generated; Blueprints tab) | ✅ Sealed (P12-P15) |
+| **L4** | Local Persistence (sql.js + IndexedDB; cross-tab Web Locks; `.heybradley` exports) | ✅ Sealed (P16) |
+| **L5** | LLM Chat — text → JSON patches; 5-provider matrix (Claude / Gemini / OpenRouter / Simulated / AgentProxy mock); BYOK; cost cap; audit log | ✅ Sealed (P17-P18b) |
+| **L6** | Voice Mode (Web Speech STT, push-to-talk, voice → same chat pipeline) | ✅ Sealed (P19) |
+| **L7** | Enterprise Specs + MVP Close (cost-cap pill, Vercel deploy, persona reviews, SECURITY.md) | 🔄 In Flight (P20) |
+| **Sprint B** | Simple Chat (natural language input, 2-3 real templates, section targeting, intent translation) | 📅 P21-P23 |
+| **Sprint C** | AISP Chat (instruction layer, intent pipeline, 2-step template selection) | 📅 P24-P26 |
+| **Sprint D-K** | Templates + Content / Clarification / Listen Enhancement / Interview / Post-MVP / Builder / Agentic / Release | 📅 P27-P55 (post-capstone) |
 
 ---
 
@@ -310,13 +318,17 @@ Hey Bradley's visual language is **warm, editorial minimalism with engineering c
 
 ## Coverage
 
-Hey Bradley covers **~60-70% of marketing websites** with 8 section types:
+Hey Bradley covers **~70-80% of marketing websites** with **16 section types** (post-P19):
 
-Hero · Features · Pricing · CTA · Footer · Testimonials · FAQ · Value Props
+Hero · Features · Pricing · CTA · Footer · Testimonials · FAQ · Value Props · Blog · About · Team · Gallery · Contact · Stats · Process · Hours
 
-**In scope:** SaaS landing pages, agency sites, product launches, service businesses, personal brands, startup marketing, consulting firms, event pages.
+Plus: 12 themes · 17 examples (incl. blog-standard, kitchen-sink, capstone) · 300 image-library entries · 13 image effects · 4 website pages (About, Open Core, How I Built This, Docs) · 15+ chat commands · 4 listen demos · 6 spec generators · 7 blueprint sub-tabs · 5 EXPERT center tabs · multi-page support · ZIP export · AISP Crystal Atom output · 5-provider real LLM matrix · Web Speech STT (push-to-talk).
 
-**Out of scope:** E-commerce, blogs, dashboards, web apps.
+**In scope (P19-sealed MVP):** SaaS landing pages, agency sites, product launches, service businesses, personal brands, startup marketing, consulting firms, event pages, **blogs** (added P15).
+
+**Out of scope (post-MVP):** E-commerce, complex dashboards, full web apps.
+
+**Quality (P19 personas):** Grandma 70 / Framer 84 / Capstone 88 (composite **88/100**).
 
 ---
 
@@ -395,5 +407,62 @@ Copyright (c) 2026 Bradley Ross
 ---
 
 *Built with warm precision at Harvard. Powered by [AISP](https://github.com/bar181/aisp-open-core). Designed for AI agents and the humans who orchestrate them.*
+
+---
+
+## Hey Bradley — Full Milestone Schedule
+
+**Velocity: 4 phases/day | Today: Day 1**
+
+| Day | Phases | Key Milestone | Sprint |
+|---|---|---|---|
+| 1 | P20-P23 | MVP sealed + Vercel live + real templates + intent translation | A-B |
+| 2 | P24-P27 | AISP dual-view live + template library | B-C-D |
+| 3 | P28-P31 | Content generation — LLM writes actual copy | D |
+| 4 | P32-P35 | Assumptions engine + 3-button clarification UX | E |
+| 5 | P36-P39 | Listen mode enhanced + review mode | F |
+| 6 | P40-P43 | Interview mode POC + voice Q&A loop | G |
+| 7 | P44-P46 | Upload references + brand voice ingestion | H |
+| 8 | — | **🎯 PRESENTATION PREP — no coding** | — |
+| 9 | — | **🎯 REHEARSAL + BUFFER — no coding** | — |
+| **10** | — | **🎓 PRESENTATION DAY** | — |
+| 11 | P47-P50 | Builder UX enhancements + feedback integration | I |
+| 12 | P51-P54 | Agentic support system POC | J |
+| 13 | P55-P58 | Performance + error handling + final persona scoring | K |
+| 14 | — | **📝 SUBMISSION PREP — no coding** | — |
+| 15 | — | **📝 SUBMISSION PREP — no coding** | — |
+| 16 | — | **📝 FINAL REVIEW — no coding** | — |
+| **17** | — | **📬 FINAL SUBMISSION** | — |
+| 18 | P59-P62 | Open-core RC — public repo, README, license, contributing guide | RC |
+| 19 | P63-P66 | Open-core beta — Agentics Foundation 20-50 testers | RC |
+| 20 | P67-P70 | Open-core feedback integration + polish | RC |
+| **21** | — | **🚀 OPEN-CORE PUBLIC RELEASE** | — |
+| 25 | — | Multi-page site support begins | Commercial |
+| 28 | — | Supabase Edge Function — hosted demo (no BYOK required) | Commercial |
+| 30 | — | Complex SPA support (dashboards, web apps) | Commercial |
+| 35 | — | Agentic support system — existing codebase analysis | Commercial |
+| 40 | — | Commercial tier 1 launch (Starter $20/mo, Pro $50/mo) | Commercial |
+| 50 | — | Enterprise tier (AISP specs, $499/seat/mo) | Commercial |
+| 60 | — | Hey Bradley specs Hey Bradley (meta-product moment) | Vision |
+
+---
+
+## Critical Path to Presentation (Day 10)
+
+**Must be live by Day 7:**
+- AISP dual-view (P24-25) — core thesis made visible
+- Listen mode enhanced (P36-39) — the demo differentiator
+- 3-button clarification UX (P32-33) — shows AISP intent pipeline
+
+**Submission adds:**
+- Interview mode POC (P40-43)
+- Upload references (P44-46)
+- Full persona re-score
+
+**Open-core release (~Day 21) is the first major post-submission milestone.** Everything after is commercial velocity.
+
+---
+
+*Master schedule reflects observed velocity post-P19 (4 phases/day; originally estimated at 4-6 days per phase). Re-budget at end of each phase. Sprint A (P18-P20) sealed Day 1; remaining sprints scheduled accordingly.*
 
 

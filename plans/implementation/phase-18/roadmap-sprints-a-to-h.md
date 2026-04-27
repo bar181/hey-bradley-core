@@ -80,11 +80,35 @@
 - **P42:** Interview → project — completed interview auto-populates project JSON (sections, content, theme choices).
 - **P43:** Interview + assumptions bridge — interview answers feed assumptions engine (P35), reducing clarification prompts during normal chat.
 
-## Sprint H — Polish + Release Candidate (P44-P46)
+## Sprint H — Post-MVP Upload + References (P44-P46)
 
-- **P44:** Performance + error handling — loading states, graceful LLM failures, retry logic, cost guard rails.
-- **P45:** Final persona scoring pass — Grandma, Framer, Capstone re-scored against full feature set.
-- **P46:** Open-source RC — public repo cleanup, README, CLAUDE.md final, license, contribution guide.
+> **Note:** Original H scope ("Polish + Release Candidate") moved to Sprint K (P53-P55) per owner authoritative sprint table. H is now Post-MVP Upload + References.
+
+- **P44:** Style guide + brand voice upload.
+- **P45:** Reference codebase ingestion.
+- **P46:** Google site builder bridge.
+
+## Sprint I — Builder Enhancement (P47-P49)
+
+- **P47:** UX improvements based on user feedback.
+- **P48:** Best practices from existing builders.
+- **P49:** Areas-for-improvement surfaced post-MVP.
+
+## Sprint J — Agentic Support System (P50-P52)
+
+> **Note:** Previously listed as "P50+" open-ended; owner now caps at P50-P52.
+
+- **P50:** Existing codebase analysis tool.
+- **P51:** Hard architecture problem solver.
+- **P52:** Multi-level agentic engineer support.
+
+## Sprint K — Release / Open-core RC (P53-P55)
+
+> **Note:** Previously listed as "K — final" (no range). Owner now sets 3 phases P53-P55.
+
+- **P53:** Performance + error handling — loading states, graceful LLM failures, retry logic, cost guard rails.
+- **P54:** Final persona scoring pass — Grandma, Framer, Capstone re-scored against full feature set.
+- **P55:** Open-core RC — public repo cleanup, README, CLAUDE.md final, license, contribution guide.
 
 ---
 
@@ -97,9 +121,12 @@
 | **P24-26** | AISP makes it precise + transparent |
 | **P27-31** | Templates + content generation |
 | **P32-35** | LLM asks questions, shows its work |
-| **P36-39** | Voice input + listen mode |
+| **P36-39** | Voice input + listen mode (enhancement on shipped P19 base) |
 | **P40-43** | Interview mode (LLM leads the conversation) |
-| **P44-46** | Ship it |
+| **P44-46** | Post-MVP Upload + References |
+| **P47-49** | Builder Enhancement |
+| **P50-52** | Agentic Support System |
+| **P53-55** | Ship it (Open-core RC) |
 
 ---
 

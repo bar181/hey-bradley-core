@@ -1,12 +1,24 @@
 # Phase 21 — Preflight 00 Summary
 
-> **Phase title:** MVP Planning — Sprint Sequencing + Original-Plan Anchoring
-> **Status:** PREFLIGHT (scaffolded post-P20-preflight; activates after P20 seal)
-> **Owner directive:** "exclusive to planning the mvp (we are currently poc done)"
-> **Prerequisite:** P20 sealed (composite ≥88, master checklist 100% green for P15-P20)
-> **Successor:** Sprint B Phase 21 → Phase 22 → Phase 23 (Simple Chat) — but THIS phase is the planning phase that re-anchors everything.
+> **Phase title:** Sprint B Phase 1 — Simple Chat (natural language input + first real templates)
+> **Status:** PREFLIGHT (activates post-P20-seal)
+> **Owner directive (Option A, sequential numbering, no gaps):** Phase 21 IS Sprint B Phase 1. Earlier "MVP planning" content is demoted to Phase α (pre-P21 housekeeping) below.
+> **Prerequisite:** P20 sealed (composite ≥88, master checklist 100% green for P15-P20) AND Phase α housekeeping complete.
+> **Successor:** P22 (Sprint B Phase 2 — section targeting) → P23 (Sprint B Phase 3 — intent translation).
 
 > **Velocity reality check (from owner):** *"P15 through P19 + P18b — 6 phases sealed in under one day. Time estimates in this conversation have been consistently 10-50x too conservative."* Adjust effort projections accordingly throughout.
+
+---
+
+## Phase 21 deliverables (the actual coding phase)
+
+Phase 21 is the **first coding phase of Sprint B (Simple Chat)**. It is NOT the planning phase.
+
+- Natural-language chat input handling **2-3 hardcoded templates** ("make it brighter", "hide the hero", "warmer colors")
+- Template registry seeded with 2-3 real entries (not just regex fixtures)
+- Section-targeting groundwork (`/hero-1` keyword path matching)
+- Test count target: **+5 cases** (P21 baseline at velocity)
+- 1 ADR for template registry (proposed ADR-050; ADR-049 reserved for cost-cap from P20)
 
 ---
 
@@ -105,9 +117,9 @@ The following draft is the **authoritative post-P18 sprint plan** provided by th
 #### Sprint J — Agentic Support System
 | Phase | Milestone | Status |
 |---|---|---|
-| P50+ | Existing codebase analysis tool | ⏳ |
-| P51+ | Hard architecture problem solver | ⏳ |
-| P52+ | Multi-level agentic engineer support | ⏳ |
+| P50 | Existing codebase analysis tool | ⏳ |
+| P51 | Hard architecture problem solver | ⏳ |
+| P52 | Multi-level agentic engineer support | ⏳ |
 
 #### Sprint K — Release
 | Phase | Milestone | Status |
@@ -132,7 +144,11 @@ Earlier P20 preflight v2 (`phase-20/01-strategic-alignment.md` §2.2) proposed r
 
 ---
 
-## Phase 21 — Top-priority deliverables
+## Pre-execution checklist (housekeeping before P21 starts coding)
+
+> **Phase α / pre-flight housekeeping** — these tasks happen BEFORE P21 codes anything but are NOT a separate numbered phase. Run in the same session as P20 seal. Phase 21 IS the Simple Chat coding phase (see "Phase 21 deliverables" above).
+
+## Phase α (housekeeping, pre-P21) — Top-priority deliverables
 
 ### 1. Lock the sprint plan
 - [ ] Update `plans/implementation/phase-18/roadmap-sprints-a-to-h.md` to match the authoritative draft above (Sprint F retitled to "Listen Mode Enhancement"; statuses updated)

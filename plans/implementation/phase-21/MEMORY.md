@@ -9,21 +9,28 @@
 
 ```yaml
 phase: 21
-title: MVP Planning — Sprint Sequencing + Original-Plan Anchoring
+title: Sprint B Phase 1 — Simple Chat
 status: PREFLIGHT-SCAFFOLDED
-activation_gate: P20 sealed (composite ≥88; master checklist 100% green)
-estimated_effort_at_p19_velocity: 1-3 hours
-scope: markdown-only (no source code, no tests, no new ADRs)
+activation_gate: P20 sealed AND Phase α housekeeping complete
+estimated_effort_at_p19_velocity: multi-hour shift
+scope: code + tests + 1 ADR (template registry, ADR-050)
 
 deliverables:
-  - lock_authoritative_sprint_plan      # §1 of checklist
+  - natural_language_input_parser
+  - template_registry_seeded_2_to_3_real_entries     # "make it brighter" / "hide the hero" / "warmer colors"
+  - section_targeting_hero_1_keyword_path_matching
+  - five_new_playwright_cases                        # +5 baseline; monotonic non-decreasing
+  - adr_050_template_registry                        # ADR-049 reserved for cost-cap from P20
+
+phase_alpha_pre_p21_housekeeping:
+  - lock_authoritative_sprint_plan      # §1 of checklist (was "Phase 21 §1")
   - reaffirm_capstone_gates             # §2
   - sprint_b_and_c_preflight_scaffolds  # §3
   - reality_check_estimates             # §4
   - velocity_aware_planning             # §5
 
 owner_authoritative_sprint_table:
-  source: phase-21/preflight/00-summary.md "TOP PRIORITY" section
+  source: phase-21/preflight/00-summary.md (sequential, Option A)
   Sprint_A: P18-P20 (P18+P18b+P19 sealed; P20 in flight)
   Sprint_B: P21-P23 (Simple Chat — natural language, templates, section targeting)
   Sprint_C: P24-P26 (AISP Chat — instruction layer, intent pipeline, 2-step template)
@@ -33,7 +40,7 @@ owner_authoritative_sprint_table:
   Sprint_G: P40-P43 (Interview Mode)
   Sprint_H: P44-P46 (Post-MVP Upload + References)
   Sprint_I: P47-P49 (Builder Enhancement)
-  Sprint_J: P50+   (Agentic Support System)
+  Sprint_J: P50-P52 (Agentic Support System)
   Sprint_K: P53-P55 (Release / OSS RC)
 ```
 
@@ -58,6 +65,25 @@ real_llm_cost_to_date: $0
 build_gzip: ~700 KB total (599.85 main + 100 KB lazy); budget 800 KB
 playwright_targeted: 46/46 active; 63 total Playwright across 29 spec files
 adrs: 38 files, highest 048; new ADRs continue at 049+
+```
+
+## DECISION LOG: Sequential phase numbering (Option A)
+
+```yaml
+decision: phase_21_is_sprint_b_phase_1_simple_chat
+owner_directive: "Confirmed. Option A. Sequential numbering, no gaps."
+mapping:
+  Sprint_B: P21-P23
+  Sprint_C: P24-P26
+  Sprint_D: P27-P31
+  Sprint_E: P32-P35
+  Sprint_F: P36-P39
+  Sprint_G: P40-P43
+  Sprint_H: P44-P46
+  Sprint_I: P47-P49
+  Sprint_J: P50-P52   # capped (was "P50+" open-ended)
+  Sprint_K: P53-P55   # 3 phases (Performance/error / Final persona scoring / Open-core RC)
+note: "Phase 21 = Sprint B P21 (Simple Chat). Housekeeping tasks renamed Phase α / pre-P21."
 ```
 
 ## DECISION LOG: Sprint F deviation (P19)

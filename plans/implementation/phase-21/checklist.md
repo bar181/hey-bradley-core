@@ -1,11 +1,30 @@
 # Phase 21 — Master Checklist
 
-> **Title:** MVP Planning — Sprint Sequencing + Original-Plan Anchoring
-> **Activation gate:** P20 sealed (composite ≥88; master checklist 100% green for P15-P20)
-> **Effort:** 1-3 hours at P19-velocity (10-50× faster than original 4-6-day estimates)
+> **Title:** Sprint B Phase 1 — Simple Chat (natural language input + first real templates)
+> **Activation gate:** P20 sealed AND Phase α housekeeping (below) complete
+> **Effort:** multi-hour shift at P19-velocity
 > **Capstone alignment:** Sprints A-C completable before May 2026 defense; Sprint D begins post-defense
+> **Owner directive (Option A):** sequential numbering, no gaps. P21 = first coding phase of Sprint B (NOT MVP planning).
 
 ---
+
+## Phase 21 coding DoD (the actual coding phase)
+
+Phase 21 ticks the actual coding deliverables of Sprint B Phase 1. The housekeeping in §1-§5 below is now **Phase α / pre-P21** — runs once before P21 begins and is not part of the P21 coding DoD.
+
+- [ ] Natural-language input parser — handles freeform user prompts, routes to template registry
+- [ ] **2-3 templates registered** in real registry (not just regex fixtures): "make it brighter", "hide the hero", "warmer colors"
+- [ ] Section targeting `/hero-1` works — keyword path scoping resolves to a single section
+- [ ] **+5 Playwright cases** (P21 baseline, monotonic non-decreasing)
+- [ ] **1 ADR** for template registry (proposed ADR-050; ADR-049 reserved for cost-cap from P20)
+- [ ] Build green; lint green; targeted test sweep green
+- [ ] `MEMORY.md` and `STATE.md` updated with P21 seal composite + commit
+
+---
+
+## Pre-P21 housekeeping (Phase α — runs before P21 coding)
+
+The following §1-§5 sections were originally framed as "Phase 21 MVP planning". Per owner directive (Option A, sequential numbering with no gaps), they are now **Phase α / pre-P21 housekeeping** — they run once before P21 starts coding, but P21 itself is the Simple Chat coding phase.
 
 ## §1 — Lock the authoritative sprint plan
 
