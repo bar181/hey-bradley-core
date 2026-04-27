@@ -93,29 +93,38 @@
 
 ## Phase 17 — LLM Provider Abstraction + Env Var + BYOK Scaffold
 
+> **STATUS: CLOSED 2026-04-27.** 16/16 DoD items PASS. Build green in 1.93s (590.24 KB gzip JS, +2.00 KB vs P16 baseline). Targeted Playwright 11/11 in 31.2s. Standalone `tests/llm-adapter.spec.ts` 6/6 in 14.8s. Total `test()` count = 124 (≥ 109 floor). No persona gate this phase per plan; persona scoring resumes at P18. Sealed at `a72ba38`.
+
 ### Deliverables
-- [ ] `src/contexts/intelligence/llm/adapter.ts` interface
-- [ ] `claudeAdapter.ts`, `geminiAdapter.ts`, `simulatedAdapter.ts`
-- [ ] `pickAdapter.ts` reads env, falls back to simulated
-- [ ] `cost.ts` model price table + `usd()`
-- [ ] `keys.ts` BYOK with optional `kv` persistence (default OFF)
-- [ ] `intelligenceStore` exposes `{ adapter, status, lastError, sessionUsd }`
-- [ ] `LLMSettings.tsx` panel: provider picker + key input + test connection
-- [ ] First successful real call writes `llm_calls` row
-- [ ] Hard cap stops calls at `sessionUsd >= VITE_LLM_MAX_USD`
-- [ ] Onboarding banner when no key: "Using simulated responses — add a key in Settings"
-- [ ] `.env.example` checked in
-- [ ] CI grep guards against committed `sk-…`-shaped keys
+- [x] `src/contexts/intelligence/llm/adapter.ts` interface
+- [x] `claudeAdapter.ts`, `geminiAdapter.ts`, `simulatedAdapter.ts`
+- [x] `pickAdapter.ts` reads env, falls back to simulated
+- [x] `cost.ts` model price table + `usd()`
+- [x] `keys.ts` BYOK with optional `kv` persistence (default OFF)
+- [x] `intelligenceStore` exposes `{ adapter, status, lastError, sessionUsd }`
+- [x] `LLMSettings.tsx` panel: provider picker + key input + test connection
+- [x] First successful real call writes `llm_calls` row
+- [x] Hard cap stops calls at `sessionUsd >= VITE_LLM_MAX_USD`
+- [x] Onboarding banner when no key: "Using simulated responses — add a key in Settings"
+- [x] `.env.example` checked in
+- [x] CI grep guards against committed `sk-…`-shaped keys
 
 ### ADRs
-- [ ] `docs/adr/ADR-042-llm-provider-abstraction.md` merged
-- [ ] `docs/adr/ADR-043-api-key-trust-boundaries.md` merged
+- [x] `docs/adr/ADR-042-llm-provider-abstraction.md` merged
+- [x] `docs/adr/ADR-043-api-key-trust-boundaries.md` merged
 
 ### Tests
-- [ ] `tests/llm-adapter.spec.ts` covers factory selection and cost math
-- [ ] Mocked-provider test: simulated path returns canned envelope
-- [ ] `npx tsc --noEmit` clean; build green
-- [ ] Test count ≥ Phase 16 + 3
+- [x] `tests/llm-adapter.spec.ts` covers factory selection and cost math
+- [x] Mocked-provider test: simulated path returns canned envelope
+- [x] `npx tsc --noEmit` clean; build green
+- [x] Test count ≥ Phase 16 + 3
+
+### Phase 17 Commits (chronological)
+- `2da0f98` W1 LLMAdapter contract + ClaudeAdapter + GeminiAdapter + SimulatedAdapter + ADR-042 + ADR-043
+- `92ff9e6` W2 `pickAdapter` + `cost.ts` + `keys.ts` (BYOK vault) + `intelligenceStore`
+- `368e8b3` W3 `LLMSettings` UI + `auditedComplete` + cost-cap stub + `.env.example` + CI guard + onboarding banner
+- `ac4bd7b` W4 `tests/llm-adapter.spec.ts` (6 cases) + verification sweep
+- `a72ba38` Fix-Pass 10 reviewer must-fix items resolved + secrets-guard self-exclusions (ADR-043 + tests/)
 
 ---
 
