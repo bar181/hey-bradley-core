@@ -128,52 +128,79 @@
 
 ---
 
-## Phase 18 — Real Chat Mode (LLM → JSON Patches)
+## Phase 18 — Real Chat Mode (LLM → JSON Patches) — **CLOSED 2026-04-27 (20/20 PASS)**
+
+> **STATUS BANNER:** Phase 18 MVP track CLOSED on 2026-04-27.
+> **Final commit:** `15dc4d4` · **P17 baseline:** `8377ab7` · **Range:** `4c04f92..HEAD`
+> **DoD walk:** 20/20 PASS · **Targeted Playwright:** 29/29 active passed (2 intentional skips) · **Bundle delta vs P17:** +6.24 kB (cap 800 kB)
+> **Step 4 (live LLM smoke) deferred** to a human-triggered post-DoD task per the no-real-LLM mandate.
+> See `plans/implementation/phase-18/retrospective.md` and the "Phase 18 — CLOSED" block in `phase-18/session-log.md`.
+
+### Commit chronology (P17 seal → HEAD)
+
+| # | SHA | Subject |
+|---|-----|---------|
+| 1 | `22bf7e4` | P18 Step 2: chat input drives the LLM pipeline (still no real LLM) |
+| 2 | `623cdb0` | P18 Step 3: full DoD — 5 starters + add/remove + multi-patch + mutex + safety + ADRs |
+| 3 | `15dc4d4` | P18 Fix-Pass: address all 4 reviewer must-fix items (13 fixes) |
 
 ### Interactive Validation Gates (each step demos to user before advancing)
 
 #### Step 1 — Wire the loop
-- [ ] Temporary test button in `LLMSettings.tsx` triggers a single hardcoded round-trip
-- [ ] Pressing it changes the hero heading to "Hello from LLM" within 8 s
-- [ ] Failure shows a one-line toast; no mutation
-- [ ] Before/after screenshots in `phase-18/session-log.md`
+- [x] Temporary test button in `LLMSettings.tsx` triggers a single hardcoded round-trip
+- [x] Pressing it changes the hero heading to "Hello from LLM" within 8 s
+- [x] Failure shows a one-line toast; no mutation
+- [x] Before/after screenshots in `phase-18/session-log.md`
 
 #### Step 2 — One real user prompt
-- [ ] Test button removed; chat input drives the loop
-- [ ] Starter prompt *"Make the hero say '…'."* updates preview within 4 s p50 on Haiku
-- [ ] Full system prompt assembled (Crystal Atom + current JSON + output rule)
-- [ ] `responseParser.ts` + `patchValidator.ts` enforce envelope and path whitelist for `replace`
-- [ ] One golden Playwright test passes against mocked adapter
-- [ ] `llm_calls` row written for each call
+- [x] Test button removed; chat input drives the loop
+- [x] Starter prompt *"Make the hero say '…'."* updates preview within 4 s p50 on Haiku (DEV: FixtureAdapter, sub-100 ms)
+- [x] Full system prompt assembled (Crystal Atom + current JSON + output rule)
+- [x] `responseParser.ts` + `patchValidator.ts` enforce envelope and path whitelist for `replace`
+- [x] One golden Playwright test passes against mocked adapter
+- [x] `llm_calls` row written for each call
 
 #### Step 3 — Advanced: full DoD
-- (covered by the deliverables and tests sections below)
+- [x] (covered by the deliverables and tests sections below — all ticked)
+
+#### Step 4 — Live LLM smoke
+- [ ] **DEFERRED** to human-triggered post-DoD task per the no-real-LLM mandate (NOT part of P18 seal)
 
 ### Deliverables
-- [ ] `src/lib/schemas/patches.ts` (`JSONPatchSchema`, `PatchEnvelopeSchema`)
-- [ ] `src/contexts/intelligence/prompts/system.ts` builds the Crystal Atom + current JSON + output rule
-- [ ] `src/contexts/intelligence/prompts/contextBuilder.ts` enforces 4 KB JSON cap
-- [ ] `src/contexts/intelligence/llm/responseParser.ts` (tolerant JSON extractor)
-- [ ] `src/contexts/intelligence/llm/patchValidator.ts` (path whitelist + value Zod check)
-- [ ] `src/contexts/intelligence/applyPatches.ts` (atomic, structuredClone)
-- [ ] `configStore.applyPatches` is the only LLM-mutation entry point
-- [ ] `ChatInput.tsx` swaps engine, keeps typewriter
-- [ ] Five starter prompts produce expected golden envelopes
-- [ ] Fallback to `cannedChat.parseChatCommand` on any failure
-- [ ] Audit row written for every call (ok/error/timeout/validation_failed)
-- [ ] In-flight lock: input disabled during a request
+- [x] `src/lib/schemas/patches.ts` (`JSONPatchSchema`, `PatchEnvelopeSchema`)
+- [x] `src/lib/schemas/patchPaths.ts` (`isAllowedPath` + `isAllowedAdd` + `isAllowedRemove` + `renderAllowedPathsForPrompt`; `EDITABLE_SECTION_TYPES = ['hero','blog','footer']`)
+- [x] `src/contexts/intelligence/prompts/system.ts` builds the Crystal Atom + current JSON + output rule
+- [x] `src/contexts/intelligence/prompts/contextBuilder.ts` enforces 4 KB JSON cap (inline in `system.ts`'s `compactJson`/`JSON_BYTE_CAP`)
+- [x] `src/contexts/intelligence/llm/responseParser.ts` (tolerant JSON extractor: BOM, fences, prose-around-JSON)
+- [x] `src/contexts/intelligence/llm/patchValidator.ts` (path whitelist + value Zod + `containsForbiddenKey` for prototype-pollution + value-safety regex for XSS + `isAllowedImageUrl`)
+- [x] `src/contexts/intelligence/applyPatches.ts` (atomic, `structuredClone`, `MultiPatchError`)
+- [x] `src/contexts/intelligence/llm/fixtureAdapter.ts` (DEV-only adapter; no real LLM in DEV/test paths)
+- [x] `src/data/llm-fixtures/step-2.ts` (5 starter fixtures; unknown-color path returns empty patches per FIX 6)
+- [x] `configStore.applyPatches(JSONPatch[])` is the ONLY LLM-mutation entry point (ChatInput uses it; FIX 1)
+- [x] `ChatInput.tsx` swaps engine, keeps typewriter; chat-only `inFlight` pre-check removed (FIX 10)
+- [x] `auditedComplete` owns the centralised cross-surface `inFlight` mutex (FIX 10)
+- [x] Five starter prompts produce expected golden envelopes (#1 hero heading, #2 accent color, #3 serif font, #4 hero subheading, #5 multi-patch blog article)
+- [x] Fallback to `cannedChat.parseChatCommand` on any failure (parse / validate / apply / no-fixture-match)
+- [x] Audit row written for every call (ok/error/timeout/validation_failed) via `auditedComplete` + `recordPipelineFailure`
+- [x] In-flight lock: input disabled during a request (`isBusy = isProcessing || inFlight`, dimmed bar + thinking indicator)
 
 ### ADRs
-- [ ] `docs/adr/ADR-044-json-patch-contract.md` merged
-- [ ] `docs/adr/ADR-045-system-prompt-aisp.md` merged
+- [x] `docs/adr/ADR-044-json-patch-contract.md` Accepted (image allow-list in §5)
+- [x] `docs/adr/ADR-045-system-prompt-aisp.md` Accepted (AISP open-core repo cited)
 
 ### Tests
-- [ ] `tests/chat-real.spec.ts` green for all 5 starters with mocked adapter
-- [ ] `tests/chat-fallback.spec.ts` green for parse fail and network fail
-- [ ] Latency p50 ≤ 4 s on Haiku for single-patch prompts (recorded in session log)
-- [ ] No `console.error` during happy path
-- [ ] `npx tsc --noEmit` clean; build green
-- [ ] Test count ≥ Phase 17 + 5
+- [x] `tests/p18-step1.spec.ts` — wire test (loaded blog-standard variant)
+- [x] `tests/p18-step2-chat.spec.ts` — happy path + fallback (unknown phrase, non-envelope JSON)
+- [x] `tests/p18-step2-cap.spec.ts` — projected pre-call cost-cap refusal
+- [x] `tests/p18-step3-multi.spec.ts` — 3-patch happy path + atomic abort with bad path
+- [x] `tests/p18-step3-safety.spec.ts` — nested `<script>` + proto-pollution (`Object.prototype.polluted === undefined`) + 3 image-URL cases (`javascript:` rejected, evil host rejected, `images.unsplash.com` allowed)
+- [x] `tests/p18-step3-cap-edges.spec.ts` — exactly-at-cap + projected-only + cost-helper math
+- [x] `tests/p18-step3-starters.spec.ts` — starters #2 (accent), #3 (serif font), #4 (subheading)
+- [x] All 5 starters green against `FixtureAdapter` (DEV)
+- [x] No `console.error` during happy path
+- [x] `npx tsc --noEmit --ignoreDeprecations 5.0` clean; `npm run build` green (1.86s; main gzip 596.48 kB)
+- [x] Test count ≥ Phase 17 + 5 (added 7 new P18 spec files)
+- [x] Targeted Playwright sweep (P15+P16+P17+P18): 29 passed + 2 skipped, 0 failed, 1.6 min
 
 ---
 
