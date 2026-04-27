@@ -3,6 +3,7 @@ import { TopBar } from './TopBar'
 import { StatusBar } from './StatusBar'
 import { PanelLayout } from './PanelLayout'
 import { ShortcutHelp } from '@/components/ui/ShortcutHelp'
+import { SettingsDrawer } from '@/components/settings/SettingsDrawer'
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore } from '@/store/uiStore'
 import { useAutoSave } from '@/lib/persistence'
@@ -59,6 +60,7 @@ export function AppShell() {
       </main>
       {!isPreviewMode && <StatusBar />}
       <ShortcutHelp open={helpOpen} onClose={closeHelp} />
+      <SettingsDrawer />
     </div>
   )
 }

@@ -196,7 +196,14 @@ function ExampleCard({
         </div>
       </div>
       <div className="px-3.5 py-3">
-        <div className="text-sm font-semibold text-[#1a1a1a] group-hover:text-[#A51C30] transition-colors truncate">{name}</div>
+        <div className="flex items-center gap-1.5">
+          <div className="text-sm font-semibold text-[#1a1a1a] group-hover:text-[#A51C30] transition-colors truncate">{name}</div>
+          {referenceTag && (
+            <span className="text-[9px] font-medium px-1.5 py-0.5 rounded-full bg-[#f3f4f6] text-[#6b7280] uppercase tracking-wider flex-shrink-0">
+              Reference
+            </span>
+          )}
+        </div>
         <div className="text-xs text-[#6b7280] mt-0.5 line-clamp-2">{description}</div>
       </div>
     </button>
@@ -606,19 +613,64 @@ export function Onboarding() {
                     </div>
                   )
                 ) : (
-                  <div className="grid grid-cols-2 gap-3">
-                    {EXAMPLE_SITES.map((example) => (
-                      <ExampleCard
-                        key={example.name}
-                        name={example.name}
-                        slug={EXAMPLE_PREVIEW_SLUGS[example.name] || 'blank'}
-                        description={example.description}
-                        theme={example.theme}
-                        palette={getExamplePalette(example.config as { theme?: { palette?: { bgPrimary?: string; accentPrimary?: string; textPrimary?: string } } })}
-                        sectionCount={example.config.sections?.length ?? 0}
-                        onSelect={() => handleExampleSelect(example)}
-                      />
-                    ))}
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-3">
+                      {defaultExamples.map((example) => (
+                        <ExampleCard
+                          key={example.name}
+                          name={example.name}
+                          slug={EXAMPLE_PREVIEW_SLUGS[example.name] || 'blank'}
+                          description={example.description}
+                          theme={example.theme}
+                          palette={getExamplePalette(example.config as { theme?: { palette?: { bgPrimary?: string; accentPrimary?: string; textPrimary?: string } } })}
+                          sectionCount={example.config.sections?.length ?? 0}
+                          onSelect={() => handleExampleSelect(example)}
+                          referenceTag={example.name === 'Kitchen Sink Demo'}
+                        />
+                      ))}
+                    </div>
+                    {moreExamples.length > 0 && (
+                      <div>
+                        <button
+                          type="button"
+                          onClick={() => setShowMoreExamples((v) => !v)}
+                          className="flex items-center gap-2 w-full px-1 group"
+                        >
+                          <h3 className="text-xs font-semibold text-[#9ca3af] uppercase tracking-wider group-hover:text-[#6b7280] transition-colors">
+                            {showMoreExamples ? 'Hide' : 'More examples'}
+                            <span className="ml-1.5 text-[10px] bg-[#f3f4f6] text-[#9ca3af] px-1.5 py-0.5 rounded-full font-medium normal-case tracking-normal">
+                              {moreExamples.length}
+                            </span>
+                          </h3>
+                          <svg
+                            className={`w-3.5 h-3.5 text-[#9ca3af] transition-transform ${showMoreExamples ? 'rotate-180' : ''}`}
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                          </svg>
+                          <div className="flex-1 h-px bg-[#e5e1dc]" />
+                        </button>
+                        {showMoreExamples && (
+                          <div className="grid grid-cols-2 gap-3 mt-3">
+                            {moreExamples.map((example) => (
+                              <ExampleCard
+                                key={example.name}
+                                name={example.name}
+                                slug={EXAMPLE_PREVIEW_SLUGS[example.name] || 'blank'}
+                                description={example.description}
+                                theme={example.theme}
+                                palette={getExamplePalette(example.config as { theme?: { palette?: { bgPrimary?: string; accentPrimary?: string; textPrimary?: string } } })}
+                                sectionCount={example.config.sections?.length ?? 0}
+                                onSelect={() => handleExampleSelect(example)}
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

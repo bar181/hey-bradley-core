@@ -132,6 +132,7 @@ export function TopBar() {
               brandLocked ? 'text-hb-accent' : 'text-white/60 hover:text-white'
             }`}
             aria-label={brandLocked ? 'Unlock brand editing' : 'Lock brand editing'}
+            title="Lock your site name and search info from being changed."
           >
             {brandLocked ? <Shield size={16} /> : <ShieldOff size={16} />}
           </button>
@@ -146,6 +147,7 @@ export function TopBar() {
                 : 'text-white/60 hover:text-white hover:bg-white/10'
             }`}
             aria-label={isPreviewMode ? 'Exit preview' : 'Preview site'}
+            title="Switch between editing and previewing your page."
           >
             {isPreviewMode ? <><PenLine size={14} /> Edit</> : <><Eye size={14} /> Preview</>}
           </button>
@@ -163,6 +165,7 @@ export function TopBar() {
           className="p-1.5 text-white/70 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
+          title="Open or close the menu."
         >
           {menuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
@@ -181,6 +184,7 @@ export function TopBar() {
                         ? 'bg-hb-accent/15 text-hb-accent'
                         : 'text-hb-text-muted hover:bg-hb-surface-hover'
                     }`}
+                    title={`See how your page looks on a ${label.toLowerCase()} screen.`}
                   >
                     <Icon size={14} /> {label}
                   </button>
@@ -191,6 +195,7 @@ export function TopBar() {
             <button
               onClick={() => { setChromeLight(!chromeLight); setMenuOpen(false) }}
               className="flex items-center gap-2 w-full px-3 py-2 text-sm text-hb-text-primary hover:bg-hb-surface-hover transition-colors"
+              title="Switch the editor between light and dark colors."
             >
               {chromeLight ? <Moon size={14} /> : <Sun size={14} />}
               {chromeLight ? 'Dark Mode' : 'Light Mode'}
@@ -198,6 +203,7 @@ export function TopBar() {
             <button
               onClick={() => { setPreviewMode(!isPreviewMode); setMenuOpen(false) }}
               className="flex items-center gap-2 w-full px-3 py-2 text-sm text-hb-text-primary hover:bg-hb-surface-hover transition-colors"
+              title="Switch between editing and previewing your page."
             >
               {isPreviewMode ? <><PenLine size={14} /> Exit Preview</> : <><Eye size={14} /> Preview Site</>}
             </button>

@@ -17,6 +17,7 @@ export function ModeToggle() {
               ? 'bg-hb-accent text-white font-medium'
               : 'text-hb-text-muted hover:text-hb-text-secondary'
           )}
+          title={mode === 'LISTEN' ? 'Watch a guided demo of how the editor works.' : 'Build your own site by hand.'}
         >
           <span className="flex items-center gap-1.5">
             {mode === 'LISTEN' && interactionMode === 'LISTEN' && (
