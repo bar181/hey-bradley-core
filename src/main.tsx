@@ -36,6 +36,11 @@ initDB()
     setupAutosave()
     await useProjectStore.getState().hydrateLastProjectAfterDB()
     void useIntelligenceStore.getState().init()
+    // FIX 4: close the active session on unload so sessions don't accumulate
+    // forever (unbounded `sessions` table growth was R4 HIGH).
+    window.addEventListener('beforeunload', () => {
+      useIntelligenceStore.getState().endActiveSession()
+    })
     root.render(
       <StrictMode>
         <BrowserRouter>

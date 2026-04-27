@@ -17,7 +17,8 @@ export type LLMError =
   | { kind: 'network'; detail?: string }
   | { kind: 'invalid_response'; detail?: string }
   | { kind: 'timeout' }
-  | { kind: 'cost_cap'; detail: string };
+  | { kind: 'cost_cap'; detail: string }
+  | { kind: 'precondition_failed'; detail: string };
 
 export type LLMResponse =
   | { ok: true; json: unknown; tokens: { in: number; out: number }; cost_usd: number }

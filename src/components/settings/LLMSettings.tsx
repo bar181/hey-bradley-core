@@ -11,7 +11,6 @@ import {
   looksLikeGoogleKey,
 } from '@/contexts/intelligence/llm/keys'
 import type { LLMProviderName } from '@/contexts/intelligence/llm/adapter'
-import { auditedComplete } from '@/contexts/intelligence/llm/auditedComplete'
 
 type TestResult = 'idle' | 'ok' | 'fail'
 
@@ -61,15 +60,12 @@ export function LLMSettings() {
 
   const handleTest = async () => {
     setTestResult('idle')
-    // Route through auditedComplete so the round-trip writes a row to llm_calls.
+    // FIX 8: a Test ping should not pollute the audit log nor consume the
+    // session cap budget. Use adapter.testConnection() directly.
     const adapter = useIntelligenceStore.getState().adapter
     if (!adapter) { setTestResult('fail'); return }
-    const res = await auditedComplete(
-      adapter,
-      { systemPrompt: 'ping', userPrompt: 'ping' },
-      { source: 'test' },
-    )
-    setTestResult(res.ok ? 'ok' : 'fail')
+    const ok = await adapter.testConnection()
+    setTestResult(ok ? 'ok' : 'fail')
   }
 
   const handleClear = () => {

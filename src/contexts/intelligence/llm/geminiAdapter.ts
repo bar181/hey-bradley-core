@@ -4,6 +4,7 @@
 
 import { GoogleGenAI } from '@google/genai';
 import type { LLMAdapter, LLMRequest, LLMResponse, LLMProviderName } from './adapter';
+import { redactKeyShapes } from './keys';
 
 const DEFAULT_MODEL = 'gemini-2.5-flash';
 const COST_PER_M = { in: 0.075, out: 0.30 } as const; // USD per 1M tokens (Flash)
@@ -83,15 +84,17 @@ function safeJson(text: string): unknown {
 }
 
 function classifyError(e: unknown): LLMResponse {
-  const msg = e instanceof Error ? e.message : String(e);
-  if (/rate\s*limit|429|RESOURCE_EXHAUSTED/i.test(msg)) {
-    return { ok: false, error: { kind: 'rate_limit', detail: msg } };
+  const raw = e instanceof Error ? e.message : String(e);
+  // Same defense as claudeAdapter: redact before propagation. See ADR-043.
+  const detail = redactKeyShapes(raw);
+  if (/rate\s*limit|429|RESOURCE_EXHAUSTED/i.test(raw)) {
+    return { ok: false, error: { kind: 'rate_limit', detail } };
   }
-  if (/timeout|timed out/i.test(msg)) {
+  if (/timeout|timed out/i.test(raw)) {
     return { ok: false, error: { kind: 'timeout' } };
   }
-  if (/network|fetch failed|ECONN/i.test(msg)) {
-    return { ok: false, error: { kind: 'network', detail: msg } };
+  if (/network|fetch failed|ECONN/i.test(raw)) {
+    return { ok: false, error: { kind: 'network', detail } };
   }
-  return { ok: false, error: { kind: 'invalid_response', detail: msg } };
+  return { ok: false, error: { kind: 'invalid_response', detail } };
 }

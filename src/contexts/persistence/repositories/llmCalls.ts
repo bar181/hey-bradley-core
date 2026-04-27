@@ -82,6 +82,20 @@ export function sumSessionCostUsd(session_id: string): number {
   } finally { stmt.free(); }
 }
 
+export function sumSessionTokens(session_id: string): { in: number; out: number } {
+  const stmt = getDB().prepare(
+    'SELECT COALESCE(SUM(prompt_tokens), 0) AS i, COALESCE(SUM(output_tokens), 0) AS o FROM llm_calls WHERE session_id = ?',
+  );
+  try {
+    stmt.bind([session_id]);
+    if (stmt.step()) {
+      const r = stmt.getAsObject() as { i: number | null; o: number | null };
+      return { in: r.i ?? 0, out: r.o ?? 0 };
+    }
+    return { in: 0, out: 0 };
+  } finally { stmt.free(); }
+}
+
 export function pruneOldLLMCalls(beforeMs: number): number {
   const db = getDB();
   const stmt = db.prepare('DELETE FROM llm_calls WHERE created_at < ?');

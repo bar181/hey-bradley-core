@@ -4,6 +4,7 @@
 
 import Anthropic from '@anthropic-ai/sdk';
 import type { LLMAdapter, LLMRequest, LLMResponse, LLMProviderName } from './adapter';
+import { redactKeyShapes } from './keys';
 
 const DEFAULT_MODEL = 'claude-haiku-4-5-20251001';
 const COST_PER_M = { in: 0.25, out: 1.25 } as const; // USD per 1M tokens (Haiku)
@@ -83,15 +84,18 @@ function safeJson(text: string): unknown {
 }
 
 function classifyError(e: unknown): LLMResponse {
-  const msg = e instanceof Error ? e.message : String(e);
-  if (/rate\s*limit|429/i.test(msg)) {
-    return { ok: false, error: { kind: 'rate_limit', detail: msg } };
+  const raw = e instanceof Error ? e.message : String(e);
+  // SDK errors can echo back malformed Bearer tokens / sk-ant-… prefixes; redact
+  // before the string is propagated to llm_calls.error_text or exports.
+  const detail = redactKeyShapes(raw);
+  if (/rate\s*limit|429/i.test(raw)) {
+    return { ok: false, error: { kind: 'rate_limit', detail } };
   }
-  if (/timeout|timed out/i.test(msg)) {
+  if (/timeout|timed out/i.test(raw)) {
     return { ok: false, error: { kind: 'timeout' } };
   }
-  if (/network|fetch failed|ECONN/i.test(msg)) {
-    return { ok: false, error: { kind: 'network', detail: msg } };
+  if (/network|fetch failed|ECONN/i.test(raw)) {
+    return { ok: false, error: { kind: 'network', detail } };
   }
-  return { ok: false, error: { kind: 'invalid_response', detail: msg } };
+  return { ok: false, error: { kind: 'invalid_response', detail } };
 }

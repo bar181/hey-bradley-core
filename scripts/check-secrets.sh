@@ -5,10 +5,18 @@ patterns=(
   'sk-ant-[A-Za-z0-9_-]{20,}'
   'sk-proj-[A-Za-z0-9_-]{20,}'
   'AIza[0-9A-Za-z_-]{35}'
+  'sk-[A-Za-z0-9]{20,}'
+  'hf_[A-Za-z0-9]{30,}'
+  'ghp_[A-Za-z0-9]{36}'
+  'github_pat_[A-Za-z0-9_]{82}'
+  'gsk_[A-Za-z0-9]{32,}'
+  'xai-[A-Za-z0-9]{20,}'
 )
 hits=0
 for p in "${patterns[@]}"; do
-  if git diff --cached -U0 | grep -E "$p" >/dev/null; then
+  # Exclude this script + ADR-043 (which documents the patterns) + tests/
+  # (which use synthetic fixtures to verify the redactor / guard works).
+  if git diff --cached -U0 -- ':!scripts/check-secrets.sh' ':!docs/adr/ADR-043-api-key-trust-boundaries.md' ':!tests/' | grep -E "$p" >/dev/null; then
     echo "[secrets-guard] BLOCKED: pattern '$p' detected in staged diff" >&2
     hits=1
   fi

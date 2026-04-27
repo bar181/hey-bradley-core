@@ -17,7 +17,13 @@ const ZIP_TYPE = 'application/zip';
 const SQLITE_HEADER = [0x53, 0x51, 0x4c, 0x69, 0x74, 0x65, 0x20, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x74, 0x20, 0x33, 0x00];
 
 // kv keys that must NEVER ship inside an exported bundle.
-export const SENSITIVE_KV_KEYS = new Set<string>(['byok_key', 'pre_migration_backup']);
+// Use the predicate (or the SQL LIKE in exportSanitizedDBBytes) for runtime
+// checks; the array form is kept only for back-compat with the existing
+// persistence test fixture.
+export function isSensitiveKvKey(k: string): boolean {
+  return k.startsWith('byok_') || k === 'pre_migration_backup';
+}
+export const SENSITIVE_KV_KEYS: readonly string[] = ['byok_key', 'byok_provider', 'pre_migration_backup'];
 
 export class ImportBundleError extends Error {
   constructor(message: string) {
@@ -42,19 +48,19 @@ function rowToJson(r: ProjectRow): ProjectJsonSingle {
 }
 
 /**
- * Produce sanitized DB bytes for export. Strips SENSITIVE_KV_KEYS from a
- * temporary clone, exports it, and discards the clone.
+ * Produce sanitized DB bytes for export. Strips any byok_* kv row plus the
+ * legacy pre_migration_backup, and nulls llm_calls.error_text to remove a
+ * defense-in-depth leak path even after redactKeyShapes() has done its job.
  */
 async function exportSanitizedDBBytes(): Promise<Uint8Array> {
   const clone = await cloneDBForExport();
   try {
-    const placeholders = Array.from(SENSITIVE_KV_KEYS).map(() => '?').join(', ');
-    const stmt = clone.prepare(`DELETE FROM kv WHERE k IN (${placeholders})`);
-    try {
-      stmt.run(Array.from(SENSITIVE_KV_KEYS));
-    } finally {
-      stmt.free();
-    }
+    // Prefix sweep: covers byok_key, byok_provider, and any future byok_* row.
+    clone.exec("DELETE FROM kv WHERE k LIKE 'byok_%' OR k = 'pre_migration_backup'");
+    // Belt-and-suspenders: even with adapter-side redaction, scrub raw error
+    // strings out of the exported snapshot. The cost is losing diagnostic
+    // detail in the zip — a fair trade for the BYOK leak guarantee.
+    clone.exec("UPDATE llm_calls SET error_text = NULL WHERE error_text IS NOT NULL");
     return clone.export();
   } finally {
     clone.close();

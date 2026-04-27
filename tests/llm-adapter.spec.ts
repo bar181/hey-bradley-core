@@ -148,4 +148,56 @@ test.describe('Phase 17: LLM Adapter', () => {
     expect(outcome.sessionUsd).toBe(0)
     expect(errors).toHaveLength(0)
   })
+
+  test('cost-cap fires when sessionUsd >= cap', async ({ page }) => {
+    const errors = trackErrors(page)
+    await loadBlogStarter(page)
+    const projectId = await ensureActiveProject(page, 'P17 Cost Cap Test')
+    expect(projectId).toBeTruthy()
+
+    const outcome = await page.evaluate(async () => {
+      const sim: { SimulatedAdapter: new () => unknown } =
+        await import('/src/contexts/intelligence/llm/simulatedAdapter.ts' as never)
+      const audit: { auditedComplete: (a: unknown, r: { systemPrompt: string; userPrompt: string }, c: { source: 'test' }) => Promise<{ ok: boolean; error?: { kind: string } }> } =
+        await import('/src/contexts/intelligence/llm/auditedComplete.ts' as never)
+      const intel = (window as unknown as { __intelligenceStore: { getState: () => { recordUsage: (i: number, o: number, c: number) => void; resetSession: () => void } } }).__intelligenceStore
+
+      intel.getState().resetSession()
+      // Push the in-memory cost above the default $1.00 cap.
+      intel.getState().recordUsage(0, 0, 1.5)
+      const adapter = new sim.SimulatedAdapter()
+      const res = await audit.auditedComplete(adapter, { systemPrompt: 'sys', userPrompt: 'hi' }, { source: 'test' })
+      // Clean up so subsequent tests in the suite see a fresh session.
+      intel.getState().resetSession()
+      return { ok: res.ok, kind: res.error?.kind ?? '' }
+    })
+
+    expect(outcome.ok).toBe(false)
+    expect(outcome.kind).toBe('cost_cap')
+    expect(errors).toHaveLength(0)
+  })
+
+  test('redactKeyShapes scrubs sk-ant- / AIza shapes', async ({ page }) => {
+    const errors = trackErrors(page)
+    await page.goto('/new-project')
+    await page.waitForTimeout(500)
+
+    const result = await page.evaluate(async () => {
+      const m: { redactKeyShapes: (s: string) => string } =
+        await import('/src/contexts/intelligence/llm/keys.ts' as never)
+      return {
+        bearer: m.redactKeyShapes('Authorization: Bearer sk-ant-abcdef1234567890abcdef'),
+        google: m.redactKeyShapes('key=AIzaSyA' + 'B'.repeat(34)),
+        plain: m.redactKeyShapes('hello world'),
+      }
+    })
+
+    expect(result.bearer).toContain('[REDACTED]')
+    expect(result.bearer).not.toContain('sk-ant-')
+    expect(result.bearer).not.toContain('Bearer ')
+    expect(result.google).toContain('[REDACTED]')
+    expect(result.google).not.toContain('AIza')
+    expect(result.plain).toBe('hello world')
+    expect(errors).toHaveLength(0)
+  })
 })

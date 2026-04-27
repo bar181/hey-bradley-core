@@ -70,3 +70,18 @@ export function looksLikeAnthropicKey(k: string): boolean {
 export function looksLikeGoogleKey(k: string): boolean {
   return /^AIza/.test(k.trim());
 }
+
+/**
+ * Redact API-key-shaped substrings before they hit logs / persisted error_text /
+ * exported `.heybradley` zips. Pure, no I/O. Kept narrow on purpose: SDK error
+ * messages routinely echo malformed keys / Bearer tokens, and `llm_calls.error_text`
+ * is exported by default. See ADR-043.
+ */
+export function redactKeyShapes(s: string): string {
+  if (!s) return s;
+  return s
+    .replace(/sk-ant-[A-Za-z0-9_-]{20,}/g, '[REDACTED]')
+    .replace(/sk-proj-[A-Za-z0-9_-]{20,}/g, '[REDACTED]')
+    .replace(/AIza[0-9A-Za-z_-]{35}/g, '[REDACTED]')
+    .replace(/Bearer\s+\S+/g, '[REDACTED]');
+}
