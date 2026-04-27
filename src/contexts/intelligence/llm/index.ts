@@ -1,5 +1,7 @@
 export * from './adapter';
 export { SimulatedAdapter } from './simulatedAdapter';
+export { FixtureAdapter } from './fixtureAdapter';
+export type { FixtureEntry } from './fixtureAdapter';
 export { ClaudeAdapter } from './claudeAdapter';
 export { GeminiAdapter } from './geminiAdapter';
 export { pickAdapter } from './pickAdapter';
