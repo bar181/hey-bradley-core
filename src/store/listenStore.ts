@@ -1,10 +1,12 @@
 // Spec: plans/implementation/mvp-plan/05-phase-19-real-listen.md §3.2, §3.4
+// Decision record: docs/adr/ADR-048-stt-web-speech-api.md
 // Zustand store wrapping the STT adapter. Step 1 only owns capture state;
 // pipeline submission is wired in Step 2 (no chatPipeline import here).
 
 import { create } from 'zustand'
 import type { STTAdapter, STTError } from '@/contexts/intelligence/stt/sttAdapter'
 import { createSTTAdapter } from '@/contexts/intelligence/stt/factory'
+import { redactKeyShapes } from '@/contexts/intelligence/llm/keys'
 
 // Backwards-compatible alias kept so the Step 1 PTT UI in ListenTab.tsx
 // (which imports `ListenError` from this module) continues to compile.
@@ -45,7 +47,12 @@ export const useListenStore = create<ListenState>((set) => ({
       set({ interim: text })
     })
     unsubError = adapter.onError((e) => {
-      set({ error: e, recording: false })
+      // FIX 7: redact API-key-shaped substrings from STT detail before it
+      // lands in the store / audit channel (mirrors auditedComplete pattern).
+      set({
+        error: { kind: e.kind, detail: redactKeyShapes(e.detail || '') },
+        recording: false,
+      })
     })
     set({ supported: adapter.supported })
   },

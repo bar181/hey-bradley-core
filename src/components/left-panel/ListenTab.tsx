@@ -24,10 +24,20 @@ function mapListenError(err: ListenError): string {
       return "Couldn't access your microphone. Check your audio device."
     case 'no_speech':
       return "I didn't hear anything. Try again."
+    case 'network':
+      return "Couldn't reach the speech-recognition service. Check your internet connection."
+    case 'aborted':
+      return 'Voice input was interrupted. Try again.'
+    case 'unknown':
+      return err.detail || 'Voice input failed. Please try again.'
     default:
       return err.detail || 'Voice input failed.'
   }
 }
+
+const PRIVACY_ACK_KEY = 'hb-listen-privacy-acknowledged'
+const PRIVACY_TITLE =
+  'Audio is sent to your browser vendor (Google/Apple) for transcription. Hey Bradley never sees the audio.'
 
 interface DemoSequenceConfig {
   id: string
@@ -90,6 +100,10 @@ export function ListenTab() {
   const [pttBusy, setPttBusy] = useState<boolean>(false)
   // P19 Step 3 (A5): hold-too-short hint shown when user releases pre-gate.
   const [pttHint, setPttHint] = useState<string>('')
+  // P19 fix: mic privacy disclosure. Default open on first PTT in this browser
+  // (no localStorage flag yet); subsequently collapses unless user clicks the
+  // toggle. KISS: one-line subtext + inline expandable block — no banner.
+  const [pttPrivacyOpen, setPttPrivacyOpen] = useState<boolean>(false)
 
   const clearPttTimers = useCallback(() => {
     if (pttHoldGateTimerRef.current) {
@@ -153,7 +167,21 @@ export function ListenTab() {
   }, [])
 
   const handlePttPressStart = useCallback(() => {
+    // FIX 3: hard guard against the race where `disabled` flips AFTER React
+    // commits — a fast user could begin a press before pttBusy renders true.
+    if (pttBusy) return
     if (!pttSupported) return
+    // P19 fix (privacy): on first PTT press in this browser session, expand
+    // the disclosure block so the user sees how voice is processed BEFORE
+    // recording begins. Persist the ack so subsequent presses stay collapsed.
+    try {
+      if (typeof window !== 'undefined' && !window.localStorage.getItem(PRIVACY_ACK_KEY)) {
+        setPttPrivacyOpen(true)
+        window.localStorage.setItem(PRIVACY_ACK_KEY, '1')
+      }
+    } catch {
+      /* localStorage may be unavailable (private mode); fall through silently. */
+    }
     pttMouseDownAtRef.current = Date.now()
     clearPttTimers()
     // 250 ms hold gate — only start once the user holds past the threshold.
@@ -168,7 +196,7 @@ export function ListenTab() {
         void useListenStore.getState().stopRecording().then(submitListenFinal)
       }, PTT_AUTO_STOP_MS)
     }, PTT_HOLD_GATE_MS)
-  }, [pttSupported, clearPttTimers, submitListenFinal])
+  }, [pttSupported, pttBusy, clearPttTimers, submitListenFinal])
 
   const handlePttPressEnd = useCallback(() => {
     if (!pttSupported) return
@@ -438,28 +466,59 @@ export function ListenTab() {
       {/* B2) PTT (push-to-talk) — Phase 19 Step 1 (Agent A2). Above canned demos. */}
       <div className="px-4 pt-2 pb-1 flex flex-col items-center gap-2">
         {pttSupported ? (
-          <button
-            type="button"
-            data-testid="listen-ptt"
-            onMouseDown={handlePttPressStart}
-            onMouseUp={handlePttPressEnd}
-            onMouseLeave={handlePttPressEnd}
-            onTouchStart={handlePttPressStart}
-            onTouchEnd={handlePttPressEnd}
-            aria-pressed={pttRecording}
-            aria-label={pttRecording ? 'Listening' : 'Hold to talk'}
-            disabled={pttBusy}
-            className={`w-full max-w-[300px] flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold tracking-wider uppercase border transition-colors select-none ${
-              pttBusy
-                ? 'bg-white/5 text-white/40 border-white/10 opacity-60 cursor-not-allowed'
-                : pttRecording
-                  ? 'bg-hb-accent text-white scale-95 border-hb-accent'
-                  : 'bg-white/5 text-white/80 border-white/10 hover:bg-white/10'
-            }`}
-          >
-            <Mic size={16} />
-            {pttBusy ? 'Sending…' : pttRecording ? 'Listening…' : 'Hold to talk'}
-          </button>
+          <>
+            <button
+              type="button"
+              data-testid="listen-ptt"
+              title={PRIVACY_TITLE}
+              onMouseDown={handlePttPressStart}
+              onMouseUp={handlePttPressEnd}
+              onMouseLeave={handlePttPressEnd}
+              onTouchStart={handlePttPressStart}
+              onTouchEnd={handlePttPressEnd}
+              aria-pressed={pttRecording}
+              aria-label={pttRecording ? 'Listening' : 'Hold to talk'}
+              disabled={pttBusy}
+              className={`w-full max-w-[300px] flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold tracking-wider uppercase border transition-colors select-none ${
+                pttBusy
+                  ? 'bg-white/5 text-white/40 border-white/10 opacity-60 cursor-not-allowed'
+                  : pttRecording
+                    ? 'bg-hb-accent text-white scale-95 border-hb-accent'
+                    : 'bg-white/5 text-white/80 border-white/10 hover:bg-white/10'
+              }`}
+            >
+              <Mic size={16} />
+              {pttBusy ? 'Sending…' : pttRecording ? 'Listening…' : 'Hold to talk'}
+            </button>
+            {/* P19 fix: mic privacy disclosure. KISS — one-line subtext +
+                inline expandable block (≤ 5 lines of copy). Default open on
+                first PTT press in this browser session. */}
+            <p className="text-xs text-hb-text-secondary w-full max-w-[300px] text-center">
+              Voice is processed by your browser.{' '}
+              <a
+                href="#"
+                data-testid="listen-privacy-toggle"
+                onClick={(e) => {
+                  e.preventDefault()
+                  setPttPrivacyOpen((prev) => !prev)
+                }}
+                className="underline underline-offset-2 hover:text-white"
+              >
+                Privacy details
+              </a>
+            </p>
+            {pttPrivacyOpen && (
+              <div
+                data-testid="listen-privacy-details"
+                className="w-full max-w-[300px] rounded-md bg-white/5 border border-white/10 px-3 py-2 text-xs text-white/70 leading-relaxed"
+              >
+                Audio is sent to your browser vendor (Google/Apple) for
+                transcription. Hey Bradley only receives the resulting text —
+                never the audio. Recordings are not stored by Hey Bradley.
+                Stop holding the button to end recording.
+              </div>
+            )}
+          </>
         ) : (
           <div
             data-testid="listen-unsupported-banner"

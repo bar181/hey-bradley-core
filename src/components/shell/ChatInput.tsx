@@ -253,14 +253,18 @@ export function ChatInput() {
    * returned summary; otherwise we hand off to runCannedFallback as before.
    */
   const runLLMPipeline = useCallback(async (text: string): Promise<boolean> => {
-    const result = await submitChatPipeline({ source: 'chat', text })
+    // FIX 1: re-thread last-6 chat history into the pipeline. The strict-move
+    // to chatPipeline.ts silently dropped this in P19; restore it so Bradley
+    // sees prior turns. Listen surface intentionally omits this.
+    const history = messages.slice(-6).map((m) => ({ role: m.role, text: m.text }))
+    const result = await submitChatPipeline({ source: 'chat', text, history })
     if (result.ok && !result.fellBackToCanned && result.appliedPatchCount > 0) {
       setTypingText('')
       setTypingFull(result.summary)
       return true
     }
     return false
-  }, [])
+  }, [messages])
 
   const handleSend = () => {
     const text = input.trim()
