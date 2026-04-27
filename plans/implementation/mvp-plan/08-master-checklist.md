@@ -204,6 +204,57 @@
 
 ---
 
+## Phase 18b — Provider Expansion + Observability (addendum) — **CLOSED 2026-04-27 (18/18 PASS)**
+
+> **STATUS BANNER:** Phase 18b MVP-track addendum CLOSED on 2026-04-27.
+> **Final commit:** `805b246` · **P18 baseline:** `232dd79` · **Range:** `232dd79..HEAD`
+> **DoD walk:** 18/18 PASS · **Targeted Playwright:** 36/36 active passed (2 intentional xskip) · **Bundle delta vs P18:** **-0.76 kB** (596.48 → 595.72 kB main gzip; net negative because new modules code-split into lazy chunks)
+> **No real-LLM dollars spent.** New `mock` adapter is DB-backed; new `openrouter` provider lazy-loaded but not constructed in DEV/test paths.
+> See `plans/implementation/phase-18b/retrospective.md` and the "Phase 18b — CLOSED" block in `phase-18b/session-log.md`.
+
+### Commit chronology (P18 seal → HEAD)
+
+| # | SHA | Subject |
+|---|-----|---------|
+| 1 | `446ad5a` | Add program-level STATE.md (post-P18 seal index) |
+| 2 | `57bd30e` | P18b pre-work: ruvector research findings |
+| 3 | `278c36b` | P18b W1: 5-provider LLM matrix + DB-backed agent-proxy + example_prompts corpus |
+| 4 | `7b20c4d` | P18b W2: llm_logs schema + repo + audit wiring + ADR-047 |
+| 5 | `03a0874` | Gitignore playwright-report/ (runtime artifact regenerated each test run) |
+| 6 | `805b246` | P18b Fix-Pass: address all 10 reviewer must-fix items + 5 new tests |
+
+### Provider expansion (5 items)
+- [x] `LLMProviderName` union includes all 5: `claude | gemini | openrouter | simulated | mock` (`src/contexts/intelligence/llm/adapter.ts:5`)
+- [x] `AgentProxyAdapter` (mock provider, DB-backed) exists; `name()` returns `'mock'` (`agentProxyAdapter.ts:33-35`)
+- [x] `OpenRouterAdapter` exists; uses fetch with Bearer auth + `HTTP-Referer` + `X-Title` headers; default model `mistralai/mistral-7b-instruct:free` (`openrouterAdapter.ts:10,17,19,20,39,56`)
+- [x] Gemini supports both paid (`gemini-2.5-flash`) and free (`gemini-2.0-flash`) tier model ids via constructor (`geminiAdapter.ts:9,16` + `cost.ts:7-8` MODEL_COSTS table)
+- [x] `pickAdapter` accepts all 5 providers and routes correctly; mock does NOT leak (claude/gemini/openrouter branches require `apiKey` truthy at `pickAdapter.ts:79-91`)
+
+### Schema + corpus (4 items)
+- [x] Migration `001-example-prompts.sql` creates `example_prompts` + `example_prompt_runs` + 5 indexes; seeds **18 rows** across 6 categories (starter 5 / edge_case 3 / safety 3 / multi_section 3 / site_context 2 / content_gen 2)
+- [x] Migration `002-llm-logs.sql` creates `llm_logs` with all 3 ruvector deltas (`request_id` + `parent_request_id`; `input_tokens` + `output_tokens` split; `prompt_hash` SHA-256) + 6-status enum (`ok | error | timeout | validation_failed | cost_cap | rate_limit`)
+- [x] `repositories/examplePrompts.ts` typed CRUD: `listExamplePrompts`, `findExamplePromptForUserPrompt` (exact-then-regex), `getExamplePrompt`, `recordExamplePromptRun`, `listExamplePromptRuns`
+- [x] `repositories/llmLogs.ts` typed CRUD: `recordLLMLog`, `updateLLMLog`, `listLLMLogs`, `getLLMLogByRequestId`, `pruneOldLLMLogs`
+
+### Audit + observability (4 items)
+- [x] `auditedComplete.ts` writes a row to `llm_logs` for EVERY adapter-call decision (`ok` / `error` / `timeout` / `validation_failed` / `cost_cap` / `rate_limit`); cost_cap + precondition_failed paths reach the log insert per FIX 5
+- [x] `pruneOldLLMLogs(beforeMs)` wired into `db.ts:initDB` after migrations with `DEFAULT_RETENTION_MS = 30 * 24 * 60 * 60 * 1000` per FIX 7 (`db.ts:8,15,60-95`)
+- [x] `prompt_hash` is deterministic SHA-256 of `${systemPrompt}\n${userPrompt}` (FNV-1a 32-bit fallback in non-SubtleCrypto envs); `keys.ts:97-104`
+- [x] `request_id` is UUID-v4 from `crypto.randomUUID()` with RFC-4122 §4.4 v4-shaped fallback for sql.js test rigs per FIX 9 (`auditedComplete.ts:35-53,159`)
+
+### Privacy / export (2 items)
+- [x] `exportImport.ts:exportSanitizedDBBytes` strips both `llm_logs` AND `example_prompt_runs` via `SENSITIVE_TABLE_OPS` registry per FIX 1 + FIX 8
+- [x] Regression: `byok_*` rows still stripped from `kv`; `llm_calls.error_text` still nulled
+
+### ADRs (2 items)
+- [x] `docs/adr/ADR-046-multi-provider-llm-architecture.md` Accepted; 5 providers documented; ruvector cited
+- [x] `docs/adr/ADR-047-llm-logging-observability.md` Accepted; "Retention now enforced" updated; 7-item never-log list present; cross-links to ADR-040/043/044/046
+
+### Cross-cutting (1 item)
+- [x] `npx tsc --noEmit --ignoreDeprecations 5.0` clean; `npm run build` green (2.03s; main gzip **595.72 kB**, **delta -0.76 kB vs P18**); 0 added `: any`; 0 ungated `console.*` (5 added calls all `import.meta.env.DEV`-gated); `bash scripts/check-secrets.sh` clean; targeted Playwright **36/36 active passed** (+ 2 xskip env-inlined), 1.8 min
+
+---
+
 ## Phase 19 — Real Listen Mode (Web Speech API)
 
 ### Deliverables

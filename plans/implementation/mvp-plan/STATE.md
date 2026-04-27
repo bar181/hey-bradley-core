@@ -1,6 +1,6 @@
 # MVP Implementation — State of the Program
 
-> **Updated:** 2026-04-27 (after Phase 18 seal at `232dd79`)
+> **Updated:** 2026-04-27 (after Phase 18b seal at `805b246`)
 > **Branch:** `claude/verify-flywheel-init-qlIBr`
 > **Companion:** `08-master-checklist.md` (all DoD ticks), per-phase `retrospective.md` and `session-log.md` files.
 
@@ -14,6 +14,7 @@
 | **P16** | Local Database (sql.js + IndexedDB) | 86/100 | 25/25 | `755a20a` | Frontend-only persistence. 5 typed CRUD repositories. `.heybradley` zip export with **SENSITIVE_KV_KEYS strip** (closes the BYOK leak vector before it lands). Cross-tab Web Lock + BroadcastChannel + pre-migration snapshot. Bundle delta +32.56 KB gzip. |
 | **P17** | LLM Provider Abstraction + BYOK Scaffold | 88/100 | 16/16 | `8377ab7` | LLMAdapter interface + Claude/Gemini/Simulated/Fixture impls (Fixture added in P18). BYOK with optional kv persistence; cap pre-check; husky pre-commit guard with 9 key-shape patterns; vite build-time assertion. ADR-042 + ADR-043. Bundle delta +2.00 KB gzip. |
 | **P18** | Real Chat Mode (LLM → JSON Patches) | 89/100 | 20/20 | `232dd79` | Crystal Atom system prompt + Zod parser + path-whitelist validator (key prototype-pollution + image URL allow-list + value safety) + atomic applier + cross-surface mutex + redacted audit log. **0 real-LLM calls during all of P18.** $0 spent. ADR-044 + ADR-045. Bundle delta +6.24 KB gzip. |
+| **P18b** | Provider Expansion + Observability (addendum) | 90/100 | 18/18 | `805b246` | 5-provider matrix: Claude (paid), Gemini (paid 2.5-flash + free 2.0-flash), OpenRouter (free `mistralai/mistral-7b-instruct:free`), Simulated, **mock** (DB-backed `AgentProxyAdapter` reading from `example_prompts` corpus, 18 rows / 6 categories). New `llm_logs` table with ruvector deltas (D1 dual `request_id` + `parent_request_id`; D2 split `input_tokens`/`output_tokens`; D3 SHA-256 `prompt_hash`); one row per adapter-call decision (incl. cost_cap). 30-day retention enforced at `initDB`. `SENSITIVE_TABLE_OPS` registry strips both new tables from `.heybradley` exports. ADR-046 + ADR-047. **Bundle delta -0.76 KB gzip** (net negative; new modules code-split into lazy chunks). $0 spent. |
 
 ### Phase-by-phase test growth
 | Phase | Targeted Playwright | Suite total |
@@ -23,7 +24,8 @@
 | P16 | 3 added | 107 |
 | P17 | 6 added | 113 / 124 in full sweep |
 | P18 | 16 added | 129+ Playwright |
-| **Net add** | **+27** | **117 net targeted** |
+| P18b | 5 added (4 in `p18b-logs.spec.ts` + 2 in `p18b-agent-proxy.spec.ts` minus 1 cap-edge xskip) | 36/36 targeted active (+ 2 xskip) |
+| **Net add** | **+32** | **122 net targeted** |
 
 ### What's running today
 - 100% frontend TypeScript SPA (Vite + React 19 + Tailwind + shadcn).
@@ -135,5 +137,6 @@ After P20 the MVP is the capstone deliverable. Total spend on real LLM during MV
 | P16 | 86 | +4 |
 | P17 | 88 | +2 |
 | P18 | 89 | +1 |
+| P18b | 90 | +1 |
 
-Trend: monotonically improving as the architecture solidifies and the review-cycle discipline tightens. P19 should hold or exceed 89.
+Trend: monotonically improving as the architecture solidifies and the review-cycle discipline tightens. P19 should hold or exceed 90.
