@@ -163,7 +163,7 @@ If a third example is enabled later, prefer one with `remove` to balance op cove
 
 ## 5. Path Whitelist (validator-side) — narrowed to theme + hero + article
 
-The patch validator (Phase 18) enforces that every patch path matches one of these. **`replace` is the only allowed op for MVP. `add` and `remove` are deferred post-MVP.**
+The patch validator (Phase 18) enforces that every patch path matches one of these. **MVP allows `replace`, `add` (sections only), and `remove` (sections only).** `add` is restricted to `/sections/-` (append) with a value whose `type` is in the editable section-type set (`hero`, `blog`, `footer`); `remove` is restricted to `/sections/<n>` and only when the resolved section's `type` is in that same set.
 
 ```
 # Theme (fully editable)

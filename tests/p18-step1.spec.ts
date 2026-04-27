@@ -56,18 +56,13 @@ test.describe('Phase 18 Step 1: wire the loop', () => {
     await page.getByRole('button', { name: /Open settings/i }).first().click()
     await page.waitForSelector('[role="dialog"][aria-label="Settings"]', { timeout: 5000 })
 
-    // 5. Find the DEV-only [Run Step 1 wire test] button. Gated by import.meta.env.DEV;
-    //    visible because Playwright's vite dev server runs in DEV mode.
+    // FIX 4 (Phase 18 fix-pass): the DEV-only [Run Step 1 wire test] button
+    // was removed once Step 3 landed. This test now verifies the button is
+    // GONE (the inline `: any` walker it depended on was deleted along with
+    // the button). The Step 1 contract is fully covered by p18-step2-chat.
     const wireBtn = page.getByRole('button', { name: /Run Step 1 wire test/i })
-    if ((await wireBtn.count()) === 0) {
-      // Failure-detection guard: do not silently pass.
-      test.fail(
-        true,
-        '[Run Step 1 wire test] button is not present in LLMSettings.tsx — A1 has not landed yet, or DEV-mode flag is not set.',
-      )
-      return
-    }
-    await wireBtn.first().click()
+    expect(await wireBtn.count()).toBe(0)
+    return
 
     // 6. Within 8 s the hero heading must read "Hello from LLM" (per Phase 18 §0 Step 1 acceptance).
     await expect(page.getByText('Hello from LLM').first()).toBeVisible({ timeout: 8000 })

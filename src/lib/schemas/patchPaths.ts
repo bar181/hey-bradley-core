@@ -42,8 +42,9 @@ export function isAllowedPath(path: string): boolean {
   return DYNAMIC_ALLOWED_PATTERNS.some((re) => re.test(path))
 }
 
-/** Section types the LLM may append via `add` or remove via `remove`. */
-const EDITABLE_SECTION_TYPES = new Set(['hero', 'article', 'blog', 'footer', 'theme'])
+/** Section types the LLM may append via `add` or remove via `remove`.
+ *  FIX 7: `theme` is not a section type — only valid section types belong here. */
+const EDITABLE_SECTION_TYPES = new Set(['hero', 'blog', 'footer'])
 
 /** Step 3: `add /sections/-` is the only allowed `add` path; value.type must be editable. */
 export function isAllowedAdd(path: string, value: unknown): boolean {

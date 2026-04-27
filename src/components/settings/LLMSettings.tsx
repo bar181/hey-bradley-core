@@ -5,15 +5,12 @@
 import { useEffect, useState } from 'react'
 import { Check, AlertTriangle } from 'lucide-react'
 import { useIntelligenceStore } from '@/store/intelligenceStore'
-import { useConfigStore } from '@/store/configStore'
 import {
   maskKey,
   looksLikeAnthropicKey,
   looksLikeGoogleKey,
 } from '@/contexts/intelligence/llm/keys'
 import type { LLMProviderName } from '@/contexts/intelligence/llm/adapter'
-import { FixtureAdapter } from '@/contexts/intelligence/llm/fixtureAdapter'
-import { STEP1_FIXTURES } from '@/data/llm-fixtures/step-1'
 
 type TestResult = 'idle' | 'ok' | 'fail'
 
@@ -38,8 +35,6 @@ export function LLMSettings() {
   const [remember, setRemember] = useState(rememberStored)
   const [saving, setSaving] = useState(false)
   const [testResult, setTestResult] = useState<TestResult>('idle')
-  const [step1Ok, setStep1Ok] = useState<string | null>(null)
-  const [step1Error, setStep1Error] = useState<string | null>(null)
 
   useEffect(() => { setSelected(provider) }, [provider])
   useEffect(() => { setRemember(rememberStored) }, [rememberStored])
@@ -78,45 +73,6 @@ export function LLMSettings() {
     clearKey()
     setKeyInput('')
     setTestResult('idle')
-  }
-
-  // Step 1 wire test: round-trips through FixtureAdapter (no real LLM) and
-  // applies the resulting patch directly to configStore. Removed in Step 3.
-  const handleStep1Test = async () => {
-    setStep1Ok(null)
-    setStep1Error(null)
-    const adapter = new FixtureAdapter(STEP1_FIXTURES)
-    const res = await adapter.complete({ systemPrompt: '', userPrompt: 'PHASE18_STEP1' })
-    if (!res.ok) {
-      setStep1Error(`Fixture call failed: ${res.error.kind}`)
-      return
-    }
-    const env = res.json as { patches?: Array<{ op: string; path: string; value?: unknown }> }
-    const patches = env.patches ?? []
-    if (patches.length === 0) {
-      setStep1Error('No patches in envelope.')
-      return
-    }
-    try {
-      // TODO(P18 Step 3): replace with applyPatches (atomic, validated, structuredClone).
-      const state = useConfigStore.getState()
-      const nextConfig = JSON.parse(JSON.stringify(state.config)) as Record<string, unknown>
-      for (const patch of patches) {
-        if (patch.op !== 'replace') {
-          setStep1Error(`Unsupported op in Step 1: ${patch.op}`)
-          return
-        }
-        const segments = patch.path.split('/').filter(Boolean)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let target: any = nextConfig
-        for (let i = 0; i < segments.length - 1; i++) target = target[segments[i]]
-        target[segments[segments.length - 1]] = patch.value
-      }
-      useConfigStore.setState({ config: nextConfig as typeof state.config, isDirty: true })
-      setStep1Ok('Hero updated')
-    } catch (e) {
-      setStep1Error(e instanceof Error ? e.message : String(e))
-    }
   }
 
   const maskedKey = trimmed.length > 0
@@ -211,31 +167,6 @@ export function LLMSettings() {
         Your key is held only in memory unless you tick &quot;Remember&quot;. Never shared. Stripped from .heybradley exports automatically.
       </p>
 
-      {import.meta.env.DEV && (
-        <div className="mt-4 p-2 rounded border border-dashed border-yellow-500/40 bg-yellow-500/5">
-          <p className="text-[10px] uppercase tracking-wide text-yellow-400 mb-2">
-            DEV — Phase 18 Step 1
-          </p>
-          <button
-            type="button"
-            onClick={handleStep1Test}
-            data-testid="phase18-step1-test"
-            className="px-3 py-1.5 text-xs rounded border border-hb-border text-hb-text-primary bg-hb-bg hover:bg-hb-surface focus-visible:ring-2 focus-visible:ring-hb-accent"
-          >
-            [Run Step 1 wire test]
-          </button>
-          {step1Ok && (
-            <p className="mt-2 text-[11px] text-green-400" data-testid="phase18-step1-ok">
-              ✓ {step1Ok}
-            </p>
-          )}
-          {step1Error && (
-            <p className="mt-2 text-[11px] text-red-400" data-testid="phase18-step1-error">
-              ✗ {step1Error}
-            </p>
-          )}
-        </div>
-      )}
     </section>
   )
 }

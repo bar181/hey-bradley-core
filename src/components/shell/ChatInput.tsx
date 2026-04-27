@@ -10,11 +10,10 @@ import { EXAMPLE_SITES } from '@/data/examples'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ChatExplainer } from '@/components/shell/ChatExplainer'
-import type { SectionType, MasterConfig } from '@/lib/schemas'
+import type { SectionType } from '@/lib/schemas'
 import { buildSystemPrompt } from '@/contexts/intelligence/prompts/system'
 import { parseResponse } from '@/contexts/intelligence/llm/responseParser'
 import { validatePatches } from '@/contexts/intelligence/llm/patchValidator'
-import { applyPatches } from '@/contexts/intelligence/applyPatches'
 import { auditedComplete } from '@/contexts/intelligence/llm/auditedComplete'
 import { recordPipelineFailure } from '@/contexts/intelligence/llm/recordPipelineFailure'
 
@@ -266,26 +265,37 @@ export function ChatInput() {
     // adapter.complete directly bypasses both — do not regress this.
     const res = await auditedComplete(adapter, { systemPrompt, userPrompt: text }, { source: 'chat' })
     if (!res.ok) return false
+    // FIX 8: auditedComplete returns the inserted row's id; downstream
+    // failures UPDATE that row in place (one row per call/decision).
+    const callId = res.auditCallId
     const parsed = parseResponse(res.json)
     if (!parsed.ok) {
-      // P18 Step 3 (A7): adapter said ok but the envelope didn't parse. The
-      // ok-row from auditedComplete stays; this row attributes the *decision*.
-      recordPipelineFailure('parse', parsed.reason)
+      // FIX 9: structured short marker — never raw user/model content.
+      recordPipelineFailure(callId, 'parse', `@root: ${parsed.reason}`)
       return false
     }
     const errs = validatePatches(parsed.envelope.patches, configState.config)
     if (errs.length > 0) {
-      recordPipelineFailure('validate', errs.join('; '))
+      // FIX 9: encode the FIRST reason only and tag with the offending index.
+      // Avoids dumping full patch JSON into the audit log.
+      const first = errs[0]
+      const idxMatch = /^patch\[(\d+)\]/.exec(first)
+      const where = idxMatch ? `@patch[${idxMatch[1]}]` : '@patches'
+      const trimmed = first.replace(/^patch\[\d+\]:\s*/, '')
+      recordPipelineFailure(callId, 'validate', `${where}: ${trimmed}`)
       return false
     }
-    let next: MasterConfig
     try {
-      next = applyPatches(configState.config, parsed.envelope.patches) as MasterConfig
+      // FIX 1: single mutation path — configStore.applyPatches wraps the pure
+      // applyPatches helper (structuredClone + RFC-6902 ops), commits via the
+      // canonical setter pattern, and marks isDirty.
+      useConfigStore.getState().applyPatches(parsed.envelope.patches)
     } catch (e) {
-      recordPipelineFailure('apply', e instanceof Error ? e.message : String(e))
+      // FIX 9: keep apply-failure detail short and structured.
+      const msg = e instanceof Error ? e.message : String(e)
+      recordPipelineFailure(callId, 'apply', `@apply: ${msg}`)
       return false
     }
-    useConfigStore.setState({ config: next, isDirty: true })
     setTypingText('')
     setTypingFull(parsed.envelope.summary ?? 'Done.')
     return true
@@ -294,42 +304,34 @@ export function ChatInput() {
   const handleSend = () => {
     const text = input.trim()
     if (!text || isProcessing) return
-    // P18 Step 3 (A7): cross-component mutex — block re-entry while ANY chat
-    // pipeline is still in flight. Surface a Bradley-styled hint instead of
-    // silently dropping the input so the user knows why nothing happened.
-    if (useIntelligenceStore.getState().inFlight) {
-      addUserMessage(text)
-      setInput('')
-      setTypingText('')
-      setTypingFull('Already working on your last request — please wait a sec.')
-      return
-    }
+    // FIX 10: the chat-side inFlight pre-check is removed. The mutex now lives
+    // inside auditedComplete (rate_limit error returned for re-entrancy from
+    // any surface — chat, listen, settings test). isProcessing still gates
+    // double-clicks of THIS input, and inFlight (subscribed above) drives the
+    // grayed-out UI when a sibling surface drives a call.
 
     addUserMessage(text)
     setInput('')
     setIsProcessing(true)
-    useIntelligenceStore.getState().setInFlight(true)
 
     setTimeout(() => {
       // Primary: full LLM pipeline against the active adapter (FixtureAdapter
       // in DEV). On any failure (parse / validate / apply / no-fixture-match)
-      // fall back silently to the canned chat command parser. The setInFlight
-      // release is in `finally`-equivalent .then/.catch tails so the mutex is
-      // always cleared, even if the pipeline throws.
+      // fall back silently to the canned chat command parser. auditedComplete
+      // owns the inFlight mutex; we no longer touch it from here.
       void runLLMPipeline(text)
         .then((ok) => {
           if (!ok) runCannedFallback(text)
         })
         .catch(() => runCannedFallback(text))
-        .finally(() => {
-          useIntelligenceStore.getState().setInFlight(false)
-        })
     }, 400)
   }
 
   const handleSimulatedRequirement = (req: SimulatedRequirement) => {
     if (isProcessing || demoActive) return
-    if (useIntelligenceStore.getState().inFlight) return
+    // FIX 10: cross-surface mutex centralised in auditedComplete; this path
+    // does not call into auditedComplete (canned multi-step) so we just
+    // gate on local processing state.
 
     addUserMessage(req.name)
     setIsProcessing(true)
@@ -455,20 +457,15 @@ export function ChatInput() {
                           setShowExamplesDialog(false)
                           setInput(item)
                           // Auto-send after a brief tick so input is set.
-                          // P18 Step 3 (A7): respect the global inFlight mutex
-                          // and release it via .finally so the input unlocks.
+                          // FIX 10: auditedComplete owns the inFlight mutex
+                          // now; we just drive the typewriter UI state here.
                           setTimeout(() => {
-                            if (useIntelligenceStore.getState().inFlight) return
                             addUserMessage(item)
                             setIsProcessing(true)
-                            useIntelligenceStore.getState().setInFlight(true)
                             setTimeout(() => {
                               void runLLMPipeline(item)
                                 .then((ok) => { if (!ok) runCannedFallback(item) })
                                 .catch(() => runCannedFallback(item))
-                                .finally(() => {
-                                  useIntelligenceStore.getState().setInFlight(false)
-                                })
                             }, 400)
                           }, 50)
                         }}

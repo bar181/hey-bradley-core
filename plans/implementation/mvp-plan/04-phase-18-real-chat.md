@@ -212,7 +212,7 @@ For MVP the editable surface is **theme + hero + article only**. The validator i
 
 `patchValidator.ts` rejects any patch where:
 
-- The op is anything other than `replace`. (MVP allows `replace` only; `add` and `remove` are deferred to post-MVP and would re-open shape changes.)
+- The op is anything other than `replace`, `add`, or `remove`. (MVP allows `replace`, `add` (sections only), `remove` (sections only). `add` is restricted to `/sections/-` and `remove` to `/sections/<n>`; both gate `value.type` against the editable section-type set.)
 - The path is not in `ALLOWED_PATHS` (≈ 18 specific paths).
 - A path segment contains `__proto__`, `constructor`, or `prototype` (prototype-pollution guard).
 - The new value, if a string, matches `/(javascript:|data:text\/html|vbscript:|<script|on\w+=)/i` (XSS guard).

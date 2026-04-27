@@ -96,6 +96,30 @@ export function sumSessionTokens(session_id: string): { in: number; out: number 
   } finally { stmt.free(); }
 }
 
+/**
+ * FIX 8 — partial update of an existing llm_calls row. Used by
+ * `recordPipelineFailure` to flip the original `ok` row to `validation_failed`
+ * (and stash a short structured detail in error_text) when a downstream
+ * pipeline stage rejects an otherwise-successful adapter response.
+ *
+ * Only `status` and `error_text` are updatable; other columns are immutable
+ * once written. Silently no-ops if `id` is not present.
+ */
+export function updateLLMCall(
+  id: number,
+  fields: { status?: LLMCallStatus; error_text?: string | null },
+): void {
+  const sets: string[] = []
+  const args: Array<string | number | null> = []
+  if (fields.status !== undefined) { sets.push('status = ?'); args.push(fields.status) }
+  if (fields.error_text !== undefined) { sets.push('error_text = ?'); args.push(fields.error_text) }
+  if (sets.length === 0) return
+  args.push(id)
+  const stmt = getDB().prepare(`UPDATE llm_calls SET ${sets.join(', ')} WHERE id = ?`)
+  try { stmt.run(args) } finally { stmt.free() }
+  void persist()
+}
+
 export function pruneOldLLMCalls(beforeMs: number): number {
   const db = getDB();
   const stmt = db.prepare('DELETE FROM llm_calls WHERE created_at < ?');

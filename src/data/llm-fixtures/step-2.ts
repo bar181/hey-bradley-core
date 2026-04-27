@@ -56,7 +56,16 @@ export const STEP2_FIXTURES: FixtureEntry[] = [
     matchPattern: /change\s+the\s+(?:theme|accent)\s+(?:color\s+)?to\s+([a-z]+)\.?\s*$/i,
     envelope: ({ match }): FixtureEnvelope => {
       const name = match[1].toLowerCase()
-      const hex = COLOR_HEX[name] ?? '#14532d'
+      // FIX 6: bail on unknown color names — emit an empty patches array with
+      // a friendly summary so the chat surfaces "no patch applied" instead of
+      // silently writing forest green for "puce", "chartreuse", etc.
+      if (!(name in COLOR_HEX)) {
+        return {
+          patches: [],
+          summary: `I don't know the color '${name}'. Try green, blue, red, orange, purple, black, or white.`,
+        }
+      }
+      const hex = COLOR_HEX[name]
       return {
         // default-config.json uses /theme/palette/accentPrimary; the narrowed
         // path whitelist in patchPaths.ts allows /theme/colors/accent. We patch

@@ -91,7 +91,7 @@ export function buildSystemPrompt(ctx: SystemPromptCtx): string {
   const parts: string[] = []
   parts.push(ROLE_LINE)
   parts.push(CRYSTAL_ATOM)
-  parts.push('ALLOWED PATHS (replace-op only for MVP):')
+  parts.push('ALLOWED PATHS (MVP allows replace, add (sections only), remove (sections only)):')
   parts.push(renderAllowedPathsForPrompt())
   parts.push(`CURRENT JSON (truncated to 4 KB; oldest sections kept):\n${compactJson(ctx.configJson)}`)
   const sc = renderSiteContext(ctx.siteContext)

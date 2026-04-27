@@ -1,5 +1,7 @@
 import { create } from 'zustand'
 import { deepMerge } from '@/lib/deepMerge'
+import { applyPatches as pureApplyPatches } from '@/contexts/intelligence/applyPatches'
+import type { JSONPatch } from '@/lib/schemas/patches'
 import type { MasterConfig, Section, SectionType, PatchSource, PageConfig } from '@/lib/schemas'
 import { useUIStore } from '@/store/uiStore'
 import defaultConfig from '@/data/default-config.json'
@@ -46,6 +48,9 @@ interface ConfigStore {
   activePage: string | null
 
   applyPatch: (patch: Record<string, unknown>, source: PatchSource) => void
+  /** FIX 1: single mutation path for LLM JSON-patch output. Wraps the pure
+   *  applyPatches() helper, structured-clones the config, and pushes history. */
+  applyPatches: (patches: JSONPatch[]) => void
   setSectionConfig: (sectionId: string, patch: Record<string, unknown>) => void
   addSection: (type: SectionType, afterIndex?: number) => void
   removeSection: (sectionId: string) => void
@@ -111,6 +116,13 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     const newHistory = [...history, config].slice(-HISTORY_LIMIT)
     const newConfig = deepMerge(config as unknown as Record<string, unknown>, patch) as unknown as MasterConfig
     set({ config: newConfig, history: newHistory, future: [], isDirty: true })
+  },
+
+  applyPatches: (patches) => {
+    const { config, history } = get()
+    const newHistory = [...history, config].slice(-HISTORY_LIMIT)
+    const next = pureApplyPatches(config, patches) as MasterConfig
+    set({ config: next, history: newHistory, future: [], isDirty: true })
   },
 
   setSectionConfig: (sectionId, patch) => {

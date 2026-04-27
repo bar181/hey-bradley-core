@@ -100,4 +100,170 @@ test.describe('Phase 18 Step 3: safety regex + canned fallback', () => {
     expect(await getHeroHeading(page)).toBe(before)
     expect(errors).toHaveLength(0)
   })
+
+  // FIX 12 — prototype-pollution regression. Malicious adapter returns a patch
+  // whose VALUE contains `{ "__proto__": { "polluted": true } }` as an own key.
+  // The validator's containsForbiddenKey walker must reject it; Object.prototype
+  // must remain un-polluted.
+  test('object-key __proto__ in patch value is rejected; Object.prototype is clean', async ({ page }) => {
+    const errors = trackErrors(page)
+    await loadBlogStarter(page)
+    await resetToDefaultConfig(page, 'P18 Step3 Proto-Pollution')
+    const before = await getHeroHeading(page)
+
+    await page.evaluate(() => {
+      const intel = (window as unknown as { __intelligenceStore: { setState: (s: unknown) => void } }).__intelligenceStore
+      // JSON.parse is the only reliable way to materialise an OWN-key named
+      // `__proto__` in JS — object literals treat `__proto__` as a prototype
+      // setter. This mimics what an LLM-returned JSON envelope would look
+      // like after responseParser.ts → JSON.parse.
+      const maliciousValue = JSON.parse('{"__proto__":{"polluted":true},"text":"Pwn Joy Daily"}')
+      const malicious = {
+        name: () => 'simulated' as const,
+        label: () => 'malicious-protokeys',
+        model: () => 'malicious-v1',
+        testConnection: async () => true,
+        complete: async () => ({
+          ok: true,
+          json: {
+            patches: [{
+              op: 'replace',
+              path: '/sections/1/components/1/props/text',
+              value: maliciousValue,
+            }],
+            summary: 'pwned',
+          },
+          tokens: { in: 1, out: 1 },
+          cost_usd: 0,
+        }),
+      }
+      intel.setState({ adapter: malicious })
+    })
+
+    const chatTab = page.getByRole('tab', { name: /^Chat$/ }).first()
+    await chatTab.click()
+    const input = page.getByTestId('chat-input')
+    await input.click()
+    await input.fill('proto-pollute-trigger-1234567890')
+    await page.getByRole('button', { name: /Send message/i }).click()
+
+    await expect(page.getByTestId('chat-msg-bradley').first()).toBeVisible({ timeout: 6000 })
+
+    // Config is unchanged.
+    expect(await getHeroHeading(page)).toBe(before)
+
+    // Object.prototype must NOT have been polluted.
+    const polluted = await page.evaluate(() => {
+      return (Object.prototype as unknown as Record<string, unknown>).polluted
+    })
+    expect(polluted).toBeUndefined()
+
+    expect(errors).toHaveLength(0)
+  })
+
+  // FIX 13 — image URL allow-list regression (ADR-044 §5).
+  test('image URL with javascript: scheme is rejected; config unchanged', async ({ page }) => {
+    const errors = trackErrors(page)
+    await loadBlogStarter(page)
+    await resetToDefaultConfig(page, 'P18 Step3 Image js:')
+    const before = await getHeroHeading(page)
+
+    await page.evaluate(() => {
+      const intel = (window as unknown as { __intelligenceStore: { setState: (s: unknown) => void } }).__intelligenceStore
+      intel.setState({ adapter: {
+        name: () => 'simulated' as const, label: () => 'img-js', model: () => 'img-js-v1',
+        testConnection: async () => true,
+        complete: async () => ({ ok: true,
+          json: { patches: [
+            { op: 'replace', path: '/sections/0/content/heroImage', value: 'javascript:alert(1)' },
+          ], summary: 'evil img' }, tokens: { in: 1, out: 1 }, cost_usd: 0 }),
+      } })
+    })
+
+    const chatTab = page.getByRole('tab', { name: /^Chat$/ }).first()
+    await chatTab.click()
+    const input = page.getByTestId('chat-input')
+    await input.click(); await input.fill('img-bad-trigger-1234567890')
+    await page.getByRole('button', { name: /Send message/i }).click()
+
+    await expect(page.getByTestId('chat-msg-bradley').first()).toBeVisible({ timeout: 6000 })
+    expect(await getHeroHeading(page)).toBe(before)
+    expect(errors).toHaveLength(0)
+  })
+
+  test('image URL on disallowed host is rejected; config unchanged', async ({ page }) => {
+    const errors = trackErrors(page)
+    await loadBlogStarter(page)
+    await resetToDefaultConfig(page, 'P18 Step3 Image bad-host')
+    const before = await getHeroHeading(page)
+
+    await page.evaluate(() => {
+      const intel = (window as unknown as { __intelligenceStore: { setState: (s: unknown) => void } }).__intelligenceStore
+      intel.setState({ adapter: {
+        name: () => 'simulated' as const, label: () => 'img-bad-host', model: () => 'img-bad-host-v1',
+        testConnection: async () => true,
+        complete: async () => ({ ok: true,
+          json: { patches: [
+            { op: 'replace', path: '/sections/0/content/heroImage', value: 'https://evil.example.com/x.jpg' },
+          ], summary: 'evil host' }, tokens: { in: 1, out: 1 }, cost_usd: 0 }),
+      } })
+    })
+
+    const chatTab = page.getByRole('tab', { name: /^Chat$/ }).first()
+    await chatTab.click()
+    const input = page.getByTestId('chat-input')
+    await input.click(); await input.fill('img-host-trigger-1234567890')
+    await page.getByRole('button', { name: /Send message/i }).click()
+
+    await expect(page.getByTestId('chat-msg-bradley').first()).toBeVisible({ timeout: 6000 })
+    expect(await getHeroHeading(page)).toBe(before)
+    expect(errors).toHaveLength(0)
+  })
+
+  test('image URL on images.unsplash.com is allowed; patch applied', async ({ page }) => {
+    const errors = trackErrors(page)
+    await loadBlogStarter(page)
+    // NOTE: do NOT reset to default-config — blog-standard already has an
+    // existing /sections/1/components/0/props/featuredImage to replace.
+    // Activate the project so auditedComplete can attach a session row.
+    await page.evaluate(() => {
+      const cfg = (window as unknown as { __configStore: { getState: () => { config: unknown } } }).__configStore
+      const proj = (window as unknown as { __projectStore: { getState: () => { saveProject: (n: string, c: unknown) => void } } }).__projectStore
+      proj.getState().saveProject('P18 Step3 Image good-host', cfg.getState().config as never)
+    })
+
+    const goodUrl = 'https://images.unsplash.com/photo-1.jpg'
+
+    // blog-standard has the article at sections[1].components[0]; props.featuredImage
+    // exists, so `replace` resolves cleanly. The path matches the dynamic
+    // /sections/<n>/components/<m>/props/featuredImage pattern in patchPaths.
+    await page.evaluate((url) => {
+      const intel = (window as unknown as { __intelligenceStore: { setState: (s: unknown) => void } }).__intelligenceStore
+      intel.setState({ adapter: {
+        name: () => 'simulated' as const, label: () => 'img-good', model: () => 'img-good-v1',
+        testConnection: async () => true,
+        complete: async () => ({ ok: true,
+          json: { patches: [
+            { op: 'replace', path: '/sections/1/components/0/props/featuredImage', value: url },
+          ], summary: 'good image' }, tokens: { in: 1, out: 1 }, cost_usd: 0 }),
+      } })
+    }, goodUrl)
+
+    const chatTab = page.getByRole('tab', { name: /^Chat$/ }).first()
+    await chatTab.click()
+    const input = page.getByTestId('chat-input')
+    await input.click(); await input.fill('img-good-trigger-1234567890')
+    await page.getByRole('button', { name: /Send message/i }).click()
+
+    await expect.poll(async () => {
+      return await page.evaluate(() => {
+        type Comp = { id: string; type: string; props?: { featuredImage?: string } }
+        type Sec = { type: string; components?: Comp[] }
+        const cfg = (window as unknown as { __configStore: { getState: () => { config: { sections: Sec[] } } } }).__configStore
+        return cfg.getState().config.sections[1]?.components?.[0]?.props?.featuredImage ?? ''
+      })
+    }, { timeout: 6000 }).toBe(goodUrl)
+
+    expect(errors).toHaveLength(0)
+  })
 })
