@@ -171,6 +171,98 @@ test.describe('Phase 19 Step 2: voice → chat pipeline', () => {
     expect(errors).toHaveLength(0)
   })
 
+  // Phase 19 Step 3 (A5) — interim transcript visible while user is still
+  // holding the PTT button (BEFORE the final result lands). Mock SR fires the
+  // interim event ~30 ms after start; we hold past the 250 ms gate but assert
+  // the transcript region BEFORE releasing.
+  test('interim transcript is shown live during recording', async ({ page }) => {
+    const errors = trackErrors(page)
+    // Long final delay so we can observe interim while still mid-hold.
+    const longInterimMockSR = `
+      (() => {
+        class MockSR {
+          constructor() {
+            this.onresult = null; this.onend = null; this.onerror = null
+            this.continuous = false; this.interimResults = true; this.lang = 'en-US'
+          }
+          start() {
+            setTimeout(() => {
+              this.onresult && this.onresult({
+                results: [Object.assign([{ transcript: 'live interim words' }], { isFinal: false, length: 1 })],
+              })
+              // No final yet — release will trigger stop() → onend.
+            }, 50)
+          }
+          stop() { setTimeout(() => { this.onend && this.onend() }, 20) }
+          abort() { this.onend && this.onend() }
+        }
+        Object.defineProperty(window, 'SpeechRecognition', { value: MockSR, configurable: true, writable: true })
+        Object.defineProperty(window, 'webkitSpeechRecognition', { value: MockSR, configurable: true, writable: true })
+      })()
+    `
+    await page.addInitScript(longInterimMockSR)
+
+    await loadBlogStarter(page)
+    await openListenTab(page)
+    await expect(page.getByTestId('listen-ptt')).toBeVisible()
+
+    // Press and hold WITHOUT releasing. The interim event fires ~50 ms after
+    // start (which fires ~250 ms after mousedown), so we wait ~600 ms and
+    // assert the live interim text — still holding.
+    await page.locator('[data-testid="listen-ptt"]').dispatchEvent('mousedown')
+    await expect(page.getByTestId('listen-transcript')).toContainText(
+      'live interim words',
+      { timeout: 3000 },
+    )
+    // Release to clean up.
+    await page.locator('[data-testid="listen-ptt"]').dispatchEvent('mouseup')
+    expect(errors).toHaveLength(0)
+  })
+
+  // Phase 19 Step 3 (A5) — empty final transcript guard. Mock SR fires onend
+  // with no onresult; the listen UI surfaces the no_speech error banner and
+  // the chat pipeline is NOT invoked (verified by zero new llm_calls rows).
+  test('empty final transcript shows no_speech banner and skips pipeline', async ({ page }) => {
+    const errors = trackErrors(page)
+    const emptyMockSR = `
+      (() => {
+        class MockSR {
+          constructor() {
+            this.onresult = null; this.onend = null; this.onerror = null
+            this.continuous = false; this.interimResults = true; this.lang = 'en-US'
+          }
+          start() {
+            // No onresult — recognition heard nothing. onend fires shortly after.
+            setTimeout(() => { this.onend && this.onend() }, 60)
+          }
+          stop() { setTimeout(() => { this.onend && this.onend() }, 20) }
+          abort() { this.onend && this.onend() }
+        }
+        Object.defineProperty(window, 'SpeechRecognition', { value: MockSR, configurable: true, writable: true })
+        Object.defineProperty(window, 'webkitSpeechRecognition', { value: MockSR, configurable: true, writable: true })
+      })()
+    `
+    await page.addInitScript(emptyMockSR)
+
+    await loadBlogStarter(page)
+    await resetToDefaultConfig(page, 'P19 Step3 NoSpeech')
+    const callsBefore = (await llmCallProvidersForActiveSession(page)).length
+
+    await openListenTab(page)
+    await expect(page.getByTestId('listen-ptt')).toBeVisible()
+    await holdPtt(page, 1500)
+
+    const banner = page.getByTestId('listen-error-banner')
+    await expect(banner).toBeVisible({ timeout: 3000 })
+    await expect(banner).toContainText(/I didn't hear anything/i)
+
+    // Pipeline must NOT have been invoked — no new llm_calls row.
+    const callsAfter = (await llmCallProvidersForActiveSession(page)).length
+    expect(callsAfter).toBe(callsBefore)
+
+    expect(errors).toHaveLength(0)
+  })
+
   test('voice transcript with no fixture match falls back to canned hint', async ({ page }) => {
     const errors = trackErrors(page)
     await page.addInitScript(mockSRScript('qzwxcv9999'))

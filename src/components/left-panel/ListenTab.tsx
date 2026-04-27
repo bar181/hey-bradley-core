@@ -81,11 +81,15 @@ export function ListenTab() {
   const pttMouseDownAtRef = useRef<number | null>(null)
   const pttHoldGateTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const pttAutoStopTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const pttNoSpeechTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const pttHintTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const pttRecordingRef = useRef(false)
   pttRecordingRef.current = pttRecording
   // P19 Step 2 (A4): Bradley reply banner + busy state for the listen surface.
   const [pttReply, setPttReply] = useState<string>('')
   const [pttBusy, setPttBusy] = useState<boolean>(false)
+  // P19 Step 3 (A5): hold-too-short hint shown when user releases pre-gate.
+  const [pttHint, setPttHint] = useState<string>('')
 
   const clearPttTimers = useCallback(() => {
     if (pttHoldGateTimerRef.current) {
@@ -112,7 +116,18 @@ export function ListenTab() {
    */
   const submitListenFinal = useCallback(async (final: string): Promise<void> => {
     const text = final.trim()
-    if (!text) return
+    if (!text) {
+      // P19 Step 3 (A5): empty final transcript → show no_speech banner via the
+      // listen store's shared error channel; auto-clear in 3 s so the user can
+      // try again without manually dismissing. We do NOT call the chat pipeline
+      // (no point — wasted llm_calls row + audit pollution).
+      useListenStore.setState({ error: { kind: 'no_speech', detail: undefined } })
+      if (pttNoSpeechTimerRef.current) clearTimeout(pttNoSpeechTimerRef.current)
+      pttNoSpeechTimerRef.current = setTimeout(() => {
+        useListenStore.getState().clearError()
+      }, 3000)
+      return
+    }
     setPttBusy(true)
     try {
       const result = await submitChatPipeline({ source: 'listen', text })
@@ -160,11 +175,19 @@ export function ListenTab() {
     const downAt = pttMouseDownAtRef.current
     pttMouseDownAtRef.current = null
     const heldFor = downAt ? Date.now() - downAt : 0
-    // Tap shorter than hold gate → cancel without ever starting.
+    // Tap shorter than hold gate → cancel without ever starting. P19 Step 3
+    // (A5): instead of dropping silently, surface a 2 s tooltip so the user
+    // learns the interaction. We only nudge if the user actually pressed
+    // (downAt was set) — programmatic mouseLeave with no prior down is a no-op.
     if (heldFor < PTT_HOLD_GATE_MS) {
       if (pttHoldGateTimerRef.current) {
         clearTimeout(pttHoldGateTimerRef.current)
         pttHoldGateTimerRef.current = null
+      }
+      if (downAt) {
+        setPttHint('Hold the button to talk.')
+        if (pttHintTimerRef.current) clearTimeout(pttHintTimerRef.current)
+        pttHintTimerRef.current = setTimeout(() => setPttHint(''), 2000)
       }
       return
     }
@@ -174,10 +197,23 @@ export function ListenTab() {
     }
   }, [pttSupported, clearPttTimers, submitListenFinal])
 
-  // Cleanup PTT timers on unmount.
+  // Cleanup PTT timers on unmount. P19 Step 3 (A5): also kill any in-flight
+  // recognition session so navigating away doesn't leak a live mic capture
+  // (browsers will keep the recognizer alive until GC otherwise).
   useEffect(() => {
     return () => {
       clearPttTimers()
+      if (pttNoSpeechTimerRef.current) {
+        clearTimeout(pttNoSpeechTimerRef.current)
+        pttNoSpeechTimerRef.current = null
+      }
+      if (pttHintTimerRef.current) {
+        clearTimeout(pttHintTimerRef.current)
+        pttHintTimerRef.current = null
+      }
+      if (useListenStore.getState().recording) {
+        void useListenStore.getState().stopRecording()
+      }
     }
   }, [clearPttTimers])
 
@@ -412,14 +448,17 @@ export function ListenTab() {
             onTouchEnd={handlePttPressEnd}
             aria-pressed={pttRecording}
             aria-label={pttRecording ? 'Listening' : 'Hold to talk'}
+            disabled={pttBusy}
             className={`w-full max-w-[300px] flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold tracking-wider uppercase border transition-colors select-none ${
-              pttRecording
-                ? 'bg-hb-accent text-white scale-95 border-hb-accent'
-                : 'bg-white/5 text-white/80 border-white/10 hover:bg-white/10'
+              pttBusy
+                ? 'bg-white/5 text-white/40 border-white/10 opacity-60 cursor-not-allowed'
+                : pttRecording
+                  ? 'bg-hb-accent text-white scale-95 border-hb-accent'
+                  : 'bg-white/5 text-white/80 border-white/10 hover:bg-white/10'
             }`}
           >
             <Mic size={16} />
-            {pttRecording ? 'Listening…' : 'Hold to talk'}
+            {pttBusy ? 'Sending…' : pttRecording ? 'Listening…' : 'Hold to talk'}
           </button>
         ) : (
           <div
@@ -478,7 +517,16 @@ export function ListenTab() {
             data-testid="listen-busy"
             className="w-full max-w-[300px] rounded-md bg-white/5 border border-white/10 px-3 py-2 text-xs text-white/60"
           >
-            bradley is thinking…
+            Listening to Bradley…
+          </div>
+        )}
+
+        {pttHint && !pttBusy && !pttRecording && (
+          <div
+            data-testid="listen-hint"
+            className="w-full max-w-[300px] rounded-md bg-white/5 border border-white/10 px-3 py-2 text-xs text-white/60 italic"
+          >
+            {pttHint}
           </div>
         )}
 
