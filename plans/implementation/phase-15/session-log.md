@@ -130,3 +130,19 @@
 
 **Time spent:** TBD (in progress)
 
+---
+
+## Wave 4 — verification sweep (2026-04-27)
+
+**tsc:** PASS for `tsc --noEmit` (root config, exit 0). FAIL for `tsc -b` (build composite config) — `src/components/shell/TopBar.tsx:93` references undefined name `isDraft` (TS2304). Regression introduced in Phase 15 commit `dbf73fc` ("P15 W3 (partial): top-bar DRAFT budget").
+
+**Lint:** N/A — ESLint v9.39.4 cannot run; missing `eslint.config.(js|mjs|cjs)` flat config (legacy `.eslintrc.*` not migrated). This is a pre-existing gap noted in Session 2 ("ESLint flat config deferred to P16"), not a Phase 15 regression. Delta from baseline: 0.
+
+**Build:** FAIL — `npm run build` (`tsc -b && vite build`) blocked at the `tsc -b` step by the same `isDraft` TS2304 error in `TopBar.tsx:93`. Build wall time before failure: ~16s. No bundle size emitted (vite step never reached).
+
+**Console scrub:** 0 ungated console statements found in `git diff 7502e58..HEAD -- src/`. No edits applied.
+
+**Environment note:** `node_modules/` was missing on first run; `npm install` added 653 packages before checks could proceed.
+
+**Status:** BLOCKED — ship-blocking TS error in `src/components/shell/TopBar.tsx:93` (`isDraft` is undefined). Constraint forbids source edits beyond console removal, so the fix is deferred to the owning agent. Recommended fix: derive `isDraft` from `useUIStore` (e.g. `const isDraft = useUIStore((s) => s.rightPanelTab === 'simple')`) consistent with other Wave-3 DRAFT-scoping sites.
+

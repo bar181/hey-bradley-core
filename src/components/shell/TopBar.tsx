@@ -26,6 +26,7 @@ export function TopBar() {
   // DRAFT mode = SIMPLE right-panel tab (see plans/implementation/mvp-plan/01-phase-15-polish-kitchen-sink.md §1.1).
   // DRAFT-mode top-bar control budget: ≤ 6 interactive elements
   // (logo, mode toggle, save, export, settings, theme picker). EXPERT keeps all controls.
+  const isDraft = useUIStore((s) => s.rightPanelTab) === 'SIMPLE'
 
   const isDirty = useConfigStore((s) => s.isDirty)
 

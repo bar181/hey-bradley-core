@@ -6,13 +6,13 @@ test.describe('Phase 15: Kitchen Sink starter', () => {
     page.on('pageerror', (e) => errors.push(e.message))
     page.on('console', (msg) => { if (msg.type() === 'error') errors.push(msg.text()) })
 
-    await page.goto('/onboarding')
-    await page.waitForTimeout(800)
+    await page.goto('/new-project')
+    await page.waitForTimeout(1000)
 
     // Switch to Examples tab and click the Kitchen Sink card
-    await page.locator('button').filter({ hasText: /^Examples/ }).first().click()
+    await page.locator('button', { hasText: 'Examples' }).first().click()
     await page.waitForTimeout(300)
-    await page.locator('button').filter({ hasText: 'Kitchen Sink Demo' }).first().click()
+    await page.locator('button', { hasText: 'Kitchen Sink Demo' }).first().click()
 
     // Wait for builder to mount and render sections
     await page.waitForURL('**/builder')
