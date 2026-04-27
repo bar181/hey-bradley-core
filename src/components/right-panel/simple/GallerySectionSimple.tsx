@@ -154,17 +154,18 @@ export function GallerySectionSimple({ sectionId }: { sectionId: string }) {
                 </div>
 
                 <div className={cn(!item.enabled && 'opacity-25 pointer-events-none', 'space-y-2')}>
-                  <div className="space-y-1">
-                    <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Image</span>
-                    <ImagePicker
-                      value={imageUrl}
-                      onChange={(url) => updateProp(item.id, 'imageUrl', url)}
-                      onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
-                      currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
-                      label="Choose Image"
-                      mode="both"
-                    />
-                  </div>
+                  {imageUrl && (
+                    <div className="w-full h-16 rounded-md overflow-hidden border border-hb-border/30">
+                      <img
+                        src={imageUrl}
+                        alt={`Gallery image ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          ;(e.target as HTMLImageElement).style.display = 'none'
+                        }}
+                      />
+                    </div>
+                  )}
                   <div className="space-y-1">
                     <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Caption</span>
                     <input

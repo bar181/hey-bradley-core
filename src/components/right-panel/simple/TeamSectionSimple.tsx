@@ -6,8 +6,9 @@ import { useConfigStore } from '@/store/configStore'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
 import { Users, Grid3X3, List, Plus, Trash2 } from 'lucide-react'
 import { SectionHeadingEditor } from './SectionHeadingEditor'
-import { ImagePicker } from './ImagePicker'
-
+// ImagePicker intentionally not rendered in this editor.
+// DRAFT scope (narrowed MVP) restricts the picker to the hero backgroundImage
+// and the first blog article's featuredImage. EXPERT mode uses its own editor.
 const INPUT =
   'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
 
@@ -181,17 +182,7 @@ export function TeamSectionSimple({ sectionId }: { sectionId: string }) {
                       className={cn(INPUT, 'text-xs')}
                     />
                   </div>
-                  <div className="space-y-1">
-                    <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Photo</span>
-                    <ImagePicker
-                      value={imageUrl}
-                      onChange={(url) => updateProp(item.id, 'imageUrl', url)}
-                      onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
-                      currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
-                      label="Choose Photo"
-                      mode="image"
-                    />
-                  </div>
+                  {/* Photo picker hidden in DRAFT (narrowed MVP). */}
                   <div className="space-y-1">
                     <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Description</span>
                     <input

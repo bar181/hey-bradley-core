@@ -6,12 +6,12 @@ import { Tooltip } from '../ui/Tooltip'
 
 // DRAFT mode shows only Reality + Data (read-only). EXPERT shows all.
 // See plans/implementation/mvp-plan/01-phase-15-polish-kitchen-sink.md §1.1.
-const TABS: { key: ActiveTab; label: string; expert?: boolean; tip: string }[] = [
-  { key: 'REALITY', label: 'Preview', tip: 'Live site preview' },
-  { key: 'XAI_DOCS', label: 'Blueprints', expert: true, tip: 'Generated specifications' },
-  { key: 'RESOURCES', label: 'Resources', expert: true, tip: 'Templates, AISP guide, media library' },
-  { key: 'DATA', label: 'Data', tip: 'Raw JSON configuration' },
-  { key: 'WORKFLOW', label: 'Pipeline', expert: true, tip: 'Build workflow visualization' },
+const TABS: { key: ActiveTab; label: string; expert?: boolean; tip: string; title: string }[] = [
+  { key: 'REALITY', label: 'Preview', tip: 'Live site preview', title: 'See your live page.' },
+  { key: 'XAI_DOCS', label: 'Blueprints', expert: true, tip: 'Generated specifications', title: 'View the generated specs and plans for your site.' },
+  { key: 'RESOURCES', label: 'Resources', expert: true, tip: 'Templates, AISP guide, media library', title: 'Browse templates, images, and helper guides.' },
+  { key: 'DATA', label: 'Data', tip: 'Raw JSON configuration', title: 'View the JSON behind your page.' },
+  { key: 'WORKFLOW', label: 'Pipeline', expert: true, tip: 'Build workflow visualization', title: 'Watch the build steps for your site.' },
 ]
 
 export function TabBar() {
@@ -49,6 +49,7 @@ export function TabBar() {
                     ? 'text-hb-accent/70 hover:text-hb-accent'
                     : 'text-hb-text-muted hover:text-hb-text-secondary'
               )}
+              title={tab.title}
             >
               {isSpecs && <FileText size={12} />}
               {tab.label}

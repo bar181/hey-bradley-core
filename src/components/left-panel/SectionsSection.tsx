@@ -402,6 +402,7 @@ export function SectionsSection() {
                       ? 'bg-hb-accent text-white font-medium'
                       : 'text-hb-text-secondary hover:bg-hb-surface-hover'
                   )}
+                  title={`Switch to the ${page.title} page.`}
                 >
                   {page.title}
                 </button>
@@ -415,7 +416,7 @@ export function SectionsSection() {
                         ? 'text-red-400 animate-pulse'
                         : 'text-hb-text-muted/40 hover:text-red-400'
                     )}
-                    title={confirmDeletePageId === page.id ? 'Click again to confirm' : 'Delete page'}
+                    title={confirmDeletePageId === page.id ? 'Click again to confirm deleting this page.' : 'Delete this page.'}
                   >
                     <X size={10} />
                   </button>
@@ -434,7 +435,7 @@ export function SectionsSection() {
                 className="flex-1 px-2 py-1 text-xs rounded bg-hb-surface border border-hb-border text-hb-text-primary placeholder:text-hb-text-muted/50 focus:outline-none focus:border-hb-accent"
                 autoFocus
               />
-              <button type="button" onClick={handleAddPage} className="px-2 py-1 text-xs rounded bg-hb-accent text-white hover:bg-hb-accent/80">
+              <button type="button" onClick={handleAddPage} className="px-2 py-1 text-xs rounded bg-hb-accent text-white hover:bg-hb-accent/80" title="Save the new page.">
                 Add
               </button>
             </div>
@@ -448,7 +449,7 @@ export function SectionsSection() {
           type="button"
           disabled
           className="flex items-center gap-1.5 w-full px-3 py-1.5 mb-1 text-xs text-hb-text-muted opacity-50 cursor-not-allowed rounded-md"
-          title="Coming in a future update"
+          title="Multiple pages will be available in a future update."
         >
           <Files size={12} />
           Multi-Page (Coming Soon)
@@ -475,6 +476,7 @@ export function SectionsSection() {
             type="button"
             onClick={() => setShowHidden(!showHidden)}
             className="flex items-center gap-1.5 w-full px-3 py-1.5 text-xs text-hb-text-muted hover:text-hb-text-secondary transition-colors"
+            title="Show more section types you can add to your page."
           >
             <ChevronRight size={12} className={cn('transition-transform', showHidden && 'rotate-90')} />
             More Sections
@@ -501,6 +503,7 @@ export function SectionsSection() {
                     type="button"
                     onClick={() => handleAddSection(type)}
                     className="flex items-center gap-2.5 w-full px-3 py-2.5 text-left hover:bg-hb-surface-hover transition-colors"
+                    title={`Add a new ${(sectionNameMap[type] ?? type).toLowerCase()} section to your page.`}
                   >
                     <Icon
                       size={14}
