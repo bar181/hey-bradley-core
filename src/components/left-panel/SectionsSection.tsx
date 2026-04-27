@@ -260,6 +260,7 @@ export function SectionsSection() {
               : 'border border-transparent hover:bg-hb-surface-hover',
             isDisabled && 'opacity-40'
           )}
+          title="Click to edit this section."
         >
           {/* Drag handle */}
           <Tooltip content="Drag to reorder" position="right">
@@ -274,6 +275,7 @@ export function SectionsSection() {
                 setDropTarget(null)
               }}
               className="cursor-grab active:cursor-grabbing p-0.5 text-hb-text-muted/40 hover:text-hb-text-muted"
+              title="Drag to move this section up or down."
             >
               <GripVertical size={14} />
             </div>
@@ -293,6 +295,7 @@ export function SectionsSection() {
                 toggleSectionEnabled(section.id)
               }}
               className="p-0.5 text-hb-text-muted hover:text-hb-text-secondary"
+              title="Show or hide this section on your page."
             >
               {section.enabled ? <Eye size={13} /> : <EyeOff size={13} />}
             </button>
@@ -304,7 +307,7 @@ export function SectionsSection() {
           <div className="flex items-center justify-center gap-1 py-1 px-2 ml-6">
             <button
               type="button"
-              title="Move up"
+              title="Move this section up one spot."
               onClick={() => moveSection(index, 'up')}
               disabled={index === 0}
               className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover disabled:opacity-30"
@@ -313,7 +316,7 @@ export function SectionsSection() {
             </button>
             <button
               type="button"
-              title="Move down"
+              title="Move this section down one spot."
               onClick={() => moveSection(index, 'down')}
               disabled={index === orderedSections.length - 1}
               className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover disabled:opacity-30"
@@ -322,7 +325,7 @@ export function SectionsSection() {
             </button>
             <button
               type="button"
-              title="Duplicate"
+              title="Make a copy of this section."
               onClick={() => handleDuplicate(section.id)}
               className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover"
             >
@@ -330,7 +333,7 @@ export function SectionsSection() {
             </button>
             <button
               type="button"
-              title="Delete"
+              title="Delete this section. Click twice to confirm."
               aria-label={
                 confirmDeleteId === section.id
                   ? 'Click again to confirm delete'
@@ -382,7 +385,7 @@ export function SectionsSection() {
               type="button"
               onClick={() => setShowAddPage(!showAddPage)}
               className="p-0.5 rounded text-hb-text-muted hover:text-hb-accent hover:bg-hb-surface-hover"
-              title="Add page"
+              title="Add a new page to your site."
             >
               <Plus size={12} />
             </button>

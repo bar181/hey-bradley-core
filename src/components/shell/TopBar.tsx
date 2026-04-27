@@ -89,48 +89,53 @@ export function TopBar() {
             {chromeLight ? <Moon size={14} /> : <Sun size={14} />}
           </button>
         </Tooltip>
-        <div className="w-px h-4 bg-white/20 mx-1" />
-        {DEVICE_BUTTONS.map(({ icon: Icon, width, label }) => (
-          <Tooltip key={width} content={`Preview at ${label.toLowerCase()} size`} position="bottom">
-            <button
-              onClick={() => handleDeviceClick(width)}
-              className={`p-1 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded ${
-                previewWidth === width
-                  ? 'text-white'
-                  : 'text-white/60 hover:text-white'
-              }`}
-              aria-label={`Preview at ${label}`}
-              title={`See how your page looks on a ${label.toLowerCase()} screen.`}
-            >
-              <Icon size={16} />
-            </button>
-          </Tooltip>
-        ))}
-        <div className="w-px h-4 bg-white/20 mx-1" />
-        <Tooltip content="Lock design — content editing only" position="bottom">
-          <button
-            onClick={toggleDesignLock}
-            className={`p-1 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded ${
-              designLocked ? 'text-hb-accent' : 'text-white/60 hover:text-white'
-            }`}
-            aria-label={designLocked ? 'Unlock design editing' : 'Lock design editing'}
-            title="Lock the layout so only the words can be changed."
-          >
-            {designLocked ? <Lock size={16} /> : <Unlock size={16} />}
-          </button>
-        </Tooltip>
-        <Tooltip content="Lock brand — SEO fields read-only" position="bottom">
-          <button
-            onClick={toggleBrandLock}
-            className={`p-1 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded ${
-              brandLocked ? 'text-hb-accent' : 'text-white/60 hover:text-white'
-            }`}
-            aria-label={brandLocked ? 'Unlock brand editing' : 'Lock brand editing'}
-            title="Lock your site name and search info from being changed."
-          >
-            {brandLocked ? <Shield size={16} /> : <ShieldOff size={16} />}
-          </button>
-        </Tooltip>
+        {/* DRAFT-mode top-bar control budget: device + lock controls are EXPERT-only. */}
+        {!isDraft && (
+          <>
+            <div className="w-px h-4 bg-white/20 mx-1" />
+            {DEVICE_BUTTONS.map(({ icon: Icon, width, label }) => (
+              <Tooltip key={width} content={`Preview at ${label.toLowerCase()} size`} position="bottom">
+                <button
+                  onClick={() => handleDeviceClick(width)}
+                  className={`p-1 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded ${
+                    previewWidth === width
+                      ? 'text-white'
+                      : 'text-white/60 hover:text-white'
+                  }`}
+                  aria-label={`Preview at ${label}`}
+                  title={`See how your page looks on a ${label.toLowerCase()} screen.`}
+                >
+                  <Icon size={16} />
+                </button>
+              </Tooltip>
+            ))}
+            <div className="w-px h-4 bg-white/20 mx-1" />
+            <Tooltip content="Lock design — content editing only" position="bottom">
+              <button
+                onClick={toggleDesignLock}
+                className={`p-1 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded ${
+                  designLocked ? 'text-hb-accent' : 'text-white/60 hover:text-white'
+                }`}
+                aria-label={designLocked ? 'Unlock design editing' : 'Lock design editing'}
+                title="Lock the layout so only the words can be changed."
+              >
+                {designLocked ? <Lock size={16} /> : <Unlock size={16} />}
+              </button>
+            </Tooltip>
+            <Tooltip content="Lock brand — SEO fields read-only" position="bottom">
+              <button
+                onClick={toggleBrandLock}
+                className={`p-1 transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded ${
+                  brandLocked ? 'text-hb-accent' : 'text-white/60 hover:text-white'
+                }`}
+                aria-label={brandLocked ? 'Unlock brand editing' : 'Lock brand editing'}
+                title="Lock your site name and search info from being changed."
+              >
+                {brandLocked ? <Shield size={16} /> : <ShieldOff size={16} />}
+              </button>
+            </Tooltip>
+          </>
+        )}
         <div className="w-px h-4 bg-white/20 mx-1" />
         <Tooltip content="Toggle between preview and edit mode" position="bottom">
           <button
@@ -210,6 +215,13 @@ export function TopBar() {
               title="Switch between editing and previewing your page."
             >
               {isPreviewMode ? <><PenLine size={14} /> Exit Preview</> : <><Eye size={14} /> Preview Site</>}
+            </button>
+            <button
+              onClick={() => { handleSettingsClick(); setMenuOpen(false) }}
+              className="flex items-center gap-2 w-full px-3 py-2 text-sm text-hb-text-primary hover:bg-hb-surface-hover transition-colors"
+              title="Open settings."
+            >
+              <Settings size={14} /> Settings
             </button>
           </div>
         )}

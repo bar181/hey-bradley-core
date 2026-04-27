@@ -6,8 +6,9 @@ import { useConfigStore } from '@/store/configStore'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
 import { Grid3X3, LayoutDashboard, GalleryHorizontalEnd, Maximize2, Plus, Trash2 } from 'lucide-react'
 import { SectionHeadingEditor } from './SectionHeadingEditor'
-import { ImagePicker } from './ImagePicker'
-
+// ImagePicker intentionally not rendered in this editor.
+// DRAFT scope (narrowed MVP) restricts the picker to the hero backgroundImage
+// and the first blog article's featuredImage. EXPERT mode uses its own editor.
 const INPUT =
   'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
 

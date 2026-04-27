@@ -243,14 +243,39 @@ export function BlogSectionSimple({ sectionId }: { sectionId: string }) {
                       className={cn(INPUT, 'text-xs')}
                     />
                   </div>
+                  {/*
+                    DRAFT scope (narrowed MVP): the ImagePicker is exposed
+                    ONLY on the first article's featuredImage (the canonical
+                    "article hero image" for blog-standard.json). Subsequent
+                    articles still render the preview/URL but without the
+                    picker control.
+                  */}
                   <div className="space-y-1">
                     <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Featured Image</span>
-                    <ImagePicker
-                      value={featuredImage}
-                      onChange={(url) => updateProp(item.id, 'featuredImage', url)}
-                      label="Choose Image"
-                      mode="both"
-                    />
+                    {idx === 0 ? (
+                      <ImagePicker
+                        value={featuredImage}
+                        onChange={(url) => updateProp(item.id, 'featuredImage', url)}
+                        label="Choose Image"
+                        mode="image"
+                        pickerMode="library-only"
+                      />
+                    ) : featuredImage ? (
+                      <div className="w-full h-16 rounded-md overflow-hidden border border-hb-border/30">
+                        <img
+                          src={featuredImage}
+                          alt={title || 'Featured'}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            ;(e.target as HTMLImageElement).style.display = 'none'
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <p className="text-[11px] text-hb-text-muted italic">
+                        Image picker available on the first article only.
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

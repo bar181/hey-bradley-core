@@ -179,32 +179,29 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
       </RightAccordion>
 
       {/* ─── 3. MEDIA ─── */}
+      {/*
+        DRAFT scope (narrowed MVP): the ImagePicker is exposed ONLY for the
+        hero `backgroundImage` slot. Other media states (heroImage / heroVideo)
+        still render their preview but no picker control. EXPERT mode is
+        unaffected — it uses its own editors elsewhere.
+      */}
       <RightAccordion id="media" label="Media">
         <div className="space-y-3">
-          {activeMediaId && activeMediaId !== 'heroVideo' && (
-            <>
-              {activeMediaUrl && (
-                <div className="w-full h-20 rounded-md overflow-hidden border border-hb-border/30">
-                  <img src={activeMediaUrl} alt="Current media" className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
-                </div>
+          {activeMediaId && activeMediaUrl && (
+            <div className="w-full h-20 rounded-md overflow-hidden border border-hb-border/30">
+              {activeMediaId === 'heroVideo' ? (
+                <video src={activeMediaUrl} className="w-full h-full object-cover" muted />
+              ) : (
+                <img src={activeMediaUrl} alt="Current media" className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
               )}
-              <ImagePicker
-                value={activeMediaUrl}
-                onChange={(url) => updateUrl(activeMediaId, url)}
-                onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
-                currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
-                label="Choose a Photo"
-              />
-            </>
+            </div>
           )}
-          {activeMediaId === 'heroVideo' && (
+          {activeMediaId === 'backgroundImage' && (
             <ImagePicker
               value={activeMediaUrl}
               onChange={(url) => updateUrl(activeMediaId, url)}
-              onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
-              currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
-              label="Choose a Video"
-              mode="video"
+              label="Choose a Photo"
+              pickerMode="library-only"
             />
           )}
           {!activeMediaId && (

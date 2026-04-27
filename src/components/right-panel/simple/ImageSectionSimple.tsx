@@ -4,8 +4,9 @@ import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
 import { updateComponentProps } from '@/lib/componentHelpers'
 import { Maximize2, Columns2, Layers, Mountain } from 'lucide-react'
-import { ImagePicker } from './ImagePicker'
-
+// ImagePicker intentionally not rendered in this editor.
+// DRAFT scope (narrowed MVP) restricts the picker to the hero backgroundImage
+// and the first blog article's featuredImage. EXPERT mode uses its own editor.
 const INPUT =
   'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
 
@@ -72,14 +73,22 @@ export function ImageSectionSimple({ sectionId }: { sectionId: string }) {
         <div className="space-y-2.5">
           <div className="space-y-1">
             <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Image</span>
-            <ImagePicker
-              value={imageUrl}
-              onChange={(url) => updateProp('imageUrl', url)}
-              onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
-              currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
-              label="Choose Image"
-              mode="both"
-            />
+            {imageUrl ? (
+              <div className="w-full h-20 rounded-md overflow-hidden border border-hb-border/30">
+                <img
+                  src={imageUrl}
+                  alt="Current"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    ;(e.target as HTMLImageElement).style.display = 'none'
+                  }}
+                />
+              </div>
+            ) : (
+              <p className="text-[11px] text-hb-text-muted italic">
+                Image picker not available in DRAFT for this section.
+              </p>
+            )}
           </div>
           <div className="space-y-1">
             <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Heading</span>
