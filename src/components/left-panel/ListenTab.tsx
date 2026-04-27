@@ -4,7 +4,26 @@ import { buildDemoFromCaptions, runDemo } from '@/lib/demoSimulator'
 import { EXAMPLE_SITES } from '@/data/examples'
 import listenSequences from '@/data/sequences/listen-sequences.json'
 import { useUIStore } from '@/store/uiStore'
+import { useListenStore, type ListenError } from '@/store/listenStore'
 import { Button } from '@/components/ui/button'
+
+// Phase 19 Step 1 (Agent A2): PTT capture path lives ABOVE the canned demo.
+// Step 2 wires `final` → `chatPipeline.submit`; Step 1 only displays it.
+const PTT_HOLD_GATE_MS = 250
+const PTT_AUTO_STOP_MS = 12_000
+
+function mapListenError(err: ListenError): string {
+  switch (err.kind) {
+    case 'permission_denied':
+      return "Microphone permission denied. Click the mic button in your browser's address bar to allow."
+    case 'audio_capture':
+      return "Couldn't access your microphone. Check your audio device."
+    case 'no_speech':
+      return "I didn't hear anything. Try again."
+    default:
+      return err.detail || 'Voice input failed.'
+  }
+}
 
 interface DemoSequenceConfig {
   id: string
@@ -48,6 +67,71 @@ export function ListenTab() {
   const demoCleanupRef = useRef<(() => void) | null>(null)
 
   const [showDemoDialog, setShowDemoDialog] = useState(false)
+
+  // PTT (push-to-talk) — Phase 19 Step 1 wiring (UI only; pipeline in Step 2).
+  const pttSupported = useListenStore((s) => s.supported)
+  const pttRecording = useListenStore((s) => s.recording)
+  const pttInterim = useListenStore((s) => s.interim)
+  const pttFinal = useListenStore((s) => s.final)
+  const pttError = useListenStore((s) => s.error)
+  const pttMouseDownAtRef = useRef<number | null>(null)
+  const pttHoldGateTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const pttAutoStopTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const pttRecordingRef = useRef(false)
+  pttRecordingRef.current = pttRecording
+
+  const clearPttTimers = useCallback(() => {
+    if (pttHoldGateTimerRef.current) {
+      clearTimeout(pttHoldGateTimerRef.current)
+      pttHoldGateTimerRef.current = null
+    }
+    if (pttAutoStopTimerRef.current) {
+      clearTimeout(pttAutoStopTimerRef.current)
+      pttAutoStopTimerRef.current = null
+    }
+  }, [])
+
+  const handlePttPressStart = useCallback(() => {
+    if (!pttSupported) return
+    pttMouseDownAtRef.current = Date.now()
+    clearPttTimers()
+    // 250 ms hold gate — only start once the user holds past the threshold.
+    pttHoldGateTimerRef.current = setTimeout(() => {
+      useListenStore.getState().startRecording()
+      // 12 s auto-stop safety net per phase plan §3.7.
+      pttAutoStopTimerRef.current = setTimeout(() => {
+        useListenStore.getState().stopRecording()
+      }, PTT_AUTO_STOP_MS)
+    }, PTT_HOLD_GATE_MS)
+  }, [pttSupported, clearPttTimers])
+
+  const handlePttPressEnd = useCallback(() => {
+    if (!pttSupported) return
+    const downAt = pttMouseDownAtRef.current
+    pttMouseDownAtRef.current = null
+    const heldFor = downAt ? Date.now() - downAt : 0
+    // Tap shorter than hold gate → cancel without ever starting.
+    if (heldFor < PTT_HOLD_GATE_MS) {
+      if (pttHoldGateTimerRef.current) {
+        clearTimeout(pttHoldGateTimerRef.current)
+        pttHoldGateTimerRef.current = null
+      }
+      return
+    }
+    clearPttTimers()
+    if (pttRecordingRef.current) {
+      useListenStore.getState().stopRecording()
+    }
+  }, [pttSupported, clearPttTimers])
+
+  // Cleanup PTT timers on unmount.
+  useEffect(() => {
+    return () => {
+      clearPttTimers()
+    }
+  }, [clearPttTimers])
+
+  const pttTranscript = pttFinal || pttInterim
 
   // Demo sequences from JSON
   const demoSequences = listenSequences as DemoSequenceConfig[]
@@ -263,6 +347,81 @@ export function ListenTab() {
         ) : (
           <p className="text-sm text-white/25 italic">Ready to listen...</p>
         )}
+      </div>
+
+      {/* B2) PTT (push-to-talk) — Phase 19 Step 1 (Agent A2). Above canned demos. */}
+      <div className="px-4 pt-2 pb-1 flex flex-col items-center gap-2">
+        {pttSupported ? (
+          <button
+            type="button"
+            data-testid="listen-ptt"
+            onMouseDown={handlePttPressStart}
+            onMouseUp={handlePttPressEnd}
+            onMouseLeave={handlePttPressEnd}
+            onTouchStart={handlePttPressStart}
+            onTouchEnd={handlePttPressEnd}
+            aria-pressed={pttRecording}
+            aria-label={pttRecording ? 'Listening' : 'Hold to talk'}
+            className={`w-full max-w-[300px] flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold tracking-wider uppercase border transition-colors select-none ${
+              pttRecording
+                ? 'bg-hb-accent text-white scale-95 border-hb-accent'
+                : 'bg-white/5 text-white/80 border-white/10 hover:bg-white/10'
+            }`}
+          >
+            <Mic size={16} />
+            {pttRecording ? 'Listening…' : 'Hold to talk'}
+          </button>
+        ) : (
+          <div
+            data-testid="listen-unsupported-banner"
+            className="w-full max-w-[300px] rounded-md bg-white/5 border border-white/10 px-3 py-2 text-xs text-white/60"
+          >
+            Voice input not supported in this browser. The canned demo below still works.
+          </div>
+        )}
+
+        {pttRecording && (
+          <div
+            data-testid="listen-recording-indicator"
+            className="text-[10px] uppercase tracking-wider text-hb-accent"
+          >
+            Recording…
+          </div>
+        )}
+
+        {pttTranscript && (
+          <div
+            data-testid="listen-transcript"
+            className="w-full max-w-[300px] rounded-md bg-black/30 border border-white/10 px-3 py-2 text-sm text-white/85"
+          >
+            <p className="whitespace-pre-wrap break-words">
+              {pttTranscript}
+              {pttRecording && pttInterim && !pttFinal && (
+                <span className="text-white/40"> …</span>
+              )}
+            </p>
+          </div>
+        )}
+
+        {pttError && (
+          <div
+            data-testid="listen-error-banner"
+            className="w-full max-w-[300px] rounded-md bg-red-500/10 border border-red-400/30 px-3 py-2 text-xs text-red-200 flex items-start justify-between gap-2"
+            role="alert"
+          >
+            <span>{mapListenError(pttError)}</span>
+            <button
+              type="button"
+              onClick={() => useListenStore.getState().clearError()}
+              className="shrink-0 text-red-100/70 hover:text-white underline"
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
+
+        {/* Divider separating new PTT path from existing canned demo controls. */}
+        <div className="w-full max-w-[300px] border-t border-white/10 mt-1" />
       </div>
 
       {/* C) Bottom controls — pushed to bottom */}

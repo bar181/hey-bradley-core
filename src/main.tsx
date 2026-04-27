@@ -16,6 +16,7 @@ import { migrateLegacyLocalStorage } from '@/contexts/persistence/legacyMigratio
 import { setupAutosave } from '@/contexts/persistence/autosave'
 import { useProjectStore } from '@/store/projectStore'
 import { useIntelligenceStore } from '@/store/intelligenceStore'
+import { useListenStore } from '@/store/listenStore'
 import './index.css'
 
 function ScrollToTop() {
@@ -36,6 +37,7 @@ initDB()
     setupAutosave()
     await useProjectStore.getState().hydrateLastProjectAfterDB()
     void useIntelligenceStore.getState().init()
+    useListenStore.getState().init()
     // FIX 4: close the active session on unload so sessions don't accumulate
     // forever (unbounded `sessions` table growth was R4 HIGH).
     window.addEventListener('beforeunload', () => {
