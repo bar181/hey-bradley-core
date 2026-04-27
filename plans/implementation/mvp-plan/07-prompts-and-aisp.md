@@ -126,7 +126,8 @@ These appear in the lightbulb dialog as one-tap examples for novices. Each was c
 | 2 | *Change the accent color to forest green.* | `replace /theme/colors/accent "#14532d"` |
 | 3 | *Use a serif font for headings.* | `replace /theme/fonts/heading "Instrument Serif"` |
 | 4 | *Make the hero subheading say "Fresh from our oven."* | `replace /sections/0/content/subheading "Fresh from our oven."` |
-| 5 | *Write a short blog article about sourdough bread.* | up to 4 replaces against the article section: `/content/title`, `/content/body`, `/content/author`, `/content/heroImage` |
+| 5 | *Show a sourdough bread image in the hero.* | `replace /sections/0/style/backgroundImage` with a library URL (LLM picks from injected catalog) |
+| 6 | *Write a short blog article about sourdough bread.* | up to 4 replaces against the article section: `/content/title`, `/content/body`, `/content/author`, `/content/heroImage` |
 
 Each starter has a recorded "golden" expected envelope used as a unit test in `tests/chat-real.spec.ts`.
 
@@ -178,6 +179,7 @@ The patch validator (Phase 18) enforces that every patch path matches one of the
 /sections/0/content/cta/text
 /sections/0/content/cta/url
 /sections/0/style/background
+/sections/0/style/backgroundImage      # library URL only; see Image rules below
 /sections/0/layout/variant
 
 # Article section — referenced by id "article-01" in the starter examples
@@ -194,6 +196,17 @@ The patch validator (Phase 18) enforces that every patch path matches one of the
 ```
 
 The validator computes `<article-idx>` by scanning the current JSON for the section with `id == "article-01"`. Anything else is rejected before apply.
+
+### 5.1 Image rules (April 27)
+
+Every image-typed path (`/sections/0/style/backgroundImage`, `/sections/<article-idx>/content/heroImage`) is validated:
+
+- The value MUST be a `https://` URL.
+- The URL MUST either be present in `src/data/mediaLibrary.json` (catalog of 300 entries) **or** match an allow-listed CDN host (`images.unsplash.com`, `cdn.heybradley.app`).
+- Extension MUST be `.jpg|.jpeg|.png|.webp`. SVG only when sourced from the local `src/assets/` path.
+- No `data:`, `javascript:`, `vbscript:`, or `blob:` URIs.
+
+The system prompt injects a **compact 30-entry sample** of `mediaLibrary.json` (id, url, tags) so the LLM can pick a sensible image without seeing all 300 entries. The validator still gates against the full library.
 
 This whitelist is the **single source of truth**. It lives in code at `src/lib/schemas/patchPaths.ts` (Phase 18 §3.2) and is template-injected into the system prompt; both prompt builder and validator import the same exported array. No drift.
 

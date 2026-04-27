@@ -217,6 +217,7 @@ For MVP the editable surface is **theme + hero + article only**. The validator i
 - A path segment contains `__proto__`, `constructor`, or `prototype` (prototype-pollution guard).
 - The new value, if a string, matches `/(javascript:|data:text\/html|vbscript:|<script|on\w+=)/i` (XSS guard).
 - The new value, if applied, would cause the per-path Zod schema to fail (e.g. `/sections/0/content/heading/level` must be 1..6).
+- For image-typed paths only (`backgroundImage`, `heroImage`): URL fails the image rules in `07-prompts-and-aisp.md` §5.1 (catalog or CDN whitelist, allowed extensions, no `data:`/`blob:`).
 
 Failure → return list of reasons → caller falls back to canned reply.
 

@@ -27,6 +27,7 @@ This phase is **subtractive**. We are removing complexity, not adding features. 
    - Left panel shows editors for **only** the section types in the narrowed surface (hero, article, footer-as-decoration). All other section editors are hidden.
    - Center tabs in DRAFT collapse from 5 to **2**: Reality (preview) and Data (read-only JSON view). Blueprints/Resources/Pipeline are EXPERT-only.
    - Top-bar control budget: ≤ 6 interactive elements (logo, mode toggle, save, export, settings, theme picker). No more.
+   - **Image picker** visible only on the two slots that accept images (hero `backgroundImage`, article `heroImage`). Reuses the existing `ImagePicker.tsx`; restricted to library-only mode (no upload control). Out-of-scope effects (Ken Burns, parallax) hidden in DRAFT.
 4. **Stage-1 DoD fixes.** Close outstanding Stage-1 items in `master-backlog.md` *that fall inside the narrowed scope* (AISP polish, console scrub, design-lock toggle, persona-rubric authored). Items outside scope are moved to `deferred-features.md`.
 5. **Plain-English labels in DRAFT.** "Inspector" → "Edit", "Variant" → "Style", "Section Registry" not shown in DRAFT, "Schema/Slot/Token" not shown.
 6. **No new section types**, no new themes, no new effects.
