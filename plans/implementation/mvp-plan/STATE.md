@@ -1,8 +1,9 @@
 # MVP Implementation — State of the Program
 
-> **Updated:** 2026-04-27 (after Phase 18b seal at `805b246`)
+> **Updated:** 2026-04-27 (after Phase 19 fix-pass-2 at `772c154` — ready for seal)
 > **Branch:** `claude/verify-flywheel-init-qlIBr`
 > **Companion:** `08-master-checklist.md` (all DoD ticks), per-phase `retrospective.md` and `session-log.md` files.
+> **Latest deep-dive:** `plans/implementation/phase-19/deep-dive/00-summary.md` (4 brutal reviews → 18 must-fix items closed)
 
 ---
 
@@ -15,6 +16,7 @@
 | **P17** | LLM Provider Abstraction + BYOK Scaffold | 88/100 | 16/16 | `8377ab7` | LLMAdapter interface + Claude/Gemini/Simulated/Fixture impls (Fixture added in P18). BYOK with optional kv persistence; cap pre-check; husky pre-commit guard with 9 key-shape patterns; vite build-time assertion. ADR-042 + ADR-043. Bundle delta +2.00 KB gzip. |
 | **P18** | Real Chat Mode (LLM → JSON Patches) | 89/100 | 20/20 | `232dd79` | Crystal Atom system prompt + Zod parser + path-whitelist validator (key prototype-pollution + image URL allow-list + value safety) + atomic applier + cross-surface mutex + redacted audit log. **0 real-LLM calls during all of P18.** $0 spent. ADR-044 + ADR-045. Bundle delta +6.24 KB gzip. |
 | **P18b** | Provider Expansion + Observability (addendum) | 90/100 | 18/18 | `805b246` | 5-provider matrix: Claude (paid), Gemini (paid 2.5-flash + free 2.0-flash), OpenRouter (free `mistralai/mistral-7b-instruct:free`), Simulated, **mock** (DB-backed `AgentProxyAdapter` reading from `example_prompts` corpus, 18 rows / 6 categories). New `llm_logs` table with ruvector deltas (D1 dual `request_id` + `parent_request_id`; D2 split `input_tokens`/`output_tokens`; D3 SHA-256 `prompt_hash`); one row per adapter-call decision (incl. cost_cap). 30-day retention enforced at `initDB`. `SENSITIVE_TABLE_OPS` registry strips both new tables from `.heybradley` exports. ADR-046 + ADR-047. **Bundle delta -0.76 KB gzip** (net negative; new modules code-split into lazy chunks). $0 spent. |
+| **P19** | Real Listen Mode (Web Speech API) + 3-step staged build + 2 fix-passes | **88/100** | 22/22 | `772c154` | Web Speech STT capture + push-to-talk surface + voice→chat-pipeline fan-in + 754-LOC ListenTab (P20 split queued). 4 brutal-honest reviewers ran on the sealed code (R1 UX 58, R2 Functionality 2/35 prompts, R3 Security 8.5/10 1 HIGH, R4 Architecture 5.5/10) → fix-pass-2 closed 18 must-fix items: F1 hero/article path-resolution helper (closes blog-standard hero corruption); F2 mapChatError (4 infra kinds; FALLBACK_HINT dedup); F3 CSS-injection guard (`url(`/`@import` blocked, `imageUrl` allow-listed); F4 site-context interpolation sanitize; F5 truthful listen privacy copy; F6 DEV-key runtime warn; F7 adapterUtils.ts dedup (-60 LOC across 3 adapters); F8-F13 UX polish (tooltip, inline privacy, draft-mode demo-slider hide, via-voice pill, simulated-mode pill); F14 PersistenceErrorBanner; F15 CLAUDE.md project-status truth-up; F16-F18 code hygiene. ADR-048 (Web Speech). **Composite 66 → 88** post-fix-pass (Grandma 70 / Framer 84 / Capstone 88). **Bundle gzip 599.85 KB main + 100 KB lazy = ~700 KB total** (under 800 KB P20 budget). 46 targeted Playwright passing. **20 P20 carryforward items** documented in `phase-19/deep-dive/05-fix-pass-plan.md` §5. $0 spent. |
 
 ### Phase-by-phase test growth
 | Phase | Targeted Playwright | Suite total |
@@ -25,27 +27,32 @@
 | P17 | 6 added | 113 / 124 in full sweep |
 | P18 | 16 added | 129+ Playwright |
 | P18b | 5 added (4 in `p18b-logs.spec.ts` + 2 in `p18b-agent-proxy.spec.ts` minus 1 cap-edge xskip) | 36/36 targeted active (+ 2 xskip) |
-| **Net add** | **+32** | **122 net targeted** |
+| P19 step 1+2+3 | 13 added (`p19-step1` x4 + `p19-step2` x4 + `p19-step3` x0 polish + `p19-step3-edges` x5) | 41/41 targeted (+ 2 xskip) |
+| P19 fix-pass-2 | 9 added (`p19-fix-hero-on-blog-standard` x1 + `p19-fix-mapchaterror` x6 + `p19-fix-css-injection` x2) | **46/46 targeted active** |
+| **Net add through P19** | **+54** | **63 across 29 spec files (full sweep counter; 46 targeted is the seal-gate number)** |
 
 ### What's running today
 - 100% frontend TypeScript SPA (Vite + React 19 + Tailwind + shadcn).
 - sql.js + IndexedDB browser DB, lazy-loaded wasm, cross-tab safe.
-- Anthropic + Google SDKs in browser with `dangerouslyAllowBrowser: true` (BYOK only).
-- FixtureAdapter is the active LLM adapter in DEV — **zero real-LLM dollars spent**.
-- 4 ADRs added (040, 041, 042, 043) in the persistence + provider layers; 2 ADRs added (044, 045) in the chat layer. Total ADR series: 045.
+- Anthropic + Google + OpenRouter (raw fetch) SDKs in browser with `dangerouslyAllowBrowser: true` (BYOK only).
+- FixtureAdapter + AgentProxyAdapter are the active DEV adapters — **zero real-LLM dollars spent across P15-P19**.
+- Web Speech API STT (push-to-talk) in P19; voice transcripts route through the same chatPipeline as text.
+- ADRs added: P16→040,041; P17→042,043; P18→044,045; P18b→046,047; P19→048. **38 ADR files on disk; numbered up to 048.** Sequential audit (close 11 numbering gaps) is a P20 doc-task.
 - Husky pre-commit hook + Vite build-time guard prevent any committed/deployed key.
+- DEV-mode `VITE_LLM_API_KEY` boot warning (P19 fix-pass-2 F6).
+- CSS-injection-resistant patch validator (`url(`/`@import` blocked, `imageUrl` allow-listed) — P19 fix-pass-2 F3.
+- Per-error-kind chat copy via `mapChatError` (4 infra kinds + 2 fallback paths) — P19 fix-pass-2 F2.
 
 ---
 
-## 2. To Do (next 3 phases on the runway)
+## 2. To Do (post-P19-seal runway)
 
 | Phase | Title | Plan ref | Effort | Real-LLM cost |
 |---|---|---|---:|---|
 | **Step 4** *(post-DoD optional, gated by `VITE_LLM_LIVE_SMOKE=1`)* | Live LLM smoke against real Haiku | P18 plan §0 Step 3 trailing | ~30 min | ~$0.01 (5 starter prompts × ~$0.002 each) |
-| **P19** | Real Listen Mode (Web Speech API) | `05-phase-19-real-listen.md` | 4–6 days | $0 in dev (P18 fixture pipeline reused) |
-| **P20** | Verify, Cost Caps, MVP Close, Vercel Deploy | `06-phase-20-mvp-close.md` | 3–4 days | $0 |
+| **P20** | Verify, Cost Caps, MVP Close, Vercel Deploy + 20 P19 carryforward items | `06-phase-20-mvp-close.md` + `phase-19/deep-dive/05-fix-pass-plan.md` §5 | 5–7 days (revised from 3–4 to absorb P19 carryforward) | $0 in dev; ~$0.01 if Step 4 runs |
 
-After P20, MVP is shipped. Capstone-presentation surface = P15+P16+P17+P18 + the listen mode that P19 adds.
+After P20, MVP is shipped. Capstone-presentation surface = P15+P16+P17+P18+P19 (all sealed) + P20 polish + Vercel deploy. **Total real-LLM spend MVP-to-date: $0.**
 
 ---
 
@@ -138,5 +145,7 @@ After P20 the MVP is the capstone deliverable. Total spend on real LLM during MV
 | P17 | 88 | +2 |
 | P18 | 89 | +1 |
 | P18b | 90 | +1 |
+| P19 step-3 seal | (84 internal) | -6 (Listen tab regressed Grandma persona) |
+| P19 fix-pass-2 (`772c154`) | **88** | **+4 net vs step-3 seal; -2 vs P18b** |
 
-Trend: monotonically improving as the architecture solidifies and the review-cycle discipline tightens. P19 should hold or exceed 90.
+Trend: P19 momentarily dipped on persona regression, then recovered with the brutal-honest fix-pass. Net trajectory across P15→P19: +6 (82→88). P20's 20-item carryforward backlog is on track to pull the composite back to 90+ at MVP close.
