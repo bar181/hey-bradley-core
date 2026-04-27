@@ -1,0 +1,72 @@
+// BYOK key handling: in-memory + opt-in `kv` persistence.
+// Spec: plans/implementation/mvp-plan/03-phase-17-llm-provider.md §1.1, §3.7.
+// Decision record: docs/adr/ADR-043-api-key-trust-boundaries.md.
+//
+// Critical: this module is the ONLY writer to kv['byok_key'] and kv['byok_provider'].
+// All keys are stripped from .heybradley exports per ADR-040 SENSITIVE_KV_KEYS
+// (see src/contexts/persistence/exportImport.ts line 20).
+
+import { kvGet, kvSet, kvDelete, kvHas } from '@/contexts/persistence/repositories/kv';
+
+const KEY_K = 'byok_key';
+const PROVIDER_K = 'byok_provider';
+
+let inMemoryKey: string | null = null;
+let inMemoryProvider: string | null = null;
+
+export interface BYOKEntry {
+  key: string;
+  provider: string;
+}
+
+/** Read the active BYOK key/provider. Returns null when none. Tries memory first, then kv. */
+export function readBYOK(): BYOKEntry | null {
+  if (inMemoryKey && inMemoryProvider) {
+    return { key: inMemoryKey, provider: inMemoryProvider };
+  }
+  const key = kvGet(KEY_K);
+  const provider = kvGet(PROVIDER_K);
+  return key && provider ? { key, provider } : null;
+}
+
+/** Save BYOK. If `remember` is false, only in-memory (and clear any stale persisted entry). */
+export function writeBYOK(entry: BYOKEntry, opts: { remember: boolean }): void {
+  inMemoryKey = entry.key;
+  inMemoryProvider = entry.provider;
+  if (opts.remember) {
+    kvSet(KEY_K, entry.key);
+    kvSet(PROVIDER_K, entry.provider);
+  } else {
+    // Defensive: if a previous "Remember" entry exists, clear it.
+    if (kvHas(KEY_K)) kvDelete(KEY_K);
+    if (kvHas(PROVIDER_K)) kvDelete(PROVIDER_K);
+  }
+}
+
+/** Clear BYOK from both memory and kv. */
+export function clearBYOK(): void {
+  inMemoryKey = null;
+  inMemoryProvider = null;
+  if (kvHas(KEY_K)) kvDelete(KEY_K);
+  if (kvHas(PROVIDER_K)) kvDelete(PROVIDER_K);
+}
+
+/** True if a key is present in either memory or kv. */
+export function hasBYOK(): boolean {
+  return Boolean(inMemoryKey) || kvHas(KEY_K);
+}
+
+/** Mask a key for safe display: keep first/last 4 chars only. */
+export function maskKey(k: string): string {
+  if (k.length <= 8) return '•'.repeat(k.length);
+  return `${k.slice(0, 4)}…${k.slice(-4)}`;
+}
+
+/** Lightweight format check; never throws. */
+export function looksLikeAnthropicKey(k: string): boolean {
+  return /^sk-ant-/i.test(k.trim());
+}
+
+export function looksLikeGoogleKey(k: string): boolean {
+  return /^AIza/.test(k.trim());
+}

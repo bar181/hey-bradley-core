@@ -15,6 +15,7 @@ import { initDB } from '@/contexts/persistence/db'
 import { migrateLegacyLocalStorage } from '@/contexts/persistence/legacyMigration'
 import { setupAutosave } from '@/contexts/persistence/autosave'
 import { useProjectStore } from '@/store/projectStore'
+import { useIntelligenceStore } from '@/store/intelligenceStore'
 import './index.css'
 
 function ScrollToTop() {
@@ -34,6 +35,7 @@ initDB()
     if (import.meta.env.DEV && migrated > 0) console.info(`[persistence] migrated ${migrated} legacy projects`)
     setupAutosave()
     await useProjectStore.getState().hydrateLastProjectAfterDB()
+    void useIntelligenceStore.getState().init()
     root.render(
       <StrictMode>
         <BrowserRouter>
