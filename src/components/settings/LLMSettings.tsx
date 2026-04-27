@@ -16,8 +16,19 @@ type TestResult = 'idle' | 'ok' | 'fail'
 
 const PROVIDER_PLACEHOLDER: Record<LLMProviderName, string> = {
   simulated: '(no key needed)',
+  mock: '(no key needed)',
   claude: 'sk-ant-…',
   gemini: 'AIza…',
+  openrouter: 'sk-or-…',
+}
+
+// Phase 18b A2: tier hint shown beneath the provider <select>. Single line, ≤ 5 LOC.
+const PROVIDER_TIER: Record<LLMProviderName, string> = {
+  simulated: 'Free · canned',
+  mock: 'Free · DB fixtures',
+  gemini: 'Free / cheap · fast',
+  openrouter: 'Cheap · many models',
+  claude: 'Paid · precise',
 }
 
 export function LLMSettings() {
@@ -39,9 +50,9 @@ export function LLMSettings() {
   useEffect(() => { setSelected(provider) }, [provider])
   useEffect(() => { setRemember(rememberStored) }, [rememberStored])
 
-  const isSimulated = selected === 'simulated'
+  const isKeyless = selected === 'simulated' || selected === 'mock'
   const trimmed = keyInput.trim()
-  const showHint = !isSimulated && trimmed.length > 0
+  const showHint = !isKeyless && trimmed.length > 0
   const formatOk =
     selected === 'claude' ? looksLikeAnthropicKey(trimmed)
     : selected === 'gemini' ? looksLikeGoogleKey(trimmed)
@@ -51,7 +62,7 @@ export function LLMSettings() {
     setSaving(true)
     setTestResult('idle')
     try {
-      await setProviderAndKey(selected, isSimulated ? '' : trimmed, { remember })
+      await setProviderAndKey(selected, isKeyless ? '' : trimmed, { remember })
       setKeyInput('')
     } finally {
       setSaving(false)
@@ -90,12 +101,15 @@ export function LLMSettings() {
         id="llm-provider"
         value={selected}
         onChange={(e) => setSelected(e.target.value as LLMProviderName)}
-        className="w-full px-2 py-1.5 mb-3 text-sm rounded border border-hb-border bg-hb-bg text-hb-text-primary focus-visible:ring-2 focus-visible:ring-hb-accent"
+        className="w-full px-2 py-1.5 text-sm rounded border border-hb-border bg-hb-bg text-hb-text-primary focus-visible:ring-2 focus-visible:ring-hb-accent"
       >
-        <option value="simulated">Simulated (no key)</option>
-        <option value="claude">Claude (Anthropic)</option>
-        <option value="gemini">Gemini (Google)</option>
+        <option value="simulated">Simulated (canned responses, free)</option>
+        <option value="mock">Mock (DB fixtures, free)</option>
+        <option value="gemini">Gemini Flash (free / cheap)</option>
+        <option value="openrouter">OpenRouter (cheap / fast / many models)</option>
+        <option value="claude">Claude Haiku (precise / paid)</option>
       </select>
+      <p className="mb-3 mt-1 text-[11px] text-hb-text-muted">Tier: {PROVIDER_TIER[selected]}</p>
 
       <label className="block text-xs text-hb-text-muted mb-1" htmlFor="llm-key">API key</label>
       <input
@@ -104,7 +118,7 @@ export function LLMSettings() {
         value={keyInput}
         onChange={(e) => setKeyInput(e.target.value)}
         placeholder={PROVIDER_PLACEHOLDER[selected]}
-        disabled={isSimulated}
+        disabled={isKeyless}
         className="w-full px-2 py-1.5 text-sm rounded border border-hb-border bg-hb-bg text-hb-text-primary disabled:text-hb-text-muted disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-hb-accent"
         aria-label="API key"
       />

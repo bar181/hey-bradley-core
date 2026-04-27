@@ -3,9 +3,11 @@
 // Pure USD math + token estimation. KISS — no deps, no I/O.
 
 export const MODEL_COSTS = {
-  'claude-haiku-4-5-20251001': { in: 0.25, out: 1.25 },   // USD per 1M tokens
-  'gemini-2.5-flash':           { in: 0.075, out: 0.30 },
-  'simulated-v1':               { in: 0,    out: 0 },
+  'claude-haiku-4-5-20251001':       { in: 0.25,  out: 1.25 },   // USD per 1M tokens
+  'gemini-2.5-flash':                 { in: 0.075, out: 0.30 },
+  'gemini-2.0-flash':                 { in: 0,     out: 0 },     // free tier
+  'mistralai/mistral-7b-instruct:free': { in: 0,   out: 0 },     // OpenRouter :free tier
+  'simulated-v1':                     { in: 0,     out: 0 },
 } as const;
 
 export type KnownModel = keyof typeof MODEL_COSTS;

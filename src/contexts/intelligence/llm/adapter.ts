@@ -2,7 +2,7 @@
 // Decision record: docs/adr/ADR-042-llm-provider-abstraction.md
 // Future-facing: ADR-043 (key trust), ADR-044 (patch contract)
 
-export type LLMProviderName = 'claude' | 'gemini' | 'simulated';
+export type LLMProviderName = 'claude' | 'gemini' | 'openrouter' | 'simulated' | 'mock';
 
 export interface LLMRequest {
   systemPrompt: string;

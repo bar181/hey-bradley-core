@@ -19,6 +19,20 @@ export {
   upsertProject,
   deleteProject,
 } from '@/contexts/persistence/repositories/projects'
+export {
+  listExamplePrompts,
+  getExamplePrompt,
+  findExamplePromptForUserPrompt,
+  recordExamplePromptRun,
+  listExamplePromptRuns,
+} from '@/contexts/persistence/repositories/examplePrompts'
+export type {
+  ExamplePromptRow,
+  ExamplePromptRunRow,
+  ExamplePromptCategory,
+  ExamplePromptOutcome,
+  ExamplePromptMatch,
+} from '@/contexts/persistence/repositories/examplePrompts'
 export { initDB, persist, getDB } from '@/contexts/persistence/db'
 
 /**
