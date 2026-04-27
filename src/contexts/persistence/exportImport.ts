@@ -48,23 +48,45 @@ function rowToJson(r: ProjectRow): ProjectJsonSingle {
 }
 
 /**
+ * FIX 1 + FIX 8 (Phase 18b): registry-driven sanitization. Each entry below
+ * declares one privacy-sensitive table and how to scrub it on export. Future
+ * sensitive tables become opt-in by adding a row here (regression-resistant —
+ * a developer can't accidentally ship a new prompt-bearing table by forgetting
+ * to add a DELETE call).
+ *
+ * - llm_logs                (ADR-047): raw system/user prompts + response_raw.
+ * - example_prompt_runs     (ADR-047, symmetric to llm_logs strip): accumulates
+ *                           real-LLM responses joined to user prompts; same
+ *                           privacy class as llm_logs.
+ * - llm_calls.error_text    (ADR-043 belt-and-suspenders): raw error strings
+ *                           even after redactKeyShapes() may leak BYOK shapes.
+ */
+const SENSITIVE_TABLE_OPS: ReadonlyArray<
+  | { table: string; op: 'truncate' }
+  | { table: string; op: 'null_column'; column: string }
+> = [
+  { table: 'llm_logs',           op: 'truncate' },
+  { table: 'example_prompt_runs', op: 'truncate' },
+  { table: 'llm_calls',          op: 'null_column', column: 'error_text' },
+];
+
+/**
  * Produce sanitized DB bytes for export. Strips any byok_* kv row plus the
- * legacy pre_migration_backup, and nulls llm_calls.error_text to remove a
- * defense-in-depth leak path even after redactKeyShapes() has done its job.
+ * legacy pre_migration_backup, then iterates SENSITIVE_TABLE_OPS to truncate
+ * privacy-bearing tables / null privacy-bearing columns.
  */
 async function exportSanitizedDBBytes(): Promise<Uint8Array> {
   const clone = await cloneDBForExport();
   try {
     // Prefix sweep: covers byok_key, byok_provider, and any future byok_* row.
     clone.exec("DELETE FROM kv WHERE k LIKE 'byok_%' OR k = 'pre_migration_backup'");
-    // Belt-and-suspenders: even with adapter-side redaction, scrub raw error
-    // strings out of the exported snapshot. The cost is losing diagnostic
-    // detail in the zip — a fair trade for the BYOK leak guarantee.
-    clone.exec("UPDATE llm_calls SET error_text = NULL WHERE error_text IS NOT NULL");
-    // ADR-047 (multi-provider logging): llm_logs holds raw system_prompt /
-    // user_prompt / response_raw — privacy by default, never ship in a
-    // .heybradley bundle. Drop the entire table contents on export.
-    clone.exec("DELETE FROM llm_logs");
+    for (const entry of SENSITIVE_TABLE_OPS) {
+      if (entry.op === 'truncate') {
+        clone.exec(`DELETE FROM ${entry.table}`);
+      } else {
+        clone.exec(`UPDATE ${entry.table} SET ${entry.column} = NULL WHERE ${entry.column} IS NOT NULL`);
+      }
+    }
     return clone.export();
   } finally {
     clone.close();

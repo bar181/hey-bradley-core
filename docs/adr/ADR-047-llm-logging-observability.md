@@ -50,8 +50,8 @@ We **never** log:
 
 ### Retention
 
-- **MVP:** no enforcement. `pruneOldLLMLogs(beforeMs)` is exposed by the repository but not invoked.
-- **Post-MVP:** invoke from `closeSession` or a daily timer. Default 30-day retention. Documented here for future ratification rather than carried as code we don't yet need.
+- **MVP:** ~~no enforcement~~ **now enforced** (Phase 18b FIX 7). `initDB()` calls `pruneOldLLMLogs(Date.now() - DEFAULT_RETENTION_MS)` after migrations succeed. Default 30-day retention; one DELETE per session boot.
+- **Post-MVP:** invoke from `closeSession` or a daily timer for tighter cadence on long-running sessions. Default 30-day retention.
 
 ---
 

@@ -1,14 +1,14 @@
 -- 002-llm-logs.sql
 -- Spec: 18b mandate Wave 2 Agent A4 (per-call observability log).
 -- Cross-ref: plans/implementation/phase-18b/ruvector-research.md (Schema Deltas D1-D3).
--- Cross-ref: docs/adr/ADR-047-multi-provider-logging.md (export exclusion).
+-- Cross-ref: docs/adr/ADR-047-llm-logging-observability.md (export exclusion).
 --
 -- This is supplementary to llm_calls (P16/P17 audit-light, used for cap math).
 -- llm_logs is forensic + observability: dual-id, retry chain, prompt hash,
 -- split tokens. Schema-only here; runner bumps schema_version 2 -> 3.
 --
 -- Privacy: system_prompt + user_prompt + response_raw are STRIPPED from
--- .heybradley export bundles via exportSanitizedDBBytes (ADR-047). error_kind
+-- .heybradley export bundles via exportSanitizedDBBytes (ADR-047-llm-logging-observability). error_kind
 -- holds a short slug only; raw error text is redacted via redactKeyShapes
 -- before any persistence per ADR-043.
 CREATE TABLE llm_logs (

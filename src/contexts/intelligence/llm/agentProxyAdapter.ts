@@ -8,11 +8,15 @@ import type { LLMAdapter, LLMRequest, LLMResponse, LLMProviderName } from './ada
 import { estimateTokens } from './cost';
 import {
   findExamplePromptForUserPrompt,
+  listExamplePromptRuns,
   recordExamplePromptRun,
   type ExamplePromptRow,
 } from '@/contexts/persistence/repositories/examplePrompts';
 
-const PROVIDER_LABEL = 'agent-proxy';
+// FIX 2 (Phase 18b): provider label aligned to 'mock' for parity with
+// adapter.name() and the picker UI. example_prompt_runs.provider now matches
+// llm_logs.provider so cross-table joins ('mock' === 'mock') work directly.
+const PROVIDER_LABEL = 'mock';
 const MODEL_ID = 'agent-proxy-v1';
 
 /**
@@ -28,7 +32,7 @@ const MODEL_ID = 'agent-proxy-v1';
  */
 export class AgentProxyAdapter implements LLMAdapter {
   name(): LLMProviderName {
-    return 'simulated';
+    return 'mock';
   }
 
   label(): string {
@@ -79,21 +83,29 @@ export class AgentProxyAdapter implements LLMAdapter {
     const inTokens = estimateTokens(req.systemPrompt + req.userPrompt);
     const outTokens = estimateTokens(row.expected_envelope_json);
 
-    // Best-effort baseline row in example_prompt_runs so the cross-LLM
-    // comparison table always has a "what we predicted" reference. Failures
-    // here are non-fatal — the adapter response is the primary contract.
+    // FIX 4 (Phase 18b): idempotency guard. example_prompt_runs has no UNIQUE
+    // constraint (already-applied migration; cannot ALTER post-hoc without a
+    // follow-up migration), so we KISS-guard at write-time: only one baseline
+    // row per (example_prompt_id, provider='mock', model=MODEL_ID) trio.
+    // Skips if a baseline already exists; failures stay non-fatal.
     try {
-      recordExamplePromptRun({
-        example_prompt_id: row.id,
-        provider: PROVIDER_LABEL,
-        model: MODEL_ID,
-        actual_response_json: row.expected_envelope_json,
-        matches_expected: 1,
-        tokens_in: inTokens,
-        tokens_out: outTokens,
-        cost_usd: 0,
-        latency_ms: 0,
-      });
+      const existing = listExamplePromptRuns(row.id);
+      const hasBaseline = existing.some(
+        (r) => r.provider === PROVIDER_LABEL && r.model === MODEL_ID,
+      );
+      if (!hasBaseline) {
+        recordExamplePromptRun({
+          example_prompt_id: row.id,
+          provider: PROVIDER_LABEL,
+          model: MODEL_ID,
+          actual_response_json: row.expected_envelope_json,
+          matches_expected: 1,
+          tokens_in: inTokens,
+          tokens_out: outTokens,
+          cost_usd: 0,
+          latency_ms: 0,
+        });
+      }
     } catch {
       /* ignore — baseline write is best-effort */
     }

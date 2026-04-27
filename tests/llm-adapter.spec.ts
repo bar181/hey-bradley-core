@@ -64,7 +64,7 @@ test.describe('Phase 17: LLM Adapter', () => {
     expect(errors).toHaveLength(0)
   })
 
-  test('pickAdapter falls back to simulated when no key', async ({ page }) => {
+  test('pickAdapter falls back to a keyless adapter when no key', async ({ page }) => {
     const errors = trackErrors(page)
     await page.goto('/new-project')
     await page.waitForTimeout(500)
@@ -76,7 +76,9 @@ test.describe('Phase 17: LLM Adapter', () => {
       return { name: r.adapter.name(), status: r.status, detail: r.detail ?? '' }
     })
 
-    expect(result.name).toBe('simulated')
+    // Phase 18b FIX 2: in DEV the keyless fallback is AgentProxyAdapter (name='mock');
+    // in prod it's SimulatedAdapter (name='simulated'). Either is acceptable here.
+    expect(['simulated', 'mock']).toContain(result.name)
     expect(result.status).toBe('no_key')
     expect(result.detail).toContain('claude requires a key')
     expect(errors).toHaveLength(0)
@@ -94,7 +96,9 @@ test.describe('Phase 17: LLM Adapter', () => {
       return { name: r.adapter.name(), status: r.status }
     })
 
-    expect(result.name).toBe('simulated')
+    // Phase 18b FIX 2: keyless picker returns AgentProxyAdapter (DEV) or
+    // SimulatedAdapter (prod). Both are valid keyless paths here.
+    expect(['simulated', 'mock']).toContain(result.name)
     expect(result.status).toBe('ok')
     expect(errors).toHaveLength(0)
   })

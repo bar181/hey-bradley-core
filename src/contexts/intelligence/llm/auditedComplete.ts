@@ -30,6 +30,29 @@ function getCapUsd(): number {
   return Math.min(MAX_CAP_USD, Math.max(MIN_CAP_USD, parsed));
 }
 
+/**
+ * FIX 9 (Phase 18b): higher-entropy request_id fallback for environments where
+ * `crypto.randomUUID` is unavailable (older WebViews, some sql.js test rigs).
+ * Builds a UUID-v4-shaped string from 16 bytes of crypto-random; the previous
+ * `Date.now()-Math.random()` form risked unique-constraint collisions on the
+ * `llm_logs.request_id` column under burst load.
+ */
+function fallbackRequestId(): string {
+  const cryptoLike = (globalThis.crypto as Crypto | undefined);
+  const bytes = new Uint8Array(16);
+  if (cryptoLike?.getRandomValues) {
+    cryptoLike.getRandomValues(bytes);
+  } else {
+    for (let i = 0; i < 16; i++) bytes[i] = Math.floor(Math.random() * 256);
+  }
+  // Per RFC 4122 §4.4: set version (0100) and variant (10) bits.
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  const hex: string[] = [];
+  for (let i = 0; i < 16; i++) hex.push(bytes[i].toString(16).padStart(2, '0'));
+  return `${hex.slice(0, 4).join('')}-${hex.slice(4, 6).join('')}-${hex.slice(6, 8).join('')}-${hex.slice(8, 10).join('')}-${hex.slice(10, 16).join('')}`;
+}
+
 function ensureSession(): string {
   const projectId = useProjectStore.getState().activeProject;
   if (!projectId) throw new Error('[intelligence] no active project for LLM call');
@@ -105,16 +128,9 @@ export async function auditedComplete(
       console.debug('[auditedComplete]', { sessionUsd: store.sessionUsd, projected, cap, decision });
     }
 
-    if (decision === 'cost_cap') {
-      return {
-        ok: false,
-        error: {
-          kind: 'cost_cap',
-          detail: `Session spend ($${store.sessionUsd.toFixed(4)}) + projected ($${projected.toFixed(4)}) >= cap ($${cap.toFixed(2)})`,
-        },
-      };
-    }
-
+    // FIX 5 (Phase 18b): we MUST own a session_id before writing llm_logs. If
+    // ensureSession() throws there is no session to attribute the call to,
+    // which is a true precondition failure (no log row, no audit row).
     let session_id: string;
     let project_id: string;
     try {
@@ -122,7 +138,7 @@ export async function auditedComplete(
       // ensureSession() already validated activeProject is non-null.
       project_id = useProjectStore.getState().activeProject as string;
     } catch (e) {
-      // FIX 9: precondition_failed is the right kind for "no active project" —
+      // precondition_failed is the right kind for "no active project" —
       // semantically distinct from "model returned bad JSON" (invalid_response).
       return {
         ok: false,
@@ -130,12 +146,18 @@ export async function auditedComplete(
       };
     }
 
-    // 18b A4: pre-emptively insert an llm_logs row with status='ok'. We update
-    // it after the adapter returns. Failures here are non-fatal: log row is
+    // FIX 5 (Phase 18b): pre-emptively insert ONE llm_logs row covering every
+    // adapter-call decision (ok/error/timeout/validation_failed/cost_cap/
+    // rate_limit). Status starts as 'cost_cap' or 'ok'; downstream branches
+    // updateLLMLog() to the final status. Net invariant: exactly one row per
+    // adapter-call decision. Failures here are non-fatal — the log row is
     // forensic, not load-bearing for cap math (llm_calls handles that).
     let logId: number | null = null;
     const startedAt = Date.now();
-    const requestId = (globalThis.crypto as Crypto | undefined)?.randomUUID?.() ?? `req-${startedAt}-${Math.random().toString(36).slice(2, 10)}`;
+    // FIX 9: prefer crypto.randomUUID; fall back to a high-entropy v4-shaped UUID
+    // (collision-safe under burst load, llm_logs.request_id is UNIQUE).
+    const requestId = (globalThis.crypto as Crypto | undefined)?.randomUUID?.() ?? fallbackRequestId();
+    const initialStatus: LLMLogStatus = decision === 'cost_cap' ? 'cost_cap' : 'ok';
     try {
       const promptHash = await hashPrompt(req.systemPrompt, req.userPrompt);
       const row = recordLLMLog({
@@ -150,13 +172,25 @@ export async function auditedComplete(
         patch_count: 0,
         input_tokens: null, output_tokens: null,
         cost_usd: null, latency_ms: null,
-        status: 'ok',
-        error_kind: null,
+        status: initialStatus,
+        error_kind: decision === 'cost_cap' ? 'cost_cap' : null,
         started_at: startedAt,
       });
       logId = row.id;
     } catch (e) {
       if (import.meta.env.DEV) console.warn('[auditedComplete] llm_logs insert failed', e);
+    }
+
+    // FIX 5: cost-cap rejection now happens AFTER llm_logs row is written so
+    // observability covers the rejected call.
+    if (decision === 'cost_cap') {
+      return {
+        ok: false,
+        error: {
+          kind: 'cost_cap',
+          detail: `Session spend ($${store.sessionUsd.toFixed(4)}) + projected ($${projected.toFixed(4)}) >= cap ($${cap.toFixed(2)})`,
+        },
+      };
     }
 
     // P18 Step 2: race adapter.complete against a 30s wall-clock timeout. The
@@ -194,6 +228,11 @@ export async function auditedComplete(
       }
       store.recordUsage(res.tokens.in, res.tokens.out, res.cost_usd);
       // 18b A4: finalize llm_logs row with response + tokens + latency.
+      // FIX 6 (Phase 18b): if the success-path UPDATE throws, the row is left
+      // at status='ok' which would lie about a failure. Wrap the UPDATE in
+      // try/catch and on catch attempt one fallback UPDATE flipping the row to
+      // status='error', error_kind='audit_update_failed'. If even that throws,
+      // swallow with a DEV warn — log is forensic, not load-bearing.
       if (logId !== null) {
         try {
           updateLLMLog(logId, {
@@ -204,6 +243,11 @@ export async function auditedComplete(
           });
         } catch (e) {
           if (import.meta.env.DEV) console.warn('[auditedComplete] llm_logs update failed', e);
+          try {
+            updateLLMLog(logId, { status: 'error', error_kind: 'audit_update_failed' });
+          } catch (e2) {
+            if (import.meta.env.DEV) console.warn('[auditedComplete] llm_logs fallback update failed', e2);
+          }
         }
       }
       return {

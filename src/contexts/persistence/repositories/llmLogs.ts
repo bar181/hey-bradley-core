@@ -1,7 +1,7 @@
 // llm_logs repository — typed CRUD over sql.js.
 // Spec: 18b mandate Wave 2 Agent A4 (per-call observability log).
 // Cross-ref: plans/implementation/phase-18b/ruvector-research.md (Deltas D1-D3).
-// Cross-ref: docs/adr/ADR-047-multi-provider-logging.md (privacy / export exclusion).
+// Cross-ref: docs/adr/ADR-047-llm-logging-observability.md (privacy / export exclusion).
 //
 // Supplementary to llm_calls — does NOT replace it. llm_calls remains the
 // source of truth for cost-cap math (P17 audit log). llm_logs adds dual-id,

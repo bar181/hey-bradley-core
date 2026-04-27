@@ -5,6 +5,14 @@
 import { get as idbGet, set as idbSet } from 'idb-keyval';
 import type { Database, SqlJsStatic } from 'sql.js';
 import { runMigrations } from './migrations';
+import { pruneOldLLMLogs } from './repositories/llmLogs';
+
+// FIX 7 (Phase 18b): default 30-day retention for llm_logs forensic table.
+// ADR-047 §Retention now states this is enforced (was "documented for future
+// ratification"). example_prompt_runs is intentionally NOT pruned — that
+// table is fixture-bound (one baseline row per prompt × provider) and does
+// not grow with chat volume.
+const DEFAULT_RETENTION_MS = 30 * 24 * 60 * 60 * 1000;
 
 const IDB_KEY = 'hb-db';
 const WASM_DIR = '/sqljs';
@@ -77,6 +85,15 @@ export async function initDB(): Promise<Database> {
     await runMigrations(db);
 
     dbInstance = db;
+    // FIX 7 (Phase 18b): post-migration retention sweep. Runs once per session
+    // (idempotent — pruneOldLLMLogs is a single DELETE) so forensic logs older
+    // than DEFAULT_RETENTION_MS are evicted. Failures are non-fatal: the log
+    // table is observability-only, never load-bearing for cap math.
+    try {
+      pruneOldLLMLogs(Date.now() - DEFAULT_RETENTION_MS);
+    } catch (e) {
+      if (import.meta.env.DEV) console.warn('[persistence] pruneOldLLMLogs failed', e);
+    }
     // Re-register the BroadcastChannel listener on every fresh init so peers
     // continue to invalidate this tab after closeDB() / import flows.
     getChannel();
