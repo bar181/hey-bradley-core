@@ -125,8 +125,8 @@ SPA landing pages. Current roadmap. Free tier.
 | G | P40-43 | Interview Mode — LLM asks questions (text then voice). Interview → project JSON auto-populated. Interview feeds assumptions engine. |
 | H | P44-46 | Post-MVP Upload + References — Style guide upload. Brand voice document. Reference codebase ingestion. Google site builder bridge. |
 | I | P47-49 | Builder Mode Enhancement — UX improvements based on user feedback. Best practices from existing builders. Areas-for-improvement surfaced post-MVP. |
-| J | P50+ | Agentic Support System — Existing codebase analysis. Hard architecture problem solver. Multi-level agentic engineer tool. **Meta-product:** Hey Bradley specs Hey Bradley. |
-| K | final | Release & Polish — Performance. Error handling. Final persona scoring. Open-source RC. Public launch. |
+| J | P50-52 | Agentic Support System — Existing codebase analysis. Hard architecture problem solver. Multi-level agentic engineer tool. **Meta-product:** Hey Bradley specs Hey Bradley. (Capped at 3 phases per owner directive.) |
+| K | P53-55 | Release & Polish — Performance + error handling (P53). Final persona scoring (P54). Open-core RC, public launch (P55). |
 
 ---
 

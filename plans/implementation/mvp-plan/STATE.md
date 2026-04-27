@@ -53,14 +53,13 @@
 |---|---|---|---:|---:|---|
 | **Step 4** *(post-DoD optional, gated by `VITE_LLM_LIVE_SMOKE=1`)* | Live LLM smoke against real Haiku | P18 plan §0 Step 3 trailing | ~30 min | ~30 min | ~$0.01 (5 starter prompts × ~$0.002 each) |
 | **P20** | Verify, Cost Caps, MVP Close, Vercel Deploy + 20 P19 carryforward items | `06-phase-20-mvp-close.md` + `phase-19/deep-dive/05-fix-pass-plan.md` §5 | 5–7 days (orig) | <1 day | $0 in dev; ~$0.01 if Step 4 runs |
-| **P21** *(NEW, MVP-planning phase)* | Sprint sequencing + original-plan anchoring + Sprint B/C preflight scaffolds | `phase-21/preflight/00-summary.md` + `checklist.md` | 1-3 hours | 1-3 hours | $0 |
-| **Sprint B (P22-P24)** | Simple Chat — natural language input + 2-3 templates + section targeting + intent translation | `phase-21/preflight/01-sprint-b.md` (post-P21) | original 4-6d × 3 phases | <1 day | $0 in dev |
-| **Sprint C (P25-P27)** | AISP Chat — instruction layer + intent pipeline + 2-step template selection | `phase-21/preflight/02-sprint-c.md` (post-P21) | original 4-6d × 3 phases | 1-2 days | $0 in dev |
+| **Phase α (pre-P21 housekeeping):** sprint-plan lock + reality-check estimates + Sprint B/C preflights — runs in same session as P20 seal | | `phase-21/preflight/00-summary.md` + `checklist.md` (Phase α sections) | 1-3 hours | 1-3 hours | $0 |
+| **Sprint B (P21-P23)** | Simple Chat — natural language input + 2-3 templates + section targeting + intent translation | `phase-21/preflight/01-sprint-b.md` (post-Phase-α) | original 4-6d × 3 phases | <1 day | $0 in dev |
+| **Sprint C (P24-P26)** | AISP Chat — instruction layer + intent pipeline + 2-step template selection | `phase-21/preflight/02-sprint-c.md` (post-Phase-α) | original 4-6d × 3 phases | 1-2 days | $0 in dev |
 | **Capstone defense** | May 2026 panel | — | — | gated | — |
 | **Sprint D-K** | Templates + Content / Clarification / Listen Enhancement / Interview / Post-MVP / Builder / Agentic / Release | post-defense backlog | original 4-6d × 25 phases | post-defense | $0 in dev |
 
-> **NOTE on phase numbering:** owner's authoritative draft (in `phase-21/preflight/00-summary.md`) PRESERVES the original Sprint B-K phase numbers (P21-P55+). Phase 21 is the MVP-planning phase that occupies the slot before Sprint B's first execution phase. Sprint B = P21-P23 in the owner draft; this STATE row above shifts to P22-P24 to make room for the planning phase.
-> **TODO at P21 kickoff:** owner approves either (a) numbering the planning phase as P21 and shifting Sprint B to P22-P24, OR (b) keeping Sprint B at P21-P23 and labelling the planning phase a non-numbered "P20.5 / Phase α" interlude. **Default recommendation: (b) — preserve canonical Sprint B numbering, label planning phase Phase α.**
+> **NOTE on phase numbering (Option A — sequential, no gaps):** owner directive: "Confirmed. Option A. Sequential numbering, no gaps." Phase 21 IS Sprint B Phase 1 (Simple Chat). The pre-P21 housekeeping that re-anchors the sprint plan is now a non-numbered **Phase α** interlude — runs in the same session as P20 seal, NOT a separate numbered phase. Sequential mapping: Sprint B P21-P23 / C P24-P26 / D P27-P31 / E P32-P35 / F P36-P39 / G P40-P43 / H P44-P46 / I P47-P49 / J P50-P52 / K P53-P55.
 
 After P20, the POC ships and the MVP-build arc begins. Capstone-presentation surface = P15+P16+P17+P18+P19+P20 (all sealed) + Sprint B + Sprint C if velocity holds. **Total real-LLM spend MVP-to-date: $0.**
 

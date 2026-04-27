@@ -80,7 +80,13 @@
 | P18b | Provider Expansion + Observability (5-adapter matrix + llm_logs) | CLOSED (90/100) |
 | P19 | Real Listen Mode (Web Speech STT + voice-to-pipeline + 18-item fix-pass) | CLOSED (88/100) |
 | P20 | Verify, Cost Caps, MVP Close, Vercel Deploy + 20 P19 carryforward items | NEXT |
-| P21+ | Multi-intent prompt parser, post-MVP polish | POST-MVP |
+| P21 | Sprint B Phase 1 — Simple Chat (natural language input + 2-3 templates + section targeting) | PLANNED |
+| P22 | Sprint B Phase 2 — section targeting via `/hero-1` keyword scoping | PLANNED |
+| P23 | Sprint B Phase 3 — intent translation (messy → structured to-do) | PLANNED |
+| P24 | Sprint C Phase 1 — AISP instruction layer | POST-MVP |
+| P25 | Sprint C Phase 2 — AISP intent pipeline | POST-MVP |
+| P26 | Sprint C Phase 3 — 2-step template selection | POST-MVP |
+| P27-P55 | Sprints D-K — Templates+Content / Clarification / Listen Enhancement / Interview / Upload / Builder / Agentic / Release | POST-MVP |
 
 ## AISP (AI Symbolic Protocol) 
 see full details in /workspaces/hey-bradley-core/plans/initial-plans/00.aisp-reference.md 
