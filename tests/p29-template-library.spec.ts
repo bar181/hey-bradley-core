@@ -53,11 +53,11 @@ test.describe('P29 — Template Library API', () => {
     expect(patchers.length).toBe(3)
   })
 
-  test('listTemplatesByKind("generator") returns ≥0 (P33 may register the first generator)', () => {
-    // P29 baseline: 0 generators. P33 (Sprint D close) registers `generate-headline`.
-    // Test stays loose to remain green across the Sprint D arc.
+  test('listTemplatesByKind("generator") returns the 1 P33 generator', () => {
+    // P29 baseline added kind support. P33 registered `generate-headline`.
     const generators = listTemplatesByKind('generator')
-    expect(generators.length).toBeGreaterThanOrEqual(0)
+    expect(generators.length).toBe(1)
+    expect(generators[0].id).toBe('generate-headline')
   })
 
   test('every TemplateMeta has examples + category + kind populated', () => {

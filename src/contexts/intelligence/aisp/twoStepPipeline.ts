@@ -20,7 +20,34 @@ import { selectTemplate, STEP1_THRESHOLD, type TemplateSelection } from './templ
 import type { ClassifiedIntent } from './intentAtom'
 import { generateContent } from './contentGenerator'
 import type { GeneratedContent } from './contentAtom'
-import { heroHeadingPath } from '@/data/llm-fixtures/resolvePath'
+import { findSectionByType, heroHeadingPath } from '@/data/llm-fixtures/resolvePath'
+import type { MasterConfig } from '@/lib/schemas'
+
+/**
+ * R4 architecture review F2 — extension hook for generator templates.
+ * `heroHeadingPath` is the default resolver; future generator templates
+ * that target other sections (e.g. blog body, footer text) register
+ * their own resolver in this map. Unknown sectionType silently falls
+ * back to hero so existing behavior is preserved.
+ */
+function resolveTargetPath(
+  sectionType: string,
+  config: MasterConfig,
+): string | null {
+  if (sectionType === 'hero') return heroHeadingPath(config)
+  // Generic per-section heading resolver: first heading component within
+  // the first matching section. P33+ generators that need per-section
+  // logic (e.g. blog body via paragraph component) will get their own
+  // case-branch here without disturbing the generator path itself.
+  const idx = findSectionByType(config, sectionType)
+  if (idx < 0) return null
+  const components = config.sections[idx]?.components ?? []
+  const headingIdx = components.findIndex((c) => c.type === 'heading')
+  if (headingIdx >= 0) {
+    return `/sections/${idx}/components/${headingIdx}/props/text`
+  }
+  return null
+}
 
 export interface TwoStepResult {
   step1: TemplateSelection
@@ -59,9 +86,8 @@ export async function runTwoStepPipeline(
     const generated = generateContent({ text: userText, sectionType })
     if (!generated) return null
 
-    // Render generated text as a hero-headline patch by default. P33+
-    // generators that target other sections will swap this resolver.
-    const path = heroHeadingPath(config)
+    // Section-aware target resolution (R4 fix-pass: extension hook).
+    const path = resolveTargetPath(sectionType, config)
     if (!path) return null
 
     const envelope: TemplateEnvelope = {

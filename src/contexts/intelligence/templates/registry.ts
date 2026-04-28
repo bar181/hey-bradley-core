@@ -31,6 +31,9 @@ const MAKE_IT_BRIGHTER: Template = {
   label: 'Brighten theme',
   description: 'Lighten the page background and accent for a sunnier feel.',
   matchPattern: /^\s*(?:make\s+(?:it\s+|the\s+(?:page|site|theme)\s+)?brighter|brighten\s+(?:it|the\s+(?:page|site|theme))?)\s*[!.?]*\s*$/i,
+  category: 'theme',
+  kind: 'patcher',
+  examples: ['make it brighter', 'brighten the page', 'lighten everything'],
   envelope: () => ({
     patches: [
       // brighter cream + warmer accent
@@ -51,6 +54,9 @@ const HIDE_SECTION: Template = {
   label: 'Hide section',
   description: 'Hide a top-level section (hero / blog / footer / features / etc). Honors /type-N scoping.',
   matchPattern: /^\s*hide(?:\s+the)?(?:\s+([a-z-]+))?\s*[!.?]*\s*$/i,
+  category: 'section',
+  kind: 'patcher',
+  examples: ['hide the hero', 'hide /footer', 'remove the blog section'],
   envelope: ({ match, config, scope }) => {
     // P24: scope (from /type-N parser) wins over regex-captured type.
     // When neither scope nor type captured, surface friendly help.
@@ -94,6 +100,13 @@ const CHANGE_HEADLINE: Template = {
   label: 'Change headline',
   description: "Replace the hero heading with new text. Honors /hero-N scoping.",
   matchPattern: /^\s*(?:change|set|update)(?:\s+the)?(?:\s+headline)?\s+to\s+["']?(.+?)["']?\s*[!.?]*\s*$/i,
+  category: 'content',
+  kind: 'patcher',
+  examples: [
+    'change the headline to "Welcome"',
+    'set the headline to "X"',
+    'update headline to Y',
+  ],
   envelope: ({ match, config, scope }) => {
     const text = match[1].trim()
     let path: string | null = null

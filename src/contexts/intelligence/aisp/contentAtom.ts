@@ -93,13 +93,19 @@ export const CONTENT_CONFIDENCE_THRESHOLD = 0.7
  * Γ R3 forbidden-content scan. Returns true when text is clean.
  * Intentionally permissive — this is a content guard, not a security filter
  * (XSS protection lives in the patch validator at P18 / ADR-045).
+ *
+ * R2 fix-pass: URI scan broadened to common non-http schemes (mailto:, tel:,
+ * data:, javascript:, file:, ftp:) so headlines don't slip through with
+ * "Email me at mailto:foo@bar". JSON-shape detection also catches embedded
+ * `"key":` patterns mid-string (not just leading-character).
  */
 export function isCleanContent(text: string): boolean {
-  if (text.includes('```')) return false                    // code block
-  if (/^\s*#{1,6}\s/m.test(text)) return false              // markdown heading
-  if (/https?:\/\//i.test(text)) return false               // URL
-  if (/(^|\s)[@#]\w+/.test(text)) return false              // @mention / hashtag
-  if (text.includes('\n\n')) return false                   // multi-paragraph
-  if (/^\s*[{[]/.test(text)) return false                   // JSON-shaped
+  if (text.includes('```')) return false                                  // code block
+  if (/^\s*#{1,6}\s/m.test(text)) return false                            // markdown heading
+  if (/(?:[a-z]+:\/\/|mailto:|tel:|data:|javascript:|file:|ftp:)/i.test(text)) return false // URL / URI
+  if (/(^|\s)[@#]\w+/.test(text)) return false                            // @mention / hashtag
+  if (text.includes('\n\n')) return false                                 // multi-paragraph
+  if (/^\s*[{[]/.test(text)) return false                                 // JSON-shaped (leading)
+  if (/"[^"]+"\s*:/.test(text) && /[{}]/.test(text)) return false         // JSON-shaped (embedded "k":… braces)
   return true
 }

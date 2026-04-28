@@ -25,53 +25,22 @@ export interface TemplateMeta extends Template {
 }
 
 /**
- * Categorize the P23 baseline registry. Categories are derived from template
- * IDs (KISS) — no schema migration required. Future templates added to
- * TEMPLATE_REGISTRY should declare category/examples/kind explicitly.
- */
-const BASELINE_META: Record<string, { category: TemplateCategory; examples: string[]; kind: TemplateKind }> = {
-  'make-it-brighter': {
-    category: 'theme',
-    examples: ['make it brighter', 'brighten the page', 'lighten everything'],
-    kind: 'patcher',
-  },
-  'hide-section': {
-    category: 'section',
-    examples: ['hide the hero', 'hide /footer', 'remove the blog section'],
-    kind: 'patcher',
-  },
-  'change-headline': {
-    category: 'content',
-    examples: ['change the headline to "Welcome"', 'set the headline to "X"', 'update headline to Y'],
-    kind: 'patcher',
-  },
-}
-
-/**
  * Decorated registry — the same templates with library metadata.
  *
- * Resolution order (P33 / ADR-062 update):
- *   1. Template's own `category` / `examples` / `kind` fields when declared
- *   2. BASELINE_META lookup (P23 legacy 3-template shim)
- *   3. Hard fallback (content / [] / patcher)
- *
- * New templates SHOULD declare metadata directly on the Template (post-P29
- * convention). BASELINE_META exists only to migrate the 3 P23 templates
- * without forcing in-place edits.
+ * Post-fix-pass (R4 architecture review F1): all 4 templates declare their
+ * own `category` / `examples` / `kind` fields directly on the Template.
+ * The legacy `BASELINE_META` lookup table was deleted; new templates that
+ * omit metadata fall back to the conservative defaults below. New templates
+ * SHOULD always declare metadata explicitly.
  */
-export const TEMPLATE_LIBRARY: readonly TemplateMeta[] = TEMPLATE_REGISTRY.map((t) => {
-  const fallback = BASELINE_META[t.id] ?? {
-    category: 'content' as TemplateCategory,
-    examples: [],
-    kind: 'patcher' as TemplateKind,
-  }
-  return {
-    ...t,
-    category: t.category ?? fallback.category,
-    examples: t.examples ?? fallback.examples,
-    kind: t.kind ?? fallback.kind,
-  }
-})
+export const TEMPLATE_LIBRARY: readonly TemplateMeta[] = TEMPLATE_REGISTRY.map((t) => ({
+  ...t,
+  category: t.category ?? ('content' as TemplateCategory),
+  // R2 L5 — Array.isArray guard so an accidental `examples: 'foo'` (string)
+  // doesn't slip past `??` (truthy short-circuit) and break .filter() at runtime.
+  examples: Array.isArray(t.examples) ? t.examples : [],
+  kind: t.kind ?? ('patcher' as TemplateKind),
+}))
 
 /** List all templates (no filter). Returns frozen array; safe to share. */
 export function listTemplates(): readonly TemplateMeta[] {
@@ -117,6 +86,12 @@ export interface BrowseTemplate {
 /**
  * Return the merged browse-list (registry + user_templates rows).
  *
+ * Registry IDs win over colliding user IDs (R2 functionality review F1):
+ * a user-authored row with the same id as a registry template is silently
+ * filtered out so React lists don't get duplicate keys and "Apply" actions
+ * stay unambiguous. The user template is still in the DB (deleting it is
+ * a separate decision); this is just the browse projection.
+ *
  * `loadUserRows` is injected for testability + to keep this module free of a
  * direct DB dependency at module-load (the DB is only initialized post-boot
  * and pure-unit tests must not touch sql.js).
@@ -132,14 +107,17 @@ export function listAllForBrowse(
     examples: t.examples,
     source: 'registry',
   }))
+  const registryIds = new Set(registry.map((t) => t.id))
   const userRows = loadUserRows()
-  const userBrowse: BrowseTemplate[] = userRows.map((r) => ({
-    id: r.id,
-    name: r.name,
-    category: r.category,
-    kind: r.kind,
-    examples: r.examples,
-    source: 'user',
-  }))
+  const userBrowse: BrowseTemplate[] = userRows
+    .filter((r) => !registryIds.has(r.id))
+    .map((r) => ({
+      id: r.id,
+      name: r.name,
+      category: r.category,
+      kind: r.kind,
+      examples: r.examples,
+      source: 'user',
+    }))
   return [...registry, ...userBrowse]
 }
