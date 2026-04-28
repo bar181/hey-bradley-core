@@ -10,8 +10,11 @@ import { EXAMPLE_SITES } from '@/data/examples'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ChatExplainer } from '@/components/shell/ChatExplainer'
+import { AISPTranslationPanel } from '@/components/shell/AISPTranslationPanel'
+import { TemplateBrowsePicker } from '@/components/shell/TemplateBrowsePicker'
 import type { SectionType } from '@/lib/schemas'
 import { submit as submitChatPipeline, mapChatError } from '@/contexts/intelligence/chatPipeline'
+import type { ClassifiedIntent } from '@/contexts/intelligence/aisp'
 
 /* ── Chat examples for the dialog ── */
 const CHAT_EXAMPLE_CATEGORIES = [
@@ -52,6 +55,15 @@ export interface ChatMessage {
    * each bubble be tagged at render time.
    */
   source?: 'chat' | 'listen'
+  /**
+   * P34 Sprint E P1 (Sprint D UI closure A1) — AISP trace for the
+   * "How I understood this" panel; only set on bradley replies.
+   */
+  aisp?: { intent: ClassifiedIntent | null; source: 'rules' | 'llm' | 'fallthrough' } | null
+  /** P34 — original user text that produced this reply (for the panel). */
+  userText?: string
+  /** P34 — id of the matched template (template-router path). */
+  templateId?: string | null
 }
 
 const MAX_MESSAGES = 20
@@ -67,6 +79,15 @@ export function ChatInput() {
   const [typingFull, setTypingFull] = useState('')
   const demoActive = false
   const [showExamplesDialog, setShowExamplesDialog] = useState(false)
+  // P34 Sprint E P1 (A1) — pending AISP metadata for the next bradley message.
+  // Captured from chatPipeline.submit and attached when the typewriter commits.
+  const pendingAispRef = useRef<{
+    aisp: ChatMessage['aisp']
+    userText: string
+    templateId: string | null
+  } | null>(null)
+  // P34 Sprint E P1 (A2) — /browse picker visibility.
+  const [showBrowsePicker, setShowBrowsePicker] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const nextId = useRef(0)
@@ -96,7 +117,20 @@ export function ChatInput() {
     if (typingText.length >= typingFull.length) {
       // Done typing — add to messages
       const id = nextId.current++
-      setMessages((prev) => [...prev.slice(-MAX_MESSAGES + 1), { id, role: 'bradley', text: typingFull + ' \u2713' }])
+      // P34 (A1) \u2014 attach pending AISP metadata captured at submit time, then clear.
+      const pending = pendingAispRef.current
+      pendingAispRef.current = null
+      setMessages((prev) => [
+        ...prev.slice(-MAX_MESSAGES + 1),
+        {
+          id,
+          role: 'bradley',
+          text: typingFull + ' \u2713',
+          aisp: pending?.aisp ?? null,
+          userText: pending?.userText,
+          templateId: pending?.templateId ?? null,
+        },
+      ])
       setTypingText('')
       setTypingFull('')
       setIsProcessing(false)
@@ -273,6 +307,12 @@ export function ChatInput() {
     // sees prior turns. Listen surface intentionally omits this.
     const history = messages.slice(-6).map((m) => ({ role: m.role, text: m.text }))
     const result = await submitChatPipeline({ source: 'chat', text, history })
+    // P34 (A1) — capture AISP trace for the next bradley message.
+    pendingAispRef.current = {
+      aisp: result.aisp ?? null,
+      userText: text,
+      templateId: result.templateId ?? null,
+    }
     if (result.ok && !result.fellBackToCanned && result.appliedPatchCount > 0) {
       setTypingText('')
       setTypingFull(result.summary)
@@ -298,6 +338,13 @@ export function ChatInput() {
   const handleSend = () => {
     const text = input.trim()
     if (!text || isProcessing) return
+    // P34 (A2) — `/browse` slash command opens the TemplateBrowsePicker.
+    // Doesn't enter the chat history; doesn't fire the LLM pipeline.
+    if (text === '/browse' || text.toLowerCase() === '/templates') {
+      setShowBrowsePicker(true)
+      setInput('')
+      return
+    }
     // FIX 10: the chat-side inFlight pre-check is removed. The mutex now lives
     // inside auditedComplete (rate_limit error returned for re-entrancy from
     // any surface — chat, listen, settings test). isProcessing still gates
@@ -393,6 +440,16 @@ export function ChatInput() {
                 via voice
               </span>
             )}
+            {/* P34 Sprint E P1 (A1) — AISPTranslationPanel surfaces intent
+                classification + matched template id for each bradley reply. */}
+            {msg.role === 'bradley' && msg.aisp && msg.userText && (
+              <AISPTranslationPanel
+                intent={msg.aisp.intent}
+                source={msg.aisp.source}
+                userText={msg.userText}
+                templateId={msg.templateId ?? null}
+              />
+            )}
           </div>
         ))}
         {/* Typewriter in progress */}
@@ -405,10 +462,23 @@ export function ChatInput() {
         <div ref={messagesEndRef} />
       </div>
 
+      {/* P34 (A2) — TemplateBrowsePicker: opens via `/browse` slash command
+          OR via the lightbulb-adjacent "browse" affordance below. */}
+      {showBrowsePicker && (
+        <TemplateBrowsePicker
+          onPick={(example) => {
+            setInput(example)
+            setShowBrowsePicker(false)
+            inputRef.current?.focus()
+          }}
+          onClose={() => setShowBrowsePicker(false)}
+        />
+      )}
+
       {/* Hint — when empty and focused */}
-      {isFocused && !input && messages.length === 0 && (
+      {isFocused && !input && messages.length === 0 && !showBrowsePicker && (
         <div className="px-4 py-1.5 text-xs text-hb-text-muted border-t border-hb-border/50">
-          try: <span className="text-hb-text-secondary">"dark mode"</span> · <span className="text-hb-text-secondary">"add pricing"</span> · <span className="text-hb-text-secondary">"build a SaaS page with pricing and testimonials"</span>
+          try: <span className="text-hb-text-secondary">"dark mode"</span> · <span className="text-hb-text-secondary">"add pricing"</span> · <span className="text-hb-text-secondary">"build a SaaS page with pricing and testimonials"</span> · type <span className="text-hb-text-secondary">/browse</span> to pick a template
         </div>
       )}
 

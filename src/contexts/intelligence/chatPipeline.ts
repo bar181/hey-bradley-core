@@ -17,6 +17,7 @@ import { auditedComplete } from '@/contexts/intelligence/llm/auditedComplete'
 import { recordPipelineFailure } from '@/contexts/intelligence/llm/recordPipelineFailure'
 import { parseChatCommand, parseMultiPartCommand } from '@/lib/cannedChat'
 import type { ChatErrorKind } from '@/lib/mapChatError'
+import type { ClassifiedIntent } from '@/contexts/intelligence/aisp'
 
 export interface ChatPipelineOptions {
   source: 'chat' | 'listen' | 'test'
@@ -42,6 +43,26 @@ export interface ChatPipelineResult {
    * (no LLM error to report). Drives ChatInput's error pill.
    */
   errorKind?: ChatErrorKind | null
+  /**
+   * P34 Sprint E P1 (Sprint D UI closure A1) — AISPTranslationPanel feed.
+   * The classified intent + which classifier produced it. Populated when the
+   * AISP-rules / AISP-LLM chain ran. `null` when the request bypassed AISP
+   * (e.g. canned-fallback miss). Drives the "How I understood this" panel.
+   */
+  aisp?: { intent: ClassifiedIntent | null; source: 'rules' | 'llm' | 'fallthrough' } | null
+  /**
+   * P34 Sprint E P1 — generator-path trace. When the matched template's
+   * kind === 'generator', the template-router still runs but ALSO surfaces
+   * the generated tone/length/confidence so the panel can show step-2 detail.
+   */
+  generated?: {
+    text: string
+    tone: string
+    length: string
+    confidence: number
+  } | null
+  /** P34 — id of the matched template (for "Used template: X" UI). */
+  templateId?: string | null
 }
 
 const FALLBACK_HINT =
@@ -163,6 +184,9 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
   // P27 Sprint C P2 — LLM-driven AISP classifier when rule-based < threshold.
   // Full fallback chain:
   //   AISP_rules (P26) → AISP_LLM (P27) → translate (P25) → router (P23+P24) → LLM patch
+  // P34 Sprint E P1 (Sprint D UI closure A1) — capture AISP trace for the
+  // AISPTranslationPanel; carries through every return below.
+  let aispTrace: { intent: ClassifiedIntent | null; source: 'rules' | 'llm' | 'fallthrough' } | null = null
   try {
     const { tryMatchTemplate } = await import('@/contexts/intelligence/templates')
     const { translateIntent } = await import('@/contexts/intelligence/templates/intent')
@@ -170,14 +194,19 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
 
     let canonicalForTemplate: string
     let aisp = classifyIntent(text)
+    let aispSource: 'rules' | 'llm' | 'fallthrough' = 'rules'
     // P27: when rule-based AISP is below threshold, ask the LLM to classify
     // via the SAME Crystal Atom. Thesis demonstration ADR-056.
     if (aisp.confidence < AISP_CONFIDENCE_THRESHOLD || !aisp.target) {
       const llmAisp = await llmClassifyIntent(text)
       if (llmAisp && llmAisp.confidence >= AISP_CONFIDENCE_THRESHOLD && llmAisp.target) {
         aisp = llmAisp
+        aispSource = 'llm'
+      } else {
+        aispSource = 'fallthrough'
       }
     }
+    aispTrace = { intent: aisp, source: aispSource }
     if (aisp.confidence >= AISP_CONFIDENCE_THRESHOLD && aisp.target) {
       // AISP wins — construct canonical text from classified intent
       const verbWord = aisp.verb === 'remove' ? 'hide' : aisp.verb
@@ -199,6 +228,8 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
           summary: `${tpl.envelope.summary} _(template: ${tpl.template.id})_`,
           durationMs: Date.now() - startedAt,
           errorKind: null,
+          aisp: aispTrace,
+          templateId: tpl.template.id,
         }
       } catch (e) {
         if (import.meta.env.DEV) console.warn('[chatPipeline] template applyPatches threw', e)
@@ -214,6 +245,8 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         summary: `${tpl.envelope.summary} _(template: ${tpl.template.id})_`,
         durationMs: Date.now() - startedAt,
         errorKind: null,
+        aisp: aispTrace,
+        templateId: tpl.template.id,
       }
     }
   } catch (e) {
@@ -232,6 +265,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         summary: llm.summary,
         durationMs: Date.now() - startedAt,
         errorKind: null,
+        aisp: aispTrace,
       }
     }
     pipelineErrorKind = llm.errorKind ?? null
@@ -247,6 +281,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         summary: canned.matched ? canned.summary : 'No LLM provider configured.',
         durationMs: Date.now() - startedAt,
         errorKind: 'precondition_failed',
+        aisp: aispTrace,
       }
     }
   } catch (e) {
@@ -265,6 +300,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     summary: canned.summary,
     durationMs: Date.now() - startedAt,
     errorKind: pipelineErrorKind,
+    aisp: aispTrace,
   }
 }
 
