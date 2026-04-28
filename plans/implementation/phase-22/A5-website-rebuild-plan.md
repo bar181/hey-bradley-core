@@ -10,6 +10,37 @@
 
 > **A first-time visitor understands what Hey Bradley does in 10 seconds, sees the 3 modes (Builder / Chat / Listen) with one demo each, and either tries the BYOK demo locally OR clones the open-core repo. Commercial features are mentioned in one sentence pointing to a separate repo. No Supabase. No hosted demo without BYOK.**
 
+## Design philosophy — Don Miller / StoryBrand + blog-style
+
+Per owner directive: **less is more impactful.** The site uses StoryBrand-derived copy structure and blog/article-style page composition.
+
+### StoryBrand 7-part copy structure (applied per page)
+
+1. **A character** — the visitor (creator with an idea, struggling to translate it to specs)
+2. **Has a problem** — the 55% pre-code phase eats time; AI tools can't read your mind
+3. **Meets a guide** — Hey Bradley (with a clear empathetic voice; you've been here before)
+4. **Who gives them a plan** — talk → site appears → specs export to your AI tool
+5. **And calls them to action** — "Try the demo" (primary) / "Read the spec" (secondary)
+6. **That avoids failure** — without us: another idea dies in the telephone game
+7. **And ends in success** — your idea, made visible, with specs your AI agent can execute
+
+### Blog-style pages (less navigation, more reading)
+
+- Long-form articles per page; narrative > feature-list
+- ONE primary CTA per page; ONE secondary
+- No carousels, no auto-playing video, no modals
+- Cover image + headline + lede + body + closing CTA — same template per page
+- Section headings act as nav anchors (table-of-contents on long pages)
+- Marketing nav: 5 items max (Welcome / Three Modes / AISP / BYOK / About)
+
+### Content density
+
+- Headlines ≤ 8 words
+- Lede ≤ 35 words
+- Body sections ≤ 200 words each, broken with headings every ~150 words
+- Code blocks for AISP examples only; everything else is plain prose
+- Stats/numbers as inline emphasis, not as callout cards (drop the 3-stat-grid pattern from current OpenCore)
+
 ## 1. Specification (S)
 
 ### 1.1 Scope IN

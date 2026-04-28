@@ -33,7 +33,7 @@ Hey Bradley is a **JSON-driven marketing website specification platform** that p
 It is not a website builder. It is a **specification platform** that feeds builders, dev tools, and agentic pipelines.
 
 ```
-Ideation → Hey Bradley → Specs + JSON → Claude Code / Agentic System → Production Site
+Ideation → Hey Bradley → Specs + JSON → your AI coding system → Production Site
 ```
 
 ### The 30-Second Demo
@@ -311,7 +311,7 @@ Hey Bradley's visual language is **warm, editorial minimalism with engineering c
 |------|------|-------|
 | **Grandson** | DRAFT + BUILD | Click vibes and sections, see a website in seconds |
 | **Framer User** | EXPERT + BUILD | Direct CSS property editing, JSON import/export |
-| **Dad** | EXPERT + BUILD | Export specs → paste into Claude Code → get production site |
+| **Dad** | EXPERT + BUILD | Export specs → paste into your AI coding tool → get production site |
 | **Enterprise** | EXPERT + LISTEN | AISP-grade specification documents, < 2% ambiguity |
 
 ---
@@ -354,7 +354,7 @@ Hey Bradley is the product deliverable for Bradley Ross's **Harvard University**
 - **Specification-driven development** using AISP for < 2% ambiguity in AI-to-AI communication
 - **Dual-mode UI architecture** serving both non-technical users and power users with the same underlying data model
 - **Voice-first AI interaction** with real-time website generation and invisible documentation
-- **Agentic engineering** workflow: specification → Claude Code → production site
+- **Agentic engineering** workflow: specification → AI coding tool → production site
 
 ---
 
@@ -379,7 +379,7 @@ Hey Bradley is the product deliverable for Bradley Ross's **Harvard University**
 - 💻 25+ years enterprise architecture and software engineering
 - 🔬 Research: Agentic engineering, AGI, neural-symbolic languages (AISP)
 
-📧 [LinkedIn](https://linkedin.com/in/bradaross) · [GitHub](https://github.com/bar181) · [bradley.academy](https://bradley.academy)
+📧 bar181@yahoo.com · [LinkedIn](https://linkedin.com/in/bradaross) · [GitHub](https://github.com/bar181) · [bradley.academy](https://bradley.academy)
 
 ---
 

@@ -1,4 +1,4 @@
-# Claude Code Configuration - RuFlo V3
+# Project Configuration — bar181/hey-bradley-core
 
 ## Behavioral Rules (Always Enforced)
 
@@ -18,6 +18,22 @@
 - Re-budget at the end of each phase based on actual elapsed time.
 - Quality discipline (tests, ADRs, persona scoring, brutal reviews) is the brake — do NOT compress to hit velocity. Velocity emerges when discipline holds.
 - Default sprint sizing at velocity: a 3-phase sprint (P21-P23 etc.) ≈ 1 working day; a 5-phase sprint (P27-P31) ≈ 1-2 working days.
+
+## Standard Phase Process (always-do)
+
+Every phase, in order, no exceptions:
+
+1. **Phase execution** — code/docs per the phase plan
+2. **End-of-phase** — `08-master-checklist.md` ticks + `STATE.md` row update + `phase-N/session-log.md` results table + `phase-N/retrospective.md` (what to keep / drop / reframe)
+3. **Review with fixes** — post-seal review pass; address must-fix items in `fix-pass-N` commits before next phase starts
+4. **Preflight for next phase** — scaffold `phase-(N+1)/preflight/00-summary.md` + `checklist.md` + `MEMORY.md`
+
+**Optional EXTRA for major phases (composite-impacting or capstone-relevant):**
+
+5. **Deep-dive brutal review** — 4 parallel reviewer perspectives (UX / Functionality / Security / Architecture) writing a single chunked report at ≤600 LOC per file; recursive ≤3 passes; each pass identifies blockers → fix → re-review until clean
+6. **Persona re-score** — Grandma / Framer / Capstone scored against the rubric; record in `phase-N/personas.md`
+
+The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner.
 
 ## File Organization
 
@@ -119,7 +135,7 @@ npm run lint
 ## Concurrency: 1 MESSAGE = ALL RELATED OPERATIONS
 
 - All operations MUST be concurrent/parallel in a single message
-- Use Claude Code's Task tool for spawning agents, not just MCP
+- Use the Task tool for spawning agents, not just MCP
 - ALWAYS batch ALL todos in ONE TodoWrite call (5-10+ minimum)
 - ALWAYS spawn ALL agents in ONE message with full instructions via Task tool
 - ALWAYS batch ALL file reads/writes/edits in ONE message
@@ -128,7 +144,7 @@ npm run lint
 ## Swarm Orchestration
 
 - MUST initialize the swarm using CLI tools when starting complex tasks
-- MUST spawn concurrent agents using Claude Code's Task tool
+- MUST spawn concurrent agents using the Task tool
 - Never use CLI tools alone for execution — Task tool agents do the actual work
 - MUST call CLI tools AND Task tool in ONE message for complex work
 
@@ -230,9 +246,9 @@ npx @claude-flow/cli@latest daemon start
 npx @claude-flow/cli@latest doctor --fix
 ```
 
-## Claude Code vs CLI Tools
+## Task Tool vs CLI Tools
 
-- Claude Code's Task tool handles ALL execution: agents, file ops, code generation, git
+- The Task tool handles ALL execution: agents, file ops, code generation, git
 - CLI tools handle coordination via Bash: swarm init, memory, hooks, routing
 - NEVER use CLI tools as a substitute for Task tool agents
 
