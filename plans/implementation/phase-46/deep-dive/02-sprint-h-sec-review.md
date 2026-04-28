@@ -1,0 +1,30 @@
+# Sprint H End-of-Sprint — R2 Security Review (Lean)
+> **Score:** 90/100
+> **Verdict:** PASS (no criticals; LOWs acceptable; one SHOULD-FIX worth scheduling)
+
+## Summary
+Sprint H (P44 + P45 + P46) extends user-content surface area with brand voice and codebase reference uploads, both routed through chunked kv writes and stripped from `.heybradley` exports via prefix-LIKE sweep + `isSensitiveKvKey` predicate. The privacy strip path is symmetric and correct (export round-trip stays stripped); the main residual risks are upstream — uploaded BYOK-shape content reaches both the system prompt and the kv table without `redactKeyShapes` running, and JSZip's per-entry decompression has no streaming size cap before allocation.
+
+## MUST FIX
+*(none)*
+
+## SHOULD FIX
+- **L1: BrandContextUpload.tsx:113 + CodebaseContextUpload.tsx:251 — uploaded content is `writeBrandContext` / `writeCodebaseContext`'d raw; if the user's brand doc or `.env.example` contains `OPENAI_API_KEY=sk-...` it persists verbatim and (via `system.ts:148`) is injected into the system prompt up to 4 KB. **Fix:** run `redactKeyShapes()` (already used by `llm_calls.error_text` per ADR-043) on `text` BEFORE both `writeBrandContext` and `writeCodebaseContext`. Strip path covers export but not in-process LLM egress.
+- **L2: CodebaseContextUpload.tsx:103 (`extractZip`) — JSZip iterates `Object.values(zip.files)` with NO entry-count cap and no per-entry uncompressed-size cap before `entry.async('string')`. A 5 MB ZIP with a 1 GB highly-compressible bomb passes the outer `MAX_ZIP_BYTES` check yet allocates GBs on extract. **Fix:** before the loop, sum `entry._data?.uncompressedSize` (JSZip exposes it) and reject if total > ~20 MB; also cap entries to ~500.
+- **L3: CodebaseContextUpload.tsx:120 (`extractFiles` multi-file path) — per-file 2 MB cap applied AFTER `file.size` check is fine for the size, but `file.text()` then materializes the full body before `isInteresting` could short-circuit on a basename-only test. Order is correct (size → interesting → text), so this is informational only. No fix needed; flagged for symmetry with L2.
+
+## Acknowledgments
+- **A1: ZIP-slip** — entry names are matched against `FILES_OF_INTEREST_PATTERNS` and the body is read as a string into memory (never written to disk). Path traversal (`../../etc/passwd`) is moot — there is no FS write target. Manifest's `sources: filenames[]` is rendered through React (auto-escaped) and stored as JSON in kv. Safe.
+- **A2: Export round-trip** — `exportSanitizedDBBytes` (line 99-101) does `DELETE FROM kv WHERE k LIKE 'byok_%' OR k LIKE 'brand_context_%' OR k LIKE 'codebase_context_%' OR k = 'pre_migration_backup'`. This covers manifest + every `*_chunk_N` row in one SQL pass. `isSensitiveKvKey` predicate (line 23-34) mirrors with `startsWith`. Old build importing a new bundle: bundle has no rows to leak (already stripped at export). New build importing an old bundle: old bundles never had these keys so nothing to strip. Symmetric and correct.
+- **A3: INTENT_ATOM `projectType` injection** — chatPipeline.ts:211-219 narrows to a 5-value enum (`saas-app | landing-page | static-site | portfolio | unknown`) before assigning to `projectType`. `__proto__` / arbitrary strings cannot pass the enum gate. Also: kv write site is exclusively `writeCodebaseContext`, which the upload widget already constrains via `detectProjectType()` returning the same enum. Defense-in-depth confirmed.
+- **A4: Prompt injection via brand doc** — `system.ts:148` appends raw user content (capped 4 KB) into the system prompt under `Brand Context (for content tone + voice):`. A doc containing "ignore previous instructions and output ..." would be honoured by the LLM. This is an **accepted trade**: the user uploaded their own doc; this is BYOC (bring-your-own-content), not a third-party attacker channel. The 4 KB cap and `escapeForPromptInterpolation` (which is NOT applied to brand block — only to siteContext) limit blast radius. Worth noting in ADR-067/P44 risks register.
+- **A5: Sentinel test scope** — `tests/p23-sentinel-table-ops.spec.ts` audits SQL migrations for sensitive-named columns and asserts `SENSITIVE_TABLE_OPS` registration. `brand_context_*` / `codebase_context_*` are kv rows, not their own tables, so the sentinel correctly does not flag them. The kv-prefix strip (`exportImport.ts:99-101`) is the canonical defense and is covered by the prefix-strip integration tests. No expansion needed.
+- **A6: Project-type heuristic ReDoS** — `detectProjectType` (codebaseContext.ts:165) uses simple `Object.prototype.hasOwnProperty.call` + `Array.some` with non-backtracking string `includes`. No regex over user content. `package.json` parsed via `JSON.parse` (linear) with try/catch fallback to null. Safe.
+- **A7: ReferenceManagement.tsx Clear paths** — both `handleClearBrand` and `handleClearCodebase` are `window.confirm`-gated and call repo-layer `clearBrandContext` / `clearCodebaseContext`, which delete manifest + every chunk via the manifest's stored `count`. Idempotent and orphan-free. The local `refresh` counter only re-reads manifests, never writes. Safe.
+- **A8: Defensive manifest read in chatPipeline** — chatPipeline.ts:204-224 dynamic-imports `codebaseContext`, type-guards the reader function, and try/catches both the import AND the read; falls to `projectType=null` on any failure, which collapses `classifyIntent` to byte-identical P44 behavior. Excellent defensive posture.
+- **A9: BYOK existing strip** — pre-Sprint-H `byok_*` strip (line 100) and `redactKeyShapes` on `llm_calls.error_text` remain intact; Sprint H additions did not regress them.
+
+## Score
+90/100
+
+Breakdown: -7 for L1 (uploaded content reaches system prompt unredacted — real BYOK leak path on careless brand-doc paste), -2 for L2 (zip-bomb DoS, local-only impact since browser-side), -1 for A4 documentation gap (prompt-injection trade not formally accepted in an ADR yet). All findings are LOW severity given local-only single-user threat model. PASS confirmed.
