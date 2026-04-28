@@ -68,18 +68,16 @@ export function TemplateBrowsePicker({ onPick, onClose }: TemplateBrowsePickerPr
                     data-testid={`template-card-${t.id}`}
                     onClick={() => onPick(example)}
                     disabled={!example}
-                    className="text-left p-2 rounded border border-hb-border/40 bg-white/40 hover:bg-white/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    // R1 L6 fix-pass — visible focus ring for keyboard users.
+                    className="text-left p-2 rounded border border-hb-border/40 bg-white/40 hover:bg-white/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8772e]"
                   >
                     <div className="flex items-center gap-1.5 mb-0.5">
                       <span className="text-xs font-semibold text-hb-text-primary">{t.name}</span>
                       <span className="text-[10px] uppercase px-1 py-0.5 rounded bg-[#e8772e]/10 text-[#8a4a1c]">
                         {t.kind}
                       </span>
-                      {t.source === 'user' && (
-                        <span className="text-[10px] uppercase px-1 py-0.5 rounded bg-emerald-50 text-emerald-700">
-                          yours
-                        </span>
-                      )}
+                      {/* R1 F2 fix-pass — "yours" tag deferred until P34+ wires
+                          user_templates loadUserRows; removed dead branch. */}
                     </div>
                     {example && (
                       <div className="text-[11px] text-hb-text-muted italic">

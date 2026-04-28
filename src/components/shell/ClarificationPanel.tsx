@@ -38,7 +38,7 @@ export function ClarificationPanel({
         you said:{' '}
         <span className="font-mono text-[#2d1f12]">"{originalText}"</span>
         <br />
-        I'm not 100% sure — pick the one you meant:
+        Pick the closest match below ↓
       </div>
       <div className="grid grid-cols-1 gap-1.5">
         {assumptions.map((a) => (
@@ -54,8 +54,9 @@ export function ClarificationPanel({
               <span
                 data-testid={`clarification-confidence-${a.id}`}
                 className="text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-100 text-amber-800"
+                title={`${Math.round(a.confidence * 100)}% match`}
               >
-                {Math.round(a.confidence * 100)}%
+                {Math.round(a.confidence * 100)}% match
               </span>
             </div>
             {a.rationale && (

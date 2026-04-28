@@ -44,18 +44,33 @@ export interface AssumptionRequest {
   intent: ClassifiedIntent | null
 }
 
-/** Verb cue word table. Mirrors INTENT_ATOM verb enum. */
+/**
+ * Verb cue word table. Mirrors INTENT_ATOM verb enum.
+ *
+ * R2 functionality review L4 fix-pass — `remove` removed from VERB_CUES.hide
+ * to disambiguate from VERB_CUES.remove. Iteration order no longer needed
+ * for correctness; "remove the X" now resolves to verb='remove', then the
+ * call-site canonicalizes to "hide" at line ~115 (consistent with
+ * INTENT_ATOM remove→hide canonicalization in chatPipeline.ts).
+ */
 const VERB_CUES: Record<IntentVerb, readonly string[]> = {
-  hide: ['hide', 'remove', 'delete', 'drop'],
+  hide: ['hide', 'delete', 'drop'],
   show: ['show', 'reveal', 'display', 'enable'],
   change: ['change', 'set', 'update', 'rewrite', 'edit'],
-  remove: ['remove', 'delete'],
+  remove: ['remove'],
   add: ['add', 'insert', 'create', 'new'],
   reset: ['reset', 'undo', 'restore'],
 }
 
-/** Section types to score against based on cue words in the user text. */
-const SECTION_CUES: Record<string, readonly string[]> = {
+/**
+ * Section types to score against based on cue words in the user text.
+ *
+ * R4 architecture review A1 fix-pass — typed via `Partial<Record<typeof
+ * ALLOWED_TARGET_TYPES[number], readonly string[]>>` so adding a new section
+ * type to ALLOWED_TARGET_TYPES is compile-time-safe (no silent drift).
+ */
+type AllowedSectionType = typeof ALLOWED_TARGET_TYPES[number]
+const SECTION_CUES: Partial<Record<AllowedSectionType, readonly string[]>> = {
   hero: ['hero', 'banner', 'top', 'headline', 'header'],
   blog: ['blog', 'article', 'post', 'news'],
   footer: ['footer', 'bottom'],
@@ -68,13 +83,16 @@ const SECTION_CUES: Record<string, readonly string[]> = {
 }
 
 function inferVerb(textLower: string): IntentVerb {
-  for (const verb of Object.keys(VERB_CUES) as IntentVerb[]) {
+  // Iterate explicit-only enum to keep ordering stable + avoid Object.keys
+  // surprises across engines.
+  const order: readonly IntentVerb[] = ['add', 'show', 'reset', 'remove', 'hide', 'change']
+  for (const verb of order) {
     if (VERB_CUES[verb].some((c) => textLower.includes(c))) return verb
   }
   return 'change'
 }
 
-function scoreSection(textLower: string, type: string): number {
+function scoreSection(textLower: string, type: AllowedSectionType): number {
   const cues = SECTION_CUES[type] ?? [type]
   let hits = 0
   for (const cue of cues) {
@@ -83,6 +101,9 @@ function scoreSection(textLower: string, type: string): number {
   return hits
 }
 
+/** R3 security review F5 fix-pass — DoS cap on text length. */
+const MAX_TEXT_LENGTH = 8192
+
 /**
  * Generate up to 3 ranked assumptions for a low-confidence request.
  * Returns empty array when nothing plausible can be inferred (caller falls
@@ -90,8 +111,15 @@ function scoreSection(textLower: string, type: string): number {
  */
 export function generateAssumptions(req: AssumptionRequest): Assumption[] {
   if (!req.text || !req.text.trim()) return []
-  const lower = req.text.toLowerCase()
-  const verb = req.intent?.verb ?? inferVerb(lower)
+  // R3 F5 — clamp text length to keep scoreSection's O(n·m) bounded.
+  const safeText = req.text.length > MAX_TEXT_LENGTH ? req.text.slice(0, MAX_TEXT_LENGTH) : req.text
+  const lower = safeText.toLowerCase()
+  // R2 L1 fix-pass — when intent is provided AND a strong verb cue is
+  // present in the user text, prefer the cue (user voice wins over silent
+  // intent.verb). When no cue matches, intent.verb is used.
+  const cueVerb = inferVerb(lower)
+  const cueIsStrong = (VERB_CUES[cueVerb] ?? []).some((c) => lower.includes(c))
+  const verb: IntentVerb = cueIsStrong ? cueVerb : (req.intent?.verb ?? cueVerb)
 
   // Score every allowed section type against the user text.
   const scored = ALLOWED_TARGET_TYPES.map((type) => ({

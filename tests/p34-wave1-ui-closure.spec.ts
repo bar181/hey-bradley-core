@@ -107,10 +107,12 @@ test.describe('A2 — TemplateBrowsePicker component + /browse trigger', () => {
     expect(src).toMatch(/onClick={\(\) => onPick\(example\)}/)
   })
 
-  test('User-source rows wear a "yours" tag', () => {
+  test('R1 F2 fix-pass: "yours" tag dead branch removed (no source==="user" rendering)', () => {
     const src = readFileSync(PICKER_FILE, 'utf8')
-    expect(src).toMatch(/source === 'user'/)
-    expect(src).toContain('yours')
+    // Branch must be gone until P34+ wires loadUserRows so it can never mislead.
+    expect(src).not.toMatch(/source === 'user'/)
+    // Ensure no JSX renders the literal "yours" copy (comments are fine).
+    expect(src).not.toMatch(/>\s*yours\s*</)
   })
 
   test('ChatInput wires /browse slash command to setShowBrowsePicker(true)', () => {

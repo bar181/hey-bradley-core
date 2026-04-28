@@ -334,16 +334,21 @@ export function ChatInput() {
     // surface a 3-button clarification instead of falling through silently.
     // Caller still gets `false` so it skips the LLM-success path; we set
     // typingFull to a one-liner that introduces the clarification panel.
+    // R2 F1 fix-pass — `!result.ok` guards against firing the clarification
+    // panel over a successful canned-fallback reply. Canned matches must win.
     if (
+      !result.ok &&
       !result.appliedPatchCount &&
       result.aisp &&
       shouldRequestAssumptions(result.aisp.intent)
     ) {
       const assumptions = generateAssumptions({ text, intent: result.aisp.intent })
       if (assumptions.length > 0) {
+        // R1 F4 fix-pass — mutually exclusive with /browse; close picker.
+        setShowBrowsePicker(false)
         setClarification({ originalText: text, assumptions })
         setTypingText('')
-        setTypingFull("I'm not 100% sure I caught that. Pick the closest match below ↓")
+        setTypingFull("I'm not 100% sure I caught that — pick the closest match below ↓")
         return true
       }
     }
@@ -491,24 +496,48 @@ export function ChatInput() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* P34 (A2) — TemplateBrowsePicker: opens via `/browse` slash command
-          OR via the lightbulb-adjacent "browse" affordance below. */}
-      {showBrowsePicker && (
-        <TemplateBrowsePicker
-          onPick={(example) => {
-            setInput(example)
-            setShowBrowsePicker(false)
-            inputRef.current?.focus()
+      {/* P34 (A2) — TemplateBrowsePicker: opens via `/browse` slash command.
+          R1 F4 fix-pass — mutually exclusive with ClarificationPanel; never
+          render together. R1 F3 fix-pass — Escape dismisses (onKeyDown). */}
+      {showBrowsePicker && !clarification && (
+        <div
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') {
+              e.preventDefault()
+              setShowBrowsePicker(false)
+              inputRef.current?.focus()
+            }
           }}
-          onClose={() => setShowBrowsePicker(false)}
-        />
+        >
+          <TemplateBrowsePicker
+            onPick={(example) => {
+              setInput(example)
+              setShowBrowsePicker(false)
+              inputRef.current?.focus()
+            }}
+            onClose={() => setShowBrowsePicker(false)}
+          />
+        </div>
       )}
 
       {/* P34 (A4) — ClarificationPanel: rendered when chatPipeline returns
           a low-confidence intent. Click an option to re-run the pipeline
-          with the chosen rephrasing locked. */}
+          with the chosen rephrasing locked.
+          R1 F3 fix-pass — Escape dismisses; R1 L5 — aria-live for SR users. */}
       {clarification && (
-        <div className="px-4 py-2 border-t border-hb-border/50">
+        <div
+          className="px-4 py-2 border-t border-hb-border/50"
+          role="region"
+          aria-live="polite"
+          aria-label="Clarification needed"
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') {
+              e.preventDefault()
+              setClarification(null)
+              inputRef.current?.focus()
+            }
+          }}
+        >
           <ClarificationPanel
             originalText={clarification.originalText}
             assumptions={clarification.assumptions}
@@ -546,6 +575,18 @@ export function ChatInput() {
         <div className="px-4 py-1.5 text-xs text-hb-text-muted border-t border-hb-border/50">
           try: <span className="text-hb-text-secondary">"dark mode"</span> · <span className="text-hb-text-secondary">"add pricing"</span> · <span className="text-hb-text-secondary">"build a SaaS page with pricing and testimonials"</span> · type <span className="text-hb-text-secondary">/browse</span> to pick a template
         </div>
+      )}
+      {/* R1 F1 fix-pass — persistent /browse affordance after first message.
+          Subtle one-line cue; never blocks the input area. */}
+      {!showBrowsePicker && !clarification && messages.length > 0 && (
+        <button
+          type="button"
+          data-testid="browse-templates-link"
+          onClick={() => setShowBrowsePicker(true)}
+          className="px-4 py-1 text-[11px] text-hb-text-muted hover:text-hb-text-primary border-t border-hb-border/50 text-left underline decoration-dotted self-start"
+        >
+          /browse — pick a template
+        </button>
       )}
 
       {/* P18 Step 3 (A7): in-flight thinking indicator. Subtle text + pulse so

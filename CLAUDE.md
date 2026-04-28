@@ -64,7 +64,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 
 ## Project Status
 
-- **Current Phase:** Phase 34 SEALED at 94/100 estimated — Sprint E P1 closed Sprint D UI debt (AISPTranslationPanel wired into chatPipeline output + TemplateBrowsePicker via /browse) + shipped Assumptions Engine + 3-button ClarificationPanel (Sean-pattern UX); 136/136 PURE-UNIT tests GREEN; Phase 35 NEXT (Sprint E P2 — Assumptions LLM Lift + ADR-064)
+- **Current Phase:** Phase 34 SEALED at 95/100 post-fix-pass — Sprint E P1 closed Sprint D UI debt + shipped Assumptions Engine + 3-button ClarificationPanel (Sean-pattern UX); 4-reviewer brutal-honest review run (R1 UX 86 / R2 Func 84 / R3 Sec 82 / R4 Arch 84 all PASS); 6 must-fix + 2 LOW items closed; 157/157 PURE-UNIT tests GREEN; Sprint E greenlight CONFIRMED; Phase 35 NEXT (Sprint E P2 — ASSUMPTIONS_ATOM Crystal Atom + LLM lift + ADR-064)
 - **Codebase:** ~63K total lines (TS/TSX/JSON/MD, excl. node_modules); ~28,400 lines TS/TSX across 227 source files
 - **Themes:** 12 (agency, blog, creative, elegant, minimalist, neon, personal, portfolio, professional, saas, startup, wellness)
 - **Examples:** 17 (adds blog-standard + capstone to the original 15)
@@ -110,7 +110,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 | P32 | Sprint D P4 — Multi-section content pipeline (section-aware tone/length defaults; ADR-061) | CLOSED 92/100 (held; Framer +1) |
 | P33 | Sprint D P5 — Content + Template Bridge (kind dispatch + first generator template + ADR-062); SPRINT D CLOSE | CLOSED 93/100 (+1; Sprint D complete; 4-atom AISP in production) |
 | P33+ | End-of-Sprint-D Brutal-Honest Review + 3 fix-passes (12/12 must-fix closed; 99/99 tests GREEN) | CLOSED — persona re-score deferred to post-UI mini-phase |
-| P34 | Sprint E P1 — UI Closure (AISPTranslationPanel wiring + TemplateBrowsePicker) + Assumptions Engine (3-button clarification UX + ADR-063) | CLOSED 94/100 estimated (Grandma 77 / Framer 92 / Capstone 98); Sean-pattern clarification UX in production |
+| P34 | Sprint E P1 — UI Closure + Assumptions Engine + brutal-honest review fix-pass (6 must-fix + 2 LOW closed) | CLOSED 95/100 estimated post-fix (Grandma 79 / Framer 89 / Capstone 98); 157/157 tests GREEN; Sprint E greenlight CONFIRMED |
 | P35 | Sprint E P2 — Assumptions LLM Lift (ASSUMPTIONS_ATOM + cost-capped LLM gen + EXPERT-tab pane; ADR-064) | NEXT |
 | P32 | Sprint D P4 — Multi-section Content Pipeline (style-aware tone/voice; ADR-061) | PLANNED |
 | P33 | Sprint D P5 — Content + Template Bridge (AISPTranslationPanel ChatInput integration; ADR-062) | PLANNED |
