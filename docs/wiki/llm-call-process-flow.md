@@ -1,9 +1,9 @@
 # Hey Bradley — LLM Call Process Flow
 
 > **Status:** Living document — wiki / how-it-works guide
-> **Last verified against code:** P36 sealed (commit `5f0a84c`)
-> **Cross-references:** ADR-045, ADR-053, ADR-057, ADR-060, ADR-064, ADR-065
-> **Contributors:** Bradley Ross + claude-flow swarm (P18 → P36)
+> **Last verified against code:** P37 sealed (commit will be set at seal time)
+> **Cross-references:** ADR-045, ADR-053, ADR-057, ADR-060, ADR-064, ADR-065, ADR-066
+> **Contributors:** Bradley Ross + claude-flow swarm (P18 → P37)
 
 This is the canonical end-to-end picture of how a single user input — text in chat OR voice transcript in listen mode — flows through Hey Bradley's pipeline to produce a JSON-Patch envelope. Every box on the flow chart maps to a concrete module in `src/contexts/intelligence/`.
 
@@ -182,6 +182,8 @@ Each atom is verbatim AISP per `bar181/aisp-open-core ai_guide` — Ω Σ Γ Λ 
 
 The atoms compose: a single user request can fire 0 (template hit), 1 (template miss → INTENT match → patch), 2 (template miss → INTENT → SELECTION), or up to 4 LLM calls (INTENT → ASSUMPTIONS → SELECTION → CONTENT → patch). Cost-cap reserves ensure the multi-stage path doesn't starve later atoms.
 
+**P37 (ADR-066) adds an UPSTREAM gate before INTENT_ATOM:** `parseCommand()` runs first; if the input matches a slash form or whitelisted voice phrasing, the host dispatches directly (open browser, prefill input, etc.) and **the atoms are skipped entirely.** This means a `/browse` turn fires zero atoms — there is no INTENT classification, no SELECTION, no audit row, and no AISP chip. The trade-off is a small EXPERT-pane gap on command turns, in exchange for a deliberate $0/0ms power-user shortcut. Non-command input flows into the existing 5-atom chain unchanged; `classifyRoute` then splits content vs design downstream of INTENT_ATOM but upstream of the LLM patch call.
+
 ---
 
 ## BYOK Provider Matrix (P35)
@@ -214,11 +216,31 @@ ADR-065 documents the review-first voice rationale: **voice has a fundamentally 
 
 ---
 
-## What's Missing (planned P37+)
+## Command Triggers (P37)
 
-- **Command triggers** (P37) — `/hero` / `/blog` / `/footer` / `/theme` short-circuit the INTENT_ATOM call and route directly to a section-specific LLM call. Closes the "user already knows what they want" latency tax.
-- **Content vs design split** (P37 research) — content updates via LLM are slow vs the JSON design fast-path. Investigating: separate `/content` slash command, UI toggle (Design / Content), article-page mode (design fast → content second), or streaming content generation.
-- **LLM call audit** (P37 doc) — single canonical document mapping every call site, prompt template, expected Σ, fallback path, and latency baseline.
+P37 (ADR-066) adds an upstream gate **before** the AISP intent classifier. `parseCommand()` runs first in both `ChatInput.handleSend` and `ListenTab.submitListenFinal`; if it returns a typed `CommandTrigger`, the host short-circuits the atom pipeline entirely (no INTENT_ATOM, no SELECTION, no LLM call). This closes the "user already knows what they want" latency tax.
+
+| Slash command | Voice equivalent(s)                       | Effect                                   |
+|---------------|-------------------------------------------|------------------------------------------|
+| `/browse`     | `browse templates`, `show me templates`   | Opens the TemplateBrowsePicker.          |
+| `/template <name>` | `apply template <name>`, `use template <name>` | Apply a named template by id.            |
+| `/generate`   | `generate content`, `write content`, `write copy` | Kick the content-generation pipeline.    |
+| `/design`     | `design only`, `style only`               | Restrict next change to design (no copy).|
+| `/content`    | `content only`, `copy only`               | Restrict next change to content (no style).|
+| `/hide`       | (NL "hide the X" handled by INTENT_ATOM)  | Slash-only passthrough.                  |
+| `/show`       | (NL "show the X" handled by INTENT_ATOM)  | Slash-only passthrough.                  |
+
+All voice phrasings are whole-input, token-boundary anchored, case-insensitive — embedded matches inside prose are deliberately rejected to keep the false-positive rate at zero.
+
+P37 also adds the **content vs design route classifier** (`classifyRoute`) — a pure-rule splitter that runs after AISP but before the LLM patch call. Content-route inputs (rewrite/regenerate/copy nouns) short-circuit the LLM patch path; design-route inputs proceed unchanged. Ambiguous inputs (bare `change` with no signal) fall through to the existing LLM patch path today; Sprint F P3 will route them through ASSUMPTIONS_ATOM.
+
+---
+
+## What's Missing (planned P38+)
+
+- **LLM-driven route classifier** (P38) — promote `classifyRoute` from rule-based to LLM-driven when rule confidence is low (mirror P26 → P27 lift).
+- **CONTENT_ATOM wiring on the content route** (P38) — currently the content route short-circuits to a friendly "wired in next phase" canned reply; P38 will dispatch the route to `generateContent` (CONTENT_ATOM verbatim → LLM).
+- **Cost optimization for content path** (P38 research) — content gen is the largest remaining latency tax; streaming, cache, and small-context-window experiments planned.
 - **Interview mode** (Sprint G P41-P44) — LLM asks questions proactively rather than waiting for low confidence.
 - **Multi-intent parsing** (C03, deferred) — "make it brighter and hide the nav" currently only processes the first intent; Sprint H+ candidate.
 - **Listen review at low ASR confidence threshold** — even on high-confidence transcripts, allow user to cancel within a 1s window before fire.
@@ -236,4 +258,4 @@ ADR-065 documents the review-first voice rationale: **voice has a fundamentally 
 
 ---
 
-*This document is updated at each phase seal. Last touched: P36 seal. Source: swarm summary at session-1777381177219.*
+*This document is updated at each phase seal. Last touched: P37 seal. Source: swarm summary at session-1777381177219.*
