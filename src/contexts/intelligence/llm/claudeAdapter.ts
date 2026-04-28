@@ -45,12 +45,15 @@ export class ClaudeAdapter implements LLMAdapter {
 
   async complete(req: LLMRequest): Promise<LLMResponse> {
     try {
+      // P20 C20: forward AbortSignal to SDK so a timeout in auditedComplete
+      // actually cancels the in-flight fetch. Anthropic SDK accepts { signal }
+      // as a per-call request option.
       const r = await this.client.messages.create({
         model: this.modelId,
         max_tokens: 1024,
         system: req.systemPrompt,
         messages: [{ role: 'user', content: req.userPrompt }],
-      });
+      }, req.signal ? { signal: req.signal } : undefined);
       const text = r.content
         .map((b) => ('text' in b ? b.text : ''))
         .join('');

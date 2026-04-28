@@ -60,3 +60,37 @@ export function blogArticlePath(
   if (c < 0) return null
   return `/sections/${s}/components/${c}/props/${field}`
 }
+
+/**
+ * P20 C01 — Image MVP fixtures helper.
+ *
+ * Resolve a path to the hero/article/featured image. The image lives in
+ * different slots depending on section + variant:
+ *   - hero with heroImage: /sections/<n>/style/heroImage (allowed by IMAGE_PATH_RE)
+ *   - hero with backgroundImage: /sections/<n>/style/backgroundImage
+ *   - blog article featured: /sections/<n>/components/<m>/props/featuredImage
+ *
+ * Returns the first resolvable path or null. Strategy:
+ *   target='hero' → hero/style/heroImage > hero/style/backgroundImage
+ *   target='article' → blog/blog-article/props/featuredImage
+ */
+export function imagePath(
+  config: MasterConfig,
+  target: 'hero' | 'article',
+): string | null {
+  if (target === 'hero') {
+    const s = findSectionByType(config, 'hero')
+    if (s < 0) return null
+    const sec = config.sections[s] as unknown as { style?: Record<string, unknown> }
+    if (sec?.style && 'heroImage' in sec.style) return `/sections/${s}/style/heroImage`
+    if (sec?.style && 'backgroundImage' in sec.style) return `/sections/${s}/style/backgroundImage`
+    // fall back to backgroundImage even if currently absent — patch validator allows
+    return `/sections/${s}/style/backgroundImage`
+  }
+  // article
+  const s = findSectionByType(config, 'blog')
+  if (s < 0) return null
+  const c = findComponentByType(config, s, 'blog-article')
+  if (c < 0) return null
+  return `/sections/${s}/components/${c}/props/featuredImage`
+}

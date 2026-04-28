@@ -44,6 +44,10 @@ export class FixtureAdapter implements LLMAdapter {
   }
 
   async complete(req: LLMRequest): Promise<LLMResponse> {
+    // P20 C20: defensive abort check before fixture lookup
+    if (req.signal?.aborted) {
+      return { ok: false, error: { kind: 'timeout' } }
+    }
     let envelope: FixtureEnvelope | null = null
     let hit: FixtureEntry | null = null
     for (const f of this.fixtures) {

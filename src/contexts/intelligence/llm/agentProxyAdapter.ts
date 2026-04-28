@@ -48,6 +48,10 @@ export class AgentProxyAdapter implements LLMAdapter {
   }
 
   async complete(req: LLMRequest): Promise<LLMResponse> {
+    // P20 C20: defensive abort check before DB lookup
+    if (req.signal?.aborted) {
+      return { ok: false, error: { kind: 'timeout' } };
+    }
     let row: ExamplePromptRow | null;
     try {
       row = findExamplePromptForUserPrompt(req.userPrompt);

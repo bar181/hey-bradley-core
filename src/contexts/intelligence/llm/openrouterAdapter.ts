@@ -54,6 +54,7 @@ export class OpenRouterAdapter implements LLMAdapter {
 
   async complete(req: LLMRequest): Promise<LLMResponse> {
     try {
+      // P20 C20: native fetch supports `signal` directly.
       const r = await fetch(ENDPOINT, {
         method: 'POST',
         headers: headers(this.apiKey),
@@ -65,6 +66,7 @@ export class OpenRouterAdapter implements LLMAdapter {
           ],
           max_tokens: 1024,
         }),
+        signal: req.signal,
       });
       if (!r.ok) {
         const text = await r.text();

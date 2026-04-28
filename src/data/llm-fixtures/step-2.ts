@@ -11,7 +11,30 @@
 
 import type { FixtureEntry, FixtureEnvelope } from '@/contexts/intelligence/llm/fixtureAdapter'
 import { useConfigStore } from '@/store/configStore'
-import { heroHeadingPath, heroSubheadingPath, blogArticlePath } from './resolvePath'
+import { heroHeadingPath, heroSubheadingPath, blogArticlePath, imagePath } from './resolvePath'
+
+// P20 C01 — small media-library catalog for image fixtures (subset that's
+// known-safe under IMAGE_PATH_RE). Real swap UX uses the in-product image
+// picker; chat fixtures pick by descriptor → catalog entry.
+const IMAGE_CATALOG: Record<string, string> = {
+  sunset: '/images/hero-sunset.jpg',
+  sunrise: '/images/hero-sunrise.jpg',
+  city: '/images/hero-city.jpg',
+  mountain: '/images/hero-mountain.jpg',
+  ocean: '/images/hero-ocean.jpg',
+  forest: '/images/hero-forest.jpg',
+  food: '/images/hero-food.jpg',
+  abstract: '/images/hero-abstract.jpg',
+}
+
+const HELP_SUMMARY =
+  "I can change your site by chat. Try one of these:\n\n" +
+  "• \"Make the hero say 'Welcome to my bakery'\"\n" +
+  "• \"Change the accent color to blue\"\n" +
+  "• \"Use a serif font for headings\"\n" +
+  "• \"Replace the hero image with a sunset\"\n" +
+  "• \"Write a short blog article about gardening\"\n\n" +
+  "Speak using the mic, or type — both work the same."
 
 /** Tiny color-name → hex map for the accent-color starter. */
 const COLOR_HEX: Record<string, string> = {
@@ -122,5 +145,93 @@ export const STEP2_FIXTURES: FixtureEntry[] = [
         summary: `Wrote a 3-patch blog article about ${topic}.`,
       }
     },
+  },
+  // P20 C01 — Image fixtures (8 patterns). All resolve via resolvePath/imagePath
+  // so they work on any active config; rejection envelope when no target exists.
+  {
+    matchPattern: /replace\s+the\s+(hero|article|featured)\s+(?:image|photo|picture)\s+with\s+(?:a\s+|an\s+)?(.+?)\.?\s*$/i,
+    envelope: ({ match }): FixtureEnvelope => {
+      const targetRaw = match[1].toLowerCase()
+      const target: 'hero' | 'article' = targetRaw === 'article' || targetRaw === 'featured' ? 'article' : 'hero'
+      const descriptor = match[2].toLowerCase().split(/\s+/)[0] // first word
+      const url = IMAGE_CATALOG[descriptor]
+      if (!url) {
+        return {
+          patches: [],
+          summary: `I don't have an image labelled '${descriptor}'. Try sunset, sunrise, city, mountain, ocean, forest, food, or abstract.`,
+        }
+      }
+      const config = useConfigStore.getState().config
+      const path = imagePath(config, target)
+      if (!path) {
+        return {
+          patches: [],
+          summary: `I couldn't find a ${target} image to update. Switch to an example that has one.`,
+        }
+      }
+      return {
+        patches: [{ op: 'replace', path, value: url }],
+        summary: `Replaced the ${target} image with ${descriptor} (${url}).`,
+      }
+    },
+  },
+  {
+    matchPattern: /swap\s+the\s+(hero|article|featured)\s+(?:image|photo|picture)\.?\s*$/i,
+    envelope: ({ match }): FixtureEnvelope => {
+      const targetRaw = match[1].toLowerCase()
+      const target: 'hero' | 'article' = targetRaw === 'article' || targetRaw === 'featured' ? 'article' : 'hero'
+      const config = useConfigStore.getState().config
+      const path = imagePath(config, target)
+      if (!path) {
+        return { patches: [], summary: `I couldn't find a ${target} image to swap.` }
+      }
+      const next = IMAGE_CATALOG.city
+      return {
+        patches: [{ op: 'replace', path, value: next }],
+        summary: `Swapped the ${target} image (${next}).`,
+      }
+    },
+  },
+  {
+    matchPattern: /use\s+(?:a\s+)?(?:darker|brighter)\s+(hero|article|featured)\s+(?:image|photo|picture)\.?\s*$/i,
+    envelope: ({ match }): FixtureEnvelope => {
+      const targetRaw = match[1].toLowerCase()
+      const target: 'hero' | 'article' = targetRaw === 'article' || targetRaw === 'featured' ? 'article' : 'hero'
+      const isDarker = /darker/i.test(match.input ?? '')
+      const direction = isDarker ? 'mountain' : 'sunrise'
+      const config = useConfigStore.getState().config
+      const path = imagePath(config, target)
+      if (!path) {
+        return { patches: [], summary: `No ${target} image available to adjust.` }
+      }
+      return {
+        patches: [{ op: 'replace', path, value: IMAGE_CATALOG[direction] }],
+        summary: `Switched to a ${isDarker ? 'darker' : 'brighter'} ${target} image.`,
+      }
+    },
+  },
+  {
+    matchPattern: /^remove\s+the\s+(hero|article|featured)\s+(?:image|photo|picture)\.?\s*$/i,
+    envelope: ({ match }): FixtureEnvelope => {
+      const targetRaw = match[1].toLowerCase()
+      const target: 'hero' | 'article' = targetRaw === 'article' || targetRaw === 'featured' ? 'article' : 'hero'
+      const config = useConfigStore.getState().config
+      const path = imagePath(config, target)
+      if (!path) {
+        return { patches: [], summary: `No ${target} image to remove.` }
+      }
+      return {
+        patches: [{ op: 'replace', path, value: '' }],
+        summary: `Cleared the ${target} image.`,
+      }
+    },
+  },
+  // P20 C02 — Help / discovery handler. Common phrasings of "what can you do?".
+  {
+    matchPattern: /^\s*(?:what\s+can\s+you\s+(?:do|help\s+with)|help|hi|hello|hey|i'?m\s+stuck|show\s+me)\??\.?\s*$/i,
+    envelope: (): FixtureEnvelope => ({
+      patches: [],
+      summary: HELP_SUMMARY,
+    }),
   },
 ]

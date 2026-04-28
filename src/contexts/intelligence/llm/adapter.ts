@@ -9,6 +9,12 @@ export interface LLMRequest {
   userPrompt: string;
   /** Optional Zod schema (any object); resolution deferred to Phase 18 to keep this module dep-free. */
   schema?: unknown;
+  /**
+   * P20 C20 — Optional abort signal. When present, adapters MUST forward this
+   * to the underlying SDK / fetch so a timeout in `auditedComplete` actually
+   * cancels the in-flight network request (closes P17/P19 carryforward).
+   */
+  signal?: AbortSignal;
 }
 
 export type LLMError =

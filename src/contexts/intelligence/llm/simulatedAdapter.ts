@@ -36,6 +36,11 @@ export class SimulatedAdapter implements LLMAdapter {
   }
 
   async complete(req: LLMRequest): Promise<LLMResponse> {
+    // P20 C20: defensive abort check (canned response is synchronous but
+    // the contract demands signal acknowledgement for uniformity).
+    if (req.signal?.aborted) {
+      return { ok: false, error: { kind: 'timeout' } };
+    }
     // Phase 17 keeps the contract minimal: probe parseChatCommand for parity
     // with the pre-LLM chat path, then return an empty patch envelope so
     // callers can detect "no canned match" and fall back further. Phase 18

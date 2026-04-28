@@ -11,7 +11,29 @@ import type { LLMAdapter, LLMError, LLMProviderName } from '@/contexts/intellige
 import { readBYOK, writeBYOK, clearBYOK, hasBYOK } from '@/contexts/intelligence/llm/keys'
 import { activeSession, endSession } from '@/contexts/persistence/repositories/sessions'
 import { sumSessionCostUsd, sumSessionTokens } from '@/contexts/persistence/repositories/llmCalls'
+import { kvGet, kvSet } from '@/contexts/persistence/repositories/kv'
 import { useProjectStore } from '@/store/projectStore'
+
+const COST_CAP_KV_KEY = 'cost_cap_usd'
+const DEFAULT_CAP_USD = 1.0
+const MIN_CAP_USD = 0.10
+const MAX_CAP_USD = 20.0
+
+function clampCap(n: number): number {
+  if (!Number.isFinite(n)) return DEFAULT_CAP_USD
+  return Math.min(MAX_CAP_USD, Math.max(MIN_CAP_USD, n))
+}
+
+function loadCapFromKv(): number {
+  try {
+    const raw = kvGet(COST_CAP_KV_KEY)
+    if (!raw) return DEFAULT_CAP_USD
+    const parsed = Number(raw)
+    return Number.isFinite(parsed) ? clampCap(parsed) : DEFAULT_CAP_USD
+  } catch {
+    return DEFAULT_CAP_USD
+  }
+}
 
 export type AdapterStatus = 'idle' | 'no_key' | 'connected' | 'error'
 
@@ -23,6 +45,8 @@ interface IntelligenceState {
   lastError: LLMError | null
   sessionUsd: number
   sessionTokens: { in: number; out: number }
+  /** P20 ADR-049 — per-session USD cap; persisted to kv['cost_cap_usd']. */
+  capUsd: number
   hasKey: boolean
   rememberKey: boolean
   /** P18 Step 3: re-entrancy guard so a second chat submit cannot race the first. */
@@ -34,6 +58,8 @@ interface IntelligenceState {
   clearKey: () => void
   recordUsage: (tokensIn: number, tokensOut: number, cost_usd: number) => void
   resetSession: () => void
+  /** P20 ADR-049 — clamp + persist + update store. */
+  setCapUsd: (n: number) => void
   /** Close the active project's session row + clear in-memory session counters. */
   endActiveSession: () => void
   /** Toggle the in-flight mutex around the chat pipeline. */
@@ -52,6 +78,7 @@ export const useIntelligenceStore = create<IntelligenceState>((set, get) => ({
   lastError: null,
   sessionUsd: 0,
   sessionTokens: { in: 0, out: 0 },
+  capUsd: DEFAULT_CAP_USD,
   hasKey: false,
   rememberKey: false,
   inFlight: false,
@@ -68,6 +95,8 @@ export const useIntelligenceStore = create<IntelligenceState>((set, get) => ({
       status: result.status === 'no_key' ? 'no_key' : 'connected',
       hasKey: hasBYOK(),
       rememberKey: Boolean(stored),
+      // P20 ADR-049: hydrate cap from kv (or default $1.00) on init
+      capUsd: loadCapFromKv(),
     })
 
     // FIX 5: Rehydrate sessionUsd/sessionTokens from the DB so the cap can't
@@ -151,6 +180,16 @@ export const useIntelligenceStore = create<IntelligenceState>((set, get) => ({
   },
 
   resetSession: () => set({ sessionUsd: 0, sessionTokens: { in: 0, out: 0 } }),
+
+  setCapUsd: (n) => {
+    const clamped = clampCap(n)
+    try {
+      kvSet(COST_CAP_KV_KEY, String(clamped))
+    } catch (e) {
+      if (import.meta.env.DEV) console.warn('[intelligence] setCapUsd kv write failed', e)
+    }
+    set({ capUsd: clamped })
+  },
 
   endActiveSession: () => {
     try {

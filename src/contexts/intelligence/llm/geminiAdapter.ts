@@ -45,7 +45,11 @@ export class GeminiAdapter implements LLMAdapter {
 
   async complete(req: LLMRequest): Promise<LLMResponse> {
     try {
-      const r = await this.client.models.generateContent({
+      // P20 C20: Google @google/genai SDK does NOT accept a per-call signal.
+      // Best-effort: race the SDK promise against the abort event so OUR side
+      // resolves promptly on timeout. The SDK fetch may continue in background
+      // (fire-and-forget); that's the residual leak documented in C20 GOAP.
+      const sdkPromise = this.client.models.generateContent({
         model: this.modelId,
         contents: req.userPrompt,
         config: {
@@ -53,6 +57,18 @@ export class GeminiAdapter implements LLMAdapter {
           maxOutputTokens: 1024,
         },
       });
+      const r = req.signal
+        ? await Promise.race([
+            sdkPromise,
+            new Promise<never>((_, rej) => {
+              req.signal!.addEventListener('abort', () => {
+                const err = new Error('aborted');
+                err.name = 'AbortError';
+                rej(err);
+              }, { once: true });
+            }),
+          ])
+        : await sdkPromise;
       const text = r.text ?? '';
       const inTok = r.usageMetadata?.promptTokenCount ?? 0;
       const outTok = r.usageMetadata?.candidatesTokenCount ?? 0;

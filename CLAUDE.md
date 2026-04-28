@@ -77,7 +77,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 - **Blueprints:** 7 sub-tabs (North Star, Architecture, Build Plan, Features, Human Spec, AISP, JSON)
 - **Center Tabs (EXPERT):** 5 (Preview, Blueprints, Resources, Data, Pipeline)
 - **Capabilities:** Multi-page support, ZIP export, blog section type, AISP Crystal Atom output, real LLM adapters (Claude/Gemini/OpenRouter), Web-Speech STT (PTT)
-- **ADRs:** 44 ADR files through ADR-054 (DDD Bounded Contexts). Numbering has 11 documented gaps (002-004, 006-009, 034-037) — see `docs/adr/README.md`.
+- **ADRs:** 45 ADR files through ADR-054 (DDD Bounded Contexts) + ADR-049 (Cost-Cap Telemetry). Numbering has 11 documented gaps (002-004, 006-009, 034-037) — see `docs/adr/README.md`.
 - **Deferred Features:** 34 documented in plans/deferred-features.md; 20 P20 carryforward items in plans/implementation/phase-19/deep-dive/05-fix-pass-plan.md §5
 - **Tests:** 63 Playwright cases across 29 spec files (46 targeted active for P19 seal-gate)
 
@@ -95,7 +95,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 | P18 | Real Chat Mode (LLM → JSON Patches) | CLOSED (89/100) |
 | P18b | Provider Expansion + Observability (5-adapter matrix + llm_logs) | CLOSED (90/100) |
 | P19 | Real Listen Mode (Web Speech STT + voice-to-pipeline + 18-item fix-pass) | CLOSED (88/100) |
-| P20 | Verify, Cost Caps, MVP Close, Vercel Deploy + 20 P19 carryforward items | NEXT |
+| P20 | Verify, Cost Caps, MVP Close — CostPill + AbortSignal C20 + mvp-e2e + getting-started + CONTRIBUTING | CLOSED 88/100 (Grandma 76 / Framer 87 / Capstone 91) |
 | P21 | **Cleanup + ADR/DDD gap-fill (NEW — inserted post-Wave-2 ratification)** | NEXT (post-P20) |
 | P22 | **Public Website Rebuild — BYOK demo + Don Miller blog-style** | CLOSED 81/100 (Grandma 73 / Framer 84 / Capstone 86) |
 | P23 | Sprint B Phase 1 — Simple Chat (natural language input + 2-3 templates) | PLANNED |

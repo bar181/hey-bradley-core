@@ -37,6 +37,8 @@ export function LLMSettings() {
   const hasKey = useIntelligenceStore((s) => s.hasKey)
   const rememberStored = useIntelligenceStore((s) => s.rememberKey)
   const sessionUsd = useIntelligenceStore((s) => s.sessionUsd)
+  const capUsd = useIntelligenceStore((s) => s.capUsd)
+  const setCapUsd = useIntelligenceStore((s) => s.setCapUsd)
   const sessionTokens = useIntelligenceStore((s) => s.sessionTokens)
   const setProviderAndKey = useIntelligenceStore((s) => s.setProviderAndKey)
   const clearKey = useIntelligenceStore((s) => s.clearKey)
@@ -174,6 +176,31 @@ export function LLMSettings() {
           usage: <span className="text-hb-text-primary">
             {sessionTokens.in}/{sessionTokens.out} tokens · ${sessionUsd.toFixed(4)}
           </span>
+        </div>
+      </div>
+
+      {/* P20 ADR-049: cost cap editor */}
+      <div className="mt-3">
+        <label htmlFor="cost-cap-input" className="block text-xs font-mono uppercase tracking-wide text-hb-text-muted mb-1">
+          Session cost cap (USD)
+        </label>
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-mono text-hb-text-muted">$</span>
+          <input
+            id="cost-cap-input"
+            data-testid="cost-cap-input"
+            type="number"
+            min={0.10}
+            max={20.00}
+            step={0.01}
+            defaultValue={capUsd.toFixed(2)}
+            onBlur={(e) => {
+              const next = Number(e.currentTarget.value)
+              if (Number.isFinite(next)) setCapUsd(next)
+            }}
+            className="w-24 px-2 py-1 rounded border border-hb-border bg-hb-bg text-hb-text-primary font-mono text-xs"
+          />
+          <span className="text-[11px] text-hb-text-muted">range $0.10–$20.00 · default $1.00 · ADR-049</span>
         </div>
       </div>
 

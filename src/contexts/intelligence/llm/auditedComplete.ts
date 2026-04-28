@@ -23,6 +23,12 @@ const CALL_TIMEOUT_MS = 30_000;
 const PROJECTED_OUT_TOKENS_MAX = 1024;
 
 function getCapUsd(): number {
+  // P20 ADR-049: store-cap (kv-persisted, user-editable) takes precedence over
+  // build-time env. Pre-init fallback chain: store value → env → default.
+  const storeCap = useIntelligenceStore.getState().capUsd;
+  if (Number.isFinite(storeCap) && storeCap > 0) {
+    return Math.min(MAX_CAP_USD, Math.max(MIN_CAP_USD, storeCap));
+  }
   const env = (import.meta as { env?: Record<string, string | undefined> }).env ?? {};
   const raw = env.VITE_LLM_MAX_USD;
   const parsed = raw ? Number(raw) : NaN;
@@ -193,18 +199,27 @@ export async function auditedComplete(
       };
     }
 
-    // P18 Step 2: race adapter.complete against a 30s wall-clock timeout. The
-    // adapter's own AbortController (when present) handles the network layer;
-    // this is the last-line guarantee that the chat thread cannot wedge.
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    const timeoutPromise = new Promise<LLMResponse>((resolve) => {
-      timer = setTimeout(
-        () => resolve({ ok: false, error: { kind: 'timeout' } }),
-        CALL_TIMEOUT_MS,
-      );
-    });
-    const res = await Promise.race([adapter.complete(req), timeoutPromise]);
-    if (timer) clearTimeout(timer);
+    // P20 C20 — AbortController plumb-through. Replaces the prior Promise.race
+    // pattern that left the underlying SDK request leaking. The signal is
+    // propagated into the adapter, which forwards to the SDK / fetch. At
+    // CALL_TIMEOUT_MS the controller aborts; the adapter is expected to
+    // classify AbortError → kind: 'timeout'. Adapters that ignore the signal
+    // still get caught by this wrapper's catch.
+    const ac = new AbortController();
+    const timer = setTimeout(() => ac.abort(), CALL_TIMEOUT_MS);
+    let res: LLMResponse;
+    try {
+      res = await adapter.complete({ ...req, signal: ac.signal });
+    } catch (e) {
+      if ((e as Error)?.name === 'AbortError' || ac.signal.aborted) {
+        res = { ok: false, error: { kind: 'timeout' } };
+      } else {
+        clearTimeout(timer);
+        throw e;
+      }
+    } finally {
+      clearTimeout(timer);
+    }
 
     if (res.ok) {
       // FIX 6: audit insert is the source of truth — write it BEFORE bumping the
