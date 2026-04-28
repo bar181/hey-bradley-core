@@ -49,7 +49,7 @@ const FALLBACK_HINT =
   "Make the hero say 'Bake Joy Daily' · " +
   'Change to dark mode · ' +
   'Add a pricing section · ' +
-  'Build me a bakery website · ' +
+  "Rewrite the headline bold to \"Stop guessing, start shipping\" · " +
   'Make it professional'
 
 /**

@@ -15,6 +15,7 @@
  */
 
 import { findSectionByType, heroHeadingPath } from '@/data/llm-fixtures/resolvePath'
+import { generateContent } from '@/contexts/intelligence/aisp/contentGenerator'
 import { resolveScopedSectionIndex } from './scoping'
 import type { Template } from './types'
 
@@ -124,36 +125,66 @@ const CHANGE_HEADLINE: Template = {
 /**
  * Template 4 — P33 Sprint D close — first `kind: 'generator'` template.
  *
- * Matches "rewrite the headline", "regenerate hero copy", "make the headline
- * more <tone>", or "rewrite headline with our brand voice". The envelope is
- * filled by the 2-step pipeline (P33 / ADR-062) which calls `generateContent`
- * to produce the new copy. The envelope here is a STUB — when invoked
- * directly (legacy template router), it returns a friendly help message.
+ * Matches "rewrite the headline to 'X'", "regenerate hero copy more bold",
+ * etc. The envelope calls `generateContent` (CONTENT_ATOM consumer) to
+ * derive the new copy from a quoted phrase + tone cue, then produces a
+ * JSON-Patch replacing the hero heading.
  *
- * Generators differ from patchers: they require LLM/algorithmic content
- * generation BEFORE patches can be produced. The 2-step pipeline detects
- * `template.kind === 'generator'` and routes accordingly.
+ * P33+ fix-pass (R1 UX review): wired directly into the legacy template
+ * router so users get a real result (or a friendly help message) instead
+ * of the placeholder "run via 2-step pipeline" dev-speak.
  */
 const GENERATE_HEADLINE: Template = {
   id: 'generate-headline',
   label: 'Rewrite headline',
   description:
-    'Rewrite or regenerate the hero headline with a new tone (bold/playful/warm/authoritative). Honors /hero-N scoping.',
+    'Rewrite the hero headline with a new tone (bold/playful/warm/authoritative). Pass the new text in quotes — e.g. rewrite the headline to "Welcome home".',
   matchPattern:
     /^\s*(?:rewrite|regenerate|generate(?:\s+a)?(?:\s+new)?)\s+(?:the\s+)?(?:headline|hero(?:\s+copy)?)\b.*$/i,
   category: 'content',
   examples: [
-    'rewrite the headline',
-    'regenerate hero copy',
-    'rewrite headline with brand voice',
-    'rewrite the headline more bold',
+    'rewrite the headline to "Welcome home"',
+    'regenerate hero copy bold "Stop guessing, start shipping"',
+    'rewrite the headline warm "Come on in"',
+    'rewrite headline playful "Pop the kettle on"',
   ],
   kind: 'generator',
-  envelope: () => ({
-    patches: [],
-    summary:
-      'Generator templates need to run through the 2-step pipeline. Try the chat instead of direct routing.',
-  }),
+  envelope: ({ text, config, scope }) => {
+    const sectionType = scope?.type ?? 'hero'
+    const generated = generateContent({ text, sectionType })
+    if (!generated) {
+      return {
+        patches: [],
+        summary:
+          'Tell me what to write — put the new copy in quotes. Try: rewrite the headline to "Welcome home" — or add a tone like bold, warm, or playful.',
+      }
+    }
+    // Resolve target path: scoped hero/blog/etc., else the active hero heading.
+    let path: string | null = null
+    if (scope) {
+      const sectionIdx = resolveScopedSectionIndex(config, scope)
+      if (sectionIdx >= 0) {
+        const components = config.sections[sectionIdx]?.components ?? []
+        const headingIdx = components.findIndex((c) => c.type === 'heading')
+        if (headingIdx >= 0) {
+          path = `/sections/${sectionIdx}/components/${headingIdx}/props/text`
+        }
+      }
+    } else {
+      path = heroHeadingPath(config)
+    }
+    if (!path) {
+      return {
+        patches: [],
+        summary:
+          "I couldn't find a heading to rewrite. Try: rewrite /hero-2 to \"X\".",
+      }
+    }
+    return {
+      patches: [{ op: 'replace', path, value: generated.text }],
+      summary: `Rewrote ${sectionType} headline (${generated.tone}/${generated.length}): "${generated.text}"`,
+    }
+  },
 }
 
 export const TEMPLATE_REGISTRY: readonly Template[] = [
