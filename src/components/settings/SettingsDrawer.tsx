@@ -6,6 +6,7 @@ import { useUIStore } from '@/store/uiStore'
 import { LLMSettings } from './LLMSettings'
 import { BrandContextUpload } from './BrandContextUpload'
 import { CodebaseContextUpload } from './CodebaseContextUpload'
+import { ReferenceManagement } from './ReferenceManagement'
 
 export function SettingsDrawer() {
   const open = useUIStore((s) => s.settingsDrawerOpen)
@@ -103,6 +104,9 @@ export function SettingsDrawer() {
 
           {/* AI (BYOK) */}
           <LLMSettings />
+
+          {/* P46 Sprint H Wave 3 — Reference Management summary (above upload widgets) */}
+          <ReferenceManagement />
 
           {/* P44 Sprint H Wave 1 — Brand Context upload (TXT/MD) */}
           <BrandContextUpload />

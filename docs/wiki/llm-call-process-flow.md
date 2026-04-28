@@ -1,9 +1,9 @@
 # Hey Bradley — LLM Call Process Flow
 
 > **Status:** Living document — wiki / how-it-works guide
-> **Last verified against code:** P37 sealed (commit will be set at seal time)
-> **Cross-references:** ADR-045, ADR-053, ADR-057, ADR-060, ADR-064, ADR-065, ADR-066
-> **Contributors:** Bradley Ross + claude-flow swarm (P18 → P37)
+> **Last verified against code:** P46 sealed (commit will be set at seal time)
+> **Cross-references:** ADR-045, ADR-053, ADR-057, ADR-060, ADR-064, ADR-065, ADR-066, ADR-067, ADR-068, ADR-069
+> **Contributors:** Bradley Ross + claude-flow swarm (P18 → P46)
 
 This is the canonical end-to-end picture of how a single user input — text in chat OR voice transcript in listen mode — flows through Hey Bradley's pipeline to produce a JSON-Patch envelope. Every box on the flow chart maps to a concrete module in `src/contexts/intelligence/`.
 
@@ -15,6 +15,16 @@ This is the canonical end-to-end picture of how a single user input — text in 
 User Input (text or voice transcript)
          │
          ▼
+┌─────────────────────────────┐
+│  REFERENCE CONTEXT (P44+P45)│  ← ADR-067 + ADR-068
+│  brand_context (voice)      │
+│  codebase_context (project) │
+│  • injected into system     │
+│    prompt + INTENT_ATOM Λ   │
+│  • opt-in user uploads      │
+│  • stripped from export     │
+└────────────┬────────────────┘
+             ▼
 ┌─────────────────────────────┐
 │  GATE: Template Match?      │  ← P23 / ADR-050
 │  confidence ≥ 0.8 →         │
@@ -236,6 +246,58 @@ P37 also adds the **content vs design route classifier** (`classifyRoute`) — a
 
 ---
 
+## Reference Context Pipeline (Sprint H)
+
+Sprint H (P44 + P45 + P46) adds **opt-in user-uploaded reference channels** to the pipeline. Two channels ship in production; both inject upstream of the LLM call without changing any existing atom contract.
+
+### brand_context flow → CONTENT_ATOM Λ
+
+`brand_context` is a TXT/MD upload (≤4 KB injection cap, full document in kv) representing the user's brand voice / style guide. The flow is:
+
+1. User uploads via `BrandContextUpload` (P44 / ADR-067).
+2. `writeBrandContext(text, meta)` chunks the body across `kv['brand_context_chunk_*']` rows + a `brand_context_manifest` JSON row.
+3. At submit time, `buildSystemPrompt(ctx)` reads the head 4 KB via `readBrandContext()` and embeds it in the system prompt verbatim.
+4. CONTENT_ATOM's Λ extends with an optional `brand_voice` channel: `{ present:𝔹, profile:𝕊≤4096, bias:{tone_preference?, lexicon_hints?} }`. Σ width and Γ rules R1..R4 / V1..V4 are unchanged — `brand_voice` is purely additive.
+5. The AISPTranslationPanel renders a `voice: brand-aware` chip when the manifest is non-null at submit time.
+
+### codebase_context flow → INTENT_ATOM Λ bias
+
+`codebase_context` is a ZIP upload (≤32 KB injection cap, full archive head in kv) representing the user's project shape. The flow is:
+
+1. User uploads via `CodebaseContextUpload` (P45 / ADR-068).
+2. Client-side ZIP extraction reads a small allow-list of high-signal files (README, package.json, configs).
+3. `detectProjectType(input)` — a pure rule cascade — picks one of 5 enum values: `saas-app | landing-page | static-site | portfolio | unknown`.
+4. `writeCodebaseContext(text, meta)` persists the head + manifest under `kv['codebase_context_*']`.
+5. `chatPipeline` reads `readCodebaseContextManifest().projectType` and threads it into `classifyIntent(text, projectType)`.
+6. INTENT_ATOM's Λ extends with optional `project_context: { present:𝔹, type∈enum }`. The classifier biases target-candidate ranking ONLY (e.g. `saas-app` raises pricing/features/cta; `portfolio` raises gallery/hero). Σ width is unchanged; bias never overrides an explicit text match.
+
+### ReferenceManagement summary (P46 / ADR-069)
+
+`ReferenceManagement.tsx` renders **above** both upload widgets in `SettingsDrawer.tsx`. It reads manifests only — no chunk joins — so the drawer-open cost stays O(2). Per-row Clear buttons gate destructive action behind `window.confirm()`, mirroring the P34 ClarificationPanel pattern.
+
+### Privacy posture (export-strip)
+
+Both reference channels are user content. `exportImport.ts.isSensitiveKvKey` matches both prefixes (`brand_context_` + `codebase_context_`); `SENSITIVE_KV_KEYS` lists both manifest keys for back-compat. Uploaded references **never** ship inside `.heybradley` exports. The runtime DELETE sweep matches the prefixes via `LIKE` — both manifests AND chunks are stripped symmetrically.
+
+### kv chunk shape
+
+Identical motif for both channels (one persistence motif, two content types):
+- `<channel>_manifest` → JSON `{ count, totalBytes, mimeType, name, uploadedAt, ... }`
+- `<channel>_chunk_0..N-1` → string slices joined to reconstruct the body
+
+`writeXContext` is delete-then-write atomic (clears prior chunks before writing new ones) — a smaller second upload cannot leave orphan chunk_N rows from a larger first upload.
+
+### Cap math
+
+| Channel | Injection cap | Chunk byte size | Rationale |
+|---|---:|---:|---|
+| `brand_context` | 4 KB | 10_000 UTF-16 cu | Brand voice guides are typically ≤2 KB; head-truncation is sufficient. |
+| `codebase_context` | 32 KB | 10_000 UTF-16 cu | Codebase summaries are denser; allow-list keeps the head signal-rich. |
+
+Both caps are enforced at **injection time**, not write time — the full upload always persists in kv (room for vector retrieval at a future phase).
+
+---
+
 ## What's Missing (planned P38+)
 
 - **LLM-driven route classifier** (P38) — promote `classifyRoute` from rule-based to LLM-driven when rule confidence is low (mirror P26 → P27 lift).
@@ -258,4 +320,4 @@ P37 also adds the **content vs design route classifier** (`classifyRoute`) — a
 
 ---
 
-*This document is updated at each phase seal. Last touched: P37 seal. Source: swarm summary at session-1777381177219.*
+*This document is updated at each phase seal. Last touched: P46 seal (Sprint H Wave 3 — Reference Management). Source: swarm summary at session-1777381177219.*
