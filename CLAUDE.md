@@ -64,7 +64,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 
 ## Project Status
 
-- **Current Phase:** Phase 31 SEALED at 92/100 (Sprint D P3 — Content Generators POC; 4-atom AISP architecture in production); Phase 32 NEXT (Sprint D P4 — Multi-section content pipeline)
+- **Current Phase:** Phase 32 SEALED at 92/100 (Sprint D P4 — Multi-section content pipeline); Phase 33 NEXT (Sprint D P5 — Content + Template Bridge)
 - **Codebase:** ~63K total lines (TS/TSX/JSON/MD, excl. node_modules); ~28,400 lines TS/TSX across 227 source files
 - **Themes:** 12 (agency, blog, creative, elegant, minimalist, neon, personal, portfolio, professional, saas, startup, wellness)
 - **Examples:** 17 (adds blog-standard + capstone to the original 15)
@@ -107,7 +107,8 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 | P29 | Sprint D P1 — Template Library API (decoration over registry; category + kind enums; 4 list/filter APIs; ADR-058) | CLOSED 91/100 (held; Sprint D opener; setup-phase pause before content arc) |
 | P30 | Sprint D P2 — Template Persistence (migration 003 + userTemplates repo + BrowseTemplate split-type; ADR-059) | CLOSED 91/100 (held; data-layer phase) |
 | P31 | Sprint D P3 — Content Generators POC (CONTENT_ATOM Crystal Atom + generateContent stub; ADR-060) | CLOSED 92/100 (+1; 4-atom AISP architecture in production) |
-| P32 | Sprint D P4 — Multi-section content pipeline (section-aware tone/length defaults; ADR-061) | NEXT |
+| P32 | Sprint D P4 — Multi-section content pipeline (section-aware tone/length defaults; ADR-061) | CLOSED 92/100 (held; Framer +1) |
+| P33 | Sprint D P5 — Content + Template Bridge (UI wire + 2-step pipeline kind dispatch; ADR-062) | NEXT |
 | P32 | Sprint D P4 — Multi-section Content Pipeline (style-aware tone/voice; ADR-061) | PLANNED |
 | P33 | Sprint D P5 — Content + Template Bridge (AISPTranslationPanel ChatInput integration; ADR-062) | PLANNED |
 | P34-P37 | Sprint E — Clarification & Assumptions (4 phases) | POST-CAPSTONE |

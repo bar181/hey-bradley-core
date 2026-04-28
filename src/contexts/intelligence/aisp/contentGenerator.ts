@@ -23,13 +23,16 @@ import {
   isCleanContent,
   LENGTH_MAX_CHARS,
 } from './contentAtom'
+import { getSectionDefaults } from './contentDefaults'
 
 export interface ContentRequest {
   /** Raw user text (post intent-classify). */
   text: string
-  /** Default tone when no cue words present; 'neutral' per Λ. */
+  /** P32 — Section type hint; drives tone/length defaults when no cue words. */
+  sectionType?: string | null
+  /** Default tone when no cue words present; 'neutral' per Λ. Section default takes precedence if sectionType set. */
   defaultTone?: ContentTone
-  /** Default length when no cue words present; 'short' per Λ. */
+  /** Default length when no cue words present; 'short' per Λ. Section default takes precedence if sectionType set. */
   defaultLength?: ContentLength
 }
 
@@ -81,8 +84,13 @@ export function generateContent(request: ContentRequest): GeneratedContent | nul
   if (!request.text || request.text.trim().length === 0) return null
   const lower = request.text.toLowerCase()
 
-  const tone = inferTone(lower, request.defaultTone ?? 'neutral')
-  const length = inferLength(lower, request.defaultLength ?? 'short')
+  // P32 — Section defaults (when sectionType set) layered under explicit caller defaults.
+  const sectionDefaults = getSectionDefaults(request.sectionType)
+  const fallbackTone = request.defaultTone ?? sectionDefaults.tone
+  const fallbackLength = request.defaultLength ?? sectionDefaults.length
+
+  const tone = inferTone(lower, fallbackTone)
+  const length = inferLength(lower, fallbackLength)
   const copy = extractCopy(request.text)
   if (copy === null) return null
 
