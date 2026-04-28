@@ -65,6 +65,14 @@ export const ASSUMPTIONS_MAX_REPHRASING_LENGTH = 100
 /** Γ R4 id allowlist regex — same shape as user_templates RESERVED_IDS. */
 export const ASSUMPTIONS_ID_RE = /^[a-z][a-z0-9-]{0,63}$/
 
+/**
+ * Γ R3 enum-construction predicate (R1 F4 + R2 S3 fix-pass).
+ * Rephrasing must start with one of the 6 enumerated INTENT_ATOM verbs so
+ * the downstream pipeline can re-classify cleanly. Token-boundary anchored
+ * so 'reset' doesn't match 'reseturn-of-the-jedi' (defensive).
+ */
+export const ASSUMPTIONS_VERB_PREFIX_RE = /^(?:hide|show|change|add|reset|remove)\b/i
+
 /** Γ Σ — the runtime reflection of the atom's Assumption shape. */
 export interface AssumptionAtomItem {
   id: string
@@ -105,6 +113,9 @@ export function validateAssumptionsAtomOutput(raw: unknown): AssumptionAtomItem[
     if (typeof r.rephrasing !== 'string' || r.rephrasing.length === 0) return null
     // Γ R5: rephrasing length cap
     if (r.rephrasing.length > ASSUMPTIONS_MAX_REPHRASING_LENGTH) return null
+    // Γ R3 (R1 F4 fix-pass): rephrasing must start with an enum verb so the
+    // downstream re-classification re-runs the same INTENT_ATOM pipeline.
+    if (!ASSUMPTIONS_VERB_PREFIX_RE.test(r.rephrasing)) return null
     // Ε V4: confidence in [0,1]
     if (typeof r.confidence !== 'number') return null
     if (!Number.isFinite(r.confidence)) return null

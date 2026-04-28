@@ -64,7 +64,16 @@ export class OpenAIAdapter implements LLMAdapter {
         },
         req.signal ? { signal: req.signal } : undefined,
       );
-      const text = r.choices?.[0]?.message?.content ?? '';
+      const message = r.choices?.[0]?.message;
+      // OpenAI 2026 — gpt-5-* models may surface a safety refusal via
+      // `message.refusal` instead of `message.content`. Surface as an
+      // invalid_response so callers fall through to canned hint rather
+      // than swallowing the refusal silently as empty output.
+      const refusal = (message as { refusal?: string } | undefined)?.refusal;
+      if (refusal) {
+        return { ok: false, error: { kind: 'invalid_response', detail: 'safety refusal' } };
+      }
+      const text = message?.content ?? '';
       const inTok = r.usage?.prompt_tokens ?? 0;
       const outTok = r.usage?.completion_tokens ?? 0;
       return {

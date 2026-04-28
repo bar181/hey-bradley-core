@@ -33,6 +33,8 @@ function redactKeyShapes(s: string): string {
   return s
     .replace(/sk-ant-[A-Za-z0-9_-]{20,}/g, '[REDACTED]')
     .replace(/sk-proj-[A-Za-z0-9_-]{20,}/g, '[REDACTED]')
+    .replace(/sk-or-[A-Za-z0-9_-]{20,}/g, '[REDACTED]')
+    .replace(/sk-[A-Za-z0-9_-]{20,}/g, '[REDACTED]')
     .replace(/AIza[0-9A-Za-z_-]{35}/g, '[REDACTED]')
     .replace(/Bearer\s+\S+/g, '[REDACTED]')
 }
@@ -129,9 +131,11 @@ test.describe('BYOK matrix — key shape validators', () => {
 })
 
 test.describe('BYOK matrix — error redaction handles all key shapes', () => {
-  test('redactKeyShapes redacts all 3 paid-provider key formats', () => {
+  test('redactKeyShapes redacts all paid-provider key formats incl bare sk- + sk-or-', () => {
     expect(redactKeyShapes('error: sk-ant-api03-' + 'x'.repeat(40))).toContain('[REDACTED]')
     expect(redactKeyShapes('error: sk-proj-' + 'x'.repeat(40))).toContain('[REDACTED]')
+    expect(redactKeyShapes('error: sk-or-' + 'x'.repeat(40))).toContain('[REDACTED]')
+    expect(redactKeyShapes('error: sk-' + 'x'.repeat(40))).toContain('[REDACTED]')
     expect(redactKeyShapes('error: AIza' + 'x'.repeat(35))).toContain('[REDACTED]')
     expect(redactKeyShapes('Bearer sk-or-' + 'x'.repeat(40))).toContain('[REDACTED]')
   })

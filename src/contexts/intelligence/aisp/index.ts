@@ -39,6 +39,7 @@ export {
   ASSUMPTIONS_MAX_OPTIONS,
   ASSUMPTIONS_MAX_REPHRASING_LENGTH,
   ASSUMPTIONS_ID_RE,
+  ASSUMPTIONS_VERB_PREFIX_RE,
   validateAssumptionsAtomOutput,
 } from './assumptionsAtom'
 export type { AssumptionAtomItem } from './assumptionsAtom'

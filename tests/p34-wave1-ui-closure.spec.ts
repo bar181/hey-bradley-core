@@ -50,9 +50,15 @@ test.describe('A1 — chatPipeline result carries AISP trace', () => {
 })
 
 test.describe('A1 — AISPTranslationPanel renders inline under bradley messages', () => {
-  test('ChatInput imports AISPTranslationPanel', () => {
+  test('ChatInput imports AISPSurface (P35 fix-pass dispatcher; supersedes direct AISPTranslationPanel import)', () => {
     const src = readFileSync(CHAT_INPUT, 'utf8')
-    expect(src).toContain("import { AISPTranslationPanel } from '@/components/shell/AISPTranslationPanel'")
+    expect(src).toContain("import { AISPSurface } from '@/components/shell/AISPSurface'")
+    // The dispatcher renders AISPTranslationPanel internally in SIMPLE mode.
+    const surfaceSrc = readFileSync(
+      join(process.cwd(), 'src/components/shell/AISPSurface.tsx'),
+      'utf8',
+    )
+    expect(surfaceSrc).toContain("import { AISPTranslationPanel }")
   })
 
   test('ChatInput captures AISP trace into pendingAispRef on submit', () => {
@@ -68,10 +74,10 @@ test.describe('A1 — AISPTranslationPanel renders inline under bradley messages
     expect(src).toMatch(/templateId\?:\s*string\s*\|\s*null/)
   })
 
-  test('AISPTranslationPanel rendered inside the bradley message branch', () => {
+  test('AISPSurface rendered inside the bradley message branch (renders AISPTranslationPanel in SIMPLE mode internally)', () => {
     const src = readFileSync(CHAT_INPUT, 'utf8')
-    expect(src).toMatch(/msg\.role === 'bradley' && msg\.aisp/)
-    expect(src).toMatch(/<AISPTranslationPanel/)
+    expect(src).toMatch(/msg\.role === 'bradley' && msg\.userText && msg\.aisp/)
+    expect(src).toMatch(/<AISPSurface/)
   })
 
   test('AISPTranslationPanel accepts templateId prop (chip even with null intent)', () => {

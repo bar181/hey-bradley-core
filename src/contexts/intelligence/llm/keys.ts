@@ -74,9 +74,15 @@ export function looksLikeGoogleKey(k: string): boolean {
 /** P35 — OpenAI keys: classic `sk-...` (non-project) or `sk-proj-...` project keys. */
 export function looksLikeOpenAIKey(k: string): boolean {
   const t = k.trim();
-  // Reject Anthropic keys that share the `sk-` prefix.
-  if (/^sk-ant-/i.test(t)) return false;
+  // Reject sibling `sk-…` prefixes used by other providers.
+  if (/^sk-ant-/i.test(t)) return false;     // Anthropic
+  if (/^sk-or-/i.test(t)) return false;      // OpenRouter
   return /^sk-(?:proj-)?[A-Za-z0-9_-]{20,}$/.test(t);
+}
+
+/** P35 — OpenRouter keys: `sk-or-…`. */
+export function looksLikeOpenRouterKey(k: string): boolean {
+  return /^sk-or-[A-Za-z0-9_-]{20,}$/.test(k.trim());
 }
 
 /**
@@ -87,9 +93,14 @@ export function looksLikeOpenAIKey(k: string): boolean {
  */
 export function redactKeyShapes(s: string): string {
   if (!s) return s;
+  // Order matters: longest/most-specific shapes first, then catch-all bare `sk-…`
+  // (covers legacy OpenAI + OpenRouter `sk-or-…`). All variants funnel to the
+  // same [REDACTED] sentinel; the staircase prevents partial leaks.
   return s
     .replace(/sk-ant-[A-Za-z0-9_-]{20,}/g, '[REDACTED]')
     .replace(/sk-proj-[A-Za-z0-9_-]{20,}/g, '[REDACTED]')
+    .replace(/sk-or-[A-Za-z0-9_-]{20,}/g, '[REDACTED]')
+    .replace(/sk-[A-Za-z0-9_-]{20,}/g, '[REDACTED]')
     .replace(/AIza[0-9A-Za-z_-]{35}/g, '[REDACTED]')
     .replace(/Bearer\s+\S+/g, '[REDACTED]');
 }

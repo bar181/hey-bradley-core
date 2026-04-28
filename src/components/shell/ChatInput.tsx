@@ -10,10 +10,9 @@ import { EXAMPLE_SITES } from '@/data/examples'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ChatExplainer } from '@/components/shell/ChatExplainer'
-import { AISPTranslationPanel } from '@/components/shell/AISPTranslationPanel'
+import { AISPSurface } from '@/components/shell/AISPSurface'
 import { TemplateBrowsePicker } from '@/components/shell/TemplateBrowsePicker'
 import { ClarificationPanel } from '@/components/shell/ClarificationPanel'
-import { AISPPipelineTracePane } from '@/components/shell/AISPPipelineTracePane'
 import type { SectionType } from '@/lib/schemas'
 import { submit as submitChatPipeline, mapChatError } from '@/contexts/intelligence/chatPipeline'
 import {
@@ -511,24 +510,17 @@ export function ChatInput() {
                 via voice
               </span>
             )}
-            {/* P34 Sprint E P1 (A1) — AISPTranslationPanel surfaces intent
-                classification + matched template id for each bradley reply. */}
-            {msg.role === 'bradley' && msg.aisp && msg.userText && (
-              <AISPTranslationPanel
-                intent={msg.aisp.intent}
-                source={msg.aisp.source}
-                userText={msg.userText}
-                templateId={msg.templateId ?? null}
-              />
-            )}
-            {/* P35 Sprint E P2 (A2) — EXPERT-only AISP pipeline trace pane.
-                Renders all 5 atoms: INTENT → ASSUMPTIONS → SELECTION →
-                CONTENT → PATCH. Hidden in SIMPLE mode (component-level guard). */}
+            {/* P34 / P35 — exactly ONE AISP surface per bradley reply.
+                R1 F2 fix-pass — in EXPERT mode the trace pane subsumes the
+                translation panel (it shows intent + template + 4 more atoms).
+                In SIMPLE mode the trace pane returns null and the
+                translation panel takes over. AISPSurface picks one or the
+                other; never both. */}
             {msg.role === 'bradley' && msg.userText && msg.aisp && (
-              <AISPPipelineTracePane
-                userText={msg.userText}
+              <AISPSurface
                 intent={msg.aisp.intent}
                 intentSource={msg.aisp.source}
+                userText={msg.userText}
                 templateId={msg.templateId ?? null}
                 assumptions={msg.assumptions}
                 assumptionsSource={msg.assumptionsSource}

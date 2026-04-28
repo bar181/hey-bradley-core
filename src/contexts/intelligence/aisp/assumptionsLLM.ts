@@ -102,11 +102,12 @@ export async function generateAssumptionsLLM(
 
   // Cost-cap reserve check (Λ): if we're already past the per-atom reserve,
   // don't burn tokens on a low-confidence side-call. Fall back to rules.
-  // Note: per-call cost is also enforced inside auditedComplete; this is the
-  // earlier soft-gate for the assumptions stage specifically.
-  const cap = store.capUsd ?? 0
-  const sessionUsd = store.sessionUsd ?? 0
-  if (cap > 0 && sessionUsd >= cap * ASSUMPTIONS_COST_CAP_RESERVE) {
+  // R2 M2 fix-pass — fail CLOSED. When cap is unset/0/NaN, the gate
+  // evaluates to `0 >= 0` and fires → rule-based fallback. User must
+  // explicitly set a positive cap to unlock the LLM-driven path.
+  const cap = Number.isFinite(store.capUsd) ? (store.capUsd as number) : 0
+  const sessionUsd = Number.isFinite(store.sessionUsd) ? (store.sessionUsd as number) : 0
+  if (sessionUsd >= cap * ASSUMPTIONS_COST_CAP_RESERVE) {
     return ruleFallback(req, 'cost-cap reserve hit — using rule-based fallback')
   }
 
@@ -121,16 +122,24 @@ export async function generateAssumptionsLLM(
       : null,
   })
 
+  // R1 F3 fix-pass — 12s client-side timeout. The adapter forwards req.signal
+  // to the underlying SDK; on abort the in-flight fetch cancels and we fall
+  // back to rule-based instead of leaving the user staring at "thinking…".
+  const ASSUMPTIONS_LLM_TIMEOUT_MS = 12_000
+  const ac = new AbortController()
+  const timer = setTimeout(() => ac.abort(), ASSUMPTIONS_LLM_TIMEOUT_MS)
   let res
   try {
     res = await auditedComplete(
       adapter,
-      { systemPrompt: SYSTEM_PROMPT, userPrompt },
+      { systemPrompt: SYSTEM_PROMPT, userPrompt, signal: ac.signal },
       { source: 'chat' },
     )
   } catch (e) {
     const detail = e instanceof Error ? e.message : String(e)
     return ruleFallback(req, `LLM threw — fallback (${detail})`)
+  } finally {
+    clearTimeout(timer)
   }
 
   if (!res.ok) {

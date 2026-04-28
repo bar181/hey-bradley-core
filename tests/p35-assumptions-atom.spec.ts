@@ -252,10 +252,13 @@ test.describe('P35 — AISPPipelineTracePane EXPERT-only', () => {
     expect(src).toMatch(/open\s*\?\s*'▾'\s*:\s*'▸'/)
   })
 
-  test('ChatInput renders the trace pane under bradley replies', () => {
-    const src = readFileSync(CHAT, 'utf8')
-    expect(src).toContain('AISPPipelineTracePane')
-    expect(src).toMatch(/<AISPPipelineTracePane[\s\S]+?intentSource=/)
+  test('AISPPipelineTracePane is reachable through AISPSurface in EXPERT mode (P35 fix-pass)', () => {
+    const surfaceSrc = readFileSync(
+      join(process.cwd(), 'src/components/shell/AISPSurface.tsx'),
+      'utf8',
+    )
+    expect(surfaceSrc).toContain('AISPPipelineTracePane')
+    expect(surfaceSrc).toMatch(/<AISPPipelineTracePane[\s\S]+?intentSource=/)
   })
 
   test('ChatMessage carries assumptions trace fields (assumptions/source/patches/summary)', () => {
