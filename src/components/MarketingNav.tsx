@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 const NAV_LINKS = [
   { to: '/about', label: 'About' },
   { to: '/aisp', label: 'AISP' },
-  { to: '/research', label: 'Research' },
+  { to: '/byok', label: 'BYOK' },
   { to: '/open-core', label: 'Open Core' },
   { to: '/docs', label: 'Docs' },
 ]

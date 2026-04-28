@@ -6,17 +6,17 @@ const QUICK_START = [
   {
     step: 1,
     title: 'Pick a Theme',
-    description: 'Choose from 12 professional themes or start with one of 10 pre-built example sites. Each theme includes a full color palette, font stack, and section styling.',
+    description: 'Choose from 12 professional themes or start with one of 17 pre-built example sites. Each theme includes a full color palette, font stack, and section styling.',
   },
   {
     step: 2,
     title: 'Add and Customize Sections',
-    description: 'Add sections like hero banners, pricing tables, testimonials, galleries, and more. Reorder them with drag-and-drop, tweak colors with the hex picker, and swap images from the 258+ media library.',
+    description: 'Add sections like hero banners, pricing tables, testimonials, galleries, and more. Reorder them with drag-and-drop, tweak colors with the hex picker, and swap images from the 300-image media library.',
   },
   {
     step: 3,
     title: 'Generate Specs',
-    description: 'Click the Blueprints tab to generate up to 6 enterprise-grade specification documents. Export your entire project as JSON to hand off to any developer or AI agent.',
+    description: 'Click the Blueprints tab to generate enterprise-grade AISP specification documents. Export your entire project as a `.heybradley` zip to hand off to any developer or AI agent.',
   },
 ]
 

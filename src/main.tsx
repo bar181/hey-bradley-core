@@ -10,6 +10,7 @@ import { Research } from '@/pages/Research'
 import { OpenCore } from '@/pages/OpenCore'
 import { HowIBuiltThis } from '@/pages/HowIBuiltThis'
 import { Docs } from '@/pages/Docs'
+import { BYOK } from '@/pages/BYOK'
 import { NotFound } from '@/pages/NotFound'
 import { initDB } from '@/contexts/persistence/db'
 import { migrateLegacyLocalStorage } from '@/contexts/persistence/legacyMigration'
@@ -58,6 +59,7 @@ initDB()
             <Route path="/open-core" element={<OpenCore />} />
             <Route path="/how-i-built-this" element={<HowIBuiltThis />} />
             <Route path="/docs" element={<Docs />} />
+            <Route path="/byok" element={<BYOK />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
@@ -84,6 +86,7 @@ initDB()
             <Route path="/open-core" element={<OpenCore />} />
             <Route path="/how-i-built-this" element={<HowIBuiltThis />} />
             <Route path="/docs" element={<Docs />} />
+            <Route path="/byok" element={<BYOK />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

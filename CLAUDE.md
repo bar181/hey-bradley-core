@@ -97,7 +97,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 | P19 | Real Listen Mode (Web Speech STT + voice-to-pipeline + 18-item fix-pass) | CLOSED (88/100) |
 | P20 | Verify, Cost Caps, MVP Close, Vercel Deploy + 20 P19 carryforward items | NEXT |
 | P21 | **Cleanup + ADR/DDD gap-fill (NEW — inserted post-Wave-2 ratification)** | NEXT (post-P20) |
-| P22 | **Public Website Rebuild — BYOK demo + Don Miller blog-style + 11 pages refreshed (NEW)** | PLANNED |
+| P22 | **Public Website Rebuild — BYOK demo + Don Miller blog-style** | INITIAL SEAL 82/100 (this session); fix-pass-1 + brutal review queued |
 | P23 | Sprint B Phase 1 — Simple Chat (natural language input + 2-3 templates) | PLANNED |
 | P24 | Sprint B Phase 2 — section targeting via `/hero-1` keyword scoping | PLANNED |
 | P25 | Sprint B Phase 3 — intent translation (messy → structured to-do) | PLANNED |
