@@ -121,8 +121,44 @@ const CHANGE_HEADLINE: Template = {
   },
 }
 
+/**
+ * Template 4 — P33 Sprint D close — first `kind: 'generator'` template.
+ *
+ * Matches "rewrite the headline", "regenerate hero copy", "make the headline
+ * more <tone>", or "rewrite headline with our brand voice". The envelope is
+ * filled by the 2-step pipeline (P33 / ADR-062) which calls `generateContent`
+ * to produce the new copy. The envelope here is a STUB — when invoked
+ * directly (legacy template router), it returns a friendly help message.
+ *
+ * Generators differ from patchers: they require LLM/algorithmic content
+ * generation BEFORE patches can be produced. The 2-step pipeline detects
+ * `template.kind === 'generator'` and routes accordingly.
+ */
+const GENERATE_HEADLINE: Template = {
+  id: 'generate-headline',
+  label: 'Rewrite headline',
+  description:
+    'Rewrite or regenerate the hero headline with a new tone (bold/playful/warm/authoritative). Honors /hero-N scoping.',
+  matchPattern:
+    /^\s*(?:rewrite|regenerate|generate(?:\s+a)?(?:\s+new)?)\s+(?:the\s+)?(?:headline|hero(?:\s+copy)?)\b.*$/i,
+  category: 'content',
+  examples: [
+    'rewrite the headline',
+    'regenerate hero copy',
+    'rewrite headline with brand voice',
+    'rewrite the headline more bold',
+  ],
+  kind: 'generator',
+  envelope: () => ({
+    patches: [],
+    summary:
+      'Generator templates need to run through the 2-step pipeline. Try the chat instead of direct routing.',
+  }),
+}
+
 export const TEMPLATE_REGISTRY: readonly Template[] = [
   MAKE_IT_BRIGHTER,
   HIDE_SECTION,
   CHANGE_HEADLINE,
+  GENERATE_HEADLINE,
 ] as const

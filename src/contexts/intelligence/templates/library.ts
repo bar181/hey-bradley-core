@@ -47,10 +47,30 @@ const BASELINE_META: Record<string, { category: TemplateCategory; examples: stri
   },
 }
 
-/** Decorated registry — the same templates with library metadata. */
+/**
+ * Decorated registry — the same templates with library metadata.
+ *
+ * Resolution order (P33 / ADR-062 update):
+ *   1. Template's own `category` / `examples` / `kind` fields when declared
+ *   2. BASELINE_META lookup (P23 legacy 3-template shim)
+ *   3. Hard fallback (content / [] / patcher)
+ *
+ * New templates SHOULD declare metadata directly on the Template (post-P29
+ * convention). BASELINE_META exists only to migrate the 3 P23 templates
+ * without forcing in-place edits.
+ */
 export const TEMPLATE_LIBRARY: readonly TemplateMeta[] = TEMPLATE_REGISTRY.map((t) => {
-  const meta = BASELINE_META[t.id] ?? { category: 'content' as TemplateCategory, examples: [], kind: 'patcher' as TemplateKind }
-  return { ...t, ...meta }
+  const fallback = BASELINE_META[t.id] ?? {
+    category: 'content' as TemplateCategory,
+    examples: [],
+    kind: 'patcher' as TemplateKind,
+  }
+  return {
+    ...t,
+    category: t.category ?? fallback.category,
+    examples: t.examples ?? fallback.examples,
+    kind: t.kind ?? fallback.kind,
+  }
 })
 
 /** List all templates (no filter). Returns frozen array; safe to share. */

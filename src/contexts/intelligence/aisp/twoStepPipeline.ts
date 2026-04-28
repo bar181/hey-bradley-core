@@ -18,10 +18,15 @@ import { useConfigStore } from '@/store/configStore'
 import { TEMPLATE_REGISTRY, type TemplateEnvelope } from '@/contexts/intelligence/templates'
 import { selectTemplate, STEP1_THRESHOLD, type TemplateSelection } from './templateSelector'
 import type { ClassifiedIntent } from './intentAtom'
+import { generateContent } from './contentGenerator'
+import type { GeneratedContent } from './contentAtom'
+import { heroHeadingPath } from '@/data/llm-fixtures/resolvePath'
 
 export interface TwoStepResult {
   step1: TemplateSelection
   step2: { applied: boolean; envelope: TemplateEnvelope }
+  /** P33 — present when step 2 ran the generator path (kind:'generator'). */
+  generated?: GeneratedContent
   totalConfidence: number
 }
 
@@ -40,17 +45,40 @@ export async function runTwoStepPipeline(
   const selection = await selectTemplate(userText, intent)
   if (!selection) return null
 
-  // Step 2 — execute the matched template (for P28 baseline this is a regex
-  // match against the existing template's matchPattern; future Sprint D
-  // templates may swap this for a content-generator LLM call)
+  // Step 2 — execute the matched template
   const tpl = TEMPLATE_REGISTRY.find((t) => t.id === selection.templateId)
   if (!tpl) return null
 
   const config = useConfigStore.getState().config
+
+  // P33 / ADR-062 — kind dispatch. Generator path runs `generateContent`
+  // (CONTENT_ATOM consumer) and produces a JSON-Patch envelope from the
+  // generated text + section-aware defaults.
+  if (tpl.kind === 'generator') {
+    const sectionType = intent?.target?.type ?? 'hero'
+    const generated = generateContent({ text: userText, sectionType })
+    if (!generated) return null
+
+    // Render generated text as a hero-headline patch by default. P33+
+    // generators that target other sections will swap this resolver.
+    const path = heroHeadingPath(config)
+    if (!path) return null
+
+    const envelope: TemplateEnvelope = {
+      patches: [{ op: 'replace', path, value: generated.text }],
+      summary: `Rewrote ${sectionType} headline (${generated.tone}/${generated.length}): "${generated.text}"`,
+    }
+    return {
+      step1: selection,
+      step2: { applied: true, envelope },
+      generated,
+      totalConfidence: Math.min(selection.confidence, generated.confidence),
+    }
+  }
+
+  // Patcher path (P28 baseline): regex envelope.
   const m = tpl.matchPattern.exec(userText)
   if (!m) {
-    // LLM picked a template whose regex doesn't match the user text.
-    // Acceptable: fall through to existing chain. Don't apply.
     return null
   }
   const envelope = tpl.envelope({ text: userText, match: m, config })

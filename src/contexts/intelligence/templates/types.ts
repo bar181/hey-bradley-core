@@ -45,6 +45,18 @@ export interface Template {
   /** Confidence score for matched input. Default 1.0 (exact regex hit = high confidence). */
   confidence?: number
   /**
+   * P29/ADR-058 — optional library metadata. When present on a Template,
+   * library.ts uses these values directly; when absent, library falls back to
+   * BASELINE_META (legacy 3-template shim). New templates SHOULD declare
+   * these fields explicitly. P33/ADR-062 — `kind` is also consumed by the
+   * 2-step pipeline for runtime dispatch.
+   */
+  category?: 'theme' | 'section' | 'content'
+  /** P29 — example user phrasings for the browse UI. */
+  examples?: readonly string[]
+  /** P29 — 'patcher' = direct patches; 'generator' = LLM content generation. */
+  kind?: 'patcher' | 'generator'
+  /**
    * Build the patch envelope from match context. Return empty patches with
    * a friendly summary if the match cannot resolve to a real path (e.g.,
    * target section absent from active config).
