@@ -85,10 +85,10 @@ export function Docs() {
       {/* Hero */}
       <section className="max-w-5xl mx-auto px-6 py-20 text-center">
         <div className="flex items-center justify-center gap-3 mb-6">
-          <BookOpen className="w-8 h-8 text-[#A51C30]" />
+          <BookOpen className="w-8 h-8 text-[#e8772e]" />
         </div>
         <h1 className="text-5xl lg:text-6xl font-bold tracking-tight text-neutral-900 mb-6">Documentation</h1>
-        <p className="text-xl text-neutral-500 max-w-2xl mx-auto">
+        <p className="text-xl text-[#6b5e4f] max-w-2xl mx-auto">
           Everything you need to build with Hey Bradley &mdash; {SECTION_TYPES.length} section
           types, {totalVariants} variants, {THEMES.length} themes, and {SPEC_GENERATORS.length} spec generators.
         </p>
@@ -97,24 +97,24 @@ export function Docs() {
       {/* Quick Start */}
       <section className="max-w-5xl mx-auto px-6 py-16">
         <div className="flex items-center gap-3 mb-8">
-          <Zap className="w-6 h-6 text-[#A51C30]" />
+          <Zap className="w-6 h-6 text-[#e8772e]" />
           <h2 className="text-3xl font-bold text-neutral-900">Quick Start</h2>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
           {QUICK_START.map((item) => (
             <div key={item.step} className="bg-white rounded-2xl border border-neutral-200 p-8 shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-[#A51C30] text-white flex items-center justify-center font-bold text-lg mb-4">
+              <div className="w-10 h-10 rounded-full bg-[#e8772e] text-[#2d1f12] flex items-center justify-center font-bold text-lg mb-4">
                 {item.step}
               </div>
               <h3 className="text-lg font-semibold text-neutral-900 mb-2">{item.title}</h3>
-              <p className="text-neutral-500 text-sm leading-relaxed">{item.description}</p>
+              <p className="text-[#6b5e4f] text-sm leading-relaxed">{item.description}</p>
             </div>
           ))}
         </div>
         <div className="mt-8 text-center">
           <Link
             to="/new-project"
-            className="inline-flex px-8 py-3 bg-[#A51C30] text-white font-semibold rounded-xl hover:bg-[#8B1729] transition-colors shadow-lg"
+            className="inline-flex px-8 py-3 bg-[#e8772e] text-[#2d1f12] font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
           >
             Open the Builder
           </Link>
@@ -127,12 +127,12 @@ export function Docs() {
         <div className="space-y-4">
           {WORKFLOW_STEPS.map((step, i) => (
             <div key={i} className="flex items-start gap-4 bg-white rounded-xl border border-neutral-200 p-6 shadow-sm">
-              <div className="w-8 h-8 rounded-full bg-neutral-100 text-neutral-500 flex items-center justify-center font-bold text-sm shrink-0">
+              <div className="w-8 h-8 rounded-full bg-neutral-100 text-[#6b5e4f] flex items-center justify-center font-bold text-sm shrink-0">
                 {i + 1}
               </div>
               <div>
                 <h3 className="font-semibold text-neutral-900 mb-1">{step.label}</h3>
-                <p className="text-sm text-neutral-500">{step.detail}</p>
+                <p className="text-sm text-[#6b5e4f]">{step.detail}</p>
               </div>
             </div>
           ))}
@@ -142,26 +142,26 @@ export function Docs() {
       {/* Section Reference */}
       <section className="max-w-5xl mx-auto px-6 py-16">
         <div className="flex items-center gap-3 mb-8">
-          <Layout className="w-6 h-6 text-[#A51C30]" />
+          <Layout className="w-6 h-6 text-[#e8772e]" />
           <h2 className="text-3xl font-bold text-neutral-900">Section Reference</h2>
         </div>
         <div className="bg-white rounded-2xl border border-neutral-200 overflow-hidden shadow-sm">
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-neutral-200 bg-neutral-50">
-                <th className="px-6 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Type</th>
-                <th className="px-6 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Name</th>
-                <th className="px-6 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider hidden md:table-cell">Description</th>
-                <th className="px-6 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider text-right">Variants</th>
+                <th className="px-6 py-3 text-xs font-semibold text-[#6b5e4f] uppercase tracking-wider">Type</th>
+                <th className="px-6 py-3 text-xs font-semibold text-[#6b5e4f] uppercase tracking-wider">Name</th>
+                <th className="px-6 py-3 text-xs font-semibold text-[#6b5e4f] uppercase tracking-wider hidden md:table-cell">Description</th>
+                <th className="px-6 py-3 text-xs font-semibold text-[#6b5e4f] uppercase tracking-wider text-right">Variants</th>
               </tr>
             </thead>
             <tbody>
               {SECTION_TYPES.map((s, i) => (
                 <tr key={s.type} className={i % 2 === 0 ? 'bg-white' : 'bg-neutral-50/50'}>
-                  <td className="px-6 py-3 font-mono text-sm text-[#A51C30]">{s.type}</td>
+                  <td className="px-6 py-3 font-mono text-sm text-[#e8772e]">{s.type}</td>
                   <td className="px-6 py-3 text-sm font-medium text-neutral-900">{s.name}</td>
-                  <td className="px-6 py-3 text-sm text-neutral-500 hidden md:table-cell">{s.description}</td>
-                  <td className="px-6 py-3 text-sm text-neutral-600 text-right">{s.variants}</td>
+                  <td className="px-6 py-3 text-sm text-[#6b5e4f] hidden md:table-cell">{s.description}</td>
+                  <td className="px-6 py-3 text-sm text-[#8a7a6d] text-right">{s.variants}</td>
                 </tr>
               ))}
             </tbody>
@@ -178,10 +178,10 @@ export function Docs() {
       {/* Theme Reference */}
       <section className="max-w-5xl mx-auto px-6 py-16">
         <div className="flex items-center gap-3 mb-8">
-          <Palette className="w-6 h-6 text-[#A51C30]" />
+          <Palette className="w-6 h-6 text-[#e8772e]" />
           <h2 className="text-3xl font-bold text-neutral-900">Theme Reference</h2>
         </div>
-        <p className="text-neutral-500 mb-6">
+        <p className="text-[#6b5e4f] mb-6">
           Each theme includes a primary palette, 4 alternative palettes, a dark/light
           alternate mode, and custom typography. Switch between them in the builder
           sidebar.
@@ -194,7 +194,7 @@ export function Docs() {
                 style={{ backgroundColor: t.color }}
               />
               <h3 className="text-sm font-semibold text-neutral-900">{t.name}</h3>
-              <p className="text-xs text-neutral-400 mt-1 leading-snug">{t.description}</p>
+              <p className="text-xs text-[#6b5e4f] mt-1 leading-snug">{t.description}</p>
             </div>
           ))}
         </div>
@@ -203,10 +203,10 @@ export function Docs() {
       {/* Spec Reference */}
       <section className="max-w-5xl mx-auto px-6 py-16">
         <div className="flex items-center gap-3 mb-8">
-          <FileText className="w-6 h-6 text-[#A51C30]" />
+          <FileText className="w-6 h-6 text-[#e8772e]" />
           <h2 className="text-3xl font-bold text-neutral-900">Spec Generator Reference</h2>
         </div>
-        <p className="text-neutral-500 mb-6">
+        <p className="text-[#6b5e4f] mb-6">
           Hey Bradley generates 6 specification documents from your site config. Open
           the Blueprints tab in the builder to see them all.
         </p>
@@ -214,7 +214,7 @@ export function Docs() {
           {SPEC_GENERATORS.map((spec) => (
             <div key={spec.name} className="bg-white rounded-2xl border border-neutral-200 p-6 shadow-sm">
               <h3 className="text-lg font-semibold text-neutral-900 mb-2">{spec.name}</h3>
-              <p className="text-neutral-500 text-sm leading-relaxed">{spec.description}</p>
+              <p className="text-[#6b5e4f] text-sm leading-relaxed">{spec.description}</p>
             </div>
           ))}
         </div>
@@ -228,34 +228,34 @@ export function Docs() {
             href="https://github.com/bar181/aisp-open-core"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 bg-white rounded-xl border border-neutral-200 p-5 shadow-sm hover:border-[#A51C30]/30 transition-colors"
+            className="flex items-center gap-3 bg-white rounded-xl border border-neutral-200 p-5 shadow-sm hover:border-[#e8772e]/30 transition-colors"
           >
-            <ExternalLink className="w-5 h-5 text-[#A51C30] shrink-0" />
+            <ExternalLink className="w-5 h-5 text-[#e8772e] shrink-0" />
             <div>
               <h3 className="font-semibold text-neutral-900 text-sm">AISP Protocol Guide</h3>
-              <p className="text-xs text-neutral-400">Open-source reference for the AI Symbolic Protocol</p>
+              <p className="text-xs text-[#6b5e4f]">Open-source reference for the AI Symbolic Protocol</p>
             </div>
           </a>
           <a
             href="https://github.com/bar181/hey-bradley-core"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 bg-white rounded-xl border border-neutral-200 p-5 shadow-sm hover:border-[#A51C30]/30 transition-colors"
+            className="flex items-center gap-3 bg-white rounded-xl border border-neutral-200 p-5 shadow-sm hover:border-[#e8772e]/30 transition-colors"
           >
-            <ExternalLink className="w-5 h-5 text-[#A51C30] shrink-0" />
+            <ExternalLink className="w-5 h-5 text-[#e8772e] shrink-0" />
             <div>
               <h3 className="font-semibold text-neutral-900 text-sm">GitHub Repository</h3>
-              <p className="text-xs text-neutral-400">Source code, issues, and documentation</p>
+              <p className="text-xs text-[#6b5e4f]">Source code, issues, and documentation</p>
             </div>
           </a>
           <Link
             to="/how-i-built-this"
-            className="flex items-center gap-3 bg-white rounded-xl border border-neutral-200 p-5 shadow-sm hover:border-[#A51C30]/30 transition-colors"
+            className="flex items-center gap-3 bg-white rounded-xl border border-neutral-200 p-5 shadow-sm hover:border-[#e8772e]/30 transition-colors"
           >
-            <ExternalLink className="w-5 h-5 text-[#A51C30] shrink-0" />
+            <ExternalLink className="w-5 h-5 text-[#e8772e] shrink-0" />
             <div>
               <h3 className="font-semibold text-neutral-900 text-sm">How I Built This</h3>
-              <p className="text-xs text-neutral-400">Phase-by-phase development story and methodology</p>
+              <p className="text-xs text-[#6b5e4f]">Phase-by-phase development story and methodology</p>
             </div>
           </Link>
         </div>
@@ -265,7 +265,7 @@ export function Docs() {
       <section className="max-w-5xl mx-auto px-6 py-16 text-center">
         <Link
           to="/new-project"
-          className="inline-flex px-8 py-3 bg-[#A51C30] text-white font-semibold rounded-xl hover:bg-[#8B1729] transition-colors shadow-lg"
+          className="inline-flex px-8 py-3 bg-[#e8772e] text-[#2d1f12] font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
         >
           Start Building
         </Link>

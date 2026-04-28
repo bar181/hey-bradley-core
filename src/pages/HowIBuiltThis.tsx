@@ -73,7 +73,7 @@ export function HowIBuiltThis() {
   const maxScore = 100
 
   return (
-    <main className="min-h-screen bg-[#1a1a1a] text-white">
+    <main className="min-h-screen bg-[#faf8f5] text-[#2d1f12]">
       <MarketingNav />
 
       {/* Hero */}
@@ -83,7 +83,7 @@ export function HowIBuiltThis() {
           <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6">
             21 Phases. One Human. Many Agents.
           </h1>
-          <p className="text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-[#6b5e4f] max-w-2xl mx-auto leading-relaxed">
             Hey Bradley shipped 21 sealed phases through P21 — POC foundation,
             local persistence, real LLM chat across 5 providers, voice mode, and
             a documented architecture of 43 ADRs and 5 DDD bounded contexts. This
@@ -96,10 +96,10 @@ export function HowIBuiltThis() {
       <section className="max-w-5xl mx-auto px-6 py-8">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {STATS.map((stat) => (
-            <div key={stat.label} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-              <stat.icon className="w-5 h-5 text-[#A51C30] mx-auto mb-2" />
+            <div key={stat.label} className="bg-white border border-[#e8772e]/20 rounded-xl p-4 text-center">
+              <stat.icon className="w-5 h-5 text-[#e8772e] mx-auto mb-2" />
               <div className="text-2xl font-bold">{stat.value}</div>
-              <div className="text-xs text-neutral-500 mt-1">{stat.label}</div>
+              <div className="text-xs text-[#6b5e4f] mt-1">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -111,24 +111,24 @@ export function HowIBuiltThis() {
         <div className="space-y-3">
           {PHASES.map((p) => (
             <div key={p.phase} className="flex items-center gap-4">
-              <div className="w-16 text-sm font-mono text-neutral-500 shrink-0">{p.phase}</div>
+              <div className="w-16 text-sm font-mono text-[#6b5e4f] shrink-0">{p.phase}</div>
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm font-medium text-neutral-300">{p.name}</span>
-                  <span className="text-sm text-neutral-500">{p.score === 'TBD' ? 'in flight' : `${p.score}/100`} &middot; {p.hours}</span>
+                  <span className="text-sm font-medium text-[#2d1f12]">{p.name}</span>
+                  <span className="text-sm text-[#6b5e4f]">{p.score === 'TBD' ? 'in flight' : `${p.score}/100`} &middot; {p.hours}</span>
                 </div>
-                <div className="h-3 bg-white/5 rounded-full overflow-hidden">
+                <div className="h-3 bg-white rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full bg-gradient-to-r from-[#A51C30] to-indigo-500 transition-all duration-500"
                     style={{ width: `${typeof p.score === 'number' ? (p.score / maxScore) * 100 : 50}%` }}
                   />
                 </div>
-                <p className="text-xs text-neutral-600 mt-1">{p.description}</p>
+                <p className="text-xs text-[#8a7a6d] mt-1">{p.description}</p>
               </div>
             </div>
           ))}
         </div>
-        <p className="text-sm text-neutral-500 mt-6">
+        <p className="text-sm text-[#6b5e4f] mt-6">
           Scores reflect feature completeness, code quality, test coverage, and
           design polish evaluated at each phase gate. The trajectory shows
           compounding returns as architecture stabilized and review discipline
@@ -141,10 +141,10 @@ export function HowIBuiltThis() {
         <h2 className="text-3xl font-bold mb-8">The Methodology</h2>
         <div className="grid md:grid-cols-3 gap-6">
           {METHODOLOGY.map((m) => (
-            <div key={m.title} className="bg-white/5 border border-white/10 rounded-2xl p-8">
-              <m.icon className="w-8 h-8 text-[#A51C30] mb-4" />
+            <div key={m.title} className="bg-white border border-[#e8772e]/20 rounded-2xl p-8">
+              <m.icon className="w-8 h-8 text-[#e8772e] mb-4" />
               <h3 className="text-lg font-semibold mb-3">{m.title}</h3>
-              <p className="text-neutral-400 text-sm leading-relaxed">{m.description}</p>
+              <p className="text-[#6b5e4f] text-sm leading-relaxed">{m.description}</p>
             </div>
           ))}
         </div>
@@ -155,10 +155,10 @@ export function HowIBuiltThis() {
         <h2 className="text-3xl font-bold mb-8">Technical Innovation</h2>
         <div className="grid md:grid-cols-3 gap-6">
           {INNOVATIONS.map((item) => (
-            <div key={item.title} className="bg-white/5 border border-white/10 rounded-2xl p-8">
+            <div key={item.title} className="bg-white border border-[#e8772e]/20 rounded-2xl p-8">
               <item.icon className="w-8 h-8 text-indigo-400 mb-4" />
               <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
-              <p className="text-neutral-400 text-sm leading-relaxed">{item.description}</p>
+              <p className="text-[#6b5e4f] text-sm leading-relaxed">{item.description}</p>
             </div>
           ))}
         </div>
@@ -168,18 +168,19 @@ export function HowIBuiltThis() {
       <section className="max-w-5xl mx-auto px-6 py-16">
         <h2 className="text-3xl font-bold mb-8">What I Learned</h2>
         <div className="grid md:grid-cols-2 gap-6">
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+          <div className="bg-white border border-[#e8772e]/20 rounded-2xl p-8">
             <h3 className="text-lg font-semibold mb-3 text-emerald-400">What Worked</h3>
-            <ul className="space-y-3 text-neutral-400 text-sm leading-relaxed">
+            <ul className="space-y-3 text-[#6b5e4f] text-sm leading-relaxed">
               <li>ADR-driven decisions prevented architectural drift across 21 phases</li>
               <li>Brutal-honest reviewer swarms after major phases caught real bugs (P19 went 66→88 composite after fix-pass-2)</li>
               <li>JSON-first architecture made the entire app composable and testable</li>
               <li>$0 real-LLM cost across P15-P19 by using FixtureAdapter + AgentProxyAdapter as proxies</li>
+              <li>COCOMO estimate against ~28K TS/TSX: ~$680K cost / 12-month schedule / 5+ person team. Actual: ~60 hours, single human + AI swarms. Compression ratio ~140&times;.</li>
             </ul>
           </div>
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+          <div className="bg-white border border-[#e8772e]/20 rounded-2xl p-8">
             <h3 className="text-lg font-semibold mb-3 text-amber-400">What Was Hard</h3>
-            <ul className="space-y-3 text-neutral-400 text-sm leading-relaxed">
+            <ul className="space-y-3 text-[#6b5e4f] text-sm leading-relaxed">
               <li>Stale plan claims — counts drifted faster than docs could keep up; P21 cleanup truthed everything</li>
               <li>Path-resolution bug between fixtures and active config silently corrupted patches until P19 fix-pass-2 F1</li>
               <li>Velocity surprised me — original 4-6 day phase estimates were 10-50× conservative</li>
@@ -194,13 +195,13 @@ export function HowIBuiltThis() {
         <div className="flex items-center justify-center gap-4">
           <Link
             to="/onboarding"
-            className="px-8 py-3 bg-[#A51C30] text-white font-semibold rounded-xl hover:bg-[#8B1729] transition-colors shadow-lg"
+            className="px-8 py-3 bg-[#e8772e] text-[#2d1f12] font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
           >
             Try the Builder
           </Link>
           <Link
             to="/docs"
-            className="px-8 py-3 border border-white/20 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors"
+            className="px-8 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-white/10 transition-colors"
           >
             Read the Docs
           </Link>
