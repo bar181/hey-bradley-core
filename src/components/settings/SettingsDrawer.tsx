@@ -5,6 +5,7 @@ import { X } from 'lucide-react'
 import { useUIStore } from '@/store/uiStore'
 import { LLMSettings } from './LLMSettings'
 import { BrandContextUpload } from './BrandContextUpload'
+import { CodebaseContextUpload } from './CodebaseContextUpload'
 
 export function SettingsDrawer() {
   const open = useUIStore((s) => s.settingsDrawerOpen)
@@ -105,6 +106,9 @@ export function SettingsDrawer() {
 
           {/* P44 Sprint H Wave 1 — Brand Context upload (TXT/MD) */}
           <BrandContextUpload />
+
+          {/* P45 Sprint H Wave 2 — Codebase Context upload (ZIP / multi-file) */}
+          <CodebaseContextUpload />
 
           {/* Cost cap */}
           <section>

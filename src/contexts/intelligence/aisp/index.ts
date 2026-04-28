@@ -6,11 +6,14 @@ export {
   INTENT_ATOM,
   ALLOWED_TARGET_TYPES,
   AISP_CONFIDENCE_THRESHOLD,
+  PROJECT_TYPES,
+  PROJECT_TYPE_TARGET_BIAS,
 } from './intentAtom'
 export type {
   IntentVerb,
   IntentTarget,
   ClassifiedIntent,
+  ProjectType,
 } from './intentAtom'
 export { classifyIntent } from './intentClassifier'
 export { llmClassifyIntent } from './llmClassifier'

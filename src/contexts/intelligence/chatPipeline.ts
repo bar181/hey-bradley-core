@@ -194,8 +194,37 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     const { translateIntent } = await import('@/contexts/intelligence/templates/intent')
     const { classifyIntent, llmClassifyIntent, AISP_CONFIDENCE_THRESHOLD, classifyRoute } = await import('@/contexts/intelligence/aisp')
 
+    // P45 Sprint H Wave 2 (A5) — read codebase-context manifest's projectType
+    // and pass to classifyIntent (Λ.project_context channel). Defensive:
+    //   - dynamic import so a missing repo file (A4 not yet shipped) is not a
+    //     hard build failure;
+    //   - any throw OR missing manifest collapses to projectType=null which
+    //     yields byte-identical P44 behavior in classifyIntent.
+    let projectType: import('@/contexts/intelligence/aisp').ProjectType | null = null
+    try {
+      const ctxMod = await import('@/contexts/persistence/repositories/codebaseContext')
+      const reader =
+        (ctxMod as { readCodebaseContextManifest?: () => { projectType?: string } | null }).readCodebaseContextManifest
+      if (typeof reader === 'function') {
+        const manifest = reader()
+        const pt = manifest?.projectType
+        if (
+          pt === 'saas-app' ||
+          pt === 'landing-page' ||
+          pt === 'static-site' ||
+          pt === 'portfolio' ||
+          pt === 'unknown'
+        ) {
+          projectType = pt
+        }
+      }
+    } catch {
+      // No codebase context repo wired yet (A4) or read threw — stay null.
+      projectType = null
+    }
+
     let canonicalForTemplate: string
-    let aisp = classifyIntent(text)
+    let aisp = classifyIntent(text, projectType)
     let aispSource: 'rules' | 'llm' | 'fallthrough' = 'rules'
     // P27: when rule-based AISP is below threshold, ask the LLM to classify
     // via the SAME Crystal Atom. Thesis demonstration ADR-056.

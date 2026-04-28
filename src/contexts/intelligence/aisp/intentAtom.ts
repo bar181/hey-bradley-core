@@ -30,7 +30,12 @@ export const INTENT_ATOM = `⟦
   }
   Λ := {
     confidence_threshold := 0.85,
-    fallback := translateIntent (P25 rule-based) → tryMatchTemplate (P23/P24)
+    cost_cap_reserve := 0.85,
+    fallback := translateIntent (P25 rule-based) → tryMatchTemplate (P23/P24),
+    project_context ?: {                              ⟵ P45 (A5 / ADR-068)
+      present:𝔹,
+      project_type ∈ { 'saas-app','landing-page','static-site','portfolio','unknown' }
+    }
   }
   Ε := {
     V1: VERIFY Verb ∈ Σ.Verb.op,
@@ -70,3 +75,36 @@ export interface ClassifiedIntent {
 
 /** Sprint C confidence threshold per Λ. */
 export const AISP_CONFIDENCE_THRESHOLD = 0.85
+
+/**
+ * P45 Sprint H Wave 2 (A5) — Project type values surfaced through Λ.project_context.
+ * 'unknown' is the safe default and triggers byte-identical P44 behavior in
+ * `classifyIntent`. ADR-068 (A6 owns).
+ */
+export const PROJECT_TYPES = [
+  'saas-app',
+  'landing-page',
+  'static-site',
+  'portfolio',
+  'unknown',
+] as const
+
+export type ProjectType = typeof PROJECT_TYPES[number]
+
+/**
+ * P45 (A5) — Bias table: per-projectType preferred target.type ranking used
+ * when the rule-based classifier is otherwise ambiguous. The values here are
+ * a SUBSET of `ALLOWED_TARGET_TYPES` (Γ R3); we never invent a new target
+ * enum, we only re-order candidates the existing classifier would already
+ * allow.
+ *
+ * 'unknown' is intentionally empty — when projectType is null/'unknown' the
+ * classifier MUST behave byte-identically to P44.
+ */
+export const PROJECT_TYPE_TARGET_BIAS: Record<ProjectType, ReadonlyArray<typeof ALLOWED_TARGET_TYPES[number]>> = {
+  'saas-app':       ['pricing', 'cta', 'features', 'testimonials'],
+  'landing-page':   ['hero', 'cta', 'features', 'value-props'],
+  'static-site':    ['hero', 'blog', 'footer', 'text'],
+  'portfolio':      ['hero', 'gallery', 'team', 'text'],
+  'unknown':        [],
+}
