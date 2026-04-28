@@ -186,11 +186,13 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
   //   AISP_rules (P26) → AISP_LLM (P27) → translate (P25) → router (P23+P24) → LLM patch
   // P34 Sprint E P1 (Sprint D UI closure A1) — capture AISP trace for the
   // AISPTranslationPanel; carries through every return below.
+  // P37 Sprint F P2 (A2) — content/design route classification gate (ADR-066).
   let aispTrace: { intent: ClassifiedIntent | null; source: 'rules' | 'llm' | 'fallthrough' } | null = null
+  let aispRoute: 'content' | 'design' | 'ambiguous' | null = null
   try {
     const { tryMatchTemplate } = await import('@/contexts/intelligence/templates')
     const { translateIntent } = await import('@/contexts/intelligence/templates/intent')
-    const { classifyIntent, llmClassifyIntent, AISP_CONFIDENCE_THRESHOLD } = await import('@/contexts/intelligence/aisp')
+    const { classifyIntent, llmClassifyIntent, AISP_CONFIDENCE_THRESHOLD, classifyRoute } = await import('@/contexts/intelligence/aisp')
 
     let canonicalForTemplate: string
     let aisp = classifyIntent(text)
@@ -207,6 +209,12 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       }
     }
     aispTrace = { intent: aisp, source: aispSource }
+    // P37 A2 — classify route (content vs design vs ambiguous). Pure-rule, $0.
+    // Call only when AISP is confident enough to have a target; otherwise the
+    // route will be re-decided downstream by the legacy translator + router.
+    if (aisp.confidence >= AISP_CONFIDENCE_THRESHOLD && aisp.target) {
+      aispRoute = classifyRoute(aisp, text).route
+    }
     if (aisp.confidence >= AISP_CONFIDENCE_THRESHOLD && aisp.target) {
       // AISP wins — construct canonical text from classified intent
       const verbWord = aisp.verb === 'remove' ? 'hide' : aisp.verb
@@ -252,6 +260,29 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
   } catch (e) {
     // Template module load failure is non-fatal — fall through to LLM as before
     if (import.meta.env.DEV) console.warn('[chatPipeline] template router unavailable', e)
+  }
+
+  // P37 A2 — content-route gate. The LLM patch pipeline below generates a
+  // JSON-patch envelope (design intent: hide/show/add/change-style). It is the
+  // wrong tool for copy/word changes — those belong to the CONTENT_ATOM
+  // pipeline (`generateContent` / contentGenerator), which is wired in P38.
+  // For now: when AISP routed to 'content' AND no template matched (so we'd
+  // otherwise fall to the LLM patch path), short-circuit to the canned hint
+  // so the user gets a sensible reply instead of a wrong-shape JSON patch.
+  // TODO: content route → P38 LLM content call (CONTENT_ATOM verbatim → LLM).
+  if (aispRoute === 'content') {
+    const canned = runCanned(text)
+    return {
+      ok: canned.matched,
+      appliedPatchCount: 0,
+      fellBackToCanned: true,
+      summary: canned.matched
+        ? canned.summary
+        : "Content rewrites are wired up in the next phase. Try a design change for now (e.g. 'change to dark mode' or 'add a pricing section').",
+      durationMs: Date.now() - startedAt,
+      errorKind: null,
+      aisp: aispTrace,
+    }
   }
 
   let pipelineErrorKind: ChatErrorKind | null = null

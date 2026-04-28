@@ -14,6 +14,7 @@ import {
   generateAssumptionsLLM,
   shouldRequestAssumptions,
   recordAcceptedAssumption,
+  parseCommand,
   type Assumption,
 } from '@/contexts/intelligence/aisp'
 import { buildActionPreview } from './listen/listenActionPreview'
@@ -193,6 +194,59 @@ export function ListenTab() {
     setPttReply('')
     setPttAisp(null)
     setPttClarification(null)
+    // P37 Sprint F P2 (A1) — Command-trigger gate runs BEFORE the review
+    // card. High-confidence slash/voice phrases (browse templates, generate
+    // content, design only, etc.) bypass review and dispatch directly so
+    // the user doesn't have to Approve a deterministic command. ADR-066.
+    const cmd = parseCommand(text)
+    if (cmd) {
+      // Clear the captured transcript so the next press starts fresh
+      // (mirrors the Approve path in handleListenApprove).
+      useListenStore.getState().resetTranscript()
+      switch (cmd.kind) {
+        case 'browse': {
+          // Switch to chat tab and open the template picker via prefill.
+          // ChatInput consumes pendingChatPrefill on mount; the empty-then-
+          // /browse round-trip would re-trigger the picker but a simpler
+          // path is to prefill "/browse" directly so the existing slash
+          // handler on ChatInput.handleSend opens the picker after Enter.
+          // Safer: prefill the canonical phrase the user can read + send.
+          useUIStore.getState().setPendingChatPrefill('/browse')
+          useUIStore.getState().setLeftPanelTab('chat')
+          return
+        }
+        case 'apply-template': {
+          useUIStore.getState().setPendingChatPrefill(
+            `build me a ${cmd.target ?? ''}`.trim(),
+          )
+          useUIStore.getState().setLeftPanelTab('chat')
+          return
+        }
+        case 'generate': {
+          useUIStore.getState().setPendingChatPrefill(
+            'generate content for this page',
+          )
+          useUIStore.getState().setLeftPanelTab('chat')
+          return
+        }
+        case 'design': {
+          useUIStore.getState().setPendingChatPrefill('design only: ')
+          useUIStore.getState().setLeftPanelTab('chat')
+          return
+        }
+        case 'content': {
+          useUIStore.getState().setPendingChatPrefill('content only: ')
+          useUIStore.getState().setLeftPanelTab('chat')
+          return
+        }
+        case 'hide':
+        case 'show': {
+          // Voice rarely speaks the slash form; if the user did, fall
+          // through to the standard review-card path so they can confirm.
+          break
+        }
+      }
+    }
     const preview = buildActionPreview(text)
     setPttReview({
       transcript: text,

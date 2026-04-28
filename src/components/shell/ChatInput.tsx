@@ -19,6 +19,7 @@ import {
   generateAssumptionsLLM,
   recordAcceptedAssumption,
   shouldRequestAssumptions,
+  parseCommand,
   type Assumption,
   type ClassifiedIntent,
   type LLMAssumptionsResult,
@@ -420,12 +421,56 @@ export function ChatInput() {
   const handleSend = () => {
     const text = input.trim()
     if (!text || isProcessing) return
-    // P34 (A2) — `/browse` slash command opens the TemplateBrowsePicker.
-    // Doesn't enter the chat history; doesn't fire the LLM pipeline.
-    if (text === '/browse' || text.toLowerCase() === '/templates') {
-      setShowBrowsePicker(true)
-      setInput('')
-      return
+    // P37 Sprint F P2 (A1) — Command-trigger gate. Runs BEFORE the LLM
+    // pipeline so first-class commands (slash + voice phrasings) always
+    // win over fuzzy intent classification. ADR-066.
+    //
+    // Preserves P34 (A2) behaviour: `/browse` and `/templates` open the
+    // TemplateBrowsePicker without entering chat history. Other kinds
+    // (generate/design/content) prefill the input with a canonical form
+    // so the existing template-router + chat pipeline handle dispatch
+    // without any new patch-application code paths (KISS).
+    const cmd = parseCommand(text)
+    if (cmd) {
+      switch (cmd.kind) {
+        case 'browse': {
+          // R1 F4 fix-pass parity — mutually exclusive with clarification.
+          setClarification(null)
+          setShowBrowsePicker(true)
+          setInput('')
+          return
+        }
+        case 'apply-template': {
+          // Hand the user the canonical "build me a <name>" so the existing
+          // template-router path runs; user can read + send.
+          setShowBrowsePicker(false)
+          setInput(`build me a ${cmd.target ?? ''}`.trim())
+          inputRef.current?.focus()
+          return
+        }
+        case 'generate': {
+          setInput('generate content for this page')
+          inputRef.current?.focus()
+          return
+        }
+        case 'design': {
+          setInput('design only: ')
+          inputRef.current?.focus()
+          return
+        }
+        case 'content': {
+          setInput('content only: ')
+          inputRef.current?.focus()
+          return
+        }
+        case 'hide':
+        case 'show': {
+          // Slash-only passthroughs — fall through to the canned/LLM path
+          // by NOT returning. The text is "/hide" or "/show" and the
+          // canned parser already handles those as no-op echoes.
+          break
+        }
+      }
     }
     // FIX 10: the chat-side inFlight pre-check is removed. The mutex now lives
     // inside auditedComplete (rate_limit error returned for re-entrancy from

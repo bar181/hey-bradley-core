@@ -123,8 +123,12 @@ test.describe('A2 — TemplateBrowsePicker component + /browse trigger', () => {
 
   test('ChatInput wires /browse slash command to setShowBrowsePicker(true)', () => {
     const src = readFileSync(CHAT_INPUT, 'utf8')
-    expect(src).toContain("text === '/browse'")
-    expect(src).toMatch(/setShowBrowsePicker\(true\)/)
+    // P37 Sprint F P2 (A1) — `text === '/browse'` literal generalized into
+    // `parseCommand(text)` w/ a `case 'browse'` dispatch (ADR-066). The
+    // invariant is unchanged: typing `/browse` opens the picker. We assert
+    // both the parser hand-off AND the browse-branch behaviour.
+    expect(src).toContain('parseCommand(text)')
+    expect(src).toMatch(/case 'browse'[\s\S]*?setShowBrowsePicker\(true\)/)
   })
 
   test('Picker click fills input and closes picker', () => {

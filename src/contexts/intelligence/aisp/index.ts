@@ -45,3 +45,16 @@ export {
 export type { AssumptionAtomItem } from './assumptionsAtom'
 export { generateAssumptionsLLM } from './assumptionsLLM'
 export type { LLMAssumptionsResult } from './assumptionsLLM'
+// P37 Sprint F P2 (A1) — Command Trigger System (slash + voice).
+// ADR-066. Re-exported from the AISP barrel so chat + voice surfaces
+// import from a single canonical entry point.
+export { parseCommand, COMMAND_TRIGGER_LIST } from '../commands/commandTriggers'
+export type {
+  CommandKind,
+  CommandTrigger,
+  CommandTriggerSpec,
+} from '../commands/commandTriggers'
+// P37 Sprint F P2 (A2) — Content / Design route classifier.
+// ADR-066. Splits LLM router into 'content' (slow/LLM) vs 'design' (fast/$0).
+export { classifyRoute } from './routeClassifier'
+export type { AISPRoute, RouteClassification } from './routeClassifier'
