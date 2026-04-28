@@ -18,21 +18,24 @@ import blog from '@/data/themes/blog.json'
 import elegant from '@/data/themes/elegant.json'
 import neon from '@/data/themes/neon.json'
 
-const DEFAULT_CONFIG: MasterConfig = defaultConfig as unknown as MasterConfig
+// P28 C17 — Zod helper replaces 13/21 `as unknown as` casts here.
+import { parseMasterConfigSafe, asThemeJson } from '@/lib/schemas/masterConfigParser'
+
+const DEFAULT_CONFIG: MasterConfig = parseMasterConfigSafe(defaultConfig) ?? (defaultConfig as unknown as MasterConfig)
 
 const THEMES: Record<string, Record<string, unknown>> = {
-  saas: saas as unknown as Record<string, unknown>,
-  agency: agency as unknown as Record<string, unknown>,
-  portfolio: portfolio as unknown as Record<string, unknown>,
-  startup: startup as unknown as Record<string, unknown>,
-  personal: personal as unknown as Record<string, unknown>,
-  professional: professional as unknown as Record<string, unknown>,
-  wellness: wellness as unknown as Record<string, unknown>,
-  minimalist: minimalist as unknown as Record<string, unknown>,
-  creative: creative as unknown as Record<string, unknown>,
-  blog: blog as unknown as Record<string, unknown>,
-  elegant: elegant as unknown as Record<string, unknown>,
-  neon: neon as unknown as Record<string, unknown>,
+  saas: asThemeJson(saas),
+  agency: asThemeJson(agency),
+  portfolio: asThemeJson(portfolio),
+  startup: asThemeJson(startup),
+  personal: asThemeJson(personal),
+  professional: asThemeJson(professional),
+  wellness: asThemeJson(wellness),
+  minimalist: asThemeJson(minimalist),
+  creative: asThemeJson(creative),
+  blog: asThemeJson(blog),
+  elegant: asThemeJson(elegant),
+  neon: asThemeJson(neon),
 }
 
 const HISTORY_LIMIT = 100

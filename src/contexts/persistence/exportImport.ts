@@ -169,6 +169,18 @@ export async function importBundle(file: File | Blob): Promise<{ projectsImporte
     await idbSet(IDB_KEY, bytes);
     const db = await initDB();
     await runMigrations(db);
+
+    // P28 C15 — Import lock: re-seed example_prompts from canonical migration
+    // 001 to prevent malicious bundles from overriding the corpus that
+    // AgentProxyAdapter consumes. Migration 001 is repo-controlled; this
+    // delete-and-re-run is idempotent (INSERT OR REPLACE in 001-example-prompts.sql).
+    try {
+      db.exec('DELETE FROM example_prompts');
+      const sqlModule = await import('./migrations/001-example-prompts.sql?raw');
+      db.exec(sqlModule.default);
+    } catch (e) {
+      if (import.meta.env.DEV) console.warn('[importBundle] example_prompts re-seed failed (acceptable; migration runs on next initDB)', e);
+    }
     return { projectsImported: 0, dbReplaced: true };
   }
 

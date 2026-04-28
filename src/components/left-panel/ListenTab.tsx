@@ -4,58 +4,26 @@ import { buildDemoFromCaptions, runDemo } from '@/lib/demoSimulator'
 import { EXAMPLE_SITES } from '@/data/examples'
 import listenSequences from '@/data/sequences/listen-sequences.json'
 import { useUIStore } from '@/store/uiStore'
-import { useListenStore, type ListenError } from '@/store/listenStore'
+import { useListenStore } from '@/store/listenStore'
 import { Button } from '@/components/ui/button'
 import { submit as submitChatPipeline } from '@/contexts/intelligence/chatPipeline'
 import { appendListenTranscript } from '@/contexts/persistence/repositories/messages'
 import { activeSession, startSession } from '@/contexts/persistence/repositories/sessions'
 import { useProjectStore } from '@/store/projectStore'
+// P28 C04 — helpers + SliderRow extracted to siblings; ListenTab orchestrates
+import {
+  PTT_HOLD_GATE_MS,
+  PTT_AUTO_STOP_MS,
+  PRIVACY_ACK_KEY,
+  PRIVACY_TITLE,
+  DEFAULTS,
+  mapListenError,
+  type DemoSequenceConfig,
+} from './listen/listenHelpers'
+import { SliderRow } from './listen/SliderRow'
 
-// Phase 19 Step 1 (Agent A2): PTT capture path lives ABOVE the canned demo.
-// Step 2 wires `final` → `chatPipeline.submit`; Step 1 only displays it.
-const PTT_HOLD_GATE_MS = 250
-const PTT_AUTO_STOP_MS = 12_000
-
-function mapListenError(err: ListenError): string {
-  switch (err.kind) {
-    case 'permission_denied':
-      return "Microphone permission denied. Click the mic button in your browser's address bar to allow."
-    case 'audio_capture':
-      return "Couldn't access your microphone. Check your audio device."
-    case 'no_speech':
-      return "I didn't hear anything. Try again."
-    case 'network':
-      return "Couldn't reach the speech-recognition service. Check your internet connection."
-    case 'aborted':
-      return 'Voice input was interrupted. Try again.'
-    case 'unknown':
-      return err.detail || 'Voice input failed. Please try again.'
-    default:
-      return err.detail || 'Voice input failed.'
-  }
-}
-
-const PRIVACY_ACK_KEY = 'hb-listen-privacy-acknowledged'
-const PRIVACY_TITLE =
-  'Audio is sent to your browser vendor (Google/Apple) for transcription. Hey Bradley never sees the audio.'
-
-interface DemoSequenceConfig {
-  id: string
-  label: string
-  exampleSlug: string
-  exampleName: string
-  swatchColors: string[]
-  captions: { text: string; delay: number }[]
-}
-
-const DEFAULTS = {
-  pulseSpeed: 3, // seconds (3000ms)
-  blurAmount: 23,
-  glowOpacity: 52,
-  coreOpacity: 85,
-  coreBlur: 13,
-  maxSize: 250,
-}
+// PTT capture path lives ABOVE the canned demo.
+// Constants + helpers + SliderRow live in ./listen/ siblings (P28 C04).
 
 export function ListenTab() {
   const [pulseSpeed, setPulseSpeed] = useState(DEFAULTS.pulseSpeed)
@@ -765,21 +733,4 @@ export function ListenTab() {
   )
 }
 
-function SliderRow({ label, value, min, max, step, suffix, leftHint, rightHint, onChange, disabled }: {
-  label: string; value: number; min: number; max: number; step: number; suffix: string
-  leftHint?: string; rightHint?: string; onChange: (v: number) => void; disabled?: boolean
-}) {
-  return (
-    <div className={`flex items-center gap-2 ${disabled ? 'opacity-40' : ''}`}>
-      <span className="text-xs text-white/40 w-10 shrink-0">{leftHint || label}</span>
-      <input
-        type="range" min={min} max={max} step={step} value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        disabled={disabled}
-        className="flex-1 h-1 bg-white/10 rounded-full appearance-none cursor-pointer disabled:cursor-not-allowed [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#A51C30]"
-        aria-label={label}
-      />
-      <span className="text-xs text-white/40 w-14 text-right shrink-0">{rightHint || `${value}${suffix}`}</span>
-    </div>
-  )
-}
+// P28 C04 — SliderRow extracted to ./listen/SliderRow.tsx

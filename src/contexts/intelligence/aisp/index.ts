@@ -14,3 +14,7 @@ export type {
 } from './intentAtom'
 export { classifyIntent } from './intentClassifier'
 export { llmClassifyIntent } from './llmClassifier'
+export { selectTemplate, STEP1_THRESHOLD } from './templateSelector'
+export { runTwoStepPipeline } from './twoStepPipeline'
+export type { TemplateSelection } from './templateSelector'
+export type { TwoStepResult } from './twoStepPipeline'
