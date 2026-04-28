@@ -2,7 +2,7 @@
 
 **Status:** Accepted
 **Date:** 2026-04-27
-**Deciders:** Bradley Ross + claude-flow swarm
+**Deciders:** Bradley Ross
 **Phase:** 18b
 
 ---
@@ -100,3 +100,13 @@ We **never** log:
 - ADR-043: API Key Trust Boundaries — BYOK contract; this ADR extends the redaction discipline to the new table
 - ADR-044: JSON Patch Contract — `error_kind` aligns with `LLMError.kind` discriminated union
 - ADR-046: Multi-Provider LLM Architecture — provider matrix whose per-provider cost/latency rollups this ADR makes queryable
+
+---
+
+## Status as of P20
+
+- Ruvector deltas D1 (request_id + parent_request_id), D2 (input/output_tokens split), D3 (SHA-256 prompt_hash) all shipped P18b.
+- 30-day retention LIVE at `initDB` via `pruneOldLLMLogs`.
+- `mapChatError` 4 infra kinds (cost_cap / timeout / precondition_failed / rate_limit) shipped P19 fix-pass-2 F2.
+- `mapListenError` 6 STT kinds shipped P19.
+- FK on `llm_logs.session_id` (C16) NOT YET shipped — P20 Day 2 work (migration 003).

@@ -2,7 +2,7 @@
 
 **Status:** Accepted
 **Date:** 2026-04-27
-**Deciders:** Bradley Ross + claude-flow swarm
+**Deciders:** Bradley Ross
 **Phase:** 16
 
 ---
@@ -113,3 +113,12 @@ Phase 16 plan: `plans/implementation/mvp-plan/02-phase-16-local-db.md`.
 - ADR-029: Pre-LLM MVP Architecture — frontend-only constraint that scopes this decision
 - ADR-031: JSON Data Architecture — schema discipline preserved across export/import
 - ADR-041: Schema Versioning — migration policy for the database introduced here
+
+---
+
+## Status as of P20
+
+- 30-day llm_logs retention LIVE in `db.ts:initDB` (auto-prune at session start).
+- Cross-tab Web Locks (`hb-db-write`) + BroadcastChannel (`hb-db`) confirmed working.
+- `.heybradley` zip export with `SENSITIVE_TABLE_OPS` registry strips `byok_*` kv prefix + `llm_logs` + `example_prompt_runs` (P18b sealed).
+- Schema versioning (ADR-041) reached version 3 (P18b llm_logs migration).

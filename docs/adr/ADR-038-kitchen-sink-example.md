@@ -2,7 +2,7 @@
 
 **Status:** Accepted
 **Date:** 2026-04-27
-**Deciders:** Bradley Ross + claude-flow swarm
+**Deciders:** Bradley Ross
 **Phase:** 15
 
 ---

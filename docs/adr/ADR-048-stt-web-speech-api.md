@@ -2,7 +2,7 @@
 
 **Status:** Accepted
 **Date:** 2026-04-27
-**Deciders:** Bradley Ross + claude-flow swarm
+**Deciders:** Bradley Ross
 **Phase:** 19
 
 ---
@@ -101,3 +101,13 @@ Accepted.
 
 - Web Speech API spec (W3C): https://wicg.github.io/speech-api/
 - MDN: `SpeechRecognition` — https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition
+
+---
+
+## Status as of P20
+
+- Voice → chat-pipeline fan-in shipped P19 (same `chatPipeline.submit({source: 'listen', ...})` as text).
+- 6 STT error kinds mapped via `mapListenError` (unsupported / permission_denied / audio_capture / network / no_speech / unknown).
+- PTT race condition (FIX 5) closed via unconditional reset of `finalText`/`interimText` at `start()`.
+- Privacy disclosure copy truthed-up (P19 fix-pass-2 F5): "Audio is not stored. The final transcript IS stored locally and included in `.heybradley` exports."
+- Listen `_archive` deferred — `ListenTab.tsx` 754-LOC split is P22+ refactor work.

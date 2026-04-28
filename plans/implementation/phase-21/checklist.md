@@ -1,24 +1,60 @@
-# Phase 21 — Master Checklist
+# Phase 21 — Master Checklist (Cleanup + ADR/DDD gap-fill)
 
-> **Title:** Sprint B Phase 1 — Simple Chat (natural language input + first real templates)
-> **Activation gate:** P20 sealed AND Phase α housekeeping (below) complete
-> **Effort:** multi-hour shift at P19-velocity
-> **Capstone alignment:** Sprints A-C completable before May 2026 defense; Sprint D begins post-defense
-> **Owner directive (Option A):** sequential numbering, no gaps. P21 = first coding phase of Sprint B (NOT MVP planning).
+> **Title:** Cleanup + ADR/DDD gap-fill (post-Wave-2 swarm ratification)
+> **Activation gate:** Wave-2 swarm reports landed (98d64e5 + 194e3bc). P20 seal NOT required (cleanup is doc-only).
+> **Effort:** 1-2h at velocity
+> **Persona gate:** none (no UX surface change)
+> **Successor:** P22 Public Website Rebuild
 
 ---
 
-## Phase 21 coding DoD (the actual coding phase)
+## Phase 21 DoD (Cleanup tracks A-D)
 
-Phase 21 ticks the actual coding deliverables of Sprint B Phase 1. The housekeeping in §1-§5 below is now **Phase α / pre-P21** — runs once before P21 begins and is not part of the P21 coding DoD.
+### Track A — Folder + scaffolding archive
+- [ ] phase-15/_archive/ exists; working files moved there
+- [ ] phase-16/_archive/ exists; working files moved
+- [ ] phase-17/_archive/ exists; working files moved
+- [ ] phase-18/_archive/ exists; working files moved (preserve roadmap-sprints + strategic-vision in main folder)
+- [ ] phase-19/_archive/ exists; working files moved (preserve deep-dive/ — capstone-relevant)
+- [ ] phase-20/_archive/ skipped (still active)
+- [ ] KEEP set verified per phase: session-log + retrospective + preflight + end-of-phase result
 
-- [ ] Natural-language input parser — handles freeform user prompts, routes to template registry
-- [ ] **2-3 templates registered** in real registry (not just regex fixtures): "make it brighter", "hide the hero", "warmer colors"
-- [ ] Section targeting `/hero-1` works — keyword path scoping resolves to a single section
-- [ ] **+5 Playwright cases** (P21 baseline, monotonic non-decreasing)
-- [ ] **1 ADR** for template registry (proposed ADR-050; ADR-049 reserved for cost-cap from P20)
-- [ ] Build green; lint green; targeted test sweep green
-- [ ] `MEMORY.md` and `STATE.md` updated with P21 seal composite + commit
+### Track B — ADR review + gap fill
+- [ ] ADR-040 (local SQLite persistence) — append "**Status as of P20:**" line
+- [ ] ADR-043 (BYOK trust boundaries) — append "**Status as of P20:**" line
+- [ ] ADR-045 (chat patch validator) — append "**Status as of P20:**" line
+- [ ] ADR-047 (llm logging) — append "**Status as of P20:**" line
+- [ ] ADR-048 (STT Web Speech) — append "**Status as of P20:**" line
+- [ ] ADR-050 (template registry) — STUB (status: Proposed; full content in P23 Sprint B P1)
+- [ ] ADR-051 (intent translator) — STUB
+- [ ] ADR-052 (AISP intent classifier) — STUB
+- [ ] ADR-053 (public site IA) — STUB (full content in P22 website rebuild)
+- [ ] ADR-054 (DDD bounded contexts) — FULL AUTHOR
+
+### Track C — DDD bounded-context audit (folded into ADR-054)
+- [ ] 5 contexts documented (Configuration / Persistence / Intelligence / Specification / UI Shell)
+- [ ] Cross-context coupling concerns flagged
+
+### Track D — Doc accuracy pass
+- [ ] `CLAUDE.md ## Project Status` counts match A1 truth (38 ADRs / 17 examples / 16 sections / 300 media / 63 tests / 227 source files / 28K LOC)
+- [ ] `CLAUDE.md ## Phase Roadmap` shows P21=Cleanup, P22=Website-rebuild, P23-P25 Sprint B
+- [ ] `README.md` Build Phases table updated
+- [ ] `STATE.md §2` runway shows P21=Cleanup + P22=Website-rebuild + Sprint B/C shifted
+- [ ] `08-master-checklist.md` roll-up totals match per-phase sums
+- [ ] `phase-18/roadmap-sprints-a-to-h.md` reflects P56 final phase
+- [ ] `phase-18/strategic-vision.md` Full Sprint Roadmap shifted
+
+### End-of-phase
+- [ ] `phase-21/session-log.md` — results table
+- [ ] `phase-21/retrospective.md` — what to keep / drop / reframe
+- [ ] `STATE.md §1` — P21 row added with composite + commit
+- [ ] `08-master-checklist.md` — P21 section ticked
+- [ ] Push to origin
+
+### Preflight for P22 (Website Rebuild)
+- [ ] `phase-22/preflight/00-summary.md` (per A5 plan; Don Miller framing)
+- [ ] `phase-22/checklist.md`
+- [ ] `phase-22/MEMORY.md`
 
 ---
 

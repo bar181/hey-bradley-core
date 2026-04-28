@@ -2,7 +2,7 @@
 
 **Status:** Accepted
 **Date:** 2026-04-27
-**Deciders:** Bradley Ross + claude-flow swarm
+**Deciders:** Bradley Ross
 **Phase:** 17
 
 ---
@@ -106,3 +106,12 @@ ADR-040's `exportImport.ts` strips the `SENSITIVE_KV_KEYS` set (which **must** i
 
 - ADR-040: Local SQLite Persistence — owner of the `kv` table and `SENSITIVE_KV_KEYS` export strip
 - ADR-042: LLM Provider Abstraction — consumer of the keys this ADR governs
+
+---
+
+## Status as of P20
+
+- DEV-mode `VITE_LLM_API_KEY` runtime warning shipped P19 fix-pass-2 F6 (`pickAdapter.ts` boots a one-time `console.warn`).
+- Husky pre-commit guard covers 9 key-shape patterns (Anthropic, Google, OpenAI, HuggingFace, GitHub PAT, Groq, xAI, OpenRouter, generic JWT).
+- Vite build-time assertion in `vite.config.ts` aborts production builds when `VITE_LLM_API_KEY` is set.
+- SECURITY.md authoring is P20 Day 2 deliverable (formalizes this ADR's promises).

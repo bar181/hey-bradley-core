@@ -2,7 +2,7 @@
 
 **Status:** Accepted
 **Date:** 2026-04-27
-**Deciders:** Bradley Ross + claude-flow swarm
+**Deciders:** Bradley Ross
 **Phase:** 18
 
 ---
@@ -122,3 +122,11 @@ The patch envelope is the **only** path through which an LLM mutates `MasterConf
 - ADR-031: JSON Data Architecture — the section/theme schema patches are checked against
 - ADR-040: Local SQLite Persistence — `kv` rows for `/siteContext/*` fields and the `llm_calls` audit row
 - ADR-045: System Prompt = AISP Crystal Atom — the framing that tells the model to emit this contract
+
+---
+
+## Status as of P20
+
+- Path-resolution helper (`src/data/llm-fixtures/resolvePath.ts`) closes blog-standard hero-corruption class (P19 fix-pass-2 F1).
+- CSS-injection guard: `UNSAFE_VALUE_RE` adds `\burl\(` + `@import`; `IMAGE_PATH_RE` adds `imageUrl` (P19 fix-pass-2 F3).
+- AbortSignal plumb-through (C20) NOT YET shipped — P20 Day 1 work.

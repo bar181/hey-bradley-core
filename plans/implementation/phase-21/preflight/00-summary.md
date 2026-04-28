@@ -1,24 +1,40 @@
 # Phase 21 — Preflight 00 Summary
 
-> **Phase title:** Sprint B Phase 1 — Simple Chat (natural language input + first real templates)
-> **Status:** PREFLIGHT (activates post-P20-seal)
-> **Owner directive (Option A, sequential numbering, no gaps):** Phase 21 IS Sprint B Phase 1. Earlier "MVP planning" content is demoted to Phase α (pre-P21 housekeeping) below.
-> **Prerequisite:** P20 sealed (composite ≥88, master checklist 100% green for P15-P20) AND Phase α housekeeping complete.
-> **Successor:** P22 (Sprint B Phase 2 — section targeting) → P23 (Sprint B Phase 3 — intent translation).
+> **Phase title:** Cleanup + ADR/DDD gap-fill (post-P20-seal)
+> **Status:** PREFLIGHT (activates post-P20-seal — but P20 seal can be deferred since this phase is markdown-only)
+> **Owner directive (post-Wave-2 ratification):** Phase 21 = Cleanup. Sprint B shifts to **P23-P25**. Sprint C → P26-P28. Sprint F compressed to 3 phases (P38-P40). Total phases extend to P56.
+> **Prerequisite:** Wave-1 + Wave-2 swarm reports landed (98d64e5 + 194e3bc). P20 seal NOT a prerequisite (cleanup is doc-only).
+> **Successor:** **P22 Public Website Rebuild** (per A5 plan + Don Miller refresh).
 
 > **Velocity reality check (from owner):** *"P15 through P19 + P18b — 6 phases sealed in under one day. Time estimates in this conversation have been consistently 10-50x too conservative."* Adjust effort projections accordingly throughout.
 
 ---
 
-## Phase 21 deliverables (the actual coding phase)
+## Phase 21 deliverables (Cleanup + ADR/DDD gap-fill)
 
-Phase 21 is the **first coding phase of Sprint B (Simple Chat)**. It is NOT the planning phase.
+Phase 21 is doc-only. No source code changes. Per A6 plan in `phase-22/A6-cleanup-plan.md`:
 
-- Natural-language chat input handling **2-3 hardcoded templates** ("make it brighter", "hide the hero", "warmer colors")
-- Template registry seeded with 2-3 real entries (not just regex fixtures)
-- Section-targeting groundwork (`/hero-1` keyword path matching)
-- Test count target: **+5 cases** (P21 baseline at velocity)
-- 1 ADR for template registry (proposed ADR-050; ADR-049 reserved for cost-cap from P20)
+**Track A — Folder + scaffolding archive:**
+- Each sealed phase (P11-P20) gets a `_archive/` subfolder; working drafts moved there
+- KEEP set: `session-log.md`, `retrospective.md`, preflight docs, end-of-phase results
+- ARCHIVE set: working drafts, fix-pass scratchpads, intermediate planning notes
+
+**Track B — ADR review + gap fill:**
+- 5 ADR drift amendments (040, 043, 045, 047, 048) — append "**Status as of P20:**" line
+- 4 ADR stubs authored (050 template registry, 051 intent translator, 052 AISP intent, 053 public site IA)
+- ADR-054 — DDD bounded contexts (full author)
+
+**Track C — DDD bounded-context audit:**
+- Document de-facto context map in ADR-054 (Configuration / Persistence / Intelligence / Specification / UI Shell)
+- Flag cross-context coupling concerns (Intelligence → Persistence direct repo imports)
+
+**Track D — Doc accuracy pass:**
+- `CLAUDE.md ## Project Status` counts (38 ADRs / 17 examples / 16 sections / 300 media / 63 tests)
+- `README.md` Build Phases table
+- `STATE.md` runway with Sprint B at P23-P25 (post-cleanup-shift)
+- `08-master-checklist.md` roll-up totals
+
+**Effort:** 1-2h at velocity. **No persona gate** (no UX surface change).
 
 ---
 
