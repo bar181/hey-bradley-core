@@ -159,17 +159,30 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     }
   }
 
-  // P23 Sprint B Phase 1 — Template-first routing (ADR-050).
-  // Short-circuits the LLM call when a template matches at confidence ≥0.8.
-  // $0 cost; deterministic patches; fastest path. Falls through to LLM on miss.
-  // P25 Sprint B Phase 3 — Intent translator runs FIRST so messy input
-  // ("get rid of the second blog post") is rewritten to canonical form
-  // ("hide /blog-2") before template matching. ADR-052.
+  // P26 Sprint C Phase 1 — AISP intent classifier runs FIRST.
+  // When AISP confidence ≥0.85, its classification drives a constructed
+  // canonical-text for the template router. When <0.85, falls through to
+  // the P25 rule-based translator. ADR-053.
+  // Full fallback chain:
+  //   AISP (P26) → rule-based translate (P25) → tryMatchTemplate (P23+P24) → LLM
   try {
     const { tryMatchTemplate } = await import('@/contexts/intelligence/templates')
     const { translateIntent } = await import('@/contexts/intelligence/templates/intent')
-    const intent = translateIntent(text)
-    const tpl = tryMatchTemplate(intent.canonicalText)
+    const { classifyIntent, AISP_CONFIDENCE_THRESHOLD } = await import('@/contexts/intelligence/aisp')
+
+    let canonicalForTemplate: string
+    const aisp = classifyIntent(text)
+    if (aisp.confidence >= AISP_CONFIDENCE_THRESHOLD && aisp.target) {
+      // AISP wins — construct canonical text from classified intent
+      const verbWord = aisp.verb === 'remove' ? 'hide' : aisp.verb
+      const scopeToken = `/${aisp.target.type}${aisp.target.index !== null ? `-${aisp.target.index}` : ''}`
+      const paramsTail = aisp.params?.value ? ` to ${JSON.stringify(aisp.params.value)}` : ''
+      canonicalForTemplate = `${verbWord} ${scopeToken}${paramsTail}`.trim()
+    } else {
+      // AISP not confident — fall through to P25 rule-based translator
+      canonicalForTemplate = translateIntent(text).canonicalText
+    }
+    const tpl = tryMatchTemplate(canonicalForTemplate)
     if (tpl && tpl.envelope.patches.length > 0) {
       try {
         useConfigStore.getState().applyPatches(tpl.envelope.patches)
