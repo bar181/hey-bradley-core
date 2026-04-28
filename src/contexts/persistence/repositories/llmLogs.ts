@@ -124,3 +124,20 @@ export function pruneOldLLMLogs(beforeMs: number): number {
   void persist();
   return count;
 }
+
+/**
+ * P23 carryforward C18 — LRU bound on llm_logs.
+ * Caps the table to MAX_ROWS by deleting the oldest rows beyond that count.
+ * Runs alongside time-based pruning at every initDB; cheap (single DELETE).
+ * Returns count of rows deleted.
+ */
+export function pruneLLMLogsByCount(maxRows: number = 10_000): number {
+  const db = getDB();
+  const stmt = db.prepare(
+    'DELETE FROM llm_logs WHERE id NOT IN (SELECT id FROM llm_logs ORDER BY created_at DESC LIMIT ?)',
+  );
+  try { stmt.run([maxRows]); } finally { stmt.free(); }
+  const count = db.getRowsModified();
+  void persist();
+  return count;
+}

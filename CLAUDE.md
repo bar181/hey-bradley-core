@@ -77,7 +77,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 - **Blueprints:** 7 sub-tabs (North Star, Architecture, Build Plan, Features, Human Spec, AISP, JSON)
 - **Center Tabs (EXPERT):** 5 (Preview, Blueprints, Resources, Data, Pipeline)
 - **Capabilities:** Multi-page support, ZIP export, blog section type, AISP Crystal Atom output, real LLM adapters (Claude/Gemini/OpenRouter), Web-Speech STT (PTT)
-- **ADRs:** 45 ADR files through ADR-054 (DDD Bounded Contexts) + ADR-049 (Cost-Cap Telemetry). Numbering has 11 documented gaps (002-004, 006-009, 034-037) — see `docs/adr/README.md`.
+- **ADRs:** 45 ADR files through ADR-054 (DDD Bounded Contexts); ADR-050 promoted from stub to Accepted (Template-First Chat Architecture, P23). Numbering has 11 documented gaps (002-004, 006-009, 034-037) — see `docs/adr/README.md`.
 - **Deferred Features:** 34 documented in plans/deferred-features.md; 20 P20 carryforward items in plans/implementation/phase-19/deep-dive/05-fix-pass-plan.md §5
 - **Tests:** 63 Playwright cases across 29 spec files (46 targeted active for P19 seal-gate)
 
@@ -98,7 +98,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 | P20 | Verify, Cost Caps, MVP Close — CostPill + AbortSignal C20 + mvp-e2e + getting-started + CONTRIBUTING | CLOSED 88/100 (Grandma 76 / Framer 87 / Capstone 91) |
 | P21 | **Cleanup + ADR/DDD gap-fill (NEW — inserted post-Wave-2 ratification)** | NEXT (post-P20) |
 | P22 | **Public Website Rebuild — BYOK demo + Don Miller blog-style** | CLOSED 81/100 (Grandma 73 / Framer 84 / Capstone 86) |
-| P23 | Sprint B Phase 1 — Simple Chat (natural language input + 2-3 templates) | PLANNED |
+| P23 | Sprint B Phase 1 — Simple Chat (template-first routing; 3 templates + router + ADR-050) | CLOSED 88/100 (Grandma 76 / Framer 86 / Capstone 92) |
 | P24 | Sprint B Phase 2 — section targeting via `/hero-1` keyword scoping | PLANNED |
 | P25 | Sprint B Phase 3 — intent translation (messy → structured to-do) | PLANNED |
 | P26 | Sprint C Phase 1 — AISP instruction layer | PLANNED (capstone-relevant) |

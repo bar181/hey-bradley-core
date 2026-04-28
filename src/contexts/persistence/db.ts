@@ -5,7 +5,7 @@
 import { get as idbGet, set as idbSet } from 'idb-keyval';
 import type { Database, SqlJsStatic } from 'sql.js';
 import { runMigrations } from './migrations';
-import { pruneOldLLMLogs } from './repositories/llmLogs';
+import { pruneOldLLMLogs, pruneLLMLogsByCount } from './repositories/llmLogs';
 
 // FIX 7 (Phase 18b): default 30-day retention for llm_logs forensic table.
 // ADR-047 §Retention now states this is enforced (was "documented for future
@@ -91,8 +91,10 @@ export async function initDB(): Promise<Database> {
     // table is observability-only, never load-bearing for cap math.
     try {
       pruneOldLLMLogs(Date.now() - DEFAULT_RETENTION_MS);
+      // P23 carryforward C18 — LRU bound (10K rows max) alongside time-based prune.
+      pruneLLMLogsByCount(10_000);
     } catch (e) {
-      if (import.meta.env.DEV) console.warn('[persistence] pruneOldLLMLogs failed', e);
+      if (import.meta.env.DEV) console.warn('[persistence] llm_logs prune failed', e);
     }
     // Re-register the BroadcastChannel listener on every fresh init so peers
     // continue to invalidate this tab after closeDB() / import flows.

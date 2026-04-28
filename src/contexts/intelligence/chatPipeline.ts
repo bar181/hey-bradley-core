@@ -158,6 +158,45 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       errorKind: null,
     }
   }
+
+  // P23 Sprint B Phase 1 — Template-first routing (ADR-050).
+  // Short-circuits the LLM call when a template matches at confidence ≥0.8.
+  // $0 cost; deterministic patches; fastest path. Falls through to LLM on miss.
+  try {
+    const { tryMatchTemplate } = await import('@/contexts/intelligence/templates')
+    const tpl = tryMatchTemplate(text)
+    if (tpl && tpl.envelope.patches.length > 0) {
+      try {
+        useConfigStore.getState().applyPatches(tpl.envelope.patches)
+        return {
+          ok: true,
+          appliedPatchCount: tpl.envelope.patches.length,
+          fellBackToCanned: false,
+          summary: `${tpl.envelope.summary} _(template: ${tpl.template.id})_`,
+          durationMs: Date.now() - startedAt,
+          errorKind: null,
+        }
+      } catch (e) {
+        if (import.meta.env.DEV) console.warn('[chatPipeline] template applyPatches threw', e)
+        // fall through to LLM on apply failure
+      }
+    } else if (tpl && tpl.envelope.patches.length === 0) {
+      // Template matched but resolved to a friendly empty-patch (e.g. section absent).
+      // Surface the message immediately rather than proxying through the LLM.
+      return {
+        ok: false,
+        appliedPatchCount: 0,
+        fellBackToCanned: true,
+        summary: `${tpl.envelope.summary} _(template: ${tpl.template.id})_`,
+        durationMs: Date.now() - startedAt,
+        errorKind: null,
+      }
+    }
+  } catch (e) {
+    // Template module load failure is non-fatal — fall through to LLM as before
+    if (import.meta.env.DEV) console.warn('[chatPipeline] template router unavailable', e)
+  }
+
   let pipelineErrorKind: ChatErrorKind | null = null
   try {
     const llm = await runLLMPipeline(text, opts.source, opts.history)
