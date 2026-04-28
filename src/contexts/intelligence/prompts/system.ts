@@ -6,6 +6,7 @@
 import { renderAllowedPathsForPrompt } from '@/lib/schemas/patchPaths'
 import { estimateTokens } from '@/contexts/intelligence/llm/cost'
 import { readBrandContext } from '@/contexts/persistence/repositories/brandContext'
+import { redactKeyShapes } from '@/contexts/intelligence/llm/keys'
 
 export interface SystemPromptCtx {
   /** Current MasterConfig — compacted to ≤ 4 KB before injection. */
@@ -128,10 +129,15 @@ function resolveBrandContextBlock(explicit: string | undefined): string {
     }
   }
   if (!raw) return ''
+  // P46 fix-pass (R2 L1) — defence-in-depth: redact key shapes at the
+  // injection boundary too, so legacy kv rows written before the persist-side
+  // redactor (or explicit `ctx.brandContext` callers) cannot leak into the
+  // LLM prompt.
+  const safe = redactKeyShapes(raw)
   const head =
-    raw.length <= BRAND_CONTEXT_BYTE_CAP
-      ? raw
-      : `${raw.slice(0, BRAND_CONTEXT_BYTE_CAP - 16)}…<truncated>`
+    safe.length <= BRAND_CONTEXT_BYTE_CAP
+      ? safe
+      : `${safe.slice(0, BRAND_CONTEXT_BYTE_CAP - 16)}…<truncated>`
   return `---\nBrand Context (for content tone + voice):\n${head}`
 }
 

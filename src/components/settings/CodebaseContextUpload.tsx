@@ -26,6 +26,17 @@ import {
   type CodebaseContextManifest,
   type ProjectType,
 } from '@/contexts/persistence/repositories/codebaseContext'
+import { REFERENCE_CHANGED_EVENT } from './ReferenceManagement'
+
+/** P46 fix-pass (R1 L4) — best-effort cross-component refresh signal. */
+function notifyReferenceChanged(): void {
+  if (typeof window === 'undefined') return
+  try {
+    window.dispatchEvent(new Event(REFERENCE_CHANGED_EVENT))
+  } catch {
+    /* test env — best-effort */
+  }
+}
 
 /** 5 MB cap on the input ZIP (KISS — codebases at this stage are summary-sized). */
 const MAX_ZIP_BYTES = 5 * 1024 * 1024
@@ -115,11 +126,25 @@ async function extractZip(file: File): Promise<ExtractedFile[]> {
   return out
 }
 
-async function extractFiles(files: File[]): Promise<ExtractedFile[]> {
+interface ExtractFilesResult {
+  files: ExtractedFile[]
+  skippedOversize: number
+  skippedUninteresting: number
+}
+
+async function extractFiles(files: File[]): Promise<ExtractFilesResult> {
   const out: ExtractedFile[] = []
+  let skippedOversize = 0
+  let skippedUninteresting = 0
   for (const file of files) {
-    if (file.size > MAX_FILE_BYTES) continue
-    if (!isInteresting(file.name)) continue
+    if (file.size > MAX_FILE_BYTES) {
+      skippedOversize += 1
+      continue
+    }
+    if (!isInteresting(file.name)) {
+      skippedUninteresting += 1
+      continue
+    }
     try {
       const text = await file.text()
       out.push({ name: file.name, text })
@@ -127,7 +152,7 @@ async function extractFiles(files: File[]): Promise<ExtractedFile[]> {
       // Skip unreadable files.
     }
   }
-  return out
+  return { files: out, skippedOversize, skippedUninteresting }
 }
 
 interface BuiltSummary {
@@ -226,7 +251,10 @@ export function CodebaseContextUpload() {
 
     if (isZip) {
       if (single.size > MAX_ZIP_BYTES) {
-        setStatus({ kind: 'error', message: 'ZIP must be under 5 MB.' })
+        setStatus({
+          kind: 'error',
+          message: `ZIP is ${formatBytes(single.size)} — must be under 5 MB. Try selecting just package.json + README + a config file instead.`,
+        })
         return
       }
       setStatus({ kind: 'reading', label: single.name })
@@ -255,6 +283,7 @@ export function CodebaseContextUpload() {
         })
         setManifest(written)
         setStatus({ kind: 'idle' })
+        notifyReferenceChanged()
       } catch (err) {
         const message =
           err instanceof Error ? err.message : 'Failed to extract codebase ZIP.'
@@ -267,14 +296,18 @@ export function CodebaseContextUpload() {
     setStatus({ kind: 'reading', label: `${files.length} file${files.length === 1 ? '' : 's'}` })
     try {
       const extracted = await extractFiles(files)
-      if (extracted.length === 0) {
+      if (extracted.files.length === 0) {
+        const skipNote =
+          extracted.skippedOversize > 0
+            ? ` (skipped ${extracted.skippedOversize} file${extracted.skippedOversize === 1 ? '' : 's'} over 2 MB)`
+            : ''
         setStatus({
           kind: 'error',
-          message: 'Pick a ZIP, README, package.json, or config files.',
+          message: `Pick a ZIP, README, package.json, or config files.${skipNote}`,
         })
         return
       }
-      const summary = buildSummary(extracted)
+      const summary = buildSummary(extracted.files)
       if (summary.text.length === 0) {
         setStatus({ kind: 'error', message: 'Selected files were empty.' })
         return
@@ -289,7 +322,18 @@ export function CodebaseContextUpload() {
         sources: summary.filenames,
       })
       setManifest(written)
-      setStatus({ kind: 'idle' })
+      notifyReferenceChanged()
+      // P46 fix-pass (R1 F2) — when uploads succeed but some files were
+      // skipped, surface a non-blocking note so the user knows why fileCount
+      // is lower than expected.
+      if (extracted.skippedOversize > 0) {
+        setStatus({
+          kind: 'error',
+          message: `Saved ${written.fileCount} file${written.fileCount === 1 ? '' : 's'} — skipped ${extracted.skippedOversize} over 2 MB.`,
+        })
+      } else {
+        setStatus({ kind: 'idle' })
+      }
     } catch (err) {
       const message =
         err instanceof Error ? err.message : 'Failed to read selected files.'
@@ -318,7 +362,18 @@ export function CodebaseContextUpload() {
     } finally {
       refreshManifest()
       setStatus({ kind: 'idle' })
+      notifyReferenceChanged()
     }
+  }, [refreshManifest])
+
+  // P46 fix-pass (R1 L4) — listen for sibling-driven changes (ReferenceManagement
+  // can clear this row directly). Re-read manifest on event so this widget
+  // mirrors kv state without waiting for a drawer remount.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const onChanged = () => refreshManifest()
+    window.addEventListener(REFERENCE_CHANGED_EVENT, onChanged)
+    return () => window.removeEventListener(REFERENCE_CHANGED_EVENT, onChanged)
   }, [refreshManifest])
 
   return (
@@ -327,9 +382,11 @@ export function CodebaseContextUpload() {
         Codebase Context
       </h3>
       <p className="text-[11px] text-hb-text-muted mb-3 leading-snug">
-        Upload a ZIP of your project (or pick README + package.json + config files).
-        We summarize key files to detect project type and steer suggestions. Stays
-        on this device; stripped from .heybradley exports.
+        Help Bradley match your stack. Upload a ZIP of your project (or pick
+        README + package.json + config files) — we summarize the key files to
+        detect project type (SaaS, landing page, static site, portfolio) so
+        intent routing prefers sections that fit. Stays on this device;
+        stripped from .heybradley exports.
       </p>
 
       {manifest ? (

@@ -29,6 +29,12 @@ export interface AISPSurfaceProps {
    * the chip works the moment A1's upload lands without a ChatInput rewire.
    */
   brandActive?: boolean
+  /**
+   * P46 fix-pass (R1 F4) — route classification for this turn. Used by the
+   * SIMPLE panel to surface "voice loaded but unused this turn" on
+   * design-only routes. `null` when AISP did not run.
+   */
+  aispRoute?: 'content' | 'design' | 'ambiguous' | null
 }
 
 export function AISPSurface(props: AISPSurfaceProps) {
@@ -41,6 +47,7 @@ export function AISPSurface(props: AISPSurfaceProps) {
         userText={props.userText}
         templateId={props.templateId}
         brandActive={props.brandActive}
+        route={props.aispRoute}
       />
     )
   }

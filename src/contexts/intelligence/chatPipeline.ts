@@ -63,6 +63,14 @@ export interface ChatPipelineResult {
   } | null
   /** P34 — id of the matched template (for "Used template: X" UI). */
   templateId?: string | null
+  /**
+   * P46 fix-pass (R1 F4) — surface the route classification so the SIMPLE
+   * AISP panel can warn "brand voice loaded but unused this turn" on
+   * design-only routes (where the system-prompt brand block is irrelevant
+   * to the underlying transformation). Pure cosmetic; null when AISP did
+   * not run.
+   */
+  aispRoute?: 'content' | 'design' | 'ambiguous' | null
 }
 
 const FALLBACK_HINT =
@@ -267,6 +275,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
           durationMs: Date.now() - startedAt,
           errorKind: null,
           aisp: aispTrace,
+          aispRoute,
           templateId: tpl.template.id,
         }
       } catch (e) {
@@ -316,6 +325,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       durationMs: Date.now() - startedAt,
       errorKind: null,
       aisp: aispTrace,
+      aispRoute,
     }
   }
 
@@ -331,6 +341,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         durationMs: Date.now() - startedAt,
         errorKind: null,
         aisp: aispTrace,
+        aispRoute,
       }
     }
     pipelineErrorKind = llm.errorKind ?? null
@@ -347,6 +358,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         durationMs: Date.now() - startedAt,
         errorKind: 'precondition_failed',
         aisp: aispTrace,
+        aispRoute,
       }
     }
   } catch (e) {
@@ -366,6 +378,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     durationMs: Date.now() - startedAt,
     errorKind: pipelineErrorKind,
     aisp: aispTrace,
+    aispRoute,
   }
 }
 

@@ -1,7 +1,7 @@
 # Hey Bradley — Project Grounding
 
 > **Purpose:** A single document anyone (new contributor, future Claude session, presentation reviewer) can read in 10 minutes to understand the project, where we are in the sprint, and what to do next.
-> **Last updated:** 2026-04-28 (mid-Sprint F P37, pre-seal)
+> **Last updated:** 2026-04-28 (Sprint H sealed — P46 fix-pass)
 > **Owner:** [Brad Ross](https://www.linkedin.com/in/bradaross/) — Harvard ALM Digital Media Design capstone (May 2026)
 > **Pair this with:** `CLAUDE.md` (project rules), `docs/wiki/llm-call-process-flow.md` (how the pipeline runs), `plans/implementation/mvp-plan/STATE.md` (phase ledger).
 
@@ -22,54 +22,48 @@ The exported spec is precise enough that an AI dev agent (Claude Code, Cursor, e
 
 ## 2. Where We Are RIGHT NOW
 
-**Sprint F P2 (Phase 37) — mid-flight, pre-seal.**
+**Sprint H sealed — P46 fix-pass applied. Sprint G skipped per owner mandate.**
 
 | | Status |
 |---|---|
-| Composite trajectory | 88 → 89 → 90 → 93 → 95 → 96 → 96 (P36 sealed) → **P37 pending** |
-| Last sealed phase | **P36** (Sprint F P1 — Listen + AISP Unification) — commit `5f0a84c` |
-| Last test count | 344/344 PURE-UNIT GREEN (after P37 Wave 1 integration) |
-| Last brutal review | P36: R1 UX+Func 92, R2 Sec+Arch 87 (5 should-fix queued for P37) |
-| Outstanding hard-block carryforward | **R2 S3:** ListenTab.tsx is ~875 LOC vs CLAUDE.md 500-LOC hard cap. **Must clear before P37 seal.** |
-| Presentation | ~2-3 days out at current velocity. Vercel deploy still owner-triggered. |
+| Composite trajectory | 88 → 89 → 90 → 93 → 95 → 96 → 96 → 91 (P37) → Sprint F P38 closed → **Sprint H P44/P45/P46 sealed** |
+| Last sealed phase | **P46** (Sprint H Wave 3 — Reference Management UI) |
+| Last test count | Cumulative P29-P46 PURE-UNIT GREEN (Brand A1-A3 / Codebase A4-A6 / Refs A7-A8 + P29-P37 carryforward) |
+| Last brutal review | Sprint H end-of-sprint: R1 UX+Func 88, R2 Security 90, R3 Architecture 91 — avg 89.7 — 3-of-3 PASS — 5 must-fix closed in this fix-pass |
+| Outstanding carryforward | None hard-blocking |
+| Presentation | Sprint F P38 produced `docs/wiki/presentation-readiness.md`; Vercel deploy still owner-triggered |
 
-**P37 Wave 1 is on disk but not yet committed:**
-- `src/contexts/intelligence/commands/commandTriggers.ts` (+ 36 tests) — A1
-- `src/contexts/intelligence/aisp/routeClassifier.ts` (+ 25 tests) — A2
-- `docs/adr/ADR-066-command-system-and-route-split.md` (+ 14 bridge tests) — A3 (committed `dcb98e5`)
-- ChatInput / ListenTab / aisp barrel / chatPipeline — modified, uncommitted
+**Sprint H deliverables (committed; this fix-pass amends + hardens):**
+- **P44 (ADR-067)** — Brand Voice Upload: `brandContext.ts` repo + `BrandContextUpload.tsx` widget + system-prompt injection (CONTENT_ATOM Λ.brand_voice)
+- **P45 (ADR-068)** — Codebase Reference Ingestion: `codebaseContext.ts` repo + `CodebaseContextUpload.tsx` widget + INTENT_ATOM Λ.project_context + `PROJECT_TYPE_TARGET_BIAS` table + chatPipeline projectType threading
+- **P46 (ADR-069)** — Reference Management UI: `ReferenceManagement.tsx` summary panel mounted above the upload widgets
+- **P46 fix-pass (this commit):** ADR-068 enum drift reconciled; `redactKeyShapes` applied at brand+codebase persist boundary AND system-prompt injection boundary; UI surfaces 4KB injection cap, 5MB ZIP guidance, empty-state WHY copy; "voice loaded but unused this turn" annotation on design-only routes; cross-component `reference:changed` event eliminates manifest staleness
 
 ---
 
-## 3. Sprint F at a glance (3 phases, compressed from 4)
+## 3. Sprint F + Sprint H at a glance (Sprint G skipped per owner mandate)
 
 | Phase | Title | Status | Composite | Notes |
 |---|---|---|---:|---|
 | **P36** | Sprint F P1 — Listen + AISP Unification | ✅ SEALED | 96 | Review-first voice UX; ADR-065 |
-| **P37** | Sprint F P2 — Command Triggers + Content/Design Route Split | ⏳ Wave 1 done; review pending | — | ADR-066 |
-| **P38** | Sprint F P3 — TBD per owner mandate | 📋 PLANNED | — | Likely sprint-close brutal review + presentation prep |
+| **P37** | Sprint F P2 — Command Triggers + Content/Design Route Split | ✅ SEALED | 91 | ADR-066; ListenTab 947→84 LOC |
+| **P38** | Sprint F P3 — Sprint close + 4-reviewer brutal review + presentation gate | ✅ SEALED | — | `docs/wiki/presentation-readiness.md` |
+| **P44** | Sprint H Wave 1 — Brand Voice Upload | ✅ SEALED | — | ADR-067; `brand_voice` channel |
+| **P45** | Sprint H Wave 2 — Codebase Reference Ingestion | ✅ SEALED | — | ADR-068; `project_context` channel + bias table |
+| **P46** | Sprint H Wave 3 — Reference Management UI | ✅ SEALED + fix-pass | — | ADR-069; `ReferenceManagement.tsx` |
 
-### Remaining work for P37 (in order)
+**Sprint G skipped:** owner mandate — "Agent proxy for LLM testing. The mock/fixture adapter already exists from P18 — the swarm uses it for all testing. No real keys needed." All Sprint H tests run against AgentProxyAdapter / FixtureAdapter ($0 cost).
 
-1. ✅ Wave 1 deliverables on disk (parseCommand + classifyRoute + ADR-066 + tests)
-2. ✅ Full P29-P37 regression: **344/344 GREEN**
-3. ⏳ Commit Wave 1 (single commit; A1 + A2 sources + barrel + ChatInput + ListenTab + chatPipeline + p34-wave1 source-pin update)
-4. ⏳ Push to `claude/verify-flywheel-init-qlIBr`
-5. ⏳ **R2 S3 fix:** ListenTab split from ~875 LOC → <500 LOC (extract `useListenPipeline` hook covering review/clarification/handlers state)
-6. ⏳ Brutal-honest review (lean: 1 reviewer agent, ≤200 LOC report)
-7. ⏳ Fix-pass for any must-fix items (target Grandma ≥80, composite ≥96)
-8. ⏳ P37 seal artifacts (session-log + retrospective + STATE row + CLAUDE roadmap update + P38 preflight)
-9. ⏳ Final P37 commit + push
+### Sprint H end-of-sprint review (lean 3-reviewer; this fix-pass closes it)
 
-### Remaining work for Sprint F (P38)
+| Reviewer | Score | Verdict | Must-fix |
+|---|---:|---|---:|
+| R1 UX+Func | 88 | PASS | 4 |
+| R2 Security | 90 | PASS | 0 (1 high-leverage L1) |
+| R3 Architecture | 91 | PASS | 1 |
+| **Avg** | **89.7** | **3-of-3 PASS** | **5 closed** |
 
-P38 candidates per owner mandate:
-- **Sprint F close brutal-honest review** — full UX + Functionality + Security + Architecture pass on cumulative P34-P37 work; persona re-walk
-- **Presentation readiness gate** — single read-only audit producing the demo flow / strongest features / gap mitigation report (already drafted at P36; refresh post-P37)
-- **Vercel deploy + live BYOK validation** — owner-triggered; pair with the deploy
-- **Wiki 2 (Developers)** — deferred from this session; agentic-developer-targeted explainer
-
-**Sprint F seal criteria:** 4 reviewers PASS, all must-fix closed, persona re-score completed, Vercel deploy live, ≥33/35 prompt coverage, presentation rehearsal complete.
+Closed in this fix-pass: R3 F1 (ADR-068 enum drift) + R2 L1 (redactKeyShapes at persist + injection) + R1 F1 (4KB cap surface) + R1 F2 (5MB ZIP cap guidance + per-file skip) + R1 F3 (empty-state WHY) + R1 F4 (brand "unused this turn" on design routes) + R1 L4 (manifest staleness via cross-component event) + R3 L3 (this update).
 
 ---
 
@@ -87,6 +81,11 @@ Every Crystal Atom is verbatim AISP per `bar181/aisp-open-core ai_guide` — Ω 
 
 **P37 (ADR-066)** adds an upstream gate before INTENT_ATOM: `parseCommand()` runs first; matched slash forms (`/browse`, `/template <name>`, `/generate`, `/design`, `/content`) bypass all 5 atoms entirely. **The cheapest LLM call is the one you don't make.**
 
+**Sprint H Λ extensions (additive — Σ width unchanged on every atom):**
+
+- **CONTENT_ATOM Λ.brand_voice** (P44 / ADR-067) — optional `{present, profile≤4096, bias{tone_preference?, lexicon_hints?≤512}}`. When present, the system prompt includes a 4 KB brand-voice block. Σ output contract identical to P31; Ε V5 re-asserts tone enum on brand-active runs.
+- **INTENT_ATOM Λ.project_context** (P45 / ADR-068) — optional `{present, project_type∈{saas-app,landing-page,static-site,portfolio,unknown}}` from the codebase manifest. Drives `PROJECT_TYPE_TARGET_BIAS` re-ordering of candidate `target.type`s (subset of `ALLOWED_TARGET_TYPES` — never invents a new target).
+
 ---
 
 ## 5. File-System Map (DDD Bounded Contexts)
@@ -99,7 +98,7 @@ src/
 │  ├─ configuration/        — MasterConfig schema, Zod parsers
 │  ├─ persistence/          — sql.js + IndexedDB; migrations + repositories + exportImport
 │  │   └─ migrations/       — 000-init / 001-example-prompts / 002-llm-logs / 003-user-templates
-│  │   └─ repositories/     — projects / sessions / messages / kv / examplePrompts / llmCalls / llmLogs / userTemplates
+│  │   └─ repositories/     — projects / sessions / messages / kv / examplePrompts / llmCalls / llmLogs / userTemplates / brandContext (P44) / codebaseContext (P45)
 │  ├─ intelligence/         — LLM adapters + AISP atoms + chat pipeline
 │  │   ├─ aisp/             — 5 Crystal Atoms + classifiers + assumptions store
 │  │   ├─ commands/         — parseCommand (P37; ADR-066)
@@ -114,7 +113,7 @@ src/
 │  ├─ left-panel/           — LeftPanel, ListenTab + listen/ helpers + review cards
 │  ├─ center-panel/         — preview, blueprints, resources, data, pipeline tabs
 │  ├─ right-panel/          — settings, history
-│  └─ settings/             — LLMSettings (BYOK)
+│  └─ settings/             — LLMSettings (BYOK) + BrandContextUpload (P44) + CodebaseContextUpload (P45) + ReferenceManagement (P46)
 ├─ lib/                     — cn, schemas (re-exports), cannedChat, mapChatError, sentry-shim
 ├─ store/                   — zustand stores (configStore, intelligenceStore, listenStore, projectStore, uiStore)
 └─ data/                    — examples, fixtures, sequences
@@ -147,11 +146,11 @@ Every Sprint D-F test follows the same shape:
 - No live LLM calls (assertions on validators / adapter contracts / output Σ)
 - Hardcoded constants in tests when import path would transitively pull `default-config.json`
 
-**Cumulative count:** 344 PURE-UNIT cases / 19 spec files / first-pass green / zero browser flake (P29 → P37).
+**Cumulative count:** P29-P46 PURE-UNIT GREEN (Sprint H adds p44 brand-upload, p45 codebase-ref, p46 reference-management spec files; pattern unchanged).
 
 Run regression:
 ```bash
-npx playwright test tests/byok-providers.spec.ts tests/p29*.spec.ts tests/p30*.spec.ts tests/p31*.spec.ts tests/p32*.spec.ts tests/p33*.spec.ts tests/p34*.spec.ts tests/p35*.spec.ts tests/p36*.spec.ts tests/p37*.spec.ts
+npx playwright test tests/byok-providers.spec.ts tests/p29*.spec.ts tests/p30*.spec.ts tests/p31*.spec.ts tests/p32*.spec.ts tests/p33*.spec.ts tests/p34*.spec.ts tests/p35*.spec.ts tests/p36*.spec.ts tests/p37*.spec.ts tests/p44*.spec.ts tests/p45*.spec.ts tests/p46*.spec.ts
 ```
 
 ---
@@ -207,6 +206,9 @@ Full ADR set in `docs/adr/`. Most-cited in this sprint:
 - **ADR-064** — ASSUMPTIONS_ATOM + LLM lift (P35)
 - **ADR-065** — Listen + AISP unification (P36)
 - **ADR-066** — Command system + content/design route split (P37)
+- **ADR-067** — Brand Context Upload (P44; CONTENT_ATOM Λ.brand_voice)
+- **ADR-068** — Codebase Reference Ingestion (P45; INTENT_ATOM Λ.project_context + bias table)
+- **ADR-069** — Context Management UI (P46; ReferenceManagement panel)
 
 ---
 
@@ -220,33 +222,19 @@ Every LLM call writes one `llm_logs` row at insertion + one update on completion
 
 ---
 
-## 12. Carryforward Debt (must-clear before P37 seal)
+## 12. Carryforward Debt
 
-| # | Item | Source | Severity |
-|---|---|---|---|
-| **R2 S3** | ListenTab.tsx ~875 LOC → split to <500 LOC | P36 review | **HARD-BLOCK** |
-| R1 L3 | Clarification fallthrough silent when LLM returns 0 assumptions | P36 review | should-fix |
-| R2 S1 | `pendingChatPrefill` envelope hardening (length/scope) | P36 review | should-fix |
-| R2 S2 | Listen-write redaction symmetry (BYOK leak guard) | P36 review | should-fix |
-| R2 S4 | `pendingChatPrefill` global vs directed-message refactor | P36 review | should-fix |
-| R2 S5 | ADR-065 "every AISP surface" claim re: P35 EXPERT trace pane | P36 review | doc-fix |
-
-**Recommended P37 seal sequence:**
-1. Commit Wave 1 (parseCommand + classifyRoute + ADR + tests + integration edits)
-2. Tackle R2 S3 (ListenTab split)
-3. Lean brutal review
-4. Fix-pass any new must-fix items
-5. Seal + presentation gate
+All P36 carryforward items closed at P37 seal (R2 S3 ListenTab split shipped 947→84 LOC; R1 L3 + R2 S1/S2/S4/S5 closed in fix-pass). Sprint H end-of-sprint review surfaced 5 must-fix items, all closed in this fix-pass — no carryforward debt entering the next phase.
 
 ---
 
-## 13. The Goal Tonight
+## 13. Where Next
 
-**Understand the sprint, then implement.**
+Sprint H sealed; the platform now ingests both **brand voice** and **project context** without expanding any Σ. INTENT_ATOM bias table re-orders ALLOWED_TARGET_TYPES candidates against the project type (never invents). Brand voice flows through CONTENT_ATOM Λ.brand_voice into the system prompt, surfaced in the SIMPLE panel via `aisp-brand-voice-chip` (with "(unused this turn)" annotation on design-only routes per the P46 fix-pass).
 
-We are 1.5 phases away from sprint close. The 344 GREEN regression confirms structural soundness. The work remaining is **discipline**, not invention: commit what's on disk, fix the LOC overrun, run a tight review, seal cleanly, then run the presentation gate.
+Outstanding owner-triggered items: Vercel deploy + live BYOK validation; presentation rehearsal (`docs/wiki/presentation-readiness.md`).
 
-**KISS. Single tool calls. Commit between milestones.** The LLM provider has been intermittently unstable today — every artifact must survive a stream timeout.
+**KISS. Single tool calls. Commit between milestones.** AgentProxyAdapter / FixtureAdapter remains the test backbone — $0 cost, no real keys.
 
 ---
 

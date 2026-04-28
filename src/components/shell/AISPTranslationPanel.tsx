@@ -44,6 +44,13 @@ export interface AISPTranslationPanelProps {
    * suppressed even if kv has a value (caller override).
    */
   brandActive?: boolean
+  /**
+   * P46 fix-pass (R1 F4) — route classification for this turn. When brand
+   * voice is loaded BUT route === 'design', the brand chip annotates with
+   * "(unused this turn)" so the user understands their voice profile only
+   * influences content-route generation, not raw layout/style edits.
+   */
+  route?: 'content' | 'design' | 'ambiguous' | null
 }
 
 /**
@@ -68,6 +75,7 @@ export function AISPTranslationPanel({
   userText,
   templateId,
   brandActive,
+  route,
 }: AISPTranslationPanelProps) {
   const [open, setOpen] = useState(false)
   // P34 — surface even when intent is null but a template fired (canned fallback path).
@@ -104,14 +112,23 @@ export function AISPTranslationPanel({
         </span>
       )}
       {/* P44 (A2 / ADR-067) — brand-voice indicator. Sits next to the template
-          chip so a glance tells the user the LLM is biased toward their brand. */}
+          chip so a glance tells the user the LLM is biased toward their brand.
+          P46 fix-pass (R1 F4) — on design-only routes, annotate with
+          "(unused this turn)" so the user knows the voice profile didn't
+          influence the underlying transformation (layout/style edits don't
+          consume the brand block). */}
       {brandOn && (
         <span
           data-testid="aisp-brand-voice-chip"
-          title="Brand voice profile is active — content generation is biased toward your uploaded voice."
+          data-route={route ?? 'unset'}
+          title={
+            route === 'design'
+              ? 'Brand voice profile is loaded, but this turn was a design-only edit — voice only steers content generation.'
+              : 'Brand voice profile is active — content generation is biased toward your uploaded voice.'
+          }
           className="ml-2 inline-block px-1.5 py-0.5 rounded text-[10px] uppercase tracking-wider bg-[#1f3a5f]/10 text-[#1f3a5f] border border-[#1f3a5f]/30"
         >
-          voice: brand-aware
+          voice: brand-aware{route === 'design' ? ' (unused this turn)' : ''}
         </span>
       )}
       {open && (

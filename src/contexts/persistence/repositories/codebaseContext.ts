@@ -15,6 +15,7 @@
 // exportImport.ts (uploaded source content + filenames are user content).
 
 import { kvDelete, kvGet, kvHas, kvSet } from './kv'
+import { redactKeyShapes } from '@/contexts/intelligence/llm/keys'
 
 /** Threshold above which the value gets chunked. Symmetric with brandContext. */
 export const CHUNK_BYTES = 10_000
@@ -118,10 +119,14 @@ export function writeCodebaseContext(
   // Drop any prior chunks first so a smaller new doc doesn't leave orphans.
   clearCodebaseContext()
 
-  const totalBytes = text.length
+  // P46 fix-pass (R2 L1) — redact API-key shapes BEFORE persistence. Codebase
+  // archives often contain `.env` examples / config files with shaped keys;
+  // redact at the persist boundary so they never reach kv or downstream LLMs.
+  const safeText = redactKeyShapes(text)
+  const totalBytes = safeText.length
   const count = totalBytes === 0 ? 1 : Math.ceil(totalBytes / CHUNK_BYTES)
   for (let i = 0; i < count; i++) {
-    const slice = text.slice(i * CHUNK_BYTES, (i + 1) * CHUNK_BYTES)
+    const slice = safeText.slice(i * CHUNK_BYTES, (i + 1) * CHUNK_BYTES)
     kvSet(chunkKey(i), slice)
   }
   const manifest: CodebaseContextManifest = {

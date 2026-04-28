@@ -1,13 +1,13 @@
 # Hey Bradley — Presentation Readiness Report
 
-> **Sealed:** 2026-04-28 (post Sprint F end-of-sprint review)
-> **Composite:** 96/100 estimated (Grandma 83 / Framer 91 / Capstone 99)
-> **Sprint F COMPLETE.** Owner-gated review required before Sprint G.
-> **Capstone date:** May 2026 (~3 days at current velocity).
+> **Last refresh:** 2026-04-28 (post Sprint H end-of-sprint review + fix-pass; Sprint G skipped per owner mandate)
+> **Sprint F + Sprint H COMPLETE.** Sprint H avg 89.7 (R1 88 / R2 90 / R3 91; 3-of-3 PASS; 5 must-fix closed).
+> **Owner-gated** review required before next sprint.
+> **Capstone date:** May 2026.
 
 ---
 
-## 1. Top 5 demo moments (ranked)
+## 1. Top 6 demo moments (ranked)
 
 ### 1️⃣ Voice → review → approve → site updates (the marquee moment)
 
@@ -59,7 +59,20 @@ Toggle EXPERT mode → submit "make it brighter" → expand the AISP Pipeline Tr
 
 **Why it lands:** Materializes the 5-atom Crystal Atom thesis in one screen. All 5 ADRs (045/053/057/060/064) are visible artifacts.
 
-### 5️⃣ BYOK provider switch
+### 5️⃣ Brand voice + codebase reference (Sprint H — the personalization moment)
+
+```
+User opens Settings drawer → uploads brand-voice.md (e.g. "Don Miller StoryBrand tone — concrete, second-person, no jargon")
+→ Reference panel shows: "Brand voice · ~280 tokens"
+User uploads project ZIP → panel detects: "SaaS / Next.js"
+→ Panel shows both refs side-by-side; either can be cleared independently.
+User types "rewrite the headline" → AISPTranslationPanel chip lights "voice: brand-aware" (content route)
+User types "hide the pricing section" → chip annotates "voice: brand-aware (unused this turn)" (design route — voice doesn't apply)
+```
+
+**Why it lands:** Personalization is visible AND honest. The "(unused this turn)" annotation shows the system is smart enough to know when voice profile applies. Closes the loop on Σ-restriction discipline — Λ.brand_voice is additive, never widens output.
+
+### 6️⃣ BYOK provider switch
 
 User selects different BYOK provider in Settings → enters API key (or skips for free tier):
 - **OpenRouter** (free; mistral-7b-instruct:free) — $0/1M
@@ -102,6 +115,7 @@ The capstone thesis: **specification-driven development with AI agents can produ
 | **Listen review card silent tab-swap on voice commands** | LOW | Documented as P38 carryforward (R1 F2 partial). Easy to point to when asked. |
 | **35/35 prompt corpus is partly accounting** | LOW | If asked, acknowledge: "20% of those are command-trigger fixtures; the route-classifier coverage is the real metric." |
 | **Content route currently short-circuits to canned hint** | LOW | Frame as "design fast-path lands today; content LLM swap is the next phase." Strong forward-looking story. |
+| **Brand voice + codebase upload not pre-loaded for the demo session** | LOW | Pre-load both before Day 10 rehearsal so #5 demo flow has a 5-second start. Empty-state copy is good but a populated state lands better. |
 | **Live LLM quality vs. simulated/mock can vary** | MEDIUM | Have **two primary providers** ready: OpenRouter free as Plan A, OpenAI gpt-5-nano as Plan B. If both fail, fall back to AgentProxyAdapter (DB-backed mock; uses the 35-prompt corpus). |
 
 ---
@@ -116,10 +130,10 @@ The capstone thesis: **specification-driven development with AI agents can produ
 6. **Σ-restriction discipline** — calibrated hallucination control per atom
 7. **Live demo** — voice → review → approve (the 30-second pitch)
 8. **Live demo** — slash command + AISP trace pane
-9. **The numbers** — 96/100 composite, 419 PURE-UNIT tests, 4 BYOK providers, 35/35 prompts
+9. **The numbers** — Sprint F + H sealed; 498 PURE-UNIT tests cumulative GREEN; 4 BYOK providers; 35/35 prompts; 6 ADRs across the two sprints (065/066/067/068/069 + presentation-readiness)
 10. **Cost discipline** — 70% template hits ($0); two-tier cost cap; 30-day audit log
 11. **Open core** — Apache license, capstone artifact, ALL 67 ADRs in repo
-12. **What's next** — Sprint G interview mode + content LLM swap + commercial path
+12. **What's next** — content LLM swap (defers Sprint G interview mode per owner mandate); commercial path
 
 ---
 
@@ -140,23 +154,22 @@ The capstone thesis: **specification-driven development with AI agents can produ
 
 ## 6. Recommendation
 
-**PAUSE swarm at Sprint F seal. Do NOT start Sprint G.**
+**PAUSE swarm at Sprint H seal. Sprint G remains skipped per owner mandate.**
 
 Rationale:
-- P36 sealed 96/100 + P37 sealed 91/100 + P38 sealed 96/100. Sprint F is COMPLETE.
-- 5-atom AISP architecture in production. Capstone-thesis full exhibit.
-- Sprint G (Interview Mode) adds complexity in 4 phases — the wrong move 3 days before the panel.
-- 72 hours is enough to: deploy + validate live BYOK + build slides + rehearse demo + capture screenshots.
+- Sprint F (P36/P37/P38) sealed; Sprint H (P44/P45/P46) sealed + fix-pass applied.
+- 5-atom AISP architecture in production + Sprint H Λ extensions (`brand_voice` on CONTENT_ATOM, `project_context` on INTENT_ATOM). Capstone-thesis full exhibit.
+- AgentProxyAdapter / FixtureAdapter is the test backbone — $0 cost, no real keys needed for the swarm.
 
 **Owner-gated steps in priority order:**
 1. **Today:** Vercel deploy + 4-provider BYOK validation
-2. **Today/Tomorrow:** Slide deck draft from §4
-3. **Tomorrow:** First demo rehearsal in target browser/room
+2. **Today/Tomorrow:** Slide deck draft from §4 (12 slides; 6-demo flow now)
+3. **Tomorrow:** First demo rehearsal in target browser/room (with brand voice + codebase ref pre-loaded)
 4. **Day 9:** Second rehearsal + screenshot capture for slides
 5. **Day 10:** Final review + presentation
 
-When the panel concludes, swarm resumes at Sprint G P39 (Interview Mode preflight).
+When the panel concludes, swarm resumes at the owner's chosen next sprint.
 
 ---
 
-*Updated whenever Sprint F state changes. Next refresh: post-Vercel-deploy.*
+*Updated whenever Sprint state changes. Next refresh: post-Vercel-deploy.*

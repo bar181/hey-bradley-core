@@ -81,6 +81,12 @@ export interface ChatMessage {
   /** P35 — applied patch count + summary, surfaced in the EXPERT trace pane. */
   patches?: number
   pipelineSummary?: string
+  /**
+   * P46 fix-pass (R1 F4) — route classification for this turn. Lets the
+   * SIMPLE AISP panel surface "voice loaded but unused this turn" when brand
+   * context is active and the route was design-only.
+   */
+  aispRoute?: 'content' | 'design' | 'ambiguous' | null
 }
 
 const MAX_MESSAGES = 20
@@ -106,6 +112,7 @@ export function ChatInput() {
     assumptionsSource?: 'llm' | 'rules' | 'empty'
     patches?: number
     pipelineSummary?: string
+    aispRoute?: ChatMessage['aispRoute']
   } | null>(null)
   // P34 Sprint E P1 (A2) — /browse picker visibility.
   const [showBrowsePicker, setShowBrowsePicker] = useState(false)
@@ -161,6 +168,7 @@ export function ChatInput() {
           assumptionsSource: pending?.assumptionsSource,
           patches: pending?.patches,
           pipelineSummary: pending?.pipelineSummary,
+          aispRoute: pending?.aispRoute ?? null,
         },
       ])
       setTypingText('')
@@ -359,6 +367,7 @@ export function ChatInput() {
       templateId: result.templateId ?? null,
       patches: result.appliedPatchCount,
       pipelineSummary: result.summary,
+      aispRoute: result.aispRoute ?? null,
     }
     if (result.ok && !result.fellBackToCanned && result.appliedPatchCount > 0) {
       setTypingText('')
@@ -591,6 +600,7 @@ export function ChatInput() {
                 assumptionsSource={msg.assumptionsSource}
                 patches={msg.patches ?? null}
                 summary={msg.pipelineSummary ?? null}
+                aispRoute={msg.aispRoute ?? null}
               />
             )}
           </div>

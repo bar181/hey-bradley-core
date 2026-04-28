@@ -45,12 +45,13 @@ extracted paths).
 
 ### Project-type heuristic (rule-based)
 
-Pure function `inferProjectType(sources, fileSummary): ProjectType`. Closed
-5-enum: `'saas-app' | 'marketing-site' | 'docs-site' | 'portfolio' | 'unknown'`.
-Rules cascade: marketing-site (next/gatsby + marketing README) → saas-app
-(next/react/vue + pricing/signup routes) → docs-site (mkdocs/docusaurus/
-vitepress) → portfolio (index.html + portfolio keyword) → unknown. New types
-via ADR amendment — no silent expansion.
+Pure function `detectProjectType({filenames, packageJson}): ProjectType`.
+Closed 5-enum: `'saas-app' | 'landing-page' | 'static-site' | 'portfolio' |
+'unknown'`. Rules cascade most-specific-first: saas-app (Next.js dep or
+`next.config.*`) → static-site (Astro / Gatsby dep or config) → portfolio
+(`portfolio.*` / `resume.*` / `personal/` path hints) → landing-page
+(Vite + React + `landing/` path hint) → unknown. New types via ADR
+amendment — no silent expansion.
 
 ### Privacy (export-strip)
 
@@ -62,7 +63,7 @@ codebases are user content; never ship inside `.heybradley` exports.
 ### INTENT_ATOM Λ Extension
 
 `intentAtom.ts` extends Λ with optional `project_context` channel:
-`{ present:𝔹, type∈{saas-app,marketing-site,docs-site,portfolio,unknown} }`.
+`{ present:𝔹, project_type∈{saas-app,landing-page,static-site,portfolio,unknown} }`.
 **Σ width is unchanged** — output shape `{verb, target, confidence, rationale}`
 and Γ rules R1..R4 preserved. `project_context` ONLY biases target-candidate
 ranking; it cannot introduce a new verb or target type.
@@ -72,8 +73,10 @@ ranking; it cannot introduce a new verb or target type.
 `classifyIntent(text: string, projectType?: ProjectType)`. The optional
 parameter is fully backward-compatible. When supplied AND it is one of the 5
 enum values, the classifier biases ranking on the candidate target enum
-(`'saas-app'` raises `pricing | features | cta`; `'portfolio'` raises
-`gallery | hero`). Bias never overrides an explicit text match.
+(`'saas-app'` raises `pricing | cta | features | testimonials`;
+`'landing-page'` raises `hero | cta | features | value-props`; `'static-site'`
+raises `hero | blog | footer | text`; `'portfolio'` raises
+`hero | gallery | team | text`). Bias never overrides an explicit text match.
 
 ### `chatPipeline` integration
 
@@ -110,9 +113,5 @@ kv-read failure NEVER blocks the pipeline.
 
 ## Status as of P45 seal
 
-- ADR-068 full Accepted ✅
-- `codebaseContext.ts` repo + `CodebaseContextUpload.tsx` + Settings mount:
-  TRACKED for Wave 2 (A4).
-- INTENT_ATOM `project_context` + `classifyIntent` projectType + chatPipeline
-  threading: TRACKED for Wave 2 (A5).
-- Tests + ADR (this file): shipped Wave 2 (A6).
+- ADR-068 full Accepted ✅; A4 repo + upload + Settings mount + A5 INTENT
+  bias + chatPipeline threading shipped; tests green.

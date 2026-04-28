@@ -71,6 +71,15 @@ function readManifestsSafely(): {
   return { brand, codebase }
 }
 
+/**
+ * P46 fix-pass (R1 L4) — cross-component refresh signal. Sibling upload
+ * widgets (BrandContextUpload / CodebaseContextUpload) dispatch this on
+ * successful write or clear so ReferenceManagement re-reads its manifests
+ * without waiting for a drawer remount. Custom-event lives at module scope
+ * so both producers and consumer agree on the name.
+ */
+export const REFERENCE_CHANGED_EVENT = 'reference:changed'
+
 export function ReferenceManagement() {
   // `refresh` is a monotonic counter we bump after a clear so the manifests
   // get re-read. The two underlying upload widgets manage their own state, so
@@ -82,14 +91,35 @@ export function ReferenceManagement() {
     setManifests(readManifestsSafely())
   }, [refresh])
 
+  // P46 fix-pass (R1 L4) — listen for sibling widget writes/clears. KISS:
+  // window-level CustomEvent; bumps the local refresh counter so we re-read
+  // manifests immediately instead of waiting for a drawer remount.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const onChanged = () => setRefresh((n) => n + 1)
+    window.addEventListener(REFERENCE_CHANGED_EVENT, onChanged)
+    return () => window.removeEventListener(REFERENCE_CHANGED_EVENT, onChanged)
+  }, [])
+
+  const emitChanged = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        window.dispatchEvent(new Event(REFERENCE_CHANGED_EVENT))
+      } catch {
+        /* test env without dispatchEvent — best-effort */
+      }
+    }
+  }, [])
+
   const handleClearBrand = useCallback(() => {
     if (!window.confirm('Remove the uploaded brand voice document?')) return
     try {
       clearBrandContext()
     } finally {
       setRefresh((n) => n + 1)
+      emitChanged()
     }
-  }, [])
+  }, [emitChanged])
 
   const handleClearCodebase = useCallback(() => {
     if (!window.confirm('Remove the uploaded codebase context?')) return
@@ -97,8 +127,9 @@ export function ReferenceManagement() {
       clearCodebaseContext()
     } finally {
       setRefresh((n) => n + 1)
+      emitChanged()
     }
-  }, [])
+  }, [emitChanged])
 
   const isEmpty = brand === null && codebase === null
 

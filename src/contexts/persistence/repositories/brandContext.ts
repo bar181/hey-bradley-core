@@ -14,6 +14,7 @@
 // exportImport.ts (uploaded brand voice docs are user content).
 
 import { kvDelete, kvGet, kvHas, kvSet } from './kv'
+import { redactKeyShapes } from '@/contexts/intelligence/llm/keys'
 
 /** Threshold above which the value gets chunked. Below this we still chunk
  * (count=1) to keep the read/write code path symmetric. */
@@ -94,10 +95,14 @@ export function writeBrandContext(
   // Drop any prior chunks first so a smaller new doc doesn't leave orphans.
   clearBrandContext()
 
-  const totalBytes = text.length
+  // P46 fix-pass (R2 L1) — redact API-key shapes BEFORE persistence so a brand
+  // doc that pasted a key never lands in kv (and never reaches the LLM, never
+  // bleeds via export). Defence-in-depth alongside ADR-067 export-strip.
+  const safeText = redactKeyShapes(text)
+  const totalBytes = safeText.length
   const count = totalBytes === 0 ? 1 : Math.ceil(totalBytes / CHUNK_BYTES)
   for (let i = 0; i < count; i++) {
-    const slice = text.slice(i * CHUNK_BYTES, (i + 1) * CHUNK_BYTES)
+    const slice = safeText.slice(i * CHUNK_BYTES, (i + 1) * CHUNK_BYTES)
     kvSet(chunkKey(i), slice)
   }
   const manifest: BrandContextManifest = {

@@ -18,9 +18,25 @@ import {
   writeBrandContext,
   type BrandContextManifest,
 } from '@/contexts/persistence/repositories/brandContext'
+import { REFERENCE_CHANGED_EVENT } from './ReferenceManagement'
+
+/** P46 fix-pass (R1 L4) — signal sibling ReferenceManagement panel after a
+ *  successful write or clear so its manifest reflects the change without
+ *  waiting for a drawer remount. Best-effort; safe in non-DOM test envs. */
+function notifyReferenceChanged(): void {
+  if (typeof window === 'undefined') return
+  try {
+    window.dispatchEvent(new Event(REFERENCE_CHANGED_EVENT))
+  } catch {
+    /* test env without dispatchEvent — best-effort */
+  }
+}
 
 const ACCEPT_ATTR = '.txt,.md,.markdown,.pdf,.docx,text/plain,text/markdown,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 const MAX_FILE_SIZE = 2 * 1024 * 1024 // 2 MB cap on the source file
+/** P46 fix-pass (R1 F1) — surface the LLM-injection head in the UI. Mirrors
+ *  BRAND_CONTEXT_BYTE_CAP in src/contexts/intelligence/prompts/system.ts. */
+const LLM_INJECTION_HEAD_BYTES = 4096
 const PDF_REJECT_MSG = 'PDF support shipping next phase. Convert to .txt or .md for now.'
 const DOCX_REJECT_MSG = 'DOCX support shipping next phase. Convert to .txt or .md for now.'
 
@@ -116,6 +132,7 @@ export function BrandContextUpload() {
           })
           setManifest(written)
           setStatus({ kind: 'idle' })
+          notifyReferenceChanged()
         } catch (err) {
           const message = err instanceof Error ? err.message : 'Failed to save brand context.'
           setStatus({ kind: 'error', message })
@@ -146,7 +163,18 @@ export function BrandContextUpload() {
     } finally {
       refreshManifest()
       setStatus({ kind: 'idle' })
+      notifyReferenceChanged()
     }
+  }, [refreshManifest])
+
+  // P46 fix-pass (R1 L4) — listen for sibling-driven changes (the
+  // ReferenceManagement panel can clear this row directly). Re-read on event
+  // so this widget's UI mirrors kv state.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const onChanged = () => refreshManifest()
+    window.addEventListener(REFERENCE_CHANGED_EVENT, onChanged)
+    return () => window.removeEventListener(REFERENCE_CHANGED_EVENT, onChanged)
   }, [refreshManifest])
 
   const tokenEstimate = manifest ? estimateTokensFromBytes(manifest.totalBytes) : 0
@@ -157,9 +185,10 @@ export function BrandContextUpload() {
         Brand Context
       </h3>
       <p className="text-[11px] text-hb-text-muted mb-3 leading-snug">
-        Upload a brand voice doc (.txt or .md). The first 4&nbsp;KB is injected into
-        the system prompt to steer tone &amp; voice. Stays on this device; stripped
-        from .heybradley exports.
+        Make Bradley sound like your brand. Upload a voice doc (.txt or .md) —
+        the first 4&nbsp;KB is sent into the system prompt every turn so generated
+        copy mirrors your tone. Stays on this device; stripped from .heybradley
+        exports.
       </p>
 
       {manifest ? (
@@ -176,6 +205,16 @@ export function BrandContextUpload() {
               {formatBytes(manifest.totalBytes)} · ~{tokenEstimate.toLocaleString()} tokens
               {manifest.count > 1 ? ` · ${manifest.count} chunks` : ''}
             </p>
+            {manifest.totalBytes > LLM_INJECTION_HEAD_BYTES && (
+              <p
+                data-testid="brand-context-cap-hint"
+                className="text-[11px] text-hb-text-muted mt-1 leading-snug"
+              >
+                {formatBytes(manifest.totalBytes)} stored — first{' '}
+                {formatBytes(LLM_INJECTION_HEAD_BYTES)} sent to the LLM each
+                turn (rest stays on device).
+              </p>
+            )}
           </div>
           <button
             type="button"
