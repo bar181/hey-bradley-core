@@ -15,6 +15,7 @@
 
 import type { JSONPatch } from '@/lib/schemas/patches'
 import type { MasterConfig } from '@/lib/schemas'
+import type { SectionScope } from './scoping'
 
 /** RFC-6902 patch op subset used by templates (add | replace | remove). */
 export type JsonPatchOp = JSONPatch
@@ -23,6 +24,8 @@ export interface TemplateMatchContext {
   text: string
   match: RegExpExecArray
   config: MasterConfig
+  /** P24 — Optional `/type-N` scope token from chat input. */
+  scope?: SectionScope | null
 }
 
 export interface TemplateEnvelope {

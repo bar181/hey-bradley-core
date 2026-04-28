@@ -15,6 +15,7 @@
  */
 
 import { findSectionByType, heroHeadingPath } from '@/data/llm-fixtures/resolvePath'
+import { resolveScopedSectionIndex } from './scoping'
 import type { Template } from './types'
 
 const ACCENT_PATH_DEFAULT = '/theme/palette/accentPrimary'
@@ -47,22 +48,38 @@ const MAKE_IT_BRIGHTER: Template = {
 const HIDE_SECTION: Template = {
   id: 'hide-section',
   label: 'Hide section',
-  description: 'Hide a top-level section (hero / blog / footer / features / etc).',
-  matchPattern: /^\s*hide\s+(?:the\s+)?([a-z-]+)\s*[!.?]*\s*$/i,
-  envelope: ({ match, config }) => {
-    const sectionType = match[1].toLowerCase()
-    const sectionIdx = findSectionByType(config, sectionType)
-    if (sectionIdx < 0) {
+  description: 'Hide a top-level section (hero / blog / footer / features / etc). Honors /type-N scoping.',
+  matchPattern: /^\s*hide(?:\s+the)?(?:\s+([a-z-]+))?\s*[!.?]*\s*$/i,
+  envelope: ({ match, config, scope }) => {
+    // P24: scope (from /type-N parser) wins over regex-captured type.
+    // When neither scope nor type captured, surface friendly help.
+    const targetType = scope?.type ?? (match[1] ? match[1].toLowerCase() : null)
+    if (!targetType) {
       return {
         patches: [],
-        summary: `I can't find a "${sectionType}" section to hide. Try: hide the hero / hide the footer / hide the blog.`,
+        summary: `I need to know which section to hide. Try: hide the hero, hide /footer, hide /blog-2.`,
       }
     }
+    const sectionIdx = scope
+      ? resolveScopedSectionIndex(config, scope)
+      : findSectionByType(config, targetType)
+    if (sectionIdx < 0) {
+      const scopeStr = scope?.index !== null && scope?.index !== undefined
+        ? `${targetType}-${scope.index + 1}`
+        : targetType
+      return {
+        patches: [],
+        summary: `I can't find a "${scopeStr}" section to hide. Try: hide the hero / hide the footer / hide /blog-2.`,
+      }
+    }
+    const scopeSuffix = scope?.index !== null && scope?.index !== undefined
+      ? ` (#${scope.index + 1})`
+      : ''
     return {
       patches: [
         { op: 'replace', path: `/sections/${sectionIdx}/enabled`, value: false },
       ],
-      summary: `Hid the ${sectionType} section.`,
+      summary: `Hid the ${targetType} section${scopeSuffix}.`,
     }
   },
 }
@@ -74,15 +91,27 @@ const HIDE_SECTION: Template = {
 const CHANGE_HEADLINE: Template = {
   id: 'change-headline',
   label: 'Change headline',
-  description: "Replace the hero heading with new text.",
-  matchPattern: /^\s*(?:change|set|update)\s+the\s+headline\s+to\s+["']?(.+?)["']?\s*[!.?]*\s*$/i,
-  envelope: ({ match, config }) => {
+  description: "Replace the hero heading with new text. Honors /hero-N scoping.",
+  matchPattern: /^\s*(?:change|set|update)(?:\s+the)?(?:\s+headline)?\s+to\s+["']?(.+?)["']?\s*[!.?]*\s*$/i,
+  envelope: ({ match, config, scope }) => {
     const text = match[1].trim()
-    const path = heroHeadingPath(config)
+    let path: string | null = null
+    if (scope) {
+      const sectionIdx = resolveScopedSectionIndex(config, scope)
+      if (sectionIdx >= 0) {
+        const components = config.sections[sectionIdx]?.components ?? []
+        const headingIdx = components.findIndex((c) => c.type === 'heading')
+        if (headingIdx >= 0) {
+          path = `/sections/${sectionIdx}/components/${headingIdx}/props/text`
+        }
+      }
+    } else {
+      path = heroHeadingPath(config)
+    }
     if (!path) {
       return {
         patches: [],
-        summary: "I couldn't find a hero heading to update. Try switching to a starter that has one.",
+        summary: "I couldn't find a heading to update. Try: change the headline to 'X' / change /hero-2 to 'X'.",
       }
     }
     return {

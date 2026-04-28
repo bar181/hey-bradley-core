@@ -4,4 +4,6 @@
  */
 export { TEMPLATE_REGISTRY } from './registry'
 export { tryMatchTemplate, CONFIDENCE_THRESHOLD } from './router'
+export { parseSectionScope, resolveScopedSectionIndex } from './scoping'
 export type { Template, TemplateMatchResult, TemplateEnvelope, TemplateMatchContext } from './types'
+export type { SectionScope, ScopedInput } from './scoping'

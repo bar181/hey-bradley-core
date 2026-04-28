@@ -99,7 +99,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 | P21 | **Cleanup + ADR/DDD gap-fill (NEW — inserted post-Wave-2 ratification)** | NEXT (post-P20) |
 | P22 | **Public Website Rebuild — BYOK demo + Don Miller blog-style** | CLOSED 81/100 (Grandma 73 / Framer 84 / Capstone 86) |
 | P23 | Sprint B Phase 1 — Simple Chat (template-first routing; 3 templates + router + ADR-050) | CLOSED 88/100 (Grandma 76 / Framer 86 / Capstone 92) |
-| P24 | Sprint B Phase 2 — section targeting via `/hero-1` keyword scoping | PLANNED |
+| P24 | Sprint B Phase 2 — section targeting via `/hero-1` keyword scoping (parser + resolver + template scope-honoring; ADR-051 full) | CLOSED 88/100 (Grandma 76 / Framer 87 / Capstone 92) |
 | P25 | Sprint B Phase 3 — intent translation (messy → structured to-do) | PLANNED |
 | P26 | Sprint C Phase 1 — AISP instruction layer | PLANNED (capstone-relevant) |
 | P27 | Sprint C Phase 2 — AISP intent pipeline | PLANNED |
