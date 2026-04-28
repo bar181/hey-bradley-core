@@ -64,7 +64,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 
 ## Project Status
 
-- **Current Phase:** Phase 29 SEALED at 91/100 (Sprint D P1 — Template Library API); Phase 30 NEXT (Sprint D P2 — Template Persistence)
+- **Current Phase:** Phase 30 SEALED at 91/100 (Sprint D P2 — Template Persistence); Phase 31 NEXT (Sprint D P3 — Content Generators POC)
 - **Codebase:** ~63K total lines (TS/TSX/JSON/MD, excl. node_modules); ~28,400 lines TS/TSX across 227 source files
 - **Themes:** 12 (agency, blog, creative, elegant, minimalist, neon, personal, portfolio, professional, saas, startup, wellness)
 - **Examples:** 17 (adds blog-standard + capstone to the original 15)
@@ -105,8 +105,8 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 | P27 | Sprint C P2 — LLM-Native AISP (Crystal Atom verbatim → LLM; Zod schema; UI panel; ADR-055 + ADR-056; capstone thesis demo) | CLOSED 90/100 (Grandma 76 / Framer 88 / Capstone 96 — plateau broken) |
 | P28 | Sprint C P3 — 2-step template selection (SELECTION_ATOM; ADR-057) + carryforward closure (C04 partial / C17 partial / C15 done / C16 deferred ADR-040b) | CLOSED 91/100 (Sprint C complete; Sprint D greenlight CONFIRMED) |
 | P29 | Sprint D P1 — Template Library API (decoration over registry; category + kind enums; 4 list/filter APIs; ADR-058) | CLOSED 91/100 (held; Sprint D opener; setup-phase pause before content arc) |
-| P30 | Sprint D P2 — Template Persistence (user-generated templates → IndexedDB; migration 003; ADR-059) | NEXT |
-| P31 | Sprint D P3 — Content Generators POC (CONTENT_ATOM Crystal Atom + generateContent; ADR-060) | PLANNED |
+| P30 | Sprint D P2 — Template Persistence (migration 003 + userTemplates repo + BrowseTemplate split-type; ADR-059) | CLOSED 91/100 (held; data-layer phase) |
+| P31 | Sprint D P3 — Content Generators POC (CONTENT_ATOM Crystal Atom + generateContent; ADR-060) | NEXT |
 | P32 | Sprint D P4 — Multi-section Content Pipeline (style-aware tone/voice; ADR-061) | PLANNED |
 | P33 | Sprint D P5 — Content + Template Bridge (AISPTranslationPanel ChatInput integration; ADR-062) | PLANNED |
 | P34-P37 | Sprint E — Clarification & Assumptions (4 phases) | POST-CAPSTONE |

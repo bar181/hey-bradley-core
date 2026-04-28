@@ -72,3 +72,54 @@ export function getTemplateById(id: string): TemplateMeta | null {
 export function listTemplatesByKind(kind: TemplateKind): readonly TemplateMeta[] {
   return TEMPLATE_LIBRARY.filter((t) => t.kind === kind)
 }
+
+/**
+ * P30 Sprint D P2 — Browse view: registry-baked templates ∪ user-authored rows.
+ *
+ * BrowseTemplate is a metadata-only projection (id + name + category + kind +
+ * examples + source). It does NOT carry runtime fields (`matchPattern`,
+ * `envelope`) because user-authored rows are persisted as JSON and cannot
+ * trivially re-hydrate function bodies. Runtime materialization for user
+ * templates lands at P31+ when content generators provide the structured
+ * dispatch path.
+ *
+ * ADR-059.
+ */
+export interface BrowseTemplate {
+  id: string
+  name: string
+  category: TemplateCategory
+  kind: TemplateKind
+  examples: readonly string[]
+  source: 'registry' | 'user'
+}
+
+/**
+ * Return the merged browse-list (registry + user_templates rows).
+ *
+ * `loadUserRows` is injected for testability + to keep this module free of a
+ * direct DB dependency at module-load (the DB is only initialized post-boot
+ * and pure-unit tests must not touch sql.js).
+ */
+export function listAllForBrowse(
+  loadUserRows: () => readonly { id: string; name: string; category: TemplateCategory; kind: TemplateKind; examples: readonly string[] }[] = () => [],
+): readonly BrowseTemplate[] {
+  const registry: BrowseTemplate[] = TEMPLATE_LIBRARY.map((t) => ({
+    id: t.id,
+    name: t.label,
+    category: t.category,
+    kind: t.kind,
+    examples: t.examples,
+    source: 'registry',
+  }))
+  const userRows = loadUserRows()
+  const userBrowse: BrowseTemplate[] = userRows.map((r) => ({
+    id: r.id,
+    name: r.name,
+    category: r.category,
+    kind: r.kind,
+    examples: r.examples,
+    source: 'user',
+  }))
+  return [...registry, ...userBrowse]
+}
