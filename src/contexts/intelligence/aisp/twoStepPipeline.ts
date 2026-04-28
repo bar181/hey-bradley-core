@@ -30,10 +30,14 @@ import type { MasterConfig } from '@/lib/schemas'
  * their own resolver in this map. Unknown sectionType silently falls
  * back to hero so existing behavior is preserved.
  */
+/** R3 fix-pass-3 (L4) — sectionType allowlist for defense-in-depth. */
+const SECTION_TYPE_RE = /^[a-z][a-z0-9-]{0,32}$/
+
 function resolveTargetPath(
   sectionType: string,
   config: MasterConfig,
 ): string | null {
+  if (!SECTION_TYPE_RE.test(sectionType)) return null
   if (sectionType === 'hero') return heroHeadingPath(config)
   // Generic per-section heading resolver: first heading component within
   // the first matching section. P33+ generators that need per-section

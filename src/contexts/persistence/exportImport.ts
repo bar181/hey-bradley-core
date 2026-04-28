@@ -181,6 +181,17 @@ export async function importBundle(file: File | Blob): Promise<{ projectsImporte
     } catch (e) {
       if (import.meta.env.DEV) console.warn('[importBundle] example_prompts re-seed failed (acceptable; migration runs on next initDB)', e);
     }
+
+    // P33+ R3 fix-pass-3 (F1) — Import lock for user_templates.
+    // user_templates is intentionally opt-in for export (ADR-059) but importing
+    // a foreign bundle MUST NOT trust foreign user-authored templates. Truncate
+    // on import; users author their own going forward. Symmetric with the
+    // example_prompts re-seed lock above.
+    try {
+      db.exec('DELETE FROM user_templates');
+    } catch (e) {
+      if (import.meta.env.DEV) console.warn('[importBundle] user_templates truncate failed (table may not exist yet)', e);
+    }
     return { projectsImported: 0, dbReplaced: true };
   }
 

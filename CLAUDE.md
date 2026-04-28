@@ -64,7 +64,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 
 ## Project Status
 
-- **Current Phase:** SPRINT D COMPLETE — Phase 33 SEALED at 93/100 (Sprint D close; 4-atom AISP architecture in production); end-of-Sprint-D brutal-honest review NEXT
+- **Current Phase:** SPRINT D COMPLETE + brutal-honest review CLOSED — Phase 33 sealed at 93/100; 4 reviewers (R1 UX FAIL 68 / R2 Func PASS 84 / R3 Sec PASS 82 / R4 Arch PASS 84); 12/12 must-fix items closed across 3 fix-passes; 99/99 PURE-UNIT tests GREEN; persona re-score deferred to post-UI mini-phase; Sprint E P1 = AISPTranslationPanel UI wiring NEXT
 - **Codebase:** ~63K total lines (TS/TSX/JSON/MD, excl. node_modules); ~28,400 lines TS/TSX across 227 source files
 - **Themes:** 12 (agency, blog, creative, elegant, minimalist, neon, personal, portfolio, professional, saas, startup, wellness)
 - **Examples:** 17 (adds blog-standard + capstone to the original 15)
@@ -109,7 +109,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 | P31 | Sprint D P3 — Content Generators POC (CONTENT_ATOM Crystal Atom + generateContent stub; ADR-060) | CLOSED 92/100 (+1; 4-atom AISP architecture in production) |
 | P32 | Sprint D P4 — Multi-section content pipeline (section-aware tone/length defaults; ADR-061) | CLOSED 92/100 (held; Framer +1) |
 | P33 | Sprint D P5 — Content + Template Bridge (kind dispatch + first generator template + ADR-062); SPRINT D CLOSE | CLOSED 93/100 (+1; Sprint D complete; 4-atom AISP in production) |
-| P33+ | End-of-Sprint-D brutal-honest review (UX/Func/Sec/Arch) + persona re-score + DB migration audit | NEXT |
+| P33+ | End-of-Sprint-D Brutal-Honest Review + 3 fix-passes (12/12 must-fix closed; 99/99 tests GREEN) | CLOSED — persona re-score deferred to post-UI mini-phase |
 | P32 | Sprint D P4 — Multi-section Content Pipeline (style-aware tone/voice; ADR-061) | PLANNED |
 | P33 | Sprint D P5 — Content + Template Bridge (AISPTranslationPanel ChatInput integration; ADR-062) | PLANNED |
 | P34-P37 | Sprint E — Clarification & Assumptions (4 phases) | POST-CAPSTONE |

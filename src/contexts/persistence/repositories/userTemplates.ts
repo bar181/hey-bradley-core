@@ -25,6 +25,26 @@ export interface UserTemplateRow {
 
 const COLS = 'id, name, category, kind, examples_json, payload_json, created_at, updated_at'
 
+/**
+ * P33+ R3 fix-pass-3 (F2) — id allowlist + reserved-id ban.
+ * Lowercase kebab-case, ≤ 64 chars. Reserved ids match registry templates so
+ * a malicious bundle (or user typo) cannot shadow a built-in template. Keep
+ * RESERVED_IDS in sync with TEMPLATE_REGISTRY.
+ */
+const ID_ALLOWLIST_RE = /^[a-z][a-z0-9-]{0,63}$/
+const RESERVED_IDS = new Set([
+  'make-it-brighter',
+  'hide-section',
+  'change-headline',
+  'generate-headline',
+])
+
+/** P33+ R3 fix-pass-3 (F3) — IDB DoS guards. */
+const PAYLOAD_BYTES_CAP = 64_000   // 64 KB per template
+const NAME_CHAR_CAP = 200
+const EXAMPLES_BYTES_CAP = 8_000
+const ROW_COUNT_CAP = 1_000
+
 export interface UserTemplateInput {
   id: string
   name: string
@@ -36,7 +56,43 @@ export interface UserTemplateInput {
 
 export function createUserTemplate(input: UserTemplateInput): UserTemplateRow {
   if (!input.id || !input.name) throw new Error('[userTemplates] id + name required')
+  // R3 F2 — allowlist + reserved-id check.
+  if (!ID_ALLOWLIST_RE.test(input.id)) {
+    throw new Error(
+      `[userTemplates] invalid id: must match ${ID_ALLOWLIST_RE} (lowercase kebab, ≤ 64 chars)`,
+    )
+  }
+  if (RESERVED_IDS.has(input.id)) {
+    throw new Error(`[userTemplates] reserved id: ${input.id}`)
+  }
+  if (input.name.length > NAME_CHAR_CAP) {
+    throw new Error(`[userTemplates] name exceeds ${NAME_CHAR_CAP} chars`)
+  }
+  // R3 F3 — payload + examples size caps.
+  const examplesJson = JSON.stringify(input.examples ?? [])
+  const payloadJson = JSON.stringify(input.payload)
+  if (examplesJson.length > EXAMPLES_BYTES_CAP) {
+    throw new Error(`[userTemplates] examples_json exceeds ${EXAMPLES_BYTES_CAP} bytes`)
+  }
+  if (payloadJson.length > PAYLOAD_BYTES_CAP) {
+    throw new Error(`[userTemplates] payload_json exceeds ${PAYLOAD_BYTES_CAP} bytes`)
+  }
+  // R3 F3 — row count cap (DoS via mass insert).
   const db = getDB()
+  const countStmt = db.prepare('SELECT COUNT(*) AS c FROM user_templates')
+  let rowCount = 0
+  try {
+    if (countStmt.step()) {
+      const r = countStmt.getAsObject() as { c?: number }
+      rowCount = typeof r.c === 'number' ? r.c : 0
+    }
+  } finally {
+    countStmt.free()
+  }
+  if (rowCount >= ROW_COUNT_CAP) {
+    throw new Error(`[userTemplates] row count cap reached (${ROW_COUNT_CAP}); delete some first`)
+  }
+
   const now = Date.now()
   const ins = db.prepare(
     `INSERT INTO user_templates (${COLS}) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -47,8 +103,8 @@ export function createUserTemplate(input: UserTemplateInput): UserTemplateRow {
       input.name,
       input.category,
       input.kind,
-      JSON.stringify(input.examples ?? []),
-      JSON.stringify(input.payload),
+      examplesJson,
+      payloadJson,
       now,
       now,
     ])
@@ -60,6 +116,16 @@ export function createUserTemplate(input: UserTemplateInput): UserTemplateRow {
   if (!row) throw new Error('[userTemplates] insert succeeded but row not found')
   return row
 }
+
+/** R3 fix-pass-3 — exported for tests. */
+export const USER_TEMPLATES_LIMITS = {
+  ID_ALLOWLIST_RE,
+  RESERVED_IDS,
+  PAYLOAD_BYTES_CAP,
+  NAME_CHAR_CAP,
+  EXAMPLES_BYTES_CAP,
+  ROW_COUNT_CAP,
+} as const
 
 export function listUserTemplates(filter?: {
   category?: UserTemplateCategory
@@ -76,7 +142,10 @@ export function listUserTemplates(filter?: {
     binds.push(filter.kind)
   }
   const where = clauses.length ? ` WHERE ${clauses.join(' AND ')}` : ''
-  const stmt = getDB().prepare(`SELECT ${COLS} FROM user_templates${where} ORDER BY id ASC`)
+  // R3 fix-pass-3 (L5) — defensive LIMIT cap; pairs with ROW_COUNT_CAP at insert.
+  const stmt = getDB().prepare(
+    `SELECT ${COLS} FROM user_templates${where} ORDER BY id ASC LIMIT ${ROW_COUNT_CAP}`,
+  )
   const rows: UserTemplateRow[] = []
   try {
     if (binds.length) stmt.bind(binds)
