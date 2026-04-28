@@ -36,7 +36,7 @@ export function ListenClarificationCard({
       aria-label="Voice clarification needed"
     >
       <div className="text-[11px] text-white/70">
-        <span className="text-[10px] uppercase tracking-wider text-amber-300/80">heard</span>
+        <span className="text-[10px] uppercase tracking-wider text-amber-300">heard</span>
         <div className="font-mono text-white/95">"{originalTranscript}"</div>
         <div className="mt-1">Pick the closest match:</div>
       </div>

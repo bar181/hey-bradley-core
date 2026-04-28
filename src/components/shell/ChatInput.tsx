@@ -181,16 +181,16 @@ export function ChatInput() {
   }, [])
 
   // P36 Sprint F P1 (A2) — Consume any pending transcript prefill from the
-  // ListenTab "Edit" review action. Single-shot: read once on mount + on
-  // tab switch (when this component re-renders into view).
+  // ListenTab "Edit" review action. R1 F1 fix-pass — subscribe to the store
+  // field so the consume fires whenever a prefill is set, not only at first
+  // mount. Resilient to ChatInput staying mounted across tab toggles.
+  const pendingPrefill = useUIStore((s) => s.pendingChatPrefill)
   useEffect(() => {
-    const prefill = useUIStore.getState().consumePendingChatPrefill()
-    if (prefill) {
-      setInput(prefill)
-      // Defer focus so the prefill renders before the cursor lands.
-      setTimeout(() => inputRef.current?.focus(), 0)
-    }
-  }, [])
+    if (!pendingPrefill) return
+    setInput(pendingPrefill)
+    useUIStore.getState().setPendingChatPrefill(null)
+    setTimeout(() => inputRef.current?.focus(), 0)
+  }, [pendingPrefill])
 
   const addUserMessage = (text: string) => {
     const id = nextId.current++

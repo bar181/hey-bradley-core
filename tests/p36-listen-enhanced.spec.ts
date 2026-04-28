@@ -38,14 +38,14 @@ test.describe('P36 — buildActionPreview', () => {
       // Classifier locked on the hero target — preview should reflect it.
       expect(r.text).toContain('Change')
     } else {
-      // Acceptable fallback: classifier didn't lock; generic preview.
-      expect(r.text).toBe('Run the chat pipeline on this transcript.')
+      // Acceptable fallback: classifier didn't lock; friendly preview.
+      expect(r.text).toContain("I'll figure it out")
     }
   })
 
-  test('low-confidence input falls back to generic preview', () => {
+  test('low-confidence input falls back to friendly preview (P36 fix-pass L2)', () => {
     const r = buildActionPreview('foo bar baz')
-    expect(r.text).toBe('Run the chat pipeline on this transcript.')
+    expect(r.text).toContain("I'll figure it out")
     expect(r.intent.confidence).toBeLessThan(0.5)
   })
 
@@ -197,10 +197,11 @@ test.describe('P36 — uiStore.pendingChatPrefill round-trip', () => {
     expect(src).toMatch(/consumePendingChatPrefill[\s\S]*?set\(\{\s*pendingChatPrefill:\s*null\s*\}\)/)
   })
 
-  test('ChatInput consumes pending prefill on mount', () => {
+  test('ChatInput subscribes to pendingChatPrefill via useUIStore (R1 F1 fix-pass; not mount-only)', () => {
     const src = readFileSync(CHAT_INPUT, 'utf8')
-    expect(src).toContain('consumePendingChatPrefill')
-    expect(src).toMatch(/setInput\(prefill\)/)
+    expect(src).toMatch(/useUIStore\(\(s\)\s*=>\s*s\.pendingChatPrefill\)/)
+    expect(src).toMatch(/setInput\(pendingPrefill\)/)
+    expect(src).toMatch(/setPendingChatPrefill\(null\)/)
   })
 })
 
@@ -255,7 +256,7 @@ test.describe('P36 — ADR-065 + 31/35 coverage gate', () => {
     let coverage = 0
     for (const p of phrasings) {
       const r = buildActionPreview(p)
-      if (r.text !== 'Run the chat pipeline on this transcript.') coverage += 1
+      if (!r.text.startsWith("I'll figure it out")) coverage += 1
     }
     expect(coverage).toBeGreaterThanOrEqual(31)
   })

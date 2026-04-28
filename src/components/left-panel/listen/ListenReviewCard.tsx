@@ -11,6 +11,7 @@
  *
  * ADR-065.
  */
+import { useEffect, useRef } from 'react'
 import { Check, X, Pencil } from 'lucide-react'
 
 export interface ListenReviewCardProps {
@@ -35,6 +36,13 @@ export function ListenReviewCard({
   onCancel,
 }: ListenReviewCardProps) {
   const lowConfidence = confidence < 0.7
+  // Hands-free keyboard shortcuts: Enter approves, Escape cancels.
+  // The Approve button is auto-focused so screen readers + keyboard users
+  // land on the primary action without an extra Tab keystroke.
+  const approveBtnRef = useRef<HTMLButtonElement>(null)
+  useEffect(() => {
+    approveBtnRef.current?.focus()
+  }, [])
   return (
     <div
       data-testid="listen-review-card"
@@ -42,13 +50,23 @@ export function ListenReviewCard({
       role="region"
       aria-live="polite"
       aria-label="Voice action review"
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault()
+          onApprove()
+        } else if (e.key === 'Escape') {
+          e.preventDefault()
+          onCancel()
+        }
+      }}
+      tabIndex={-1}
     >
       <div data-testid="listen-review-heard">
-        <span className="text-[10px] uppercase tracking-wider text-white/45">heard</span>
+        <span className="text-[10px] uppercase tracking-wider text-white/65">heard</span>
         <div className="text-sm font-mono text-white/95">"{transcript}"</div>
       </div>
       <div data-testid="listen-review-action">
-        <span className="text-[10px] uppercase tracking-wider text-white/45">
+        <span className="text-[10px] uppercase tracking-wider text-white/65">
           will {lowConfidence ? '· low confidence' : ''}
         </span>
         <div className="text-sm">{actionPreview}</div>

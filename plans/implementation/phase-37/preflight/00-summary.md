@@ -72,9 +72,20 @@
 
 ## Composite target: 96+ (research phase; net-new value lands at P38 implementation)
 
-## Carryforward into P37
+## Carryforward into P37 — must-clear items from P36 review
 
-- 28/35 → 31/35 prompt coverage (gate raised at P36; P37 may push 33/35)
+**Hard-blocking (P36 R2 S3):**
+- **ListenTab.tsx ~875 LOC** vs CLAUDE.md 500-LOC hard cap. C04-style split required: extract review/clarification handlers + state into a custom hook (e.g. `useListenPipeline`) so ListenTab is back below 500 LOC.
+
+**Soft (queued):**
+- R1 L3 — clarification fallthrough silent when LLM returns 0 assumptions (add user-facing message)
+- R2 S1 — pendingChatPrefill envelope hardening (scope/length validation)
+- R2 S2 — redaction at listen-write boundary (BYOK leak guard symmetry with assumptionStore)
+- R2 S4 — pendingChatPrefill global vs directed-message anti-pattern (refactor)
+- R2 S5 — ADR-065 "every AISP surface" claim re: P35 EXPERT trace pane (scope refinement)
+
+**Other carryforward:**
+- 31/35 → push 33/35 prompt coverage
 - Vercel deploy still owner-triggered
 - Live BYOK 4-provider validation deferred from P35
 

@@ -9,7 +9,7 @@
  *   "hide the hero"          → "Hide the hero section."
  *   "change headline to X"   → "Change the hero headline to 'X'."
  *   "make it brighter"       → "Brighten the page (theme)."
- *   <unrecognized>           → "Run the chat pipeline on this transcript."
+ *   <unrecognized>           → "I'll figure it out — Bradley will try this."
  *
  * ADR-065.
  */
@@ -35,8 +35,10 @@ const VERB_LABEL: Record<string, string> = {
 export function buildActionPreview(transcript: string): ActionPreview {
   const intent = classifyIntent(transcript)
   if (intent.confidence < 0.5 || !intent.target) {
+    // R1 L2 fix-pass — friendlier copy than "run the chat pipeline".
+    // Grandma should read this and understand "Bradley will give it a shot."
     return {
-      text: 'Run the chat pipeline on this transcript.',
+      text: "I'll figure it out — Bradley will try this.",
       intent,
     }
   }

@@ -201,12 +201,22 @@ export function ListenTab() {
     })
   }, [])
 
-  /** P36 (A2) — Approve handler: clear review state, run the pipeline. */
+  /**
+   * P36 (A2) — Approve handler: clear review state, run the pipeline.
+   * Pre-empt fix-pass — `approveInFlightRef` guards against double-clicks
+   * before pttBusy commits (standard React state-flip race).
+   */
+  const approveInFlightRef = useRef(false)
   const handleListenApprove = useCallback(async () => {
-    if (!pttReview) return
-    const { transcript } = pttReview
-    setPttReview(null)
-    await runListenPipeline(transcript)
+    if (!pttReview || approveInFlightRef.current) return
+    approveInFlightRef.current = true
+    try {
+      const { transcript } = pttReview
+      setPttReview(null)
+      await runListenPipeline(transcript)
+    } finally {
+      approveInFlightRef.current = false
+    }
   }, [pttReview, runListenPipeline])
 
   /** P36 (A2) — Edit handler: hand transcript off to the chat input + switch tabs. */
@@ -591,10 +601,10 @@ export function ListenTab() {
               onTouchStart={handlePttPressStart}
               onTouchEnd={handlePttPressEnd}
               aria-pressed={pttRecording}
-              aria-label={pttRecording ? 'Listening' : 'Hold to talk'}
-              disabled={pttBusy}
+              aria-label={pttRecording ? 'Listening' : pttReview ? 'Resolve review first' : 'Hold to talk'}
+              disabled={pttBusy || pttReview !== null || pttClarification !== null}
               className={`w-full max-w-[300px] flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold tracking-wider uppercase border transition-colors select-none ${
-                pttBusy
+                pttBusy || pttReview || pttClarification
                   ? 'bg-white/5 text-white/40 border-white/10 opacity-60 cursor-not-allowed'
                   : pttRecording
                     ? 'bg-hb-accent text-white scale-95 border-hb-accent'
@@ -602,7 +612,15 @@ export function ListenTab() {
               }`}
             >
               <Mic size={16} />
-              {pttBusy ? 'Sending…' : pttRecording ? 'Listening…' : 'Hold to talk'}
+              {pttBusy
+                ? 'Sending…'
+                : pttRecording
+                  ? 'Listening…'
+                  : pttReview
+                    ? 'Review first ↑'
+                    : pttClarification
+                      ? 'Clarify ↑'
+                      : 'Hold to talk'}
             </button>
             {pttPrivacyOpen && (
               <div
