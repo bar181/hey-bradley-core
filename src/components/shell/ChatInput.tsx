@@ -408,8 +408,11 @@ export function ChatInput() {
         pendingAispRef.current.assumptionsSource = llmResult.source
       }
       setTypingText('')
+      // P37 R1 L3 fix-pass — "/browse" literal was leaking dev syntax to
+      // Grandma. Replace with the friendly affordance call-out; the empty-
+      // state hint already documents the slash form for power users.
       setTypingFull(
-        "Hmm — I'm a little unsure about that one. Try a different phrasing or type /browse to pick a template.",
+        "Hmm — I'm a little unsure about that one. Try a different phrasing, or tap the **browse templates** affordance below to pick a starting point.",
       )
       return true
     }
@@ -458,6 +461,17 @@ export function ChatInput() {
           setShowBrowsePicker(false)
           setInput(`build me a ${cmd.target ?? ''}`.trim())
           inputRef.current?.focus()
+          return
+        }
+        case 'template-help': {
+          // P37 R1 F1 fix-pass — bare `/template` (no name). Surface a hint
+          // typewriter reply instead of silently ignoring; offer two paths.
+          setInput('')
+          setIsProcessing(true)
+          setTypingText('')
+          setTypingFull(
+            "Try `/template bakery` (or any template name). Or use the **browse templates** button below to pick one.",
+          )
           return
         }
         case 'generate': {

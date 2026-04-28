@@ -210,11 +210,12 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     }
     aispTrace = { intent: aisp, source: aispSource }
     // P37 A2 — classify route (content vs design vs ambiguous). Pure-rule, $0.
-    // Call only when AISP is confident enough to have a target; otherwise the
-    // route will be re-decided downstream by the legacy translator + router.
-    if (aisp.confidence >= AISP_CONFIDENCE_THRESHOLD && aisp.target) {
-      aispRoute = classifyRoute(aisp, text).route
-    }
+    // P37 R3 L2 fix-pass — classifyRoute always runs (text-driven cue tables
+    // are robust even when AISP didn't lock). Previously it ran ONLY at high
+    // AISP confidence, so a low-confidence "rewrite the headline" slipped
+    // past the content gate and hit the LLM patch path. classifyRoute is
+    // pure-rule (~$0); calling it unconditionally is the correct floor.
+    aispRoute = classifyRoute(aisp.target ? aisp : null, text).route
     if (aisp.confidence >= AISP_CONFIDENCE_THRESHOLD && aisp.target) {
       // AISP wins — construct canonical text from classified intent
       const verbWord = aisp.verb === 'remove' ? 'hide' : aisp.verb
@@ -272,13 +273,17 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
   // TODO: content route → P38 LLM content call (CONTENT_ATOM verbatim → LLM).
   if (aispRoute === 'content') {
     const canned = runCanned(text)
+    // P37 R1 F2 fix-pass — replace the dev-y "wired up in the next phase"
+    // dead-end with a Grandma-friendly nudge that gives a concrete next step
+    // and does NOT loop the user (mentions a specific phrasing form they
+    // can retry with).
     return {
       ok: canned.matched,
       appliedPatchCount: 0,
       fellBackToCanned: true,
       summary: canned.matched
         ? canned.summary
-        : "Content rewrites are wired up in the next phase. Try a design change for now (e.g. 'change to dark mode' or 'add a pricing section').",
+        : "I can do design changes right now — for copy edits, try a specific phrasing like \"change the headline to 'X'\" or pick a template via the browse button.",
       durationMs: Date.now() - startedAt,
       errorKind: null,
       aisp: aispTrace,

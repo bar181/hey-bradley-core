@@ -34,6 +34,7 @@
 export type CommandKind =
   | 'browse'
   | 'apply-template'
+  | 'template-help'
   | 'generate'
   | 'design'
   | 'content'
@@ -137,6 +138,10 @@ const BARE_SLASH: Record<string, CommandKind> = {
 const VOICE_PHRASES: ReadonlyArray<{ pattern: RegExp; kind: CommandKind }> = [
   { pattern: /^browse\s+templates$/i, kind: 'browse' },
   { pattern: /^show\s+(?:me\s+)?templates$/i, kind: 'browse' },
+  // P37 R1 L1 fix-pass — voice idiom expansions ("open"/"pick"/"template browser").
+  { pattern: /^open\s+(?:the\s+)?templates?$/i, kind: 'browse' },
+  { pattern: /^pick\s+a\s+template$/i, kind: 'browse' },
+  { pattern: /^template\s+browser$/i, kind: 'browse' },
   { pattern: /^generate\s+content$/i, kind: 'generate' },
   { pattern: /^write\s+content$/i, kind: 'generate' },
   { pattern: /^write\s+copy$/i, kind: 'generate' },
@@ -148,8 +153,10 @@ const VOICE_PHRASES: ReadonlyArray<{ pattern: RegExp; kind: CommandKind }> = [
 
 // Templated slash forms with an argument: `/template <name>`.
 const SLASH_TEMPLATE_RE = /^\/template\s+(.+)$/i
-// Voice forms with an argument: `apply template <name>`, `use template <name>`.
-const VOICE_TEMPLATE_RE = /^(?:apply|use)\s+template\s+(.+)$/i
+// Voice forms with an argument: `apply template <name>`, `use template <name>`,
+// `load template <name>`, `switch to template <name>`, `try template <name>`.
+// P37 R1 L2 fix-pass — broaden the voice apply-template verb set.
+const VOICE_TEMPLATE_RE = /^(?:apply|use|load|switch\s+to|try)\s+(?:the\s+)?template\s+(.+)$/i
 
 /**
  * Parse user text into a CommandTrigger; returns null when the text is not
@@ -178,6 +185,14 @@ export function parseCommand(text: string): CommandTrigger | null {
   if (slashTemplate) {
     const target = slashTemplate[1].trim()
     if (target) return { kind: 'apply-template', target, raw }
+  }
+
+  // 2b. P37 R1 F1 fix-pass — bare `/template` (no name) is now a hint trigger,
+  // not a silent reject. Host dispatches a help message ("Try `/template
+  // bakery`. Or use `/browse` to pick a template.") instead of leaving the
+  // user with no feedback.
+  if (lower === '/template' || lower === '/template ') {
+    return { kind: 'template-help', raw }
   }
 
   // 3. Voice phrasings (whole-input only).

@@ -43,6 +43,7 @@ const BYOK_KEY_SHAPES: readonly RegExp[] = [
   /ghp_[A-Za-z0-9]{36}/, // GitHub PAT
   /xox[abprs]-[A-Za-z0-9-]{10,}/, // Slack
   /eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/, // JWT (3-segment)
+  /Bearer\s+\S+/i, // P37 R2 L3 fix-pass — match redactKeyShapes coverage
 ]
 
 function looksLikeSecret(s: string): boolean {

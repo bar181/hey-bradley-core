@@ -65,9 +65,11 @@ test.describe('P37 — parseCommand (slash forms)', () => {
     expect(c?.target).toBe('harvard capstone')
   })
 
-  test('/template with no name returns null (target required)', () => {
-    expect(parseCommand('/template')).toBeNull()
-    expect(parseCommand('/template   ')).toBeNull()
+  test('/template with no name returns template-help (P37 R1 F1 fix-pass; was: null)', () => {
+    // Pre-fix: bare `/template` was a silent reject. Post-fix: hint-bearing
+    // `template-help` kind so the host can surface a friendly help reply.
+    expect(parseCommand('/template')?.kind).toBe('template-help')
+    expect(parseCommand('/template   ')?.kind).toBe('template-help')
   })
 
   test('slash forms are case-insensitive', () => {

@@ -64,7 +64,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 
 ## Project Status
 
-- **Current Phase:** Phase 36 SEALED at 96/100 estimated — Sprint F P1 shipped Listen + AISP unification (review-first voice UX). NEW ListenReviewCard (Approve/Edit/Cancel before pipeline fires) + ListenClarificationCard (3-button voice clarification mirroring P34) + listenActionPreview rule-classifier (0-cost). uiStore.pendingChatPrefill single-shot; ChatInput consumes on mount → Listen → Chat hand-off seamless. **5-atom AISP architecture now spans BOTH chat + voice surfaces.** 255/255 PURE-UNIT tests GREEN. 31/35 prompt coverage gate met (raised from 28/35). ADR-065 full Accepted. Phase 37 NEXT (Sprint F P2 — Command Triggers + LLM-Call Audit + Content-Route Research).
+- **Current Phase:** Phase 37 SEALED at 91/100 estimated post-fix-pass — Sprint F P2 shipped Command Triggers (`parseCommand` + 8 CommandKinds incl. `template-help`) + Content/Design Route Split (`classifyRoute` runs unconditionally) + ListenTab split 947→84 LOC + R1+R2 carryforward closure. **All 5 P36 carryforward items closed (R1 L3, R2 S1/S2/S3/S4/S5).** 3-reviewer brutal review (R1 UX 87 / R2 Sec 86 / R3 Arch 92) all PASS; 7 fix-pass items applied. Cumulative regression: 408/408 PURE-UNIT GREEN. example_prompts seed expanded 18→43; 35/35 prompt coverage gate met. ADR-066 full Accepted. Phase 38 NEXT (Sprint F P3 — sprint close + 4-reviewer end-of-sprint review + presentation readiness gate).
 - **Codebase:** ~63K total lines (TS/TSX/JSON/MD, excl. node_modules); ~28,400 lines TS/TSX across 227 source files
 - **Themes:** 12 (agency, blog, creative, elegant, minimalist, neon, personal, portfolio, professional, saas, startup, wellness)
 - **Examples:** 17 (adds blog-standard + capstone to the original 15)
@@ -113,7 +113,8 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 | P34 | Sprint E P1 — UI Closure + Assumptions Engine + brutal-honest review fix-pass (6 must-fix + 2 LOW closed) | CLOSED 95/100 estimated post-fix (Grandma 79 / Framer 89 / Capstone 98); 157/157 tests GREEN; Sprint E greenlight CONFIRMED |
 | P35 | Sprint E P2 — ASSUMPTIONS_ATOM Crystal Atom + LLM lift + EXPERT trace pane + BYOK matrix completion (OpenAI added; ADR-064) | CLOSED 96/100 estimated (Grandma 79 / Framer 91 / Capstone 99); **5-atom AISP in production**; 211/211 tests GREEN |
 | P36 | Sprint F P1 — Listen + AISP Unification (review-first voice UX; ListenReviewCard + ListenClarificationCard + listenActionPreview; ADR-065) | CLOSED 96/100 estimated (Grandma 81 / Framer 89 / Capstone 99); 255/255 tests GREEN; 31/35 prompt coverage |
-| P37 | Sprint F P2 — Command Triggers + LLM-Call Audit + Content-Route Research (ADR-066 + ADR-067) | NEXT |
+| P37 | Sprint F P2 — Command Triggers + Content/Design Route Split + ListenTab refactor + carryforward closure (ADR-066) | CLOSED 91/100 estimated post-fix-pass (Grandma 82 / Framer 90 / Capstone 99); 408/408 tests GREEN; 35/35 prompt coverage; ListenTab 947→84 LOC |
+| P38 | Sprint F P3 — Sprint close + 4-reviewer end-of-sprint brutal review + presentation readiness gate | NEXT |
 | P32 | Sprint D P4 — Multi-section Content Pipeline (style-aware tone/voice; ADR-061) | PLANNED |
 | P33 | Sprint D P5 — Content + Template Bridge (AISPTranslationPanel ChatInput integration; ADR-062) | PLANNED |
 | P34-P37 | Sprint E — Clarification & Assumptions (4 phases) | POST-CAPSTONE |
