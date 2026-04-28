@@ -12,9 +12,16 @@ import { Input } from '@/components/ui/input'
 import { ChatExplainer } from '@/components/shell/ChatExplainer'
 import { AISPTranslationPanel } from '@/components/shell/AISPTranslationPanel'
 import { TemplateBrowsePicker } from '@/components/shell/TemplateBrowsePicker'
+import { ClarificationPanel } from '@/components/shell/ClarificationPanel'
 import type { SectionType } from '@/lib/schemas'
 import { submit as submitChatPipeline, mapChatError } from '@/contexts/intelligence/chatPipeline'
-import type { ClassifiedIntent } from '@/contexts/intelligence/aisp'
+import {
+  generateAssumptions,
+  recordAcceptedAssumption,
+  shouldRequestAssumptions,
+  type Assumption,
+  type ClassifiedIntent,
+} from '@/contexts/intelligence/aisp'
 
 /* ── Chat examples for the dialog ── */
 const CHAT_EXAMPLE_CATEGORIES = [
@@ -88,6 +95,11 @@ export function ChatInput() {
   } | null>(null)
   // P34 Sprint E P1 (A2) — /browse picker visibility.
   const [showBrowsePicker, setShowBrowsePicker] = useState(false)
+  // P34 Sprint E P1 (A4) — pending clarification (low-confidence assumption set).
+  const [clarification, setClarification] = useState<{
+    originalText: string
+    assumptions: Assumption[]
+  } | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const nextId = useRef(0)
@@ -318,6 +330,23 @@ export function ChatInput() {
       setTypingFull(result.summary)
       return true
     }
+    // P34 (A4) — when no patches applied AND AISP had low confidence,
+    // surface a 3-button clarification instead of falling through silently.
+    // Caller still gets `false` so it skips the LLM-success path; we set
+    // typingFull to a one-liner that introduces the clarification panel.
+    if (
+      !result.appliedPatchCount &&
+      result.aisp &&
+      shouldRequestAssumptions(result.aisp.intent)
+    ) {
+      const assumptions = generateAssumptions({ text, intent: result.aisp.intent })
+      if (assumptions.length > 0) {
+        setClarification({ originalText: text, assumptions })
+        setTypingText('')
+        setTypingFull("I'm not 100% sure I caught that. Pick the closest match below ↓")
+        return true
+      }
+    }
     // P19 Fix-Pass 2 (F2): surface kind-specific error copy when the LLM
     // call failed for an INFRASTRUCTURE reason (cost cap hit, timeout, rate
     // limit, missing API key). For 'validation_failed' (fixture miss / bad
@@ -473,6 +502,43 @@ export function ChatInput() {
           }}
           onClose={() => setShowBrowsePicker(false)}
         />
+      )}
+
+      {/* P34 (A4) — ClarificationPanel: rendered when chatPipeline returns
+          a low-confidence intent. Click an option to re-run the pipeline
+          with the chosen rephrasing locked. */}
+      {clarification && (
+        <div className="px-4 py-2 border-t border-hb-border/50">
+          <ClarificationPanel
+            originalText={clarification.originalText}
+            assumptions={clarification.assumptions}
+            onAccept={(a) => {
+              recordAcceptedAssumption({
+                originalText: clarification.originalText,
+                acceptedRephrasing: a.rephrasing,
+                confidence: a.confidence,
+                acceptedAt: Date.now(),
+              })
+              setClarification(null)
+              // Re-feed the canonical rephrasing so the existing pipeline
+              // can hit a deterministic template path. AddUserMessage so the
+              // user sees what was confirmed.
+              addUserMessage(a.rephrasing)
+              setIsProcessing(true)
+              setTimeout(() => {
+                void runLLMPipeline(a.rephrasing)
+                  .then((ok) => {
+                    if (!ok) runCannedFallback(a.rephrasing)
+                  })
+                  .catch(() => runCannedFallback(a.rephrasing))
+              }, 200)
+            }}
+            onReject={() => {
+              setClarification(null)
+              inputRef.current?.focus()
+            }}
+          />
+        </div>
       )}
 
       {/* Hint — when empty and focused */}

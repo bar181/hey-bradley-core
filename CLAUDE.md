@@ -64,7 +64,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 
 ## Project Status
 
-- **Current Phase:** SPRINT D COMPLETE + brutal-honest review CLOSED — Phase 33 sealed at 93/100; 4 reviewers (R1 UX FAIL 68 / R2 Func PASS 84 / R3 Sec PASS 82 / R4 Arch PASS 84); 12/12 must-fix items closed across 3 fix-passes; 99/99 PURE-UNIT tests GREEN; persona re-score deferred to post-UI mini-phase; Sprint E P1 = AISPTranslationPanel UI wiring NEXT
+- **Current Phase:** Phase 34 SEALED at 94/100 estimated — Sprint E P1 closed Sprint D UI debt (AISPTranslationPanel wired into chatPipeline output + TemplateBrowsePicker via /browse) + shipped Assumptions Engine + 3-button ClarificationPanel (Sean-pattern UX); 136/136 PURE-UNIT tests GREEN; Phase 35 NEXT (Sprint E P2 — Assumptions LLM Lift + ADR-064)
 - **Codebase:** ~63K total lines (TS/TSX/JSON/MD, excl. node_modules); ~28,400 lines TS/TSX across 227 source files
 - **Themes:** 12 (agency, blog, creative, elegant, minimalist, neon, personal, portfolio, professional, saas, startup, wellness)
 - **Examples:** 17 (adds blog-standard + capstone to the original 15)
@@ -110,6 +110,8 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 | P32 | Sprint D P4 — Multi-section content pipeline (section-aware tone/length defaults; ADR-061) | CLOSED 92/100 (held; Framer +1) |
 | P33 | Sprint D P5 — Content + Template Bridge (kind dispatch + first generator template + ADR-062); SPRINT D CLOSE | CLOSED 93/100 (+1; Sprint D complete; 4-atom AISP in production) |
 | P33+ | End-of-Sprint-D Brutal-Honest Review + 3 fix-passes (12/12 must-fix closed; 99/99 tests GREEN) | CLOSED — persona re-score deferred to post-UI mini-phase |
+| P34 | Sprint E P1 — UI Closure (AISPTranslationPanel wiring + TemplateBrowsePicker) + Assumptions Engine (3-button clarification UX + ADR-063) | CLOSED 94/100 estimated (Grandma 77 / Framer 92 / Capstone 98); Sean-pattern clarification UX in production |
+| P35 | Sprint E P2 — Assumptions LLM Lift (ASSUMPTIONS_ATOM + cost-capped LLM gen + EXPERT-tab pane; ADR-064) | NEXT |
 | P32 | Sprint D P4 — Multi-section Content Pipeline (style-aware tone/voice; ADR-061) | PLANNED |
 | P33 | Sprint D P5 — Content + Template Bridge (AISPTranslationPanel ChatInput integration; ADR-062) | PLANNED |
 | P34-P37 | Sprint E — Clarification & Assumptions (4 phases) | POST-CAPSTONE |

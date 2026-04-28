@@ -18,3 +18,16 @@ export { selectTemplate, STEP1_THRESHOLD } from './templateSelector'
 export { runTwoStepPipeline } from './twoStepPipeline'
 export type { TemplateSelection } from './templateSelector'
 export type { TwoStepResult } from './twoStepPipeline'
+// P34 Sprint E P1 (A3) — Assumptions engine + persistence.
+export {
+  ASSUMPTIONS_TRIGGER_THRESHOLD,
+  generateAssumptions,
+  shouldRequestAssumptions,
+} from './assumptions'
+export type { Assumption, AssumptionRequest } from './assumptions'
+export {
+  recordAcceptedAssumption,
+  listAcceptedAssumptions,
+  ACCEPTED_ASSUMPTIONS_LIMITS,
+} from './assumptionStore'
+export type { AcceptedAssumptionRecord } from './assumptionStore'
