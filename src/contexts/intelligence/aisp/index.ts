@@ -31,3 +31,16 @@ export {
   ACCEPTED_ASSUMPTIONS_LIMITS,
 } from './assumptionStore'
 export type { AcceptedAssumptionRecord } from './assumptionStore'
+// P35 Sprint E P2 — ASSUMPTIONS_ATOM (5th Crystal Atom) + LLM-driven generator.
+export {
+  ASSUMPTIONS_ATOM,
+  ASSUMPTIONS_CONFIDENCE_THRESHOLD,
+  ASSUMPTIONS_COST_CAP_RESERVE,
+  ASSUMPTIONS_MAX_OPTIONS,
+  ASSUMPTIONS_MAX_REPHRASING_LENGTH,
+  ASSUMPTIONS_ID_RE,
+  validateAssumptionsAtomOutput,
+} from './assumptionsAtom'
+export type { AssumptionAtomItem } from './assumptionsAtom'
+export { generateAssumptionsLLM } from './assumptionsLLM'
+export type { LLMAssumptionsResult } from './assumptionsLLM'

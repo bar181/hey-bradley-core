@@ -71,6 +71,14 @@ export function looksLikeGoogleKey(k: string): boolean {
   return /^AIza/.test(k.trim());
 }
 
+/** P35 — OpenAI keys: classic `sk-...` (non-project) or `sk-proj-...` project keys. */
+export function looksLikeOpenAIKey(k: string): boolean {
+  const t = k.trim();
+  // Reject Anthropic keys that share the `sk-` prefix.
+  if (/^sk-ant-/i.test(t)) return false;
+  return /^sk-(?:proj-)?[A-Za-z0-9_-]{20,}$/.test(t);
+}
+
 /**
  * Redact API-key-shaped substrings before they hit logs / persisted error_text /
  * exported `.heybradley` zips. Pure, no I/O. Kept narrow on purpose: SDK error

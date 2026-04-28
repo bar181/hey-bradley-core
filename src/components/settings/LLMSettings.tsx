@@ -9,6 +9,7 @@ import {
   maskKey,
   looksLikeAnthropicKey,
   looksLikeGoogleKey,
+  looksLikeOpenAIKey,
 } from '@/contexts/intelligence/llm/keys'
 import type { LLMProviderName } from '@/contexts/intelligence/llm/adapter'
 
@@ -19,6 +20,7 @@ const PROVIDER_PLACEHOLDER: Record<LLMProviderName, string> = {
   mock: '(no key needed)',
   claude: 'sk-ant-…',
   gemini: 'AIza…',
+  openai: 'sk-… or sk-proj-…',
   openrouter: 'sk-or-…',
 }
 
@@ -26,9 +28,10 @@ const PROVIDER_PLACEHOLDER: Record<LLMProviderName, string> = {
 const PROVIDER_TIER: Record<LLMProviderName, string> = {
   simulated: 'Free · canned',
   mock: 'Free · DB fixtures',
-  gemini: 'Free / cheap · fast',
+  gemini: 'Cheap · fast',
   openrouter: 'Cheap · many models',
-  claude: 'Paid · precise',
+  openai: 'Cheap · fast (gpt-5-nano default)',
+  claude: 'Paid · precise (Haiku 4.5 default)',
 }
 
 export function LLMSettings() {
@@ -58,6 +61,7 @@ export function LLMSettings() {
   const formatOk =
     selected === 'claude' ? looksLikeAnthropicKey(trimmed)
     : selected === 'gemini' ? looksLikeGoogleKey(trimmed)
+    : selected === 'openai' ? looksLikeOpenAIKey(trimmed)
     : true
 
   const handleSave = async () => {
@@ -107,9 +111,10 @@ export function LLMSettings() {
       >
         <option value="simulated">Simulated (canned responses, free)</option>
         <option value="mock">Mock (DB fixtures, free)</option>
-        <option value="gemini">Gemini Flash (free / cheap)</option>
-        <option value="openrouter">OpenRouter (cheap / fast / many models)</option>
-        <option value="claude">Claude Haiku (precise / paid)</option>
+        <option value="gemini">Gemini 2.5 Flash (cheap / fast)</option>
+        <option value="openai">OpenAI gpt-5-nano (cheap / fast)</option>
+        <option value="openrouter">OpenRouter Mistral free (free / many models)</option>
+        <option value="claude">Claude Haiku 4.5 (precise / paid)</option>
       </select>
       <p className="mb-3 mt-1 text-[11px] text-hb-text-muted">Tier: {PROVIDER_TIER[selected]}</p>
 

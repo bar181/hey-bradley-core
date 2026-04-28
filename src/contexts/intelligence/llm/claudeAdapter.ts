@@ -7,7 +7,8 @@ import type { LLMAdapter, LLMRequest, LLMResponse, LLMProviderName } from './ada
 import { safeJson, classifyError } from './adapterUtils';
 
 const DEFAULT_MODEL = 'claude-haiku-4-5-20251001';
-const COST_PER_M = { in: 0.25, out: 1.25 } as const; // USD per 1M tokens (Haiku)
+// USD per 1M tokens (Haiku 4.5 2026 pricing per Anthropic API docs).
+const COST_PER_M = { in: 1.0, out: 5.0 } as const;
 
 export class ClaudeAdapter implements LLMAdapter {
   private client: Anthropic;

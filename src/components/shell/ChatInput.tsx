@@ -13,14 +13,16 @@ import { ChatExplainer } from '@/components/shell/ChatExplainer'
 import { AISPTranslationPanel } from '@/components/shell/AISPTranslationPanel'
 import { TemplateBrowsePicker } from '@/components/shell/TemplateBrowsePicker'
 import { ClarificationPanel } from '@/components/shell/ClarificationPanel'
+import { AISPPipelineTracePane } from '@/components/shell/AISPPipelineTracePane'
 import type { SectionType } from '@/lib/schemas'
 import { submit as submitChatPipeline, mapChatError } from '@/contexts/intelligence/chatPipeline'
 import {
-  generateAssumptions,
+  generateAssumptionsLLM,
   recordAcceptedAssumption,
   shouldRequestAssumptions,
   type Assumption,
   type ClassifiedIntent,
+  type LLMAssumptionsResult,
 } from '@/contexts/intelligence/aisp'
 
 /* ── Chat examples for the dialog ── */
@@ -71,6 +73,13 @@ export interface ChatMessage {
   userText?: string
   /** P34 — id of the matched template (template-router path). */
   templateId?: string | null
+  /** P35 — assumptions surfaced for this turn (when low confidence fired). */
+  assumptions?: readonly Assumption[]
+  /** P35 — which path produced the assumptions (LLM vs rules vs none). */
+  assumptionsSource?: 'llm' | 'rules' | 'empty'
+  /** P35 — applied patch count + summary, surfaced in the EXPERT trace pane. */
+  patches?: number
+  pipelineSummary?: string
 }
 
 const MAX_MESSAGES = 20
@@ -92,13 +101,19 @@ export function ChatInput() {
     aisp: ChatMessage['aisp']
     userText: string
     templateId: string | null
+    assumptions?: readonly Assumption[]
+    assumptionsSource?: 'llm' | 'rules' | 'empty'
+    patches?: number
+    pipelineSummary?: string
   } | null>(null)
   // P34 Sprint E P1 (A2) — /browse picker visibility.
   const [showBrowsePicker, setShowBrowsePicker] = useState(false)
   // P34 Sprint E P1 (A4) — pending clarification (low-confidence assumption set).
+  // P35 — `source` tracks LLM vs rule-based vs empty for the EXPERT debug pane.
   const [clarification, setClarification] = useState<{
     originalText: string
     assumptions: Assumption[]
+    source: 'llm' | 'rules' | 'empty'
   } | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -141,6 +156,10 @@ export function ChatInput() {
           aisp: pending?.aisp ?? null,
           userText: pending?.userText,
           templateId: pending?.templateId ?? null,
+          assumptions: pending?.assumptions,
+          assumptionsSource: pending?.assumptionsSource,
+          patches: pending?.patches,
+          pipelineSummary: pending?.pipelineSummary,
         },
       ])
       setTypingText('')
@@ -320,10 +339,13 @@ export function ChatInput() {
     const history = messages.slice(-6).map((m) => ({ role: m.role, text: m.text }))
     const result = await submitChatPipeline({ source: 'chat', text, history })
     // P34 (A1) — capture AISP trace for the next bradley message.
+    // P35 — also include patch count + summary for the EXPERT trace pane.
     pendingAispRef.current = {
       aisp: result.aisp ?? null,
       userText: text,
       templateId: result.templateId ?? null,
+      patches: result.appliedPatchCount,
+      pipelineSummary: result.summary,
     }
     if (result.ok && !result.fellBackToCanned && result.appliedPatchCount > 0) {
       setTypingText('')
@@ -336,17 +358,32 @@ export function ChatInput() {
     // typingFull to a one-liner that introduces the clarification panel.
     // R2 F1 fix-pass — `!result.ok` guards against firing the clarification
     // panel over a successful canned-fallback reply. Canned matches must win.
+    // P35 — LLM-first assumption generation (ASSUMPTIONS_ATOM); falls back
+    // to rule-based stub on any failure.
     if (
       !result.ok &&
       !result.appliedPatchCount &&
       result.aisp &&
       shouldRequestAssumptions(result.aisp.intent)
     ) {
-      const assumptions = generateAssumptions({ text, intent: result.aisp.intent })
-      if (assumptions.length > 0) {
+      const llmResult: LLMAssumptionsResult = await generateAssumptionsLLM({
+        text,
+        intent: result.aisp.intent,
+      })
+      if (llmResult.assumptions.length > 0) {
         // R1 F4 fix-pass — mutually exclusive with /browse; close picker.
         setShowBrowsePicker(false)
-        setClarification({ originalText: text, assumptions })
+        setClarification({
+          originalText: text,
+          assumptions: llmResult.assumptions,
+          source: llmResult.source,
+        })
+        // P35 — attach assumptions to the pending message so the EXPERT
+        // trace pane can render them.
+        if (pendingAispRef.current) {
+          pendingAispRef.current.assumptions = llmResult.assumptions
+          pendingAispRef.current.assumptionsSource = llmResult.source
+        }
         setTypingText('')
         setTypingFull("I'm not 100% sure I caught that — pick the closest match below ↓")
         return true
@@ -482,6 +519,21 @@ export function ChatInput() {
                 source={msg.aisp.source}
                 userText={msg.userText}
                 templateId={msg.templateId ?? null}
+              />
+            )}
+            {/* P35 Sprint E P2 (A2) — EXPERT-only AISP pipeline trace pane.
+                Renders all 5 atoms: INTENT → ASSUMPTIONS → SELECTION →
+                CONTENT → PATCH. Hidden in SIMPLE mode (component-level guard). */}
+            {msg.role === 'bradley' && msg.userText && msg.aisp && (
+              <AISPPipelineTracePane
+                userText={msg.userText}
+                intent={msg.aisp.intent}
+                intentSource={msg.aisp.source}
+                templateId={msg.templateId ?? null}
+                assumptions={msg.assumptions}
+                assumptionsSource={msg.assumptionsSource}
+                patches={msg.patches ?? null}
+                summary={msg.pipelineSummary ?? null}
               />
             )}
           </div>

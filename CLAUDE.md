@@ -64,7 +64,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 
 ## Project Status
 
-- **Current Phase:** Phase 34 SEALED at 95/100 post-fix-pass — Sprint E P1 closed Sprint D UI debt + shipped Assumptions Engine + 3-button ClarificationPanel (Sean-pattern UX); 4-reviewer brutal-honest review run (R1 UX 86 / R2 Func 84 / R3 Sec 82 / R4 Arch 84 all PASS); 6 must-fix + 2 LOW items closed; 157/157 PURE-UNIT tests GREEN; Sprint E greenlight CONFIRMED; Phase 35 NEXT (Sprint E P2 — ASSUMPTIONS_ATOM Crystal Atom + LLM lift + ADR-064)
+- **Current Phase:** Phase 35 SEALED at 96/100 estimated — Sprint E P2 shipped ASSUMPTIONS_ATOM (5th Crystal Atom) + LLM lift w/ 6-tier fallback chain + EXPERT pipeline trace pane (renders all 5 atoms inline). BYOK matrix completed: OpenAI adapter added (`gpt-5-nano` default); cost-per-million updated to 2026 prices. **5-atom AISP architecture (PATCH+INTENT+SELECTION+CONTENT+ASSUMPTIONS) in production — capstone-thesis full exhibit.** 211/211 PURE-UNIT tests GREEN. ADR-064 full Accepted. Phase 36 NEXT (Sprint E P3 — TBD).
 - **Codebase:** ~63K total lines (TS/TSX/JSON/MD, excl. node_modules); ~28,400 lines TS/TSX across 227 source files
 - **Themes:** 12 (agency, blog, creative, elegant, minimalist, neon, personal, portfolio, professional, saas, startup, wellness)
 - **Examples:** 17 (adds blog-standard + capstone to the original 15)
@@ -111,7 +111,8 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 | P33 | Sprint D P5 — Content + Template Bridge (kind dispatch + first generator template + ADR-062); SPRINT D CLOSE | CLOSED 93/100 (+1; Sprint D complete; 4-atom AISP in production) |
 | P33+ | End-of-Sprint-D Brutal-Honest Review + 3 fix-passes (12/12 must-fix closed; 99/99 tests GREEN) | CLOSED — persona re-score deferred to post-UI mini-phase |
 | P34 | Sprint E P1 — UI Closure + Assumptions Engine + brutal-honest review fix-pass (6 must-fix + 2 LOW closed) | CLOSED 95/100 estimated post-fix (Grandma 79 / Framer 89 / Capstone 98); 157/157 tests GREEN; Sprint E greenlight CONFIRMED |
-| P35 | Sprint E P2 — Assumptions LLM Lift (ASSUMPTIONS_ATOM + cost-capped LLM gen + EXPERT-tab pane; ADR-064) | NEXT |
+| P35 | Sprint E P2 — ASSUMPTIONS_ATOM Crystal Atom + LLM lift + EXPERT trace pane + BYOK matrix completion (OpenAI added; ADR-064) | CLOSED 96/100 estimated (Grandma 79 / Framer 91 / Capstone 99); **5-atom AISP in production**; 211/211 tests GREEN |
+| P36 | Sprint E P3 — TBD per owner mandate at greenlight | NEXT |
 | P32 | Sprint D P4 — Multi-section Content Pipeline (style-aware tone/voice; ADR-061) | PLANNED |
 | P33 | Sprint D P5 — Content + Template Bridge (AISPTranslationPanel ChatInput integration; ADR-062) | PLANNED |
 | P34-P37 | Sprint E — Clarification & Assumptions (4 phases) | POST-CAPSTONE |

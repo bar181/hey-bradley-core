@@ -213,7 +213,9 @@ test.describe('P34 — ClarificationPanel UX wiring', () => {
   test('ChatInput surfaces a clarification when result.aisp signals low confidence', () => {
     const src = readFileSync(CHAT, 'utf8')
     expect(src).toMatch(/shouldRequestAssumptions\(result\.aisp\.intent\)/)
-    expect(src).toMatch(/generateAssumptions\(\{ text, intent: result\.aisp\.intent \}\)/)
+    // P35 — call shifted from sync `generateAssumptions` to async
+    // `generateAssumptionsLLM` (LLM-first with rule-based fallback).
+    expect(src).toMatch(/generateAssumptionsLLM\(\{[\s\S]*?text,[\s\S]*?intent: result\.aisp\.intent[\s\S]*?\}\)/)
   })
 })
 

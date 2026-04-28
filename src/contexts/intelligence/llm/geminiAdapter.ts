@@ -7,7 +7,9 @@ import type { LLMAdapter, LLMRequest, LLMResponse, LLMProviderName } from './ada
 import { safeJson, classifyError } from './adapterUtils';
 
 const DEFAULT_MODEL = 'gemini-2.5-flash';
-const COST_PER_M = { in: 0.075, out: 0.30 } as const; // USD per 1M tokens (Flash)
+// USD per 1M tokens (Gemini 2.5 Flash, 2026 paid-tier pricing per
+// ai.google.dev/gemini-api/docs/pricing — free tier removed 2026-04-01).
+const COST_PER_M = { in: 0.30, out: 2.50 } as const;
 
 export class GeminiAdapter implements LLMAdapter {
   private client: GoogleGenAI;

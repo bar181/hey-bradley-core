@@ -96,6 +96,11 @@ export async function pickAdapter(args?: {
     const { GeminiAdapter } = await import('./geminiAdapter')
     return { adapter: new GeminiAdapter(apiKey, model), status: 'ok' }
   }
+  if (provider === 'openai') {
+    // P35 — OpenAI provider added with default gpt-5-nano (cheap + fast).
+    const { OpenAIAdapter } = await import('./openaiAdapter')
+    return { adapter: new OpenAIAdapter(apiKey, model), status: 'ok' }
+  }
   if (provider === 'openrouter') {
     const { OpenRouterAdapter } = await import('./openrouterAdapter')
     return { adapter: new OpenRouterAdapter(apiKey, model), status: 'ok' }
