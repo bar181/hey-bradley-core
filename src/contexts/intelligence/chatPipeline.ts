@@ -162,9 +162,14 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
   // P23 Sprint B Phase 1 — Template-first routing (ADR-050).
   // Short-circuits the LLM call when a template matches at confidence ≥0.8.
   // $0 cost; deterministic patches; fastest path. Falls through to LLM on miss.
+  // P25 Sprint B Phase 3 — Intent translator runs FIRST so messy input
+  // ("get rid of the second blog post") is rewritten to canonical form
+  // ("hide /blog-2") before template matching. ADR-052.
   try {
     const { tryMatchTemplate } = await import('@/contexts/intelligence/templates')
-    const tpl = tryMatchTemplate(text)
+    const { translateIntent } = await import('@/contexts/intelligence/templates/intent')
+    const intent = translateIntent(text)
+    const tpl = tryMatchTemplate(intent.canonicalText)
     if (tpl && tpl.envelope.patches.length > 0) {
       try {
         useConfigStore.getState().applyPatches(tpl.envelope.patches)
