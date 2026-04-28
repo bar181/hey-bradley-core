@@ -63,6 +63,9 @@ Neither module mutates the existing Crystal Atoms; both are pure pre-classifiers
 
 ## Cross-references
 
+- **ADR-045** — system-prompt PATCH_ATOM; commands skip the LLM entirely
+- **ADR-050** — Template-First Chat Architecture; `/browse` opens that registry; `apply-template` invokes its router
+- **ADR-051** — Section Targeting Syntax (`/hero-1` etc.); commands run upstream of scope parsing
 - **ADR-053** — INTENT_ATOM (Crystal Atom verb/target/params); commands run BEFORE this gate
 - **ADR-057** — SELECTION_ATOM (template selection); design route lands here
 - **ADR-060** — CONTENT_ATOM (copy generation); content route will land here at P38

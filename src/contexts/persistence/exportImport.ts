@@ -174,8 +174,14 @@ export async function importBundle(file: File | Blob): Promise<{ projectsImporte
     // 001 to prevent malicious bundles from overriding the corpus that
     // AgentProxyAdapter consumes. Migration 001 is repo-controlled; this
     // delete-and-re-run is idempotent (INSERT OR REPLACE in 001-example-prompts.sql).
+    // P37+ Sprint F R2 F1 fix-pass — DROP-before-recreate so an OLD bundle's
+    // 6-category CHECK constraint is replaced with the current 9-category one.
+    // Without this, importing a pre-P37 bundle into a P37+ build would fail
+    // the new INSERT OR REPLACE rows that use `command` / `voice_only` /
+    // `ambiguous` categories. Idempotent on same-schema imports.
     try {
-      db.exec('DELETE FROM example_prompts');
+      db.exec('DROP TABLE IF EXISTS example_prompts');
+      db.exec('DROP TABLE IF EXISTS example_prompt_runs');
       const sqlModule = await import('./migrations/001-example-prompts.sql?raw');
       db.exec(sqlModule.default);
     } catch (e) {

@@ -132,6 +132,18 @@ export function ListenControls({ state, handlers }: ListenControlsProps) {
           Recording…
         </div>
       )}
+      {/* P38 Sprint F end-of-sprint R1 F1 fix-pass — voice command discovery hint.
+          Surfaces only when the user is idle (not recording, not busy, no
+          review/clarification cards). Lists the highest-leverage voice
+          phrasings so users discover commands without reading docs. */}
+      {!pttRecording && !pttBusy && !pttReview && !pttClarification && (
+        <div
+          data-testid="listen-command-hint"
+          className="w-full max-w-[300px] text-[10px] text-white/55 leading-relaxed text-center"
+        >
+          voice tips: say <span className="text-white/75">"browse templates"</span> or <span className="text-white/75">"use template bakery"</span>
+        </div>
+      )}
     </>
   )
 }

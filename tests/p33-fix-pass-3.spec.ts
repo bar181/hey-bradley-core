@@ -39,7 +39,10 @@ test.describe('R3 F1 — importBundle user_templates truncate', () => {
 
   test('truncate runs AFTER example_prompts re-seed (symmetric pattern)', () => {
     const src = readFileSync(EXPORT_FILE, 'utf8')
-    const examplePromptsIdx = src.indexOf('DELETE FROM example_prompts')
+    // P38 Sprint F end-of-sprint R2 F1 fix-pass — example_prompts re-seed
+    // moved from DELETE → DROP (so old-bundle 6-category CHECK is replaced).
+    // The user_templates DELETE truncate still runs AFTER.
+    const examplePromptsIdx = src.indexOf('DROP TABLE IF EXISTS example_prompts')
     const userTemplatesIdx = src.indexOf('DELETE FROM user_templates')
     expect(examplePromptsIdx).toBeGreaterThan(0)
     expect(userTemplatesIdx).toBeGreaterThan(examplePromptsIdx)

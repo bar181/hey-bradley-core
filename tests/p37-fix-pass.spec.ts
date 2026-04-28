@@ -48,8 +48,13 @@ test.describe('R1 F1 — bare /template returns template-help (no silent reject)
 
   test('ChatInput dispatches template-help to a typewriter help reply', () => {
     const src = readFileSync(CHAT, 'utf8')
-    expect(src).toMatch(/case 'template-help'/)
-    expect(src).toMatch(/Try `\/template bakery`/)
+    // P38 Sprint F end-of-sprint refactor — switch is now keyed on
+    // DispatchDirective.kind ('help-reply') rather than CommandKind
+    // ('template-help'). The behaviour is identical: parseCommand returns
+    // template-help → dispatchCommand returns help-reply → typewriter renders
+    // directive.markdown. Verify the new shape.
+    expect(src).toMatch(/case 'help-reply'/)
+    expect(src).toMatch(/setTypingFull\(directive\.markdown\)/)
   })
 })
 

@@ -15,6 +15,7 @@ import { TemplateBrowsePicker } from '@/components/shell/TemplateBrowsePicker'
 import { ClarificationPanel } from '@/components/shell/ClarificationPanel'
 import type { SectionType } from '@/lib/schemas'
 import { submit as submitChatPipeline, mapChatError } from '@/contexts/intelligence/chatPipeline'
+import { dispatchCommand } from '@/contexts/intelligence/commands/dispatchCommand'
 import {
   generateAssumptionsLLM,
   recordAcceptedAssumption,
@@ -445,57 +446,38 @@ export function ChatInput() {
     // (generate/design/content) prefill the input with a canonical form
     // so the existing template-router + chat pipeline handle dispatch
     // without any new patch-application code paths (KISS).
+    // P38 Sprint F end-of-sprint R4 F1 fix-pass — single dispatchCommand
+    // helper shared with useListenPipeline; eliminates the drift that let
+    // template-help land on chat but not voice (R2 F2). Behavior preserved.
     const cmd = parseCommand(text)
     if (cmd) {
-      switch (cmd.kind) {
-        case 'browse': {
+      const directive = dispatchCommand(cmd)
+      switch (directive.kind) {
+        case 'open-browse-picker': {
           // R1 F4 fix-pass parity — mutually exclusive with clarification.
           setClarification(null)
           setShowBrowsePicker(true)
           setInput('')
           return
         }
-        case 'apply-template': {
-          // Hand the user the canonical "build me a <name>" so the existing
-          // template-router path runs; user can read + send.
+        case 'prefill-and-focus': {
           setShowBrowsePicker(false)
-          setInput(`build me a ${cmd.target ?? ''}`.trim())
+          setInput(directive.text)
           inputRef.current?.focus()
           return
         }
-        case 'template-help': {
-          // P37 R1 F1 fix-pass — bare `/template` (no name). Surface a hint
-          // typewriter reply instead of silently ignoring; offer two paths.
+        case 'help-reply': {
+          // P37 R1 F1 — bare `/template` (no name) surfaces a hint typewriter.
           setInput('')
           setIsProcessing(true)
           setTypingText('')
-          setTypingFull(
-            "Try `/template bakery` (or any template name). Or use the **browse templates** button below to pick one.",
-          )
+          setTypingFull(directive.markdown)
           return
         }
-        case 'generate': {
-          setInput('generate content for this page')
-          inputRef.current?.focus()
-          return
-        }
-        case 'design': {
-          setInput('design only: ')
-          inputRef.current?.focus()
-          return
-        }
-        case 'content': {
-          setInput('content only: ')
-          inputRef.current?.focus()
-          return
-        }
-        case 'hide':
-        case 'show': {
-          // Slash-only passthroughs — fall through to the canned/LLM path
-          // by NOT returning. The text is "/hide" or "/show" and the
-          // canned parser already handles those as no-op echoes.
+        case 'fallthrough':
+          // Slash-only passthroughs (hide/show) — fall through to the canned
+          // /LLM path by NOT returning. The canned parser handles those.
           break
-        }
       }
     }
     // FIX 10: the chat-side inFlight pre-check is removed. The mutex now lives

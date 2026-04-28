@@ -222,18 +222,24 @@ test.describe('P37 — barrel + host wiring (source-level)', () => {
     expect(src).toMatch(/from\s+['"]@\/contexts\/intelligence\/aisp['"]/)
   })
 
-  test('ChatInput dispatches by command kind in handleSend', () => {
+  test('ChatInput dispatches commands via shared dispatchCommand helper', () => {
     const src = readFileSync(CHAT_INPUT, 'utf8')
+    // P38 Sprint F end-of-sprint R4 F1 fix-pass — switch is now keyed on
+    // DispatchDirective (open-browse-picker / prefill-and-focus / help-reply
+    // / fallthrough). The CommandKind cases live in dispatchCommand.ts so
+    // chat + voice never drift again.
     expect(src).toContain('parseCommand(text)')
-    expect(src).toContain("case 'browse'")
-    expect(src).toContain("case 'apply-template'")
-    expect(src).toContain("case 'generate'")
+    expect(src).toContain("import { dispatchCommand }")
+    expect(src).toContain("case 'open-browse-picker'")
+    expect(src).toContain("case 'prefill-and-focus'")
+    expect(src).toContain("case 'help-reply'")
   })
 
   test('ChatInput preserves /browse + /templates behaviour (opens picker)', () => {
     const src = readFileSync(CHAT_INPUT, 'utf8')
-    // setShowBrowsePicker(true) must still appear in the browse branch.
-    expect(src).toMatch(/case 'browse'[\s\S]*?setShowBrowsePicker\(true\)/)
+    // The open-browse-picker directive now drives the picker open;
+    // setShowBrowsePicker(true) lives inside that case.
+    expect(src).toMatch(/case 'open-browse-picker'[\s\S]*?setShowBrowsePicker\(true\)/)
   })
 
   test('ListenTab calls parseCommand BEFORE setting pttReview', () => {

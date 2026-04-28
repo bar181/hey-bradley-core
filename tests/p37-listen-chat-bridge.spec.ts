@@ -90,11 +90,17 @@ test.describe('P37 — bridge composition', () => {
 /* 2) surface wiring (source-level) */
 
 test.describe('P37 — surface wiring', () => {
-  test('ChatInput imports parseCommand + dispatches every CommandKind', () => {
+  test('ChatInput imports parseCommand + dispatches via shared dispatchCommand directive', () => {
     const src = readFileSync(CHAT_INPUT, 'utf8')
     expect(src).toMatch(/parseCommand/)
-    const kinds: ReadonlyArray<CommandKind> = ['browse', 'apply-template', 'generate', 'design', 'content']
-    for (const k of kinds) expect(src).toContain(`case '${k}':`)
+    // P38 Sprint F end-of-sprint R4 F1 fix-pass — the dispatch switch is
+    // now keyed on DispatchDirective (4 cases: open-browse-picker /
+    // prefill-and-focus / help-reply / fallthrough). Verify the directive
+    // path covers every CommandKind via the shared helper.
+    expect(src).toContain("import { dispatchCommand }")
+    for (const dKind of ['open-browse-picker', 'prefill-and-focus', 'help-reply', 'fallthrough']) {
+      expect(src, `ChatInput missing directive case '${dKind}'`).toContain(`'${dKind}'`)
+    }
   })
 
   test('chatPipeline imports classifyRoute + gates content path before LLM', () => {

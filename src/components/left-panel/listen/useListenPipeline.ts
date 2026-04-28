@@ -21,6 +21,7 @@ import { useProjectStore } from '@/store/projectStore'
 import { submit as submitChatPipeline } from '@/contexts/intelligence/chatPipeline'
 import { appendListenTranscript } from '@/contexts/persistence/repositories/messages'
 import { activeSession, startSession } from '@/contexts/persistence/repositories/sessions'
+import { dispatchCommand } from '@/contexts/intelligence/commands/dispatchCommand'
 import {
   generateAssumptionsLLM,
   shouldRequestAssumptions,
@@ -192,43 +193,36 @@ export function useListenPipeline(): UseListenPipelineReturn {
     setPttClarification(null)
     // P37 Sprint F P2 (A1) — Command-trigger gate runs BEFORE the review
     // card. High-confidence slash/voice phrases bypass review. ADR-066.
+    // P38 Sprint F end-of-sprint R4 F1 fix-pass — switch consolidated into
+    // shared dispatchCommand so chat + voice never drift again. R2 F2 fix:
+    // template-help now handled on voice (was unhandled silent dead-end).
     const cmd = parseCommand(text)
     if (cmd) {
-      useListenStore.getState().resetTranscript()
-      switch (cmd.kind) {
-        case 'browse': {
-          useUIStore.getState().setPendingChatPrefill('/browse')
-          useUIStore.getState().setLeftPanelTab('chat')
-          return
-        }
-        case 'apply-template': {
-          useUIStore.getState().setPendingChatPrefill(
-            `build me a ${cmd.target ?? ''}`.trim(),
-          )
-          useUIStore.getState().setLeftPanelTab('chat')
-          return
-        }
-        case 'generate': {
-          useUIStore.getState().setPendingChatPrefill('generate content for this page')
-          useUIStore.getState().setLeftPanelTab('chat')
-          return
-        }
-        case 'design': {
-          useUIStore.getState().setPendingChatPrefill('design only: ')
-          useUIStore.getState().setLeftPanelTab('chat')
-          return
-        }
-        case 'content': {
-          useUIStore.getState().setPendingChatPrefill('content only: ')
-          useUIStore.getState().setLeftPanelTab('chat')
-          return
-        }
-        case 'hide':
-        case 'show': {
-          // Voice rarely speaks the slash form; fall through to review.
-          break
+      const directive = dispatchCommand(cmd)
+      if (directive.kind !== 'fallthrough') {
+        useListenStore.getState().resetTranscript()
+        switch (directive.kind) {
+          case 'open-browse-picker': {
+            useUIStore.getState().setPendingChatPrefill('/browse')
+            useUIStore.getState().setLeftPanelTab('chat')
+            return
+          }
+          case 'prefill-and-focus': {
+            useUIStore.getState().setPendingChatPrefill(directive.text)
+            useUIStore.getState().setLeftPanelTab('chat')
+            return
+          }
+          case 'help-reply': {
+            // R2 F2 fix: voice users typing /template (no name) now hand off
+            // the help reply to chat surface where it can render in the
+            // typewriter. Same UX path as text-mode.
+            useUIStore.getState().setPendingChatPrefill('/template')
+            useUIStore.getState().setLeftPanelTab('chat')
+            return
+          }
         }
       }
+      // 'fallthrough' (hide/show passthroughs) — let review card render.
     }
     const preview = buildActionPreview(text)
     setPttReview({
