@@ -13,3 +13,4 @@ export type {
   ClassifiedIntent,
 } from './intentAtom'
 export { classifyIntent } from './intentClassifier'
+export { llmClassifyIntent } from './llmClassifier'

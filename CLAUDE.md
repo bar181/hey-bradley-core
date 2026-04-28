@@ -102,7 +102,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 | P24 | Sprint B Phase 2 — section targeting via `/hero-1` keyword scoping (parser + resolver + template scope-honoring; ADR-051 full) | CLOSED 88/100 (Grandma 76 / Framer 87 / Capstone 92) |
 | P25 | Sprint B Phase 3 — intent translation (verb/type/ordinal rewrites; idempotent; ADR-052 full) | CLOSED 88/100 (Sprint B complete; ~140m total / ~50× velocity) |
 | P26 | Sprint C Phase 1 — AISP Instruction Layer (Crystal Atom + rule-based classifier; ADR-053 full) | CLOSED 89/100 (Capstone 93; +1 from P25 — capstone thesis demo phase) |
-| P27 | Sprint C Phase 2 — AISP intent pipeline | PLANNED |
+| P27 | Sprint C P2 — LLM-Native AISP (Crystal Atom verbatim → LLM; Zod schema; UI panel; ADR-055 + ADR-056; capstone thesis demo) | CLOSED 90/100 (Grandma 76 / Framer 88 / Capstone 96 — plateau broken) |
 | P28 | Sprint C Phase 3 — 2-step template selection | PLANNED |
 | P29-P33 | Sprint D — Templates + Content (5 phases) | POST-CAPSTONE |
 | P34-P37 | Sprint E — Clarification & Assumptions (4 phases) | POST-CAPSTONE |

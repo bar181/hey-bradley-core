@@ -159,19 +159,25 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     }
   }
 
-  // P26 Sprint C Phase 1 — AISP intent classifier runs FIRST.
-  // When AISP confidence ≥0.85, its classification drives a constructed
-  // canonical-text for the template router. When <0.85, falls through to
-  // the P25 rule-based translator. ADR-053.
+  // P26 Sprint C P1 — AISP rule-based classifier (first in chain).
+  // P27 Sprint C P2 — LLM-driven AISP classifier when rule-based < threshold.
   // Full fallback chain:
-  //   AISP (P26) → rule-based translate (P25) → tryMatchTemplate (P23+P24) → LLM
+  //   AISP_rules (P26) → AISP_LLM (P27) → translate (P25) → router (P23+P24) → LLM patch
   try {
     const { tryMatchTemplate } = await import('@/contexts/intelligence/templates')
     const { translateIntent } = await import('@/contexts/intelligence/templates/intent')
-    const { classifyIntent, AISP_CONFIDENCE_THRESHOLD } = await import('@/contexts/intelligence/aisp')
+    const { classifyIntent, llmClassifyIntent, AISP_CONFIDENCE_THRESHOLD } = await import('@/contexts/intelligence/aisp')
 
     let canonicalForTemplate: string
-    const aisp = classifyIntent(text)
+    let aisp = classifyIntent(text)
+    // P27: when rule-based AISP is below threshold, ask the LLM to classify
+    // via the SAME Crystal Atom. Thesis demonstration ADR-056.
+    if (aisp.confidence < AISP_CONFIDENCE_THRESHOLD || !aisp.target) {
+      const llmAisp = await llmClassifyIntent(text)
+      if (llmAisp && llmAisp.confidence >= AISP_CONFIDENCE_THRESHOLD && llmAisp.target) {
+        aisp = llmAisp
+      }
+    }
     if (aisp.confidence >= AISP_CONFIDENCE_THRESHOLD && aisp.target) {
       // AISP wins — construct canonical text from classified intent
       const verbWord = aisp.verb === 'remove' ? 'hide' : aisp.verb
