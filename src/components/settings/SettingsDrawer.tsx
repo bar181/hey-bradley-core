@@ -4,6 +4,7 @@ import { del } from 'idb-keyval'
 import { X } from 'lucide-react'
 import { useUIStore } from '@/store/uiStore'
 import { LLMSettings } from './LLMSettings'
+import { BrandContextUpload } from './BrandContextUpload'
 
 export function SettingsDrawer() {
   const open = useUIStore((s) => s.settingsDrawerOpen)
@@ -101,6 +102,9 @@ export function SettingsDrawer() {
 
           {/* AI (BYOK) */}
           <LLMSettings />
+
+          {/* P44 Sprint H Wave 1 — Brand Context upload (TXT/MD) */}
+          <BrandContextUpload />
 
           {/* Cost cap */}
           <section>

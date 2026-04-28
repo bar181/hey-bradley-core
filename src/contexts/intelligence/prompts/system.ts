@@ -5,6 +5,7 @@
 
 import { renderAllowedPathsForPrompt } from '@/lib/schemas/patchPaths'
 import { estimateTokens } from '@/contexts/intelligence/llm/cost'
+import { readBrandContext } from '@/contexts/persistence/repositories/brandContext'
 
 export interface SystemPromptCtx {
   /** Current MasterConfig — compacted to ≤ 4 KB before injection. */
@@ -12,6 +13,12 @@ export interface SystemPromptCtx {
   siteContext?: { purpose?: string; audience?: string; tone?: string }
   /** Last-N chat turns (we cap at 6 inside this builder). */
   history?: Array<{ role: 'user' | 'bradley'; text: string }>
+  /**
+   * P44 Sprint H Wave 1 — optional brand context (uploaded brand voice doc).
+   * When omitted, the builder falls back to readBrandContext() from the kv
+   * repo. Pass an empty string explicitly to suppress injection.
+   */
+  brandContext?: string
 }
 
 const ROLE_LINE =
@@ -57,6 +64,8 @@ const OUTPUT_RULE =
 
 const HISTORY_CAP = 6
 const JSON_BYTE_CAP = 4096
+/** P44 — brand context cap. Full doc lives in kv; only the head hits the LLM. */
+const BRAND_CONTEXT_BYTE_CAP = 4096
 
 /** Compact (no whitespace) JSON, then truncate to byte cap. */
 function compactJson(json: unknown): string {
@@ -97,11 +106,47 @@ function renderSiteContext(ctx: SystemPromptCtx['siteContext']): string {
   return `SITE CONTEXT: { purpose: "${purpose}", audience: "${audience}", tone: "${tone}" }`
 }
 
+/**
+ * P44 — resolve brand context. Explicit `ctx.brandContext` wins; empty string
+ * suppresses; otherwise we fall back to the kv repo. Truncated to
+ * BRAND_CONTEXT_BYTE_CAP characters with a marker so the LLM knows it was
+ * clipped (full doc still lives in kv for reference / future re-prompting).
+ *
+ * Defensive: kv read failures (e.g. db not initialized in unit tests) MUST
+ * NOT throw — return ''.
+ */
+function resolveBrandContextBlock(explicit: string | undefined): string {
+  let raw: string | null
+  if (typeof explicit === 'string') {
+    if (explicit.length === 0) return ''
+    raw = explicit
+  } else {
+    try {
+      raw = readBrandContext()
+    } catch {
+      raw = null
+    }
+  }
+  if (!raw) return ''
+  const head =
+    raw.length <= BRAND_CONTEXT_BYTE_CAP
+      ? raw
+      : `${raw.slice(0, BRAND_CONTEXT_BYTE_CAP - 16)}…<truncated>`
+  return `---\nBrand Context (for content tone + voice):\n${head}`
+}
+
 /** Deterministic builder. Aim ≤ 2,400 tokens total per 07 §7. */
 export function buildSystemPrompt(ctx: SystemPromptCtx): string {
   const parts: string[] = []
   parts.push(ROLE_LINE)
   parts.push(CRYSTAL_ATOM)
+  // P44 — brand context block sits AFTER the AISP atom but BEFORE the user
+  // prompt section (allowed paths + current JSON + site context + history are
+  // not "user prompt", they are runtime state). KISS placement: directly
+  // after CRYSTAL_ATOM so it reads as voice/tone guidance applied to all
+  // subsequent reasoning.
+  const brand = resolveBrandContextBlock(ctx.brandContext)
+  if (brand) parts.push(brand)
   parts.push('ALLOWED PATHS (MVP allows replace, add (sections only), remove (sections only)):')
   parts.push(renderAllowedPathsForPrompt())
   parts.push(`CURRENT JSON (truncated to 4 KB; oldest sections kept):\n${compactJson(ctx.configJson)}`)

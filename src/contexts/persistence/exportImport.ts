@@ -21,9 +21,16 @@ const SQLITE_HEADER = [0x53, 0x51, 0x4c, 0x69, 0x74, 0x65, 0x20, 0x66, 0x6f, 0x7
 // checks; the array form is kept only for back-compat with the existing
 // persistence test fixture.
 export function isSensitiveKvKey(k: string): boolean {
-  return k.startsWith('byok_') || k === 'pre_migration_backup';
+  // P44 — brand_context_* keys hold uploaded brand-voice documents (user
+  // content); strip from exports symmetrically with byok_* per ADR-040.
+  return k.startsWith('byok_') || k === 'pre_migration_backup' || k.startsWith('brand_context_');
 }
-export const SENSITIVE_KV_KEYS: readonly string[] = ['byok_key', 'byok_provider', 'pre_migration_backup'];
+export const SENSITIVE_KV_KEYS: readonly string[] = [
+  'byok_key',
+  'byok_provider',
+  'pre_migration_backup',
+  'brand_context_manifest',
+];
 
 export class ImportBundleError extends Error {
   constructor(message: string) {
@@ -78,8 +85,9 @@ const SENSITIVE_TABLE_OPS: ReadonlyArray<
 async function exportSanitizedDBBytes(): Promise<Uint8Array> {
   const clone = await cloneDBForExport();
   try {
-    // Prefix sweep: covers byok_key, byok_provider, and any future byok_* row.
-    clone.exec("DELETE FROM kv WHERE k LIKE 'byok_%' OR k = 'pre_migration_backup'");
+    // Prefix sweep: covers byok_key, byok_provider, brand_context_manifest,
+    // brand_context_chunk_*, and the legacy pre_migration_backup row.
+    clone.exec("DELETE FROM kv WHERE k LIKE 'byok_%' OR k LIKE 'brand_context_%' OR k = 'pre_migration_backup'");
     for (const entry of SENSITIVE_TABLE_OPS) {
       if (entry.op === 'truncate') {
         clone.exec(`DELETE FROM ${entry.table}`);

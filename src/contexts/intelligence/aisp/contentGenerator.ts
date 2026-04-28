@@ -22,6 +22,7 @@ import {
   type GeneratedContent,
   isCleanContent,
   LENGTH_MAX_CHARS,
+  validateGeneratedContent,
 } from './contentAtom'
 import { getSectionDefaults } from './contentDefaults'
 
@@ -34,6 +35,17 @@ export interface ContentRequest {
   defaultTone?: ContentTone
   /** Default length when no cue words present; 'short' per Λ. Section default takes precedence if sectionType set. */
   defaultLength?: ContentLength
+  /**
+   * P44 Sprint H Wave 1 (A2) — OPTIONAL Λ.brand_voice channel (ADR-067).
+   *
+   * When supplied (Settings upload via A1's brandContext kv repo), the LLM-side
+   * prompt is biased toward this voice profile. The rule-based stub keeps its
+   * Σ-strict behaviour (no copy hallucination from thin air); we only thread
+   * the parameter so the AgentProxy / future real-LLM call can prepend the
+   * profile into the system prompt context. `null` / `undefined` / empty
+   * string MUST behave exactly like P31 (backward-compat contract).
+   */
+  brandContext?: string | null
 }
 
 const QUOTED_PHRASE_RE = /["'""]([^"'""]{1,400})["'""]/
@@ -79,6 +91,13 @@ function extractCopy(text: string): string | null {
 /**
  * Generate content per CONTENT_ATOM. Returns null on Γ-rule failure or when
  * no candidate copy can be extracted.
+ *
+ * P44 (A2 / ADR-067) — when `request.brandContext` is set, the rationale
+ * carries a `brand-aware` marker so the trace pane can render a
+ * "Brand voice active" chip. The output Σ shape is unchanged (P31
+ * backward-compat); the rule-based stub does NOT mutate copy from the
+ * profile — that's the AgentProxy / real-LLM path's job once A1 wires the
+ * profile into the system prompt.
  */
 export function generateContent(request: ContentRequest): GeneratedContent | null {
   if (!request.text || request.text.trim().length === 0) return null
@@ -107,13 +126,25 @@ export function generateContent(request: ContentRequest): GeneratedContent | nul
 
   if (confidence < CONTENT_CONFIDENCE_THRESHOLD) return null
 
-  return {
+  // P44 (A2) — brand_voice channel marker. Rationale flags brand-aware runs so
+  // AISPTranslationPanel / pipeline trace can surface the chip without
+  // structural Σ changes.
+  const brandActive =
+    typeof request.brandContext === 'string' && request.brandContext.trim().length > 0
+
+  const out: GeneratedContent = {
     text: copy,
     tone,
     length,
     confidence,
     rationale: `extracted quoted copy (${copy.length} chars) + ${
       hasToneCue ? 'tone cue matched' : 'default tone'
-    }`,
+    }${brandActive ? ' · brand-aware' : ''}`,
   }
+
+  // Ε re-validation. brandContext is threaded so V5 fires when active; when
+  // null/empty the validator stays in pure-P31 mode (V1-V4 only).
+  const verdict = validateGeneratedContent(out, request.brandContext ?? null)
+  if (!verdict.ok) return null
+  return out
 }

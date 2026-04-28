@@ -23,6 +23,12 @@ export interface AISPSurfaceProps {
   patches?: number | null
   summary?: string | null
   generated?: { text: string; tone: string; length: string; confidence: number } | null
+  /**
+   * P44 Sprint H Wave 1 (A2 / ADR-067) — brand-voice flag passthrough. When
+   * `undefined`, AISPTranslationPanel falls back to a defensive kv probe so
+   * the chip works the moment A1's upload lands without a ChatInput rewire.
+   */
+  brandActive?: boolean
 }
 
 export function AISPSurface(props: AISPSurfaceProps) {
@@ -34,6 +40,7 @@ export function AISPSurface(props: AISPSurfaceProps) {
         source={props.intentSource}
         userText={props.userText}
         templateId={props.templateId}
+        brandActive={props.brandActive}
       />
     )
   }
