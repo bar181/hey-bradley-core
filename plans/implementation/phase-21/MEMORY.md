@@ -5,22 +5,29 @@
 
 ---
 
-## STATE: Phase 21 PREFLIGHT
+## STATE: Phase 21 SEALED
 
 ```yaml
 phase: 21
-title: Sprint B Phase 1 — Simple Chat
-status: PREFLIGHT-SCAFFOLDED
-activation_gate: P20 sealed AND Phase α housekeeping complete
-estimated_effort_at_p19_velocity: multi-hour shift
-scope: code + tests + 1 ADR (template registry, ADR-050)
+title: Cleanup + ADR/DDD gap-fill
+status: SEALED
+seal_commit: 1129cea
+composite: 95
+activation_gate: Wave-2 swarm reports landed (98d64e5 + 194e3bc)
+actual_effort: ~1h (estimated 1-2h)
+scope: doc-only (no source code)
 
-deliverables:
-  - natural_language_input_parser
-  - template_registry_seeded_2_to_3_real_entries     # "make it brighter" / "hide the hero" / "warmer colors"
-  - section_targeting_hero_1_keyword_path_matching
-  - five_new_playwright_cases                        # +5 baseline; monotonic non-decreasing
-  - adr_050_template_registry                        # ADR-049 reserved for cost-cap from P20
+deliverables_completed:
+  - 5_sealed_phase_folders_archived          # P15-P19 _archive/ subfolders with working files
+  - 5_adr_drift_amendments                   # ADR-040/043/044/047/048 "Status as of P20" lines
+  - 4_adr_stubs_authored                     # ADR-050/051/052/053 (Proposed)
+  - adr_054_ddd_bounded_contexts_full        # Accepted; documents 5 contexts
+  - state_md_runway_re-organized             # P21=Cleanup + P22=Website-rebuild inserted
+  - claude_md_phase_roadmap_re-organized     # Sprint B/C/D-K shifted +2; F compressed 4→3
+  - standard_phase_process_documented        # CLAUDE.md "Standard Phase Process" section
+  - attribution_sweep                        # 11 ADRs: "claude-flow swarm" → bar181 only
+
+note: "Earlier draft (sealed at ac5ffde) framed P21 as Sprint B Phase 1 — Simple Chat. Post-Wave-2 ratification (98d64e5 + 194e3bc) re-tasked P21 as Cleanup. Sprint B now starts at P23 per current sequencing. This MEMORY entry was stale until P22 deep-review fix-pass."
 
 phase_alpha_pre_p21_housekeeping:
   - lock_authoritative_sprint_plan      # §1 of checklist (was "Phase 21 §1")

@@ -26,6 +26,21 @@ export function About() {
         </div>
       </section>
 
+      {/* Capstone scoreboard callout (P22 deep-review fix MF9) */}
+      <section className="py-12">
+        <div className="max-w-3xl mx-auto px-6">
+          <div className="bg-white border border-[#e8772e]/20 rounded-2xl p-6">
+            <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-2 font-medium">As of P22 (April 2026)</p>
+            <p className="text-[#6b5e4f] leading-relaxed">
+              Hey Bradley has sealed 22 phases through P22 &mdash; POC foundation,
+              local persistence, real LLM chat across 5 providers, voice mode,
+              public-website rebuild &mdash; at composite 81+ across Grandma /
+              Framer / Capstone personas. Defending May 2026 at Harvard.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* The Insight */}
       <section className="py-20 bg-[#f1ece4]">
         <div className="max-w-5xl mx-auto px-6">

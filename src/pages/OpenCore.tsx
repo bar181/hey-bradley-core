@@ -420,12 +420,13 @@ export function OpenCore() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/5 py-8 text-center text-sm text-[#8a7a6d]">
-        <p>Harvard ALM Capstone &mdash; Digital Media Design &mdash; May 2026</p>
-        <p className="mt-1">Bradley Ross &mdash; Creator of AISP</p>
-      </footer>
       <OpenCoreVsCommercial />
+
+      {/* Footer */}
+      <footer className="border-t border-[#e8772e]/20 py-8 text-center text-sm text-[#8a7a6d]">
+        <p>Harvard ALM Capstone &mdash; Digital Media Design &mdash; May 2026</p>
+        <p className="mt-1">Bradley Ross &mdash; Creator of AISP &mdash; bar181@yahoo.com</p>
+      </footer>
     </main>
   )
 }

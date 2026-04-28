@@ -247,14 +247,15 @@ export function AISP() {
         </div>
       </section>
 
+      <AISPDualView />
+
       {/* Footer */}
       <footer className="py-12 border-t border-[#e8772e]/20 bg-[#faf8f5]">
         <div className="max-w-5xl mx-auto px-6 text-center">
           <p className="text-sm text-[#6b5e4f] mb-2">Harvard ALM Capstone &mdash; Digital Media Design &mdash; May 2026</p>
-          <p className="text-sm text-[#6b5e4f]">Bradley Ross &mdash; Creator of AISP</p>
+          <p className="text-sm text-[#6b5e4f]">Bradley Ross &mdash; Creator of AISP &mdash; bar181@yahoo.com</p>
         </div>
       </footer>
-      <AISPDualView />
     </main>
   )
 }

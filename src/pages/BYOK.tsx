@@ -2,39 +2,53 @@ import { Link } from 'react-router-dom'
 import { Key, Shield, Zap, ArrowRight } from 'lucide-react'
 import { MarketingNav } from '@/components/MarketingNav'
 
-const PROVIDERS = [
+interface Provider {
+  name: string
+  keyShape: string
+  whereLabel: string
+  whereUrl: string | null
+  cost: string
+  note: string
+}
+
+const PROVIDERS: Provider[] = [
   {
     name: 'Claude (Anthropic)',
     keyShape: 'sk-ant-...',
-    where: 'console.anthropic.com/settings/keys',
+    whereLabel: 'console.anthropic.com/settings/keys',
+    whereUrl: 'https://console.anthropic.com/settings/keys',
     cost: '~$0.002 per chat (Haiku)',
     note: 'Recommended default. Best instruction-following for AISP-style structured output.',
   },
   {
     name: 'Gemini (Google AI Studio)',
     keyShape: 'AIza...',
-    where: 'aistudio.google.com/apikey',
+    whereLabel: 'aistudio.google.com/apikey',
+    whereUrl: 'https://aistudio.google.com/apikey',
     cost: 'Free tier: 2.0-flash; paid: 2.5-flash ~$0.001 per chat',
     note: 'Free tier is generous. Good for quick iteration; paid tier matches Claude on quality.',
   },
   {
     name: 'OpenRouter',
     keyShape: 'sk-or-v1-...',
-    where: 'openrouter.ai/keys',
+    whereLabel: 'openrouter.ai/keys',
+    whereUrl: 'https://openrouter.ai/keys',
     cost: 'Free model: mistral-7b-instruct ($0); paid models priced per provider',
     note: 'OpenRouter sees your prompts, the model you chose, and your origin. Use for cheap experimentation.',
   },
   {
     name: 'Simulated',
     keyShape: '(no key required)',
-    where: 'Built-in',
+    whereLabel: 'Built-in',
+    whereUrl: null,
     cost: '$0',
     note: 'Returns canned responses for the 5 starter prompts. No real LLM call. Useful for offline demos.',
   },
   {
     name: 'AgentProxy (mock)',
     keyShape: '(no key required)',
-    where: 'Built-in',
+    whereLabel: 'Built-in',
+    whereUrl: null,
     cost: '$0',
     note: 'Reads from a local 18-prompt corpus seeded into IndexedDB. Realistic responses without API cost.',
   },
@@ -86,7 +100,14 @@ export function BYOK() {
                 <span className="text-xs font-mono bg-[#f1ece4] text-[#6b5e4f] px-2 py-1 rounded">{p.keyShape}</span>
               </div>
               <div className="grid sm:grid-cols-2 gap-3 text-sm text-[#6b5e4f] mb-3">
-                <div><strong className="text-[#2d1f12]">Get a key:</strong> {p.where}</div>
+                <div>
+                  <strong className="text-[#2d1f12]">Get a key:</strong>{' '}
+                  {p.whereUrl ? (
+                    <a href={p.whereUrl} target="_blank" rel="noopener noreferrer" className="text-[#e8772e] underline hover:no-underline">{p.whereLabel}</a>
+                  ) : (
+                    p.whereLabel
+                  )}
+                </div>
                 <div><strong className="text-[#2d1f12]">Cost:</strong> {p.cost}</div>
               </div>
               <p className="text-sm text-[#6b5e4f] italic">{p.note}</p>

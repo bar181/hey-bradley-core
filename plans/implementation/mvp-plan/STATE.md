@@ -55,8 +55,6 @@
 |---|---|---|---:|---:|---|
 | **Step 4** *(post-DoD optional, gated by `VITE_LLM_LIVE_SMOKE=1`)* | Live LLM smoke against real Haiku | P18 plan §0 Step 3 trailing | ~30 min | ~30 min | ~$0.01 (5 starter prompts × ~$0.002 each) |
 | **P20** | Verify, Cost Caps, MVP Close, Vercel Deploy + 20 P19 carryforward items | `06-phase-20-mvp-close.md` + `phase-19/deep-dive/05-fix-pass-plan.md` §5 | 5–7 days (orig) | <1 day | $0 in dev; ~$0.01 if Step 4 runs |
-| **P21** *(NEW — Cleanup)* | Cleanup + ADR/DDD gap-fill (archive sealed phases + 5 ADR amendments + 4 stubs + ADR-054 DDD + doc accuracy pass) | `phase-21/preflight/00-summary.md` + `phase-22/A6-cleanup-plan.md` | 1-2h | 1-2h | $0 |
-| **P22** *(NEW — Website rebuild)* | Public Website Rebuild (BYOK demo + Don Miller blog-style + 11 pages refreshed; Welcome 918→250 LOC) | `phase-22/A5-website-rebuild-plan.md` | 2-4h | 2-4h | $0 |
 | **Sprint B (P23-P25)** | Simple Chat — natural language input + 2-3 templates + section targeting + intent translation | `phase-22/wave-1/A2-sprint-plan-review.md` §B | <1 day | <1 day | $0 in dev |
 | **Sprint C (P26-P28)** | AISP Chat — instruction layer + intent pipeline + 2-step template selection | A2 §C | 1-2 days | 1-2 days | $0 in dev |
 | **Capstone defense** | May 2026 panel | — | — | gated | — |

@@ -47,7 +47,7 @@ Per page: blog-style article structure (long-form prose; ONE primary CTA; ONE se
 
 ### Theme alignment
 
-Marketing pages adopt warm-cream tokens matching the in-product app: `#faf8f5` bg, `#f1ece4` surface, `#e8772e` accent, `#2d1f12` text. OpenCore.tsx + HowIBuiltThis.tsx retain dark theme `#1a1a1a` for the "55% problem" thesis hero and the build-story trajectory respectively (intentional dark-island exceptions).
+Marketing pages adopt warm-cream tokens matching the in-product app: `#faf8f5` bg, `#f1ece4` surface, `#e8772e` accent, `#2d1f12` text. **Universal across all marketing pages post-P22 fix-pass-1 F2.** The earlier "intentional dark island" caveat for OpenCore + HowIBuiltThis is **withdrawn** — they now match the warm-cream baseline. Crimson `#A51C30` and dark `#1a1a1a` tokens swept out of all 11 marketing pages.
 
 ### Content density rules
 

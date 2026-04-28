@@ -77,7 +77,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 - **Blueprints:** 7 sub-tabs (North Star, Architecture, Build Plan, Features, Human Spec, AISP, JSON)
 - **Center Tabs (EXPERT):** 5 (Preview, Blueprints, Resources, Data, Pipeline)
 - **Capabilities:** Multi-page support, ZIP export, blog section type, AISP Crystal Atom output, real LLM adapters (Claude/Gemini/OpenRouter), Web-Speech STT (PTT)
-- **ADRs:** 38 ADR files through ADR-048 (STT Web Speech API). Numbering has 11 documented gaps (002-004, 006-009, 034-037) — see `docs/adr/README.md`.
+- **ADRs:** 44 ADR files through ADR-054 (DDD Bounded Contexts). Numbering has 11 documented gaps (002-004, 006-009, 034-037) — see `docs/adr/README.md`.
 - **Deferred Features:** 34 documented in plans/deferred-features.md; 20 P20 carryforward items in plans/implementation/phase-19/deep-dive/05-fix-pass-plan.md §5
 - **Tests:** 63 Playwright cases across 29 spec files (46 targeted active for P19 seal-gate)
 
