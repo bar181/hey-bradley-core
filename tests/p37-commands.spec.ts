@@ -235,9 +235,10 @@ test.describe('P37 — barrel + host wiring (source-level)', () => {
   })
 
   test('ListenTab calls parseCommand BEFORE setting pttReview', () => {
-    const src = readFileSync(LISTEN_TAB, 'utf8')
+    // P37 R2 S3 — pipeline lifecycle moved to useListenPipeline.
+    const PIPELINE = join(process.cwd(), 'src/components/left-panel/listen/useListenPipeline.ts')
+    const src = readFileSync(PIPELINE, 'utf8')
     expect(src).toContain('parseCommand')
-    // The parseCommand call must precede setPttReview in submitListenFinal.
     const submitIdx = src.indexOf('submitListenFinal')
     const parseIdx = src.indexOf('parseCommand(text)', submitIdx)
     const reviewIdx = src.indexOf('setPttReview', submitIdx)
@@ -247,7 +248,8 @@ test.describe('P37 — barrel + host wiring (source-level)', () => {
   })
 
   test('ListenTab dispatches command kinds via setPendingChatPrefill', () => {
-    const src = readFileSync(LISTEN_TAB, 'utf8')
+    const PIPELINE = join(process.cwd(), 'src/components/left-panel/listen/useListenPipeline.ts')
+    const src = readFileSync(PIPELINE, 'utf8')
     expect(src).toContain("setLeftPanelTab('chat')")
     expect(src).toContain('setPendingChatPrefill')
   })

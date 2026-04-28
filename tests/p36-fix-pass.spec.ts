@@ -19,6 +19,9 @@ const CHAT = join(process.cwd(), 'src/components/shell/ChatInput.tsx')
 const TAB = join(process.cwd(), 'src/components/left-panel/ListenTab.tsx')
 const CARD = join(process.cwd(), 'src/components/left-panel/listen/ListenReviewCard.tsx')
 const PREVIEW = join(process.cwd(), 'src/components/left-panel/listen/listenActionPreview.ts')
+// P37 R2 S3 — post-split: F2 + F3 patterns now live in useListenPipeline + ListenControls.
+const PIPELINE = join(process.cwd(), 'src/components/left-panel/listen/useListenPipeline.ts')
+const CONTROLS = join(process.cwd(), 'src/components/left-panel/listen/ListenControls.tsx')
 
 test.describe('R1 F1 — ChatInput subscribes to pendingChatPrefill (not mount-only)', () => {
   test('useUIStore selector reads pendingChatPrefill', () => {
@@ -40,13 +43,14 @@ test.describe('R1 F1 — ChatInput subscribes to pendingChatPrefill (not mount-o
 
 test.describe('R1 F2 — handleListenApprove double-click guard', () => {
   test('approveInFlightRef declared + checked on entry', () => {
-    const src = readFileSync(TAB, 'utf8')
+    // Post-split: pipeline lifecycle lives in useListenPipeline.
+    const src = readFileSync(PIPELINE, 'utf8')
     expect(src).toContain('approveInFlightRef')
     expect(src).toMatch(/if \(!pttReview \|\| approveInFlightRef\.current\) return/)
   })
 
   test('approveInFlightRef toggled in try/finally (releases on error)', () => {
-    const src = readFileSync(TAB, 'utf8')
+    const src = readFileSync(PIPELINE, 'utf8')
     expect(src).toMatch(/approveInFlightRef\.current\s*=\s*true/)
     expect(src).toMatch(/finally\s*\{[\s\S]*?approveInFlightRef\.current\s*=\s*false/)
   })
@@ -54,18 +58,19 @@ test.describe('R1 F2 — handleListenApprove double-click guard', () => {
 
 test.describe('R1 F3 — PTT button disabled during review/clarification', () => {
   test('disabled prop checks pttReview + pttClarification', () => {
-    const src = readFileSync(TAB, 'utf8')
+    // Post-split: PTT button JSX lives in ListenControls.
+    const src = readFileSync(CONTROLS, 'utf8')
     expect(src).toMatch(/disabled=\{pttBusy \|\| pttReview !== null \|\| pttClarification !== null\}/)
   })
 
   test('Button label reflects review/clarification state', () => {
-    const src = readFileSync(TAB, 'utf8')
+    const src = readFileSync(CONTROLS, 'utf8')
     expect(src).toContain('Review first ↑')
     expect(src).toContain('Clarify ↑')
   })
 
   test('aria-label communicates the gate to SR users', () => {
-    const src = readFileSync(TAB, 'utf8')
+    const src = readFileSync(CONTROLS, 'utf8')
     expect(src).toContain("'Resolve review first'")
   })
 })

@@ -20,6 +20,11 @@ import { buildActionPreview } from '../src/components/left-panel/listen/listenAc
 const REVIEW_CARD = join(process.cwd(), 'src/components/left-panel/listen/ListenReviewCard.tsx')
 const CLAR_CARD = join(process.cwd(), 'src/components/left-panel/listen/ListenClarificationCard.tsx')
 const TAB = join(process.cwd(), 'src/components/left-panel/ListenTab.tsx')
+// P37 R2 S3 — post-split: pipeline state + handlers extracted to useListenPipeline.
+// Source-level wiring assertions now read the hook source. ListenTab itself
+// still imports + composes the visual pieces (asserted separately below).
+const PIPELINE = join(process.cwd(), 'src/components/left-panel/listen/useListenPipeline.ts')
+const TRANSCRIPT_VIEW = join(process.cwd(), 'src/components/left-panel/listen/ListenTranscript.tsx')
 const CHAT_INPUT = join(process.cwd(), 'src/components/shell/ChatInput.tsx')
 const UI_STORE = join(process.cwd(), 'src/store/uiStore.ts')
 const ADR = join(process.cwd(), 'docs/adr/ADR-065-listen-aisp-unification.md')
@@ -131,14 +136,20 @@ test.describe('P36 — ListenClarificationCard component', () => {
 
 test.describe('P36 — ListenTab review-first wiring', () => {
   test('imports ListenReviewCard + ListenClarificationCard + buildActionPreview', () => {
-    const src = readFileSync(TAB, 'utf8')
-    expect(src).toContain("import { buildActionPreview }")
-    expect(src).toContain("import { ListenReviewCard }")
-    expect(src).toContain("import { ListenClarificationCard }")
+    // Post-split (P37 R2 S3): TAB delegates rendering to ListenTranscript and
+    // pipeline logic to useListenPipeline. The imports are split across both.
+    const tab = readFileSync(TAB, 'utf8')
+    const view = readFileSync(TRANSCRIPT_VIEW, 'utf8')
+    const pipeline = readFileSync(PIPELINE, 'utf8')
+    expect(pipeline).toContain("import { buildActionPreview }")
+    expect(view).toContain("import { ListenReviewCard }")
+    expect(view).toContain("import { ListenClarificationCard }")
+    // TAB still composes the visual pieces under ./listen/.
+    expect(tab).toContain('ListenTranscript')
   })
 
   test('submitListenFinal sets pttReview state (does NOT auto-fire pipeline)', () => {
-    const src = readFileSync(TAB, 'utf8')
+    const src = readFileSync(PIPELINE, 'utf8')
     expect(src).toMatch(/setPttReview\(\{[\s\S]+?transcript[\s\S]+?preview[\s\S]+?confidence/)
     // The review state must be set INSIDE submitListenFinal, replacing the
     // direct submitChatPipeline auto-fire from P19.
@@ -147,38 +158,38 @@ test.describe('P36 — ListenTab review-first wiring', () => {
   })
 
   test('handleListenApprove fires runListenPipeline with the approved transcript', () => {
-    const src = readFileSync(TAB, 'utf8')
+    const src = readFileSync(PIPELINE, 'utf8')
     expect(src).toMatch(/handleListenApprove/)
     expect(src).toMatch(/await runListenPipeline\(transcript\)/)
   })
 
   test('handleListenEdit pushes transcript to uiStore.pendingChatPrefill + switches tab', () => {
-    const src = readFileSync(TAB, 'utf8')
+    const src = readFileSync(PIPELINE, 'utf8')
     expect(src).toMatch(/setPendingChatPrefill\(transcript\)/)
     expect(src).toMatch(/setLeftPanelTab\('chat'\)/)
   })
 
   test('handleListenCancel discards review without firing the pipeline', () => {
-    const src = readFileSync(TAB, 'utf8')
+    const src = readFileSync(PIPELINE, 'utf8')
     expect(src).toMatch(/handleListenCancel\s*=\s*useCallback\(\(\)\s*=>\s*\{[\s\S]*?setPttReview\(null\)/)
   })
 
   test('runListenPipeline surfaces voice clarification on low-confidence intent', () => {
-    const src = readFileSync(TAB, 'utf8')
+    const src = readFileSync(PIPELINE, 'utf8')
     expect(src).toMatch(/shouldRequestAssumptions\(result\.aisp\.intent\)/)
     expect(src).toContain('generateAssumptionsLLM')
     expect(src).toMatch(/setPttClarification\(\{/)
   })
 
   test('runListenPipeline captures AISP chip data (verb/target/templateId)', () => {
-    const src = readFileSync(TAB, 'utf8')
+    const src = readFileSync(PIPELINE, 'utf8')
     expect(src).toMatch(/setPttAisp\(/)
     expect(src).toMatch(/verb:\s*result\.aisp\.intent\.verb/)
     expect(src).toMatch(/templateId:\s*result\.templateId/)
   })
 
   test('handleListenClarificationAccept persists + re-runs pipeline with rephrasing', () => {
-    const src = readFileSync(TAB, 'utf8')
+    const src = readFileSync(PIPELINE, 'utf8')
     expect(src).toContain('recordAcceptedAssumption')
     expect(src).toMatch(/runListenPipeline\(a\.rephrasing\)/)
   })
@@ -194,7 +205,10 @@ test.describe('P36 — uiStore.pendingChatPrefill round-trip', () => {
 
   test('consumePendingChatPrefill clears value after read', () => {
     const src = readFileSync(UI_STORE, 'utf8')
-    expect(src).toMatch(/consumePendingChatPrefill[\s\S]*?set\(\{\s*pendingChatPrefill:\s*null\s*\}\)/)
+    // P37 R2 S4 update: consume now clears both pendingMessage AND
+    // pendingChatPrefill (directed-message envelope refactor). Regex
+    // accepts either the old single-field clear or the new two-field clear.
+    expect(src).toMatch(/consumePendingChatPrefill[\s\S]*?set\(\{[^}]*pendingChatPrefill:\s*null[^}]*\}\)/)
   })
 
   test('ChatInput subscribes to pendingChatPrefill via useUIStore (R1 F1 fix-pass; not mount-only)', () => {

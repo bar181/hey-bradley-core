@@ -400,6 +400,18 @@ export function ChatInput() {
         setTypingFull("I'm not 100% sure I caught that — pick the closest match below ↓")
         return true
       }
+      // P37 R1 L3 fix — when shouldRequestAssumptions fired but the LLM
+      // returned 0 candidates, surface a friendly nudge instead of falling
+      // through silently into "didn't catch that" canned text.
+      if (pendingAispRef.current) {
+        pendingAispRef.current.assumptions = llmResult.assumptions
+        pendingAispRef.current.assumptionsSource = llmResult.source
+      }
+      setTypingText('')
+      setTypingFull(
+        "Hmm — I'm a little unsure about that one. Try a different phrasing or type /browse to pick a template.",
+      )
+      return true
     }
     // P19 Fix-Pass 2 (F2): surface kind-specific error copy when the LLM
     // call failed for an INFRASTRUCTURE reason (cost cap hit, timeout, rate

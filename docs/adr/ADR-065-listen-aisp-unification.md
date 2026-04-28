@@ -58,12 +58,13 @@ Voice has a fundamentally different error model: ASR mis-transcriptions are sile
 
 ## Consequences
 
-- (+) Voice + text now share **every** AISP UX surface: classification chip, clarification card, accepted-assumption persistence
+- (+) Voice + text now share **most** AISP UX surfaces: classification chip, clarification card, accepted-assumption persistence
 - (+) Review gate kills the "Bradley made a wrong edit because of a mis-hearing" failure mode
 - (+) Edit hand-off to ChatInput means voice → text crossover is one click (closes a long-standing UX gap from P19)
 - (+) Composite expected to climb on Grandma persona (review = trust) + Framer (5-atom architecture now spans both surfaces)
 - (-) Adds 3 components (~280 LOC total) + 1 helper + 1 uiStore field — minimal complexity
 - (-) Pipeline path is now `submitListenFinal → setPttReview → handleListenApprove → runListenPipeline`; one extra hop vs P19's direct `submitListenFinal → submitChatPipeline`. Acceptable; the gate IS the value.
+- **(scope clarification — P37 R2 S5 fix-pass)** The original ADR claim that voice + chat share "every AISP UX surface" was overstated. The **EXPERT pipeline trace pane** (`AISPPipelineTracePane.tsx`, ADR-064 P35) **remains chat-only at P36 seal**. Voice ships translation chip + clarification + AISP-feedback chip but NOT the full 5-atom inline trace pane. Voice users in EXPERT mode still see the full trace if they Edit-hand-off to chat; a voice-native trace pane is queued for a later phase if voice EXPERT adoption justifies it.
 
 ## Cross-references
 
