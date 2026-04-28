@@ -30,6 +30,11 @@ interface UIStore {
   designLocked: boolean
   brandLocked: boolean
   settingsDrawerOpen: boolean
+  /**
+   * P36 Sprint F P1 — Pre-fill text for the chat input. Set by ListenTab's
+   * "Edit" review action; consumed (and cleared) by ChatInput on mount.
+   */
+  pendingChatPrefill: string | null
 
   setInteractionMode: (mode: InteractionMode) => void
   setActiveTab: (tab: ActiveTab) => void
@@ -46,9 +51,13 @@ interface UIStore {
   setDesignLocked: (locked: boolean) => void
   setBrandLocked: (locked: boolean) => void
   toggleSettingsDrawer: () => void
+  /** P36 — Push transcript to ChatInput for inline edit (ListenReviewCard "Edit"). */
+  setPendingChatPrefill: (text: string | null) => void
+  /** P36 — Read + clear (single-shot consumer pattern). */
+  consumePendingChatPrefill: () => string | null
 }
 
-export const useUIStore = create<UIStore>((set) => ({
+export const useUIStore = create<UIStore>((set, get) => ({
   interactionMode: 'BUILD',
   activeTab: 'REALITY',
   rightPanelTab: 'SIMPLE',
@@ -62,6 +71,13 @@ export const useUIStore = create<UIStore>((set) => ({
   designLocked: false,
   brandLocked: false,
   settingsDrawerOpen: false,
+  pendingChatPrefill: null,
+  setPendingChatPrefill: (text) => set({ pendingChatPrefill: text }),
+  consumePendingChatPrefill: () => {
+    const v = get().pendingChatPrefill
+    if (v !== null) set({ pendingChatPrefill: null })
+    return v
+  },
 
   setInteractionMode: (mode) => set({ interactionMode: mode }),
   setPreviewWidth: (width) => set({ previewWidth: width }),

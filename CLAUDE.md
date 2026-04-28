@@ -64,7 +64,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 
 ## Project Status
 
-- **Current Phase:** Phase 35 SEALED at 96/100 estimated — Sprint E P2 shipped ASSUMPTIONS_ATOM (5th Crystal Atom) + LLM lift w/ 6-tier fallback chain + EXPERT pipeline trace pane (renders all 5 atoms inline). BYOK matrix completed: OpenAI adapter added (`gpt-5-nano` default); cost-per-million updated to 2026 prices. **5-atom AISP architecture (PATCH+INTENT+SELECTION+CONTENT+ASSUMPTIONS) in production — capstone-thesis full exhibit.** 211/211 PURE-UNIT tests GREEN. ADR-064 full Accepted. Phase 36 NEXT (Sprint E P3 — TBD).
+- **Current Phase:** Phase 36 SEALED at 96/100 estimated — Sprint F P1 shipped Listen + AISP unification (review-first voice UX). NEW ListenReviewCard (Approve/Edit/Cancel before pipeline fires) + ListenClarificationCard (3-button voice clarification mirroring P34) + listenActionPreview rule-classifier (0-cost). uiStore.pendingChatPrefill single-shot; ChatInput consumes on mount → Listen → Chat hand-off seamless. **5-atom AISP architecture now spans BOTH chat + voice surfaces.** 255/255 PURE-UNIT tests GREEN. 31/35 prompt coverage gate met (raised from 28/35). ADR-065 full Accepted. Phase 37 NEXT (Sprint F P2 — Command Triggers + LLM-Call Audit + Content-Route Research).
 - **Codebase:** ~63K total lines (TS/TSX/JSON/MD, excl. node_modules); ~28,400 lines TS/TSX across 227 source files
 - **Themes:** 12 (agency, blog, creative, elegant, minimalist, neon, personal, portfolio, professional, saas, startup, wellness)
 - **Examples:** 17 (adds blog-standard + capstone to the original 15)
@@ -112,7 +112,8 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 | P33+ | End-of-Sprint-D Brutal-Honest Review + 3 fix-passes (12/12 must-fix closed; 99/99 tests GREEN) | CLOSED — persona re-score deferred to post-UI mini-phase |
 | P34 | Sprint E P1 — UI Closure + Assumptions Engine + brutal-honest review fix-pass (6 must-fix + 2 LOW closed) | CLOSED 95/100 estimated post-fix (Grandma 79 / Framer 89 / Capstone 98); 157/157 tests GREEN; Sprint E greenlight CONFIRMED |
 | P35 | Sprint E P2 — ASSUMPTIONS_ATOM Crystal Atom + LLM lift + EXPERT trace pane + BYOK matrix completion (OpenAI added; ADR-064) | CLOSED 96/100 estimated (Grandma 79 / Framer 91 / Capstone 99); **5-atom AISP in production**; 211/211 tests GREEN |
-| P36 | Sprint E P3 — TBD per owner mandate at greenlight | NEXT |
+| P36 | Sprint F P1 — Listen + AISP Unification (review-first voice UX; ListenReviewCard + ListenClarificationCard + listenActionPreview; ADR-065) | CLOSED 96/100 estimated (Grandma 81 / Framer 89 / Capstone 99); 255/255 tests GREEN; 31/35 prompt coverage |
+| P37 | Sprint F P2 — Command Triggers + LLM-Call Audit + Content-Route Research (ADR-066 + ADR-067) | NEXT |
 | P32 | Sprint D P4 — Multi-section Content Pipeline (style-aware tone/voice; ADR-061) | PLANNED |
 | P33 | Sprint D P5 — Content + Template Bridge (AISPTranslationPanel ChatInput integration; ADR-062) | PLANNED |
 | P34-P37 | Sprint E — Clarification & Assumptions (4 phases) | POST-CAPSTONE |

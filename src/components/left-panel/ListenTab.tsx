@@ -10,6 +10,15 @@ import { submit as submitChatPipeline } from '@/contexts/intelligence/chatPipeli
 import { appendListenTranscript } from '@/contexts/persistence/repositories/messages'
 import { activeSession, startSession } from '@/contexts/persistence/repositories/sessions'
 import { useProjectStore } from '@/store/projectStore'
+import {
+  generateAssumptionsLLM,
+  shouldRequestAssumptions,
+  recordAcceptedAssumption,
+  type Assumption,
+} from '@/contexts/intelligence/aisp'
+import { buildActionPreview } from './listen/listenActionPreview'
+import { ListenReviewCard } from './listen/ListenReviewCard'
+import { ListenClarificationCard } from './listen/ListenClarificationCard'
 // P28 C04 — helpers + SliderRow extracted to siblings; ListenTab orchestrates
 import {
   PTT_HOLD_GATE_MS,
@@ -70,6 +79,15 @@ export function ListenTab() {
   // P19 Step 2 (A4): Bradley reply banner + busy state for the listen surface.
   const [pttReply, setPttReply] = useState<string>('')
   const [pttBusy, setPttBusy] = useState<boolean>(false)
+  // P36 Sprint F P1 (A1) — AISP feedback chip in the listen reply banner.
+  const [pttAisp, setPttAisp] = useState<{ verb: string; target: string | null; templateId: string | null } | null>(null)
+  // P36 Sprint F P1 (A2) — Pre-pipeline review state. When set, review card
+  // renders and the chat pipeline is gated on Approve. Editing returns the
+  // transcript to the chat input; Cancel discards.
+  const [pttReview, setPttReview] = useState<{ transcript: string; preview: string; confidence: number } | null>(null)
+  // P36 Sprint F P1 (A1) — Voice clarification card. Mirrors ChatInput
+  // ClarificationPanel for the Listen surface.
+  const [pttClarification, setPttClarification] = useState<{ transcript: string; assumptions: Assumption[] } | null>(null)
   // P19 Step 3 (A5): hold-too-short hint shown when user releases pre-gate.
   const [pttHint, setPttHint] = useState<string>('')
   // P19 fix: mic privacy disclosure. Default open on first PTT in this browser
@@ -100,23 +118,41 @@ export function ListenTab() {
    * the next press (handlePttPressStart) wipes any previous transcript so the
    * "next hold-talk-release starts fresh" invariant from §3.5 still holds.
    */
-  const submitListenFinal = useCallback(async (final: string): Promise<void> => {
-    const text = final.trim()
-    if (!text) {
-      // P19 Step 3 (A5): empty final transcript → show no_speech banner via the
-      // listen store's shared error channel; auto-clear in 3 s so the user can
-      // try again without manually dismissing. We do NOT call the chat pipeline
-      // (no point — wasted llm_calls row + audit pollution).
-      useListenStore.setState({ error: { kind: 'no_speech', detail: undefined } })
-      if (pttNoSpeechTimerRef.current) clearTimeout(pttNoSpeechTimerRef.current)
-      pttNoSpeechTimerRef.current = setTimeout(() => {
-        useListenStore.getState().clearError()
-      }, 3000)
-      return
-    }
+  /**
+   * P36 (A1) — Run the chat pipeline on the approved voice transcript.
+   * Captures result.aisp + templateId + assumptions for the listen banner.
+   * Surfaces a voice clarification card when the intent confidence is low.
+   */
+  const runListenPipeline = useCallback(async (text: string): Promise<void> => {
     setPttBusy(true)
     try {
       const result = await submitChatPipeline({ source: 'listen', text })
+      // P36 (A1) — AISP feedback chip
+      setPttAisp(
+        result.aisp?.intent
+          ? {
+              verb: result.aisp.intent.verb,
+              target: result.aisp.intent.target
+                ? `${result.aisp.intent.target.type}${result.aisp.intent.target.index !== null ? `-${result.aisp.intent.target.index}` : ''}`
+                : null,
+              templateId: result.templateId ?? null,
+            }
+          : null,
+      )
+      // P36 (A1) — voice clarification when low confidence + no patches applied
+      if (
+        !result.ok &&
+        !result.appliedPatchCount &&
+        result.aisp &&
+        shouldRequestAssumptions(result.aisp.intent)
+      ) {
+        const llm = await generateAssumptionsLLM({ text, intent: result.aisp.intent })
+        if (llm.assumptions.length > 0) {
+          setPttClarification({ transcript: text, assumptions: llm.assumptions })
+          setPttReply('') // banner cleared; clarification takes over
+          return
+        }
+      }
       setPttReply(result.summary || '')
       // Persist ONLY successful turns — fallback hint replies (no canned match)
       // would otherwise pollute listen_transcripts with the user's garbage. We
@@ -137,6 +173,76 @@ export function ListenTab() {
       setPttBusy(false)
     }
   }, [])
+
+  /**
+   * P36 (A2) — Build the pre-pipeline review card for the final transcript.
+   * Empty input → no_speech banner. Non-empty → review state populated; the
+   * chat pipeline is NOT called yet. Approve fires `runListenPipeline`.
+   */
+  const submitListenFinal = useCallback(async (final: string): Promise<void> => {
+    const text = final.trim()
+    if (!text) {
+      useListenStore.setState({ error: { kind: 'no_speech', detail: undefined } })
+      if (pttNoSpeechTimerRef.current) clearTimeout(pttNoSpeechTimerRef.current)
+      pttNoSpeechTimerRef.current = setTimeout(() => {
+        useListenStore.getState().clearError()
+      }, 3000)
+      return
+    }
+    // Reset prior banners so the review card is the only surface visible.
+    setPttReply('')
+    setPttAisp(null)
+    setPttClarification(null)
+    const preview = buildActionPreview(text)
+    setPttReview({
+      transcript: text,
+      preview: preview.text,
+      confidence: preview.intent.confidence,
+    })
+  }, [])
+
+  /** P36 (A2) — Approve handler: clear review state, run the pipeline. */
+  const handleListenApprove = useCallback(async () => {
+    if (!pttReview) return
+    const { transcript } = pttReview
+    setPttReview(null)
+    await runListenPipeline(transcript)
+  }, [pttReview, runListenPipeline])
+
+  /** P36 (A2) — Edit handler: hand transcript off to the chat input + switch tabs. */
+  const handleListenEdit = useCallback(() => {
+    if (!pttReview) return
+    const { transcript } = pttReview
+    setPttReview(null)
+    useUIStore.getState().setPendingChatPrefill(transcript)
+    useUIStore.getState().setLeftPanelTab('chat')
+  }, [pttReview])
+
+  /** P36 (A2) — Cancel handler: discard review without firing. */
+  const handleListenCancel = useCallback(() => {
+    setPttReview(null)
+  }, [])
+
+  /** P36 (A1) — Voice clarification accept: persist + re-feed pipeline. */
+  const handleListenClarificationAccept = useCallback(
+    async (a: Assumption) => {
+      if (!pttClarification) return
+      const { transcript } = pttClarification
+      try {
+        recordAcceptedAssumption({
+          originalText: transcript,
+          acceptedRephrasing: a.rephrasing,
+          confidence: a.confidence,
+          acceptedAt: Date.now(),
+        })
+      } catch {
+        /* persistence is best-effort */
+      }
+      setPttClarification(null)
+      await runListenPipeline(a.rephrasing)
+    },
+    [pttClarification, runListenPipeline],
+  )
 
   const handlePttPressStart = useCallback(() => {
     // FIX 3: hard guard against the race where `disabled` flips AFTER React
@@ -581,12 +687,45 @@ export function ListenTab() {
           </div>
         )}
 
-        {pttReply && !pttBusy && (
+        {/* P36 Sprint F P1 (A2) — Pre-pipeline review card. Gates the chat
+            pipeline on Approve. Edit hands the transcript to ChatInput;
+            Cancel discards. Replaces the auto-fire UX from P19. */}
+        {pttReview && !pttBusy && !pttClarification && (
+          <ListenReviewCard
+            transcript={pttReview.transcript}
+            actionPreview={pttReview.preview}
+            confidence={pttReview.confidence}
+            onApprove={() => { void handleListenApprove() }}
+            onEdit={handleListenEdit}
+            onCancel={handleListenCancel}
+          />
+        )}
+
+        {/* P36 Sprint F P1 (A1) — Voice clarification (low-confidence intent).
+            Mirrors ChatInput ClarificationPanel. Tap an option → re-feed the
+            canonical rephrasing through runListenPipeline. */}
+        {pttClarification && !pttBusy && (
+          <ListenClarificationCard
+            originalTranscript={pttClarification.transcript}
+            assumptions={pttClarification.assumptions}
+            onAccept={(a) => { void handleListenClarificationAccept(a) }}
+            onReject={() => setPttClarification(null)}
+          />
+        )}
+
+        {pttReply && !pttBusy && !pttReview && !pttClarification && (
           <div
             data-testid="listen-reply"
-            className="w-full max-w-[300px] rounded-md bg-[#A51C30]/10 border border-[#A51C30]/30 px-3 py-2 text-sm text-white/85"
+            className="w-full max-w-[300px] rounded-md bg-[#A51C30]/10 border border-[#A51C30]/30 px-3 py-2 text-sm text-white/85 space-y-1"
           >
-            {pttReply}
+            <div>{pttReply}</div>
+            {pttAisp && (
+              <div data-testid="listen-aisp-chip" className="flex items-center gap-1 text-[10px] text-white/55 uppercase tracking-wider">
+                <span>{pttAisp.verb}</span>
+                {pttAisp.target && <span>· {pttAisp.target}</span>}
+                {pttAisp.templateId && <span>· {pttAisp.templateId}</span>}
+              </div>
+            )}
           </div>
         )}
 
