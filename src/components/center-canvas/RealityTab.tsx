@@ -363,8 +363,23 @@ export function RealityTab() {
     )
   }
 
+  const activePageTitle = useConfigStore((s) => {
+    const ap = s.activePage
+    const page = s.config.pages?.find((p) => p.id === ap)
+    return page?.title ?? 'Preview'
+  })
+
   return (
     <div ref={containerRef} className="min-h-full">
+      {/* P53 A11 — Mobile-only sticky mini-nav. Visual marker for the View
+          surface inside MobileLayout. No navigation; A10 owns the tab switcher. */}
+      <div
+        data-testid="mobile-preview-stickynav"
+        className="md:hidden sticky top-0 z-10 flex items-center justify-between gap-2 bg-hb-bg border-b border-hb-border px-3 py-1.5 text-[11px] text-hb-text-muted"
+      >
+        <span className="truncate font-medium text-hb-text-primary">{activePageTitle}</span>
+        <span className="opacity-60">Preview</span>
+      </div>
       {isMultiPage && <MultiPageNav />}
       <div
         className="mx-auto transition-all duration-300"

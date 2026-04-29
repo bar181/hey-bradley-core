@@ -6,7 +6,7 @@
 // (defence-in-depth, ADR-067 / P46 fix-pass).
 
 import { useMemo, useState } from 'react'
-import { Download, FileJson, FileText } from 'lucide-react'
+import { FileJson, FileText } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { redactKeyShapes } from '@/contexts/intelligence/llm/keys'
 import {

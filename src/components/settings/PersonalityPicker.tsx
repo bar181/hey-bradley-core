@@ -37,7 +37,7 @@ const SAMPLE_ENVELOPE = {
 const SAMPLE_INTENT: { intent: ClassifiedIntent } = {
   intent: {
     verb: 'change',
-    target: { type: 'theme', index: null },
+    target: { type: 'hero', index: null },
     confidence: 0.92,
     rationale: 'sample preview intent',
   },
@@ -60,7 +60,10 @@ export function PersonalityPicker() {
   const [focusIdx, setFocusIdx] = useState(initialFocus)
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (PERSONALITY_IDS.length === 0) return
+    // PERSONALITY_IDS is a closed 5-tuple; the length-zero guard is a defence
+    // against future enum changes. Cast through `as readonly unknown[]` so
+    // strict type narrowing on the tuple length doesn't trip the build.
+    if ((PERSONALITY_IDS as readonly unknown[]).length === 0) return
     let next = focusIdx
     if (e.key === 'ArrowRight') next = Math.min(focusIdx + 1, PERSONALITY_IDS.length - 1)
     else if (e.key === 'ArrowLeft') next = Math.max(focusIdx - 1, 0)

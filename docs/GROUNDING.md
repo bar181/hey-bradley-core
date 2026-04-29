@@ -1,7 +1,7 @@
 # Hey Bradley — Project Grounding
 
 > **Purpose:** A single document anyone (new contributor, future Claude session, presentation reviewer) can read in 10 minutes to understand the project, where we are in the sprint, and what to do next.
-> **Last updated:** 2026-04-29 (Sprint I sealed — P47/P48/P49)
+> **Last updated:** 2026-04-29 (Sprint J sealed — P50/P51/P52/P53)
 > **Owner:** [Brad Ross](https://www.linkedin.com/in/bradaross/) — Harvard ALM Digital Media Design capstone (May 2026)
 > **Pair this with:** `CLAUDE.md` (project rules), `docs/wiki/llm-call-process-flow.md` (how the pipeline runs), `plans/implementation/mvp-plan/STATE.md` (phase ledger).
 
@@ -22,16 +22,22 @@ The exported spec is precise enough that an AI dev agent (Claude Code, Cursor, e
 
 ## 2. Where We Are RIGHT NOW
 
-**Sprint I sealed — P47/P48/P49. Sprint G skipped per owner mandate.**
+**Sprint J sealed — P50/P51/P52/P53. Sprint G skipped per owner mandate.**
 
 | | Status |
 |---|---|
-| Composite trajectory | 88 → 89 → 90 → 93 → 95 → 96 → 96 → 91 (P37) → P38 → Sprint H 89.7 → **Sprint I 91/100 PASS** |
-| Last sealed phase | **P49** (Sprint I Wave 3 — Mobile polish + C11 closure) |
-| Last test count | Cumulative P29-P49 — 550/550 PURE-UNIT GREEN |
-| Last brutal review | Sprint I end-of-sprint (single reviewer / lean): composite 91, Grandma 83 (+5 vs P46), Framer 91, Capstone 99 — PASS, 0 must-fix, 2 should-fix deferred to Sprint J opener |
-| Outstanding carryforward | C11 (vertical mobile carousel <600px on Welcome) — **CLOSED at P49** (carried since P22). No hard-blocks. |
-| Presentation | Sprint F P38 produced `docs/wiki/presentation-readiness.md`; Vercel deploy still owner-triggered |
+| Composite trajectory | 88 → 89 → 90 → 93 → 95 → 96 → 96 → 91 (P37) → P38 → Sprint H 89.7 → Sprint I 91 → **Sprint J 91.7/100 PASS (0 must-fix)** |
+| Last sealed phase | **P53** (Sprint J Wave 4 — Mobile UX overhaul + Sprint J seal) |
+| Last test count | Cumulative P29-P53 — ~615/615 PURE-UNIT GREEN target (550 prior + ~66 Sprint J: p50=15, p51=15, p52=21, p53=15) |
+| Last brutal review | Sprint J end-of-sprint (single reviewer / lean): composite 91.7, Grandma 85 (+2 vs P49), Framer 91, Capstone 99 — PASS, 0 must-fix, 2 should-fix + 2 nice-to-have deferred to Sprint K opener |
+| Outstanding carryforward | None (S1/S2 from Sprint J review = should-fix only, deferred). C11 closed at P49. |
+| Presentation | Sprint F P38 produced `docs/wiki/presentation-readiness.md`; Vercel deploy still owner-triggered. Sprint K opens with comprehensive system-wide brutal review (Playwright + screenshots) per P53 preflight §Post-Wave-4. |
+
+**Sprint J deliverables (P50/P51/P52/P53):**
+- **P50 (ADR-073)** — `personalityEngine.ts` (5 modes; composition-only post-PATCH_ATOM; **no Σ widening**) + `chatPipeline` defensive `personalityMessage` + ChatMessage extension.
+- **P51 (ADR-074)** — `PersonalityPicker.tsx` (radio-group + arrow-key nav) + Settings drawer mount + Onboarding first-run step + 5 chat-bubble styled variants + active-personality chip.
+- **P52 (ADR-075)** — `ConversationLogTab.tsx` (6th EXPERT tab; joins `chat_messages ⨝ llm_logs`; MD + JSON export) + `ShareSpecButton.tsx` (clipboard data URL with `redactKeyShapes` at boundary).
+- **P53 (ADR-076)** — Mobile UX overhaul: `MobileLayout.tsx` (3-tab sticky nav) + `MobileMenu.tsx` (hamburger drawer with PersonalityPicker / ReferenceManagement / BrandContextUpload / CodebaseContextUpload / ShareSpecButton / Conversation Log) + `Builder.tsx` `md:hidden` switch + RealityTab mobile sticky preview nav + ListenControls PTT mobile polish. **X8 narrowing:** Builder mobile = out forever; Chat/Listen/Preview mobile = in.
 
 **Sprint H deliverables (P44/P45/P46 + fix-pass):**
 - **P44 (ADR-067)** — Brand Voice Upload (CONTENT_ATOM Λ.brand_voice).
@@ -58,6 +64,10 @@ The exported spec is precise enough that an AI dev agent (Claude Code, Cursor, e
 | **P47** | Sprint I Wave 1 — Builder UX polish + a11y | ✅ SEALED | — | ADR-070; `SectionsSection.tsx` collapse + categorized picker + arrow-key + right-panel ARIA |
 | **P48** | Sprint I Wave 2 — Quick-add + improvement suggestions | ✅ SEALED | — | ADR-071; `QuickAddPicker.tsx` + `improvementSuggester.ts` |
 | **P49** | Sprint I Wave 3 — Mobile polish + C11 closure | ✅ SEALED | 91 | ADR-072; `<600px` carousel; touch parity |
+| **P50** | Sprint J Wave 1 — Personality Engine | ✅ SEALED | — | ADR-073; 5 modes; composition-only; no Σ widening |
+| **P51** | Sprint J Wave 2 — Picker UI + Onboarding step + chat bubble styling | ✅ SEALED | — | ADR-074; PersonalityPicker + first-run step |
+| **P52** | Sprint J Wave 3 — Conversation Log + Share Spec | ✅ SEALED | — | ADR-075; ConversationLogTab + ShareSpecButton (data URL) |
+| **P53** | Sprint J Wave 4 — Mobile UX overhaul + Sprint J seal | ✅ SEALED | 91.7 | ADR-076; MobileLayout + MobileMenu; X8 bifurcation |
 
 **Sprint G skipped:** owner mandate — "Agent proxy for LLM testing. The mock/fixture adapter already exists from P18 — the swarm uses it for all testing. No real keys needed." All Sprint H tests run against AgentProxyAdapter / FixtureAdapter ($0 cost).
 

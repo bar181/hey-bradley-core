@@ -78,6 +78,7 @@ export function ListenControls({ state, handlers }: ListenControlsProps) {
       <button
         type="button"
         data-testid="listen-ptt"
+        data-mobile-ptt={pttRecording ? 'active' : undefined}
         title={PRIVACY_TITLE}
         onMouseDown={handlePttPressStart}
         onMouseUp={handlePttPressEnd}
@@ -93,7 +94,10 @@ export function ListenControls({ state, handlers }: ListenControlsProps) {
               : 'Hold to talk'
         }
         disabled={pttBusy || pttReview !== null || pttClarification !== null}
-        className={`w-full max-w-[300px] flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold tracking-wider uppercase border transition-colors select-none ${
+        // P53 A11 — Mobile polish: larger tappable target (max-md:w-24/h-24
+        // centered), touch-none to prevent scroll-jacking on press-and-hold,
+        // active:scale + tinted bg for haptic-feel feedback.
+        className={`w-full max-w-[300px] max-md:mx-auto max-md:w-24 max-md:h-24 max-md:rounded-full max-md:max-w-none flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold tracking-wider uppercase border transition-all select-none touch-none active:scale-95 active:bg-hb-accent/20 ${
           pttBusy || pttReview || pttClarification
             ? 'bg-white/5 text-white/40 border-white/10 opacity-60 cursor-not-allowed'
             : pttRecording

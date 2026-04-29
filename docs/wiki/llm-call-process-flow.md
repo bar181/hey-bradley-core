@@ -1,9 +1,9 @@
 # Hey Bradley — LLM Call Process Flow
 
 > **Status:** Living document — wiki / how-it-works guide
-> **Last verified against code:** P49 sealed (commit will be set at seal time)
-> **Cross-references:** ADR-045, ADR-053, ADR-057, ADR-060, ADR-064, ADR-065, ADR-066, ADR-067, ADR-068, ADR-069, ADR-070, ADR-071, ADR-072
-> **Contributors:** Bradley Ross + claude-flow swarm (P18 → P49)
+> **Last verified against code:** P53 sealed (commit will be set at seal time)
+> **Cross-references:** ADR-045, ADR-053, ADR-057, ADR-060, ADR-064, ADR-065, ADR-066, ADR-067, ADR-068, ADR-069, ADR-070, ADR-071, ADR-072, ADR-073, ADR-074, ADR-075, ADR-076
+> **Contributors:** Bradley Ross + claude-flow swarm (P18 → P53)
 
 This is the canonical end-to-end picture of how a single user input — text in chat OR voice transcript in listen mode — flows through Hey Bradley's pipeline to produce a JSON-Patch envelope. Every box on the flow chart maps to a concrete module in `src/contexts/intelligence/`.
 
@@ -351,4 +351,45 @@ rendering the patch reply at Step N. The pipeline contract is unchanged.
 
 ---
 
-*This document is updated at each phase seal. Last touched: P49 seal (Sprint I Wave 3 — Mobile Polish + C11 Closure). Source: swarm summary at session-1777381177219.*
+## Sprint J — Personality + Mobile + Logs + Share (P50 + P51 + P52 + P53)
+
+Sprint J is a wow-factor sprint — none of these additions touch the AISP
+pipeline contracts. Every Σ stays exactly as it was at the end of Sprint H.
+The four phases ship surfaces that light up in *use*, not in static review:
+
+- **P50 / ADR-073** — `personalityEngine.ts` (5 modes:
+  `professional | fun | geek | teacher | coach`). Composition-only:
+  `personalityEngine.render(envelope, personalityId, intentTrace) → string`
+  runs **after** PATCH_ATOM lands. Persisted to kv. **No Σ widening.** No
+  LLM call. `chatPipeline` populates `result.personalityMessage` defensively
+  inside a try/catch.
+- **P51 / ADR-074** — `PersonalityPicker.tsx` (5-card radio-group with
+  arrow-key nav, mirrors P48 QuickAddPicker). Mounted in `SettingsDrawer`
+  + as a first-run step in `Onboarding.tsx`. Active-personality chip
+  surfaces in `ChatInput` next to the simulated/mock pill. 5 distinct chat
+  bubble styles (Tailwind variants only).
+- **P52 / ADR-075** — `ConversationLogTab.tsx` (EXPERT-mode 6th tab) joins
+  `chat_messages ⨝ llm_logs` and exports MD or JSON via
+  `conversationLogExport.ts`. `ShareSpecButton.tsx` + `shareSpecBundle.ts`
+  bundle the full spec (North Star + SADD + AISP + MasterConfig) into a
+  `data:application/json;base64,…` URL and copy to clipboard.
+  `redactKeyShapes` runs at every render + export boundary.
+- **P53 / ADR-076** — Mobile UX overhaul. `MobileLayout.tsx` (3-tab sticky
+  bottom nav: Chat / Listen / View) + `MobileMenu.tsx` (hamburger drawer
+  mounting PersonalityPicker, ReferenceManagement, BrandContextUpload,
+  CodebaseContextUpload, ShareSpecButton, BYOK, Conversation Log).
+  `Builder.tsx` switches via `hidden md:flex` / `md:hidden` — pure Tailwind,
+  no JS viewport detection (mirrors P49 / ADR-072 precedent). RealityTab
+  gains a mobile sticky preview nav; ListenControls PTT button gets
+  `max-md:w-24/h-24/rounded-full` + `active:scale-95`. **X8 narrowing:**
+  Builder mobile remains forever-out; Chat / Listen / Preview mobile
+  ships.
+
+These four waves sit *outside* the pipeline boxes above — they shape the
+surfaces feeding text into Step 1 (REFERENCE CONTEXT), the surfaces
+rendering the patch reply at Step N, and the form factor those surfaces
+appear on. The pipeline contract is unchanged; every Σ width identical.
+
+---
+
+*This document is updated at each phase seal. Last touched: P53 seal (Sprint J Wave 4 — Mobile UX overhaul + Sprint J seal). Source: swarm summary at session-019Yz8Kvzu3u4rVaqSaLxaNq.*
