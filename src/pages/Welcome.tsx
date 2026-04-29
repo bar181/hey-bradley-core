@@ -89,6 +89,36 @@ export function Welcome() {
         </p>
       </article>
 
+      {/* Building in public — links to Progress + Blog */}
+      <section
+        data-testid="welcome-build-snapshot-section"
+        className="max-w-3xl mx-auto px-6 pb-16"
+      >
+        <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-3 font-medium">
+          Building in public
+        </p>
+        <h2 className="text-3xl font-bold mb-3">Built in 2 days. Ready in 10.</h2>
+        <p className="text-[#6b5e4f] leading-relaxed mb-6">
+          An open-core capstone shipped at sprint pace &mdash; 42 phases sealed
+          (P15&ndash;P56), 7 sprints (F, H, I, J, K, L, M), 79 ADRs Accepted, and
+          244 PURE-UNIT tests GREEN. Every decision is in the open.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <Link
+            to="/progress"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors"
+          >
+            See the build snapshot <ArrowRight className="w-4 h-4" />
+          </Link>
+          <Link
+            to="/blog"
+            className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors"
+          >
+            Read the journal
+          </Link>
+        </div>
+      </section>
+
       {/* Three Modes — C11: vertical snap-list carousel on <sm (max-width: 639px,
           Tailwind's closest match to the historical <600px target from P22). */}
       <section className="max-w-4xl mx-auto px-6 pb-16">

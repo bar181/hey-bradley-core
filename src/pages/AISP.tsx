@@ -222,6 +222,9 @@ export function AISP() {
               </table>
             </div>
           </div>
+          <p className="text-sm text-[#6b5e4f] mt-6 italic">
+            AISP atoms are now visible by default on every Hey Bradley reply (Sprint L &middot; ADR-078).
+          </p>
         </div>
       </section>
 

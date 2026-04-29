@@ -290,25 +290,35 @@ export function OpenCore() {
           <div className="grid md:grid-cols-4 gap-4">
             <div className="bg-white/[0.03] border border-[#e8772e]/20 rounded-xl p-5">
               <Layers className="w-5 h-5 text-cyan-400 mb-3" />
-              <div className="text-2xl font-bold">100K+</div>
-              <div className="text-xs text-[#6b5e4f] mt-1">lines of code, 171 source files</div>
+              <div className="text-2xl font-bold">28K+</div>
+              <div className="text-xs text-[#6b5e4f] mt-1">TS/TSX across 227 source files</div>
             </div>
             <div className="bg-white/[0.03] border border-[#e8772e]/20 rounded-xl p-5">
               <Target className="w-5 h-5 text-cyan-400 mb-3" />
-              <div className="text-2xl font-bold">102</div>
-              <div className="text-xs text-[#6b5e4f] mt-1">passing tests across 11 spec files</div>
+              <div className="text-2xl font-bold">244</div>
+              <div className="text-xs text-[#6b5e4f] mt-1">PURE-UNIT tests GREEN</div>
             </div>
             <div className="bg-white/[0.03] border border-[#e8772e]/20 rounded-xl p-5">
               <Zap className="w-5 h-5 text-cyan-400 mb-3" />
-              <div className="text-2xl font-bold">37</div>
+              <div className="text-2xl font-bold">79</div>
               <div className="text-xs text-[#6b5e4f] mt-1">Architecture Decision Records</div>
             </div>
             <div className="bg-white/[0.03] border border-[#e8772e]/20 rounded-xl p-5">
               <Cpu className="w-5 h-5 text-cyan-400 mb-3" />
-              <div className="text-2xl font-bold">15</div>
-              <div className="text-xs text-[#6b5e4f] mt-1">agent swarm with HNSW memory</div>
+              <div className="text-2xl font-bold">42</div>
+              <div className="text-xs text-[#6b5e4f] mt-1">phases sealed (P15&ndash;P56)</div>
             </div>
           </div>
+
+          {/* Sprint J/K/L/M capabilities refresh */}
+          <ul className="mt-8 grid md:grid-cols-2 gap-x-6 gap-y-2 text-sm text-[#6b5e4f] leading-relaxed">
+            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>5-mode personality system (professional / fun / geek / teacher / coach)</span></li>
+            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>AISP atom trace visible on every reply (Sprint L)</span></li>
+            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>Latency badge &mdash; speed shown on every patch (Sprint K)</span></li>
+            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>Premium opinionated templates (Sprint M)</span></li>
+            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>Mobile-native 3-tab nav with hamburger drawer</span></li>
+            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>Conversation Log &mdash; every prompt + reply in EXPERT mode (chat &#8904; llm_logs)</span></li>
+          </ul>
         </div>
       </section>
 

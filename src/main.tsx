@@ -11,6 +11,9 @@ import { OpenCore } from '@/pages/OpenCore'
 import { HowIBuiltThis } from '@/pages/HowIBuiltThis'
 import { Docs } from '@/pages/Docs'
 import { BYOK } from '@/pages/BYOK'
+import { Blog } from '@/pages/Blog'
+import { BlogPost } from '@/pages/BlogPost'
+import { Progress } from '@/pages/Progress'
 import { NotFound } from '@/pages/NotFound'
 import { initDB } from '@/contexts/persistence/db'
 import { migrateLegacyLocalStorage } from '@/contexts/persistence/legacyMigration'
@@ -60,6 +63,9 @@ initDB()
             <Route path="/how-i-built-this" element={<HowIBuiltThis />} />
             <Route path="/docs" element={<Docs />} />
             <Route path="/byok" element={<BYOK />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/progress" element={<Progress />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
@@ -87,6 +93,9 @@ initDB()
             <Route path="/how-i-built-this" element={<HowIBuiltThis />} />
             <Route path="/docs" element={<Docs />} />
             <Route path="/byok" element={<BYOK />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/progress" element={<Progress />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
