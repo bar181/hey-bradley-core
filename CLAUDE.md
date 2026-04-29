@@ -64,7 +64,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 
 ## Project Status
 
-- **Current Phase:** Sprint O P58 IN PROGRESS — Open Core RC release prep targeting `v1.0.0-RC1` tag. Sprint N P57 Wave 2 SEALED at `c00c2b7` (Shareable Output — moat priority #4; ADR-081 supersedes ADR-075). Sprint N Wave 1 (public-site refresh + blog system + ADR-080) sealed at `e692204`. Sprint M P56 sealed at `3398702` (Premium Templates — moat priority #3; ADR-079). Sprint L P55 sealed at `2944461` (Spec Unmissable — moat priority #2; ADR-078). Sprint K P54 sealed at `44cc36c` (Speed Visible — moat priority #1; ADR-077). Sprint J P53 sealed at `644200a` (system-wide composite 89.75 PASS; capstone-ready 92/100). 7 sprints sealed in 2 days through P57 Wave 2. **Phase 58 (Sprint O) is THIS PHASE** — README/CLAUDE final + demo video + Agentics Foundation beta + `v1.0.0-RC1` public release. Sprints G/H/I-remainder/original-J-Agentic-Support deferred to commercial Tier-2 track.
+- **Current Phase:** P60 SEALED — Comprehensive QA Architecture (ADR-084) layered on top of the P59 prompt corpus (ADR-083). P58 sealed `v1.0.0-RC1`; P59 sealed at `f81474c` (280-entry prompt corpus + 366 cumulative PURE-UNIT GREEN). P60 step 1 (mechanical data) at `7ab9e02`, step 2 (flagship `MasterConfig`) at `0dc2afa`, step 3 (2 persona templates + 4 per-concern specs + reviewer-impression audit + competitive analysis) at `6f28a22`. Sprint N P57 Wave 2 sealed at `c00c2b7` (Shareable Output — ADR-081 supersedes ADR-075). Sprint M/L/K sealed at `3398702`/`2944461`/`44cc36c`. 392+ cumulative tests GREEN. Sprints G/H/I-remainder/original-J-Agentic-Support deferred to commercial Tier-2 track.
 - **Codebase:** ~63K total lines (TS/TSX/JSON/MD, excl. node_modules); ~28,400 lines TS/TSX across 227 source files
 - **Themes:** 12 (agency, blog, creative, elegant, minimalist, neon, personal, portfolio, professional, saas, startup, wellness)
 - **Examples:** 17 (adds blog-standard + capstone to the original 15)
@@ -77,9 +77,9 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 - **Blueprints:** 7 sub-tabs (North Star, Architecture, Build Plan, Features, Human Spec, AISP, JSON)
 - **Center Tabs (EXPERT):** 5 (Preview, Blueprints, Resources, Data, Pipeline)
 - **Capabilities:** Multi-page support, ZIP export, blog section type, AISP Crystal Atom output, real LLM adapters (Claude/Gemini/OpenRouter), Web-Speech STT (PTT)
-- **ADRs:** 81 Accepted on disk through ADR-081 (Shareable Output / supersedes ADR-075, P57 W2). Range ADR-045 through ADR-081. Numbering has 11 documented gaps (002-004, 006-009, 034-037) plus 3 stub-then-superseded duplicates (ADR-051/052/053 each have a P21 stub + a later Accepted file under the same number; see `docs/adr/README.md`).
+- **ADRs:** 84 Accepted on disk through ADR-084 (Comprehensive QA Architecture, P60). Range ADR-045 through ADR-084. Recent additions: ADR-082 (Open Core RC, P58), ADR-083 (Test Library Architecture / prompt corpus, P59), ADR-084 (Comprehensive QA Architecture, P60). Numbering has 11 documented gaps (002-004, 006-009, 034-037) plus 3 stub-then-superseded duplicates (ADR-051/052/053 each have a P21 stub + a later Accepted file under the same number; see `docs/adr/README.md`).
 - **Deferred Features:** 34 documented in plans/deferred-features.md; 20 P20 carryforward items in plans/implementation/phase-19/deep-dive/05-fix-pass-plan.md §5
-- **Tests:** Cumulative ~365/365 PURE-UNIT GREEN target at P59 seal (298 Sprint N baseline at `c00c2b7` + ~17 P58 RC additions + ~50 P59 prompt-library cases per ADR-083). Full corpus is 846+ tests across 73+ spec files (includes legacy + skipped suites); ~365 is the curated PURE-UNIT seal-gate cumulative-regression subset enforced by Sprint K/L/M/N preflights and extended by P59.
+- **Tests:** Cumulative **392/392 PURE-UNIT GREEN at P60 seal** (366 P59 baseline + 26 P60 specs across 4 per-concern files: 9 flagship + 6 LLM matrix + 6 personality + 5 templates). P59 baseline = 298 Sprint N at `c00c2b7` + ~17 P58 RC + ~51 P59 prompt-library per ADR-083. Full corpus is 846+ tests across 73+ spec files (includes legacy + skipped suites); 392 is the curated PURE-UNIT seal-gate cumulative-regression subset enforced by Sprint K/L/M/N preflights and extended by P59 (ADR-083) + P60 (ADR-084).
 - **Ruvector Memory:** 95 entries populated (38 phases + 37 ADRs + 5 decisions + 6 learnings + 9 prior); HNSW re-index pending → deferred to commercial Tier-2 learning runtime.
 
 ### Open-Core Moat Priorities
@@ -145,7 +145,9 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 | P55 | **Sprint L — Make The Spec Unmissable** (AISP always-on + atom animations + spec primary tab; moat priority #2; ADR-078) | CLOSED at `2944461` — Sprint L Wave 1 |
 | P56 | **Sprint M — Premium Templates** (3-5 strongly opinionated templates + design discipline; moat priority #3; ADR-079) | CLOSED at `3398702` — Sprint M Wave 1 |
 | P57 | **Sprint N — Shareable Output** (static HTML export + hosted spec URL; moat priority #4; ADR-080 + ADR-081 supersedes ADR-075) | CLOSED — Wave 1 public-site refresh at `e692204`; Wave 2 Sprint N at `c00c2b7` (cumulative 298/298 PURE-UNIT GREEN) |
-| P58 | **Sprint O — Open Core RC** (README/CLAUDE final + demo video + Agentics Foundation beta + `v1.0.0-RC1` public release) | **THIS PHASE** — target: `v1.0.0-RC1` tag |
+| P58 | **Sprint O — Open Core RC** (README/CLAUDE final + demo video + Agentics Foundation beta + `v1.0.0-RC1` public release) | CLOSED — `v1.0.0-RC1` sealed |
+| P59 | **Test Library — Prompt Corpus** (280-entry canonical corpus for AgentProxy + live-LLM testing arc; ADR-083) | CLOSED at `f81474c` — 366/366 PURE-UNIT GREEN |
+| P60 | **Comprehensive QA Architecture** (50 personality + 80 LLM matrix + flagship + 2 persona templates + 4 per-concern specs + reviewer-impression + competitive; ADR-084) | **THIS PHASE** — 392/392 PURE-UNIT GREEN; steps 1-3 sealed at `7ab9e02`/`0dc2afa`/`6f28a22`, step 4 (this) seals the phase |
 | (deferred) | Sprint G (Interview), Sprint H (Upload+Refs), Sprint I remainder, original Sprint J (Agentic Support System), Tier-2 SaaS-dashboard flagship, learning-flywheel runtime | DEFERRED to commercial track per `plans/strategic-reviews/open-core-moat-roadmap.md` |
 
 ## AISP (AI Symbolic Protocol) 
