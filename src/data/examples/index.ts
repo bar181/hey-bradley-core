@@ -15,6 +15,9 @@ import realEstate from './real-estate.json'
 import lawFirm from './law-firm.json'
 import capstone from './capstone.json'
 import blogStandard from './blog-standard.json'
+import saasFounder from './saas-founder'
+import indiePortfolio from './indie-portfolio'
+import { b2bAgencyConfig } from './b2b-agency'
 import type { MasterConfig } from '@/lib/schemas'
 
 export interface ExampleSite {
@@ -126,5 +129,23 @@ export const EXAMPLE_SITES: ExampleSite[] = [
     description: 'Standard blog page — hero, single article, minimal footer; warm precision palette',
     theme: 'Personal',
     config: blogStandard as unknown as MasterConfig,
+  },
+  {
+    name: 'Linewise — SaaS Founder',
+    description: 'Founder-narrative SaaS template with whitespace-heavy slate/blue aesthetic',
+    theme: 'SaaS',
+    config: saasFounder,
+  },
+  {
+    name: 'Maya Okafor — Indie Portfolio',
+    description: 'Bold indie designer portfolio — oversized type, near-black canvas, coral accent',
+    theme: 'Creative',
+    config: indiePortfolio,
+  },
+  {
+    name: 'Wheelhouse Studio — B2B Agency',
+    description: 'B2B brand & build agency — warm clay/cream palette, process-focused, named case studies',
+    theme: 'Agency',
+    config: b2bAgencyConfig,
   },
 ]

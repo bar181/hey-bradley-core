@@ -77,7 +77,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 - **Blueprints:** 7 sub-tabs (North Star, Architecture, Build Plan, Features, Human Spec, AISP, JSON)
 - **Center Tabs (EXPERT):** 5 (Preview, Blueprints, Resources, Data, Pipeline)
 - **Capabilities:** Multi-page support, ZIP export, blog section type, AISP Crystal Atom output, real LLM adapters (Claude/Gemini/OpenRouter), Web-Speech STT (PTT)
-- **ADRs:** 78 Accepted on disk through ADR-078 (Spec Unmissable, P55). Numbering has 11 documented gaps (002-004, 006-009, 034-037) plus 3 stub-then-superseded duplicates (ADR-051/052/053 each have a P21 stub + a later Accepted file under the same number; see `docs/adr/README.md`). Index README `docs/adr/README.md` is itself stale at 38 ADRs / ADR-048 — flagged for Sprint M housekeeping.
+- **ADRs:** 79 Accepted on disk through ADR-079 (Premium Template Design System, P56). Numbering has 11 documented gaps (002-004, 006-009, 034-037) plus 3 stub-then-superseded duplicates (ADR-051/052/053 each have a P21 stub + a later Accepted file under the same number; see `docs/adr/README.md`). Index README `docs/adr/README.md` is itself stale at 38 ADRs / ADR-048 — flagged for Sprint M housekeeping.
 - **Deferred Features:** 34 documented in plans/deferred-features.md; 20 P20 carryforward items in plans/implementation/phase-19/deep-dive/05-fix-pass-plan.md §5
 - **Tests:** Cumulative 234/234 GREEN at P55 seal (`2944461`). Per-file `grep test\(` totals are higher (≈1,097 across 69 spec files including legacy and skipped suites); 234 is the curated PURE-UNIT seal-gate count enforced by Sprint K/L preflights.
 
