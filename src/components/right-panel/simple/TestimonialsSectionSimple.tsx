@@ -57,6 +57,8 @@ export function TestimonialsSectionSimple({ sectionId }: { sectionId: string }) 
             <button
               key={v}
               type="button"
+              aria-label={`Testimonials layout: ${label}`}
+              aria-pressed={currentVariant === v}
               onClick={() => setSectionConfig(sectionId, { variant: v })}
               className={cn(
                 'flex flex-col items-center justify-center gap-1.5 h-16 rounded-lg transition-all',

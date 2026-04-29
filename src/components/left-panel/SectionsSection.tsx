@@ -1,30 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
-  Star,
-  Grid3X3,
-  ArrowRight,
-  Eye,
-  EyeOff,
-  ChevronUp,
-  ChevronDown,
-  Copy,
-  Trash2,
-  DollarSign,
-  MessageSquare,
-  HelpCircle,
-  Zap,
-  Layout,
-  Navigation,
-  ChevronRight,
-  GripVertical,
-  ImageIcon,
-  Minus,
-  FileText,
-  Award,
-  Users,
-  Plus,
-  X,
-  Files,
+  Star, Grid3X3, ArrowRight, Eye, EyeOff, ChevronUp, ChevronDown, Copy, Trash2,
+  DollarSign, MessageSquare, HelpCircle, Zap, Layout, Navigation, ChevronRight,
+  GripVertical, ImageIcon, Minus, FileText, Award, Users, Plus, X, Files,
   type LucideIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/cn'
@@ -36,48 +14,19 @@ import type { SectionType } from '@/lib/schemas/section'
 
 // DRAFT-mode narrowed surface: hero + blog (article-as-blog-minimal) + footer.
 // See plans/implementation/mvp-plan/01-phase-15-polish-kitchen-sink.md §1.1.
-const DRAFT_ALLOWED_SECTION_TYPES: ReadonlySet<SectionType> = new Set<SectionType>([
-  'hero',
-  'blog',
-  'footer',
-])
+const DRAFT_ALLOWED_SECTION_TYPES: ReadonlySet<SectionType> = new Set<SectionType>(['hero', 'blog', 'footer'])
 
 const sectionIconMap: Record<string, LucideIcon> = {
-  menu: Navigation,
-  hero: Star,
-  columns: Grid3X3,
-  action: ArrowRight,
-  pricing: DollarSign,
-  footer: Layout,
-  quotes: MessageSquare,
-  questions: HelpCircle,
-  numbers: Zap,
-  gallery: Grid3X3,
-  image: ImageIcon,
-  divider: Minus,
-  text: FileText,
-  logos: Award,
-  team: Users,
-  blog: FileText,
+  menu: Navigation, hero: Star, columns: Grid3X3, action: ArrowRight, pricing: DollarSign,
+  footer: Layout, quotes: MessageSquare, questions: HelpCircle, numbers: Zap, gallery: Grid3X3,
+  image: ImageIcon, divider: Minus, text: FileText, logos: Award, team: Users, blog: FileText,
 }
 
 const sectionNameMap: Record<string, string> = {
-  menu: 'Navigation Bar',
-  hero: 'Hero',
-  columns: 'Content Cards',
-  action: 'Action Block',
-  pricing: 'Pricing',
-  footer: 'Footer',
-  quotes: 'Quotes',
-  questions: 'Questions',
-  numbers: 'Numbers',
-  gallery: 'Gallery',
-  image: 'Image',
-  divider: 'Spacer',
-  text: 'Text',
-  logos: 'Logo Cloud',
-  team: 'Team',
-  blog: 'Blog',
+  menu: 'Navigation Bar', hero: 'Hero', columns: 'Content Cards', action: 'Action Block',
+  pricing: 'Pricing', footer: 'Footer', quotes: 'Quotes', questions: 'Questions',
+  numbers: 'Numbers', gallery: 'Gallery', image: 'Image', divider: 'Spacer',
+  text: 'Text', logos: 'Logo Cloud', team: 'Team', blog: 'Blog',
 }
 
 const sectionDescriptionMap: Record<string, string> = {
@@ -100,23 +49,21 @@ const sectionDescriptionMap: Record<string, string> = {
 }
 
 const SECTION_TYPES: SectionType[] = [
-  'menu',
-  'hero',
-  'columns',
-  'pricing',
-  'action',
-  'footer',
-  'quotes',
-  'questions',
-  'numbers',
-  'gallery',
-  'image',
-  'divider',
-  'text',
-  'logos',
-  'team',
-  'blog',
+  'menu', 'hero', 'columns', 'pricing', 'action', 'footer', 'quotes', 'questions',
+  'numbers', 'gallery', 'image', 'divider', 'text', 'logos', 'team', 'blog',
 ]
+
+// Add-section category buckets (P47 Sprint I A1). Only existing SectionTypes.
+type AddCategory = 'All' | 'Hero & CTA' | 'Content' | 'Social Proof + Media'
+const ADD_CATEGORY_MAP: Record<Exclude<AddCategory, 'All'>, SectionType[]> = {
+  'Hero & CTA': ['hero', 'action'],
+  'Content': ['text', 'blog', 'pricing'],
+  'Social Proof + Media': [
+    'quotes', 'logos', 'gallery', 'image', 'team',
+    'numbers', 'columns', 'questions', 'divider', 'footer', 'menu',
+  ],
+}
+const ADD_CATEGORIES: AddCategory[] = ['All', 'Hero & CTA', 'Content', 'Social Proof + Media']
 
 export function SectionsSection() {
   const sections = useConfigStore((s) => {
@@ -150,6 +97,29 @@ export function SectionsSection() {
   const [showAddPage, setShowAddPage] = useState(false)
   const [newPageTitle, setNewPageTitle] = useState('')
   const [confirmDeletePageId, setConfirmDeletePageId] = useState<string | null>(null)
+  // Per-row collapse state (P47 A1). KISS — local Set, NOT persisted.
+  const [collapsedIds, setCollapsedIds] = useState<Set<string>>(new Set())
+  const collapseInitRef = useRef(false)
+  const [focusedRowIdx, setFocusedRowIdx] = useState<number>(0)
+  const rowRefs = useRef<Array<HTMLDivElement | null>>([])
+  const [addCategory, setAddCategory] = useState<AddCategory>('All')
+
+  // Initialize collapsed state once: first section expanded, rest collapsed.
+  useEffect(() => {
+    if (collapseInitRef.current) return
+    if (sections.length === 0) return
+    collapseInitRef.current = true
+    setCollapsedIds(new Set(sections.slice(1).map((s) => s.id)))
+  }, [sections])
+
+  const toggleCollapsed = (sectionId: string) => {
+    setCollapsedIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(sectionId)) next.delete(sectionId)
+      else next.add(sectionId)
+      return next
+    })
+  }
 
   const orderedSectionsRaw = localOrder
     ? localOrder
@@ -228,6 +198,7 @@ export function SectionsSection() {
       selectedContext?.type === 'section' &&
       selectedContext.sectionId === section.id
     const isDisabled = !section.enabled
+    const isCollapsed = collapsedIds.has(section.id)
 
     return (
       <div key={section.id}>
@@ -238,16 +209,14 @@ export function SectionsSection() {
 
         {/* Section row */}
         <div
-          role="button"
-          tabIndex={0}
+          ref={(el) => { rowRefs.current[index] = el }}
+          role="option"
+          aria-selected={isSelected}
+          tabIndex={focusedRowIdx === index ? 0 : -1}
           onClick={() =>
             setSelectedContext({ type: 'section', sectionId: section.id })
           }
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              setSelectedContext({ type: 'section', sectionId: section.id })
-            }
-          }}
+          onFocus={() => setFocusedRowIdx(index)}
           onDragOver={(e) => {
             e.preventDefault()
             setDropTarget(index)
@@ -262,48 +231,65 @@ export function SectionsSection() {
           )}
           title="Click to edit this section."
         >
-          {/* Drag handle */}
-          <Tooltip content="Drag to reorder" position="right">
-            <div
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.setData('sectionId', section.id)
-                setDragId(section.id)
-              }}
-              onDragEnd={() => {
-                setDragId(null)
-                setDropTarget(null)
-              }}
-              className="cursor-grab active:cursor-grabbing p-0.5 text-hb-text-muted/40 hover:text-hb-text-muted"
-              title="Drag to move this section up or down."
-            >
-              <GripVertical size={14} />
-            </div>
-          </Tooltip>
+          {/* Collapse/expand chevron */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
+              toggleCollapsed(section.id)
+            }}
+            className="p-0.5 text-hb-text-muted/60 hover:text-hb-text-secondary shrink-0"
+            title={isCollapsed ? 'Expand this section row.' : 'Collapse this section row.'}
+          >
+            <ChevronRight size={12} className={cn('transition-transform', !isCollapsed && 'rotate-90')} />
+          </button>
+
+          {/* Drag handle (hidden when collapsed) */}
+          {!isCollapsed && (
+            <Tooltip content="Drag to reorder" position="right">
+              <div
+                draggable
+                onDragStart={(e) => {
+                  e.dataTransfer.setData('sectionId', section.id)
+                  setDragId(section.id)
+                }}
+                onDragEnd={() => {
+                  setDragId(null)
+                  setDropTarget(null)
+                }}
+                className="cursor-grab active:cursor-grabbing p-0.5 text-hb-text-muted/40 hover:text-hb-text-muted"
+                title="Drag to move this section up or down."
+              >
+                <GripVertical size={14} />
+              </div>
+            </Tooltip>
+          )}
 
           <Icon size={14} className="text-hb-text-muted shrink-0" />
           <span className="text-sm flex-1 truncate text-hb-text-primary">
             {name}
           </span>
 
-          {/* Eye toggle */}
-          <Tooltip content="Toggle section visibility" position="left">
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation()
-                toggleSectionEnabled(section.id)
-              }}
-              className="p-0.5 text-hb-text-muted hover:text-hb-text-secondary"
-              title="Show or hide this section on your page."
-            >
-              {section.enabled ? <Eye size={13} /> : <EyeOff size={13} />}
-            </button>
-          </Tooltip>
+          {/* Eye toggle (hidden when collapsed) */}
+          {!isCollapsed && (
+            <Tooltip content="Toggle section visibility" position="left">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  toggleSectionEnabled(section.id)
+                }}
+                className="p-0.5 text-hb-text-muted hover:text-hb-text-secondary"
+                title="Show or hide this section on your page."
+              >
+                {section.enabled ? <Eye size={13} /> : <EyeOff size={13} />}
+              </button>
+            </Tooltip>
+          )}
         </div>
 
-        {/* Action bar — only for selected section */}
-        {isSelected && (
+        {/* Action bar — only for selected & expanded section */}
+        {isSelected && !isCollapsed && (
           <div className="flex items-center justify-center gap-1 py-1 px-2 ml-6">
             <button
               type="button"
@@ -372,6 +358,43 @@ export function SectionsSection() {
       setTimeout(() => setConfirmDeletePageId(null), 3000)
     }
   }
+
+  // Total focusable rows = enabled + (hidden when shown). Used by keyboard nav.
+  const focusableRowCount =
+    enabledSections.length + (showHidden ? hiddenSections.length : 0)
+
+  const handleListKeyDown = (e: React.KeyboardEvent) => {
+    if (focusableRowCount === 0) return
+    const orderedIds = [
+      ...enabledSections.map((s) => s.id),
+      ...(showHidden ? hiddenSections.map((s) => s.id) : []),
+    ]
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      const next = Math.min(focusedRowIdx + 1, focusableRowCount - 1)
+      setFocusedRowIdx(next)
+      rowRefs.current[next]?.focus()
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      const next = Math.max(focusedRowIdx - 1, 0)
+      setFocusedRowIdx(next)
+      rowRefs.current[next]?.focus()
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      const sectionId = orderedIds[focusedRowIdx]
+      if (sectionId) {
+        e.preventDefault()
+        toggleCollapsed(sectionId)
+      }
+    }
+  }
+
+  // Filter add-section types by selected category (P47 A1).
+  const categoryFilteredAddTypes =
+    addCategory === 'All'
+      ? visibleAddSectionTypes
+      : visibleAddSectionTypes.filter((t) =>
+          ADD_CATEGORY_MAP[addCategory].includes(t)
+        )
 
   return (
     <div className="flex flex-col gap-1">
@@ -467,10 +490,23 @@ export function SectionsSection() {
           </p>
         </div>
       )}
-      {enabledSections.map((section, index) => renderSectionRow(section, index))}
+      <div
+        role="listbox"
+        tabIndex={0}
+        onKeyDown={handleListKeyDown}
+        aria-orientation="vertical"
+        className="flex flex-col gap-1 outline-none"
+      >
+        {enabledSections.map((section, index) => renderSectionRow(section, index))}
+      </div>
 
       {/* More Sections — hidden sections + add new */}
-      <div className="mt-1">
+      <div
+        className="mt-1"
+        role="listbox"
+        aria-orientation="vertical"
+        onKeyDown={handleListKeyDown}
+      >
         <Tooltip content="Add a new section" position="right">
           <button
             type="button"
@@ -493,7 +529,26 @@ export function SectionsSection() {
               <div className="px-3 py-1.5 text-xs text-hb-text-muted font-medium uppercase tracking-wider border-b border-hb-border">
                 Add New Section
               </div>
-              {visibleAddSectionTypes.map((type) => {
+              {/* Category filter pills (P47 A1). Pure visual filter. */}
+              <div className="flex flex-wrap gap-1 px-3 py-2 border-b border-hb-border">
+                {ADD_CATEGORIES.map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    onClick={() => setAddCategory(cat)}
+                    className={cn(
+                      'px-2 py-0.5 text-xs rounded-full transition-colors',
+                      addCategory === cat
+                        ? 'bg-hb-accent text-white'
+                        : 'bg-hb-surface-hover text-hb-text-muted hover:text-hb-text-secondary'
+                    )}
+                    title={`Show only ${cat} section types.`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+              {categoryFilteredAddTypes.map((type) => {
                 const Icon = sectionIconMap[type] ?? Star
                 const rawAddName = sectionNameMap[type] ?? type
                 const addName = isDraft ? applyDraftLabel(rawAddName) : rawAddName

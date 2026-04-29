@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useRef } from 'react'
 import { cn } from '@/lib/cn'
 import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
@@ -57,6 +57,8 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
   const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
   const section = config.sections.find((s) => s.id === sectionId)
+  const addButtonRef = useRef<HTMLButtonElement | null>(null)
+  const cardRefs = useRef<Map<string, HTMLDivElement | null>>(new Map())
 
   if (!section) return null
 
@@ -125,16 +127,28 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
   const removeFeature = useCallback(
     (componentId: string) => {
       if (featureCards.length <= MIN_CARDS) return
+      const removedIdx = featureCards.findIndex((c) => c.id === componentId)
+      const nextFocusId =
+        featureCards[removedIdx + 1]?.id ?? featureCards[removedIdx - 1]?.id ?? null
       const updated = section.components
         .filter((c) => c.id !== componentId)
         .map((c, i) => (c.type === 'feature-card' ? { ...c, order: i } : c))
       setSectionConfig(sectionId, { components: updated })
+      // Focus management: move focus to neighbour card or the Add button.
+      // Defer until after re-render so the DOM has settled.
+      requestAnimationFrame(() => {
+        const target = (nextFocusId && cardRefs.current.get(nextFocusId)) || addButtonRef.current
+        if (target) {
+          const focusable = target.querySelector<HTMLElement>('input, textarea, select, button')
+          ;(focusable ?? target).focus()
+        }
+      })
     },
     [sectionId, section, featureCards, setSectionConfig],
   )
 
   return (
-    <div className="divide-y divide-hb-border/30">
+    <div className="divide-y divide-hb-border/30" data-section-id={sectionId}>
       <SectionHeadingEditor sectionId={sectionId} />
       {/* ─── 1. LAYOUT ─── */}
       <RightAccordion id={`${sectionId}-layout`} label="Style">
@@ -144,6 +158,8 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
               key={v}
               type="button"
               onClick={() => applyLayout(FEATURES_LAYOUTS.find((l) => l.v === v)!)}
+              aria-pressed={currentVariant === v}
+              aria-label={`Style: ${label}`}
               className={cn(
                 'flex flex-col items-center justify-center gap-1.5 h-16 rounded-lg transition-all',
                 currentVariant === v
@@ -169,6 +185,8 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
             return (
               <div
                 key={card.id}
+                ref={(el) => { cardRefs.current.set(card.id, el) }}
+                data-card-id={card.id}
                 className="rounded-lg border border-hb-border/40 bg-hb-surface/40 p-2.5 space-y-2"
               >
                 {/* Card header: number + toggle + remove */}
@@ -177,6 +195,7 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
                     Card {idx + 1}
                   </span>
                   <Switch
+                    aria-label={`Toggle card ${idx + 1}`}
                     checked={card.enabled}
                     onCheckedChange={(v) => handleToggle(card.id, v)}
                     className="scale-[0.6] shrink-0"
@@ -185,6 +204,7 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
                     <button
                       type="button"
                       onClick={() => removeFeature(card.id)}
+                      aria-label={`Remove card ${idx + 1}`}
                       className="text-hb-text-muted hover:text-red-400 transition-colors p-0.5"
                       title="Remove card"
                     >
@@ -241,8 +261,10 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
           {/* Add Feature button */}
           {featureCards.length < MAX_CARDS && (
             <button
+              ref={addButtonRef}
               type="button"
               onClick={addFeature}
+              aria-label="Add another feature card"
               className={cn(
                 'flex items-center justify-center gap-1.5 w-full py-2 rounded-md text-xs font-medium',
                 'border border-dashed border-hb-border text-hb-text-muted',

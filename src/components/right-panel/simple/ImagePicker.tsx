@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useMemo } from 'react'
+import { useState, useCallback, useEffect, useMemo, useRef, useId } from 'react'
 import { createPortal } from 'react-dom'
 import { cn } from '@/lib/cn'
 import { Image, X, Play, Layers, Film, Camera, Search, Clock, Sparkles } from 'lucide-react'
@@ -73,6 +73,8 @@ export function ImagePicker({
   const [activeTab, setActiveTab] = useState<TabId>('photos')
   const [activeCategory, setActiveCategory] = useState<PhotoCategory>('all')
   const [searchQuery, setSearchQuery] = useState('')
+  const triggerRef = useRef<HTMLButtonElement | null>(null)
+  const dialogTitleId = useId()
 
   // Filter images by category and search
   const filteredImages = useMemo(() => {
@@ -111,6 +113,7 @@ export function ImagePicker({
     (img: (typeof imageData.images)[number]) => {
       onChange(img.url)
       setOpen(false)
+      requestAnimationFrame(() => triggerRef.current?.focus())
     },
     [onChange],
   )
@@ -119,6 +122,7 @@ export function ImagePicker({
     (video: (typeof videoData.videos)[number]) => {
       onChange(video.url)
       setOpen(false)
+      requestAnimationFrame(() => triggerRef.current?.focus())
     },
     [onChange],
   )
@@ -134,19 +138,26 @@ export function ImagePicker({
     (dataUri: string) => {
       onChange(dataUri)
       setOpen(false)
+      requestAnimationFrame(() => triggerRef.current?.focus())
     },
     [onChange],
   )
+
+  const closeDialog = useCallback(() => {
+    setOpen(false)
+    // Return focus to the triggering button (no keyboard trap).
+    requestAnimationFrame(() => triggerRef.current?.focus())
+  }, [])
 
   // Close on Escape
   useEffect(() => {
     if (!open) return
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false)
+      if (e.key === 'Escape') closeDialog()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [open])
+  }, [open, closeDialog])
 
   // Reset search when dialog closes
   useEffect(() => {
@@ -176,8 +187,12 @@ export function ImagePicker({
     <>
       {/* Trigger button */}
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-label={value ? `Change media (${label})` : label}
         className={cn(
           'flex items-center gap-2 w-full px-2.5 py-1.5 rounded-md border transition-all text-left',
           'bg-hb-surface border-hb-border/50 hover:border-hb-accent/40 hover:bg-hb-surface-hover',
@@ -205,19 +220,23 @@ export function ImagePicker({
         createPortal(
           <div
             className="fixed inset-0 z-[9999] flex items-center justify-center"
-            onClick={() => setOpen(false)}
+            onClick={closeDialog}
           >
             {/* Backdrop */}
             <div className="absolute inset-0 bg-black/60" />
 
             {/* Dialog */}
             <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={dialogTitleId}
               className={cn(
                 'relative z-10 w-full max-w-[720px] max-h-[560px] rounded-lg border shadow-2xl overflow-hidden',
                 'bg-hb-bg border-hb-border flex flex-col',
               )}
               onClick={(e) => e.stopPropagation()}
             >
+              <h2 id={dialogTitleId} className="sr-only">{label}</h2>
               {/* Header with tabs and search */}
               <div className="shrink-0 border-b border-hb-border/40">
                 <div className="flex items-center justify-between px-4 py-2.5">
@@ -229,6 +248,8 @@ export function ImagePicker({
                           key={tab.id}
                           type="button"
                           onClick={() => setActiveTab(tab.id)}
+                          aria-pressed={resolvedTab === tab.id}
+                          aria-label={`${tab.label} tab`}
                           className={cn(
                             'flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all',
                             resolvedTab === tab.id
@@ -255,6 +276,7 @@ export function ImagePicker({
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
                           placeholder="Search tags, mood..."
+                          aria-label="Search media library"
                           className={cn(
                             'w-[160px] pl-6 pr-2 py-1 rounded-md text-xs transition-all',
                             'bg-hb-surface border border-hb-border/50 text-hb-text-primary placeholder:text-hb-text-muted/50',
@@ -265,7 +287,8 @@ export function ImagePicker({
                     )}
                     <button
                       type="button"
-                      onClick={() => setOpen(false)}
+                      onClick={closeDialog}
+                      aria-label="Close media picker"
                       className="p-1 rounded hover:bg-hb-surface-hover transition-colors text-hb-text-muted hover:text-hb-text-primary"
                     >
                       <X size={16} />
@@ -286,6 +309,7 @@ export function ImagePicker({
                           key={cat}
                           type="button"
                           onClick={() => setActiveCategory(cat)}
+                          aria-pressed={activeCategory === cat}
                           className={cn(
                             'w-full text-left px-2.5 py-1.5 rounded-md text-xs font-medium transition-all mb-0.5',
                             activeCategory === cat

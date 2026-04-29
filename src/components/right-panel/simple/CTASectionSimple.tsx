@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useId } from 'react'
 import { cn } from '@/lib/cn'
 import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
@@ -19,6 +19,10 @@ export function CTASectionSimple({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
   const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
   const section = config.sections.find((s) => s.id === sectionId)
+  const headingInputId = useId()
+  const subInputId = useId()
+  const buttonInputId = useId()
+  const buttonUrlId = useId()
 
   if (!section) return null
 
@@ -50,7 +54,7 @@ export function CTASectionSimple({ sectionId }: { sectionId: string }) {
   const currentVariant = section.variant || 'simple'
 
   return (
-    <div className="divide-y divide-hb-border/30">
+    <div className="divide-y divide-hb-border/30" data-section-id={sectionId}>
       {/* ─── LAYOUT ─── */}
       <RightAccordion id={`cta-layout-${sectionId}`} label="Style">
         <div className="grid grid-cols-2 gap-2">
@@ -59,6 +63,8 @@ export function CTASectionSimple({ sectionId }: { sectionId: string }) {
               key={v}
               type="button"
               onClick={() => setSectionConfig(sectionId, { variant: v })}
+              aria-pressed={currentVariant === v}
+              aria-label={`Style: ${label}`}
               className={cn(
                 'flex flex-col items-center justify-center gap-1.5 h-16 rounded-lg transition-all',
                 currentVariant === v
@@ -83,6 +89,7 @@ export function CTASectionSimple({ sectionId }: { sectionId: string }) {
           ] as const).map(({ id, label }) => (
             <div key={id} className="flex items-center gap-2">
               <Switch
+                aria-label={`Toggle ${label}`}
                 checked={getEnabled(id)}
                 onCheckedChange={(v) => handleToggle(id, v)}
                 className="scale-[0.6] shrink-0"
@@ -97,8 +104,9 @@ export function CTASectionSimple({ sectionId }: { sectionId: string }) {
       <RightAccordion id={`cta-content-${sectionId}`} label="Content">
         <div className="space-y-2.5">
           <div className={cn(!getEnabled('heading') && 'opacity-25 pointer-events-none', 'space-y-1')}>
-            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Heading</span>
+            <label htmlFor={headingInputId} className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Heading</label>
             <input
+              id={headingInputId}
               type="text"
               value={getText('heading')}
               onChange={(e) => updateCopy('heading', e.target.value)}
@@ -109,8 +117,9 @@ export function CTASectionSimple({ sectionId }: { sectionId: string }) {
           </div>
 
           <div className={cn(!getEnabled('subtitle') && 'opacity-25 pointer-events-none', 'space-y-1')}>
-            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Subtitle</span>
+            <label htmlFor={subInputId} className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Subtitle</label>
             <textarea
+              id={subInputId}
               value={getText('subtitle')}
               onChange={(e) => updateCopy('subtitle', e.target.value)}
               rows={2}
@@ -121,8 +130,9 @@ export function CTASectionSimple({ sectionId }: { sectionId: string }) {
           </div>
 
           <div className={cn(!getEnabled('button') && 'opacity-25 pointer-events-none', 'space-y-1')}>
-            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Button</span>
+            <label htmlFor={buttonInputId} className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Button</label>
             <input
+              id={buttonInputId}
               type="text"
               value={getText('button')}
               onChange={(e) => updateCopy('button', e.target.value)}
@@ -131,6 +141,8 @@ export function CTASectionSimple({ sectionId }: { sectionId: string }) {
               className={INPUT}
             />
             <input
+              id={buttonUrlId}
+              aria-label="Button link URL"
               type="text"
               value={getUrl('button')}
               onChange={(e) => updateUrl('button', e.target.value)}

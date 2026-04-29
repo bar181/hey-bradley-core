@@ -1,3 +1,4 @@
+import { useId } from 'react'
 import { useConfigStore } from '@/store/configStore'
 import { getStr } from '@/lib/sectionContent'
 
@@ -8,16 +9,19 @@ export function SectionHeadingEditor({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
   const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
   const section = config.sections.find((s) => s.id === sectionId)
+  const headingId = useId()
+  const subId = useId()
 
   if (!section) return null
 
   return (
     <div className="space-y-2 mb-4 px-3 pt-3">
       <div>
-        <label className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
+        <label htmlFor={headingId} className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
           Section Title
         </label>
         <input
+          id={headingId}
           type="text"
           value={getStr(section, 'heading')}
           onChange={(e) =>
@@ -30,10 +34,11 @@ export function SectionHeadingEditor({ sectionId }: { sectionId: string }) {
         />
       </div>
       <div>
-        <label className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
+        <label htmlFor={subId} className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">
           Subtitle
         </label>
         <input
+          id={subId}
           type="text"
           value={getStr(section, 'subheading')}
           onChange={(e) =>

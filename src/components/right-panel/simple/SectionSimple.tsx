@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useId } from 'react'
 import { cn } from '@/lib/cn'
 import { Tooltip } from '@/components/ui/Tooltip'
 import { Switch } from '@/components/ui/switch'
@@ -38,6 +38,12 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
   const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
   const section = config.sections.find((s) => s.id === sectionId)
+  const titleId = useId()
+  const descId = useId()
+  const eyebrowId = useId()
+  const ctaId = useId()
+  const ctaSecId = useId()
+  const trustId = useId()
 
   if (!section) return null
 
@@ -127,7 +133,7 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
     : ''
 
   return (
-    <div className="divide-y divide-hb-border/30">
+    <div className="divide-y divide-hb-border/30" data-section-id={sectionId}>
       {/* ─── 1. DESIGN ─── */}
       <RightAccordion id="layout" label="Design">
         <div className="grid grid-cols-2 gap-2">
@@ -138,6 +144,8 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
                 <button
                   type="button"
                   onClick={() => applyHeroLayout(layout)}
+                  aria-pressed={currentLayoutId === layout.id}
+                  aria-label={`Layout: ${layout.label}`}
                   className={cn(
                     'flex flex-col items-center justify-center gap-1.5 h-16 rounded-lg transition-all w-full',
                     currentLayoutId === layout.id
@@ -161,19 +169,19 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
         <div className="space-y-2.5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-hb-text-primary">Tag Line</span>
-            <Switch checked={getEnabled('eyebrow')} onCheckedChange={(v) => handleToggle('eyebrow', v)} className="scale-[0.7]" />
+            <Switch aria-label="Toggle Tag Line" checked={getEnabled('eyebrow')} onCheckedChange={(v) => handleToggle('eyebrow', v)} className="scale-[0.7]" />
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-hb-text-primary">Main Button</span>
-            <Switch checked={getEnabled('primaryCta')} onCheckedChange={(v) => handleToggle('primaryCta', v)} className="scale-[0.7]" />
+            <Switch aria-label="Toggle Main Button" checked={getEnabled('primaryCta')} onCheckedChange={(v) => handleToggle('primaryCta', v)} className="scale-[0.7]" />
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-hb-text-primary">Extra Button</span>
-            <Switch checked={getEnabled('secondaryCta')} onCheckedChange={(v) => handleToggle('secondaryCta', v)} className="scale-[0.7]" />
+            <Switch aria-label="Toggle Extra Button" checked={getEnabled('secondaryCta')} onCheckedChange={(v) => handleToggle('secondaryCta', v)} className="scale-[0.7]" />
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-hb-text-primary">Social Proof</span>
-            <Switch checked={getEnabled('trustBadges')} onCheckedChange={(v) => handleToggle('trustBadges', v)} className="scale-[0.7]" />
+            <Switch aria-label="Toggle Social Proof" checked={getEnabled('trustBadges')} onCheckedChange={(v) => handleToggle('trustBadges', v)} className="scale-[0.7]" />
           </div>
         </div>
       </RightAccordion>
@@ -214,33 +222,33 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
       <RightAccordion id="content" label="Content" defaultOpen>
         <div className="space-y-2.5">
           <div className="space-y-1">
-            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Title</span>
-            <textarea data-testid="hero-headline-input" value={hero.heading?.text ?? ''} onChange={(e) => updateCopy('headline', e.target.value)} rows={2} className={cn(INPUT, 'resize-none leading-snug')} />
+            <label htmlFor={titleId} className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Title</label>
+            <textarea id={titleId} data-testid="hero-headline-input" value={hero.heading?.text ?? ''} onChange={(e) => updateCopy('headline', e.target.value)} rows={2} className={cn(INPUT, 'resize-none leading-snug')} />
           </div>
 
           <div className="space-y-1">
-            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Description</span>
-            <textarea data-testid="hero-subtitle-input" value={hero.subheading ?? ''} onChange={(e) => updateCopy('subtitle', e.target.value)} rows={3} className={cn(INPUT, 'resize-none leading-snug')} />
+            <label htmlFor={descId} className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Description</label>
+            <textarea id={descId} data-testid="hero-subtitle-input" value={hero.subheading ?? ''} onChange={(e) => updateCopy('subtitle', e.target.value)} rows={3} className={cn(INPUT, 'resize-none leading-snug')} />
           </div>
 
           <div className="space-y-1">
-            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Tag Line</span>
-            <input data-testid="hero-badge-input" type="text" value={hero.badge?.text ?? ''} onChange={(e) => updateCopy('eyebrow', e.target.value)} placeholder="e.g. New Release" className={INPUT} />
+            <label htmlFor={eyebrowId} className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Tag Line</label>
+            <input id={eyebrowId} data-testid="hero-badge-input" type="text" value={hero.badge?.text ?? ''} onChange={(e) => updateCopy('eyebrow', e.target.value)} placeholder="e.g. New Release" className={INPUT} />
           </div>
 
           <div className="space-y-1">
-            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Main Button</span>
-            <input data-testid="hero-primary-cta-input" type="text" value={hero.cta?.text ?? ''} onChange={(e) => updateCopy('primaryCta', e.target.value)} placeholder="e.g. Get Started" className={INPUT} />
+            <label htmlFor={ctaId} className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Main Button</label>
+            <input id={ctaId} data-testid="hero-primary-cta-input" type="text" value={hero.cta?.text ?? ''} onChange={(e) => updateCopy('primaryCta', e.target.value)} placeholder="e.g. Get Started" className={INPUT} />
           </div>
 
           <div className="space-y-1">
-            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Extra Button</span>
-            <input data-testid="hero-secondary-cta-input" type="text" value={hero.secondaryCta?.text ?? ''} onChange={(e) => updateCopy('secondaryCta', e.target.value)} placeholder="e.g. Learn More" className={INPUT} />
+            <label htmlFor={ctaSecId} className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Extra Button</label>
+            <input id={ctaSecId} data-testid="hero-secondary-cta-input" type="text" value={hero.secondaryCta?.text ?? ''} onChange={(e) => updateCopy('secondaryCta', e.target.value)} placeholder="e.g. Learn More" className={INPUT} />
           </div>
 
           <div className="space-y-1">
-            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Social Proof</span>
-            <input data-testid="hero-trust-input" type="text" value={hero.trustBadges?.text ?? ''} onChange={(e) => updateCopy('trustBadges', e.target.value)} placeholder="e.g. Trusted by 500+ teams" className={INPUT} />
+            <label htmlFor={trustId} className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Social Proof</label>
+            <input id={trustId} data-testid="hero-trust-input" type="text" value={hero.trustBadges?.text ?? ''} onChange={(e) => updateCopy('trustBadges', e.target.value)} placeholder="e.g. Trusted by 500+ teams" className={INPUT} />
           </div>
         </div>
       </RightAccordion>
@@ -249,10 +257,12 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
       <RightAccordion id="visuals" label="Visuals">
         <div>
           <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Mode</span>
-          <div className="flex gap-1.5 mt-1">
+          <div className="flex gap-1.5 mt-1" role="group" aria-label="Color mode">
             <button
               type="button"
               onClick={() => { if (config.theme.mode !== 'light') useConfigStore.getState().toggleMode() }}
+              aria-pressed={config.theme.mode === 'light'}
+              aria-label="Light mode"
               className={cn(
                 'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-medium border transition-all',
                 config.theme.mode === 'light'
@@ -265,6 +275,8 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
             <button
               type="button"
               onClick={() => { if (config.theme.mode !== 'dark') useConfigStore.getState().toggleMode() }}
+              aria-pressed={config.theme.mode === 'dark'}
+              aria-label="Dark mode"
               className={cn(
                 'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-medium border transition-all',
                 config.theme.mode === 'dark'
