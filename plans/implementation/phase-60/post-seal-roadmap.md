@@ -49,30 +49,63 @@ Total: half a working day spread over the two-week window.
 
 ---
 
-## Post-defense — backlog (swarm-eligible, deferred)
+## Design discipline — threads through every post-defense sprint
 
-| # | Task | Source / link |
-|---|---|---|
-| 1 | Ruvector HNSW re-index — bge-base-en-v1.5, 768-dim, all 95 entries | `plans/strategic-reviews/ruvector-fix-2026-04-29.md` |
-| 2 | Sprint N hosted URL — real shareable link (Vercel KV stub + 1 endpoint) replacing in-browser content-addressable stub | `tests/p60-competitive-analysis.md` §"Top 3 gaps" #1; ADR-081 §honesty-note |
-| 3 | Prompt library at `plans/swarm-patterns/` — canonical agent dispatch templates extracted from Sprint K-O wave logs | new |
-| 4 | Auto-write to ruvector on every agent run — close the learning-flywheel loop deferred to Tier-2 | `CLAUDE.md` §Project Status (HNSW re-index pending → deferred) |
-| 5 | Visual polish floor — replace remaining Lorem-adjacent generic templates with real-copy versions (kitchen-sink, dev-portfolio); targets visual-polish 6 → 8 | `tests/p60-competitive-analysis.md` §"Top 3 gaps" #2 |
-| 6 | AISP atom trace default-expand on first reply per session (≈30 min, medium impact) | `tests/p60-competitive-analysis.md` §"Top 3 gaps" #3 |
+> Visual polish is the single weakest dimension at P60 (6/10 vs Framer 9/10).
+> Each post-defense sprint **must** carry an explicit design pass — not as a
+> separate sprint, but as a section of every sprint scope. No sprint ships
+> without a design diff (typography, spacing, color tokens, motion, mobile
+> breakpoints). Reviewer-impression audit at `docs/launch/reviewer-impression-audit.md`
+> is the running design-debt log.
 
-These are commercial-Tier-2 candidates and capstone-defense follow-ups — not
-gating the defense itself.
+---
+
+## Post-defense — open-core sprint backlog
+
+> **Hard scope rule:** No real hosted URL on open-core (no server, no
+> Vercel KV, no Supabase). Static HTML + content-addressable in-browser stub
+> + bundle export stay; Tier-2 commercial replaces the in-browser stub with
+> a real Supabase row. Open-core sprints **enhance the bundle/export
+> surface** so Tier-2 has more to wire up.
+
+| # | Sprint | Scope | Design slice | Effort |
+|---|---|---|---|---|
+| 1 | **OC-1 — Visual Polish Floor** | Replace Lorem-adjacent copy in kitchen-sink, dev-portfolio, generic blog; AISP trace default-expand on first reply (≈30-min quick win) | Library-wide typography audit · color-token consistency · spacing rhythm pass on every template hero | 1 day |
+| 2 | **OC-2 — Mobile First-Run + Polish** | Mobile onboarding card (don't show tri-pane on first phone load) · chat-first mobile landing | Mobile typography scale · touch-target audit · listen-mode mobile design pass · animation tuning | 1-2 days |
+| 3 | **OC-3 — Share Bundle Polish** (in-browser only) | Improve static HTML export styling · attribution footer polish · spec bundle UI polish · in-browser content-addressable stub UX. **NO real URL** — that ships in Tier-2. Core functionality preserved/enhanced so Tier-2 plug-in is mechanical | Export-modal redesign · "Built with Hey Bradley" footer typography · shared-spec preview card design | 1-2 days |
+| 4 | **OC-4 — AISP Adoption Push** | `bar181/aisp-open-core` README polish · 3+ third-party reference impls · demo notebook · cross-link from HB | Repo landing-page design · README hero + diagrams · demo notebook visual styling | 1-2 weeks |
+| 5 | **OC-5 — Prompt Library** | `plans/swarm-patterns/` — canonical agent dispatch templates extracted from Sprint K-O wave logs | Light — markdown formatting + diagrams | 1 day |
+| 6 | **OC-6 — Ruvector Activation** | HNSW re-index (bge-base-en-v1.5, 768-dim, all 95 entries) · auto-write per agent run · learning-flywheel loop closure | Trace-pane visualization design when ruvector reads/writes occur | 2-3 days |
+
+These six are **commercial-Tier-2 prep + open-core polish**. None gate the
+defense. OC-1 and OC-3 (the design-heavy ones) deliver the most reviewer-
+impression lift per hour.
+
+---
+
+## Tier-2 commercial — moves OUT of open-core scope
+
+| Tier-2 item | Open-core counterpart it enhances |
+|---|---|
+| Real hosted share URL (Supabase row + Vercel KV) | OC-3 polished bundle/export surface |
+| OAuth + multi-device persistence | None — Tier-2-only |
+| Hosted ruvector learning runtime | OC-6 local-only flywheel |
+| SaaS dashboard / flagship app | None — Tier-2-only |
+| Original Sprint J Agentic Support System (specs arbitrary codebases) | None — Tier-2 research track |
 
 ---
 
 ## What is NOT on this list (intentionally deferred)
 
 Per `plans/strategic-reviews/open-core-moat-roadmap.md` and reaffirmed at
-P60 seal, the following stay deferred to commercial Tier-2 track:
+P60 seal, the following stay deferred to commercial Tier-2 track and are
+NOT in any post-defense open-core sprint:
 
+- Real hosted share URL (server-backed) — the open-core stays on the
+  in-browser content-addressable stub; OC-3 only polishes the bundle UI
 - Multi-page sites beyond current scope
-- OAuth + Supabase persistence (the real share-link backbone)
-- Vector DB learning runtime (HNSW re-index pending → Tier-2)
+- OAuth + Supabase persistence
+- Hosted vector DB learning runtime
 - Tier-2 SaaS dashboard / flagship app
 - Original Sprint J Agentic Support System ("Hey Bradley specs arbitrary
   codebases") — research-grade work, no competitor attempting
