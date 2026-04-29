@@ -1,0 +1,2290 @@
+[
+  {
+    "id": "llm-patch-hero",
+    "input": "add a hero section",
+    "atom": "PATCH",
+    "section": "hero",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "hero",
+            "id": "hero-1"
+          }
+        }
+      ],
+      "summary": "Addd hero section."
+    },
+    "expectedPatch": {
+      "op": "add",
+      "path": "/sections/-",
+      "valueType": "object"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated hero.",
+      "fun": "Locked in! Hero got the glow-up. 🎉",
+      "geek": "[Ω→add Σ→hero @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your hero is ready ✨",
+      "coach": "Hero done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-patch-features",
+    "input": "add a features section",
+    "atom": "PATCH",
+    "section": "features",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "features",
+            "id": "features-1"
+          }
+        }
+      ],
+      "summary": "Addd features section."
+    },
+    "expectedPatch": {
+      "op": "add",
+      "path": "/sections/-",
+      "valueType": "object"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated features.",
+      "fun": "Locked in! Features got the glow-up. 🎉",
+      "geek": "[Ω→add Σ→features @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your features is ready ✨",
+      "coach": "Features done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-patch-pricing",
+    "input": "add a pricing section",
+    "atom": "PATCH",
+    "section": "pricing",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "pricing",
+            "id": "pricing-1"
+          }
+        }
+      ],
+      "summary": "Addd pricing section."
+    },
+    "expectedPatch": {
+      "op": "add",
+      "path": "/sections/-",
+      "valueType": "object"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated pricing.",
+      "fun": "Locked in! Pricing got the glow-up. 🎉",
+      "geek": "[Ω→add Σ→pricing @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your pricing is ready ✨",
+      "coach": "Pricing done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-patch-cta",
+    "input": "add a cta section",
+    "atom": "PATCH",
+    "section": "cta",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "cta",
+            "id": "cta-1"
+          }
+        }
+      ],
+      "summary": "Addd cta section."
+    },
+    "expectedPatch": {
+      "op": "add",
+      "path": "/sections/-",
+      "valueType": "object"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated cta.",
+      "fun": "Locked in! Cta got the glow-up. 🎉",
+      "geek": "[Ω→add Σ→cta @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your cta is ready ✨",
+      "coach": "Cta done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-patch-testimonials",
+    "input": "add a testimonials section",
+    "atom": "PATCH",
+    "section": "testimonials",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "testimonials",
+            "id": "testimonials-1"
+          }
+        }
+      ],
+      "summary": "Addd testimonials section."
+    },
+    "expectedPatch": {
+      "op": "add",
+      "path": "/sections/-",
+      "valueType": "object"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated testimonials.",
+      "fun": "Locked in! Testimonials got the glow-up. 🎉",
+      "geek": "[Ω→add Σ→testimonials @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your testimonials is ready ✨",
+      "coach": "Testimonials done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-patch-faq",
+    "input": "add a faq section",
+    "atom": "PATCH",
+    "section": "faq",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "faq",
+            "id": "faq-1"
+          }
+        }
+      ],
+      "summary": "Addd faq section."
+    },
+    "expectedPatch": {
+      "op": "add",
+      "path": "/sections/-",
+      "valueType": "object"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated faq.",
+      "fun": "Locked in! Faq got the glow-up. 🎉",
+      "geek": "[Ω→add Σ→faq @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your faq is ready ✨",
+      "coach": "Faq done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-patch-value-props",
+    "input": "add a value-props section",
+    "atom": "PATCH",
+    "section": "value-props",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "value-props",
+            "id": "value-props-1"
+          }
+        }
+      ],
+      "summary": "Addd value-props section."
+    },
+    "expectedPatch": {
+      "op": "add",
+      "path": "/sections/-",
+      "valueType": "object"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated value-props.",
+      "fun": "Locked in! Value-Props got the glow-up. 🎉",
+      "geek": "[Ω→add Σ→value-props @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your value-props is ready ✨",
+      "coach": "Value-Props done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-patch-gallery",
+    "input": "add a gallery section",
+    "atom": "PATCH",
+    "section": "gallery",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "gallery",
+            "id": "gallery-1"
+          }
+        }
+      ],
+      "summary": "Addd gallery section."
+    },
+    "expectedPatch": {
+      "op": "add",
+      "path": "/sections/-",
+      "valueType": "object"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated gallery.",
+      "fun": "Locked in! Gallery got the glow-up. 🎉",
+      "geek": "[Ω→add Σ→gallery @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your gallery is ready ✨",
+      "coach": "Gallery done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-patch-team",
+    "input": "add a team section",
+    "atom": "PATCH",
+    "section": "team",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "team",
+            "id": "team-1"
+          }
+        }
+      ],
+      "summary": "Addd team section."
+    },
+    "expectedPatch": {
+      "op": "add",
+      "path": "/sections/-",
+      "valueType": "object"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated team.",
+      "fun": "Locked in! Team got the glow-up. 🎉",
+      "geek": "[Ω→add Σ→team @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your team is ready ✨",
+      "coach": "Team done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-patch-blog",
+    "input": "add a blog section",
+    "atom": "PATCH",
+    "section": "blog",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "blog",
+            "id": "blog-1"
+          }
+        }
+      ],
+      "summary": "Addd blog section."
+    },
+    "expectedPatch": {
+      "op": "add",
+      "path": "/sections/-",
+      "valueType": "object"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated blog.",
+      "fun": "Locked in! Blog got the glow-up. 🎉",
+      "geek": "[Ω→add Σ→blog @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your blog is ready ✨",
+      "coach": "Blog done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-patch-footer",
+    "input": "add a footer section",
+    "atom": "PATCH",
+    "section": "footer",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "footer",
+            "id": "footer-1"
+          }
+        }
+      ],
+      "summary": "Addd footer section."
+    },
+    "expectedPatch": {
+      "op": "add",
+      "path": "/sections/-",
+      "valueType": "object"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated footer.",
+      "fun": "Locked in! Footer got the glow-up. 🎉",
+      "geek": "[Ω→add Σ→footer @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your footer is ready ✨",
+      "coach": "Footer done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-patch-action",
+    "input": "add a action section",
+    "atom": "PATCH",
+    "section": "action",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "action",
+            "id": "action-1"
+          }
+        }
+      ],
+      "summary": "Addd action section."
+    },
+    "expectedPatch": {
+      "op": "add",
+      "path": "/sections/-",
+      "valueType": "object"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated action.",
+      "fun": "Locked in! Action got the glow-up. 🎉",
+      "geek": "[Ω→add Σ→action @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your action is ready ✨",
+      "coach": "Action done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-patch-quotes",
+    "input": "add a quotes section",
+    "atom": "PATCH",
+    "section": "quotes",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "quotes",
+            "id": "quotes-1"
+          }
+        }
+      ],
+      "summary": "Addd quotes section."
+    },
+    "expectedPatch": {
+      "op": "add",
+      "path": "/sections/-",
+      "valueType": "object"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated quotes.",
+      "fun": "Locked in! Quotes got the glow-up. 🎉",
+      "geek": "[Ω→add Σ→quotes @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your quotes is ready ✨",
+      "coach": "Quotes done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-patch-numbers",
+    "input": "add a numbers section",
+    "atom": "PATCH",
+    "section": "numbers",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "numbers",
+            "id": "numbers-1"
+          }
+        }
+      ],
+      "summary": "Addd numbers section."
+    },
+    "expectedPatch": {
+      "op": "add",
+      "path": "/sections/-",
+      "valueType": "object"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated numbers.",
+      "fun": "Locked in! Numbers got the glow-up. 🎉",
+      "geek": "[Ω→add Σ→numbers @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your numbers is ready ✨",
+      "coach": "Numbers done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-patch-columns",
+    "input": "add a columns section",
+    "atom": "PATCH",
+    "section": "columns",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "columns",
+            "id": "columns-1"
+          }
+        }
+      ],
+      "summary": "Addd columns section."
+    },
+    "expectedPatch": {
+      "op": "add",
+      "path": "/sections/-",
+      "valueType": "object"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated columns.",
+      "fun": "Locked in! Columns got the glow-up. 🎉",
+      "geek": "[Ω→add Σ→columns @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your columns is ready ✨",
+      "coach": "Columns done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-patch-logos",
+    "input": "add a logos section",
+    "atom": "PATCH",
+    "section": "logos",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "logos",
+            "id": "logos-1"
+          }
+        }
+      ],
+      "summary": "Addd logos section."
+    },
+    "expectedPatch": {
+      "op": "add",
+      "path": "/sections/-",
+      "valueType": "object"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated logos.",
+      "fun": "Locked in! Logos got the glow-up. 🎉",
+      "geek": "[Ω→add Σ→logos @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your logos is ready ✨",
+      "coach": "Logos done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-intent-hero",
+    "input": "add a hero sectn",
+    "atom": "INTENT",
+    "section": "hero",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted hero copy"
+        }
+      ],
+      "summary": "Changed hero section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated hero.",
+      "fun": "Locked in! Hero got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→hero @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your hero is ready ✨",
+      "coach": "Hero done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-intent-features",
+    "input": "add a feature sectn",
+    "atom": "INTENT",
+    "section": "features",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted features copy"
+        }
+      ],
+      "summary": "Changed features section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated features.",
+      "fun": "Locked in! Features got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→features @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your features is ready ✨",
+      "coach": "Features done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-intent-pricing",
+    "input": "add a pricin sectn",
+    "atom": "INTENT",
+    "section": "pricing",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted pricing copy"
+        }
+      ],
+      "summary": "Changed pricing section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated pricing.",
+      "fun": "Locked in! Pricing got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→pricing @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your pricing is ready ✨",
+      "coach": "Pricing done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-intent-cta",
+    "input": "add a cta sectn",
+    "atom": "INTENT",
+    "section": "cta",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted cta copy"
+        }
+      ],
+      "summary": "Changed cta section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated cta.",
+      "fun": "Locked in! Cta got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→cta @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your cta is ready ✨",
+      "coach": "Cta done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-intent-testimonials",
+    "input": "add a testimonial sectn",
+    "atom": "INTENT",
+    "section": "testimonials",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted testimonials copy"
+        }
+      ],
+      "summary": "Changed testimonials section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated testimonials.",
+      "fun": "Locked in! Testimonials got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→testimonials @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your testimonials is ready ✨",
+      "coach": "Testimonials done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-intent-faq",
+    "input": "add a faq sectn",
+    "atom": "INTENT",
+    "section": "faq",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted faq copy"
+        }
+      ],
+      "summary": "Changed faq section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated faq.",
+      "fun": "Locked in! Faq got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→faq @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your faq is ready ✨",
+      "coach": "Faq done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-intent-value-props",
+    "input": "add a value-prop sectn",
+    "atom": "INTENT",
+    "section": "value-props",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted value-props copy"
+        }
+      ],
+      "summary": "Changed value-props section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated value-props.",
+      "fun": "Locked in! Value-Props got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→value-props @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your value-props is ready ✨",
+      "coach": "Value-Props done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-intent-gallery",
+    "input": "add a galler sectn",
+    "atom": "INTENT",
+    "section": "gallery",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted gallery copy"
+        }
+      ],
+      "summary": "Changed gallery section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated gallery.",
+      "fun": "Locked in! Gallery got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→gallery @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your gallery is ready ✨",
+      "coach": "Gallery done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-intent-team",
+    "input": "add a team sectn",
+    "atom": "INTENT",
+    "section": "team",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted team copy"
+        }
+      ],
+      "summary": "Changed team section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated team.",
+      "fun": "Locked in! Team got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→team @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your team is ready ✨",
+      "coach": "Team done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-intent-blog",
+    "input": "add a blog sectn",
+    "atom": "INTENT",
+    "section": "blog",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted blog copy"
+        }
+      ],
+      "summary": "Changed blog section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated blog.",
+      "fun": "Locked in! Blog got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→blog @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your blog is ready ✨",
+      "coach": "Blog done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-intent-footer",
+    "input": "add a foote sectn",
+    "atom": "INTENT",
+    "section": "footer",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted footer copy"
+        }
+      ],
+      "summary": "Changed footer section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated footer.",
+      "fun": "Locked in! Footer got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→footer @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your footer is ready ✨",
+      "coach": "Footer done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-intent-action",
+    "input": "add a actio sectn",
+    "atom": "INTENT",
+    "section": "action",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted action copy"
+        }
+      ],
+      "summary": "Changed action section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated action.",
+      "fun": "Locked in! Action got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→action @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your action is ready ✨",
+      "coach": "Action done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-intent-quotes",
+    "input": "add a quote sectn",
+    "atom": "INTENT",
+    "section": "quotes",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted quotes copy"
+        }
+      ],
+      "summary": "Changed quotes section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated quotes.",
+      "fun": "Locked in! Quotes got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→quotes @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your quotes is ready ✨",
+      "coach": "Quotes done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-intent-numbers",
+    "input": "add a number sectn",
+    "atom": "INTENT",
+    "section": "numbers",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted numbers copy"
+        }
+      ],
+      "summary": "Changed numbers section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated numbers.",
+      "fun": "Locked in! Numbers got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→numbers @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your numbers is ready ✨",
+      "coach": "Numbers done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-intent-columns",
+    "input": "add a column sectn",
+    "atom": "INTENT",
+    "section": "columns",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted columns copy"
+        }
+      ],
+      "summary": "Changed columns section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated columns.",
+      "fun": "Locked in! Columns got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→columns @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your columns is ready ✨",
+      "coach": "Columns done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-intent-logos",
+    "input": "add a logo sectn",
+    "atom": "INTENT",
+    "section": "logos",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted logos copy"
+        }
+      ],
+      "summary": "Changed logos section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated logos.",
+      "fun": "Locked in! Logos got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→logos @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your logos is ready ✨",
+      "coach": "Logos done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-selection-hero",
+    "input": "make the hero feel more like Linear",
+    "atom": "SELECTION",
+    "section": "hero",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted hero copy"
+        }
+      ],
+      "summary": "Changed hero section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated hero.",
+      "fun": "Locked in! Hero got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→hero @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your hero is ready ✨",
+      "coach": "Hero done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-selection-features",
+    "input": "make the features feel more like Linear",
+    "atom": "SELECTION",
+    "section": "features",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted features copy"
+        }
+      ],
+      "summary": "Changed features section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated features.",
+      "fun": "Locked in! Features got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→features @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your features is ready ✨",
+      "coach": "Features done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-selection-pricing",
+    "input": "make the pricing feel more like Linear",
+    "atom": "SELECTION",
+    "section": "pricing",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted pricing copy"
+        }
+      ],
+      "summary": "Changed pricing section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated pricing.",
+      "fun": "Locked in! Pricing got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→pricing @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your pricing is ready ✨",
+      "coach": "Pricing done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-selection-cta",
+    "input": "make the cta feel more like Linear",
+    "atom": "SELECTION",
+    "section": "cta",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted cta copy"
+        }
+      ],
+      "summary": "Changed cta section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated cta.",
+      "fun": "Locked in! Cta got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→cta @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your cta is ready ✨",
+      "coach": "Cta done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-selection-testimonials",
+    "input": "make the testimonials feel more like Linear",
+    "atom": "SELECTION",
+    "section": "testimonials",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted testimonials copy"
+        }
+      ],
+      "summary": "Changed testimonials section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated testimonials.",
+      "fun": "Locked in! Testimonials got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→testimonials @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your testimonials is ready ✨",
+      "coach": "Testimonials done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-selection-faq",
+    "input": "make the faq feel more like Linear",
+    "atom": "SELECTION",
+    "section": "faq",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted faq copy"
+        }
+      ],
+      "summary": "Changed faq section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated faq.",
+      "fun": "Locked in! Faq got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→faq @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your faq is ready ✨",
+      "coach": "Faq done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-selection-value-props",
+    "input": "make the value-props feel more like Linear",
+    "atom": "SELECTION",
+    "section": "value-props",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted value-props copy"
+        }
+      ],
+      "summary": "Changed value-props section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated value-props.",
+      "fun": "Locked in! Value-Props got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→value-props @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your value-props is ready ✨",
+      "coach": "Value-Props done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-selection-gallery",
+    "input": "make the gallery feel more like Linear",
+    "atom": "SELECTION",
+    "section": "gallery",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted gallery copy"
+        }
+      ],
+      "summary": "Changed gallery section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated gallery.",
+      "fun": "Locked in! Gallery got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→gallery @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your gallery is ready ✨",
+      "coach": "Gallery done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-selection-team",
+    "input": "make the team feel more like Linear",
+    "atom": "SELECTION",
+    "section": "team",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted team copy"
+        }
+      ],
+      "summary": "Changed team section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated team.",
+      "fun": "Locked in! Team got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→team @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your team is ready ✨",
+      "coach": "Team done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-selection-blog",
+    "input": "make the blog feel more like Linear",
+    "atom": "SELECTION",
+    "section": "blog",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted blog copy"
+        }
+      ],
+      "summary": "Changed blog section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated blog.",
+      "fun": "Locked in! Blog got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→blog @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your blog is ready ✨",
+      "coach": "Blog done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-selection-footer",
+    "input": "make the footer feel more like Linear",
+    "atom": "SELECTION",
+    "section": "footer",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted footer copy"
+        }
+      ],
+      "summary": "Changed footer section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated footer.",
+      "fun": "Locked in! Footer got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→footer @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your footer is ready ✨",
+      "coach": "Footer done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-selection-action",
+    "input": "make the action feel more like Linear",
+    "atom": "SELECTION",
+    "section": "action",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted action copy"
+        }
+      ],
+      "summary": "Changed action section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated action.",
+      "fun": "Locked in! Action got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→action @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your action is ready ✨",
+      "coach": "Action done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-selection-quotes",
+    "input": "make the quotes feel more like Linear",
+    "atom": "SELECTION",
+    "section": "quotes",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted quotes copy"
+        }
+      ],
+      "summary": "Changed quotes section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated quotes.",
+      "fun": "Locked in! Quotes got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→quotes @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your quotes is ready ✨",
+      "coach": "Quotes done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-selection-numbers",
+    "input": "make the numbers feel more like Linear",
+    "atom": "SELECTION",
+    "section": "numbers",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted numbers copy"
+        }
+      ],
+      "summary": "Changed numbers section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated numbers.",
+      "fun": "Locked in! Numbers got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→numbers @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your numbers is ready ✨",
+      "coach": "Numbers done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-selection-columns",
+    "input": "make the columns feel more like Linear",
+    "atom": "SELECTION",
+    "section": "columns",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted columns copy"
+        }
+      ],
+      "summary": "Changed columns section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated columns.",
+      "fun": "Locked in! Columns got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→columns @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your columns is ready ✨",
+      "coach": "Columns done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-selection-logos",
+    "input": "make the logos feel more like Linear",
+    "atom": "SELECTION",
+    "section": "logos",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted logos copy"
+        }
+      ],
+      "summary": "Changed logos section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated logos.",
+      "fun": "Locked in! Logos got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→logos @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your logos is ready ✨",
+      "coach": "Logos done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-content-hero",
+    "input": "rewrite the hero headline punchier",
+    "atom": "CONTENT",
+    "section": "hero",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted hero copy"
+        }
+      ],
+      "summary": "Changed hero section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated hero.",
+      "fun": "Locked in! Hero got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→hero @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your hero is ready ✨",
+      "coach": "Hero done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-content-features",
+    "input": "rewrite the features headline punchier",
+    "atom": "CONTENT",
+    "section": "features",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted features copy"
+        }
+      ],
+      "summary": "Changed features section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated features.",
+      "fun": "Locked in! Features got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→features @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your features is ready ✨",
+      "coach": "Features done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-content-pricing",
+    "input": "rewrite the pricing headline punchier",
+    "atom": "CONTENT",
+    "section": "pricing",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted pricing copy"
+        }
+      ],
+      "summary": "Changed pricing section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated pricing.",
+      "fun": "Locked in! Pricing got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→pricing @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your pricing is ready ✨",
+      "coach": "Pricing done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-content-cta",
+    "input": "rewrite the cta headline punchier",
+    "atom": "CONTENT",
+    "section": "cta",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted cta copy"
+        }
+      ],
+      "summary": "Changed cta section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated cta.",
+      "fun": "Locked in! Cta got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→cta @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your cta is ready ✨",
+      "coach": "Cta done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-content-testimonials",
+    "input": "rewrite the testimonials headline punchier",
+    "atom": "CONTENT",
+    "section": "testimonials",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted testimonials copy"
+        }
+      ],
+      "summary": "Changed testimonials section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated testimonials.",
+      "fun": "Locked in! Testimonials got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→testimonials @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your testimonials is ready ✨",
+      "coach": "Testimonials done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-content-faq",
+    "input": "rewrite the faq headline punchier",
+    "atom": "CONTENT",
+    "section": "faq",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted faq copy"
+        }
+      ],
+      "summary": "Changed faq section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated faq.",
+      "fun": "Locked in! Faq got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→faq @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your faq is ready ✨",
+      "coach": "Faq done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-content-value-props",
+    "input": "rewrite the value-props headline punchier",
+    "atom": "CONTENT",
+    "section": "value-props",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted value-props copy"
+        }
+      ],
+      "summary": "Changed value-props section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated value-props.",
+      "fun": "Locked in! Value-Props got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→value-props @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your value-props is ready ✨",
+      "coach": "Value-Props done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-content-gallery",
+    "input": "rewrite the gallery headline punchier",
+    "atom": "CONTENT",
+    "section": "gallery",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted gallery copy"
+        }
+      ],
+      "summary": "Changed gallery section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated gallery.",
+      "fun": "Locked in! Gallery got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→gallery @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your gallery is ready ✨",
+      "coach": "Gallery done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-content-team",
+    "input": "rewrite the team headline punchier",
+    "atom": "CONTENT",
+    "section": "team",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted team copy"
+        }
+      ],
+      "summary": "Changed team section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated team.",
+      "fun": "Locked in! Team got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→team @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your team is ready ✨",
+      "coach": "Team done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-content-blog",
+    "input": "rewrite the blog headline punchier",
+    "atom": "CONTENT",
+    "section": "blog",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted blog copy"
+        }
+      ],
+      "summary": "Changed blog section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated blog.",
+      "fun": "Locked in! Blog got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→blog @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your blog is ready ✨",
+      "coach": "Blog done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-content-footer",
+    "input": "rewrite the footer headline punchier",
+    "atom": "CONTENT",
+    "section": "footer",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted footer copy"
+        }
+      ],
+      "summary": "Changed footer section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated footer.",
+      "fun": "Locked in! Footer got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→footer @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your footer is ready ✨",
+      "coach": "Footer done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-content-action",
+    "input": "rewrite the action headline punchier",
+    "atom": "CONTENT",
+    "section": "action",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted action copy"
+        }
+      ],
+      "summary": "Changed action section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated action.",
+      "fun": "Locked in! Action got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→action @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your action is ready ✨",
+      "coach": "Action done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-content-quotes",
+    "input": "rewrite the quotes headline punchier",
+    "atom": "CONTENT",
+    "section": "quotes",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted quotes copy"
+        }
+      ],
+      "summary": "Changed quotes section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated quotes.",
+      "fun": "Locked in! Quotes got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→quotes @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your quotes is ready ✨",
+      "coach": "Quotes done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-content-numbers",
+    "input": "rewrite the numbers headline punchier",
+    "atom": "CONTENT",
+    "section": "numbers",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted numbers copy"
+        }
+      ],
+      "summary": "Changed numbers section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated numbers.",
+      "fun": "Locked in! Numbers got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→numbers @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your numbers is ready ✨",
+      "coach": "Numbers done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-content-columns",
+    "input": "rewrite the columns headline punchier",
+    "atom": "CONTENT",
+    "section": "columns",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted columns copy"
+        }
+      ],
+      "summary": "Changed columns section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated columns.",
+      "fun": "Locked in! Columns got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→columns @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your columns is ready ✨",
+      "coach": "Columns done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-content-logos",
+    "input": "rewrite the logos headline punchier",
+    "atom": "CONTENT",
+    "section": "logos",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted logos copy"
+        }
+      ],
+      "summary": "Changed logos section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated logos.",
+      "fun": "Locked in! Logos got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→logos @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your logos is ready ✨",
+      "coach": "Logos done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-assumptions-hero",
+    "input": "make the hero pop",
+    "atom": "ASSUMPTIONS",
+    "section": "hero",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted hero copy"
+        }
+      ],
+      "summary": "Changed hero section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated hero.",
+      "fun": "Locked in! Hero got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→hero @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your hero is ready ✨",
+      "coach": "Hero done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-assumptions-features",
+    "input": "make the features pop",
+    "atom": "ASSUMPTIONS",
+    "section": "features",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted features copy"
+        }
+      ],
+      "summary": "Changed features section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated features.",
+      "fun": "Locked in! Features got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→features @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your features is ready ✨",
+      "coach": "Features done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-assumptions-pricing",
+    "input": "make the pricing pop",
+    "atom": "ASSUMPTIONS",
+    "section": "pricing",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted pricing copy"
+        }
+      ],
+      "summary": "Changed pricing section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated pricing.",
+      "fun": "Locked in! Pricing got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→pricing @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your pricing is ready ✨",
+      "coach": "Pricing done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-assumptions-cta",
+    "input": "make the cta pop",
+    "atom": "ASSUMPTIONS",
+    "section": "cta",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted cta copy"
+        }
+      ],
+      "summary": "Changed cta section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated cta.",
+      "fun": "Locked in! Cta got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→cta @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your cta is ready ✨",
+      "coach": "Cta done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-assumptions-testimonials",
+    "input": "make the testimonials pop",
+    "atom": "ASSUMPTIONS",
+    "section": "testimonials",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted testimonials copy"
+        }
+      ],
+      "summary": "Changed testimonials section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated testimonials.",
+      "fun": "Locked in! Testimonials got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→testimonials @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your testimonials is ready ✨",
+      "coach": "Testimonials done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-assumptions-faq",
+    "input": "make the faq pop",
+    "atom": "ASSUMPTIONS",
+    "section": "faq",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted faq copy"
+        }
+      ],
+      "summary": "Changed faq section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated faq.",
+      "fun": "Locked in! Faq got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→faq @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your faq is ready ✨",
+      "coach": "Faq done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-assumptions-value-props",
+    "input": "make the value-props pop",
+    "atom": "ASSUMPTIONS",
+    "section": "value-props",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted value-props copy"
+        }
+      ],
+      "summary": "Changed value-props section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated value-props.",
+      "fun": "Locked in! Value-Props got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→value-props @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your value-props is ready ✨",
+      "coach": "Value-Props done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-assumptions-gallery",
+    "input": "make the gallery pop",
+    "atom": "ASSUMPTIONS",
+    "section": "gallery",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted gallery copy"
+        }
+      ],
+      "summary": "Changed gallery section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated gallery.",
+      "fun": "Locked in! Gallery got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→gallery @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your gallery is ready ✨",
+      "coach": "Gallery done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-assumptions-team",
+    "input": "make the team pop",
+    "atom": "ASSUMPTIONS",
+    "section": "team",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted team copy"
+        }
+      ],
+      "summary": "Changed team section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated team.",
+      "fun": "Locked in! Team got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→team @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your team is ready ✨",
+      "coach": "Team done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-assumptions-blog",
+    "input": "make the blog pop",
+    "atom": "ASSUMPTIONS",
+    "section": "blog",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted blog copy"
+        }
+      ],
+      "summary": "Changed blog section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated blog.",
+      "fun": "Locked in! Blog got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→blog @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your blog is ready ✨",
+      "coach": "Blog done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-assumptions-footer",
+    "input": "make the footer pop",
+    "atom": "ASSUMPTIONS",
+    "section": "footer",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted footer copy"
+        }
+      ],
+      "summary": "Changed footer section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated footer.",
+      "fun": "Locked in! Footer got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→footer @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your footer is ready ✨",
+      "coach": "Footer done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-assumptions-action",
+    "input": "make the action pop",
+    "atom": "ASSUMPTIONS",
+    "section": "action",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted action copy"
+        }
+      ],
+      "summary": "Changed action section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated action.",
+      "fun": "Locked in! Action got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→action @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your action is ready ✨",
+      "coach": "Action done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-assumptions-quotes",
+    "input": "make the quotes pop",
+    "atom": "ASSUMPTIONS",
+    "section": "quotes",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted quotes copy"
+        }
+      ],
+      "summary": "Changed quotes section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated quotes.",
+      "fun": "Locked in! Quotes got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→quotes @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your quotes is ready ✨",
+      "coach": "Quotes done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-assumptions-numbers",
+    "input": "make the numbers pop",
+    "atom": "ASSUMPTIONS",
+    "section": "numbers",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted numbers copy"
+        }
+      ],
+      "summary": "Changed numbers section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated numbers.",
+      "fun": "Locked in! Numbers got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→numbers @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your numbers is ready ✨",
+      "coach": "Numbers done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-assumptions-columns",
+    "input": "make the columns pop",
+    "atom": "ASSUMPTIONS",
+    "section": "columns",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted columns copy"
+        }
+      ],
+      "summary": "Changed columns section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated columns.",
+      "fun": "Locked in! Columns got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→columns @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your columns is ready ✨",
+      "coach": "Columns done. Next: ship it."
+    }
+  },
+  {
+    "id": "llm-assumptions-logos",
+    "input": "make the logos pop",
+    "atom": "ASSUMPTIONS",
+    "section": "logos",
+    "agentProxyResponse": {
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/0/components/0/props/text",
+          "value": "Crafted logos copy"
+        }
+      ],
+      "summary": "Changed logos section."
+    },
+    "expectedPatch": {
+      "op": "replace",
+      "path": "/sections/0/components/0/props/text",
+      "valueType": "string"
+    },
+    "expectedPersonalityMessage": {
+      "professional": "Updated logos.",
+      "fun": "Locked in! Logos got the glow-up. 🎉",
+      "geek": "[Ω→change Σ→logos @ 0.92] · 1 patch applied",
+      "teacher": "Great choice! Your logos is ready ✨",
+      "coach": "Logos done. Next: ship it."
+    }
+  }
+]
