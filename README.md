@@ -280,10 +280,20 @@ hey-bradley/
 | **L4** | Local Persistence (sql.js + IndexedDB; cross-tab Web Locks; `.heybradley` exports) | ✅ Sealed (P16) |
 | **L5** | LLM Chat — text → JSON patches; 5-provider matrix (Claude / Gemini / OpenRouter / Simulated / AgentProxy mock); BYOK; cost cap; audit log | ✅ Sealed (P17-P18b) |
 | **L6** | Voice Mode (Web Speech STT, push-to-talk, voice → same chat pipeline) | ✅ Sealed (P19) |
-| **L7** | Enterprise Specs + MVP Close (cost-cap pill, Vercel deploy, persona reviews, SECURITY.md) | 🔄 In Flight (P20) |
-| **Sprint B** | Simple Chat (natural language input, 2-3 real templates, section targeting, intent translation) | 📅 P21-P23 |
-| **Sprint C** | AISP Chat (instruction layer, intent pipeline, 2-step template selection) | 📅 P24-P26 |
-| **Sprint D-K** | Templates + Content / Clarification / Listen Enhancement / Interview / Post-MVP / Builder / Agentic / Release | 📅 P27-P55 (post-capstone) |
+| **L7** | Enterprise Specs + MVP Close (cost-cap pill, Vercel deploy, persona reviews, SECURITY.md) | ✅ Sealed (P20) |
+| **Sprint B** | Simple Chat (natural language input, real templates, section targeting, intent translation) | ✅ Sealed (P23-P25) |
+| **Sprint C** | AISP Chat (instruction layer, intent pipeline, 2-step template selection) | ✅ Sealed (P26-P28) |
+| **Sprint D** | Templates + Content (5-phase content arc; 4-atom AISP architecture) | ✅ Sealed (P29-P33) |
+| **Sprint E** | Clarification & Assumptions (Assumptions Engine + ASSUMPTIONS_ATOM + EXPERT trace pane) | ✅ Sealed (P34-P35) |
+| **Sprint F** | Listen + AISP Unification + Command Triggers + Route Split | ✅ Sealed (P36-P38) |
+| **Sprint H** | Brand Context Upload + Codebase Reference Ingestion + Reference Management | ✅ Sealed (P44-P46) |
+| **Sprint I** | Builder UX Enhancement + Quick-add picker + Mobile polish | ✅ Sealed (P47-P49) |
+| **Sprint J** | Personality + Mobile UX overhaul + Conversation Log + Share Spec | ✅ Sealed (P50-P53; system-wide composite 89.75) |
+| **Sprint K** | Make The Speed Visible — latency capture + UI badge (moat priority #1) | ✅ Sealed (P54) |
+| **Sprint L** | Make The Spec Unmissable — AISP always-on + spec primary tab + auto-open (moat priority #2) | ✅ Sealed (P55) |
+| **Sprint M** | Premium Templates — 3-5 strongly opinionated templates (moat priority #3) | 📅 NEXT (P56) |
+| **Sprint N-O** | Shareable Output (post-defense) + Open Core RC (post-defense) | 📅 P57-P58 |
+| **Deferred to commercial** | Sprint G (Interview), original Sprint J (Agentic Support), Tier-2 SaaS-dashboard, learning-flywheel | 📅 post-launch |
 
 ---
 
