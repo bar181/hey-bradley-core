@@ -6,9 +6,15 @@ import { useUIStore } from '@/store/uiStore'
 import { useIntelligenceStore } from '@/store/intelligenceStore'
 import { THEME_REGISTRY } from '@/data/themes/index'
 import { EXAMPLE_SITES } from '@/data/examples'
+// Sprint J P50 (A5) — first-run personality step. Reuses A4's picker; the
+// import target lands when A4 seals. If the file is missing at tsc time the
+// build will surface a clear missing-module error pointing at A4 deliverable.
+import { PersonalityPicker } from '@/components/settings/PersonalityPicker'
+import { kvGet, kvSet, getPersonalityId } from '@/contexts/persistence/repositories/kv'
 
 const STORAGE_KEY = 'hey-bradley-project'
 const LLM_BANNER_DISMISSED_KEY = 'hb-onboarding-llm-banner-dismissed'
+const ONBOARDING_PERSONALITY_ASKED_KEY = 'onboarding_personality_asked'
 
 /** Map example names to preview screenshot filenames */
 const EXAMPLE_PREVIEW_SLUGS: Record<string, string> = {
@@ -397,6 +403,31 @@ export function Onboarding() {
   const loadProject = useProjectStore((s) => s.loadProject)
   const deleteProject = useProjectStore((s) => s.deleteProject)
   const hasKey = useIntelligenceStore((s) => s.hasKey)
+  const setPersonality = useIntelligenceStore((s) => s.setPersonality)
+
+  // Sprint J P50 (A5) — first-run personality step. Fires only when the user
+  // hasn't been asked yet (kv['onboarding_personality_asked'] !== '1') AND no
+  // explicit personality has been persisted. The default 'professional' on
+  // a fresh KV is treated as "not yet asked" per the brief.
+  const [personalityAsked, setPersonalityAsked] = useState<boolean>(true)
+  useEffect(() => {
+    try {
+      const asked = kvGet(ONBOARDING_PERSONALITY_ASKED_KEY) === '1'
+      const persisted = getPersonalityId()
+      setPersonalityAsked(asked || persisted !== null)
+    } catch {
+      // KV not ready (pre-init); skip the step rather than block onboarding.
+      setPersonalityAsked(true)
+    }
+  }, [])
+  const markPersonalityAsked = () => {
+    try { kvSet(ONBOARDING_PERSONALITY_ASKED_KEY, '1') } catch { /* swallow */ }
+    setPersonalityAsked(true)
+  }
+  const handleSkipPersonality = () => {
+    setPersonality('professional')
+    markPersonalityAsked()
+  }
   const hasSavedProject = typeof window !== 'undefined' && !!localStorage.getItem(STORAGE_KEY)
   const [activeTab, setActiveTab] = useState<'projects' | 'examples'>( projects.length > 0 ? 'projects' : 'examples')
   const [showMoreExamples, setShowMoreExamples] = useState(false)
@@ -465,6 +496,43 @@ export function Onboarding() {
     const config = useConfigStore.getState().config
     localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
     navigate('/builder')
+  }
+
+  if (!personalityAsked) {
+    return (
+      <div
+        className="min-h-screen bg-[#faf8f5] flex items-center justify-center px-6 py-10"
+        data-testid="onboarding-personality-step"
+      >
+        <div className="w-full max-w-xl bg-white rounded-2xl border border-[#e5e1dc] shadow-sm px-6 py-7">
+          <h1 className="text-xl sm:text-2xl font-bold text-[#1a1a1a] tracking-tight text-center">
+            How would you like me to talk to you?
+          </h1>
+          <p className="text-sm text-[#6b7280] mt-2 text-center">
+            Pick a voice for Bradley. You can change this anytime in Settings.
+          </p>
+          <div className="mt-5">
+            <PersonalityPicker />
+          </div>
+          <div className="mt-6 flex items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={handleSkipPersonality}
+              className="px-4 py-2 rounded-lg text-sm font-medium text-[#6b7280] hover:text-[#A51C30] transition-colors"
+            >
+              Skip — keep it professional
+            </button>
+            <button
+              type="button"
+              onClick={markPersonalityAsked}
+              className="px-5 py-2 rounded-lg bg-[#A51C30] text-white text-sm font-medium hover:bg-[#8c1515] transition-colors shadow-sm"
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (

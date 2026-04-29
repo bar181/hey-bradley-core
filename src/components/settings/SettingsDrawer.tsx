@@ -7,6 +7,7 @@ import { LLMSettings } from './LLMSettings'
 import { BrandContextUpload } from './BrandContextUpload'
 import { CodebaseContextUpload } from './CodebaseContextUpload'
 import { ReferenceManagement } from './ReferenceManagement'
+import { PersonalityPicker } from './PersonalityPicker'
 
 export function SettingsDrawer() {
   const open = useUIStore((s) => s.settingsDrawerOpen)
@@ -104,6 +105,14 @@ export function SettingsDrawer() {
 
           {/* AI (BYOK) */}
           <LLMSettings />
+
+          {/* Sprint J P51 (A4) — Personality picker (first section in drawer) */}
+          <section data-testid="settings-personality-section">
+            <h3 className="text-xs font-mono uppercase tracking-wide text-hb-text-muted mb-2">
+              Personality
+            </h3>
+            <PersonalityPicker />
+          </section>
 
           {/* P46 Sprint H Wave 3 — Reference Management summary (above upload widgets) */}
           <ReferenceManagement />

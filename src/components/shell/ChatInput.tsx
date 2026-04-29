@@ -25,8 +25,8 @@ import {
   type ClassifiedIntent,
   type LLMAssumptionsResult,
 } from '@/contexts/intelligence/aisp'
-// Sprint J P50 (A2) — type-only import (erased at runtime; safe even before A1 lands).
-import type { PersonalityId } from '@/contexts/intelligence/personality/personalityEngine'
+// Sprint J P50 (A2) type + P51 (A4) profile lookup for the active chip.
+import { PERSONALITY_PROFILES, type PersonalityId } from '@/contexts/intelligence/personality/personalityEngine'
 
 /* ── Chat examples for the dialog ── */
 const CHAT_EXAMPLE_CATEGORIES = [
@@ -157,6 +157,9 @@ export function ChatInput() {
   const adapter = useIntelligenceStore((s) => s.adapter)
   const adapterName = adapter?.name?.() ?? null
   const isSimulated = adapterName === 'simulated' || adapterName === 'mock'
+  // Sprint J P51 (A4) — active-personality chip beside the simulated pill.
+  const personalityId = useIntelligenceStore((s) => s.personalityId)
+  const personalityProfile = personalityId ? PERSONALITY_PROFILES[personalityId] : null
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -563,14 +566,26 @@ export function ChatInput() {
     <div className="flex flex-col h-full">
       {/* P19 Fix-Pass 2 (F13): simulated-mode header pill so users know they
           aren't hitting a real LLM. Pinned above the messages area. */}
-      {isSimulated && (
-        <div className="px-4 py-1.5 border-b border-hb-border/40">
-          <span
-            data-testid="chat-simulated-pill"
-            className="inline-block px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-hb-surface text-hb-text-muted border border-hb-border/40"
-          >
-            simulated mode
-          </span>
+      {(isSimulated || personalityProfile) && (
+        <div className="px-4 py-1.5 border-b border-hb-border/40 flex items-center gap-1.5">
+          {isSimulated && (
+            <span
+              data-testid="chat-simulated-pill"
+              className="inline-block px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-hb-surface text-hb-text-muted border border-hb-border/40"
+            >
+              simulated mode
+            </span>
+          )}
+          {personalityProfile && (
+            <span
+              data-testid="chat-active-personality-chip"
+              data-personality-id={personalityId ?? undefined}
+              title={`Active personality: ${personalityProfile.label}`}
+              className="inline-block px-1.5 py-0.5 rounded text-[10px] uppercase tracking-wider bg-hb-accent/10 text-hb-accent border border-hb-accent/30"
+            >
+              {personalityProfile.emoji ? `${personalityProfile.emoji} ` : ''}{personalityProfile.label.split(' ')[0]}
+            </span>
+          )}
         </div>
       )}
       {/* Chat messages — closed captioning style */}
@@ -608,16 +623,41 @@ export function ChatInput() {
             )}
             {/* Sprint J P50 (A2) — personality-rendered secondary voice layer
                 (composition; no Σ widening). Renders UNDER the typewriter
-                primary text. KISS — A5 owns per-personality styling. */}
-            {msg.role === 'bradley' && msg.personalityMessage && (
-              <div
-                data-testid="personality-message"
-                data-personality-id={msg.personalityId ?? undefined}
-                className="mt-1 text-xs text-hb-text-muted italic"
-              >
-                {msg.personalityMessage}
-              </div>
-            )}
+                primary text. Sprint J P51 (A5) — per-personality bubble styling
+                via Tailwind variants only; 5 distinct branches. */}
+            {msg.role === 'bradley' && msg.personalityMessage && (() => {
+              const pid = msg.personalityId
+              let bubbleStyleClass = ''
+              let prefix = ''
+              switch (pid) {
+                case 'fun':
+                  bubbleStyleClass = 'border-l-2 border-l-[#e8772e] pl-2'
+                  prefix = '✨ '
+                  break
+                case 'geek':
+                  bubbleStyleClass = 'font-mono text-[#1f3a5f]'
+                  break
+                case 'teacher':
+                  bubbleStyleClass = 'bg-[#fef9c3]/30 rounded px-2 py-1'
+                  break
+                case 'coach':
+                  bubbleStyleClass = 'text-[#ed8936] font-semibold'
+                  break
+                case 'professional':
+                default:
+                  bubbleStyleClass = ''
+              }
+              return (
+                <div
+                  data-testid="personality-message"
+                  data-personality-id={pid ?? undefined}
+                  data-bubble-style={pid ?? undefined}
+                  className={cn('mt-1 text-xs text-hb-text-muted italic', bubbleStyleClass)}
+                >
+                  {prefix}{msg.personalityMessage}
+                </div>
+              )
+            })()}
             {/* P34 / P35 — exactly ONE AISP surface per bradley reply.
                 R1 F2 fix-pass — in EXPERT mode the trace pane subsumes the
                 translation panel (it shows intent + template + 4 more atoms).
