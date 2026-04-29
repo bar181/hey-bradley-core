@@ -1,9 +1,9 @@
 # Hey Bradley — LLM Call Process Flow
 
 > **Status:** Living document — wiki / how-it-works guide
-> **Last verified against code:** P53 sealed (commit will be set at seal time)
-> **Cross-references:** ADR-045, ADR-053, ADR-057, ADR-060, ADR-064, ADR-065, ADR-066, ADR-067, ADR-068, ADR-069, ADR-070, ADR-071, ADR-072, ADR-073, ADR-074, ADR-075, ADR-076
-> **Contributors:** Bradley Ross + claude-flow swarm (P18 → P53)
+> **Last verified against code:** P55 (Sprint L Wave 1 — Spec Unmissable; commit will be set at seal time)
+> **Cross-references:** ADR-045, ADR-053, ADR-057, ADR-060, ADR-064, ADR-065, ADR-066, ADR-067, ADR-068, ADR-069, ADR-070, ADR-071, ADR-072, ADR-073, ADR-074, ADR-075, ADR-076, ADR-077, ADR-078
+> **Contributors:** Bradley Ross + claude-flow swarm (P18 → P55)
 
 This is the canonical end-to-end picture of how a single user input — text in chat OR voice transcript in listen mode — flows through Hey Bradley's pipeline to produce a JSON-Patch envelope. Every box on the flow chart maps to a concrete module in `src/contexts/intelligence/`.
 
@@ -392,4 +392,41 @@ appear on. The pipeline contract is unchanged; every Σ width identical.
 
 ---
 
-*This document is updated at each phase seal. Last touched: P53 seal (Sprint J Wave 4 — Mobile UX overhaul + Sprint J seal). Source: swarm summary at session-019Yz8Kvzu3u4rVaqSaLxaNq.*
+---
+
+## Sprint L — Make The Spec Unmissable (P55)
+
+Sprint L is moat priority #2 from the open-core moat roadmap — **the single
+highest-leverage move in the entire moat sequence.** Sprint J left AISP
+visibility opt-in (Geek mode only); Sprint L closes that gap so every
+reviewer-or-grandma sees the moat without prompting. None of these waves
+touch the AISP pipeline contracts. Every Σ stays exactly as it was at the
+end of Sprint J.
+
+- **P54 / ADR-077** — Sprint K Wave 1 sibling: `PatchLatencyBadge.tsx` +
+  `chatPipeline` latency capture surface "Updated in 0.8s" under every
+  bradley reply. Moat priority #1 (speed visible). Render-layer only;
+  no Σ widening.
+- **P55 / ADR-078** — `AISPTranslationPanel` always-on trace pill
+  (`aisp-trace-always-on` testid) renders the simplified DRAFT
+  "I understood: [verb] [target]" message OUTSIDE the existing
+  `{open && (...)}` collapse. EXPERT mode keeps the FULL Crystal Atom
+  inline detail (Ω/Σ/Γ/Λ/Ε + rationale). Geek personality still owns the
+  deepest classification text. Atom light-up animation is CSS-only
+  (Tailwind `transition` + `animate-pulse`); no `framer-motion`, no
+  `react-spring`. `uiStore` gains `specPanelHasAutoOpened` +
+  `markSpecAutoOpened()` + `specHasUnseenUpdate` (kv key
+  `ui_spec_panel_auto_opened`); `CenterCanvas` calls
+  `setActiveTab('XAI_DOCS')` on first successful patch (one-shot per
+  session). `TabBar` reorders so XAI_DOCS lands ABOVE DATA — spec is the
+  primary EXPERT tab. Unseen-update indicator
+  (`spec-unseen-indicator`) flips on when spec content changes since the
+  last view; clears on tab activation.
+
+These render-layer / observability moves sit on top of the Sprint C-D atom
+architecture — composition, not mutation, exactly per ADR-073. The pipeline
+contract is unchanged; default mode now carries the thesis.
+
+---
+
+*This document is updated at each phase seal. Last touched: P55 (Sprint L Wave 1 — Spec Unmissable). Source: swarm summary at session-019Yz8Kvzu3u4rVaqSaLxaNq.*

@@ -88,7 +88,9 @@ function AISPHighlighted({ text }: { text: string }) {
 // ---------------------------------------------------------------------------
 
 export function XAIDocsTab() {
-  const [activeTab, setActiveTab] = useState<TabId>('north-star')
+  // P55 Sprint L (A2) — Specifications (the human-readable AISP rendering)
+  // is the moat made legible. Default the sub-tab to it on first mount.
+  const [activeTab, setActiveTab] = useState<TabId>('human')
   const [copied, setCopied] = useState(false)
   const config = useConfigStore((s) => s.config)
   const hasSections = config.sections.some((s) => s.enabled)

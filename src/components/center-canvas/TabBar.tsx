@@ -6,6 +6,8 @@ import { Tooltip } from '../ui/Tooltip'
 
 // DRAFT mode shows only Reality + Data (read-only). EXPERT shows all.
 // See plans/implementation/mvp-plan/01-phase-15-polish-kitchen-sink.md §1.1.
+// P55 Sprint L (A2) — Blueprints (XAI_DOCS) promoted to FIRST EXPERT position
+// (right after the universal Preview tab). The spec is the moat made legible.
 const TABS: { key: ActiveTab; label: string; expert?: boolean; tip: string; title: string }[] = [
   { key: 'REALITY', label: 'Preview', tip: 'Live site preview', title: 'See your live page.' },
   { key: 'XAI_DOCS', label: 'Blueprints', expert: true, tip: 'Generated specifications', title: 'View the generated specs and plans for your site.' },
@@ -19,6 +21,8 @@ export function TabBar() {
   const activeTab = useUIStore((s) => s.activeTab)
   const setActiveTab = useUIStore((s) => s.setActiveTab)
   const rightPanelTab = useUIStore((s) => s.rightPanelTab)
+  // P55 Sprint L (A2) — accent dot when spec changed since last view.
+  const specHasUnseenUpdate = useUIStore((s) => s.specHasUnseenUpdate)
   const isExpert = rightPanelTab === 'EXPERT'
 
   const visibleTabs = TABS.filter((tab) => !tab.expert || isExpert)
@@ -54,7 +58,14 @@ export function TabBar() {
             >
               {isSpecs && <FileText size={12} />}
               {tab.label}
-              {isSpecs && !isActive && (
+              {isSpecs && !isActive && specHasUnseenUpdate && (
+                <span
+                  data-testid="spec-unseen-indicator"
+                  aria-label="Spec updated"
+                  className="ml-1 inline-block w-1.5 h-1.5 rounded-full bg-hb-accent"
+                />
+              )}
+              {isSpecs && !isActive && !specHasUnseenUpdate && (
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-hb-accent/60" />
               )}
             </button>

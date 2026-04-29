@@ -23,6 +23,7 @@
 import { useState } from 'react'
 import type { ClassifiedIntent } from '@/contexts/intelligence/aisp'
 import { kvGet } from '@/contexts/persistence/repositories/kv'
+import { AISPTraceLine } from '@/components/shell/AISPTraceLine'
 
 export interface AISPTranslationPanelProps {
   /** The classified intent for the most recent chat input. null = not classified yet. */
@@ -94,6 +95,10 @@ export function AISPTranslationPanel({
 
   return (
     <div data-testid="aisp-translation-panel" className="text-xs font-mono mt-1">
+      {/* P55 (A1 / ADR-078) — always-on SIMPLE trace pill. Sits ABOVE the
+          collapsible toggle so the AISP moat is visible without user action.
+          Renders only when intent.target locked (gates pre-classification noise). */}
+      <AISPTraceLine intent={intent} mode="simple" />
       <button
         type="button"
         data-testid="aisp-translation-toggle"

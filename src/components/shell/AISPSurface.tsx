@@ -11,6 +11,7 @@
 import { useUIStore } from '@/store/uiStore'
 import { AISPTranslationPanel } from '@/components/shell/AISPTranslationPanel'
 import { AISPPipelineTracePane } from '@/components/shell/AISPPipelineTracePane'
+import { AISPTraceLine } from '@/components/shell/AISPTraceLine'
 import type { ClassifiedIntent, Assumption } from '@/contexts/intelligence/aisp'
 
 export interface AISPSurfaceProps {
@@ -51,17 +52,23 @@ export function AISPSurface(props: AISPSurfaceProps) {
       />
     )
   }
+  // P55 (A1 / ADR-078) — EXPERT branch: always-on Crystal-Atom trace pill
+  // sits ABOVE the full pipeline pane. Same testid so a single selector works
+  // across modes. PipelineTracePane retains its own collapsible detail.
   return (
-    <AISPPipelineTracePane
-      userText={props.userText}
-      intent={props.intent}
-      intentSource={props.intentSource}
-      templateId={props.templateId}
-      assumptions={props.assumptions}
-      assumptionsSource={props.assumptionsSource}
-      generated={props.generated}
-      patches={props.patches}
-      summary={props.summary}
-    />
+    <>
+      <AISPTraceLine intent={props.intent} mode="expert" />
+      <AISPPipelineTracePane
+        userText={props.userText}
+        intent={props.intent}
+        intentSource={props.intentSource}
+        templateId={props.templateId}
+        assumptions={props.assumptions}
+        assumptionsSource={props.assumptionsSource}
+        generated={props.generated}
+        patches={props.patches}
+        summary={props.summary}
+      />
+    </>
   )
 }

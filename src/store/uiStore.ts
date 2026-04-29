@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { kvGet, kvSet } from '@/contexts/persistence/repositories/kv'
 
 export type InteractionMode = 'LISTEN' | 'BUILD'
 export type RightPanelTab = 'SIMPLE' | 'EXPERT'
@@ -57,6 +58,22 @@ function looksLikeSecret(s: string): boolean {
  */
 export type PendingMessage = { target: 'chat'; text: string }
 
+/**
+ * P55 Sprint L (A2) — spec-panel auto-open persistence key. Once the spec
+ * panel has auto-opened on a user's first patch in a project, we never
+ * auto-open it again (D3: one-shot per session). Persisted across sessions
+ * so reload doesn't re-pop the panel.
+ */
+const SPEC_PANEL_AUTO_OPENED_KEY = 'ui_spec_panel_auto_opened'
+
+function loadSpecPanelAutoOpened(): boolean {
+  try {
+    return kvGet(SPEC_PANEL_AUTO_OPENED_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
 interface UIStore {
   interactionMode: InteractionMode
   activeTab: ActiveTab
@@ -86,6 +103,18 @@ interface UIStore {
    * `pendingMessage`; this field mirrors it when target === 'chat'.
    */
   pendingChatPrefill: string | null
+  /**
+   * P55 Sprint L (A2) — true once the spec panel has auto-opened in this
+   * project. Persisted to kv['ui_spec_panel_auto_opened'] so reload doesn't
+   * re-pop. One-shot per session per D3.
+   */
+  specPanelHasAutoOpened: boolean
+  /**
+   * P55 Sprint L (A2) — true when spec content changed since the user last
+   * viewed the Blueprints (XAI_DOCS) tab. Cleared by markSpecSeen() when the
+   * user clicks into XAI_DOCS.
+   */
+  specHasUnseenUpdate: boolean
 
   setInteractionMode: (mode: InteractionMode) => void
   setActiveTab: (tab: ActiveTab) => void
@@ -115,6 +144,12 @@ interface UIStore {
   setPendingChatPrefill: (text: string | null) => void
   /** P36 — Read + clear (single-shot consumer pattern). */
   consumePendingChatPrefill: () => string | null
+  /** P55 Sprint L (A2) — flip the auto-opened flag (idempotent; persists). */
+  markSpecAutoOpened: () => void
+  /** P55 Sprint L (A2) — mark spec content as having unseen updates. */
+  markSpecChanged: () => void
+  /** P55 Sprint L (A2) — clear unseen-update indicator (called on tab click). */
+  markSpecSeen: () => void
 }
 
 /**
@@ -144,6 +179,23 @@ export const useUIStore = create<UIStore>((set, get) => ({
   settingsDrawerOpen: false,
   pendingMessage: null,
   pendingChatPrefill: null,
+  // P55 Sprint L (A2) — hydrate auto-opened flag from kv on store init.
+  // Falls back to false if kv unavailable (pre-DB boot).
+  specPanelHasAutoOpened: loadSpecPanelAutoOpened(),
+  specHasUnseenUpdate: false,
+  markSpecAutoOpened: () => {
+    if (get().specPanelHasAutoOpened) return
+    set({ specPanelHasAutoOpened: true })
+    try { kvSet(SPEC_PANEL_AUTO_OPENED_KEY, '1') } catch { /* swallow */ }
+  },
+  markSpecChanged: () => {
+    if (get().activeTab === 'XAI_DOCS') return
+    set({ specHasUnseenUpdate: true })
+  },
+  markSpecSeen: () => {
+    if (!get().specHasUnseenUpdate) return
+    set({ specHasUnseenUpdate: false })
+  },
   setPendingMessage: (msg) => {
     if (msg === null) {
       set({ pendingMessage: null, pendingChatPrefill: null })
@@ -185,7 +237,12 @@ export const useUIStore = create<UIStore>((set, get) => ({
   setDesignLocked: (locked) => set({ designLocked: locked }),
   setBrandLocked: (locked) => set({ brandLocked: locked }),
   toggleSettingsDrawer: () => set((state) => ({ settingsDrawerOpen: !state.settingsDrawerOpen })),
-  setActiveTab: (tab) => set({ activeTab: tab }),
+  setActiveTab: (tab) =>
+    set((state) => ({
+      activeTab: tab,
+      // P55 Sprint L (A2) — clicking into the spec tab clears the unseen badge.
+      specHasUnseenUpdate: tab === 'XAI_DOCS' ? false : state.specHasUnseenUpdate,
+    })),
   setRightPanelTab: (tab) => set({ rightPanelTab: tab }),
   setLeftPanelTab: (tab) => set({ leftPanelTab: tab }),
   setSelectedContext: (ctx) =>
