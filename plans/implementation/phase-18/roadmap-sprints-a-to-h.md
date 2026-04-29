@@ -102,13 +102,38 @@
 - **P51:** Hard architecture problem solver.
 - **P52:** Multi-level agentic engineer support.
 
-## Sprint K — Release / Open-core RC (P53-P55)
+## Sprint K — Make The Speed Visible (P54)
 
-> **Note:** Previously listed as "K — final" (no range). Owner now sets 3 phases P53-P55.
+> **Reframed 2026-04-29 post Sprint J seal.** Original Sprint K (P54-P56 "Release / OSS RC") replaced by the moat-first sequence below. Canonical ratification: `plans/strategic-reviews/open-core-moat-roadmap.md`.
 
-- **P53:** Performance + error handling — loading states, graceful LLM failures, retry logic, cost guard rails.
-- **P54:** Final persona scoring pass — Grandma, Framer, Capstone re-scored against full feature set.
-- **P55:** Open-core RC — public repo cleanup, README, CLAUDE.md final, license, contribution guide.
+- **P54:** Latency capture + UI badge + benchmark mode (moat priority #1: speed visible).
+
+## Sprint L — Make The Spec Unmissable (P55) — most important
+
+- **P55:** AISP always-on trace + atom animations + spec primary tab (moat priority #2: spec unmissable). The single highest-leverage phase in the moat roadmap.
+
+## Sprint M — Premium Templates (P56)
+
+- **P56:** 3-5 strongly opinionated templates + premium typography/color/image discipline (moat priority #3: premium output).
+
+## Sprint N — Shareable Output (P57; post-defense)
+
+- **P57:** Static HTML export + hosted spec URL (Vercel KV / Supabase fallback) + "Built with Hey Bradley" attribution (moat priority #4: shareable artifact).
+
+## Sprint O — Open Core RC (P58; post-defense)
+
+- **P58:** README/CLAUDE final accuracy pass + demo video (Hey Bradley vs Lovable side-by-side) + Agentics Foundation beta + public `v1.0.0-RC1` release.
+
+### Original P54-P56 (deferred)
+
+The original Sprint K "Release / OSS RC" plan (performance/error-handling polish + persona re-score + public repo cleanup) is deferred. The polish-layer scope was largely subsumed by P19-P37 fix-passes; the persona re-score moves to inside each new K-O phase; the public repo cleanup folds into Sprint O. Specifically deferred to commercial track:
+
+- **Sprint G (P41-P44 Interview Mode)** — voice-led question loop. Excellent feature, not the moat.
+- **Sprint H (P45-P47 Upload + References)** — style-guide upload + reference codebase ingestion. Tier-2 territory.
+- **Sprint I remainder (P48-P50 builder polish)** — non-moat polish-layer work.
+- **Original Sprint J (Agentic Support System P50-P52)** — Sprint J was repurposed mid-arc into personality + mobile + share + log layer (P50-P53 actual). Agentic Support belongs in research / commercial.
+
+These remain on the long-arc plan but ship behind the moat, not before it.
 
 ---
 
@@ -125,8 +150,12 @@
 | **P40-43** | Interview mode (LLM leads the conversation) |
 | **P44-46** | Post-MVP Upload + References |
 | **P47-49** | Builder Enhancement |
-| **P50-52** | Agentic Support System |
-| **P53-55** | Ship it (Open-core RC) |
+| **P50-53** | Sprint J (actual) — Personality + Mobile + Share + Log (sealed `644200a`) |
+| **P54** | Sprint K — Make The Speed Visible (moat priority #1) |
+| **P55** | Sprint L — Make The Spec Unmissable (moat priority #2; most important) |
+| **P56** | Sprint M — Premium Templates (moat priority #3) |
+| **P57** | Sprint N — Shareable Output (moat priority #4; post-defense) |
+| **P58** | Sprint O — Open Core RC (public release; post-defense) |
 
 ---
 

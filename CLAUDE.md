@@ -64,7 +64,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 
 ## Project Status
 
-- **Current Phase:** Phase 37 SEALED at 91/100 estimated post-fix-pass — Sprint F P2 shipped Command Triggers (`parseCommand` + 8 CommandKinds incl. `template-help`) + Content/Design Route Split (`classifyRoute` runs unconditionally) + ListenTab split 947→84 LOC + R1+R2 carryforward closure. **All 5 P36 carryforward items closed (R1 L3, R2 S1/S2/S3/S4/S5).** 3-reviewer brutal review (R1 UX 87 / R2 Sec 86 / R3 Arch 92) all PASS; 7 fix-pass items applied. Cumulative regression: 408/408 PURE-UNIT GREEN. example_prompts seed expanded 18→43; 35/35 prompt coverage gate met. ADR-066 full Accepted. Phase 38 NEXT (Sprint F P3 — sprint close + 4-reviewer end-of-sprint review + presentation readiness gate).
+- **Current Phase:** Sprint J SEALED at `644200a` (system-wide composite 89.75 PASS; capstone-ready 92/100). Sprint J shipped Personality + Mobile + Share + Log (P50-P53). System-wide review at `ef9a421` (`plans/strategic-reviews/2026-04-29-sprint-j-system-wide/`). 2026-04-29 strategic reframe: original Sprint K "Release / OSS RC" REPLACED by moat-first sequence per `plans/strategic-reviews/open-core-moat-roadmap.md` — K=P54 Speed Visible / L=P55 Spec Unmissable (most important) / M=P56 Premium Templates / N=P57 Shareable Output (post-defense) / O=P58 Open Core RC (post-defense). **Phase 54 (Sprint K) is NEXT** — latency capture + UI badge + benchmark mode (moat priority #1). Sprints G/H/I-remainder/original-J-Agentic-Support deferred to commercial track. Capstone defense ~8 days out.
 - **Codebase:** ~63K total lines (TS/TSX/JSON/MD, excl. node_modules); ~28,400 lines TS/TSX across 227 source files
 - **Themes:** 12 (agency, blog, creative, elegant, minimalist, neon, personal, portfolio, professional, saas, startup, wellness)
 - **Examples:** 17 (adds blog-standard + capstone to the original 15)
@@ -114,16 +114,16 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 | P35 | Sprint E P2 — ASSUMPTIONS_ATOM Crystal Atom + LLM lift + EXPERT trace pane + BYOK matrix completion (OpenAI added; ADR-064) | CLOSED 96/100 estimated (Grandma 79 / Framer 91 / Capstone 99); **5-atom AISP in production**; 211/211 tests GREEN |
 | P36 | Sprint F P1 — Listen + AISP Unification (review-first voice UX; ListenReviewCard + ListenClarificationCard + listenActionPreview; ADR-065) | CLOSED 96/100 estimated (Grandma 81 / Framer 89 / Capstone 99); 255/255 tests GREEN; 31/35 prompt coverage |
 | P37 | Sprint F P2 — Command Triggers + Content/Design Route Split + ListenTab refactor + carryforward closure (ADR-066) | CLOSED 91/100 estimated post-fix-pass (Grandma 82 / Framer 90 / Capstone 99); 408/408 tests GREEN; 35/35 prompt coverage; ListenTab 947→84 LOC |
-| P38 | Sprint F P3 — Sprint close + 4-reviewer end-of-sprint brutal review + presentation readiness gate | NEXT |
-| P32 | Sprint D P4 — Multi-section Content Pipeline (style-aware tone/voice; ADR-061) | PLANNED |
-| P33 | Sprint D P5 — Content + Template Bridge (AISPTranslationPanel ChatInput integration; ADR-062) | PLANNED |
-| P34-P37 | Sprint E — Clarification & Assumptions (4 phases) | POST-CAPSTONE |
-| P38-P40 | Sprint F — Listen Mode Enhancement (compressed 4→3) | POST-CAPSTONE |
-| P41-P44 | Sprint G — Interview Mode (4 phases) | POST-CAPSTONE |
-| P45-P47 | Sprint H — Upload + References (3 phases) | POST-CAPSTONE |
-| P48-P50 | Sprint I — Builder Enhancement (3 phases) | POST-CAPSTONE |
-| P51-P53 | Sprint J — Agentic Support System (3 phases) | POST-CAPSTONE |
-| P54-P56 | Sprint K — Release / OSS RC (3 phases) | POST-CAPSTONE |
+| P50 | Sprint J P1 — Personality Engine + Composition (no Σ widening; ADR-073) | CLOSED — Sprint J Wave 1 |
+| P51 | Sprint J P2 — Personality Picker UI + Onboarding step + 5 bubble styles (ADR-074) | CLOSED — Sprint J Wave 2 |
+| P52 | Sprint J P3 — Conversation Log EXPERT tab + Share Spec clipboard (ADR-075) | CLOSED — Sprint J Wave 3 |
+| P53 | Sprint J P4 — Mobile UX overhaul (3-tab nav + hamburger; ADR-076) + **Sprint J SEAL** | CLOSED at `644200a` — system-wide composite 89.75 PASS |
+| P54 | **Sprint K — Make The Speed Visible** (latency capture + UI badge; moat priority #1; ADR-077) | NEXT (planned) |
+| P55 | **Sprint L — Make The Spec Unmissable** (AISP always-on + atom animations + spec primary tab; moat priority #2 — most important; ADR-078) | PLANNED |
+| P56 | **Sprint M — Premium Templates** (3-5 strongly opinionated templates + design discipline; moat priority #3; ADR-079) | PLANNED |
+| P57 | **Sprint N — Shareable Output** (static HTML export + hosted spec URL; moat priority #4; ADR-080 supersedes ADR-075) | PLANNED — post-defense |
+| P58 | **Sprint O — Open Core RC** (README/CLAUDE final + demo video + Agentics Foundation beta + `v1.0.0-RC1` public release; ADR-081) | PLANNED — post-defense |
+| (deferred) | Sprint G (Interview), Sprint H (Upload+Refs), Sprint I remainder, original Sprint J (Agentic Support System), Tier-2 SaaS-dashboard flagship, learning-flywheel runtime | DEFERRED to commercial track per `plans/strategic-reviews/open-core-moat-roadmap.md` |
 
 ## AISP (AI Symbolic Protocol) 
 see full details in /workspaces/hey-bradley-core/plans/initial-plans/00.aisp-reference.md 
