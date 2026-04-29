@@ -6,6 +6,7 @@ import { get as idbGet, set as idbSet } from 'idb-keyval';
 import type { Database, SqlJsStatic } from 'sql.js';
 import { runMigrations } from './migrations';
 import { pruneOldLLMLogs, pruneLLMLogsByCount } from './repositories/llmLogs';
+import { seedPromptLibraryFromFiles } from './repositories/promptLibrary';
 
 // FIX 7 (Phase 18b): default 30-day retention for llm_logs forensic table.
 // ADR-047 §Retention now states this is enforced (was "documented for future
@@ -95,6 +96,13 @@ export async function initDB(): Promise<Database> {
       pruneLLMLogsByCount(10_000);
     } catch (e) {
       if (import.meta.env.DEV) console.warn('[persistence] llm_logs prune failed', e);
+    }
+    // P59 — seed the prompt-library corpus from tests/prompts/*.json. Idempotent
+    // via ON CONFLICT(slug) DO UPDATE; failures are non-fatal so init never blocks.
+    try {
+      void seedPromptLibraryFromFiles();
+    } catch (e) {
+      if (import.meta.env.DEV) console.warn('[persistence] prompt_library seed failed', e);
     }
     // Re-register the BroadcastChannel listener on every fresh init so peers
     // continue to invalidate this tab after closeDB() / import flows.

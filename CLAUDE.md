@@ -79,7 +79,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 - **Capabilities:** Multi-page support, ZIP export, blog section type, AISP Crystal Atom output, real LLM adapters (Claude/Gemini/OpenRouter), Web-Speech STT (PTT)
 - **ADRs:** 81 Accepted on disk through ADR-081 (Shareable Output / supersedes ADR-075, P57 W2). Range ADR-045 through ADR-081. Numbering has 11 documented gaps (002-004, 006-009, 034-037) plus 3 stub-then-superseded duplicates (ADR-051/052/053 each have a P21 stub + a later Accepted file under the same number; see `docs/adr/README.md`).
 - **Deferred Features:** 34 documented in plans/deferred-features.md; 20 P20 carryforward items in plans/implementation/phase-19/deep-dive/05-fix-pass-plan.md §5
-- **Tests:** Cumulative 298/298 PURE-UNIT GREEN at Sprint N seal (`c00c2b7`). Full corpus is 846 tests across 73 spec files (includes legacy + skipped suites); 298 is the curated PURE-UNIT seal-gate cumulative-regression subset enforced by Sprint K/L/M/N preflights.
+- **Tests:** Cumulative ~365/365 PURE-UNIT GREEN target at P59 seal (298 Sprint N baseline at `c00c2b7` + ~17 P58 RC additions + ~50 P59 prompt-library cases per ADR-083). Full corpus is 846+ tests across 73+ spec files (includes legacy + skipped suites); ~365 is the curated PURE-UNIT seal-gate cumulative-regression subset enforced by Sprint K/L/M/N preflights and extended by P59.
 - **Ruvector Memory:** 95 entries populated (38 phases + 37 ADRs + 5 decisions + 6 learnings + 9 prior); HNSW re-index pending → deferred to commercial Tier-2 learning runtime.
 
 ### Open-Core Moat Priorities
