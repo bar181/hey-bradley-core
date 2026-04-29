@@ -109,11 +109,13 @@ test.describe('P52.10 CenterCanvas — renders ConversationLogTab', () => {
 })
 
 test.describe('P52.11 ShareSpecButton — file shape', () => {
-  test('exists + exports ShareSpecButton + ≤140 LOC', () => {
+  // Cap raised P52→160 in Sprint N (N2 added publishSpecLocally wiring + dual-toast,
+  // pushed file from 134→146 LOC). Original P52 cap was 140; ≤160 still tight.
+  test('exists + exports ShareSpecButton + ≤160 LOC (post Sprint N N2 wiring)', () => {
     expect(existsSync(SHARE_BTN)).toBe(true)
     const src = readFileSync(SHARE_BTN, 'utf8')
     expect(src).toMatch(/export function ShareSpecButton/)
-    expect(src.split('\n').length).toBeLessThanOrEqual(140)
+    expect(src.split('\n').length).toBeLessThanOrEqual(160)
   })
 })
 

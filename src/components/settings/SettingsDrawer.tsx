@@ -8,6 +8,7 @@ import { BrandContextUpload } from './BrandContextUpload'
 import { CodebaseContextUpload } from './CodebaseContextUpload'
 import { ReferenceManagement } from './ReferenceManagement'
 import { PersonalityPicker } from './PersonalityPicker'
+import { AttributionToggle } from './AttributionToggle'
 
 export function SettingsDrawer() {
   const open = useUIStore((s) => s.settingsDrawerOpen)
@@ -122,6 +123,9 @@ export function SettingsDrawer() {
 
           {/* P45 Sprint H Wave 2 — Codebase Context upload (ZIP / multi-file) */}
           <CodebaseContextUpload />
+
+          {/* Sprint N P57 Wave 2 (Agent N3) — Attribution toggle */}
+          <AttributionToggle />
 
           {/* Cost cap */}
           <section>

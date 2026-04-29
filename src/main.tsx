@@ -14,6 +14,7 @@ import { BYOK } from '@/pages/BYOK'
 import { Blog } from '@/pages/Blog'
 import { BlogPost } from '@/pages/BlogPost'
 import { Progress } from '@/pages/Progress'
+import { SharedSpec } from '@/pages/SharedSpec'
 import { NotFound } from '@/pages/NotFound'
 import { initDB } from '@/contexts/persistence/db'
 import { migrateLegacyLocalStorage } from '@/contexts/persistence/legacyMigration'
@@ -66,6 +67,7 @@ initDB()
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/progress" element={<Progress />} />
+            <Route path="/spec/:hash" element={<SharedSpec />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
@@ -96,6 +98,7 @@ initDB()
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/progress" element={<Progress />} />
+            <Route path="/spec/:hash" element={<SharedSpec />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

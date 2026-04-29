@@ -15,6 +15,8 @@ import { TemplateBrowsePicker } from '@/components/shell/TemplateBrowsePicker'
 import { ClarificationPanel } from '@/components/shell/ClarificationPanel'
 // Sprint J P52 (A8) — Share Spec viral-share button (clipboard data URL).
 import { ShareSpecButton } from '@/components/shell/ShareSpecButton'
+// Sprint N P57 Wave 2 (N1) — Static HTML exporter (self-contained download).
+import { ExportStaticHtmlButton } from '@/components/shell/ExportStaticHtmlButton'
 // P54 Sprint K Wave 1 (A2) — Patch latency badge (speed visible).
 import { PatchLatencyBadge } from '@/components/shell/PatchLatencyBadge'
 import type { SectionType } from '@/lib/schemas'
@@ -580,6 +582,7 @@ export function ChatInput() {
       <div className="px-4 py-1.5 border-b border-hb-border/40 flex items-center gap-1.5">
         {/* Sprint J P52 (A8) — desktop-only Share Spec; mobile mount via A10 (P53). */}
         <span className="hidden md:inline-flex"><ShareSpecButton /></span>
+        <span className="hidden md:inline-flex"><ExportStaticHtmlButton /></span>
         {(isSimulated || personalityProfile) && (<>
           {isSimulated && (
             <span

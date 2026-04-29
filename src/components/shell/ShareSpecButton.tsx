@@ -15,6 +15,7 @@ import { Share2 } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { useConfigStore } from '@/store/configStore';
 import { composeShareSpecBundle } from '@/contexts/specification/shareSpecBundle';
+import { publishSpecLocally } from '@/contexts/specification/hostedSpecLink';
 
 interface ToastState {
   text: string;
@@ -75,18 +76,29 @@ export function ShareSpecButton() {
   }, []);
 
   const onShare = useCallback(async () => {
-    const { dataUrl, estimatedBytes } = composeShareSpecBundle(config);
+    const bundle = composeShareSpecBundle(config);
+    const { dataUrl, estimatedBytes } = bundle;
     if (!dataUrl) {
       // eslint-disable-next-line no-console
       console.log('[ShareSpec] data URL unavailable; bundle could not encode.');
       showToast({ text: 'Could not copy — see console for the data URL', kind: 'error' });
       return;
     }
+    // N2: also publish to local kv under /spec/:hash so the user gets a
+    // short shareable URL alongside the raw data-URL artifact. The URL only
+    // resolves in this browser (open-core stub) — see hostedSpecLink.ts.
+    let shortUrl = '';
+    try {
+      const { url } = await publishSpecLocally(bundle);
+      const origin = typeof window !== 'undefined' ? window.location.origin : '';
+      shortUrl = `${origin}${url}`;
+    } catch { /* fall through; clipboard still gets the data URL */ }
     const viaApi = await copyViaClipboardAPI(dataUrl);
     const ok = viaApi || copyViaTextarea(dataUrl);
     if (ok) {
+      const suffix = shortUrl ? ` · also at ${shortUrl} in this browser` : '';
       showToast({
-        text: `Spec copied to clipboard (${formatBytes(estimatedBytes)})`,
+        text: `Spec copied to clipboard (${formatBytes(estimatedBytes)})${suffix}`,
         kind: 'success',
       });
     } else {
