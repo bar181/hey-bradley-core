@@ -84,7 +84,7 @@ export function QuickAddPicker() {
           role="list"
           aria-label="Quick-add section templates"
           onKeyDown={handleKeyDown}
-          className="grid grid-cols-2 gap-1.5 p-2 max-h-[180px] overflow-y-auto"
+          className="grid grid-cols-2 max-sm:grid-cols-1 gap-1.5 p-2 max-h-[180px] overflow-y-auto"
         >
           {QUICK_CARDS.map((card, idx) => {
             const Icon = card.icon

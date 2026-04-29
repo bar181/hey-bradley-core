@@ -1,7 +1,7 @@
 # Hey Bradley — Project Grounding
 
 > **Purpose:** A single document anyone (new contributor, future Claude session, presentation reviewer) can read in 10 minutes to understand the project, where we are in the sprint, and what to do next.
-> **Last updated:** 2026-04-28 (Sprint H sealed — P46 fix-pass)
+> **Last updated:** 2026-04-29 (Sprint I sealed — P47/P48/P49)
 > **Owner:** [Brad Ross](https://www.linkedin.com/in/bradaross/) — Harvard ALM Digital Media Design capstone (May 2026)
 > **Pair this with:** `CLAUDE.md` (project rules), `docs/wiki/llm-call-process-flow.md` (how the pipeline runs), `plans/implementation/mvp-plan/STATE.md` (phase ledger).
 
@@ -22,22 +22,26 @@ The exported spec is precise enough that an AI dev agent (Claude Code, Cursor, e
 
 ## 2. Where We Are RIGHT NOW
 
-**Sprint H sealed — P46 fix-pass applied. Sprint G skipped per owner mandate.**
+**Sprint I sealed — P47/P48/P49. Sprint G skipped per owner mandate.**
 
 | | Status |
 |---|---|
-| Composite trajectory | 88 → 89 → 90 → 93 → 95 → 96 → 96 → 91 (P37) → Sprint F P38 closed → **Sprint H P44/P45/P46 sealed** |
-| Last sealed phase | **P46** (Sprint H Wave 3 — Reference Management UI) |
-| Last test count | Cumulative P29-P46 PURE-UNIT GREEN (Brand A1-A3 / Codebase A4-A6 / Refs A7-A8 + P29-P37 carryforward) |
-| Last brutal review | Sprint H end-of-sprint: R1 UX+Func 88, R2 Security 90, R3 Architecture 91 — avg 89.7 — 3-of-3 PASS — 5 must-fix closed in this fix-pass |
-| Outstanding carryforward | None hard-blocking |
+| Composite trajectory | 88 → 89 → 90 → 93 → 95 → 96 → 96 → 91 (P37) → P38 → Sprint H 89.7 → **Sprint I 91/100 PASS** |
+| Last sealed phase | **P49** (Sprint I Wave 3 — Mobile polish + C11 closure) |
+| Last test count | Cumulative P29-P49 — 550/550 PURE-UNIT GREEN |
+| Last brutal review | Sprint I end-of-sprint (single reviewer / lean): composite 91, Grandma 83 (+5 vs P46), Framer 91, Capstone 99 — PASS, 0 must-fix, 2 should-fix deferred to Sprint J opener |
+| Outstanding carryforward | C11 (vertical mobile carousel <600px on Welcome) — **CLOSED at P49** (carried since P22). No hard-blocks. |
 | Presentation | Sprint F P38 produced `docs/wiki/presentation-readiness.md`; Vercel deploy still owner-triggered |
 
-**Sprint H deliverables (committed; this fix-pass amends + hardens):**
-- **P44 (ADR-067)** — Brand Voice Upload: `brandContext.ts` repo + `BrandContextUpload.tsx` widget + system-prompt injection (CONTENT_ATOM Λ.brand_voice)
-- **P45 (ADR-068)** — Codebase Reference Ingestion: `codebaseContext.ts` repo + `CodebaseContextUpload.tsx` widget + INTENT_ATOM Λ.project_context + `PROJECT_TYPE_TARGET_BIAS` table + chatPipeline projectType threading
-- **P46 (ADR-069)** — Reference Management UI: `ReferenceManagement.tsx` summary panel mounted above the upload widgets
-- **P46 fix-pass (this commit):** ADR-068 enum drift reconciled; `redactKeyShapes` applied at brand+codebase persist boundary AND system-prompt injection boundary; UI surfaces 4KB injection cap, 5MB ZIP guidance, empty-state WHY copy; "voice loaded but unused this turn" annotation on design-only routes; cross-component `reference:changed` event eliminates manifest staleness
+**Sprint H deliverables (P44/P45/P46 + fix-pass):**
+- **P44 (ADR-067)** — Brand Voice Upload (CONTENT_ATOM Λ.brand_voice).
+- **P45 (ADR-068)** — Codebase Reference Ingestion (INTENT_ATOM Λ.project_context + bias table).
+- **P46 (ADR-069)** — Reference Management UI panel above the uploads.
+
+**Sprint I deliverables (P47/P48/P49):**
+- **P47 (ADR-070)** — Builder UX polish: `SectionsSection.tsx` per-row collapse/expand + categorized add-picker (Hero & CTA / Content / Social Proof + Media) + arrow-key list nav; right-panel a11y across 5 editors (~28 ARIA additions; ImagePicker focus-trap fix; FeaturesSectionSimple delete-focus management).
+- **P48 (ADR-071)** — `QuickAddPicker.tsx` (curated 6-card opt-in section quick-add with category buckets + arrow-key grid nav); `improvementSuggester.ts` (pure-rule, ≤3 suggestions, $0); chatPipeline defensive `deriveImprovements()`; ChatInput "💡 Next steps" surface (testid `aisp-improvement-suggestions`).
+- **P49 (ADR-072)** — Mobile polish: Welcome.tsx C11 vertical-snap carousel (`max-sm:` Tailwind only — no JS viewport detection, no new deps); SectionsSection touch parity; QuickAddPicker mobile grid; RealityTab `AddSectionDivider` always-visible on touch.
 
 ---
 
@@ -51,6 +55,9 @@ The exported spec is precise enough that an AI dev agent (Claude Code, Cursor, e
 | **P44** | Sprint H Wave 1 — Brand Voice Upload | ✅ SEALED | — | ADR-067; `brand_voice` channel |
 | **P45** | Sprint H Wave 2 — Codebase Reference Ingestion | ✅ SEALED | — | ADR-068; `project_context` channel + bias table |
 | **P46** | Sprint H Wave 3 — Reference Management UI | ✅ SEALED + fix-pass | — | ADR-069; `ReferenceManagement.tsx` |
+| **P47** | Sprint I Wave 1 — Builder UX polish + a11y | ✅ SEALED | — | ADR-070; `SectionsSection.tsx` collapse + categorized picker + arrow-key + right-panel ARIA |
+| **P48** | Sprint I Wave 2 — Quick-add + improvement suggestions | ✅ SEALED | — | ADR-071; `QuickAddPicker.tsx` + `improvementSuggester.ts` |
+| **P49** | Sprint I Wave 3 — Mobile polish + C11 closure | ✅ SEALED | 91 | ADR-072; `<600px` carousel; touch parity |
 
 **Sprint G skipped:** owner mandate — "Agent proxy for LLM testing. The mock/fixture adapter already exists from P18 — the swarm uses it for all testing. No real keys needed." All Sprint H tests run against AgentProxyAdapter / FixtureAdapter ($0 cost).
 

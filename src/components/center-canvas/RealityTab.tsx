@@ -140,7 +140,7 @@ function AddSectionDivider({ afterIndex }: { afterIndex: number }) {
       <button
         type="button"
         onClick={() => setShowPicker(!showPicker)}
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-hb-surface border border-hb-border rounded-full px-3 py-1 text-xs text-hb-text-muted hover:text-hb-accent hover:border-hb-accent/50 shadow-sm z-10 focus-visible:ring-2 focus-visible:ring-hb-accent focus-visible:opacity-100"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 max-sm:opacity-100 transition-opacity bg-hb-surface border border-hb-border rounded-full px-3 py-1 text-xs text-hb-text-muted hover:text-hb-accent active:text-hb-accent hover:border-hb-accent/50 active:border-hb-accent/50 shadow-sm z-10 focus-visible:ring-2 focus-visible:ring-hb-accent focus-visible:opacity-100"
         aria-label="Add section"
       >
         + Add Section

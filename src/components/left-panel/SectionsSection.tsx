@@ -258,7 +258,7 @@ export function SectionsSection() {
                   setDragId(null)
                   setDropTarget(null)
                 }}
-                className="cursor-grab active:cursor-grabbing p-0.5 text-hb-text-muted/40 hover:text-hb-text-muted"
+                className="cursor-grab active:cursor-grabbing p-0.5 text-hb-text-muted/40 hover:text-hb-text-muted active:text-hb-text-muted touch-none"
                 title="Drag to move this section up or down."
               >
                 <GripVertical size={14} />
@@ -297,7 +297,7 @@ export function SectionsSection() {
               title="Move this section up one spot."
               onClick={() => moveSection(index, 'up')}
               disabled={index === 0}
-              className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover disabled:opacity-30"
+              className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover active:bg-hb-surface-hover disabled:opacity-30"
             >
               <ChevronUp size={14} />
             </button>
@@ -306,7 +306,7 @@ export function SectionsSection() {
               title="Move this section down one spot."
               onClick={() => moveSection(index, 'down')}
               disabled={index === orderedSections.length - 1}
-              className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover disabled:opacity-30"
+              className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover active:bg-hb-surface-hover disabled:opacity-30"
             >
               <ChevronDown size={14} />
             </button>
@@ -314,7 +314,7 @@ export function SectionsSection() {
               type="button"
               title="Make a copy of this section."
               onClick={() => handleDuplicate(section.id)}
-              className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover"
+              className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover active:bg-hb-surface-hover"
             >
               <Copy size={14} />
             </button>
@@ -328,10 +328,10 @@ export function SectionsSection() {
               }
               onClick={() => handleDelete(section.id)}
               className={cn(
-                'p-1 rounded hover:bg-hb-surface-hover',
+                'p-1 rounded hover:bg-hb-surface-hover active:bg-hb-surface-hover',
                 confirmDeleteId === section.id
                   ? 'text-red-400 animate-pulse'
-                  : 'text-hb-text-muted hover:text-red-400'
+                  : 'text-hb-text-muted hover:text-red-400 active:text-red-400'
               )}
             >
               <Trash2 size={14} />

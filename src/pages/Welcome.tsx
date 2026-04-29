@@ -89,15 +89,16 @@ export function Welcome() {
         </p>
       </article>
 
-      {/* Three Modes */}
+      {/* Three Modes — C11: vertical snap-list carousel on <sm (max-width: 639px,
+          Tailwind's closest match to the historical <600px target from P22). */}
       <section className="max-w-4xl mx-auto px-6 pb-16">
         <h2 className="text-3xl font-bold mb-6">Three ways in</h2>
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-3 gap-4 max-sm:grid-cols-1 max-sm:snap-y max-sm:snap-mandatory max-sm:overflow-y-auto max-sm:max-h-[80vh] max-sm:gap-3">
           {MODES.map((m) => (
             <Link
               key={m.title}
               to={m.href}
-              className="bg-white border border-[#e8772e]/20 rounded-2xl p-6 hover:border-[#e8772e]/60 hover:shadow-md transition-all group"
+              className="bg-white border border-[#e8772e]/20 rounded-2xl p-6 hover:border-[#e8772e]/60 hover:shadow-md transition-all group max-sm:snap-center max-sm:min-h-[60vh] max-sm:flex max-sm:flex-col max-sm:justify-center"
             >
               <m.icon className="w-7 h-7 text-[#e8772e] mb-4" />
               <h3 className="text-xl font-semibold mb-2">{m.title}</h3>

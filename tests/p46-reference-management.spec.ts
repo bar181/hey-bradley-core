@@ -167,10 +167,15 @@ test.describe('P46.7 ADR-069 file shape', () => {
   })
 })
 
-test.describe('P46.8 Wiki updated to P46', () => {
-  test('Last verified against code: P46', () => {
+test.describe('P46.8 Wiki updated to P46 (or later)', () => {
+  test('Last verified against code: P46 or a later sealed phase', () => {
     const src = readFileSync(WIKI, 'utf8')
-    expect(src).toMatch(/Last verified against code:\*\*\s*P46/)
+    // Forward-compatible: P46 was the original Sprint H tag; later sprints
+    // (Sprint I sealed at P49) advance the line. Accept any P\d{2,} ≥ P46
+    // so subsequent phase-bump fix-passes don't trigger a false regression.
+    const m = /Last verified against code:\*\*\s*P(\d{2,})/.exec(src)
+    expect(m, 'wiki must declare a "Last verified against code" pin').not.toBeNull()
+    if (m) expect(parseInt(m[1], 10)).toBeGreaterThanOrEqual(46)
   })
 
   test('wiki cross-references ADR-067 + ADR-068 + ADR-069', () => {

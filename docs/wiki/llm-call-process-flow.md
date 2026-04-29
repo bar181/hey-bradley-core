@@ -1,9 +1,9 @@
 # Hey Bradley — LLM Call Process Flow
 
 > **Status:** Living document — wiki / how-it-works guide
-> **Last verified against code:** P46 sealed (commit will be set at seal time)
-> **Cross-references:** ADR-045, ADR-053, ADR-057, ADR-060, ADR-064, ADR-065, ADR-066, ADR-067, ADR-068, ADR-069
-> **Contributors:** Bradley Ross + claude-flow swarm (P18 → P46)
+> **Last verified against code:** P49 sealed (commit will be set at seal time)
+> **Cross-references:** ADR-045, ADR-053, ADR-057, ADR-060, ADR-064, ADR-065, ADR-066, ADR-067, ADR-068, ADR-069, ADR-070, ADR-071, ADR-072
+> **Contributors:** Bradley Ross + claude-flow swarm (P18 → P49)
 
 This is the canonical end-to-end picture of how a single user input — text in chat OR voice transcript in listen mode — flows through Hey Bradley's pipeline to produce a JSON-Patch envelope. Every box on the flow chart maps to a concrete module in `src/contexts/intelligence/`.
 
@@ -320,4 +320,35 @@ Both caps are enforced at **injection time**, not write time — the full upload
 
 ---
 
-*This document is updated at each phase seal. Last touched: P46 seal (Sprint H Wave 3 — Reference Management). Source: swarm summary at session-1777381177219.*
+## Sprint I — Builder UX Additions (P47 + P48 + P49)
+
+Sprint I is a builder-mode UX sprint — none of these additions touch the AISP
+pipeline or LLM contract, but they shift the surfaces around it. They are
+surfaced here so future contributors reading this flow chart understand which
+elements of the chat / listen experience are post-pipeline UX:
+
+- **P47 / ADR-070** — `SectionsSection.tsx` collapse/expand per row (first
+  section open by default, rest collapsed); 4-bucket categorized add picker
+  (Hero & CTA / Content / Social Proof + Media / All); arrow-key list
+  navigation (`ArrowUp` / `ArrowDown` / `Enter` / `Space`). Right-panel
+  ARIA + focus + Escape handling across 5 simple-mode editors. ListenTab
+  voice-pipeline contract unchanged.
+- **P48 / ADR-071** — `QuickAddPicker.tsx` curated 6-card section panel
+  (`hero` / `action` / `text` / `blog` / `pricing` / `footer`) mounted
+  inside SectionsSection (does NOT replace the categorized picker).
+  `improvementSuggester.ts` — pure-rule heuristic that surfaces 1-3
+  `💡 Next steps` under each bradley reply via `chatPipeline.deriveImprovements`.
+  Σ-restricted by construction: suggestions are advisory text only and do
+  NOT widen INTENT_ATOM.
+- **P49 / ADR-072** — Welcome.tsx vertical-snap carousel at `max-sm`
+  (≤639px) — closes C11 carryforward from P22. Builder-mode `active:`
+  Tailwind variants for touch parity on hover-driven affordances. No JS
+  viewport detection; pure responsive CSS; zero new dependencies.
+
+These three waves sit *outside* the pipeline boxes above — they shape the
+surfaces feeding text into Step 1 (REFERENCE CONTEXT) and the surfaces
+rendering the patch reply at Step N. The pipeline contract is unchanged.
+
+---
+
+*This document is updated at each phase seal. Last touched: P49 seal (Sprint I Wave 3 — Mobile Polish + C11 Closure). Source: swarm summary at session-1777381177219.*
