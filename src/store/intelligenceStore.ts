@@ -11,7 +11,8 @@ import type { LLMAdapter, LLMError, LLMProviderName } from '@/contexts/intellige
 import { readBYOK, writeBYOK, clearBYOK, hasBYOK } from '@/contexts/intelligence/llm/keys'
 import { activeSession, endSession } from '@/contexts/persistence/repositories/sessions'
 import { sumSessionCostUsd, sumSessionTokens } from '@/contexts/persistence/repositories/llmCalls'
-import { kvGet, kvSet } from '@/contexts/persistence/repositories/kv'
+import { kvGet, kvSet, getPersonalityId, setPersonalityId } from '@/contexts/persistence/repositories/kv'
+import type { PersonalityId } from '@/contexts/intelligence/personality/personalityEngine'
 import { useProjectStore } from '@/store/projectStore'
 
 const COST_CAP_KV_KEY = 'cost_cap_usd'
@@ -51,6 +52,8 @@ interface IntelligenceState {
   rememberKey: boolean
   /** P18 Step 3: re-entrancy guard so a second chat submit cannot race the first. */
   inFlight: boolean
+  /** Sprint J P50 (A1) — chat-bubble personality. Hydrated from kv on init. */
+  personalityId: PersonalityId
 
   init: () => Promise<void>
   testConnection: () => Promise<boolean>
@@ -64,6 +67,8 @@ interface IntelligenceState {
   endActiveSession: () => void
   /** Toggle the in-flight mutex around the chat pipeline. */
   setInFlight: (value: boolean) => void
+  /** Sprint J P50 (A1) — persist + update chat-bubble personality. */
+  setPersonality: (id: PersonalityId) => void
 }
 
 // One-time wiring so we end the previous project's session when the active
@@ -82,6 +87,7 @@ export const useIntelligenceStore = create<IntelligenceState>((set, get) => ({
   hasKey: false,
   rememberKey: false,
   inFlight: false,
+  personalityId: 'professional',
 
   init: async () => {
     const { pickAdapter } = await import('@/contexts/intelligence/llm/pickAdapter')
@@ -97,6 +103,8 @@ export const useIntelligenceStore = create<IntelligenceState>((set, get) => ({
       rememberKey: Boolean(stored),
       // P20 ADR-049: hydrate cap from kv (or default $1.00) on init
       capUsd: loadCapFromKv(),
+      // Sprint J P50 (A1): hydrate personality from kv (default 'professional').
+      personalityId: getPersonalityId() ?? 'professional',
     })
 
     // FIX 5: Rehydrate sessionUsd/sessionTokens from the DB so the cap can't
@@ -205,6 +213,15 @@ export const useIntelligenceStore = create<IntelligenceState>((set, get) => ({
   },
 
   setInFlight: (value) => set({ inFlight: value }),
+
+  setPersonality: (id) => {
+    try {
+      setPersonalityId(id)
+    } catch (e) {
+      if (import.meta.env.DEV) console.warn('[intelligence] setPersonality kv write failed', e)
+    }
+    set({ personalityId: id })
+  },
 }))
 
 // Dev-only window exposure mirrors __configStore / __projectStore patterns

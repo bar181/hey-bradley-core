@@ -4,8 +4,10 @@
 
 import type { Database } from 'sql.js';
 import { getDB, persist } from '../db';
+import { PERSONALITY_IDS, type PersonalityId } from '@/contexts/intelligence/personality/personalityEngine';
 
 const BACKUP_KEY = 'pre_migration_backup';
+const PERSONALITY_KEY = 'personality_id';
 const B64_CHUNK = 0x8000;
 
 export function kvGet(k: string): string | undefined {
@@ -100,6 +102,26 @@ export async function snapshotPreMigration(db?: Database): Promise<void> {
 export async function restorePreMigration(): Promise<Uint8Array | null> {
   const encoded = kvGet(BACKUP_KEY);
   return encoded ? b64ToBytes(encoded) : null;
+}
+
+/**
+ * Sprint J P50 (A1) — personality persistence helpers.
+ * `kv['personality_id']` is NOT sensitive — ships in .heybradley exports
+ * per ADR-067 export discipline (no key shapes, no secrets).
+ */
+export function getPersonalityId(): PersonalityId | null {
+  try {
+    const raw = kvGet(PERSONALITY_KEY);
+    if (!raw) return null;
+    return (PERSONALITY_IDS as readonly string[]).includes(raw) ? (raw as PersonalityId) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function setPersonalityId(id: PersonalityId): void {
+  if (!(PERSONALITY_IDS as readonly string[]).includes(id)) return;
+  kvSet(PERSONALITY_KEY, id);
 }
 
 export function clearPreMigration(db?: Database): void {

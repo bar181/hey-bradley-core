@@ -25,6 +25,8 @@ import {
   type ClassifiedIntent,
   type LLMAssumptionsResult,
 } from '@/contexts/intelligence/aisp'
+// Sprint J P50 (A2) — type-only import (erased at runtime; safe even before A1 lands).
+import type { PersonalityId } from '@/contexts/intelligence/personality/personalityEngine'
 
 /* ── Chat examples for the dialog ── */
 const CHAT_EXAMPLE_CATEGORIES = [
@@ -93,6 +95,10 @@ export interface ChatMessage {
    * "next steps" block under the bradley message.
    */
   improvements?: readonly string[]
+  /** Sprint J P50 (A2) — personality-rendered secondary voice layer.
+   *  Rendered as a small italic block UNDER the typewriter primary text. */
+  personalityMessage?: string | null
+  personalityId?: PersonalityId | null
 }
 
 const MAX_MESSAGES = 20
@@ -120,6 +126,9 @@ export function ChatInput() {
     pipelineSummary?: string
     aispRoute?: ChatMessage['aispRoute']
     improvements?: readonly string[]
+    // Sprint J P50 (A2) — carry personality output through to typewriter commit.
+    personalityMessage?: string | null
+    personalityId?: PersonalityId | null
   } | null>(null)
   // P34 Sprint E P1 (A2) — /browse picker visibility.
   const [showBrowsePicker, setShowBrowsePicker] = useState(false)
@@ -177,6 +186,8 @@ export function ChatInput() {
           pipelineSummary: pending?.pipelineSummary,
           aispRoute: pending?.aispRoute ?? null,
           improvements: pending?.improvements,
+          personalityMessage: pending?.personalityMessage ?? null,
+          personalityId: pending?.personalityId ?? null,
         },
       ])
       setTypingText('')
@@ -377,6 +388,8 @@ export function ChatInput() {
       pipelineSummary: result.summary,
       aispRoute: result.aispRoute ?? null,
       improvements: result.improvements,
+      personalityMessage: result.personalityMessage ?? null,
+      personalityId: result.personalityId ?? null,
     }
     if (result.ok && !result.fellBackToCanned && result.appliedPatchCount > 0) {
       setTypingText('')
@@ -592,6 +605,18 @@ export function ChatInput() {
               >
                 via voice
               </span>
+            )}
+            {/* Sprint J P50 (A2) — personality-rendered secondary voice layer
+                (composition; no Σ widening). Renders UNDER the typewriter
+                primary text. KISS — A5 owns per-personality styling. */}
+            {msg.role === 'bradley' && msg.personalityMessage && (
+              <div
+                data-testid="personality-message"
+                data-personality-id={msg.personalityId ?? undefined}
+                className="mt-1 text-xs text-hb-text-muted italic"
+              >
+                {msg.personalityMessage}
+              </div>
             )}
             {/* P34 / P35 — exactly ONE AISP surface per bradley reply.
                 R1 F2 fix-pass — in EXPERT mode the trace pane subsumes the

@@ -18,6 +18,7 @@ import { recordPipelineFailure } from '@/contexts/intelligence/llm/recordPipelin
 import { parseChatCommand, parseMultiPartCommand } from '@/lib/cannedChat'
 import type { ChatErrorKind } from '@/lib/mapChatError'
 import type { ClassifiedIntent } from '@/contexts/intelligence/aisp'
+import type { PersonalityId } from '@/contexts/intelligence/personality/personalityEngine'
 
 export interface ChatPipelineOptions {
   source: 'chat' | 'listen' | 'test'
@@ -77,6 +78,23 @@ export interface ChatPipelineResult {
    * (and undefined) on any non-success path or when no rule fired.
    */
   improvements?: readonly string[]
+  /** Sprint J P50 (A2) — composition-rendered chat-bubble voice; null on throw / non-success. */
+  personalityMessage?: string | null
+  personalityId?: PersonalityId | null
+}
+
+/** Sprint J P50 (A2) — defensive composition render; mirrors deriveImprovements. */
+async function derivePersonalityMessage(
+  envelope: { summary: string; patches: readonly unknown[] },
+  intentTrace: { intent: ClassifiedIntent | null } | null,
+): Promise<string | null> {
+  try {
+    const mod = await import('@/contexts/intelligence/personality/personalityEngine')
+    return mod.renderPersonalityMessage(envelope, useIntelligenceStore.getState().personalityId, intentTrace ?? undefined)
+  } catch (e) {
+    if (import.meta.env.DEV) console.warn('[chatPipeline] personalityEngine unavailable', e)
+    return null
+  }
 }
 
 /** P48 (A5) — defensive 1-3 next-step suggestions for a successful patch. */
@@ -303,6 +321,10 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
           tplSummary,
           aispTrace,
         )
+        const personalityMessage = await derivePersonalityMessage(
+          { summary: tplSummary, patches: tpl.envelope.patches },
+          aispTrace,
+        )
         return {
           ok: true,
           appliedPatchCount: tpl.envelope.patches.length,
@@ -314,6 +336,8 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
           aispRoute,
           templateId: tpl.template.id,
           improvements,
+          personalityMessage,
+          personalityId: useIntelligenceStore.getState().personalityId ?? null,
         }
       } catch (e) {
         if (import.meta.env.DEV) console.warn('[chatPipeline] template applyPatches threw', e)
@@ -371,6 +395,10 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     const llm = await runLLMPipeline(text, opts.source, opts.history)
     if (llm.applied > 0) {
       const improvements = await deriveImprovements(text, llm.applied, llm.summary, aispTrace)
+      const personalityMessage = await derivePersonalityMessage(
+        { summary: llm.summary, patches: new Array(llm.applied) },
+        aispTrace,
+      )
       return {
         ok: true,
         appliedPatchCount: llm.applied,
@@ -381,6 +409,8 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         aisp: aispTrace,
         aispRoute,
         improvements,
+        personalityMessage,
+        personalityId: useIntelligenceStore.getState().personalityId ?? null,
       }
     }
     pipelineErrorKind = llm.errorKind ?? null

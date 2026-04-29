@@ -7,6 +7,11 @@ import { renderAllowedPathsForPrompt } from '@/lib/schemas/patchPaths'
 import { estimateTokens } from '@/contexts/intelligence/llm/cost'
 import { readBrandContext } from '@/contexts/persistence/repositories/brandContext'
 import { redactKeyShapes } from '@/contexts/intelligence/llm/keys'
+import {
+  PERSONALITY_IDS,
+  PERSONALITY_PROFILES,
+  type PersonalityId,
+} from '@/contexts/intelligence/personality/personalityEngine'
 
 export interface SystemPromptCtx {
   /** Current MasterConfig — compacted to ≤ 4 KB before injection. */
@@ -20,6 +25,9 @@ export interface SystemPromptCtx {
    * repo. Pass an empty string explicitly to suppress injection.
    */
   brandContext?: string
+  /** Sprint J P50 (A1) — optional chat-bubble personality. Block is appended
+   *  AFTER brand-context, BEFORE OUTPUT_RULE. Σ unchanged. Invalid → 'professional'. */
+  personality?: PersonalityId
 }
 
 const ROLE_LINE =
@@ -141,6 +149,13 @@ function resolveBrandContextBlock(explicit: string | undefined): string {
   return `---\nBrand Context (for content tone + voice):\n${head}`
 }
 
+/** Sprint J P50 (A1) — personality_layer block. Invalid id → 'professional'. */
+function renderPersonalityBlock(id: PersonalityId | undefined): string {
+  if (!id) return ''
+  const safe = (PERSONALITY_IDS as readonly string[]).includes(id) ? id : 'professional'
+  return `---\nPersonality: ${PERSONALITY_PROFILES[safe as PersonalityId].tonePrompt}`
+}
+
 /** Deterministic builder. Aim ≤ 2,400 tokens total per 07 §7. */
 export function buildSystemPrompt(ctx: SystemPromptCtx): string {
   const parts: string[] = []
@@ -160,6 +175,9 @@ export function buildSystemPrompt(ctx: SystemPromptCtx): string {
   if (sc) parts.push(sc)
   const hist = renderHistory(ctx.history)
   if (hist) parts.push(hist)
+  // Sprint J P50 (A1) — personality_layer: AFTER brand-context, BEFORE OUTPUT_RULE.
+  const personality = renderPersonalityBlock(ctx.personality)
+  if (personality) parts.push(personality)
   parts.push(OUTPUT_RULE)
   return parts.join('\n\n')
 }
