@@ -1,0 +1,502 @@
+[
+  {
+    "id": "atom-patch-01",
+    "input": "hide the hero",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "atom-patch-02",
+    "input": "show the pricing section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "atom-patch-03",
+    "input": "add a footer section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "footer",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "atom-patch-04",
+    "input": "remove the blog",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "blog",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "atom-patch-05",
+    "input": "change theme to dark mode",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "atom-patch-06",
+    "input": "hide /testimonials-1",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "atom-patch-07",
+    "input": "add a CTA section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "cta",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "atom-patch-08",
+    "input": "remove the gallery",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "gallery",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "atom-patch-09",
+    "input": "show the FAQ",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "faq",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "atom-patch-10",
+    "input": "reset the hero to defaults",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "reset",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "atom-intent-01",
+    "input": "maek hero brigtter",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-intent-02",
+    "input": "move the pricing up plzz",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-intent-03",
+    "input": "hide the heroe",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "hide",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-intent-04",
+    "input": "add presing",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "add",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-intent-05",
+    "input": "remove fototer",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "remove",
+    "expectedTarget": "footer",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-intent-06",
+    "input": "chnage colour",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-intent-07",
+    "input": "lets see the FAQ section",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "show",
+    "expectedTarget": "faq",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-intent-08",
+    "input": "can u add testimonailz",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "add",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-intent-09",
+    "input": "show pics",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "show",
+    "expectedTarget": "gallery",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-intent-10",
+    "input": "kill the blog",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "remove",
+    "expectedTarget": "blog",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-selection-01",
+    "input": "make it minimal",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-selection-02",
+    "input": "apply the bakery vibe",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-selection-03",
+    "input": "use the SaaS template style",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-selection-04",
+    "input": "switch to portfolio mode",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-selection-05",
+    "input": "make it look like Linear",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-selection-06",
+    "input": "apply a corporate template",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-selection-07",
+    "input": "use the indie portfolio theme",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-selection-08",
+    "input": "make it warm and approachable",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-selection-09",
+    "input": "go for the conference site look",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-selection-10",
+    "input": "personal brand style please",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-content-01",
+    "input": "rewrite the headline to \"Stop guessing, start shipping\"",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-content-02",
+    "input": "change the subheading to be punchier",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-content-03",
+    "input": "write blog copy about sourdough",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "blog",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-content-04",
+    "input": "rewrite the CTA more confidently",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "cta",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-content-05",
+    "input": "make the testimonials more authentic",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-content-06",
+    "input": "rewrite the about section warmer",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "text",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-content-07",
+    "input": "write FAQ entries that handle objections",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "faq",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-content-08",
+    "input": "punchier copy for the value-props",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "value-props",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-content-09",
+    "input": "rewrite footer line as a tagline",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "footer",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-content-10",
+    "input": "make the team bios less corporate",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "team",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "atom-assumptions-01",
+    "input": "make it pop",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-assumptions-02",
+    "input": "spruce it up",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-assumptions-03",
+    "input": "freshen the design",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-assumptions-04",
+    "input": "make it modern",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-assumptions-05",
+    "input": "polish this",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-assumptions-06",
+    "input": "nicer please",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-assumptions-07",
+    "input": "better looking",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-assumptions-08",
+    "input": "brighten things up",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-assumptions-09",
+    "input": "a bit more zest",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "atom-assumptions-10",
+    "input": "liven it up",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "n/a",
+    "difficulty": "hard"
+  }
+]

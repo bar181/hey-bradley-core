@@ -1,0 +1,802 @@
+[
+  {
+    "id": "sec-hero-01",
+    "input": "add a hero section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-hero-02",
+    "input": "change the hero headline to something punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-hero-03",
+    "input": "hide the hero",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-hero-04",
+    "input": "show the hero",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-hero-05",
+    "input": "remove the hero",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-blog-01",
+    "input": "add a blog section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "blog",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-blog-02",
+    "input": "change the blog headline to something punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "blog",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-blog-03",
+    "input": "hide the blog",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "blog",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-blog-04",
+    "input": "show the blog",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "blog",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-blog-05",
+    "input": "remove the blog",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "blog",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-footer-01",
+    "input": "add a footer section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "footer",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-footer-02",
+    "input": "change the footer headline to something punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "footer",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-footer-03",
+    "input": "hide the footer",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "footer",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-footer-04",
+    "input": "show the footer",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "footer",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-footer-05",
+    "input": "remove the footer",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "footer",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-features-01",
+    "input": "add a features section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "features",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-features-02",
+    "input": "change the features headline to something punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "features",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-features-03",
+    "input": "hide the features",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "features",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-features-04",
+    "input": "show the features",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "features",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-features-05",
+    "input": "remove the features",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "features",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-pricing-01",
+    "input": "add a pricing section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-pricing-02",
+    "input": "change the pricing headline to something punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-pricing-03",
+    "input": "hide the pricing",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-pricing-04",
+    "input": "show the pricing",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-pricing-05",
+    "input": "remove the pricing",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-cta-01",
+    "input": "add a cta section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "cta",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-cta-02",
+    "input": "change the cta headline to something punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "cta",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-cta-03",
+    "input": "hide the cta",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "cta",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-cta-04",
+    "input": "show the cta",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "cta",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-cta-05",
+    "input": "remove the cta",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "cta",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-testimonials-01",
+    "input": "add a testimonials section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-testimonials-02",
+    "input": "change the testimonials headline to something punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-testimonials-03",
+    "input": "hide the testimonials",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-testimonials-04",
+    "input": "show the testimonials",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-testimonials-05",
+    "input": "remove the testimonials",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-faq-01",
+    "input": "add a faq section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "faq",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-faq-02",
+    "input": "change the faq headline to something punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "faq",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-faq-03",
+    "input": "hide the faq",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "faq",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-faq-04",
+    "input": "show the faq",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "faq",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-faq-05",
+    "input": "remove the faq",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "faq",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-value-props-01",
+    "input": "add a value-props section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "value-props",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-value-props-02",
+    "input": "change the value-props headline to something punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "value-props",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-value-props-03",
+    "input": "hide the value-props",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "value-props",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-value-props-04",
+    "input": "show the value-props",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "value-props",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-value-props-05",
+    "input": "remove the value-props",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "value-props",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-gallery-01",
+    "input": "add a gallery section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "gallery",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-gallery-02",
+    "input": "change the gallery headline to something punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "gallery",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-gallery-03",
+    "input": "hide the gallery",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "gallery",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-gallery-04",
+    "input": "show the gallery",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "gallery",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-gallery-05",
+    "input": "remove the gallery",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "gallery",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-image-01",
+    "input": "add a image section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "image",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-image-02",
+    "input": "change the image headline to something punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "image",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-image-03",
+    "input": "hide the image",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "image",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-image-04",
+    "input": "show the image",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "image",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-image-05",
+    "input": "remove the image",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "image",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-team-01",
+    "input": "add a team section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "team",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-team-02",
+    "input": "change the team headline to something punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "team",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-team-03",
+    "input": "hide the team",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "team",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-team-04",
+    "input": "show the team",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "team",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-team-05",
+    "input": "remove the team",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "team",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-columns-01",
+    "input": "add a columns section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "columns",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-columns-02",
+    "input": "change the columns headline to something punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "columns",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-columns-03",
+    "input": "hide the columns",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "columns",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-columns-04",
+    "input": "show the columns",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "columns",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-columns-05",
+    "input": "remove the columns",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "columns",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-action-01",
+    "input": "add a action section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "action",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-action-02",
+    "input": "change the action headline to something punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "action",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-action-03",
+    "input": "hide the action",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "action",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-action-04",
+    "input": "show the action",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "action",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-action-05",
+    "input": "remove the action",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "action",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-quotes-01",
+    "input": "add a quotes section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "quotes",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-quotes-02",
+    "input": "change the quotes headline to something punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "quotes",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-quotes-03",
+    "input": "hide the quotes",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "quotes",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-quotes-04",
+    "input": "show the quotes",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "quotes",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-quotes-05",
+    "input": "remove the quotes",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "quotes",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-questions-01",
+    "input": "add a questions section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "questions",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-questions-02",
+    "input": "change the questions headline to something punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "questions",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-questions-03",
+    "input": "hide the questions",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "questions",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-questions-04",
+    "input": "show the questions",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "questions",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "sec-questions-05",
+    "input": "remove the questions",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "questions",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  }
+]

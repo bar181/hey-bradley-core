@@ -1,0 +1,1202 @@
+[
+  {
+    "id": "pers-grandma-01",
+    "input": "change the headline to bake joy daily",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "grandma",
+    "difficulty": "trivial"
+  },
+  {
+    "id": "pers-grandma-02",
+    "input": "make the buttons bigger",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "cta",
+    "expectedRoute": "ambiguous",
+    "persona": "grandma",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-grandma-03",
+    "input": "add a section about my garden",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "text",
+    "expectedRoute": "content",
+    "persona": "grandma",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-grandma-04",
+    "input": "hide the pricing for now",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "pricing",
+    "expectedRoute": "ambiguous",
+    "persona": "grandma",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-grandma-05",
+    "input": "show the team again",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "team",
+    "expectedRoute": "ambiguous",
+    "persona": "grandma",
+    "difficulty": "trivial"
+  },
+  {
+    "id": "pers-grandma-06",
+    "input": "can you make it warmer looking",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "grandma",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-grandma-07",
+    "input": "write a little story for the front",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "grandma",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-grandma-08",
+    "input": "put the contact form back",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "cta",
+    "expectedRoute": "ambiguous",
+    "persona": "grandma",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-grandma-09",
+    "input": "show pictures of the cookies",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "gallery",
+    "expectedRoute": "ambiguous",
+    "persona": "grandma",
+    "difficulty": "trivial"
+  },
+  {
+    "id": "pers-grandma-10",
+    "input": "simpler please",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "grandma",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-grandma-11",
+    "input": "change the headline to bake joy daily",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "grandma",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-grandma-12",
+    "input": "make the buttons bigger",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "cta",
+    "expectedRoute": "ambiguous",
+    "persona": "grandma",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-grandma-13",
+    "input": "add a section about my garden",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "text",
+    "expectedRoute": "content",
+    "persona": "grandma",
+    "difficulty": "trivial"
+  },
+  {
+    "id": "pers-grandma-14",
+    "input": "hide the pricing for now",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "pricing",
+    "expectedRoute": "ambiguous",
+    "persona": "grandma",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-grandma-15",
+    "input": "show the team again",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "team",
+    "expectedRoute": "ambiguous",
+    "persona": "grandma",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-grandma-16",
+    "input": "can you make it warmer looking",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "grandma",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-grandma-17",
+    "input": "write a little story for the front",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "grandma",
+    "difficulty": "trivial"
+  },
+  {
+    "id": "pers-grandma-18",
+    "input": "put the contact form back",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "cta",
+    "expectedRoute": "ambiguous",
+    "persona": "grandma",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-grandma-19",
+    "input": "show pictures of the cookies",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "gallery",
+    "expectedRoute": "ambiguous",
+    "persona": "grandma",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-grandma-20",
+    "input": "simpler please",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "grandma",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-framer-01",
+    "input": "change /hero-1 headline to \"Stop guessing, start shipping\"",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-framer-02",
+    "input": "hide /pricing-2",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "pricing",
+    "expectedRoute": "ambiguous",
+    "persona": "framer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-framer-03",
+    "input": "add a /features-1 with 3 columns",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "features",
+    "expectedRoute": "ambiguous",
+    "persona": "framer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-framer-04",
+    "input": "remove /footer-1",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "footer",
+    "expectedRoute": "ambiguous",
+    "persona": "framer",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-framer-05",
+    "input": "change /theme/accentPrimary to #14532d",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-framer-06",
+    "input": "reorder /sections move /testimonials-1 above /pricing-1",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "ambiguous",
+    "persona": "framer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-framer-07",
+    "input": "show /faq-1",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "faq",
+    "expectedRoute": "ambiguous",
+    "persona": "framer",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-framer-08",
+    "input": "add /gallery-1 with 6 images",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "gallery",
+    "expectedRoute": "ambiguous",
+    "persona": "framer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-framer-09",
+    "input": "set /sections/3/components/0/props/text to \"AISP-native\"",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-framer-10",
+    "input": "change /typography/headingFamily to Instrument Serif",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-framer-11",
+    "input": "change /hero-1 headline to \"Stop guessing, start shipping\"",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-framer-12",
+    "input": "hide /pricing-2",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "pricing",
+    "expectedRoute": "ambiguous",
+    "persona": "framer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-framer-13",
+    "input": "add a /features-1 with 3 columns",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "features",
+    "expectedRoute": "ambiguous",
+    "persona": "framer",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-framer-14",
+    "input": "remove /footer-1",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "footer",
+    "expectedRoute": "ambiguous",
+    "persona": "framer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-framer-15",
+    "input": "change /theme/accentPrimary to #14532d",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-framer-16",
+    "input": "reorder /sections move /testimonials-1 above /pricing-1",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "ambiguous",
+    "persona": "framer",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-framer-17",
+    "input": "show /faq-1",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "faq",
+    "expectedRoute": "ambiguous",
+    "persona": "framer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-framer-18",
+    "input": "add /gallery-1 with 6 images",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "gallery",
+    "expectedRoute": "ambiguous",
+    "persona": "framer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-framer-19",
+    "input": "set /sections/3/components/0/props/text to \"AISP-native\"",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-framer-20",
+    "input": "change /typography/headingFamily to Instrument Serif",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-geek-01",
+    "input": "modify hero @ 0.95 confidence",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "geek",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-geek-02",
+    "input": "Ω→add Σ→pricing for the SaaS template",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "pricing",
+    "expectedRoute": "ambiguous",
+    "persona": "geek",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-geek-03",
+    "input": "apply patch to /sections/1/components/0/props",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "geek",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-geek-04",
+    "input": "classify this: rewrite the headline punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "geek",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-geek-05",
+    "input": "trace the INTENT_ATOM for adding testimonials",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "ambiguous",
+    "persona": "geek",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-geek-06",
+    "input": "emit a SELECTION_ATOM for the dark-mode template",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "geek",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-geek-07",
+    "input": "invoke CONTENT_ATOM with tone=bold length=short",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "geek",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-geek-08",
+    "input": "ASSUMPTIONS_ATOM ranked options for make it pop",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "geek",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-geek-09",
+    "input": "verify Σ.Envelope shape for the last patch",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "geek",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-geek-10",
+    "input": "audit the llm_logs for the last 5 turns",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "geek",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-geek-11",
+    "input": "modify hero @ 0.95 confidence",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "geek",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-geek-12",
+    "input": "Ω→add Σ→pricing for the SaaS template",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "pricing",
+    "expectedRoute": "ambiguous",
+    "persona": "geek",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-geek-13",
+    "input": "apply patch to /sections/1/components/0/props",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "geek",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-geek-14",
+    "input": "classify this: rewrite the headline punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "geek",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-geek-15",
+    "input": "trace the INTENT_ATOM for adding testimonials",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "ambiguous",
+    "persona": "geek",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-geek-16",
+    "input": "emit a SELECTION_ATOM for the dark-mode template",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "geek",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-geek-17",
+    "input": "invoke CONTENT_ATOM with tone=bold length=short",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "geek",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-geek-18",
+    "input": "ASSUMPTIONS_ATOM ranked options for make it pop",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "geek",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-geek-19",
+    "input": "verify Σ.Envelope shape for the last patch",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "geek",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-geek-20",
+    "input": "audit the llm_logs for the last 5 turns",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "geek",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-marcus-01",
+    "input": "Stop guessing, start shipping — make this the headline",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "marcus",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-marcus-02",
+    "input": "add a pricing tier for indie hackers",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "pricing",
+    "expectedRoute": "ambiguous",
+    "persona": "marcus",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-marcus-03",
+    "input": "make the CTA say Build it Now",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "cta",
+    "expectedRoute": "ambiguous",
+    "persona": "marcus",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-marcus-04",
+    "input": "add testimonials from real founders",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "ambiguous",
+    "persona": "marcus",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-marcus-05",
+    "input": "give me a bolder hero, no fluff",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "marcus",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-marcus-06",
+    "input": "add a numbers section with our growth stats",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "numbers",
+    "expectedRoute": "ambiguous",
+    "persona": "marcus",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-marcus-07",
+    "input": "hide the boring About section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "team",
+    "expectedRoute": "ambiguous",
+    "persona": "marcus",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-marcus-08",
+    "input": "change theme to startup-y bold colors",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "marcus",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-marcus-09",
+    "input": "add an FAQ that handles real objections",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "faq",
+    "expectedRoute": "content",
+    "persona": "marcus",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-marcus-10",
+    "input": "rewrite the footer punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "footer",
+    "expectedRoute": "ambiguous",
+    "persona": "marcus",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-marcus-11",
+    "input": "Stop guessing, start shipping — make this the headline",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "marcus",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-marcus-12",
+    "input": "add a pricing tier for indie hackers",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "pricing",
+    "expectedRoute": "ambiguous",
+    "persona": "marcus",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-marcus-13",
+    "input": "make the CTA say Build it Now",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "cta",
+    "expectedRoute": "ambiguous",
+    "persona": "marcus",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-marcus-14",
+    "input": "add testimonials from real founders",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "ambiguous",
+    "persona": "marcus",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-marcus-15",
+    "input": "give me a bolder hero, no fluff",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "marcus",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-marcus-16",
+    "input": "add a numbers section with our growth stats",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "numbers",
+    "expectedRoute": "ambiguous",
+    "persona": "marcus",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-marcus-17",
+    "input": "hide the boring About section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "team",
+    "expectedRoute": "ambiguous",
+    "persona": "marcus",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-marcus-18",
+    "input": "change theme to startup-y bold colors",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "marcus",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-marcus-19",
+    "input": "add an FAQ that handles real objections",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "faq",
+    "expectedRoute": "content",
+    "persona": "marcus",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-marcus-20",
+    "input": "rewrite the footer punchier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "footer",
+    "expectedRoute": "ambiguous",
+    "persona": "marcus",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-sarah-01",
+    "input": "change the headline to a more professional tone",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "sarah",
+    "difficulty": "trivial"
+  },
+  {
+    "id": "pers-sarah-02",
+    "input": "add a corporate testimonials section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "ambiguous",
+    "persona": "sarah",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-sarah-03",
+    "input": "update the pricing page with enterprise tier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "pricing",
+    "expectedRoute": "ambiguous",
+    "persona": "sarah",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-sarah-04",
+    "input": "add a team section with executive bios",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "team",
+    "expectedRoute": "ambiguous",
+    "persona": "sarah",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-sarah-05",
+    "input": "change CTA to Schedule a Demo",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "cta",
+    "expectedRoute": "ambiguous",
+    "persona": "sarah",
+    "difficulty": "trivial"
+  },
+  {
+    "id": "pers-sarah-06",
+    "input": "add a logos section for our enterprise clients",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "logos",
+    "expectedRoute": "ambiguous",
+    "persona": "sarah",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-sarah-07",
+    "input": "write a value-props block for B2B buyers",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "value-props",
+    "expectedRoute": "ambiguous",
+    "persona": "sarah",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-sarah-08",
+    "input": "make the FAQ address procurement concerns",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "faq",
+    "expectedRoute": "content",
+    "persona": "sarah",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-sarah-09",
+    "input": "add a case-studies section in quotes layout",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "quotes",
+    "expectedRoute": "ambiguous",
+    "persona": "sarah",
+    "difficulty": "trivial"
+  },
+  {
+    "id": "pers-sarah-10",
+    "input": "hide the casual blog teaser, keep it formal",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "blog",
+    "expectedRoute": "ambiguous",
+    "persona": "sarah",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-sarah-11",
+    "input": "change the headline to a more professional tone",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "sarah",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-sarah-12",
+    "input": "add a corporate testimonials section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "ambiguous",
+    "persona": "sarah",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-sarah-13",
+    "input": "update the pricing page with enterprise tier",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "pricing",
+    "expectedRoute": "ambiguous",
+    "persona": "sarah",
+    "difficulty": "trivial"
+  },
+  {
+    "id": "pers-sarah-14",
+    "input": "add a team section with executive bios",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "team",
+    "expectedRoute": "ambiguous",
+    "persona": "sarah",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-sarah-15",
+    "input": "change CTA to Schedule a Demo",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "cta",
+    "expectedRoute": "ambiguous",
+    "persona": "sarah",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-sarah-16",
+    "input": "add a logos section for our enterprise clients",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "logos",
+    "expectedRoute": "ambiguous",
+    "persona": "sarah",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-sarah-17",
+    "input": "write a value-props block for B2B buyers",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "value-props",
+    "expectedRoute": "ambiguous",
+    "persona": "sarah",
+    "difficulty": "trivial"
+  },
+  {
+    "id": "pers-sarah-18",
+    "input": "make the FAQ address procurement concerns",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "faq",
+    "expectedRoute": "content",
+    "persona": "sarah",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-sarah-19",
+    "input": "add a case-studies section in quotes layout",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "quotes",
+    "expectedRoute": "ambiguous",
+    "persona": "sarah",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-sarah-20",
+    "input": "hide the casual blog teaser, keep it formal",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "blog",
+    "expectedRoute": "ambiguous",
+    "persona": "sarah",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-lars-01",
+    "input": "emit a clean AISP spec for the SaaS landing",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "lars",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-lars-02",
+    "input": "add a hero that maps to PATCH_ATOM cleanly",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "hero",
+    "expectedRoute": "content",
+    "persona": "lars",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-lars-03",
+    "input": "the spec should hand off to Claude Code without ambiguity",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "lars",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-lars-04",
+    "input": "add an INTENT-classified pricing section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "pricing",
+    "expectedRoute": "ambiguous",
+    "persona": "lars",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-lars-05",
+    "input": "trace each atom for the last build step",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "lars",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-lars-06",
+    "input": "rebuild this section with a 2-step SELECTION_ATOM",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "features",
+    "expectedRoute": "ambiguous",
+    "persona": "lars",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-lars-07",
+    "input": "CONTENT_ATOM the headline with tone=authoritative",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "lars",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-lars-08",
+    "input": "ASSUMPTIONS_ATOM should declare any inferred targets",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "lars",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-lars-09",
+    "input": "export the AISP spec as a static artifact",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "lars",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-lars-10",
+    "input": "verify Σ-restriction held across the last 5 patches",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "lars",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-lars-11",
+    "input": "emit a clean AISP spec for the SaaS landing",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "lars",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-lars-12",
+    "input": "add a hero that maps to PATCH_ATOM cleanly",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "hero",
+    "expectedRoute": "content",
+    "persona": "lars",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-lars-13",
+    "input": "the spec should hand off to Claude Code without ambiguity",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "lars",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-lars-14",
+    "input": "add an INTENT-classified pricing section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "pricing",
+    "expectedRoute": "ambiguous",
+    "persona": "lars",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-lars-15",
+    "input": "trace each atom for the last build step",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "lars",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-lars-16",
+    "input": "rebuild this section with a 2-step SELECTION_ATOM",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "features",
+    "expectedRoute": "ambiguous",
+    "persona": "lars",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-lars-17",
+    "input": "CONTENT_ATOM the headline with tone=authoritative",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "lars",
+    "difficulty": "medium"
+  },
+  {
+    "id": "pers-lars-18",
+    "input": "ASSUMPTIONS_ATOM should declare any inferred targets",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "lars",
+    "difficulty": "hard"
+  },
+  {
+    "id": "pers-lars-19",
+    "input": "export the AISP spec as a static artifact",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "lars",
+    "difficulty": "easy"
+  },
+  {
+    "id": "pers-lars-20",
+    "input": "verify Σ-restriction held across the last 5 patches",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "lars",
+    "difficulty": "medium"
+  }
+]

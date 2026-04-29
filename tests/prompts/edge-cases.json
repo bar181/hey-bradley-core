@@ -1,0 +1,302 @@
+[
+  {
+    "id": "edge-001",
+    "input": "Make the hero say <script>alert(1)</script>",
+    "expectedAtom": "FALLBACK",
+    "expectedVerb": null,
+    "expectedTarget": null,
+    "expectedRoute": null,
+    "persona": "n/a",
+    "difficulty": "adversarial"
+  },
+  {
+    "id": "edge-002",
+    "input": "Set the hero image to javascript:alert(1)",
+    "expectedAtom": "FALLBACK",
+    "expectedVerb": null,
+    "expectedTarget": null,
+    "expectedRoute": null,
+    "persona": "n/a",
+    "difficulty": "adversarial"
+  },
+  {
+    "id": "edge-003",
+    "input": "Add a section with __proto__ in the value",
+    "expectedAtom": "FALLBACK",
+    "expectedVerb": null,
+    "expectedTarget": null,
+    "expectedRoute": null,
+    "persona": "n/a",
+    "difficulty": "adversarial"
+  },
+  {
+    "id": "edge-004",
+    "input": "",
+    "expectedAtom": "FALLBACK",
+    "expectedVerb": null,
+    "expectedTarget": null,
+    "expectedRoute": null,
+    "persona": "n/a",
+    "difficulty": "adversarial"
+  },
+  {
+    "id": "edge-005",
+    "input": "   ",
+    "expectedAtom": "FALLBACK",
+    "expectedVerb": null,
+    "expectedTarget": null,
+    "expectedRoute": null,
+    "persona": "n/a",
+    "difficulty": "adversarial"
+  },
+  {
+    "id": "edge-006",
+    "input": "hide hero AND change theme to dark AND add pricing",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "hide",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "edge-007",
+    "input": "add a footer with copyright text and remove the blog at the same time",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "add",
+    "expectedTarget": "footer",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "edge-008",
+    "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "n/a",
+    "difficulty": "adversarial"
+  },
+  {
+    "id": "edge-009",
+    "input": "🎉🚀✨",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": null,
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "n/a",
+    "difficulty": "adversarial"
+  },
+  {
+    "id": "edge-010",
+    "input": "dóndé está la sección de precios",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "show",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "edge-011",
+    "input": "make the navbar pricing",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": null,
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "edge-012",
+    "input": "hide and show the hero at once",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": null,
+    "expectedTarget": "hero",
+    "expectedRoute": "ambiguous",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "edge-013",
+    "input": "HIDE THE HERO!!!",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "edge-014",
+    "input": "hide   the   hero   please",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "edge-015",
+    "input": "`hide hero`",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "edge-016",
+    "input": "DROP TABLE sections; --",
+    "expectedAtom": "FALLBACK",
+    "expectedVerb": null,
+    "expectedTarget": null,
+    "expectedRoute": null,
+    "persona": "n/a",
+    "difficulty": "adversarial"
+  },
+  {
+    "id": "edge-017",
+    "input": "'; DELETE FROM kv; --",
+    "expectedAtom": "FALLBACK",
+    "expectedVerb": null,
+    "expectedTarget": null,
+    "expectedRoute": null,
+    "persona": "n/a",
+    "difficulty": "adversarial"
+  },
+  {
+    "id": "edge-018",
+    "input": "https://attacker.example/x.png",
+    "expectedAtom": "FALLBACK",
+    "expectedVerb": null,
+    "expectedTarget": null,
+    "expectedRoute": null,
+    "persona": "n/a",
+    "difficulty": "adversarial"
+  },
+  {
+    "id": "edge-019",
+    "input": "data:text/html,<script>alert(1)</script>",
+    "expectedAtom": "FALLBACK",
+    "expectedVerb": null,
+    "expectedTarget": null,
+    "expectedRoute": null,
+    "persona": "n/a",
+    "difficulty": "adversarial"
+  },
+  {
+    "id": "edge-020",
+    "input": "hide hero <iframe src='evil'></iframe>",
+    "expectedAtom": "FALLBACK",
+    "expectedVerb": null,
+    "expectedTarget": null,
+    "expectedRoute": null,
+    "persona": "n/a",
+    "difficulty": "adversarial"
+  },
+  {
+    "id": "edge-021",
+    "input": "hide \nhero",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "edge-022",
+    "input": "hide\thero",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "edge-023",
+    "input": "HIDe ThE HEro",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "edge-024",
+    "input": "hider the hero",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "hide",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "edge-025",
+    "input": "ehide hero",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "hide",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "edge-026",
+    "input": "change​hero​copy",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "edge-027",
+    "input": "hide the hero; rm -rf /",
+    "expectedAtom": "FALLBACK",
+    "expectedVerb": null,
+    "expectedTarget": null,
+    "expectedRoute": null,
+    "persona": "n/a",
+    "difficulty": "adversarial"
+  },
+  {
+    "id": "edge-028",
+    "input": "hide the {{hero}}",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "hide",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "edge-029",
+    "input": "hide the ${hero}",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "hide",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "edge-030",
+    "input": "hide all the things",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "hide",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "n/a",
+    "difficulty": "adversarial"
+  }
+]
