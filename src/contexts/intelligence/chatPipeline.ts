@@ -81,6 +81,21 @@ export interface ChatPipelineResult {
   /** Sprint J P50 (A2) — composition-rendered chat-bubble voice; null on throw / non-success. */
   personalityMessage?: string | null
   personalityId?: PersonalityId | null
+  /** Sprint K P54 (A1) — wall-clock latency in ms from pipeline entry to
+   *  patch-applied. null on non-success paths. */
+  latencyMs?: number | null
+  /** Optional pipeline-stage breakdown for EXPERT mode. ms per stage. */
+  latencyBreakdown?: { classify?: number; select?: number; patch?: number; apply?: number } | null
+}
+
+/** Sprint K P54 (A1) — compose latencyBreakdown from optional stage marks. */
+function buildBreakdown(m: { classifyStart?: number; selectStart?: number; patchStart?: number; applyStart?: number }, doneAt: number): ChatPipelineResult['latencyBreakdown'] {
+  const b: NonNullable<ChatPipelineResult['latencyBreakdown']> = {}
+  if (m.classifyStart != null && m.selectStart != null) b.classify = m.selectStart - m.classifyStart
+  if (m.selectStart != null && (m.patchStart != null || m.applyStart != null)) b.select = (m.patchStart ?? m.applyStart!) - m.selectStart
+  if (m.patchStart != null) b.patch = doneAt - m.patchStart
+  if (m.applyStart != null) b.apply = doneAt - m.applyStart
+  return b
 }
 
 /** Sprint J P50 (A2) — defensive composition render; mirrors deriveImprovements. */
@@ -223,15 +238,13 @@ function runCanned(text: string): { matched: boolean; summary: string } {
  */
 export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineResult> {
   const startedAt = Date.now()
+  // Sprint K P54 (A1) — defensive stage marks; omissions yield no breakdown key.
+  const stageMarks: { classifyStart?: number; selectStart?: number; patchStart?: number; applyStart?: number } = {}
   const text = opts.text.trim()
   if (!text) {
     return {
-      ok: false,
-      appliedPatchCount: 0,
-      fellBackToCanned: false,
-      summary: '',
-      durationMs: Date.now() - startedAt,
-      errorKind: null,
+      ok: false, appliedPatchCount: 0, fellBackToCanned: false, summary: '',
+      durationMs: Date.now() - startedAt, errorKind: null, latencyMs: null, latencyBreakdown: null,
     }
   }
 
@@ -279,6 +292,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     }
 
     let canonicalForTemplate: string
+    stageMarks.classifyStart = Date.now()
     let aisp = classifyIntent(text, projectType)
     let aispSource: 'rules' | 'llm' | 'fallthrough' = 'rules'
     // P27: when rule-based AISP is below threshold, ask the LLM to classify
@@ -310,9 +324,11 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       // AISP not confident — fall through to P25 rule-based translator
       canonicalForTemplate = translateIntent(text).canonicalText
     }
+    stageMarks.selectStart = Date.now()
     const tpl = tryMatchTemplate(canonicalForTemplate)
     if (tpl && tpl.envelope.patches.length > 0) {
       try {
+        stageMarks.applyStart = Date.now()
         useConfigStore.getState().applyPatches(tpl.envelope.patches)
         const tplSummary = `${tpl.envelope.summary} _(template: ${tpl.template.id})_`
         const improvements = await deriveImprovements(
@@ -325,12 +341,13 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
           { summary: tplSummary, patches: tpl.envelope.patches },
           aispTrace,
         )
+        const doneAt = Date.now()
         return {
           ok: true,
           appliedPatchCount: tpl.envelope.patches.length,
           fellBackToCanned: false,
           summary: tplSummary,
-          durationMs: Date.now() - startedAt,
+          durationMs: doneAt - startedAt,
           errorKind: null,
           aisp: aispTrace,
           aispRoute,
@@ -338,6 +355,8 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
           improvements,
           personalityMessage,
           personalityId: useIntelligenceStore.getState().personalityId ?? null,
+          latencyMs: doneAt - startedAt,
+          latencyBreakdown: buildBreakdown(stageMarks, doneAt),
         }
       } catch (e) {
         if (import.meta.env.DEV) console.warn('[chatPipeline] template applyPatches threw', e)
@@ -392,6 +411,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
 
   let pipelineErrorKind: ChatErrorKind | null = null
   try {
+    stageMarks.patchStart = Date.now()
     const llm = await runLLMPipeline(text, opts.source, opts.history)
     if (llm.applied > 0) {
       const improvements = await deriveImprovements(text, llm.applied, llm.summary, aispTrace)
@@ -399,18 +419,21 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         { summary: llm.summary, patches: new Array(llm.applied) },
         aispTrace,
       )
+      const doneAt = Date.now()
       return {
         ok: true,
         appliedPatchCount: llm.applied,
         fellBackToCanned: false,
         summary: llm.summary,
-        durationMs: Date.now() - startedAt,
+        durationMs: doneAt - startedAt,
         errorKind: null,
         aisp: aispTrace,
         aispRoute,
         improvements,
         personalityMessage,
         personalityId: useIntelligenceStore.getState().personalityId ?? null,
+        latencyMs: doneAt - startedAt,
+        latencyBreakdown: buildBreakdown(stageMarks, doneAt),
       }
     }
     pipelineErrorKind = llm.errorKind ?? null

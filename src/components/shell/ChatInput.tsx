@@ -15,6 +15,8 @@ import { TemplateBrowsePicker } from '@/components/shell/TemplateBrowsePicker'
 import { ClarificationPanel } from '@/components/shell/ClarificationPanel'
 // Sprint J P52 (A8) — Share Spec viral-share button (clipboard data URL).
 import { ShareSpecButton } from '@/components/shell/ShareSpecButton'
+// P54 Sprint K Wave 1 (A2) — Patch latency badge (speed visible).
+import { PatchLatencyBadge } from '@/components/shell/PatchLatencyBadge'
 import type { SectionType } from '@/lib/schemas'
 import { submit as submitChatPipeline, mapChatError } from '@/contexts/intelligence/chatPipeline'
 import { dispatchCommand } from '@/contexts/intelligence/commands/dispatchCommand'
@@ -101,6 +103,9 @@ export interface ChatMessage {
    *  Rendered as a small italic block UNDER the typewriter primary text. */
   personalityMessage?: string | null
   personalityId?: PersonalityId | null
+  // Sprint K P54 (A1) — latency for the badge; A2 mounts the renderer.
+  latencyMs?: number | null
+  latencyBreakdown?: { classify?: number; select?: number; patch?: number; apply?: number } | null
 }
 
 const MAX_MESSAGES = 20
@@ -131,6 +136,8 @@ export function ChatInput() {
     // Sprint J P50 (A2) — carry personality output through to typewriter commit.
     personalityMessage?: string | null
     personalityId?: PersonalityId | null
+    latencyMs?: number | null
+    latencyBreakdown?: ChatMessage['latencyBreakdown']
   } | null>(null)
   // P34 Sprint E P1 (A2) — /browse picker visibility.
   const [showBrowsePicker, setShowBrowsePicker] = useState(false)
@@ -193,6 +200,7 @@ export function ChatInput() {
           improvements: pending?.improvements,
           personalityMessage: pending?.personalityMessage ?? null,
           personalityId: pending?.personalityId ?? null,
+          latencyMs: pending?.latencyMs ?? null, latencyBreakdown: pending?.latencyBreakdown ?? null,
         },
       ])
       setTypingText('')
@@ -395,6 +403,7 @@ export function ChatInput() {
       improvements: result.improvements,
       personalityMessage: result.personalityMessage ?? null,
       personalityId: result.personalityId ?? null,
+      latencyMs: result.latencyMs ?? null, latencyBreakdown: result.latencyBreakdown ?? null,
     }
     if (result.ok && !result.fellBackToCanned && result.appliedPatchCount > 0) {
       setTypingText('')
@@ -624,6 +633,11 @@ export function ChatInput() {
               >
                 via voice
               </span>
+            )}
+            {/* P54 Sprint K Wave 1 (A2) — Patch latency badge.
+                Renders AFTER typewriter primary text, BEFORE personality block. */}
+            {msg.role === 'bradley' && (
+              <PatchLatencyBadge latencyMs={msg.latencyMs} breakdown={msg.latencyBreakdown} />
             )}
             {/* Sprint J P50 (A2) — personality-rendered secondary voice layer
                 (composition; no Σ widening). Renders UNDER the typewriter
