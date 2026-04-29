@@ -12,6 +12,7 @@ const TABS: { key: ActiveTab; label: string; expert?: boolean; tip: string; titl
   { key: 'RESOURCES', label: 'Resources', expert: true, tip: 'Templates, AISP guide, media library', title: 'Browse templates, images, and helper guides.' },
   { key: 'DATA', label: 'Data', tip: 'Raw JSON configuration', title: 'View the JSON behind your page.' },
   { key: 'WORKFLOW', label: 'Pipeline', expert: true, tip: 'Build workflow visualization', title: 'Watch the build steps for your site.' },
+  { key: 'CONVERSATION_LOG', label: 'Log', expert: true, tip: 'Conversation log (chat + LLM audit)', title: 'See every prompt + reply with provider + personality.' },
 ]
 
 export function TabBar() {

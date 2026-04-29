@@ -13,6 +13,8 @@ import { ChatExplainer } from '@/components/shell/ChatExplainer'
 import { AISPSurface } from '@/components/shell/AISPSurface'
 import { TemplateBrowsePicker } from '@/components/shell/TemplateBrowsePicker'
 import { ClarificationPanel } from '@/components/shell/ClarificationPanel'
+// Sprint J P52 (A8) — Share Spec viral-share button (clipboard data URL).
+import { ShareSpecButton } from '@/components/shell/ShareSpecButton'
 import type { SectionType } from '@/lib/schemas'
 import { submit as submitChatPipeline, mapChatError } from '@/contexts/intelligence/chatPipeline'
 import { dispatchCommand } from '@/contexts/intelligence/commands/dispatchCommand'
@@ -566,8 +568,10 @@ export function ChatInput() {
     <div className="flex flex-col h-full">
       {/* P19 Fix-Pass 2 (F13): simulated-mode header pill so users know they
           aren't hitting a real LLM. Pinned above the messages area. */}
-      {(isSimulated || personalityProfile) && (
-        <div className="px-4 py-1.5 border-b border-hb-border/40 flex items-center gap-1.5">
+      <div className="px-4 py-1.5 border-b border-hb-border/40 flex items-center gap-1.5">
+        {/* Sprint J P52 (A8) — desktop-only Share Spec; mobile mount via A10 (P53). */}
+        <span className="hidden md:inline-flex"><ShareSpecButton /></span>
+        {(isSimulated || personalityProfile) && (<>
           {isSimulated && (
             <span
               data-testid="chat-simulated-pill"
@@ -586,8 +590,8 @@ export function ChatInput() {
               {personalityProfile.emoji ? `${personalityProfile.emoji} ` : ''}{personalityProfile.label.split(' ')[0]}
             </span>
           )}
-        </div>
-      )}
+        </>)}
+      </div>
       {/* Chat messages — closed captioning style */}
       <div
         className="flex-1 overflow-y-auto px-4 py-3 space-y-1"

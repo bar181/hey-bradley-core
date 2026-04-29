@@ -6,6 +6,7 @@ import { DataTab } from './DataTab'
 import { XAIDocsTab } from './XAIDocsTab'
 import { WorkflowTab } from './WorkflowTab'
 import { ResourcesTab } from './ResourcesTab'
+import { ConversationLogTab } from './ConversationLogTab'
 
 export function CenterCanvas() {
   const activeTab = useUIStore((s) => s.activeTab)
@@ -28,6 +29,7 @@ export function CenterCanvas() {
         {activeTab === 'XAI_DOCS' && <XAIDocsTab />}
         {activeTab === 'RESOURCES' && <ResourcesTab />}
         {activeTab === 'WORKFLOW' && <WorkflowTab />}
+        {activeTab === 'CONVERSATION_LOG' && <ConversationLogTab />}
       </div>
     </div>
   )
