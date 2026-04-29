@@ -64,7 +64,7 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 
 ## Project Status
 
-- **Current Phase:** Sprint L P55 SEALED at `2944461` (Spec Unmissable — moat priority #2; cumulative 234/234 GREEN). Sprint K P54 sealed at `44cc36c` (Speed Visible — moat priority #1; latency badge + first blog post + ADR-077). Sprint J sealed at `644200a` (system-wide composite 89.75 PASS; capstone-ready 92/100). System-wide review at `ef9a421` (`plans/strategic-reviews/2026-04-29-sprint-j-system-wide/`). 2026-04-29 moat reframe per `plans/strategic-reviews/open-core-moat-roadmap.md` — K=P54 Speed (sealed) / L=P55 Spec (sealed) / M=P56 Premium Templates (NEXT) / N=P57 Shareable Output (post-defense) / O=P58 Open Core RC (post-defense). **Phase 56 (Sprint M) is NEXT** — premium template discipline (moat priority #3). Sprints G/H/I-remainder/original-J-Agentic-Support deferred to commercial track. Capstone defense ~8 days out.
+- **Current Phase:** Sprint O P58 IN PROGRESS — Open Core RC release prep targeting `v1.0.0-RC1` tag. Sprint N P57 Wave 2 SEALED at `c00c2b7` (Shareable Output — moat priority #4; ADR-081 supersedes ADR-075). Sprint N Wave 1 (public-site refresh + blog system + ADR-080) sealed at `e692204`. Sprint M P56 sealed at `3398702` (Premium Templates — moat priority #3; ADR-079). Sprint L P55 sealed at `2944461` (Spec Unmissable — moat priority #2; ADR-078). Sprint K P54 sealed at `44cc36c` (Speed Visible — moat priority #1; ADR-077). Sprint J P53 sealed at `644200a` (system-wide composite 89.75 PASS; capstone-ready 92/100). 7 sprints sealed in 2 days through P57 Wave 2. **Phase 58 (Sprint O) is THIS PHASE** — README/CLAUDE final + demo video + Agentics Foundation beta + `v1.0.0-RC1` public release. Sprints G/H/I-remainder/original-J-Agentic-Support deferred to commercial Tier-2 track.
 - **Codebase:** ~63K total lines (TS/TSX/JSON/MD, excl. node_modules); ~28,400 lines TS/TSX across 227 source files
 - **Themes:** 12 (agency, blog, creative, elegant, minimalist, neon, personal, portfolio, professional, saas, startup, wellness)
 - **Examples:** 17 (adds blog-standard + capstone to the original 15)
@@ -77,9 +77,25 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 - **Blueprints:** 7 sub-tabs (North Star, Architecture, Build Plan, Features, Human Spec, AISP, JSON)
 - **Center Tabs (EXPERT):** 5 (Preview, Blueprints, Resources, Data, Pipeline)
 - **Capabilities:** Multi-page support, ZIP export, blog section type, AISP Crystal Atom output, real LLM adapters (Claude/Gemini/OpenRouter), Web-Speech STT (PTT)
-- **ADRs:** 79 Accepted on disk through ADR-079 (Premium Template Design System, P56). Numbering has 11 documented gaps (002-004, 006-009, 034-037) plus 3 stub-then-superseded duplicates (ADR-051/052/053 each have a P21 stub + a later Accepted file under the same number; see `docs/adr/README.md`). Index README `docs/adr/README.md` is itself stale at 38 ADRs / ADR-048 — flagged for Sprint M housekeeping.
+- **ADRs:** 81 Accepted on disk through ADR-081 (Shareable Output / supersedes ADR-075, P57 W2). Range ADR-045 through ADR-081. Numbering has 11 documented gaps (002-004, 006-009, 034-037) plus 3 stub-then-superseded duplicates (ADR-051/052/053 each have a P21 stub + a later Accepted file under the same number; see `docs/adr/README.md`).
 - **Deferred Features:** 34 documented in plans/deferred-features.md; 20 P20 carryforward items in plans/implementation/phase-19/deep-dive/05-fix-pass-plan.md §5
-- **Tests:** Cumulative 234/234 GREEN at P55 seal (`2944461`). Per-file `grep test\(` totals are higher (≈1,097 across 69 spec files including legacy and skipped suites); 234 is the curated PURE-UNIT seal-gate count enforced by Sprint K/L preflights.
+- **Tests:** Cumulative 298/298 PURE-UNIT GREEN at Sprint N seal (`c00c2b7`). Full corpus is 846 tests across 73 spec files (includes legacy + skipped suites); 298 is the curated PURE-UNIT seal-gate cumulative-regression subset enforced by Sprint K/L/M/N preflights.
+- **Ruvector Memory:** 95 entries populated (38 phases + 37 ADRs + 5 decisions + 6 learnings + 9 prior); HNSW re-index pending → deferred to commercial Tier-2 learning runtime.
+
+### Open-Core Moat Priorities
+
+1. **Speed visible** — Sprint K / P54 / ADR-077 (latency badge surfaces sub-second response)
+2. **Spec unmissable** — Sprint L / P55 / ADR-078 (AISP always-on + atom animations)
+3. **Premium templates** — Sprint M / P56 / ADR-079 (3-5 strongly opinionated templates)
+4. **Shareable output** — Sprint N / P57 / ADR-081 (static HTML export + hosted spec URL)
+
+### Deferred to Commercial (Tier-2)
+
+- Multi-page sites (beyond current scope)
+- OAuth + Supabase persistence
+- Vector DB learning runtime (HNSW re-index pending)
+- Tier-2 flagship dashboard / SaaS apps
+- Agentic Support System (Sprints J/K/L originals)
 
 ### Phase Roadmap
 
@@ -126,10 +142,10 @@ The standard 1-4 is non-negotiable. Steps 5-6 are decided per-phase by the owner
 | P52 | Sprint J P3 — Conversation Log EXPERT tab + Share Spec clipboard (ADR-075) | CLOSED — Sprint J Wave 3 (`c806af4`) |
 | P53 | Sprint J P4 — Mobile UX overhaul (3-tab nav + hamburger; ADR-076) + **Sprint J SEAL** | CLOSED at `644200a` — system-wide composite 89.75 PASS |
 | P54 | **Sprint K — Make The Speed Visible** (latency capture + UI badge; moat priority #1; ADR-077) | CLOSED at `44cc36c` — Sprint K Wave 1 |
-| P55 | **Sprint L — Make The Spec Unmissable** (AISP always-on + atom animations + spec primary tab; moat priority #2 — most important; ADR-078) | CLOSED at `2944461` — Sprint L Wave 1; cumulative 234/234 GREEN |
-| P56 | **Sprint M — Premium Templates** (3-5 strongly opinionated templates + design discipline; moat priority #3; ADR-079) | NEXT (planned) |
-| P57 | **Sprint N — Shareable Output** (static HTML export + hosted spec URL; moat priority #4; ADR-080 supersedes ADR-075) | PLANNED — post-defense |
-| P58 | **Sprint O — Open Core RC** (README/CLAUDE final + demo video + Agentics Foundation beta + `v1.0.0-RC1` public release; ADR-081) | PLANNED — post-defense |
+| P55 | **Sprint L — Make The Spec Unmissable** (AISP always-on + atom animations + spec primary tab; moat priority #2; ADR-078) | CLOSED at `2944461` — Sprint L Wave 1 |
+| P56 | **Sprint M — Premium Templates** (3-5 strongly opinionated templates + design discipline; moat priority #3; ADR-079) | CLOSED at `3398702` — Sprint M Wave 1 |
+| P57 | **Sprint N — Shareable Output** (static HTML export + hosted spec URL; moat priority #4; ADR-080 + ADR-081 supersedes ADR-075) | CLOSED — Wave 1 public-site refresh at `e692204`; Wave 2 Sprint N at `c00c2b7` (cumulative 298/298 PURE-UNIT GREEN) |
+| P58 | **Sprint O — Open Core RC** (README/CLAUDE final + demo video + Agentics Foundation beta + `v1.0.0-RC1` public release) | **THIS PHASE** — target: `v1.0.0-RC1` tag |
 | (deferred) | Sprint G (Interview), Sprint H (Upload+Refs), Sprint I remainder, original Sprint J (Agentic Support System), Tier-2 SaaS-dashboard flagship, learning-flywheel runtime | DEFERRED to commercial track per `plans/strategic-reviews/open-core-moat-roadmap.md` |
 
 ## AISP (AI Symbolic Protocol) 
