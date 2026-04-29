@@ -61,3 +61,6 @@ export type {
 // ADR-066. Splits LLM router into 'content' (slow/LLM) vs 'design' (fast/$0).
 export { classifyRoute } from './routeClassifier'
 export type { AISPRoute, RouteClassification } from './routeClassifier'
+// P48 Sprint I Wave 2 (A5) — Improvement Suggester (rule-based; $0).
+export { suggestImprovements } from './improvementSuggester'
+export type { ImprovementSuggestion, SuggesterInput } from './improvementSuggester'

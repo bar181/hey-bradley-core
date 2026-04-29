@@ -71,6 +71,35 @@ export interface ChatPipelineResult {
    * not run.
    */
   aispRoute?: 'content' | 'design' | 'ambiguous' | null
+  /**
+   * P48 Sprint I Wave 2 (A5) — actionable next-step suggestions surfaced
+   * after a successful patch lands. Rule-based, $0, max 3 entries. Empty
+   * (and undefined) on any non-success path or when no rule fired.
+   */
+  improvements?: readonly string[]
+}
+
+/** P48 (A5) — defensive 1-3 next-step suggestions for a successful patch. */
+async function deriveImprovements(
+  userText: string,
+  appliedPatchCount: number,
+  summary: string,
+  aispTrace: { intent: ClassifiedIntent | null } | null,
+): Promise<readonly string[] | undefined> {
+  if (appliedPatchCount <= 0) return undefined
+  try {
+    const mod = await import('@/contexts/intelligence/aisp/improvementSuggester')
+    const intent = aispTrace?.intent ?? null
+    const out = mod.suggestImprovements({
+      userText, appliedPatchCount, summary,
+      sectionTypesPresent: useConfigStore.getState().config.sections.map((s) => s.type),
+      verb: intent?.verb, targetType: intent?.target?.type,
+    })
+    return out.length > 0 ? out.map((s) => s.text) : undefined
+  } catch (e) {
+    if (import.meta.env.DEV) console.warn('[chatPipeline] improvementSuggester unavailable', e)
+    return undefined
+  }
 }
 
 const FALLBACK_HINT =
@@ -267,16 +296,24 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     if (tpl && tpl.envelope.patches.length > 0) {
       try {
         useConfigStore.getState().applyPatches(tpl.envelope.patches)
+        const tplSummary = `${tpl.envelope.summary} _(template: ${tpl.template.id})_`
+        const improvements = await deriveImprovements(
+          text,
+          tpl.envelope.patches.length,
+          tplSummary,
+          aispTrace,
+        )
         return {
           ok: true,
           appliedPatchCount: tpl.envelope.patches.length,
           fellBackToCanned: false,
-          summary: `${tpl.envelope.summary} _(template: ${tpl.template.id})_`,
+          summary: tplSummary,
           durationMs: Date.now() - startedAt,
           errorKind: null,
           aisp: aispTrace,
           aispRoute,
           templateId: tpl.template.id,
+          improvements,
         }
       } catch (e) {
         if (import.meta.env.DEV) console.warn('[chatPipeline] template applyPatches threw', e)
@@ -333,6 +370,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
   try {
     const llm = await runLLMPipeline(text, opts.source, opts.history)
     if (llm.applied > 0) {
+      const improvements = await deriveImprovements(text, llm.applied, llm.summary, aispTrace)
       return {
         ok: true,
         appliedPatchCount: llm.applied,
@@ -342,6 +380,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         errorKind: null,
         aisp: aispTrace,
         aispRoute,
+        improvements,
       }
     }
     pipelineErrorKind = llm.errorKind ?? null

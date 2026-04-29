@@ -87,6 +87,12 @@ export interface ChatMessage {
    * context is active and the route was design-only.
    */
   aispRoute?: 'content' | 'design' | 'ambiguous' | null
+  /**
+   * P48 Sprint I Wave 2 (A5) — actionable next-step suggestions surfaced
+   * after a successful patch lands. Max 3 entries. Rendered as a small
+   * "next steps" block under the bradley message.
+   */
+  improvements?: readonly string[]
 }
 
 const MAX_MESSAGES = 20
@@ -113,6 +119,7 @@ export function ChatInput() {
     patches?: number
     pipelineSummary?: string
     aispRoute?: ChatMessage['aispRoute']
+    improvements?: readonly string[]
   } | null>(null)
   // P34 Sprint E P1 (A2) — /browse picker visibility.
   const [showBrowsePicker, setShowBrowsePicker] = useState(false)
@@ -169,6 +176,7 @@ export function ChatInput() {
           patches: pending?.patches,
           pipelineSummary: pending?.pipelineSummary,
           aispRoute: pending?.aispRoute ?? null,
+          improvements: pending?.improvements,
         },
       ])
       setTypingText('')
@@ -368,6 +376,7 @@ export function ChatInput() {
       patches: result.appliedPatchCount,
       pipelineSummary: result.summary,
       aispRoute: result.aispRoute ?? null,
+      improvements: result.improvements,
     }
     if (result.ok && !result.fellBackToCanned && result.appliedPatchCount > 0) {
       setTypingText('')
@@ -602,6 +611,22 @@ export function ChatInput() {
                 summary={msg.pipelineSummary ?? null}
                 aispRoute={msg.aispRoute ?? null}
               />
+            )}
+            {/* P48 Sprint I Wave 2 (A5) — next-step improvement suggestions
+                surfaced under a successful patch reply. Subtle muted block;
+                max 3 items. */}
+            {msg.role === 'bradley' && msg.improvements && msg.improvements.length > 0 && (
+              <div
+                data-testid="aisp-improvement-suggestions"
+                className="mt-1.5 px-2 py-1.5 text-[11px] text-hb-text-muted border-l-2 border-hb-accent/30"
+              >
+                <div className="font-medium mb-0.5">💡 Next steps:</div>
+                <ul className="space-y-0.5">
+                  {msg.improvements.slice(0, 3).map((s, i) => (
+                    <li key={i}>• {s}</li>
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
         ))}

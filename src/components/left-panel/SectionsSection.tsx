@@ -10,6 +10,7 @@ import { Tooltip } from '@/components/ui/Tooltip'
 import { useUIStore } from '@/store/uiStore'
 import { useConfigStore } from '@/store/configStore'
 import { applyDraftLabel } from '@/lib/draftRename'
+import { QuickAddPicker } from './QuickAddPicker'
 import type { SectionType } from '@/lib/schemas/section'
 
 // DRAFT-mode narrowed surface: hero + blog (article-as-blog-minimal) + footer.
@@ -498,6 +499,12 @@ export function SectionsSection() {
         className="flex flex-col gap-1 outline-none"
       >
         {enabledSections.map((section, index) => renderSectionRow(section, index))}
+      </div>
+
+      {/* P48 Sprint I A4 — Quick-add curated templates (opt-in, above the
+          existing categorized picker; does NOT replace it). */}
+      <div className="mt-1">
+        <QuickAddPicker />
       </div>
 
       {/* More Sections — hidden sections + add new */}
