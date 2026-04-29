@@ -18,6 +18,9 @@ import blogStandard from './blog-standard.json'
 import saasFounder from './saas-founder'
 import indiePortfolio from './indie-portfolio'
 import { b2bAgencyConfig } from './b2b-agency'
+import heyBradleyFlagship from './hey-bradley-flagship'
+import aiEngineerPersonal from './ai-engineer-personal'
+import localBusiness from './local-business'
 import type { MasterConfig } from '@/lib/schemas'
 
 export interface ExampleSite {
@@ -147,5 +150,23 @@ export const EXAMPLE_SITES: ExampleSite[] = [
     description: 'B2B brand & build agency — warm clay/cream palette, process-focused, named case studies',
     theme: 'Agency',
     config: b2bAgencyConfig,
+  },
+  {
+    name: 'Hey Bradley — Flagship',
+    description: 'The Hey Bradley public site recreated as a Hey Bradley project — moat priorities, AISP architecture, scoreboard, open-core vs commercial.',
+    theme: 'Platform',
+    config: heyBradleyFlagship,
+  },
+  {
+    name: 'Lars Halvorsen — AI Engineer Personal',
+    description: 'Spec-first agentic engineer portfolio — monospace headings, deep navy, GitHub-flavored.',
+    theme: 'Tech Business',
+    config: aiEngineerPersonal,
+  },
+  {
+    name: 'Marigold & Co. — Local Business',
+    description: 'Family-owned florist on Main Street — warm photography, friendly serif, hours+location prominent. Defaults that work for non-technical owners.',
+    theme: 'Wellness',
+    config: localBusiness,
   },
 ]
