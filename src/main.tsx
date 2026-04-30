@@ -15,6 +15,8 @@ import { Blog } from '@/pages/Blog'
 import { BlogPost } from '@/pages/BlogPost'
 import { Progress } from '@/pages/Progress'
 import { SharedSpec } from '@/pages/SharedSpec'
+import { ListenModeDemo } from '@/demos/ListenModeDemo'
+import { ChatModeDemo } from '@/demos/ChatModeDemo'
 import { NotFound } from '@/pages/NotFound'
 import { initDB } from '@/contexts/persistence/db'
 import { migrateLegacyLocalStorage } from '@/contexts/persistence/legacyMigration'
@@ -68,6 +70,8 @@ initDB()
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/progress" element={<Progress />} />
             <Route path="/spec/:hash" element={<SharedSpec />} />
+            <Route path="/demo/listen" element={<ListenModeDemo />} />
+            <Route path="/demo/chat" element={<ChatModeDemo />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
@@ -99,6 +103,8 @@ initDB()
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/progress" element={<Progress />} />
             <Route path="/spec/:hash" element={<SharedSpec />} />
+            <Route path="/demo/listen" element={<ListenModeDemo />} />
+            <Route path="/demo/chat" element={<ChatModeDemo />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
