@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom"
 import { ArrowRight, Mic, MessageSquare, SlidersHorizontal } from "lucide-react"
 import { MarketingNav } from "@/components/MarketingNav"
+import { HEADLINE_STATS } from "@/data/progress-eval"
+import { listBlogPosts } from "@/lib/blogPosts"
 
 const MODES = [
   {
@@ -27,6 +29,7 @@ const MODES = [
 ]
 
 export function Welcome() {
+  const recentPosts = listBlogPosts().slice(0, 3)
   return (
     <main className="min-h-screen bg-[#faf8f5] text-[#2d1f12]">
       <MarketingNav />
@@ -48,16 +51,17 @@ export function Welcome() {
             to="/onboarding"
             className="inline-flex items-center gap-2 px-6 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
           >
-            Try it now
+            Try the open source version
             <ArrowRight className="w-4 h-4" />
           </Link>
           <a
-            href="https://github.com/bar181/hey-bradley-core"
+            href="https://github.com/bar181/aisp-open-core"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors"
           >
-            Open core on GitHub
+            Explore AISP
+            <ArrowRight className="w-4 h-4" />
           </a>
           <Link
             to="/aisp"
@@ -65,6 +69,17 @@ export function Welcome() {
           >
             Read the AISP spec
           </Link>
+        </div>
+      </section>
+
+      {/* Social proof bar */}
+      <section className="border-y border-[#e8772e]/15 bg-[#f1ece4]/40">
+        <div className="max-w-5xl mx-auto px-6 py-5 flex flex-wrap gap-x-8 gap-y-2 text-sm text-[#6b5e4f] justify-center items-center">
+          <span><strong className="text-[#2d1f12]">{HEADLINE_STATS.adrsAccepted}</strong> ADRs</span>
+          <span><strong className="text-[#2d1f12]">{HEADLINE_STATS.testsGreen}</strong> tests green</span>
+          <span><strong className="text-[#2d1f12]">61/80</strong> competitive score</span>
+          <span><strong className="text-[#2d1f12]">42K</strong> LOC</span>
+          <span>built by a swarm in <strong className="text-[#2d1f12]">{HEADLINE_STATS.codingDays} days</strong></span>
         </div>
       </section>
 
@@ -170,15 +185,54 @@ export function Welcome() {
         </p>
       </article>
 
+      {/* Blog preview — Don Miller hook "The spec layer explained" */}
+      <section className="max-w-5xl mx-auto px-6 py-20">
+        <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-3 font-medium">
+          The blog
+        </p>
+        <h2 className="text-3xl lg:text-4xl font-bold tracking-tight mb-2">
+          The spec layer explained
+        </h2>
+        <p className="text-[#6b5e4f] mb-10 max-w-2xl">
+          Field notes from the build. Velocity, AISP, and the parts of agentic
+          engineering the rest of the AI-builder industry leaves on the table.
+        </p>
+        <div className="grid md:grid-cols-3 gap-6">
+          {recentPosts.map((post) => (
+            <Link
+              key={post.slug}
+              to={`/blog/${post.slug}`}
+              className="block p-6 rounded-xl border border-[#e8772e]/15 bg-white hover:border-[#e8772e]/40 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)]"
+            >
+              <h3 className="font-semibold text-lg mb-2 text-[#2d1f12] leading-snug">{post.title}</h3>
+              <p className="text-sm text-[#6b5e4f] mb-3 leading-relaxed">{post.excerpt}</p>
+              <span className="text-sm text-[#e8772e] font-medium inline-flex items-center gap-1">
+                Read more <ArrowRight className="w-3.5 h-3.5" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* Closing CTA */}
       <section className="max-w-3xl mx-auto px-6 pb-24 text-center">
-        <Link
-          to="/onboarding"
-          className="inline-flex items-center gap-2 px-8 py-4 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg text-lg"
-        >
-          Try it now
-          <ArrowRight className="w-5 h-5" />
-        </Link>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <Link
+            to="/onboarding"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg text-lg"
+          >
+            Try the open source version
+            <ArrowRight className="w-5 h-5" />
+          </Link>
+          <a
+            href="https://github.com/bar181/hey-bradley-core"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-8 py-4 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors text-lg"
+          >
+            Open core on GitHub
+          </a>
+        </div>
         <p className="text-sm text-[#6b5e4f] mt-4">
           No account required. No key required for Simulated mode.
         </p>

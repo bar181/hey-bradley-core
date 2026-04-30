@@ -22,11 +22,11 @@ export interface ProgressItem {
 
 export const HEADLINE_STATS = {
   codingDays: 2,
-  daysToDefense: 10,
-  phasesSealed: 42,    // P15 through P56 inclusive
-  adrsAccepted: 79,
-  testsGreen: 244,     // P55 cumulative seal-gate; P57 smoke not yet rolled in
-  sprintsSealed: 7,    // F, H, I, J, K, L, M
+  daysToDefense: 14,
+  phasesSealed: 50,    // P15 through P65b inclusive
+  adrsAccepted: 90,
+  testsGreen: 481,     // P65b cumulative seal-gate
+  sprintsSealed: 14,   // F, H, I, J, K, L, M, N, O, OC-1, OC-2, OC-3, OC-2.5, OC-2.5 W2
 } as const
 
 export const PROGRESS_ITEMS: ProgressItem[] = [
