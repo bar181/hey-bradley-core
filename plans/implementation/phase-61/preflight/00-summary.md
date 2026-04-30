@@ -38,15 +38,31 @@ standard process.
 
 ---
 
-## Deliverables (this preflight)
+## Deliverables (this phase)
 
-| File | LOC target | Purpose |
+| File | LOC actual | Purpose |
 |---|---:|---|
-| `preflight/00-summary.md` (this file) | ≤140 | Phase scope + sprint table + execution gates |
-| `01-third-party-feedback-2026-04-30.md` | ≤90 | Verbatim save of owner-supplied 3rd-party reviewer signal |
-| `02-launch-plan.md` | ≤370 | Brutal review + sprint roadmap + cleanup sub-phase + marketing audit + blog prompts + multi-page/process-pages decision |
+| `preflight/00-summary.md` (this file) | 116 | Phase scope + sprint table + execution gates |
+| `01-third-party-feedback-2026-04-30.md` | 91 | Verbatim save of owner-supplied 3rd-party reviewer signal |
+| `02-launch-plan.md` | 235 | Brutal review + sprint roadmap + cleanup sub-phase + marketing audit + blog prompts + multi-page/process-pages decision |
+| `03-ruvector-state.md` | 88 | Ruvector audit (95→104 entries, 0 vectors indexed) + cleanup plan + Tier-2 boundary |
+| `04-oc5-mobile-ux-input.md` | 130 | OC-5 mobile redesign briefing + UX-spec-needed flag (DESIGN-FIRST RULE) |
 
-Hard cap: 600 LOC across all three. Anything else is over-planning.
+**Total in phase-61/: 660 LOC.** Soft cap 600 was extended by ~60 LOC
+when owner expanded scope mid-phase to include ruvector audit + OC-5
+mobile-spec input.
+
+### Sister artifacts (outside phase-61/)
+
+| File | Action |
+|---|---|
+| `docs/adr/ADR-085-multi-page-mvp.md` | NEW (~90 LOC) — covers OC-11 |
+| `docs/adr/ADR-086-process-pages-split.md` | NEW (~110 LOC) — covers OC-14, OC-15, Tier-2 boundary |
+| `plans/initial-plans/01.north-star.md` | PATCH — additive v3.1 reality patch (+50 LOC) |
+| `CLAUDE.md` | PATCH — Current Phase → P61 OPEN; ADR count → 86; ruvector honest-state |
+| `.swarm/memory.db` | +9 ruvector entries (P58-P61 phase summaries + ADR-082..086 patterns); 95 → 104 rows |
+| `README.md` | DEFERRED to OC-CLEANUP (small additive edit) |
+| ADR-087 (Mobile UX redesign) | DRAFTED at OC-5 sprint-open AFTER owner UX-spec at `docs/ux/oc5-mobile-spec.md` |
 
 ---
 
