@@ -32,8 +32,8 @@
       "accentSecondary": "#fb923c"
     },
     "typography": {
-      "fontFamily": "Georgia",
-      "headingFamily": "Georgia",
+      "fontFamily": "Playfair Display",
+      "headingFamily": "Playfair Display",
       "headingWeight": 700,
       "baseSize": "17px",
       "lineHeight": 1.8

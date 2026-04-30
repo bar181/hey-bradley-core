@@ -97,14 +97,12 @@
         "direction": "column",
         "align": "center",
         "gap": "24px",
-        "padding": "100px 24px",
+        "padding": "80px 24px",
         "maxWidth": "1100px"
       },
       "style": {
         "background": "#1a1a1a",
-        "color": "#fafafa",
-        "fontFamily": "Inter",
-        "borderRadius": "0px"
+        "color": "#fafafa"
       },
       "components": [
         {

@@ -99,9 +99,7 @@
       },
       "style": {
         "background": "#ffffff",
-        "color": "#0f172a",
-        "fontFamily": "Inter",
-        "borderRadius": "0px"
+        "color": "#0f172a"
       },
       "components": [
         {
