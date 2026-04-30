@@ -21,6 +21,9 @@ import { b2bAgencyConfig } from './b2b-agency'
 import heyBradleyFlagship from './hey-bradley-flagship'
 import aiEngineerPersonal from './ai-engineer-personal'
 import localBusiness from './local-business'
+import coffeeRoaster from './coffee-roaster.json'
+import devConference from './dev-conference.json'
+import podcastShow from './podcast-show.json'
 import type { MasterConfig } from '@/lib/schemas'
 
 export interface ExampleSite {
@@ -168,5 +171,23 @@ export const EXAMPLE_SITES: ExampleSite[] = [
     description: 'Family-owned florist on Main Street — warm photography, friendly serif, hours+location prominent. Defaults that work for non-technical owners.',
     theme: 'Wellness',
     config: localBusiness,
+  },
+  {
+    name: 'Beanstalk Coffee Co.',
+    description: 'E-commerce subscription brand for an indie Brooklyn roaster — warm earth tones, Fraunces serif, transparent direct-trade voice.',
+    theme: 'Wellness',
+    config: coffeeRoaster as unknown as MasterConfig,
+  },
+  {
+    name: 'ShipFast Conf 2026',
+    description: 'Senior-engineer conference landing — dark canvas, JetBrains Mono accents, single-track agenda voice. Brooklyn, Oct 14-15.',
+    theme: 'SaaS',
+    config: devConference as unknown as MasterConfig,
+  },
+  {
+    name: 'Build Mode — Podcast',
+    description: 'Agentic-engineering podcast — deep purple canvas, indigo accent, episode-card layout, conversational inside-baseball voice.',
+    theme: 'Creative',
+    config: podcastShow as unknown as MasterConfig,
   },
 ]
