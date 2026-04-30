@@ -6,6 +6,7 @@
  * kv['mobile_first_run_seen'] = '1'. No new deps; tokens + Tailwind only.
  */
 
+import { useEffect, useState } from 'react'
 import { Mic, MessageSquare } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { tokens } from '@/styles/design-tokens'
@@ -27,6 +28,8 @@ export interface MobileFirstRunCardProps {
 }
 
 export function MobileFirstRunCard({ onListen, onChat, onSkip }: MobileFirstRunCardProps) {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
   const buttonBase = cn(
     'w-full min-h-[44px] flex items-center justify-center gap-2 rounded-md',
     'border border-hb-border bg-hb-surface text-hb-text-primary text-sm font-mono',
@@ -36,7 +39,10 @@ export function MobileFirstRunCard({ onListen, onChat, onSkip }: MobileFirstRunC
   return (
     <div
       data-testid="mobile-first-run-card"
-      className="bg-hb-surface border border-hb-border"
+      className={cn(
+        'bg-hb-surface border border-hb-border transition-all duration-300 ease-out',
+        mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
+      )}
       style={{
         padding: tokens.spacing['stack-gap-lg'],
         borderRadius: tokens.radius.lg,

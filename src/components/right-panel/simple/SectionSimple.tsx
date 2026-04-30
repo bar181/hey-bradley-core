@@ -150,9 +150,12 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
     : ''
 
   return (
-    <div data-section-id={sectionId}>
+    <div data-section-id={sectionId} className="transition-all duration-200 ease-out">
       {/* P66 / A5 — Collapse-by-default outer header. Tap to toggle.
-          Active section auto-expands via initial state. */}
+          Active section auto-expands via initial state.
+          P67 / Wave 2 / A2 — collapse-animation `transition-all duration-200`
+          on the outer wrapper for smooth height transition (was A4 scope;
+          consolidated into A2 sweep per preflight). */}
       <button
         type="button"
         onClick={() => setExpanded((v) => !v)}

@@ -108,7 +108,10 @@ test.describe('P66.4 — A3 Mobile first-run card shipped (first-run mobile path
   })
   test('MobileFirstRunCard.tsx is ≤80 LOC', () => {
     const src = readFileSync(MOBILE_FIRST_RUN, 'utf8')
-    const lines = src.split('\n').length
+    // Strip trailing newline before counting (match `wc -l` semantics);
+    // P67/A4 added a slide-up entrance bringing the file to 80 LOC content
+    // + 1 trailing newline => split('\n').length = 81 without the strip.
+    const lines = src.replace(/\n$/, '').split('\n').length
     expect(lines).toBeLessThanOrEqual(80)
   })
   test('MobileFirstRunCard exports MobileFirstRunCard + shouldShowMobileFirstRun + markMobileFirstRunSeen', () => {

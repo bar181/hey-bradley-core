@@ -101,7 +101,16 @@ const INTERACTIONS: readonly InteractionStep[] = [
   },
 ]
 
+// Default-fallback constant retained for any historical asserts; live
+// per-char delay is computed via nextCharDelay() for a more human cadence.
 const TYPING_CHAR_MS = 35
+
+function nextCharDelay(prevChar: string): number {
+  const base = 28 + Math.floor(Math.random() * 16)
+  if (prevChar === ' ') return base + 60
+  if (',.!?'.includes(prevChar)) return base + 120
+  return base
+}
 
 interface ThreadEntry {
   kind: 'user' | 'bradley'
@@ -136,9 +145,10 @@ export function ChatModeDemo() {
     }
     if (phase === 'typing') {
       if (typingBuffer.length < step.userText.length) {
+        const prevChar = step.userText[typingBuffer.length - 1] ?? ''
         timerRef.current = setTimeout(() => {
           setTypingBuffer(step.userText.slice(0, typingBuffer.length + 1))
-        }, TYPING_CHAR_MS)
+        }, nextCharDelay(prevChar))
       } else {
         timerRef.current = setTimeout(() => {
           setThread((prev) => [...prev, { kind: 'user', stepIndex, text: step.userText }])

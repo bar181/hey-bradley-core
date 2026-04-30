@@ -42,12 +42,12 @@ export function AISP() {
             specify and what gets built.
           </p>
           <div className="flex gap-4 justify-center">
-            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-purple-600 text-[#2d1f12] hover:bg-purple-500 transition-colors">
+            <Link to="/onboarding" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-[#e8772e] text-white hover:bg-[#c45f1c] transition-colors shadow-lg">
+              Try the open source version <ArrowRight className="w-4 h-4" />
+            </Link>
+            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold border border-[#e8772e]/30 text-[#2d1f12] hover:bg-[#f1ece4] transition-colors">
               <ExternalLink className="w-4 h-4" /> View on GitHub
             </a>
-            <Link to="/new-project" className="px-6 py-3 rounded-xl font-semibold border border-white/30 text-[#2d1f12] hover:bg-white/10 transition-colors">
-              Try in Builder
-            </Link>
           </div>
         </div>
       </section>
@@ -237,12 +237,12 @@ export function AISP() {
             try it in the builder, or read the research.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-purple-600 text-[#2d1f12] hover:bg-purple-500 transition-colors">
+            <Link to="/onboarding" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-[#e8772e] text-white hover:bg-[#c45f1c] transition-colors shadow-lg">
+              Try the open source version <ArrowRight className="w-4 h-4" />
+            </Link>
+            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold border border-[#e8772e]/30 text-[#2d1f12] hover:bg-[#f1ece4] transition-colors">
               <ExternalLink className="w-4 h-4" /> GitHub Repo
             </a>
-            <Link to="/new-project" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-white text-neutral-900 hover:bg-neutral-100 transition-colors">
-              Try in Builder <ArrowRight className="w-4 h-4" />
-            </Link>
             <Link to="/research" className="px-6 py-3 rounded-xl font-semibold border border-white/30 text-[#2d1f12] hover:bg-white/10 transition-colors">
               Read Research
             </Link>

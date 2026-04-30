@@ -99,6 +99,7 @@ export function ListenModeDemo() {
   const [isRecording, setIsRecording] = useState<boolean>(false)
   const [showHistory, setShowHistory] = useState<boolean>(false)
   const [completed, setCompleted] = useState<boolean>(false)
+  const [inThinkingBeat, setInThinkingBeat] = useState<boolean>(false)
   const cancelRef = useRef<{ cancelled: boolean }>({ cancelled: false })
 
   const current = INTERACTIONS[stepIndex]
@@ -139,6 +140,14 @@ export function ListenModeDemo() {
       await wait(current.durationMs - 700, local)
       if (local.cancelled) return
 
+      // Inter-step "thinking beat" — orb already idle (isRecording=false);
+      // grey the transcript briefly to signal Bradley is settling before
+      // moving to the next turn. 700ms feels human, not robotic.
+      setInThinkingBeat(true)
+      await wait(700, local)
+      if (local.cancelled) return
+      setInThinkingBeat(false)
+
       if (stepIndex < INTERACTIONS.length - 1) {
         setStepIndex(s => s + 1)
       } else {
@@ -161,6 +170,7 @@ export function ListenModeDemo() {
     setCompleted(false)
     setIsPaused(false)
     setIsRecording(false)
+    setInThinkingBeat(false)
   }
 
   const handleForceTheme = () => {
@@ -249,7 +259,7 @@ export function ListenModeDemo() {
               {isRecording ? 'Listening…' : completed ? 'Session complete' : 'Standing by'}
             </p>
             <p
-              className="text-lg md:text-xl text-[#2d1f12] leading-relaxed min-h-[3.5rem]"
+              className={`text-lg md:text-xl text-[#2d1f12] leading-relaxed min-h-[3.5rem] transition-opacity duration-200 ${inThinkingBeat ? 'opacity-70' : 'opacity-100'}`}
               style={{ lineHeight: tokens.typography['line-height'] }}
               aria-live="polite"
             >

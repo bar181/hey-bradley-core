@@ -215,13 +215,13 @@ export function About() {
         <div className="max-w-3xl mx-auto px-6">
           <h2 className="text-3xl font-bold mb-4">Ready to try it?</h2>
           <p className="text-[#6b5e4f] mb-8">Jump into the builder and see what spec-driven development feels like.</p>
-          <div className="flex items-center justify-center gap-4">
-            <Link to="/new-project" className="inline-flex items-center gap-2 px-8 py-3 bg-[#e8772e] text-[#2d1f12] font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg">
-              Start Building <ArrowRight className="w-4 h-4" />
+          <div className="flex items-center justify-center gap-4 flex-wrap">
+            <Link to="/onboarding" className="inline-flex items-center gap-2 px-8 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg">
+              Try the open source version <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link to="/docs" className="px-8 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-white/10 transition-colors">
-              Read the Docs
-            </Link>
+            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors">
+              Explore AISP <ArrowRight className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </section>

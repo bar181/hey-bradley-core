@@ -286,12 +286,12 @@ export function Research() {
           <h2 className="text-3xl font-bold mb-4">See the research in action.</h2>
           <p className="text-[#6b5e4f] mb-8">Try the builder and experience what spec-driven development feels like.</p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <Link to="/new-project" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold bg-white text-neutral-900 hover:bg-neutral-100 transition-colors text-lg">
-              Try the Builder <ArrowRight className="w-5 h-5" />
+            <Link to="/onboarding" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold bg-[#e8772e] text-white hover:bg-[#c45f1c] transition-colors shadow-lg text-lg">
+              Try the open source version <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link to="/open-core" className="px-8 py-4 rounded-xl font-semibold border border-white/30 text-[#2d1f12] hover:bg-white/10 transition-colors text-lg">
-              Open Core &amp; Methodology
-            </Link>
+            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold border border-[#e8772e]/30 text-[#2d1f12] hover:bg-[#f1ece4] transition-colors text-lg">
+              Explore AISP <ArrowRight className="w-5 h-5" />
+            </a>
           </div>
         </div>
       </section>

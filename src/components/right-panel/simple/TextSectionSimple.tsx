@@ -1,9 +1,10 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { cn } from '@/lib/cn'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
+import { useUIStore } from '@/store/uiStore'
 import { updateComponentProps } from '@/lib/componentHelpers'
-import { AlignCenter, Columns2, PanelRight } from 'lucide-react'
+import { AlignCenter, Columns2, PanelRight, ChevronDown, ChevronRight } from 'lucide-react'
 
 const INPUT =
   'bg-hb-surface border border-hb-border rounded-md px-2.5 py-1.5 text-sm text-hb-text-primary w-full focus:border-hb-accent focus:outline-none transition-colors'
@@ -17,7 +18,12 @@ const TEXT_LAYOUTS = [
 export function TextSectionSimple({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
   const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
+  const selectedContext = useUIStore((s) => s.selectedContext)
   const section = config.sections.find((s) => s.id === sectionId)
+  // P67 / Wave 2 / A2 — collapse-by-default; auto-expand the active section.
+  const isActive =
+    selectedContext?.type === 'section' && selectedContext.sectionId === sectionId
+  const [expanded, setExpanded] = useState<boolean>(isActive)
 
   if (!section) return null
 
@@ -44,7 +50,31 @@ export function TextSectionSimple({ sectionId }: { sectionId: string }) {
   )
 
   return (
-    <div className="divide-y divide-hb-border/30">
+    <div data-section-id={sectionId} className="transition-all duration-200 ease-out">
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        aria-expanded={expanded}
+        aria-controls={`section-body-${sectionId}`}
+        data-testid="section-editor-collapse-toggle"
+        className={cn(
+          'flex items-center justify-between w-full px-2 py-2 mb-1 rounded-md',
+          'border border-hb-border/40 bg-hb-surface/40',
+          'hover:bg-hb-surface-hover transition-colors',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hb-accent'
+        )}
+      >
+        <span className="flex items-center gap-1.5">
+          <span className="text-[10px] uppercase tracking-wider text-hb-text-muted font-medium">Section</span>
+          <span className="text-xs font-semibold text-hb-text-primary capitalize">{section.type}</span>
+          {isActive && (
+            <span className="text-[9px] uppercase tracking-wider text-hb-accent font-medium">· active</span>
+          )}
+        </span>
+        {expanded ? <ChevronDown size={14} className="text-hb-text-muted" /> : <ChevronRight size={14} className="text-hb-text-muted" />}
+      </button>
+      {expanded && (
+      <div id={`section-body-${sectionId}`} className="divide-y divide-hb-border/30">
       <RightAccordion id={`text-layout-${sectionId}`} label="Style">
         <div className="grid grid-cols-3 gap-2">
           {TEXT_LAYOUTS.map(({ v, label, Icon }) => (
@@ -102,6 +132,8 @@ export function TextSectionSimple({ sectionId }: { sectionId: string }) {
           )}
         </div>
       </RightAccordion>
+      </div>
+      )}
     </div>
   )
 }

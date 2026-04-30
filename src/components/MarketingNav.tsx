@@ -5,6 +5,8 @@ const NAV_LINKS = [
   { to: '/aisp', label: 'AISP' },
   { to: '/byok', label: 'BYOK' },
   { to: '/open-core', label: 'Open Core' },
+  { to: '/demo/listen', label: 'Listen demo' },
+  { to: '/demo/chat', label: 'Chat demo' },
   { to: '/docs', label: 'Docs' },
 ]
 

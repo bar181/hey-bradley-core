@@ -175,14 +175,24 @@ export function BYOK() {
 
       {/* CTA */}
       <section className="max-w-3xl mx-auto px-6 py-20 text-center">
-        <Link
-          to="/onboarding"
-          className="inline-flex items-center gap-2 px-8 py-4 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg text-lg"
-        >
-          <Zap className="w-5 h-5" />
-          Open the builder
-          <ArrowRight className="w-5 h-5" />
-        </Link>
+        <div className="flex items-center justify-center gap-4 flex-wrap">
+          <Link
+            to="/onboarding"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg text-lg"
+          >
+            <Zap className="w-5 h-5" />
+            Try the open source version
+            <ArrowRight className="w-5 h-5" />
+          </Link>
+          <a
+            href="https://github.com/bar181/aisp-open-core"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-8 py-4 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors text-lg"
+          >
+            Explore AISP <ArrowRight className="w-5 h-5" />
+          </a>
+        </div>
         <p className="text-sm text-[#6b5e4f] mt-4">
           No key required to try Simulated or AgentProxy mode. BYOK only when you want a real LLM.
         </p>

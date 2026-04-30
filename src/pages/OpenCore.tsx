@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Code, GitBranch, Layers, Target, Zap, BookOpen, Cpu } from 'lucide-react'
+import { ArrowRight, Code, Layers, Target, Zap, BookOpen, Cpu } from 'lucide-react'
 import { MarketingNav } from '@/components/MarketingNav'
 import { OpenCoreVsCommercial } from '@/components/marketing/OpenCoreVsCommercial'
 
@@ -23,23 +23,21 @@ export function OpenCore() {
             Hey&nbsp;Bradley is built for that 55%.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 mt-10">
-            <a
-              href="https://github.com/bar181/hey-bradley-core"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black font-semibold rounded-xl hover:bg-neutral-200 transition-colors"
+            <Link
+              to="/onboarding"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
             >
-              <GitBranch className="w-4 h-4" />
-              hey-bradley-core
-            </a>
+              Try the open source version
+              <ArrowRight className="w-4 h-4" />
+            </Link>
             <a
               href="https://github.com/bar181/aisp-open-core"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-white/20 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors"
             >
-              <Code className="w-4 h-4" />
-              aisp-open-core
+              Explore AISP
+              <ArrowRight className="w-4 h-4" />
             </a>
           </div>
         </div>
@@ -413,18 +411,18 @@ export function OpenCore() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
-              to="/new-project"
-              className="inline-flex items-center gap-2 px-8 py-3 bg-[#e8772e] text-[#2d1f12] font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
+              to="/onboarding"
+              className="inline-flex items-center gap-2 px-8 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
             >
-              Try the Builder <ArrowRight className="w-4 h-4" />
+              Try the open source version <ArrowRight className="w-4 h-4" />
             </Link>
             <a
-              href="https://github.com/bar181/hey-bradley-core"
+              href="https://github.com/bar181/aisp-open-core"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-3 bg-white/10 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-white/20 transition-colors"
+              className="inline-flex items-center gap-2 px-8 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors"
             >
-              View Source on GitHub
+              Explore AISP <ArrowRight className="w-4 h-4" />
             </a>
           </div>
         </div>

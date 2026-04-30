@@ -1,12 +1,14 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { cn } from '@/lib/cn'
 import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
+import { useUIStore } from '@/store/uiStore'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
 import {
   Plus, Trash2, LayoutGrid, ImageIcon, Sparkles,
   AlignLeft, Hash, Rows3, Palette, GlassWater,
+  ChevronDown, ChevronRight,
 } from 'lucide-react'
 import { SectionHeadingEditor } from './SectionHeadingEditor'
 
@@ -56,9 +58,14 @@ function Field({
 export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
   const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
+  const selectedContext = useUIStore((s) => s.selectedContext)
   const section = config.sections.find((s) => s.id === sectionId)
   const addButtonRef = useRef<HTMLButtonElement | null>(null)
   const cardRefs = useRef<Map<string, HTMLDivElement | null>>(new Map())
+  // P67 / Wave 2 / A2 — collapse-by-default; auto-expand the active section.
+  const isActive =
+    selectedContext?.type === 'section' && selectedContext.sectionId === sectionId
+  const [expanded, setExpanded] = useState<boolean>(isActive)
 
   if (!section) return null
 
@@ -148,7 +155,31 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
   )
 
   return (
-    <div className="divide-y divide-hb-border/30" data-section-id={sectionId}>
+    <div data-section-id={sectionId} className="transition-all duration-200 ease-out">
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        aria-expanded={expanded}
+        aria-controls={`section-body-${sectionId}`}
+        data-testid="section-editor-collapse-toggle"
+        className={cn(
+          'flex items-center justify-between w-full px-2 py-2 mb-1 rounded-md',
+          'border border-hb-border/40 bg-hb-surface/40',
+          'hover:bg-hb-surface-hover transition-colors',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hb-accent'
+        )}
+      >
+        <span className="flex items-center gap-1.5">
+          <span className="text-[10px] uppercase tracking-wider text-hb-text-muted font-medium">Section</span>
+          <span className="text-xs font-semibold text-hb-text-primary capitalize">{section.type}</span>
+          {isActive && (
+            <span className="text-[9px] uppercase tracking-wider text-hb-accent font-medium">· active</span>
+          )}
+        </span>
+        {expanded ? <ChevronDown size={14} className="text-hb-text-muted" /> : <ChevronRight size={14} className="text-hb-text-muted" />}
+      </button>
+      {expanded && (
+      <div id={`section-body-${sectionId}`} className="divide-y divide-hb-border/30">
       <SectionHeadingEditor sectionId={sectionId} />
       {/* ─── 1. LAYOUT ─── */}
       <RightAccordion id={`${sectionId}-layout`} label="Style">
@@ -277,6 +308,8 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
           )}
         </div>
       </RightAccordion>
+      </div>
+      )}
     </div>
   )
 }

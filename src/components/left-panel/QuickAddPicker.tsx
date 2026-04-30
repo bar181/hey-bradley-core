@@ -288,6 +288,11 @@ export function QuickAddPicker() {
   const [expanded, setExpanded] = useState(false)
   const [focusIdx, setFocusIdx] = useState(0)
   const cardRefs = useRef<Array<HTMLButtonElement | null>>([])
+  // P67 / Wave 2 / A2 — empty-state nudge when no sections exist yet.
+  // Reads section count off the live config so the message appears the
+  // first time the user opens an empty project, then disappears the
+  // moment a section is added.
+  const sectionCount = useConfigStore((s) => s.config.sections.length)
 
   const handleAdd = (type: QuickKind) => {
     useConfigStore.getState().addSection(type)
@@ -325,6 +330,14 @@ export function QuickAddPicker() {
         <Zap size={12} className="text-hb-accent" />
         <span className="font-medium uppercase tracking-wider">Quick add</span>
       </button>
+      {expanded && sectionCount === 0 && (
+        <p
+          data-testid="quick-add-empty-state"
+          className="px-3 pt-1 pb-0.5 text-[11px] text-[#6b5e4f] leading-snug"
+        >
+          Tap a section to start
+        </p>
+      )}
       {expanded && (
         <div
           id="quick-add-cards"

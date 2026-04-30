@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { BookOpen, Palette, Layout, FileText, Zap, ExternalLink } from 'lucide-react'
+import { BookOpen, Palette, Layout, FileText, Zap, ExternalLink, ArrowRight } from 'lucide-react'
 import { MarketingNav } from '@/components/MarketingNav'
 
 const QUICK_START = [
@@ -263,12 +263,22 @@ export function Docs() {
 
       {/* CTA */}
       <section className="max-w-5xl mx-auto px-6 py-16 text-center">
-        <Link
-          to="/new-project"
-          className="inline-flex px-8 py-3 bg-[#e8772e] text-[#2d1f12] font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
-        >
-          Start Building
-        </Link>
+        <div className="flex items-center justify-center gap-4 flex-wrap">
+          <Link
+            to="/onboarding"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
+          >
+            Try the open source version <ArrowRight className="w-4 h-4" />
+          </Link>
+          <a
+            href="https://github.com/bar181/aisp-open-core"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-8 py-3 border border-[#e8772e]/30 text-neutral-900 font-semibold rounded-xl hover:bg-neutral-100 transition-colors"
+          >
+            Explore AISP <ArrowRight className="w-4 h-4" />
+          </a>
+        </div>
       </section>
     </main>
   )

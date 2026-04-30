@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Code, Clock, Users, FileText, Layers, Cpu, Atom, GitBranch } from 'lucide-react'
+import { Code, Clock, Users, FileText, Layers, Cpu, Atom, GitBranch, ArrowRight } from 'lucide-react'
 import { MarketingNav } from '@/components/MarketingNav'
 
 const STATS = [
@@ -192,19 +192,21 @@ export function HowIBuiltThis() {
 
       {/* CTA */}
       <section className="max-w-5xl mx-auto px-6 py-16 text-center">
-        <div className="flex items-center justify-center gap-4">
+        <div className="flex items-center justify-center gap-4 flex-wrap">
           <Link
             to="/onboarding"
-            className="px-8 py-3 bg-[#e8772e] text-[#2d1f12] font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
           >
-            Try the Builder
+            Try the open source version <ArrowRight className="w-4 h-4" />
           </Link>
-          <Link
-            to="/docs"
-            className="px-8 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-white/10 transition-colors"
+          <a
+            href="https://github.com/bar181/aisp-open-core"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-8 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors"
           >
-            Read the Docs
-          </Link>
+            Explore AISP <ArrowRight className="w-4 h-4" />
+          </a>
         </div>
       </section>
     </main>
