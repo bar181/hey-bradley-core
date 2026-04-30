@@ -115,6 +115,12 @@ interface UIStore {
    * user clicks into XAI_DOCS.
    */
   specHasUnseenUpdate: boolean
+  /**
+   * P60.5 (post-defense quick win) — true once the AISP pipeline trace pane
+   * has auto-expanded on the first bradley reply of this browser session.
+   * In-memory only (no kv persistence) — a reload re-arms the one-shot.
+   */
+  aispTraceAutoOpened: boolean
 
   setInteractionMode: (mode: InteractionMode) => void
   setActiveTab: (tab: ActiveTab) => void
@@ -150,6 +156,8 @@ interface UIStore {
   markSpecChanged: () => void
   /** P55 Sprint L (A2) — clear unseen-update indicator (called on tab click). */
   markSpecSeen: () => void
+  /** P60.5 — flip the AISP-trace auto-opened flag (idempotent; in-memory). */
+  markAispTraceAutoOpened: () => void
 }
 
 /**
@@ -183,6 +191,11 @@ export const useUIStore = create<UIStore>((set, get) => ({
   // Falls back to false if kv unavailable (pre-DB boot).
   specPanelHasAutoOpened: loadSpecPanelAutoOpened(),
   specHasUnseenUpdate: false,
+  aispTraceAutoOpened: false,
+  markAispTraceAutoOpened: () => {
+    if (get().aispTraceAutoOpened) return
+    set({ aispTraceAutoOpened: true })
+  },
   markSpecAutoOpened: () => {
     if (get().specPanelHasAutoOpened) return
     set({ specPanelHasAutoOpened: true })

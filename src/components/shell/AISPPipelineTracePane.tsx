@@ -15,7 +15,7 @@
  *
  * ADR-064.
  */
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useUIStore } from '@/store/uiStore'
 import type { ClassifiedIntent } from '@/contexts/intelligence/aisp'
 import type { Assumption } from '@/contexts/intelligence/aisp'
@@ -34,7 +34,16 @@ export interface AISPPipelineTracePaneProps {
 
 export function AISPPipelineTracePane(props: AISPPipelineTracePaneProps) {
   const isDraft = useUIStore((s) => s.rightPanelTab) === 'SIMPLE'
-  const [open, setOpen] = useState(false)
+  const aispTraceAutoOpened = useUIStore((s) => s.aispTraceAutoOpened)
+  const markAispTraceAutoOpened = useUIStore((s) => s.markAispTraceAutoOpened)
+  // P60.5 — first reply per session expands by default; subsequent replies
+  // in the same session keep the collapsed default. EXPERT-only.
+  const [open, setOpen] = useState(!aispTraceAutoOpened)
+  useEffect(() => {
+    if (!aispTraceAutoOpened && !isDraft) markAispTraceAutoOpened()
+    // intentionally one-shot on mount; do not re-fire on flag change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   // EXPERT-only: hidden in SIMPLE mode.
   if (isDraft) return null
 
