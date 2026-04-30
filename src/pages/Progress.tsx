@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, BookOpen, Sparkles } from 'lucide-react'
+import { ArrowRight, BookOpen } from 'lucide-react'
 import { MarketingNav } from '@/components/MarketingNav'
 import { HEADLINE_STATS, PROGRESS_ITEMS, type ProgressItem, type Verdict } from '@/data/progress-eval'
 import { getBlogPost } from '@/lib/blogPosts'
@@ -63,19 +63,26 @@ export function Progress() {
       <MarketingNav />
 
       {/* Hero */}
-      <section className="relative overflow-hidden py-20">
+      <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#A51C30]/10 via-transparent to-amber-900/10" />
-        <div className="relative max-w-5xl mx-auto px-6 text-center">
-          <span className="inline-flex items-center gap-2 bg-[#e8772e]/20 text-[#e8772e] px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
-            <Sparkles className="w-4 h-4" />
-            Build-in-public snapshot
-          </span>
-          <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+        <div className="relative max-w-3xl mx-auto px-6 py-24">
+          <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-4 font-medium">
+            Building in public
+          </p>
+          <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
             Hey Bradley — built in 2 days, ready in 10.
           </h1>
-          <p className="text-xl text-[#6b5e4f] max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-[#6b5e4f] leading-relaxed mb-8 max-w-2xl">
             A build-in-public snapshot of the open-core capstone.
           </p>
+          <div className="flex flex-wrap gap-3">
+            <Link to="/onboarding" className="inline-flex items-center gap-2 px-6 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg">
+              Try the open source version <ArrowRight className="w-4 h-4" />
+            </Link>
+            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors">
+              Explore AISP <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
         </div>
       </section>
 

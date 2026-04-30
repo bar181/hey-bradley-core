@@ -11,18 +11,18 @@ export function OpenCore() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#A51C30]/10 via-transparent to-[#A51C30]/5" />
-        <div className="relative max-w-4xl mx-auto px-6 py-24 text-center">
-          <p className="text-sm uppercase tracking-[0.2em] text-[#e8772e] mb-4 font-medium">Open Source &middot; MIT License</p>
-          <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.1]">
+        <div className="relative max-w-3xl mx-auto px-6 py-24">
+          <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-4 font-medium">Open core &middot; MIT License</p>
+          <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
             The 55% problem<br />nobody&apos;s solving.
           </h1>
-          <p className="text-xl text-[#6b5e4f] max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-[#6b5e4f] leading-relaxed mb-8 max-w-2xl">
             AI made coding 3x faster. But coding was never the bottleneck.
             The real cost is everything that happens <em>before</em> the first line of code&mdash;the
             meetings, the specs, the &ldquo;that&rsquo;s not what I meant.&rdquo;
             Hey&nbsp;Bradley is built for that 55%.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4 mt-10">
+          <div className="flex flex-wrap gap-3">
             <Link
               to="/onboarding"
               className="inline-flex items-center gap-2 px-6 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"

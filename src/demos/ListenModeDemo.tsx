@@ -200,7 +200,7 @@ export function ListenModeDemo() {
     <main className={`min-h-screen ${pageBg} text-[#2d1f12] transition-colors duration-300`}>
       {/* Top bar */}
       <header
-        className="flex items-center justify-between border-b border-[#e8772e]/15"
+        className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-b border-[#e8772e]/15"
         style={{ padding: `${tokens.spacing['container-x']} ${tokens.spacing['container-x']}` }}
       >
         <Link
@@ -224,7 +224,7 @@ export function ListenModeDemo() {
       >
         {/* Mic + transcript + preview grid */}
         <section
-          className="grid md:grid-cols-2 gap-8 py-10"
+          className="grid md:grid-cols-2 gap-6 md:gap-8 py-6 md:py-10"
           style={{ borderRadius: tokens.radius.lg }}
         >
           {/* LEFT: Mic + transcript */}

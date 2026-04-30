@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Atom, BookOpen, BarChart3, ExternalLink, ArrowRight } from 'lucide-react'
+import { BookOpen, BarChart3, ExternalLink, ArrowRight } from 'lucide-react'
 import { MarketingNav } from '@/components/MarketingNav'
 import { AISPDualView } from '@/components/marketing/AISPDualView'
 
@@ -26,27 +26,26 @@ export function AISP() {
       <MarketingNav />
 
       {/* Hero */}
-      <section className="py-24 relative overflow-hidden">
+      <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-indigo-900/20" />
-        <div className="relative max-w-5xl mx-auto px-6 text-center">
-          <span className="inline-flex items-center gap-2 bg-purple-500/10 text-purple-400 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
-            <Atom className="w-4 h-4" />
-            Open Standard &middot; MIT License
-          </span>
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">
+        <div className="relative max-w-3xl mx-auto px-6 py-24">
+          <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-4 font-medium">
+            AISP open core &middot; MIT License
+          </p>
+          <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
             AI Symbolic Protocol
           </h1>
-          <p className="text-xl text-[#6b5e4f] max-w-2xl mx-auto leading-relaxed mb-8">
+          <p className="text-xl text-[#6b5e4f] leading-relaxed mb-8 max-w-2xl">
             A math-first neural symbolic language with 512 symbols that all AI and
             LLM understand natively. The goal: near-zero ambiguity between what you
             specify and what gets built.
           </p>
-          <div className="flex gap-4 justify-center">
-            <Link to="/onboarding" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-[#e8772e] text-white hover:bg-[#c45f1c] transition-colors shadow-lg">
+          <div className="flex flex-wrap gap-3">
+            <Link to="/onboarding" className="inline-flex items-center gap-2 px-6 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg">
               Try the open source version <ArrowRight className="w-4 h-4" />
             </Link>
-            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold border border-[#e8772e]/30 text-[#2d1f12] hover:bg-[#f1ece4] transition-colors">
-              <ExternalLink className="w-4 h-4" /> View on GitHub
+            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors">
+              View on GitHub <ExternalLink className="w-4 h-4" />
             </a>
           </div>
         </div>

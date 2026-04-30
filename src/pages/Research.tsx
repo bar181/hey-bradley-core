@@ -17,16 +17,24 @@ export function Research() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a]/60 via-[#1a1a1a]/80 to-[#1a1a1a]" />
         </div>
-        <div className="relative max-w-3xl mx-auto px-6 py-28 text-center">
-          <p className="text-sm font-semibold text-blue-400 uppercase tracking-widest mb-4">Research</p>
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6 leading-[1.1]">
+        <div className="relative max-w-3xl mx-auto px-6 py-24">
+          <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-4 font-medium">Capstone research</p>
+          <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
             The most expensive game of telephone in history.
           </h1>
-          <p className="text-xl text-[#6b5e4f] max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-[#6b5e4f] leading-relaxed mb-8 max-w-2xl">
             Every piece of software ever built started the same way: a picture in
             someone&rsquo;s head. This is the story of what happens to that picture&mdash;and
             what changes when the telephone game ends.
           </p>
+          <div className="flex flex-wrap gap-3">
+            <Link to="/onboarding" className="inline-flex items-center gap-2 px-6 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg">
+              Try the open source version <ArrowRight className="w-4 h-4" />
+            </Link>
+            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors">
+              Explore AISP <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
         </div>
       </section>
 

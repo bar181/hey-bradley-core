@@ -195,7 +195,7 @@ export function ChatModeDemo() {
     <main className="min-h-screen bg-[#faf8f5] text-[#2d1f12] flex flex-col">
       {/* Top bar */}
       <header className="border-b border-[#e8772e]/15 bg-[#f1ece4]/40">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 py-3 md:py-4 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
           <Link
             to="/"
             className="text-sm font-medium text-[#6b5e4f] hover:text-[#2d1f12] transition-colors inline-flex items-center gap-1"
@@ -209,7 +209,7 @@ export function ChatModeDemo() {
       </header>
 
       {/* Main grid: chat + preview */}
-      <div className="flex-1 max-w-6xl w-full mx-auto px-6 py-8 grid md:grid-cols-2 gap-6">
+      <div className="flex-1 max-w-6xl w-full mx-auto px-4 md:px-6 py-6 md:py-8 grid md:grid-cols-2 gap-4 md:gap-6">
         {/* Chat thread */}
         <section
           aria-label="Chat thread"
@@ -307,7 +307,7 @@ export function ChatModeDemo() {
 
       {/* Quick-ref panel inline */}
       {activeQuickRef && (
-        <div className="max-w-6xl w-full mx-auto px-6 -mt-2 mb-2">
+        <div className="max-w-6xl w-full mx-auto px-4 md:px-6 -mt-2 mb-2">
           <div
             className="bg-white border border-[#e8772e]/20 p-4 text-sm text-[#6b5e4f]"
             style={{ borderRadius: tokens.radius.md }}
@@ -333,7 +333,7 @@ export function ChatModeDemo() {
 
       {/* Persistent bottom bar */}
       <footer className="border-t border-[#e8772e]/15 bg-[#f1ece4]/40 mt-auto">
-        <div className="max-w-6xl mx-auto px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <button
               type="button"

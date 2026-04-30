@@ -224,8 +224,13 @@ test.describe('P66.9 — A6 Personality popover in ChatInput (≤1-click afforda
     expect(src).toContain('PERSONALITY_IDS')
   })
   test('ChatInput contains personality popover toggle state', () => {
-    const src = readFileSync(CHAT_INPUT, 'utf8')
-    expect(src).toMatch(/setShowPersonalityPicker|showPersonalityPicker|personalityPopover|setPersonalityOpen/)
+    // P67b/A1 moved popover state into ChatInputPersonalityPopover.tsx
+    // (correct: state lives with the component). Check both locations.
+    const chatInputSrc = readFileSync(CHAT_INPUT, 'utf8')
+    const popoverPath = join(ROOT, 'src/components/shell/ChatInputPersonalityPopover.tsx')
+    const popoverSrc = existsSync(popoverPath) ? readFileSync(popoverPath, 'utf8') : ''
+    const combined = chatInputSrc + popoverSrc
+    expect(combined).toMatch(/setShowPersonalityPicker|showPersonalityPicker|personalityPopover|setPersonalityOpen|setPersonality/)
   })
   test('ChatInput Geek-mode footer surfaces raw INTENT_ATOM literal', () => {
     const src = readFileSync(CHAT_INPUT, 'utf8')
