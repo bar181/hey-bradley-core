@@ -10,6 +10,7 @@
  * to the trigger button (a11y).
  */
 
+// P66 / A3 — touch-target audit verified (44px minimum per iOS HIG)
 import { useCallback, useEffect, useRef } from 'react'
 import { X } from 'lucide-react'
 import { cn } from '@/lib/cn'
@@ -103,7 +104,7 @@ export function MobileMenu({ open, onClose, triggerRef }: MobileMenuProps) {
           <button
             type="button"
             onClick={handleClose}
-            className="p-1 text-hb-text-muted hover:text-hb-text-primary transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center text-hb-text-muted hover:text-hb-text-primary transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
             aria-label="Close menu"
           >
             <X size={16} />
@@ -150,7 +151,7 @@ export function MobileMenu({ open, onClose, triggerRef }: MobileMenuProps) {
                 onClick={openConversationLog}
                 data-testid="mobile-menu-conversation-log"
                 className={cn(
-                  'px-3 py-1.5 text-xs rounded border border-hb-border',
+                  'min-h-[44px] min-w-[44px] px-3 py-1.5 text-xs rounded border border-hb-border',
                   'text-hb-text-primary hover:bg-hb-accent/10 hover:border-hb-accent/30',
                   'transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent',
                 )}

@@ -11,10 +11,25 @@ import { EXAMPLE_SITES } from '@/data/examples'
 // build will surface a clear missing-module error pointing at A4 deliverable.
 import { PersonalityPicker } from '@/components/settings/PersonalityPicker'
 import { kvGet, kvSet, getPersonalityId } from '@/contexts/persistence/repositories/kv'
+// P66 / Polish Sprint (A4) — mode-selector first-run step (per ADR-088).
+// Renders ahead of personality picker for users who haven't picked a mode yet.
+import { ModeSelectorCard, type ModeId } from '@/components/onboarding/ModeSelectorCard'
 
 const STORAGE_KEY = 'hey-bradley-project'
 const LLM_BANNER_DISMISSED_KEY = 'hb-onboarding-llm-banner-dismissed'
 const ONBOARDING_PERSONALITY_ASKED_KEY = 'onboarding_personality_asked'
+// P66 / Polish Sprint (A4) — per-session dismissal for the mode-aware
+// suggested-prompt hint banner (one banner key per mode so each mode can be
+// dismissed independently without nuking the others).
+const MODE_HINT_DISMISSED_KEY_PREFIX = 'hb-onboarding-mode-hint-dismissed-'
+
+/** Suggested-prompt hint copy per mode. Shown above the project picker
+ *  once the user has selected a mode and lands on a fresh project state. */
+const MODE_HINT_COPY: Record<ModeId, string> = {
+  whiteboard: "Try: 'create a landing page for a coffee roaster'",
+  planning: "Planning mode ships in v2 — try Whiteboard for now.",
+  agentics: "Agentics mode ships in v2 — try Whiteboard for now.",
+}
 
 /** Map example names to preview screenshot filenames */
 const EXAMPLE_PREVIEW_SLUGS: Record<string, string> = {
@@ -405,6 +420,13 @@ export function Onboarding() {
   const hasKey = useIntelligenceStore((s) => s.hasKey)
   const setPersonality = useIntelligenceStore((s) => s.setPersonality)
 
+  // P66 / Polish Sprint (A4) — mode-selector first-run step. Reads the
+  // persisted mode (kv['ui_app_mode']) via the store; null = first run, render
+  // the 3-card selector ahead of personality. Returning users with a saved
+  // mode skip this step entirely.
+  const appMode = useUIStore((s) => s.appMode)
+  const setAppMode = useUIStore((s) => s.setAppMode)
+
   // Sprint J P50 (A5) — first-run personality step. Fires only when the user
   // hasn't been asked yet (kv['onboarding_personality_asked'] !== '1') AND no
   // explicit personality has been persisted. The default 'professional' on
@@ -441,6 +463,25 @@ export function Onboarding() {
     setBannerDismissed(true)
   }
   const showLLMBanner = !hasKey && !bannerDismissed
+
+  // P66 / Polish Sprint (A4) — mode-aware suggested-prompt hint banner.
+  // Shown once per mode (per-session, dismissable). Whiteboard renders a live
+  // suggestion; Planning / Agentics render a "ships in v2" placeholder
+  // (defensive — the ModeSelectorCard disables those buttons, but if a future
+  // change exposes them we still render a coherent message rather than blank).
+  const [modeHintDismissed, setModeHintDismissed] = useState<boolean>(true)
+  useEffect(() => {
+    if (typeof window === 'undefined' || !appMode) return
+    const key = `${MODE_HINT_DISMISSED_KEY_PREFIX}${appMode}`
+    setModeHintDismissed(localStorage.getItem(key) === '1')
+  }, [appMode])
+  const dismissModeHint = () => {
+    if (typeof window !== 'undefined' && appMode) {
+      localStorage.setItem(`${MODE_HINT_DISMISSED_KEY_PREFIX}${appMode}`, '1')
+    }
+    setModeHintDismissed(true)
+  }
+  const showModeHint = !!appMode && !modeHintDismissed && !hasSavedProject
 
   // Default 4 starter examples (Phase 15 DoD #11): blog → bakery → SaaS → kitchen-sink (reference)
   const DEFAULT_EXAMPLE_NAMES = [
@@ -496,6 +537,24 @@ export function Onboarding() {
     const config = useConfigStore.getState().config
     localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
     navigate('/builder')
+  }
+
+  // P66 / Polish Sprint (A4) — mode-selector first-run step (per ADR-088).
+  // Renders the 3-card ModeSelectorCard ahead of the personality picker on a
+  // brand-new user (no appMode persisted AND no saved project). Returning
+  // users with a saved project skip this entirely (they implicitly chose
+  // Whiteboard pre-OC-2; the marketing site framing pre-dates ModeArch).
+  if (appMode === null && !hasSavedProject) {
+    return (
+      <ModeSelectorCard
+        hasProject={false}
+        onSelectMode={(mode) => {
+          // Persist mode → triggers re-render. Next render falls through to
+          // either personality picker (if not asked) or the project picker.
+          setAppMode(mode)
+        }}
+      />
+    )
   }
 
   if (!personalityAsked) {
@@ -566,6 +625,27 @@ export function Onboarding() {
             <button
               type="button"
               onClick={dismissBanner}
+              className="text-[#9ca3af] hover:text-[#A51C30] transition-colors px-2"
+              aria-label="Dismiss"
+            >
+              &times;
+            </button>
+          </div>
+        )}
+        {showModeHint && appMode && (
+          <div
+            className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-[#A51C30]/20 bg-white px-4 py-2.5 text-xs text-[#4b5563]"
+            data-testid={`onboarding-mode-hint-${appMode}`}
+          >
+            <span>
+              <span className="font-medium text-[#A51C30] uppercase tracking-wider text-[10px] mr-2">
+                {appMode}
+              </span>
+              {MODE_HINT_COPY[appMode]}
+            </span>
+            <button
+              type="button"
+              onClick={dismissModeHint}
               className="text-[#9ca3af] hover:text-[#A51C30] transition-colors px-2"
               aria-label="Dismiss"
             >

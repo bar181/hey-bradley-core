@@ -32,7 +32,8 @@ import {
   type LLMAssumptionsResult,
 } from '@/contexts/intelligence/aisp'
 // Sprint J P50 (A2) type + P51 (A4) profile lookup for the active chip.
-import { PERSONALITY_PROFILES, type PersonalityId } from '@/contexts/intelligence/personality/personalityEngine'
+// P66 / Wave 1 / A6 — also import PERSONALITY_IDS for the inline mini-picker.
+import { PERSONALITY_IDS, PERSONALITY_PROFILES, type PersonalityId } from '@/contexts/intelligence/personality/personalityEngine'
 
 /* ── Chat examples for the dialog ── */
 const CHAT_EXAMPLE_CATEGORIES = [
@@ -171,6 +172,20 @@ export function ChatInput() {
   // Sprint J P51 (A4) — active-personality chip beside the simulated pill.
   const personalityId = useIntelligenceStore((s) => s.personalityId)
   const personalityProfile = personalityId ? PERSONALITY_PROFILES[personalityId] : null
+  // P66 / Wave 1 / A6 — inline mini-picker popover (P1 #2; full picker stays in settings).
+  const setPersonality = useIntelligenceStore((s) => s.setPersonality)
+  const [personalityPopoverOpen, setPersonalityPopoverOpen] = useState(false)
+  const personalityPopoverRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (!personalityPopoverOpen) return
+    const handler = (e: MouseEvent) => {
+      if (!personalityPopoverRef.current?.contains(e.target as Node)) {
+        setPersonalityPopoverOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [personalityPopoverOpen])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -593,14 +608,16 @@ export function ChatInput() {
             </span>
           )}
           {personalityProfile && (
-            <span
-              data-testid="chat-active-personality-chip"
-              data-personality-id={personalityId ?? undefined}
-              title={`Active personality: ${personalityProfile.label}`}
-              className="inline-block px-1.5 py-0.5 rounded text-[10px] uppercase tracking-wider bg-hb-accent/10 text-hb-accent border border-hb-accent/30"
-            >
-              {personalityProfile.emoji ? `${personalityProfile.emoji} ` : ''}{personalityProfile.label.split(' ')[0]}
-            </span>
+            <div ref={personalityPopoverRef} className="relative inline-flex">
+              <button type="button" data-testid="chat-active-personality-chip" data-personality-id={personalityId ?? undefined} aria-haspopup="menu" aria-expanded={personalityPopoverOpen} onClick={() => setPersonalityPopoverOpen((v) => !v)} title={`Change personality (active: ${personalityProfile.label})`} className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] uppercase tracking-wider bg-hb-accent/10 text-hb-accent border border-hb-accent/30 hover:bg-hb-accent/20 transition-colors"><span>{personalityProfile.emoji ? `${personalityProfile.emoji} ` : ''}{personalityProfile.label.split(' ')[0]}</span><span aria-hidden className="text-[8px] leading-none">▾</span></button>
+              {personalityPopoverOpen && (
+                <div data-testid="chat-personality-popover" role="menu" className="absolute bottom-full left-0 mb-1 z-30 flex flex-row gap-1 p-1.5 rounded-md bg-hb-bg border border-hb-border shadow-lg whitespace-nowrap">
+                  {PERSONALITY_IDS.map((id) => { const p = PERSONALITY_PROFILES[id]; const isActive = id === personalityId; return (
+                    <button key={id} type="button" role="menuitemradio" aria-checked={isActive} data-testid={`chat-personality-popover-${id}`} onClick={() => { setPersonality(id); setPersonalityPopoverOpen(false) }} className={cn('px-2 py-1 rounded text-[10px] uppercase tracking-wider border transition-colors', isActive ? 'border-hb-accent ring-1 ring-hb-accent/40 bg-hb-accent/10 text-hb-accent' : 'border-hb-border bg-hb-surface text-hb-text-secondary hover:border-hb-accent/60 hover:text-hb-accent')}>{p.emoji ? `${p.emoji} ` : ''}{p.label}</button>
+                  )})}
+                </div>
+              )}
+            </div>
           )}
         </>)}
       </div>
@@ -679,6 +696,35 @@ export function ChatInput() {
                 </div>
               )
             })()}
+            {/* P66 / Wave 1 / A6 (P2 #13) — Geek mode raw AISP footer in reply
+                bubble. Renders only when active personality is geek; uses
+                intent data already attached to ChatMessage at the bubble level
+                via pendingAispRef. No new props plumbed through pipeline. */}
+            {msg.role === 'bradley' && msg.personalityId === 'geek' && msg.aisp?.intent && (
+              <div
+                data-testid="chat-geek-aisp-footer"
+                className="mt-1 font-mono text-[10px] text-hb-text-muted"
+              >
+                INTENT_ATOM · {msg.aisp.intent.verb}:{msg.aisp.intent.target?.type ?? 'none'} · conf {msg.aisp.intent.confidence.toFixed(2)} · source:{msg.aisp.source}
+              </div>
+            )}
+            {/* P66 / Wave 1 / A6 (P2 #14) — Teacher mode suggestion chips after
+                each bradley reply. Click pre-fills input via existing
+                setPendingChatPrefill (does NOT auto-send). */}
+            {msg.role === 'bradley' && msg.personalityId === 'teacher' && (
+              <div data-testid="chat-teacher-chips" className="mt-1.5 flex flex-wrap gap-1">
+                {['Try: change the theme', 'Try: add a testimonial', 'Try: regenerate the hero'].map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => useUIStore.getState().setPendingChatPrefill(s.replace(/^Try:\s*/, ''))}
+                    className="px-2 py-0.5 rounded-full text-[10px] border border-hb-accent/30 bg-hb-accent/5 text-hb-accent hover:bg-hb-accent/15 transition-colors"
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            )}
             {/* P34 / P35 — exactly ONE AISP surface per bradley reply.
                 R1 F2 fix-pass — in EXPERT mode the trace pane subsumes the
                 translation panel (it shows intent + template + 4 more atoms).

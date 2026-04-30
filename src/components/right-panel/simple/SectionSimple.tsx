@@ -1,13 +1,14 @@
-import { useCallback, useId } from 'react'
+import { useCallback, useId, useState } from 'react'
 import { cn } from '@/lib/cn'
 import { Tooltip } from '@/components/ui/Tooltip'
 import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
+import { useUIStore } from '@/store/uiStore'
 import { resolveHeroContent } from '@/lib/schemas'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
 import {
-  Sun, Moon,
+  Sun, Moon, ChevronDown, ChevronRight,
   Image as ImageIcon, PlayCircle, Monitor, LayoutDashboard,
   PanelRight, PanelLeft, MonitorPlay, ImageDown,
 } from 'lucide-react'
@@ -37,6 +38,7 @@ const DEFAULT_VIDEO = 'https://videos.pexels.com/video-files/3129671/3129671-uhd
 export function SectionSimple({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
   const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
+  const selectedContext = useUIStore((s) => s.selectedContext)
   const section = config.sections.find((s) => s.id === sectionId)
   const titleId = useId()
   const descId = useId()
@@ -44,6 +46,21 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
   const ctaId = useId()
   const ctaSecId = useId()
   const trustId = useId()
+
+  // P66 / Polish Sprint / A5 — collapse-by-default pattern.
+  //
+  // Editor body collapses by default; the section that is the currently
+  // selected one (selectedContext.sectionId === sectionId) auto-expands
+  // on mount. Pattern reference for the rest of the section editors —
+  // applying the same wrapper across {Features,CTA,Pricing,...}SectionSimple
+  // is a follow-up sprint task (out of A5 scope per the brief; see P66
+  // session log for the carry-forward list).
+  //
+  // State is local-only (no kv) per the brief; reset on remount when the
+  // user navigates between sections.
+  const isActive =
+    selectedContext?.type === 'section' && selectedContext.sectionId === sectionId
+  const [expanded, setExpanded] = useState<boolean>(isActive)
 
   if (!section) return null
 
@@ -133,7 +150,46 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
     : ''
 
   return (
-    <div className="divide-y divide-hb-border/30" data-section-id={sectionId}>
+    <div data-section-id={sectionId}>
+      {/* P66 / A5 — Collapse-by-default outer header. Tap to toggle.
+          Active section auto-expands via initial state. */}
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        aria-expanded={expanded}
+        aria-controls={`section-body-${sectionId}`}
+        data-testid="section-editor-collapse-toggle"
+        className={cn(
+          'flex items-center justify-between w-full px-2 py-2 mb-1 rounded-md',
+          'border border-hb-border/40 bg-hb-surface/40',
+          'hover:bg-hb-surface-hover transition-colors',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hb-accent'
+        )}
+      >
+        <span className="flex items-center gap-1.5">
+          <span className="text-[10px] uppercase tracking-wider text-hb-text-muted font-medium">
+            Section
+          </span>
+          <span className="text-xs font-semibold text-hb-text-primary capitalize">
+            {section.type}
+          </span>
+          {isActive && (
+            <span className="text-[9px] uppercase tracking-wider text-hb-accent font-medium">
+              · active
+            </span>
+          )}
+        </span>
+        {expanded ? (
+          <ChevronDown size={14} className="text-hb-text-muted" />
+        ) : (
+          <ChevronRight size={14} className="text-hb-text-muted" />
+        )}
+      </button>
+      {expanded && (
+      <div
+        id={`section-body-${sectionId}`}
+        className="divide-y divide-hb-border/30"
+      >
       {/* ─── 1. DESIGN ─── */}
       <RightAccordion id="layout" label="Design">
         <div className="grid grid-cols-2 gap-2">
@@ -289,6 +345,8 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
           </div>
         </div>
       </RightAccordion>
+      </div>
+      )}
     </div>
   )
 }

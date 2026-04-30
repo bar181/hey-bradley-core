@@ -16,11 +16,17 @@ import { useRef, useState } from 'react'
 import { Menu } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { useIntelligenceStore } from '@/store/intelligenceStore'
+import { useUIStore } from '@/store/uiStore'
 import { PERSONALITY_PROFILES } from '@/contexts/intelligence/personality/personalityEngine'
 import { ChatInput } from '@/components/shell/ChatInput'
 import { ListenTab } from '@/components/left-panel/ListenTab'
 import { RealityTab } from '@/components/center-canvas/RealityTab'
 import { MobileMenu } from '@/components/shell/MobileMenu'
+import {
+  MobileFirstRunCard,
+  shouldShowMobileFirstRun,
+  markMobileFirstRunSeen,
+} from '@/components/shell/MobileFirstRunCard'
 
 type MobileTab = 'chat' | 'listen' | 'view'
 
@@ -39,11 +45,33 @@ const TABS: readonly TabSpec[] = [
 export function MobileLayout() {
   const [activeTab, setActiveTab] = useState<MobileTab>('chat')
   const [menuOpen, setMenuOpen] = useState(false)
+  // P66 / A3 — first-run mobile orientation card. Hydrate from kv on mount;
+  // if the user has already dismissed it the card never renders.
+  const [showFirstRun, setShowFirstRun] = useState(() => shouldShowMobileFirstRun())
   const triggerRef = useRef<HTMLButtonElement | null>(null)
 
   const personalityId = useIntelligenceStore((s) => s.personalityId)
   const personality = PERSONALITY_PROFILES[personalityId]
   const personalityEmoji = personality?.emoji ?? ''
+
+  const setAppMode = useUIStore((s) => s.setAppMode)
+  const setInteractionMode = useUIStore((s) => s.setInteractionMode)
+
+  const dismissFirstRun = () => {
+    markMobileFirstRunSeen()
+    setShowFirstRun(false)
+  }
+  const handleFirstRunListen = () => {
+    setAppMode('whiteboard')
+    setInteractionMode('LISTEN')
+    setActiveTab('listen')
+    dismissFirstRun()
+  }
+  const handleFirstRunChat = () => {
+    setAppMode('whiteboard')
+    setActiveTab('chat')
+    dismissFirstRun()
+  }
 
   return (
     <div
@@ -84,6 +112,15 @@ export function MobileLayout() {
 
       {/* Active surface */}
       <main className="flex-1 overflow-hidden flex flex-col min-h-0">
+        {/* P66 / A3 — first-run orientation card (above tab content). */}
+        {showFirstRun && (
+          <MobileFirstRunCard
+            onListen={handleFirstRunListen}
+            onChat={handleFirstRunChat}
+            onSkip={dismissFirstRun}
+          />
+        )}
+
         {activeTab === 'chat' && (
           <>
             <div className="flex-1 overflow-y-auto p-3">
