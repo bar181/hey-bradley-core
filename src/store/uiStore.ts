@@ -74,6 +74,26 @@ function loadSpecPanelAutoOpened(): boolean {
   }
 }
 
+/**
+ * P63 / OC-2 — three-mode architecture (ADR-088). Persists which mode the
+ * user picked on the 3-card selector (Whiteboard / Planning / Agentics).
+ * `null` = first run, selector should render. Persisted across sessions
+ * so existing users skip the selector entirely.
+ */
+export type AppMode = 'whiteboard' | 'planning' | 'agentics'
+const APP_MODE_KEY = 'ui_app_mode'
+const APP_MODE_VALID: readonly AppMode[] = ['whiteboard', 'planning', 'agentics']
+
+function loadAppMode(): AppMode | null {
+  try {
+    const raw = kvGet(APP_MODE_KEY)
+    if (raw === undefined) return null
+    return APP_MODE_VALID.includes(raw as AppMode) ? (raw as AppMode) : null
+  } catch {
+    return null
+  }
+}
+
 interface UIStore {
   interactionMode: InteractionMode
   activeTab: ActiveTab
@@ -121,6 +141,13 @@ interface UIStore {
    * In-memory only (no kv persistence) — a reload re-arms the one-shot.
    */
   aispTraceAutoOpened: boolean
+  /**
+   * P63 / OC-2 (ADR-088) — three-mode discriminator. `null` on first run;
+   * persists to kv['ui_app_mode'] once the user picks a mode in the
+   * 3-card selector (Whiteboard / Planning / Agentics). Existing users
+   * with a saved project should be routed to 'whiteboard' by default.
+   */
+  appMode: AppMode | null
 
   setInteractionMode: (mode: InteractionMode) => void
   setActiveTab: (tab: ActiveTab) => void
@@ -158,6 +185,13 @@ interface UIStore {
   markSpecSeen: () => void
   /** P60.5 — flip the AISP-trace auto-opened flag (idempotent; in-memory). */
   markAispTraceAutoOpened: () => void
+  /**
+   * P63 / OC-2 (ADR-088) — pick a mode. Persists to kv['ui_app_mode'].
+   * Whiteboard is the only live mode today; Planning + Agentics ship at
+   * AW-5 / AW-10. Caller is responsible for guarding against picking a
+   * non-live mode (the ModeSelectorCard component disables those buttons).
+   */
+  setAppMode: (mode: AppMode) => void
 }
 
 /**
@@ -192,9 +226,17 @@ export const useUIStore = create<UIStore>((set, get) => ({
   specPanelHasAutoOpened: loadSpecPanelAutoOpened(),
   specHasUnseenUpdate: false,
   aispTraceAutoOpened: false,
+  // P63 / OC-2 (ADR-088) — hydrate the persisted mode choice on store init.
+  // Falls back to null if kv unavailable (pre-DB boot) so the selector renders.
+  appMode: loadAppMode(),
   markAispTraceAutoOpened: () => {
     if (get().aispTraceAutoOpened) return
     set({ aispTraceAutoOpened: true })
+  },
+  setAppMode: (mode) => {
+    if (!APP_MODE_VALID.includes(mode)) return
+    set({ appMode: mode })
+    try { kvSet(APP_MODE_KEY, mode) } catch { /* swallow — pre-DB boot */ }
   },
   markSpecAutoOpened: () => {
     if (get().specPanelHasAutoOpened) return
