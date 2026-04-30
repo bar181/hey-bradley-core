@@ -1,7 +1,9 @@
+import { useEffect, useRef, useState } from 'react'
 import { resolveHeroContent } from '@/lib/schemas'
 import type { Section } from '@/lib/schemas'
 import { getImageEffectClass } from '@/lib/sectionContent'
 import { Sparkles } from 'lucide-react'
+import { tokens } from '@/styles/design-tokens'
 
 import { Badge } from '@/components/ui/badge'
 
@@ -13,9 +15,30 @@ export function HeroOverlay({ section }: { section: Section }) {
   const videoComp = section.components.find(c => c.id === 'heroVideo')
   const imageUrl = (imageComp?.props?.url as string) || ''
   const videoUrl = (videoComp?.props?.url as string) || ''
+  const [isVisible, setIsVisible] = useState<boolean>(false)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const node = sectionRef.current
+    if (!node) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setIsVisible(true)
+            observer.disconnect()
+            break
+          }
+        }
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ fontFamily: 'var(--theme-font)' }}>
+    <section ref={sectionRef} className={`relative min-h-screen flex items-center justify-center overflow-hidden transition-all duration-500 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ fontFamily: 'var(--theme-font)' }}>
       {/* Background image or video */}
       {videoUrl && videoComp?.enabled ? (
         <video
@@ -38,7 +61,7 @@ export function HeroOverlay({ section }: { section: Section }) {
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30" />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-8" style={{ gap: section.layout.gap, maxWidth: section.layout.maxWidth || '900px' }}>
+      <div className="relative z-10 flex flex-col items-center text-center px-8" style={{ gap: section.layout.gap ?? tokens.spacing['stack-gap'], maxWidth: section.layout.maxWidth || '900px' }}>
         {hero.badge?.show && (
           <Badge
             variant="outline"
@@ -62,7 +85,7 @@ export function HeroOverlay({ section }: { section: Section }) {
             {hero.cta.show !== false && (
               <a
                 href={hero.cta.url}
-                className="inline-flex items-center justify-center bg-theme-accent text-theme-bg hover:opacity-90 px-8 py-3 rounded-lg font-semibold text-sm shadow-lg transition-all"
+                className="inline-flex items-center justify-center bg-theme-accent text-theme-bg hover:opacity-90 px-8 py-3 rounded-lg font-semibold text-sm shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
               >
                 {hero.cta.text}
               </a>
@@ -70,7 +93,7 @@ export function HeroOverlay({ section }: { section: Section }) {
             {hero.secondaryCta && (
               <a
                 href={hero.secondaryCta.url}
-                className="inline-flex items-center justify-center border border-white/20 text-white/80 hover:bg-white/10 px-8 py-3 rounded-lg font-semibold text-sm transition-all"
+                className="inline-flex items-center justify-center border border-white/20 text-white/80 hover:bg-white/10 px-8 py-3 rounded-lg font-semibold text-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
               >
                 {hero.secondaryCta.text}
               </a>
