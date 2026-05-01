@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import {
   Star, ArrowRight, FileText, DollarSign, Layout, Zap, ChevronRight,
+  Briefcase, Mail,
   type LucideIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/cn'
@@ -18,7 +19,11 @@ import type { SectionType } from '@/lib/schemas/section'
 // without a new file. Card padding + radius wired to design-tokens (ADR-087);
 // hover-lift class added per ADR-091 canonical card pattern.
 
-type QuickKind = Extract<SectionType, 'hero' | 'action' | 'text' | 'blog' | 'pricing' | 'footer'>
+// P75 / OC-7 / Agent A1 — added case-study + contact-form to quick-add.
+type QuickKind = Extract<
+  SectionType,
+  'hero' | 'action' | 'text' | 'blog' | 'pricing' | 'footer' | 'case-study' | 'contact-form'
+>
 
 type QuickCard = {
   type: QuickKind
@@ -43,6 +48,11 @@ const QUICK_CARDS: QuickCard[] = [
     desc: 'Pricing plans and tiers' },
   { type: 'footer', label: 'Footer', icon: Layout, bucket: 'Social Proof + Media',
     desc: 'Page footer with links' },
+  // P75 / OC-7 / Agent A1 — 2 new section types.
+  { type: 'case-study', label: 'Case Study', icon: Briefcase, bucket: 'Social Proof + Media',
+    desc: 'Outcome cards with metric + client' },
+  { type: 'contact-form', label: 'Contact Form', icon: Mail, bucket: 'Hero & CTA',
+    desc: 'Visual-only contact form (Tier-2 submission)' },
 ]
 
 const BUCKETS: QuickCard['bucket'][] = ['Hero & CTA', 'Content', 'Social Proof + Media']
@@ -271,6 +281,33 @@ export function SectionThumbnail({ type }: { type: SectionType }) {
                 <div className={cn(muted, 'h-0.5 w-full')} />
               </div>
             ))}
+          </div>
+        </div>
+      )
+    case 'case-study':
+      // 3 horizontal cards: text-line + tiny outcome chip.
+      return (
+        <div aria-hidden className={frame}>
+          <div className="grid grid-cols-3 gap-0.5 p-1 h-full">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="flex flex-col gap-0.5 bg-white/30 rounded-[2px] p-0.5">
+                <div className={cn(block, 'h-0.5 w-2/3')} />
+                <div className={cn(muted, 'h-0.5 w-full')} />
+                <div className={cn(button, 'h-0.5 w-1/3 rounded-full')} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )
+    case 'contact-form':
+      // 3 stacked input-line stubs + button rectangle.
+      return (
+        <div aria-hidden className={frame}>
+          <div className="flex flex-col gap-0.5 p-1">
+            <div className={cn(muted, 'h-1 w-full rounded-[2px]')} />
+            <div className={cn(muted, 'h-1 w-full rounded-[2px]')} />
+            <div className={cn(muted, 'h-1.5 w-full rounded-[2px]')} />
+            <div className={cn(button, 'h-1 w-1/3 self-end')} />
           </div>
         </div>
       )

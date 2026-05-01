@@ -6,6 +6,9 @@ export const sectionTypeSchema = z.enum([
   'hero', 'menu', 'columns', 'pricing', 'action', 'footer',
   'quotes', 'questions', 'numbers', 'gallery', 'logos', 'team',
   'image', 'divider', 'text', 'blog',
+  // P75 / OC-7 / Agent A1 — 2 new section types (case-study, contact-form).
+  // ADR-099+ candidate; total = 18.
+  'case-study', 'contact-form',
 ])
 
 export type SectionType = z.infer<typeof sectionTypeSchema>

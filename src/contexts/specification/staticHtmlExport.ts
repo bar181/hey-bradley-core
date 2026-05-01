@@ -20,9 +20,12 @@
  */
 import type { MasterConfig, Section, Component } from '@/lib/schemas'
 import { redactKeyShapes } from '@/contexts/intelligence/llm/keys'
+import { ATTRIBUTION_LABEL, ATTRIBUTION_URL } from './attribution'
 
+// P76 / OC-9: attribution stitched from the canonical attribution.ts constants
+// so the export footer cannot drift from the share / hosted-spec surfaces.
 const ATTRIBUTION_HTML =
-  '<p class="hb-attr">Built with <a href="https://heybradley.dev" rel="noopener">Hey Bradley</a></p>'
+  `<p class="hb-attr">Built with <a href="${ATTRIBUTION_URL}" rel="noopener">${ATTRIBUTION_LABEL}</a> · <span class="hb-attr-url">heybradley.dev/spec</span></p>`
 
 function esc(s: unknown): string {
   if (s === null || s === undefined) return ''
@@ -127,21 +130,41 @@ function inlineCss(config: MasterConfig): string {
   const font = config.theme?.typography?.fontFamily || 'Inter, system-ui, sans-serif'
   const headingFont = config.theme?.typography?.headingFamily || font
   const radius = config.theme?.borderRadius || '12px'
-  return `:root{--bg:${esc(bg)};--surface:${esc(surface)};--text:${esc(text)};--muted:${esc(muted)};--accent:${esc(accent)};--radius:${esc(radius)};}
+  // P76 / OC-9: emit a polished mini-document, not a raw skeleton.
+  // - Fluid type via clamp() so headlines scale across viewports.
+  // - System-font fallback stack chained behind theme font.
+  // - Token-derived spacing scale (24/48/80px section rhythm).
+  // - Subtle gradient accent on hero + hover/focus on CTA.
+  // - Footer divider + middle-dot attribution typography.
+  return `:root{--bg:${esc(bg)};--surface:${esc(surface)};--text:${esc(text)};--muted:${esc(muted)};--accent:${esc(accent)};--radius:${esc(radius)};--maxw:1200px;}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:${esc(font)};line-height:1.7;}
-main{max-width:1080px;margin:0 auto;padding:48px 20px;}
-h1,h2,h3{font-family:${esc(headingFont)};line-height:1.2;margin:0 0 16px;}
-h1{font-size:2.5rem}h2{font-size:1.75rem;margin-top:48px}
-.hb-section{padding:32px 0;border-bottom:1px solid rgba(255,255,255,0.06);}
-.hb-section:last-of-type{border-bottom:0}
-.hb-hero{padding:64px 0 48px;border-bottom:0}
-.hb-lead{color:var(--muted);font-size:1.125rem;max-width:640px}
-.hb-cta{display:inline-block;margin-top:16px;padding:12px 22px;background:var(--accent);color:var(--bg);text-decoration:none;border-radius:var(--radius);font-weight:600}
-.hb-items{padding-left:20px}.hb-items li{margin:6px 0}
-.hb-footer{max-width:1080px;margin:0 auto;padding:32px 20px;color:var(--muted);font-size:0.875rem;border-top:1px solid rgba(255,255,255,0.06)}
-.hb-attr{margin-top:8px;font-size:0.75rem;opacity:0.7}
-.hb-attr a{color:var(--accent);text-decoration:none}`
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:${esc(font)},system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+main{display:block}
+.hb-section{max-width:var(--maxw);margin:0 auto;padding:80px 24px;}
+@media (max-width:640px){.hb-section{padding:56px 20px;}}
+h1,h2,h3{font-family:${esc(headingFont)},system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.15;margin:0 0 20px;letter-spacing:-0.01em;font-weight:700;}
+h1{font-size:clamp(2rem,5vw,3.5rem);letter-spacing:-0.02em}
+h2{font-size:clamp(1.5rem,3vw,2.25rem);margin-top:8px}
+h3{font-size:clamp(1.125rem,2vw,1.375rem)}
+p{margin:0 0 16px;max-width:68ch}
+a{color:var(--accent)}
+.hb-hero{padding:120px 24px 96px;background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 6%,var(--bg)) 0%,var(--bg) 100%);}
+@media (max-width:640px){.hb-hero{padding:80px 20px 64px;}}
+.hb-hero h1{max-width:18ch}
+.hb-lead{color:var(--muted);font-size:clamp(1.0625rem,1.5vw,1.25rem);max-width:54ch;margin-bottom:32px}
+.hb-cta{display:inline-block;margin-top:8px;padding:14px 28px;background:var(--accent);color:#fff;text-decoration:none;border-radius:var(--radius);font-weight:600;font-size:1rem;letter-spacing:0.01em;transition:transform 120ms ease,filter 120ms ease,box-shadow 120ms ease;box-shadow:0 1px 2px rgba(0,0,0,0.08),0 4px 12px color-mix(in srgb,var(--accent) 22%,transparent);}
+.hb-cta:hover{transform:translateY(-1px);filter:brightness(1.06);box-shadow:0 2px 4px rgba(0,0,0,0.10),0 8px 20px color-mix(in srgb,var(--accent) 28%,transparent);}
+.hb-cta:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+.hb-items{padding-left:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin:24px 0 0;}
+.hb-items li{padding:20px 22px;background:var(--surface);border:1px solid color-mix(in srgb,var(--text) 8%,transparent);border-radius:var(--radius);}
+.hb-items li strong{display:block;color:var(--text);font-size:1.0625rem;margin-bottom:4px;}
+.hb-footer{max-width:var(--maxw);margin:0 auto;padding:48px 24px 56px;color:var(--muted);font-size:0.9375rem;border-top:1px solid color-mix(in srgb,var(--text) 8%,transparent);}
+.hb-footer p{margin:0 0 8px}
+.hb-attr{margin-top:16px;font-size:0.8125rem;color:var(--muted);opacity:0.85;letter-spacing:0.01em;}
+.hb-attr a{color:var(--accent);text-decoration:none;font-weight:500;}
+.hb-attr a:hover{text-decoration:underline;text-underline-offset:3px;}
+.hb-attr-url{opacity:0.75;}`
 }
 
 export function exportStaticHtml(config: MasterConfig): Blob {

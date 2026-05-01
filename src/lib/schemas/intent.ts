@@ -16,6 +16,8 @@ export const intentTargetTypeSchema = z.enum([
   'testimonials', 'faq', 'value-props', 'gallery', 'image',
   'team', 'columns', 'action', 'quotes', 'questions', 'numbers',
   'divider', 'text', 'logos', 'menu',
+  // P75 / OC-7 / Agent A1 — section types added (case-study, contact-form).
+  'case-study', 'contact-form',
 ])
 
 export const intentTargetSchema = z.object({

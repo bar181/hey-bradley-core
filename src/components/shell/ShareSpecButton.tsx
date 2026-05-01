@@ -16,6 +16,7 @@ import { cn } from '@/lib/cn';
 import { useConfigStore } from '@/store/configStore';
 import { composeShareSpecBundle } from '@/contexts/specification/shareSpecBundle';
 import { publishSpecLocally } from '@/contexts/specification/hostedSpecLink';
+import { ATTRIBUTION_LABEL } from '@/contexts/specification/attribution';
 
 interface ToastState {
   text: string;
@@ -96,9 +97,12 @@ export function ShareSpecButton() {
     const viaApi = await copyViaClipboardAPI(dataUrl);
     const ok = viaApi || copyViaTextarea(dataUrl);
     if (ok) {
-      const suffix = shortUrl ? ` · also at ${shortUrl} in this browser` : '';
+      // P76 / OC-9 attribution typography polish: middle-dot separator, the
+      // canonical "Hey Bradley" label, lower-case URL fragment, no shouty
+      // copy. Stays under one line in dense top-bar layouts.
+      const suffix = shortUrl ? ` · ${shortUrl}` : '';
       showToast({
-        text: `Spec copied to clipboard (${formatBytes(estimatedBytes)})${suffix}`,
+        text: `${ATTRIBUTION_LABEL} spec copied · ${formatBytes(estimatedBytes)}${suffix}`,
         kind: 'success',
       });
     } else {
