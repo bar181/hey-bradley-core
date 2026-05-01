@@ -120,12 +120,60 @@ When adding code, place it in the matching context. Cross-context coupling is do
 - Tailwind for styling; design tokens in `tailwind.config.ts`
 - Tests: Playwright for behavior; vitest mock-first for unit (when added — currently Playwright-only)
 
+## Contributing templates
+
+New starter packs ship as a JSON example under `src/data/examples/`. Mirror the shape of `src/data/examples/clinic.json` and verify against the Zod schema in `src/lib/schemas/masterConfig.ts` before submitting.
+
+Requirements for a mergeable template:
+
+- **≥6 sections, ≤14 sections** (typical premium templates run 8 — 12)
+- **Theme palette: hex colors only** (`#RRGGBB` or `#RRGGBBAA`); no CSS variables, no `rgb(...)`, no named colors
+- **No animation libraries** — `framer-motion`, `gsap`, `lottie`, `@react-spring`, `animejs` are all forbidden in this repo (per ADR-091 / ADR-094)
+- **Visual-style filter** — declare a `visualStyle` from the existing enum (per ADR-096 / ADR-098)
+- **`exampleQueries: readonly string[]`** — REQUIRED on all 51 Template-Intelligence entries (theme / section / content) per P73 / OC-TPL-AUDIT
+- **No carousels and no stat-grid callouts** on marketing surfaces (per ADR-053; Don Miller / blog-style discipline)
+
+Add at least one Playwright test asserting that the template renders without throwing, and run `npx tsc --noEmit` + `npm run build` before pushing.
+
+## Contributing AISP reference implementations
+
+The `examples/3rd-party-consumer/` directory ships polyglot AISP bundle parsers. The **stdlib-only** rule is non-negotiable for any reference implementation:
+
+- **Zero dependencies.** No `package.json`. No `requirements.txt`. No `Cargo.toml`. No `go.sum`. The implementation must run on a freshly installed language toolchain with nothing else.
+- **Bundle JSON is parsed via the language's standard library** (`JSON.parse` in TS / `json.loads` in Python / `encoding/json` in Go / `serde_json` is acceptable for Rust because it's de-facto stdlib but must be vendored or stated; …).
+- **The bundle parsing surface is stable across `aisp-1.X` minor versions.** A reference impl that parses an `aisp-1.0` bundle MUST also parse `aisp-1.1`, `aisp-1.2`, etc.
+- **Contributions in Go, Rust, Swift, Java, Kotlin, Ruby, PHP, C#, Elixir, Clojure, …** are welcome. Mirror the structure of `parse-aisp-typescript.ts` + `parse-aisp-python.py`: a parser function, a tiny `main` block that loads `sample-bundle.json`, and inline comments that map each Crystal Atom to its bundle field.
+- **Walk the existing walkthrough first** — `docs/aisp-adoption/02-reference-implementation-walkthrough.md` annotates the canonical TS / Python parsers. Match that level of inline commentary.
+
+## Bug reports + feature requests
+
+File on GitHub Issues at `bar181/hey-bradley-core` with the appropriate label:
+
+- **`bug`** — include a **reproducible repro**: env (browser + version), exact prompt or click-path, expected vs. actual behavior, console errors. Bugs filed without a repro will be closed `needs-info`.
+- **`enhancement`** — feature requests should cite a **SOTA tool comparison** where relevant (Lovable, Framer, Claude Designer, v0, Replit Agent, …) and state which gap from `plans/strategic-reviews/2026-05-01-comprehensive-review-3-gaps-resolutions.md` it closes (P1 / P2 / P3).
+- **`security`** — see `SECURITY.md` §8. Do NOT include real keys, even truncated.
+
+## AISP RFC process
+
+Breaking changes to the AISP bundle schema (`aisp-2.0+`) require an RFC issue. Minor `aisp-1.X` bumps that preserve backward-compat on the parsing surface do NOT require an RFC; just a CHANGELOG entry and a regression test.
+
+A mergeable AISP RFC must contain:
+
+1. **Motivation** — what problem does the breaking change solve? Why couldn't it be solved with an `aisp-1.X` minor bump?
+2. **Alternatives considered** — at least two non-breaking shapes that were rejected, and why.
+3. **Migration path** — concrete steps a `aisp-1.X` consumer takes to upgrade. Include a worked example bundle.
+4. **Backward-compat shim plan** — either a translation layer that lets `aisp-1.X` consumers keep working unchanged, or an explicit deprecation timeline (minimum 6 months).
+
+Cross-reference ADR-108. Tag the issue `aisp-rfc` + `breaking-change`.
+
 ## What we won't merge
 
 - Backend code (this is the open-core SPA; backend lives in the commercial repo)
 - API key inlining or analytics injections
 - Features that break the BYOK trust boundary (read SECURITY.md for what that means)
 - Carousels or stat-grid callouts on marketing pages (per ADR-053; Don Miller / blog-style discipline)
+- New runtime dependencies that duplicate an existing utility (KISS + bundle-budget discipline)
+- Animation libraries (`framer-motion` / `gsap` / `lottie` / `@react-spring` / `animejs`)
 
 ## Code of conduct
 

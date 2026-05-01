@@ -1,8 +1,16 @@
 # Security Policy — hey-bradley-core (open core)
 
 > **Author:** Bradley Ross (bar181@yahoo.com)
-> **Status:** Authored P22 deep-review fix-pass (closes ADR-043 cross-reference + P20 DoD item 8)
+> **Status:** Authored P22 deep-review fix-pass (closes ADR-043 cross-reference + P20 DoD item 8); refreshed P83 / OC-17 (adoption-surface note added) and tagged for v1.0.0-RC1.
 > **Scope:** open-core repository only. The commercial version (separate repo, post-MVP) has its own security policy.
+
+## Supported versions
+
+| Version | Status | Security fixes |
+|---|---|---|
+| **v1.0.0-RC1** | Current release candidate (sealed P83 / OC-17, 2026-05-01) | **Accepted** |
+| pre-RC commits on `main` | Development tip | Accepted on a best-effort basis |
+| any commercial / Tier-2 fork | Out of scope | Tracked separately |
 
 ## TL;DR
 
@@ -143,6 +151,24 @@ Coordinate disclosure timeline; we'll respond within 7 days for HIGH-severity is
 - **CSP / SRI / hosting headers** — Vercel-side configuration; not in this repo.
 - **Encryption-at-rest for IndexedDB** — relies on browser's same-origin model; not encrypted by us. Acceptable per ADR-043 §3.
 
+## 12. Adoption surface (P83 / ADR-108)
+
+The v1.0.0-RC1 release ships polyglot AISP bundle reference implementations under `examples/3rd-party-consumer/`:
+
+- **`parse-aisp-typescript.ts`** — Node 20+ stdlib only. Bundle JSON parsed via `JSON.parse`.
+- **`parse-aisp-python.py`** — Python 3.10+ stdlib only. Bundle JSON parsed via `json.loads`.
+- **`sample-bundle.json`** — minimal valid `aisp-1.0` fixture.
+
+**No `eval`-on-untrusted-input concerns.** Both parsers consume bundle JSON via the language's standard JSON loader; neither parser reflects bundle fields into runtime code paths (no `Function(...)`, no `eval(...)`, no `exec(...)`, no `__import__(...)`).
+
+**Recommendation for downstream consumers:** treat AISP bundle JSON as **untrusted input** even when received from a trusted origin. Specifically:
+
+- **Do NOT execute bundle contents.** Bundle field values (theme colors, content strings, atom payloads) are data; they are never code. A consumer that interpolates a bundle field into a template, an HTML attribute, or a shell command must apply the same escaping it would apply to any other untrusted string.
+- **Bound your parser.** Call `JSON.parse` / `json.loads` with a size cap on the input string. The reference impls in `examples/3rd-party-consumer/` do not enforce a cap (they are demonstrative); production consumers should add one.
+- **Validate the schema you depend on.** The bundle parsing surface is stable across `aisp-1.X` minor versions; if a consumer pins to specific atom fields, it should validate their presence + type before use.
+
+Contributions of reference implementations in other languages (Go, Rust, Swift, Java, …) must follow the same stdlib-only rule and the same no-eval guarantee. See `CONTRIBUTING.md` "Contributing AISP reference implementations".
+
 ---
 
-*Last updated: 2026-04-27 P22 deep-review fix-pass. Authored by Bradley Ross.*
+*Last updated: 2026-05-01 P83 / OC-17 — adoption-surface §12 added; supported-versions table tagged for v1.0.0-RC1. Original P22 deep-review fix-pass content preserved. Authored by Bradley Ross.*

@@ -392,3 +392,23 @@ When that predicate is `true`, the MVP is shipped.
 3. When complete, tick the box and update the phase's `session-log.md`.
 4. Before moving to the next phase, verify all that phase's tests + ADRs are green.
 5. At any time, the count of checked vs total tells you exactly how far MVP is.
+
+---
+
+## OC Arc Completion (P74-P84)
+
+- [x] P74 OC-DECOMP + Highlights/Log + Demo + Comprehensive Review SEALED (`819be2e`)
+- [x] P75 OC-7 Section Type Closure SEALED
+- [x] P76 OC-9 Spec Export Quality SEALED (`32e3b74`)
+- [x] P77 OC-10 Performance + Accessibility SEALED
+- [x] P78 OC-11 Multi-Page MVP wire SEALED (`a51cb88`)
+- [x] P79 OC-14 Page-Aware Pipeline SEALED (`a15fc8a`)
+- [x] P80 OC-15 Agentic-Product Templates SEALED (`926f6ea`)
+- [x] P81 OC-16 Prompt Library 500+ SEALED
+- [x] P82 OC-CLEANUP carry-forward batch SEALED (`1196d42`)
+- [x] P83 OC-17 AISP Adoption Push SEALED (`b61fce6`)
+- [x] P84 OC-18 RC Final SEALED — v1.0.0-RC1 READY
+
+## Open Core arc: COMPLETE
+
+P11 → P84 · 84 phases sealed · 109 ADRs Accepted · ~1011+ tests · v1.0.0-RC1

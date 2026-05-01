@@ -1,71 +1,97 @@
-# Hey Bradley vs Lovable — 90-second demo script
+# Hey Bradley — 3:30 demo video script (v1.0.0-RC1)
 
-> **Format:** timed shot list (VO / on-screen cue / browser action / takeaway)
-> **Total runtime:** 90 seconds
-> **Owner deliverable:** record per shot list; publish to README + Agentics Foundation
-> **Recording mode:** AgentProxy active (so the demo costs $0 and latency is honest)
+> **Format:** timed shot list (VO / on-screen / browser action / takeaway)
+> **Total runtime:** 3:30
+> **Owner deliverable:** record per shot list; publish to README + AISP repo + launch threads
+> **Recording mode:** AgentProxy active so the demo costs $0 and the latency badge is honest
 
 ---
 
-## 0:00–0:10 — Hook
+## 0:00–0:15 — Hook: the 55% problem
 
-- **VO:** "Lovable shipped voice. Hey Bradley shipped specs. Watch."
-- **On-screen:** title card split-screen — "Lovable" left, "Hey Bradley" right. Both blank.
-- **Browser action:** none. Title card only.
-- **Takeaway:** the viewer expects a head-to-head, not a feature list.
+- **VO:** "Cited research puts LLM coding sessions at roughly 55% silently wrong. The output runs. It compiles. It just isn't what you asked for. Hey Bradley fixes that with a spec layer you can read before any code lands."
+- **On-screen:** title card. "55% silently wrong" stat in large type. Cut to Hey Bradley landing page.
+- **Browser action:** open `hey-bradley.com`.
+- **Takeaway:** the problem is verification, not generation.
 
-## 0:10–0:25 — Lovable side: prompt → code, no spec
+## 0:15–0:45 — Listen mode
 
-- **VO:** "Here's Lovable. Voice prompt in. Code out. Twelve commits. No spec. The founder still doesn't know what got built."
-- **On-screen:** Lovable app. Voice prompt: "build me a coffee subscription landing page." Cuts to: commit log scrolling, then a confused-founder reaction shot (stock or owner B-roll).
-- **Browser action:** open Lovable in left pane; press voice; speak the prompt; let it generate; scroll the commit feed.
-- **Takeaway:** fast, impressive, and the spec layer is missing. Re-prompt is the only correction tool.
+- **VO:** "Push to talk. Speak. Five Crystal Atoms classify the utterance before any patch lands — INTENT, ASSUMPTIONS, SELECTION, CONTENT, PATCH. Plus DECOMP if you said two things at once."
+- **On-screen:** `/demo/listen`. PTT mic button held. Live transcript renders. Atom chips animate in order. Latency badge shows sub-second response.
+- **Browser action:** navigate to `/demo/listen`; hold mic; say "make the hero brighter and add a pricing section"; release; observe DECOMP split + 5-atom trace.
+- **Takeaway:** voice goes through the same spec layer as text. No bypass.
 
-## 0:25–0:40 — Hey Bradley side: same prompt → atoms light up → spec auto-opens
+## 0:45–1:20 — Chat mode + template intelligence
 
-- **VO:** "Same prompt into Hey Bradley. Watch the five atoms fire. The spec opens itself. The build happens at the same time."
-- **On-screen:** Hey Bradley right pane. Voice prompt is the same coffee-subscription line. The five Crystal Atom chips animate in order: PATCH → INTENT → SELECTION → CONTENT → ASSUMPTIONS. Spec panel auto-opens. Preview pane shows the build.
-- **Browser action:** click the push-to-talk mic; speak the prompt; release; the atom strip animates inline; spec primary tab takes focus.
-- **Takeaway:** the moat is visible by default. You can see the spec form before the build lands.
+- **VO:** "Type a prompt. Template Intelligence routes across three layers — 21 themes, 15 section arrangements, 15 content styles. Forty-one full templates. The matcher shows you which ones it considered and why."
+- **On-screen:** main chat. Type "more agency vibes". Theme switches. Type "switch to dark feminine". Theme swaps again. Type "add testimonials and a CTA". Sections appear.
+- **Browser action:** type each prompt; observe theme/section response; open Conversation Log tab to show ranked candidates with scores.
+- **Takeaway:** the matcher is auditable. Every choice has a confidence score and an alternative.
 
-## 0:40–0:55 — Personality toggle: Geek → Teacher
+## 1:20–1:55 — Multi-page (the page-aware win)
 
-- **VO:** "Geek personality shows AISP inline. Teacher says it in plain English. Same atoms. Same spec. Different voice."
-- **On-screen:** personality picker. Toggle to **Geek** — the AISP classification renders inline as `Ω→add Σ→pricing @ 0.94`. Toggle to **Teacher** — the same response renders as "Adding a pricing section. Confidence: 94%."
-- **Browser action:** open personality picker; click Geek; observe inline symbolic; click Teacher; observe plain-English variant of the same atom payload.
-- **Takeaway:** the spec is universal. Personality is the surface; AISP is the substrate.
+- **VO:** "Add a second page. Switch active. Type 'edit page 2 hero'. The patch lands on page 2 — not page 1. That's the page-aware pipeline. ADR-104."
+- **On-screen:** PageSelector tabs in left panel. Click "Add page". Page 2 created. Click Page 2 to set active. Type "make the page 2 hero darker". Preview updates Page 2 only.
+- **Browser action:** add page; switch active; issue scoped prompt; verify Page 1 untouched in preview tabs.
+- **Takeaway:** the fix that should be obvious is shipped and tested. Single-page mode is byte-equivalent preserved.
 
-## 0:55–1:10 — Share Spec → real URL → opens in another browser → static HTML downloads
+## 1:55–2:30 — Full-site simulator
 
-- **VO:** "Share Spec. Real hosted URL. Opens anywhere. The static site downloads at the same time."
-- **On-screen:** Share Spec button. Toast: "Link copied." Switch to a second browser window — paste — the spec page renders in the in-browser stub. A separate download tray shows the static HTML zip arriving.
-- **Browser action:** click Share Spec; switch windows; Cmd+V into address bar; press Enter; spec loads. In parallel, downloads tray shows the static export.
-- **Takeaway:** the spec survives Slack, DM, email. The build is portable HTML. Distribution is solved.
+- **VO:** "Ten-step scripted flow. A coffee-subscription site builds itself in real time. Theme swap, typography upscale, gallery, testimonials, CTA. Five atoms emit at every step."
+- **On-screen:** `/demo/full-site`. Auto-play through the 10 scripted steps. Progressive preview fills in. Atom trace logs in side panel.
+- **Browser action:** navigate to `/demo/full-site`; let the scripted flow run; pause at step 10 to show final 5-atom spec bundle.
+- **Takeaway:** what you saw in 90 seconds is what the spec layer encodes. Reproducible.
 
-## 1:10–1:25 — Latency badge persistent through the run
+## 2:30–2:55 — Spec layer reveal
 
-- **VO:** "And every reply across that whole demo updated in under a second. We didn't fake it."
-- **On-screen:** B-roll cuts back to the four prior moments — each one with the latency badge highlighted ("Updated in 0.8s", "Updated in 1.1s", "Updated in 0.9s", "Updated in 0.7s").
-- **Browser action:** none — supercut overlay. Highlight the `data-testid="latency-badge"` element with a callout ring.
-- **Takeaway:** speed is visible, measured, and consistent — not a marketing claim.
+- **VO:** "Open Blueprints. Seven sub-tabs — North Star, Architecture, Build Plan, Features, Human Spec, AISP, JSON. The AISP tab is the moat. Math-first, 512 symbols, near-zero ambiguity. Every LLM understands it natively."
+- **On-screen:** click Blueprints tab. Cycle through North Star → AISP → JSON. Show the 5-atom trace with confidence scores. Click "Export AISP" — versioned filename downloads.
+- **Browser action:** open Blueprints; cycle sub-tabs; click export; show downloaded `aisp-bundle-v1.json` in tray.
+- **Takeaway:** the spec is the bet. The spec is the deliverable.
 
-## 1:25–1:30 — CTA
+## 2:55–3:15 — Adoption: polyglot, stdlib-only
 
-- **VO:** "Hey Bradley. Open core. MIT. Version 1.0.0-RC1. Try it now."
-- **On-screen:** end card — `github.com/bar181/hey-bradley-core` and `hey-bradley.com`. AISP cross-link: `github.com/bar181/aisp-open-core`. Capstone footer: "Bradley Ross · Harvard ALM Digital Media Design · May 2026."
+- **VO:** "Third-party adoption ships today. TypeScript parser, Python parser, sample bundle. Standard library only. Zero npm, zero pip. Drop into any project."
+- **On-screen:** GitHub view of `examples/3rd-party-consumer/`. Show `parse-aisp-typescript.ts`, `parse-aisp-python.py`, `sample-bundle.json`. Cut to `docs/aisp-adoption/` — three-doc tree.
+- **Browser action:** open repo; navigate to examples folder; open both parsers; open adoption docs.
+- **Takeaway:** adoption is a five-minute integration, not a vendor lock-in.
+
+## 3:15–3:30 — Outro
+
+- **VO:** "Hey Bradley. Open core. MIT. Version 1.0.0-RC1 today. Spec repo at aisp-open-core. Build repo at hey-bradley-core. Try it."
+- **On-screen:** end card. `github.com/bar181/hey-bradley-core` + `github.com/bar181/aisp-open-core` + `hey-bradley.com`. Capstone footer: "Bradley Ross · Harvard ALM Digital Media Design · May 2026."
 - **Browser action:** static end card.
-- **Takeaway:** the viewer has the link, the version, and the license. One click to install.
+- **Takeaway:** version, license, links.
 
 ---
 
-## Recording notes for the owner
+## Concrete shipped numbers (cite on screen if helpful)
 
-- **Resolution:** 1080p (1920×1080) minimum; 60fps preferred for the atom-animation moment (0:25–0:40).
-- **Audio:** clean lavalier or USB-C mic. VO recorded separately and mixed against silent screen capture for clean cuts.
-- **Pre-load state:** open the bakery / coffee-subscription example in the Hey Bradley pane before recording — the demo is faster to follow with content already on screen than starting from a blank canvas.
-- **AgentProxy active:** confirm AgentProxy provider is selected so the demo runs at $0 BYOK cost and the latency badge reflects the open path, not a paid-tier shortcut.
-- **Atom animation timing:** rehearse the prompt twice before the hot take so the five atoms land on visible beats, not buried in a flurry.
-- **Lovable side:** record on a separate device or tab. Do not splice — let the comparison feel honest. If Lovable's UX changes between record and publish, re-record the left pane only.
-- **Re-record gate:** if any of the four moat priorities (speed / spec / templates / share) is not visibly demonstrated in the final cut within the first 30 seconds, re-record. Spec-unmissable failures are the most common cause.
-- **Publish targets:** README hero (autoplay muted), Agentics Foundation Discord pinned post, capstone defense slide deck (90s clip), `hey-bradley.com` landing.
-- **Cross-references:** moat priorities — `plans/strategic-reviews/open-core-moat-roadmap.md`. Sprint K (speed) sealed `44cc36c`. Sprint L (spec) sealed `2944461`. Sprint M (templates) ADR-079. Sprint N (share) ADR-080. Sprint O (this) ADR-081.
+- 996+ pure-unit tests GREEN at P83 seal
+- 108 ADRs Accepted on disk
+- 41 templates (17 baseline + 24 expansion across OC-3 / OC-4 / OC-15)
+- 12 blog posts (ADR-097 floor met at P82)
+- 18 section types (ADR-100 widening)
+- 21 themes / 15 section arrangements / 15 content styles
+- 5 Crystal Atoms (INTENT / ASSUMPTIONS / SELECTION / CONTENT / PATCH) + DECOMP front-of-pipeline
+- 4 modes (chat / listen / expert / mobile)
+- 84 phases sealed (P11 → P83)
+
+## Recording notes
+
+- 1080p minimum; 60fps for the atom-animation moments at 0:30 and 2:00.
+- Clean lavalier or USB-C mic. VO recorded separately and mixed against silent screen capture.
+- Pre-load the coffee-subscription example state so 0:15–0:45 is fast to follow.
+- AgentProxy provider selected so latency badge reflects the open path, not a paid shortcut.
+- Re-record gate: if speed / spec / multi-page / adoption isn't visibly demonstrated by 3:00, re-record.
+- Publish targets: README hero (muted autoplay), AISP repo README, launch HN/PH posts, capstone defense deck.
+
+## Cross-references
+
+- Moat priorities: `plans/strategic-reviews/open-core-moat-roadmap.md`
+- Sprint K speed: ADR-077 (P54)
+- Sprint L spec: ADR-078 (P55)
+- Sprint N share: ADR-081 (P57)
+- ADR-104 page-aware pipeline (P79 / OC-14)
+- ADR-108 AISP adoption (P83 / OC-17)
+- AISP spec: `github.com/bar181/aisp-open-core`

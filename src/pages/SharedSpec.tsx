@@ -41,7 +41,7 @@ function Footer() {
       Built with{' '}
       <Link to="/" className="text-hb-accent hover:underline">Hey Bradley</Link>
       {' · '}
-      <a href="https://github.com/bar181/hey-bradley-core" className="hover:underline" target="_blank" rel="noreferrer">
+      <a href="https://github.com/bar181/hey-bradley-core" className="hover:underline" target="_blank" rel="noopener noreferrer">
         /heybradley
       </a>
       {' · open core'}
