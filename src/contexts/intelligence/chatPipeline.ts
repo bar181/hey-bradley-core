@@ -319,6 +319,33 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     // past the content gate and hit the LLM patch path. classifyRoute is
     // pure-rule (~$0); calling it unconditionally is the correct floor.
     aispRoute = classifyRoute(aisp.target ? aisp : null, text).route
+    // P74 / OC-DECOMP (A3) — DECOMP_ATOM short-circuit. Multi-clause input
+    // ("make it brighter and add pricing") splits into ordered Todo[]; when
+    // ≥2 todos with confidence ≥0.7 produce patches, apply + return early.
+    // Single-clause / low-confidence falls through to matchTemplates path.
+    // ADR-099 (cross-refs ADR-053/057/060/064/098).
+    try {
+      const { decompose } = await import('@/contexts/intelligence/aisp/decompAtom')
+      const { executeTodos } = await import('@/contexts/intelligence/aisp/todoExecutor')
+      const decomp = decompose(text, aisp)
+      if (decomp.todos.length > 1 && decomp.confidence >= 0.7) {
+        const exec = executeTodos(decomp, useConfigStore.getState().config)
+        if (exec.allPatches.length > 0) {
+          stageMarks.applyStart = Date.now()
+          useConfigStore.getState().applyPatches(exec.allPatches)
+          const doneAt = Date.now()
+          return {
+            ok: true, appliedPatchCount: exec.allPatches.length, fellBackToCanned: false,
+            summary: `Decomposed ${decomp.todos.length} todos — ${exec.allPatches.length} patches applied`,
+            durationMs: doneAt - startedAt, errorKind: null,
+            aisp: aispTrace, aispRoute,
+            latencyMs: doneAt - startedAt, latencyBreakdown: buildBreakdown(stageMarks, doneAt),
+          }
+        }
+      }
+    } catch (e) {
+      if (import.meta.env.DEV) console.warn('[chatPipeline] decomp atom threw', e)
+    }
     // P72 / OC-TI (A4) — try the 3-layer template matcher first. High-confidence
     // matches short-circuit SELECTION_ATOM; low-confidence falls through.
     try {

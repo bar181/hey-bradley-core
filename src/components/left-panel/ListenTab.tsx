@@ -5,7 +5,18 @@
  * + orb-pulse + sim-input plumbing lives in `useListenDemo`; visual surfaces
  * live in sibling components under ./listen/. Target <150 LOC per CLAUDE.md
  * hard cap.
+ *
+ * P74 / Track B / A4 — highlight applied at chat surface; full text in log.
+ * The listen-tab transcript surface is short-form by construction (live STT
+ * partials + a single confirmed line via ListenTranscript / ListenReviewCard).
+ * If a future revision starts surfacing long bradley replies inline here,
+ * wrap the displayed reply in `extractHighlight(text, { minWords: 5,
+ * maxWords: 25 })` and keep the raw transcript in pipeline state so the
+ * ConversationLogTab can still render the full version.
  */
+// P74/A4 — highlight extraction available for future inline reply surface.
+import { extractHighlight as _extractHighlight } from '@/lib/highlightExtractor'
+void _extractHighlight
 import { useEffect, useRef, useState } from 'react'
 import listenSequences from '@/data/sequences/listen-sequences.json'
 import { useUIStore } from '@/store/uiStore'

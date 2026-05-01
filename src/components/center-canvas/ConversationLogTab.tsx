@@ -9,6 +9,7 @@ import { useMemo, useState } from 'react'
 import { FileJson, FileText } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { redactKeyShapes } from '@/contexts/intelligence/llm/keys'
+import { extractHighlight } from '@/lib/highlightExtractor'
 import {
   exportConversationLogJson,
   exportConversationLogMarkdown,
@@ -16,6 +17,13 @@ import {
   type ConversationLogFilter,
   type ConversationTurn,
 } from '@/contexts/specification/conversationLogExport'
+
+// P74/A5 — Soft shape for a per-todo decomp trace row (A1+A2+A3 wire via
+// chatPipeline). Render-block is guarded by `'todoTraces' in t`.
+interface TodoTraceLike {
+  verb?: string; target?: string; details?: string
+  confidence?: number | string; status?: string; summary?: string
+}
 
 function downloadBlob(filename: string, mime: string, body: string): void {
   try {
@@ -45,6 +53,11 @@ function shortHash(h: string | null): string {
 
 export function ConversationLogTab() {
   const [filter, setFilter] = useState<ConversationLogFilter>({})
+  // Per-row "Show full" / "Show highlight" toggle. Default = full (this is the
+  // log surface — highlight mode is what chat/listen render via A4).
+  const [highlightRows, setHighlightRows] = useState<Record<string, boolean>>({})
+  const toggleHighlight = (key: string): void =>
+    setHighlightRows((prev) => ({ ...prev, [key]: !prev[key] }))
 
   const sessions = useMemo(() => {
     try {
@@ -149,25 +162,60 @@ export function ConversationLogTab() {
                 {redactKeyShapes(sess.id)} · started {formatTs(sess.started_at)}
               </div>
               <ul className="divide-y divide-hb-border/40">
-                {sess.turns.map((t: ConversationTurn, i) => (
-                  <li
-                    key={i}
-                    data-testid="log-row"
-                    data-personality={t.personality ?? ''}
-                    className="py-1.5 grid grid-cols-[80px_60px_60px_80px_80px_1fr] gap-2 items-start text-xs"
-                  >
-                    <span className="text-hb-text-muted font-mono">{formatTs(t.created_at)}</span>
-                    <span className={cn('font-medium', t.role === 'user' ? 'text-hb-accent' : 'text-hb-text-secondary')}>
-                      {t.role}
-                    </span>
-                    <span className="text-hb-text-muted">{t.personality ?? '—'}</span>
-                    <span className="text-hb-text-muted">{t.provider ?? '—'}</span>
-                    <span className="font-mono text-hb-text-muted">{shortHash(t.prompt_hash)}</span>
-                    <span className="text-hb-text-primary truncate" title={redactKeyShapes(t.text)}>
-                      {redactKeyShapes(t.text).slice(0, 240)}
-                    </span>
-                  </li>
-                ))}
+                {sess.turns.map((t: ConversationTurn, i) => {
+                  const rowKey = `${sess.id}:${i}`
+                  const isBradley = t.role !== 'user'
+                  const showHighlight = isBradley && (highlightRows[rowKey] ?? false)
+                  const fullText = redactKeyShapes(t.text)
+                  const body = showHighlight ? extractHighlight(fullText) : fullText
+                  // Soft-typed reads — A1/A2/A3 attach these via chatPipeline envelope.
+                  const tAny = t as unknown as Record<string, unknown>
+                  const latencyMs = typeof tAny.latency_ms === 'number' ? tAny.latency_ms : null
+                  const aispAtoms = Array.isArray(tAny.aisp_atoms) ? (tAny.aisp_atoms as string[]) : []
+                  const hasTodoTraces = isBradley && 'todoTraces' in t && Array.isArray(tAny.todoTraces)
+                  const todoTraces: TodoTraceLike[] = hasTodoTraces ? (tAny.todoTraces as TodoTraceLike[]) : []
+                  const decompStatus = typeof tAny.decompStatus === 'string' ? tAny.decompStatus : 'applied'
+                  return (
+                    <li key={i} data-testid="log-row" data-role={t.role} data-personality={t.personality ?? ''} className="py-2 text-xs space-y-1">
+                      <div className="grid grid-cols-[80px_60px_60px_80px_80px_60px_1fr] gap-2 items-start">
+                        <span className="text-hb-text-muted font-mono">{formatTs(t.created_at)}</span>
+                        <span className={cn('font-medium', t.role === 'user' ? 'text-hb-accent' : 'text-hb-text-secondary')}>{t.role}</span>
+                        <span className="text-hb-text-muted">{t.personality ?? '—'}</span>
+                        <span className="text-hb-text-muted">{t.provider ?? '—'}</span>
+                        <span className="font-mono text-hb-text-muted">{shortHash(t.prompt_hash)}</span>
+                        <span className="font-mono text-hb-text-muted" title="latency · status">{latencyMs != null ? `${latencyMs}ms` : (t.status ?? '—')}</span>
+                        <span className="text-hb-text-primary whitespace-pre-wrap break-words" title={fullText}>{body}</span>
+                      </div>
+                      {isBradley && (
+                        <div className="flex flex-wrap items-center gap-2 pl-[80px]">
+                          <button type="button" data-testid="log-row-toggle" onClick={() => toggleHighlight(rowKey)} aria-label={showHighlight ? 'Show full reply' : 'Show highlight'} className="text-[10px] px-1.5 py-0.5 rounded border border-hb-border hover:border-hb-accent/50 text-hb-text-muted">{showHighlight ? 'Show full' : 'Show highlight'}</button>
+                          {t.model && <span className="text-[10px] text-hb-text-muted font-mono" title="model">{redactKeyShapes(t.model)}</span>}
+                          {aispAtoms.length > 0 && (
+                            <span className="flex flex-wrap gap-1" data-testid="log-row-aisp">
+                              {aispAtoms.map((atom, ai) => <span key={ai} className="text-[10px] px-1 rounded bg-hb-bg-elevated border border-hb-border text-hb-text-muted font-mono">{redactKeyShapes(atom)}</span>)}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                      {hasTodoTraces && (
+                        <details data-testid="log-row-decomp" className="pl-[80px]">
+                          <summary className="text-[10px] text-hb-text-muted cursor-pointer select-none">Decomp trace · {todoTraces.length} todo{todoTraces.length === 1 ? '' : 's'} · status: {redactKeyShapes(decompStatus)}</summary>
+                          <ul className="mt-1 space-y-0.5">
+                            {todoTraces.map((td, ti) => (
+                              <li key={ti} className="grid grid-cols-[60px_80px_1fr_50px_60px] gap-2 text-[10px] font-mono text-hb-text-muted">
+                                <span>{redactKeyShapes(String(td.verb ?? '—'))}</span>
+                                <span>{redactKeyShapes(String(td.target ?? '—'))}</span>
+                                <span className="truncate" title={String(td.details ?? '')}>{redactKeyShapes(String(td.details ?? '—'))}</span>
+                                <span>{td.confidence != null ? String(td.confidence) : '—'}</span>
+                                <span>{redactKeyShapes(String(td.status ?? '—'))}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </details>
+                      )}
+                    </li>
+                  )
+                })}
               </ul>
             </section>
           ))}
@@ -176,3 +224,21 @@ export function ConversationLogTab() {
     </div>
   )
 }
+
+// P74/A5 — ConversationLogTab full-detail surface confirmed:
+// - Full bradley reply text (untruncated; whitespace-pre-wrap, no .slice cap)
+// - User input verbatim (same untruncated render path)
+// - AISP trace (5-atom chips, soft-read from tAny.aisp_atoms; hidden when absent)
+// - Latency badge + breakdown (latency_ms surfaced; falls back to t.status)
+// - Personality metadata (t.personality column)
+// - Timestamp (formatTs ISO ms, monospace)
+// - Decomp trace (collapsible <details>; rendered only when 'todoTraces' in t —
+//   guarded so it stays invisible until A3's chatPipeline wire ships todoTraces
+//   on the bradley reply envelope; verb · target · details · confidence · status)
+// - Highlight/full toggle (per bradley row; default = full; uses extractHighlight
+//   from @/lib/highlightExtractor — A4's helper)
+//
+// Carry-forward: A3 must extend ConversationTurn (or the chat_messages projection
+// it feeds) with optional latency_ms, aisp_atoms, todoTraces, decompStatus so
+// these soft-read render paths can drop their `as unknown as Record<string,unknown>`
+// casts. Until then the runtime guards keep the panel a no-op for legacy turns.

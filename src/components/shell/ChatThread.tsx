@@ -15,6 +15,9 @@ import { useUIStore } from '@/store/uiStore'
 import { AISPSurface } from '@/components/shell/AISPSurface'
 import { PatchLatencyBadge } from '@/components/shell/PatchLatencyBadge'
 import type { ChatMessage } from '@/components/shell/ChatInput'
+// P74 / Track B / A4 — chat surface shows 5-25 word highlight; full text
+// stays on the ChatMessage object so ConversationLogTab can render in full.
+import { extractHighlight } from '@/lib/highlightExtractor'
 
 export interface ChatThreadProps {
   messages: ChatMessage[]
@@ -23,7 +26,16 @@ export interface ChatThreadProps {
 export function ChatThread({ messages }: ChatThreadProps) {
   return (
     <>
-      {messages.map((msg) => (
+      {messages.map((msg) => {
+        // P74 / Track B / A4 — highlight bradley replies on the chat surface
+        // only. Users see what they typed verbatim. Full bradley text stays
+        // in msg.text and is rendered in full by ConversationLogTab.
+        const isBradley = msg.role === 'bradley'
+        const displayText = isBradley
+          ? extractHighlight(msg.text, { minWords: 5, maxWords: 25 })
+          : msg.text
+        const wasTruncated = isBradley && displayText !== msg.text.trim().replace(/\s+/g, ' ')
+        return (
         <div
           key={msg.id}
           className={cn(
@@ -33,7 +45,15 @@ export function ChatThread({ messages }: ChatThreadProps) {
           data-testid={msg.role === 'user' ? 'chat-msg-user' : 'chat-msg-bradley'}
         >
           {msg.role === 'user' && <span className="font-semibold text-hb-text-secondary">you: </span>}
-          {msg.text}
+          {displayText}
+          {wasTruncated && (
+            <div
+              data-testid="chat-bradley-see-full-in-log"
+              className="text-[10px] text-[#6b5e4f] italic mt-1"
+            >
+              (see full in log)
+            </div>
+          )}
           {/* P19 Fix-Pass 2 (F12): "via voice" pill so users can see which
               turns came from PTT. Subtle muted pill, not a banner. */}
           {msg.source === 'listen' && (
@@ -151,7 +171,8 @@ export function ChatThread({ messages }: ChatThreadProps) {
             </div>
           )}
         </div>
-      ))}
+        )
+      })}
     </>
   )
 }
