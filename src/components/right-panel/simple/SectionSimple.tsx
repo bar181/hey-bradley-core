@@ -259,7 +259,7 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
               {activeMediaId === 'heroVideo' ? (
                 <video src={activeMediaUrl} className="w-full h-full object-cover" muted />
               ) : (
-                <img src={activeMediaUrl} alt="Current media" className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                <img src={activeMediaUrl} alt="Current media" loading="lazy" width={320} height={80} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
               )}
             </div>
           )}

@@ -174,8 +174,9 @@ export function LogosSectionSimple({ sectionId }: { sectionId: string }) {
                     <button
                       type="button"
                       onClick={() => removeLogo(item.id)}
-                      className="text-hb-text-muted hover:text-red-400 transition-colors p-0.5"
+                      className="text-hb-text-muted hover:text-red-400 transition-colors p-0.5 focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] rounded"
                       title="Remove logo"
+                      aria-label={`Remove logo ${idx + 1}`}
                     >
                       <Trash2 size={12} />
                     </button>
@@ -185,7 +186,7 @@ export function LogosSectionSimple({ sectionId }: { sectionId: string }) {
                 <div className={cn(!item.enabled && 'opacity-25 pointer-events-none', 'space-y-2')}>
                   {imageUrl && (
                     <div className="w-full h-12 rounded-md overflow-hidden border border-hb-border/30 flex items-center justify-center bg-white/5">
-                      <img src={imageUrl} alt={name || 'Logo'} className="max-w-full max-h-full object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                      <img src={imageUrl} alt={name || 'Logo'} loading="lazy" width={120} height={48} className="max-w-full max-h-full object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
                     </div>
                   )}
                   <div className="space-y-1">

@@ -142,8 +142,9 @@ export function CaseStudySectionSimple({ sectionId }: { sectionId: string }) {
                         <button
                           type="button"
                           onClick={() => removeCard(item.id)}
-                          className="text-hb-text-muted hover:text-red-400 transition-colors p-0.5"
+                          className="text-hb-text-muted hover:text-red-400 transition-colors p-0.5 focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] rounded"
                           title="Remove case study"
+                          aria-label={`Remove case study ${idx + 1}`}
                         >
                           <Trash2 size={12} />
                         </button>

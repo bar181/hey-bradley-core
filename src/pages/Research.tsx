@@ -108,7 +108,7 @@ export function Research() {
           <h2 className="text-3xl font-bold mb-8">The whiteboard was always<br />the most important tool.</h2>
 
           <div className="float-right ml-8 mb-6 w-72 hidden md:block">
-            <img src="/previews/theme-agency.png" alt="Website taking shape in Hey Bradley" className="rounded-xl border border-[#e8772e]/20 shadow-lg w-full" />
+            <img src="/previews/theme-agency.png" alt="Website taking shape in Hey Bradley" loading="lazy" width={1280} height={800} style={{ aspectRatio: '16 / 10' }} className="rounded-xl border border-[#e8772e]/20 shadow-lg w-full" />
             <p className="text-xs text-[#6b5e4f] mt-2 text-center">A website materializes during a team discussion</p>
           </div>
 
@@ -265,8 +265,8 @@ export function Research() {
           <h2 className="text-3xl font-bold mb-8">When everyone can build,<br />everything changes.</h2>
 
           <div className="grid md:grid-cols-2 gap-6 mb-10">
-            <img src="/previews/example-fitforge.png" alt="FitForge example site" className="rounded-xl border border-[#e8772e]/20 w-full" />
-            <img src="/previews/example-florist.png" alt="Florist example site" className="rounded-xl border border-[#e8772e]/20 w-full" />
+            <img src="/previews/example-fitforge.png" alt="FitForge example site" loading="lazy" width={1280} height={800} style={{ aspectRatio: '16 / 10' }} className="rounded-xl border border-[#e8772e]/20 w-full" />
+            <img src="/previews/example-florist.png" alt="Florist example site" loading="lazy" width={1280} height={800} style={{ aspectRatio: '16 / 10' }} className="rounded-xl border border-[#e8772e]/20 w-full" />
           </div>
 
           <p className="text-lg text-[#2d1f12] leading-relaxed mb-6">

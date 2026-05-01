@@ -241,6 +241,8 @@ export function SectionsSection() {
             }}
             className="p-0.5 text-hb-text-muted/60 hover:text-hb-text-secondary shrink-0"
             title={isCollapsed ? 'Expand this section row.' : 'Collapse this section row.'}
+            aria-label={isCollapsed ? `Expand ${name}` : `Collapse ${name}`}
+            aria-expanded={!isCollapsed}
           >
             <ChevronRight size={12} className={cn('transition-transform', !isCollapsed && 'rotate-90')} />
           </button>
@@ -280,8 +282,10 @@ export function SectionsSection() {
                   e.stopPropagation()
                   toggleSectionEnabled(section.id)
                 }}
-                className="p-0.5 text-hb-text-muted hover:text-hb-text-secondary"
+                className="p-0.5 text-hb-text-muted hover:text-hb-text-secondary focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] rounded"
                 title="Show or hide this section on your page."
+                aria-label={section.enabled ? `Hide ${name} section` : `Show ${name} section`}
+                aria-pressed={section.enabled}
               >
                 {section.enabled ? <Eye size={13} /> : <EyeOff size={13} />}
               </button>
@@ -295,26 +299,29 @@ export function SectionsSection() {
             <button
               type="button"
               title="Move this section up one spot."
+              aria-label={`Move ${name} up`}
               onClick={() => moveSection(index, 'up')}
               disabled={index === 0}
-              className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover active:bg-hb-surface-hover disabled:opacity-30"
+              className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover active:bg-hb-surface-hover disabled:opacity-30 focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)]"
             >
               <ChevronUp size={14} />
             </button>
             <button
               type="button"
               title="Move this section down one spot."
+              aria-label={`Move ${name} down`}
               onClick={() => moveSection(index, 'down')}
               disabled={index === orderedSections.length - 1}
-              className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover active:bg-hb-surface-hover disabled:opacity-30"
+              className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover active:bg-hb-surface-hover disabled:opacity-30 focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)]"
             >
               <ChevronDown size={14} />
             </button>
             <button
               type="button"
               title="Make a copy of this section."
+              aria-label={`Duplicate ${name}`}
               onClick={() => handleDuplicate(section.id)}
-              className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover active:bg-hb-surface-hover"
+              className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover active:bg-hb-surface-hover focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)]"
             >
               <Copy size={14} />
             </button>
@@ -408,8 +415,10 @@ export function SectionsSection() {
             <button
               type="button"
               onClick={() => setShowAddPage(!showAddPage)}
-              className="p-0.5 rounded text-hb-text-muted hover:text-hb-accent hover:bg-hb-surface-hover"
+              className="p-0.5 rounded text-hb-text-muted hover:text-hb-accent hover:bg-hb-surface-hover focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)]"
               title="Add a new page to your site."
+              aria-label={showAddPage ? 'Cancel add page' : 'Add a new page'}
+              aria-expanded={showAddPage}
             >
               <Plus size={12} />
             </button>
@@ -435,12 +444,13 @@ export function SectionsSection() {
                     type="button"
                     onClick={() => handleDeletePage(page.id)}
                     className={cn(
-                      'p-0.5 rounded ml-0.5',
+                      'p-0.5 rounded ml-0.5 focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)]',
                       confirmDeletePageId === page.id
                         ? 'text-red-400 animate-pulse'
                         : 'text-hb-text-muted/40 hover:text-red-400'
                     )}
                     title={confirmDeletePageId === page.id ? 'Click again to confirm deleting this page.' : 'Delete this page.'}
+                    aria-label={confirmDeletePageId === page.id ? `Confirm delete page ${page.title}` : `Delete page ${page.title}`}
                   >
                     <X size={10} />
                   </button>

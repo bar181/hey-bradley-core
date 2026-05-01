@@ -11,13 +11,20 @@
  * shape is preserved verbatim so `hostedSpecLink.ts` round-trip stays intact.
  */
 import type { MasterConfig } from '@/lib/schemas';
-import { generateNorthStar, generateSADD, generateAISPSpec } from '@/lib/specGenerators';
+import { generateNorthStar, generateSADD, generateAISPSpec, generateHumanSpec } from '@/lib/specGenerators';
 import { redactKeyShapes } from '@/contexts/intelligence/llm/keys';
 
 const BUNDLE_VERSION = 'aisp-1.2';
 
 export interface ShareSpecBundle { json: string; dataUrl: string; estimatedBytes: number; }
 export interface BundleFilenames { northstar: string; humanSpec: string; aisp: string; config: string; manifest: string; }
+export interface BundlePageEntry {
+  pageId: string;
+  title: string;
+  humanSpec: string | null;
+  northstar: string | null;
+  filenames: BundleFilenames;
+}
 
 function safeRun<T>(label: string, fn: () => T): T | null {
   try { return fn(); } catch (err) {
@@ -52,8 +59,29 @@ export function withVersionHeader(content: string, purpose: string, version = '1
   return `# Hey Bradley AISP Bundle · v${version} · ${date}\n# ${purpose}\n\n${content}`;
 }
 
+/** P78 / OC-11 — per-page slice for multi-page bundles. Single-page mode skips this. */
+function buildPageEntries(config: MasterConfig, version = '1.0'): BundlePageEntry[] {
+  const pages = config.pages;
+  if (!pages || pages.length <= 1) return [];
+  return pages.map((p) => {
+    const pageConfig: MasterConfig = {
+      ...config,
+      sections: p.sections,
+      site: { ...config.site, title: `${config.site.title || 'site'} — ${p.title}` },
+    };
+    return {
+      pageId: p.id,
+      title: p.title,
+      humanSpec: safeRun(`page-${p.id}-humanSpec`, () => generateHumanSpec(pageConfig)),
+      northstar: safeRun(`page-${p.id}-northstar`, () => generateNorthStar(pageConfig)),
+      filenames: bundleFilenames(pageConfig, version),
+    };
+  });
+}
+
 export function composeShareSpecBundle(config: MasterConfig): ShareSpecBundle {
-  const bundle = {
+  const pageEntries = buildPageEntries(config);
+  const bundle: Record<string, unknown> = {
     generatedAt: new Date().toISOString(),
     version: BUNDLE_VERSION,
     slug: bundleSlug(config),
@@ -63,6 +91,7 @@ export function composeShareSpecBundle(config: MasterConfig): ShareSpecBundle {
     aisp: safeRun('aisp', () => generateAISPSpec(config)),
     masterConfig: safeRun('masterConfig', () => config),
   };
+  if (pageEntries.length > 0) bundle.pages = pageEntries;
   const rawJson = safeRun('serialize', () => JSON.stringify(bundle, null, 2)) ?? '{}';
   const json = redactKeyShapes(rawJson);
   const estimatedBytes = new Blob([json]).size;

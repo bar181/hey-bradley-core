@@ -79,6 +79,7 @@ interface ConfigStore {
   // Multi-page management (ADR-035)
   addPage: (title: string) => void
   removePage: (pageId: string) => void
+  renamePage: (pageId: string, title: string) => void
   reorderPages: (fromIndex: number, toIndex: number) => void
   setActivePage: (pageId: string | null) => void
   getActivePageSections: () => Section[]
@@ -621,6 +622,26 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     set({
       config: { ...config, pages: newPages },
       activePage: newActive,
+      history: newHistory,
+      future: [],
+      isDirty: true,
+    })
+  },
+
+  renamePage: (pageId, title) => {
+    const { config, history } = get()
+    if (!config.pages) return
+    const page = config.pages.find((p) => p.id === pageId)
+    if (!page) return
+    const trimmed = title.trim()
+    if (!trimmed) return // refuse empty titles
+    if (page.title === trimmed) return // no-op
+    const newHistory = [...history, config].slice(-HISTORY_LIMIT)
+    const newPages = config.pages.map((p) =>
+      p.id === pageId ? { ...p, title: trimmed } : p
+    )
+    set({
+      config: { ...config, pages: newPages },
       history: newHistory,
       future: [],
       isDirty: true,

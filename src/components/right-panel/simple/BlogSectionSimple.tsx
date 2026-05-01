@@ -212,8 +212,9 @@ export function BlogSectionSimple({ sectionId }: { sectionId: string }) {
                     <button
                       type="button"
                       onClick={() => removeArticle(item.id)}
-                      className="text-hb-text-muted hover:text-red-400 transition-colors p-0.5"
+                      className="text-hb-text-muted hover:text-red-400 transition-colors p-0.5 focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] rounded"
                       title="Remove article"
+                      aria-label={`Remove article ${idx + 1}`}
                     >
                       <Trash2 size={12} />
                     </button>

@@ -1,23 +1,8 @@
-import { StrictMode, useEffect } from 'react'
+import { StrictMode, Suspense, lazy, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { Welcome } from '@/pages/Welcome'
-import { Onboarding } from '@/pages/Onboarding'
 import { Builder } from '@/pages/Builder'
-import { About } from '@/pages/About'
-import { AISP } from '@/pages/AISP'
-import { Research } from '@/pages/Research'
-import { OpenCore } from '@/pages/OpenCore'
-import { HowIBuiltThis } from '@/pages/HowIBuiltThis'
-import { Docs } from '@/pages/Docs'
-import { BYOK } from '@/pages/BYOK'
-import { Blog } from '@/pages/Blog'
-import { BlogPost } from '@/pages/BlogPost'
-import { Progress } from '@/pages/Progress'
-import { SharedSpec } from '@/pages/SharedSpec'
-import { ListenModeDemo } from '@/demos/ListenModeDemo'
-import { ChatModeDemo } from '@/demos/ChatModeDemo'
-import { FullSiteSimulator } from '@/demos/FullSiteSimulator'
 import { NotFound } from '@/pages/NotFound'
 import { initDB } from '@/contexts/persistence/db'
 import { migrateLegacyLocalStorage } from '@/contexts/persistence/legacyMigration'
@@ -28,11 +13,33 @@ import { useListenStore } from '@/store/listenStore'
 import { PersistenceErrorBanner } from '@/components/shell/PersistenceErrorBanner'
 import './index.css'
 
+// P77 / OC-10 — code-split heavy routes via React.lazy().
+// Pages export named components, so we re-map to `default` for lazy().
+// EAGER (kept as static imports above): /, /builder, /* (NotFound) — preserves
+// LCP on the landing surface and avoids a Suspense flash on the primary tool.
+const Onboarding = lazy(() => import('@/pages/Onboarding').then((m) => ({ default: m.Onboarding })))
+const About = lazy(() => import('@/pages/About').then((m) => ({ default: m.About })))
+const AISP = lazy(() => import('@/pages/AISP').then((m) => ({ default: m.AISP })))
+const Research = lazy(() => import('@/pages/Research').then((m) => ({ default: m.Research })))
+const OpenCore = lazy(() => import('@/pages/OpenCore').then((m) => ({ default: m.OpenCore })))
+const HowIBuiltThis = lazy(() => import('@/pages/HowIBuiltThis').then((m) => ({ default: m.HowIBuiltThis })))
+const Docs = lazy(() => import('@/pages/Docs').then((m) => ({ default: m.Docs })))
+const BYOK = lazy(() => import('@/pages/BYOK').then((m) => ({ default: m.BYOK })))
+const Blog = lazy(() => import('@/pages/Blog').then((m) => ({ default: m.Blog })))
+const BlogPost = lazy(() => import('@/pages/BlogPost').then((m) => ({ default: m.BlogPost })))
+const Progress = lazy(() => import('@/pages/Progress').then((m) => ({ default: m.Progress })))
+const SharedSpec = lazy(() => import('@/pages/SharedSpec').then((m) => ({ default: m.SharedSpec })))
+const ListenModeDemo = lazy(() => import('@/demos/ListenModeDemo').then((m) => ({ default: m.ListenModeDemo })))
+const ChatModeDemo = lazy(() => import('@/demos/ChatModeDemo').then((m) => ({ default: m.ChatModeDemo })))
+const FullSiteSimulator = lazy(() => import('@/demos/FullSiteSimulator').then((m) => ({ default: m.FullSiteSimulator })))
+
 function ScrollToTop() {
   const { pathname } = useLocation()
   useEffect(() => { window.scrollTo(0, 0) }, [pathname])
   return null
 }
+
+const ROUTE_FALLBACK = <div style={{ padding: 24, color: '#6b5e4f' }}>Loading…</div>
 
 const rootEl = document.getElementById('root')!
 const root = createRoot(rootEl)
@@ -56,26 +63,28 @@ initDB()
       <StrictMode>
         <BrowserRouter>
           <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Welcome />} />
-            <Route path="/new-project" element={<Onboarding />} />
-            <Route path="/builder" element={<Builder />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/aisp" element={<AISP />} />
-            <Route path="/research" element={<Research />} />
-            <Route path="/open-core" element={<OpenCore />} />
-            <Route path="/how-i-built-this" element={<HowIBuiltThis />} />
-            <Route path="/docs" element={<Docs />} />
-            <Route path="/byok" element={<BYOK />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/progress" element={<Progress />} />
-            <Route path="/spec/:hash" element={<SharedSpec />} />
-            <Route path="/demo/listen" element={<ListenModeDemo />} />
-            <Route path="/demo/chat" element={<ChatModeDemo />} />
-            <Route path="/demo/full-site" element={<FullSiteSimulator />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <Suspense fallback={ROUTE_FALLBACK}>
+            <Routes>
+              <Route path="/" element={<Welcome />} />
+              <Route path="/new-project" element={<Onboarding />} />
+              <Route path="/builder" element={<Builder />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/aisp" element={<AISP />} />
+              <Route path="/research" element={<Research />} />
+              <Route path="/open-core" element={<OpenCore />} />
+              <Route path="/how-i-built-this" element={<HowIBuiltThis />} />
+              <Route path="/docs" element={<Docs />} />
+              <Route path="/byok" element={<BYOK />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/progress" element={<Progress />} />
+              <Route path="/spec/:hash" element={<SharedSpec />} />
+              <Route path="/demo/listen" element={<ListenModeDemo />} />
+              <Route path="/demo/chat" element={<ChatModeDemo />} />
+              <Route path="/demo/full-site" element={<FullSiteSimulator />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
         </BrowserRouter>
       </StrictMode>,
     )
@@ -90,26 +99,28 @@ initDB()
         <BrowserRouter>
           <ScrollToTop />
           <PersistenceErrorBanner />
-          <Routes>
-            <Route path="/" element={<Welcome />} />
-            <Route path="/new-project" element={<Onboarding />} />
-            <Route path="/builder" element={<Builder />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/aisp" element={<AISP />} />
-            <Route path="/research" element={<Research />} />
-            <Route path="/open-core" element={<OpenCore />} />
-            <Route path="/how-i-built-this" element={<HowIBuiltThis />} />
-            <Route path="/docs" element={<Docs />} />
-            <Route path="/byok" element={<BYOK />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/progress" element={<Progress />} />
-            <Route path="/spec/:hash" element={<SharedSpec />} />
-            <Route path="/demo/listen" element={<ListenModeDemo />} />
-            <Route path="/demo/chat" element={<ChatModeDemo />} />
-            <Route path="/demo/full-site" element={<FullSiteSimulator />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <Suspense fallback={ROUTE_FALLBACK}>
+            <Routes>
+              <Route path="/" element={<Welcome />} />
+              <Route path="/new-project" element={<Onboarding />} />
+              <Route path="/builder" element={<Builder />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/aisp" element={<AISP />} />
+              <Route path="/research" element={<Research />} />
+              <Route path="/open-core" element={<OpenCore />} />
+              <Route path="/how-i-built-this" element={<HowIBuiltThis />} />
+              <Route path="/docs" element={<Docs />} />
+              <Route path="/byok" element={<BYOK />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/progress" element={<Progress />} />
+              <Route path="/spec/:hash" element={<SharedSpec />} />
+              <Route path="/demo/listen" element={<ListenModeDemo />} />
+              <Route path="/demo/chat" element={<ChatModeDemo />} />
+              <Route path="/demo/full-site" element={<FullSiteSimulator />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
         </BrowserRouter>
       </StrictMode>,
     )

@@ -160,6 +160,14 @@ interface UIStore {
    * with a saved project should be routed to 'whiteboard' by default.
    */
   appMode: AppMode | null
+  /**
+   * P78 / OC-11 (ADR-085, ADR-103) — view-state for the active page in the
+   * multi-page page-selector strip. `null` on first run / single-page mode;
+   * set to a page id when the user clicks a tab or adds a new page.
+   * In-memory only (no kv persistence) — recomputed from `config.pages[0]`
+   * on reload by `PageSelector`'s init effect.
+   */
+  activePageId: string | null
 
   setInteractionMode: (mode: InteractionMode) => void
   setActiveTab: (tab: ActiveTab) => void
@@ -208,6 +216,12 @@ interface UIStore {
    * non-live mode (the ModeSelectorCard component disables those buttons).
    */
   setAppMode: (mode: AppMode) => void
+  /**
+   * P78 / OC-11 (ADR-085, ADR-103) — set the active page id for the
+   * page-selector strip. Pass `null` to clear (returns the surface to
+   * single-page mode). No persistence — view state only.
+   */
+  setActivePageId: (id: string | null) => void
 }
 
 /**
@@ -248,6 +262,8 @@ export const useUIStore = create<UIStore>((set, get) => ({
   // P63 / OC-2 (ADR-088) — hydrate the persisted mode choice on store init.
   // Falls back to null if kv unavailable (pre-DB boot) so the selector renders.
   appMode: loadAppMode(),
+  // P78 / OC-11 (ADR-085, ADR-103) — view-state only; no kv persistence.
+  activePageId: null,
   markAispTraceAutoOpened: () => {
     if (get().aispTraceAutoOpened) return
     set({ aispTraceAutoOpened: true })
@@ -264,6 +280,10 @@ export const useUIStore = create<UIStore>((set, get) => ({
     if (!APP_MODE_VALID.includes(mode)) return
     set({ appMode: mode })
     try { kvSet(APP_MODE_KEY, mode) } catch { /* swallow — pre-DB boot */ }
+  },
+  setActivePageId: (id) => {
+    if (get().activePageId === id) return
+    set({ activePageId: id })
   },
   markSpecAutoOpened: () => {
     if (get().specPanelHasAutoOpened) return

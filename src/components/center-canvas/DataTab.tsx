@@ -331,7 +331,12 @@ export function DataTab() {
         {importError && (
           <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2 text-xs text-red-400">
             <span>{importError}</span>
-            <button onClick={() => setImportError(null)} className="text-red-400 hover:text-red-300">
+            <button
+              type="button"
+              onClick={() => setImportError(null)}
+              className="text-red-400 hover:text-red-300 focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] rounded"
+              aria-label="Dismiss import error"
+            >
               <X size={12} />
             </button>
           </div>

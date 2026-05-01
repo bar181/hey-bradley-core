@@ -1,7 +1,8 @@
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { useConfigStore } from '@/store/configStore'
+import { useUIStore } from '@/store/uiStore'
 import { cn } from '../../lib/cn'
 import { Copy, Download, Check, Compass, Layers, ListChecks, CheckSquare, FileText, Code, Braces } from 'lucide-react'
 import {
@@ -95,15 +96,29 @@ export function XAIDocsTab() {
   const config = useConfigStore((s) => s.config)
   const hasSections = config.sections.some((s) => s.enabled)
 
+  // P78 / OC-11 — per-page spec scope. Multi-page only; single-page mode hides
+  // the dropdown and falls through to the existing whole-config render path.
+  const activePageId = useUIStore((s) => s.activePageId)
+  const isMultiPage = !!(config.pages && config.pages.length > 1)
+  const [pageScope, setPageScope] = useState<string | null>(activePageId)
+  useEffect(() => { if (activePageId) setPageScope(activePageId) }, [activePageId])
+
   const currentTab = SPEC_TABS.find((t) => t.id === activeTab) ?? SPEC_TABS[0]
+
+  const scopedConfig = useMemo(() => {
+    if (!isMultiPage || !config.pages) return config
+    const id = pageScope ?? activePageId ?? config.pages[0]?.id
+    const page = config.pages.find((p) => p.id === id) ?? config.pages[0]
+    return page ? { ...config, sections: page.sections } : config
+  }, [config, isMultiPage, pageScope, activePageId])
 
   const specText = useMemo(
     () => {
-      if (currentTab.format === 'json') return JSON.stringify(config, null, 2)
-      if (currentTab.generator) return currentTab.generator(config)
+      if (currentTab.format === 'json') return JSON.stringify(scopedConfig, null, 2)
+      if (currentTab.generator) return currentTab.generator(scopedConfig)
       return ''
     },
-    [config, currentTab],
+    [scopedConfig, currentTab],
   )
 
   const handleCopy = useCallback(async () => {
@@ -149,6 +164,24 @@ export function XAIDocsTab() {
           )
         })}
       </div>
+
+      {/* P78 / OC-11 — per-page scope dropdown (multi-page only) */}
+      {isMultiPage && config.pages && (
+        <div className="flex items-center gap-2">
+          <label className="text-xs text-hb-text-muted" htmlFor="spec-page-scope">Page</label>
+          <select
+            id="spec-page-scope"
+            data-testid="spec-page-scope"
+            value={pageScope ?? activePageId ?? config.pages[0]?.id ?? ''}
+            onChange={(e) => setPageScope(e.target.value)}
+            className="rounded-md bg-hb-surface border border-hb-border px-2 py-1 text-xs text-hb-text-secondary focus-visible:ring-2 focus-visible:ring-hb-accent"
+          >
+            {config.pages.map((p) => (
+              <option key={p.id} value={p.id}>{p.title}</option>
+            ))}
+          </select>
+        </div>
+      )}
 
       {/* Action buttons */}
       <div className="flex items-center justify-between">

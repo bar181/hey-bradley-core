@@ -66,9 +66,10 @@ export function ChatInputPersonalityPopover() {
         data-personality-id={personalityId ?? undefined}
         aria-haspopup="menu"
         aria-expanded={open}
+        aria-label={`Change personality (active: ${personalityProfile.label})`}
         onClick={() => setOpen((v) => !v)}
         title={`Change personality (active: ${personalityProfile.label})`}
-        className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] uppercase tracking-wider bg-hb-accent/10 text-hb-accent border border-hb-accent/30 hover:bg-hb-accent/20 transition-colors"
+        className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] uppercase tracking-wider bg-hb-accent/10 text-hb-accent border border-hb-accent/30 hover:bg-hb-accent/20 transition-colors focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] focus-visible:outline-none"
       >
         <span>
           {personalityProfile.emoji ? `${personalityProfile.emoji} ` : ''}

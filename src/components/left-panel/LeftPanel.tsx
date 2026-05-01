@@ -8,6 +8,7 @@ import type { SectionType } from '@/lib/schemas/section'
 import { SectionsSection } from './SectionsSection'
 import { ChatInput } from '@/components/shell/ChatInput'
 import { ListenTab } from './ListenTab'
+import { PageSelector } from './PageSelector'
 import { Tooltip } from '@/components/ui/Tooltip'
 
 // Mirrors DRAFT_ALLOWED_SECTION_TYPES in SectionsSection.tsx (kept inline; KISS).
@@ -69,6 +70,8 @@ export function LeftPanel() {
 
   return (
     <div className="bg-hb-bg h-full flex flex-col">
+      {/* P78 / OC-11 — Page selector strip (above tabs). Renders empty CTA in single-page mode. */}
+      <PageSelector />
       {/* Tab bar — 3 tabs */}
       <div role="tablist" aria-label="Left panel tabs" className="flex border-b border-hb-border">
         {TABS.map(({ value, icon: Icon, label }) => (

@@ -178,8 +178,9 @@ export function TeamSectionSimple({ sectionId }: { sectionId: string }) {
                     <button
                       type="button"
                       onClick={() => removeMember(item.id)}
-                      className="text-hb-text-muted hover:text-red-400 transition-colors p-0.5"
+                      className="text-hb-text-muted hover:text-red-400 transition-colors p-0.5 focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] rounded"
                       title="Remove member"
+                      aria-label={`Remove team member ${idx + 1}`}
                     >
                       <Trash2 size={12} />
                     </button>
@@ -189,7 +190,7 @@ export function TeamSectionSimple({ sectionId }: { sectionId: string }) {
                 <div className={cn(!item.enabled && 'opacity-25 pointer-events-none', 'space-y-2')}>
                   {imageUrl && (
                     <div className="w-16 h-16 rounded-full overflow-hidden border border-hb-border/30 mx-auto">
-                      <img src={imageUrl} alt={name || 'Photo'} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                      <img src={imageUrl} alt={name || 'Photo'} loading="lazy" width={64} height={64} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
                     </div>
                   )}
                   <div className="space-y-1">

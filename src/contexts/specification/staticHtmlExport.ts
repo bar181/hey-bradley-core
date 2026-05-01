@@ -164,18 +164,40 @@ a{color:var(--accent)}
 .hb-attr{margin-top:16px;font-size:0.8125rem;color:var(--muted);opacity:0.85;letter-spacing:0.01em;}
 .hb-attr a{color:var(--accent);text-decoration:none;font-weight:500;}
 .hb-attr a:hover{text-decoration:underline;text-underline-offset:3px;}
-.hb-attr-url{opacity:0.75;}`
+.hb-attr-url{opacity:0.75;}
+.hb-page-nav{position:sticky;top:0;z-index:10;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;padding:14px 24px;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid color-mix(in srgb,var(--text) 8%,transparent);}
+.hb-page-nav a{color:var(--text);text-decoration:none;font-size:0.9375rem;font-weight:500;padding:6px 10px;border-radius:8px;transition:background 120ms ease,color 120ms ease;}
+.hb-page-nav a:hover{background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent);}
+.hb-page{scroll-margin-top:64px;border-top:1px solid color-mix(in srgb,var(--text) 6%,transparent);}
+.hb-page:first-of-type{border-top:0;}`
 }
 
-export function exportStaticHtml(config: MasterConfig): Blob {
-  const title = esc(config.site?.title || config.site?.brandName || 'Untitled site')
-  const description = esc(config.site?.description || config.site?.tagline || '')
-  const sectionsHtml = config.sections
+function renderSectionsList(sections: Section[]): string {
+  return sections
     .slice()
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
     .map(renderSection)
     .filter(Boolean)
     .join('\n')
+}
+
+export function exportStaticHtml(config: MasterConfig): Blob {
+  const title = esc(config.site?.title || config.site?.brandName || 'Untitled site')
+  const description = esc(config.site?.description || config.site?.tagline || '')
+  const pages = config.pages
+  const isMultiPage = !!(pages && pages.length > 1)
+  let bodyInner: string
+  if (isMultiPage && pages) {
+    const navHtml = `<nav class="hb-page-nav" aria-label="Site pages">${pages
+      .map((p) => `<a href="#page-${esc(p.id)}">${esc(p.title)}</a>`)
+      .join('')}</nav>`
+    const pagesHtml = pages
+      .map((p) => `<section id="page-${esc(p.id)}" class="hb-page" data-page-id="${esc(p.id)}">\n${renderSectionsList(p.sections)}\n</section>`)
+      .join('\n')
+    bodyInner = `${navHtml}\n<main>\n${pagesHtml}\n</main>`
+  } else {
+    bodyInner = `<main>\n${renderSectionsList(config.sections)}\n</main>`
+  }
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -187,9 +209,7 @@ ${description ? `<meta name="description" content="${description}">` : ''}
 <style>${inlineCss(config)}</style>
 </head>
 <body>
-<main>
-${sectionsHtml}
-</main>
+${bodyInner}
 ${renderFooter(config)}
 </body>
 </html>
