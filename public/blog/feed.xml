@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Hey Bradley blog — static RSS 2.0 stub.
-  P71 / OC-13 / ADR-097 ships this file with the 4 P58-baseline posts as
-  placeholder items. The 6 P71 expansion posts are tracked in
-  src/lib/blogPosts.ts and will be added by a follow-up build-step
-  generator (OC-CLEANUP carry-forward — see ADR-097 §Out of scope).
+  Hey Bradley blog — static RSS 2.0 feed.
+  P82 / OC-CLEANUP refresh: regenerated to include all 12 posts (4 P58 baseline +
+  6 P71 expansion + 2 P82 expansion). Generation is currently manual via
+  `scripts/build-rss.ts` (npx tsx scripts/build-rss.ts). Build-step automation
+  is deferred to P83+ per ADR-097 §Out of scope.
 -->
 <rss version="2.0">
   <channel>
@@ -13,7 +13,63 @@
     <description>Field notes from a Harvard ALM capstone — AISP, agentic engineering, and the spec layer.</description>
     <language>en-us</language>
     <lastBuildDate>Fri, 01 May 2026 00:00:00 GMT</lastBuildDate>
-    <generator>Hey Bradley static RSS stub (P71 / ADR-097)</generator>
+    <generator>scripts/build-rss.ts (P82 / OC-CLEANUP)</generator>
+    <item>
+      <title>How Multi-Page MVPs Stay Atomic</title>
+      <link>https://heybradley.dev/blog/multi-page-mvp-stays-atomic</link>
+      <guid isPermaLink="true">https://heybradley.dev/blog/multi-page-mvp-stays-atomic</guid>
+      <description>Page-aware patches without breaking the spec contract.</description>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>The Open-Core Boundary: What Ships Free, What's Tier-2</title>
+      <link>https://heybradley.dev/blog/the-open-core-boundary</link>
+      <guid isPermaLink="true">https://heybradley.dev/blog/the-open-core-boundary</guid>
+      <description>How we draw the line between MVP and commercial.</description>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>The PM, Architect, and Designer Are Now One Person</title>
+      <link>https://heybradley.dev/blog/pm-architect-designer-now-one-person</link>
+      <guid isPermaLink="true">https://heybradley.dev/blog/pm-architect-designer-now-one-person</guid>
+      <description>Founders carry three lanes by force, not choice. Lane-aware capture is what makes that survivable.</description>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Spec-First vs Vibe-Coding: A Head-to-Head Comparison</title>
+      <link>https://heybradley.dev/blog/spec-first-vs-vibe-coding</link>
+      <guid isPermaLink="true">https://heybradley.dev/blog/spec-first-vs-vibe-coding</guid>
+      <description>Vibe works for one prompt. Spec-first wins on the second.</description>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Built an Open-Core Product in 2 Days With a Swarm</title>
+      <link>https://heybradley.dev/blog/built-open-core-in-2-days-with-swarm</link>
+      <guid isPermaLink="true">https://heybradley.dev/blog/built-open-core-in-2-days-with-swarm</guid>
+      <description>What 50× velocity actually looks like when the swarm holds the gate.</description>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Why Template-First Beats LLM-From-Scratch Every Time</title>
+      <link>https://heybradley.dev/blog/template-first-beats-llm-from-scratch</link>
+      <guid isPermaLink="true">https://heybradley.dev/blog/template-first-beats-llm-from-scratch</guid>
+      <description>Lovable starts at 60-70%. Templates start at 90%. The math is decided before the first prompt.</description>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Building Hey Bradley With Hey Bradley</title>
+      <link>https://heybradley.dev/blog/building-hey-bradley-with-hey-bradley</link>
+      <guid isPermaLink="true">https://heybradley.dev/blog/building-hey-bradley-with-hey-bradley</guid>
+      <description>Dogfooding the spec layer to ship the spec layer.</description>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>The 55% Problem</title>
+      <link>https://heybradley.dev/blog/the-55-percent-problem</link>
+      <guid isPermaLink="true">https://heybradley.dev/blog/the-55-percent-problem</guid>
+      <description>Most AI-assisted-build effort is spent on ambiguity removal, not code. The tools optimize the wrong half.</description>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>Lovable Builds the Site. Hey Bradley Designs It First.</title>
       <link>https://heybradley.dev/blog/lovable-vs-hey-bradley</link>
@@ -25,7 +81,7 @@
       <title>Six Sprints in Two Days</title>
       <link>https://heybradley.dev/blog/six-sprints-two-days</link>
       <guid isPermaLink="true">https://heybradley.dev/blog/six-sprints-two-days</guid>
-      <description>What sustained 50x velocity actually feels like, and why discipline is the brake.</description>
+      <description>What sustained 50× velocity actually feels like, and why discipline is the brake.</description>
       <pubDate>Wed, 29 Apr 2026 00:00:00 GMT</pubDate>
     </item>
     <item>

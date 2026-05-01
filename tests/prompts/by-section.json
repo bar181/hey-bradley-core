@@ -798,5 +798,465 @@
     "expectedRoute": "design",
     "persona": "n/a",
     "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-pt-001",
+    "input": "add a pricing tiers section with three plans",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-pt-002",
+    "input": "remove the pricing tiers",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-pt-003",
+    "input": "change the highlighted pricing tier to enterprise",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-pt-004",
+    "input": "move the pricing tiers above the testimonials",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "move",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-pt-005",
+    "input": "add a fourth pricing tier called custom",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-pt-006",
+    "input": "rewrite the pricing tiers to emphasize annual savings",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "pricing",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-roi-001",
+    "input": "add an ROI numbers section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "stats",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-roi-002",
+    "input": "remove the ROI metrics",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "stats",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-roi-003",
+    "input": "change the ROI numbers to use percentages",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "stats",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-roi-004",
+    "input": "move the ROI section to the top of the page",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "move",
+    "expectedTarget": "stats",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-roi-005",
+    "input": "duplicate the ROI metrics section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "duplicate",
+    "expectedTarget": "stats",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-roi-006",
+    "input": "rewrite the ROI numbers to be more concrete",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "stats",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-al-001",
+    "input": "add an agent listing section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "agent-listing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-al-002",
+    "input": "remove the agent grid",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "agent-listing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-al-003",
+    "input": "change the agent listings to a 3-column layout",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "agent-listing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-al-004",
+    "input": "move the agent listings above the pricing",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "move",
+    "expectedTarget": "agent-listing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-al-005",
+    "input": "duplicate the agent listing block",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "duplicate",
+    "expectedTarget": "agent-listing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-al-006",
+    "input": "rewrite the agent listing descriptions to be more technical",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "agent-listing",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-cs-001",
+    "input": "add a case study section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "case-study",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-cs-002",
+    "input": "remove the case study",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "case-study",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-cs-003",
+    "input": "change the case study to highlight Acme Corp",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "case-study",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-cs-004",
+    "input": "move the case study below the testimonials",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "move",
+    "expectedTarget": "case-study",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-cs-005",
+    "input": "duplicate the case study card",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "duplicate",
+    "expectedTarget": "case-study",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-cs-006",
+    "input": "rewrite the case study to focus on outcomes",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "case-study",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-cs-007",
+    "input": "add a second case study",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "case-study",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-cf-001",
+    "input": "add a contact form",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "contact-form",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-cf-002",
+    "input": "remove the contact form",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "contact-form",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-cf-003",
+    "input": "change the contact form to ask for company size",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "contact-form",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-cf-004",
+    "input": "move the contact form to the bottom of the page",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "move",
+    "expectedTarget": "contact-form",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-cf-005",
+    "input": "duplicate the contact form for sales",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "duplicate",
+    "expectedTarget": "contact-form",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-cf-006",
+    "input": "rewrite the contact form labels to be friendlier",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "contact-form",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-cf-007",
+    "input": "add a contact form with name, email, and message fields",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "contact-form",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-cf-008",
+    "input": "hide the contact form on mobile",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "hide",
+    "expectedTarget": "contact-form",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-sec-pt-007",
+    "input": "show the pricing tiers",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-pt-008",
+    "input": "hide the pricing tiers",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-roi-007",
+    "input": "show the ROI numbers",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "stats",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-roi-008",
+    "input": "add a stats bar with three metrics",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "stats",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-al-007",
+    "input": "show the agent listings",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "agent-listing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-al-008",
+    "input": "hide the agent listings",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "agent-listing",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-cs-008",
+    "input": "show the case study",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "case-study",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-cs-009",
+    "input": "hide the case study",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "case-study",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-cf-009",
+    "input": "show the contact form",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "contact-form",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-sec-cf-010",
+    "input": "make the contact form a single-column layout",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "contact-form",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-pt-009",
+    "input": "rewrite each pricing tier headline to a single benefit",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "pricing",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-roi-009",
+    "input": "rewrite the ROI metric labels to one verb each",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "stats",
+    "expectedRoute": "content",
+    "persona": "n/a",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-sec-cs-010",
+    "input": "add a case study with a quote and a metric badge",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "case-study",
+    "expectedRoute": "design",
+    "persona": "n/a",
+    "difficulty": "medium"
   }
 ]

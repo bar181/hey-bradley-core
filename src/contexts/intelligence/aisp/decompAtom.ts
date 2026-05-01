@@ -18,13 +18,14 @@
  * ADR-099 (DECOMP_ATOM, P74 / OC-DECOMP — A3 owns).
  */
 
-import type { ClassifiedIntent } from '@/contexts/intelligence/aisp/intentAtom'
+import type { ClassifiedIntent, PageRef } from '@/contexts/intelligence/aisp/intentAtom'
+import { resolvePageReference } from '@/contexts/intelligence/aisp/intentAtom'
 
 /** The Crystal Atom for utterance decomposition (verbatim AISP). */
 export const DECOMP_ATOM = `⟦
   Ω := { Split multi-clause user utterance into ordered Todo[] for downstream matchers }
   Σ := {
-    Todo:{order:ℕ, verb:Verb, target:Target, details:𝕊, sourceSpan:𝕊, confidence:[0,1]},
+    Todo:{order:ℕ, verb:Verb, target:Target, details:𝕊, sourceSpan:𝕊, confidence:[0,1], targetPage:𝕊?},
     Verb:{op∈{modify, add, remove, replace, generate, unknown}},
     Target:{type∈{theme, section, content, tone, unknown}},
     𝕊 := UTF-8 string ≤ 500 chars
@@ -78,6 +79,14 @@ export interface Todo {
   sourceSpan: string
   /** Confidence (0-1) in this decomposition. */
   confidence: number
+  /**
+   * P82 / OC-CLEANUP (A3) — page-aware todo. When the source clause references
+   * a specific page ("on page 2", "the contact page"), this carries the
+   * resolved page id. Absent (undefined) → executor uses active-page scope
+   * (P79 byte-equivalent behavior). Resolved via `resolvePageReference` from
+   * intentAtom.ts when the caller passes a `pages` argument to `decompose()`.
+   */
+  targetPage?: string
 }
 
 /** DECOMP_ATOM result envelope. */
@@ -219,11 +228,17 @@ function scoreConfidence(verbHit: boolean, targetHit: boolean): number {
  * See DECOMP_ATOM (Σ/Γ/Λ/Ε above) for the canonical contract.
  * `intent` is accepted for forward-compat but not consumed by the rules
  * baseline — it is reserved for the LLM-enrichment path.
+ *
+ * P82 / OC-CLEANUP (A3) — `pages` is OPTIONAL. When provided, each clause is
+ * scanned for page references via `resolvePageReference` (intentAtom.ts) and
+ * the resolved id is set on `Todo.targetPage`. Omitting `pages` (or passing
+ * undefined/empty) yields P74-byte-equivalent behavior.
  */
 export function decompose(
   utterance: string,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- reserved for LLM path
   intent?: ClassifiedIntent | null,
+  pages?: ReadonlyArray<PageRef>,
 ): DecompAtomResult {
   const clauses = splitClauses(utterance)
   if (clauses.length === 0) {
@@ -238,6 +253,11 @@ export function decompose(
     const target: DecompTarget = targetHit?.target ?? 'unknown'
     const confidence = scoreConfidence(verbHit !== null, targetHit !== null)
     const details = extractDetails(clause, verbHit?.keyword ?? null)
+    // P82 / OC-CLEANUP (A3) — resolve per-clause page reference. `undefined`
+    // when no pages context OR no reference detected (P74 byte-equivalent).
+    const targetPage = pages && pages.length > 0
+      ? resolvePageReference(clause, pages) ?? undefined
+      : undefined
     todos.push({
       order: i + 1,
       verb,
@@ -245,6 +265,7 @@ export function decompose(
       details: details.length > 0 ? details : clause,
       sourceSpan: clause,
       confidence,
+      ...(targetPage !== undefined ? { targetPage } : {}),
     })
   }
   const aggregate = todos.reduce((sum, t) => sum + t.confidence, 0) / todos.length

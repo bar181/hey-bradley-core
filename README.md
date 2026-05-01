@@ -113,7 +113,7 @@ Everything in this repo is the **open-core MVP**. The commercial track ships pos
 |---|---|
 | Builder + Chat + Listen modes | Multi-page polish (nav linking, route persistence) |
 | 5-atom AISP pipeline | Supabase auth + hosted accounts (BYOK only here) |
-| 16 section types, 12 themes, 37 templates across 8+ verticals | Tier-2 SaaS-dashboard flagship |
+| 18 section types, 12 themes, 41 templates across 8+ verticals (incl. 4 agentic-product per ADR-105) | Tier-2 SaaS-dashboard flagship |
 | BYOK across 4 real providers + 2 mocks | Agentic Support System (Hey Bradley uses Hey Bradley) |
 | Static HTML export + shareable hosted URL | Learning-flywheel runtime / vector-DB pattern search |
 | MIT-licensed source for everything above | Interview Mode (voice-led question loop) |
@@ -126,11 +126,12 @@ See [`plans/strategic-reviews/open-core-moat-roadmap.md`](plans/strategic-review
 
 | Metric | Value |
 |---|---|
-| ADRs Accepted | 96 (through ADR-096; documented numbering gaps in [`docs/adr/README.md`](docs/adr/README.md)) |
-| PURE-UNIT tests cumulative at P68/P69 seal | 730 GREEN |
-| Sprints sealed in the moat + open-core window | 12+ (Sprint J → OC-5) — moat sequence + Open-Core Tier-2 polish arc |
+| ADRs Accepted | 107 (through ADR-107; range ADR-045 through ADR-107; documented numbering gaps in [`docs/adr/README.md`](docs/adr/README.md)) |
+| PURE-UNIT tests cumulative at P82 / OC-CLEANUP seal | ~984 GREEN |
+| Sprints sealed in the moat + open-core window | 22+ (Sprint J → OC-CLEANUP) — moat sequence + Open-Core Tier-2 polish arc |
 | Source lines of TS/TSX | ~28,400 across 227 files |
-| Themes / examples / section types | 12 / 37 / 16 |
+| Themes / examples / section types | 12 / 41 / 18 |
+| Blog posts (per ADR-097 cadence floor of 12) | 12 |
 | Crystal Atoms in production | 5 |
 | Real LLM adapters | 4 (plus 2 mocks) |
 | Mobile shell | Single chat surface + inline mic + fullscreen listen + spec bottom sheet (ADR-090) |

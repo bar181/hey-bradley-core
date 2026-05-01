@@ -166,6 +166,23 @@ const REGISTRY: BlogPostMeta[] = [
     readingTimeMin: 5,
     tags: ['research', 'spec-first', 'capstone'],
   },
+  // P82 / OC-CLEANUP expansion (2 posts → 12 total)
+  {
+    slug: 'multi-page-mvp-stays-atomic',
+    title: 'How Multi-Page MVPs Stay Atomic',
+    subtitle: 'Page-aware patches without breaking the spec contract.',
+    date: '2026-05-01',
+    readingTimeMin: 6,
+    tags: ['multi-page', 'architecture', 'AISP', 'open-core'],
+  },
+  {
+    slug: 'the-open-core-boundary',
+    title: "The Open-Core Boundary: What Ships Free, What's Tier-2",
+    subtitle: 'How we draw the line between MVP and commercial.',
+    date: '2026-05-01',
+    readingTimeMin: 6,
+    tags: ['open-core', 'strategy', 'tier-2', 'boundaries'],
+  },
 ]
 
 function buildPost(meta: BlogPostMeta): BlogPost {

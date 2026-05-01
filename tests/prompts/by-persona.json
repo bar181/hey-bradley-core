@@ -1198,5 +1198,355 @@
     "expectedRoute": "design",
     "persona": "lars",
     "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-001",
+    "input": "use the AI agent marketplace template",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-002",
+    "input": "switch to the AI coding copilot template",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-003",
+    "input": "apply the AI workflow platform template",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-004",
+    "input": "use the AI support copilot template",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-005",
+    "input": "add an agent capability matrix section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "agent-listing",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-006",
+    "input": "rewrite the hero to lead with eval pass rate",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "content",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-007",
+    "input": "add a pricing section with per-agent and per-seat tiers",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-008",
+    "input": "show the latency p95 in the ROI section",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "stats",
+    "expectedRoute": "content",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-009",
+    "input": "add a case study section with three deployment stories",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "case-study",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-010",
+    "input": "add a contact form scoped to enterprise inquiries",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "contact-form",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-011",
+    "input": "rewrite the value props to use the words eval, deploy, observe",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "value-props",
+    "expectedRoute": "content",
+    "persona": "agentic-engineer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-pers-ae-012",
+    "input": "make the testimonials reference benchmark scores",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "content",
+    "persona": "agentic-engineer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-pers-ae-013",
+    "input": "add an integrations grid showing OpenAI, Anthropic, and Google",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "logos",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-014",
+    "input": "make the CTA say start a 14-day technical evaluation",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "cta",
+    "expectedRoute": "content",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-015",
+    "input": "add an FAQ that answers about model selection and fallback",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "faq",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-016",
+    "input": "duplicate the agent listing as a comparison grid",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "duplicate",
+    "expectedTarget": "agent-listing",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-017",
+    "input": "rewrite the case study to surface the cost-per-resolution metric",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "case-study",
+    "expectedRoute": "content",
+    "persona": "agentic-engineer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-pers-ae-018",
+    "input": "make the contact form ask about preferred deployment region",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "contact-form",
+    "expectedRoute": "content",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-019",
+    "input": "tighten the headline to one verb plus a tool name",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "content",
+    "persona": "agentic-engineer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-pers-ae-020",
+    "input": "make the design feel more SOC 2 ready",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "agentic-engineer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-pers-lars-21",
+    "input": "add an agent listing section with model and latency columns",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "agent-listing",
+    "expectedRoute": "design",
+    "persona": "lars",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-lars-22",
+    "input": "rewrite the pricing copy to surface per-1k-token cost",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "pricing",
+    "expectedRoute": "content",
+    "persona": "lars",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-pers-lars-23",
+    "input": "make the ROI section quote eval scores not vibes",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "stats",
+    "expectedRoute": "content",
+    "persona": "lars",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-pers-lars-24",
+    "input": "add a case study showing a 3x deploy speedup",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "case-study",
+    "expectedRoute": "design",
+    "persona": "lars",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-lars-25",
+    "input": "show the trace ID column in the agent listing",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "show",
+    "expectedTarget": "agent-listing",
+    "expectedRoute": "design",
+    "persona": "lars",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-lars-26",
+    "input": "add a contact form for security review requests",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "contact-form",
+    "expectedRoute": "design",
+    "persona": "lars",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-pers-lars-27",
+    "input": "rewrite the FAQ to address rate-limit and retry behavior",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "faq",
+    "expectedRoute": "content",
+    "persona": "lars",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-pers-lars-28",
+    "input": "make the hero headline mention the eval suite",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "content",
+    "persona": "lars",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-lars-29",
+    "input": "use the agent marketplace template and add a contact form",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "lars",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-pers-lars-30",
+    "input": "switch to ai coding copilot style and rewrite the CTA",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "lars",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-pers-ae-021",
+    "input": "add a comparison table against a leading agent vendor",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "stats",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-pers-ae-022",
+    "input": "rewrite the support copilot hero to mention deflection rate",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "content",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-023",
+    "input": "add a stats section with three quantified outcome numbers",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "stats",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-024",
+    "input": "rewrite the testimonials with named CTOs and titles",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "content",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-pers-ae-025",
+    "input": "use the workflow platform template and rewrite the about page",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "agentic-engineer",
+    "difficulty": "hard"
   }
 ]

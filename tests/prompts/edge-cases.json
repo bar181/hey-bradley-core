@@ -298,5 +298,355 @@
     "expectedRoute": "ambiguous",
     "persona": "n/a",
     "difficulty": "adversarial"
+  },
+  {
+    "id": "P81-edge-001",
+    "input": "uhh, make it... like, more friendly?",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "novice",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-002",
+    "input": "um, can we like, hide the hero or something",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "hide",
+    "expectedTarget": "hero",
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-003",
+    "input": "yeah so basically uh make the pricing pop more",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "pricing",
+    "expectedRoute": "ambiguous",
+    "persona": "novice",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-004",
+    "input": "ok so I think maybe we should add a footer",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "add",
+    "expectedTarget": "footer",
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-005",
+    "input": "like, you know, more modern? cleaner? that kind of thing",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "novice",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-006",
+    "input": "make it brighter and add pricing and change the font and use a serif",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-007",
+    "input": "rewrite the headline, swap the testimonials, hide the gallery, and add a CTA",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-008",
+    "input": "switch to dark theme and rewrite the hero and add a contact form on page 2",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-009",
+    "input": "add a pricing page, rename the home page to landing, and delete the contact page",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-010",
+    "input": "make the hero brighter and the footer darker and the pricing more bold and the CTA more urgent",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-011",
+    "input": "hmm so uhh maybe add a, you know, like a pricing thing?",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "add",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-012",
+    "input": "wait actually, hide the testimonials, no, the gallery",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "hide",
+    "expectedTarget": "gallery",
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-013",
+    "input": "umm so I think we want the page to feel more like, premium",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "novice",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-014",
+    "input": "could you uh maybe like rewrite the headline a bit",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "hero",
+    "expectedRoute": "content",
+    "persona": "novice",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-015",
+    "input": "oh and also can we like add a section for testimonials",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "add",
+    "expectedTarget": "testimonials",
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-016",
+    "input": "so basically I want like don miller storybrand vibes",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-017",
+    "input": "make it pop and add testimonials and use a serif font and dark mode",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-018",
+    "input": "rewrite hero copy & add pricing & change font & use a serif",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-019",
+    "input": "make the hero brighter; add pricing; change the font",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-020",
+    "input": "MAKE THE HERO LOUDER AND BIGGER AND ADD PRICING",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-021",
+    "input": "make hero brighter, add pricing, change font",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-022",
+    "input": "add hero, add pricing, add CTA, add FAQ, add testimonials, add footer",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-023",
+    "input": "uhhh sooo we should like... add a pricing thing... maybe a hero too",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "novice",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-024",
+    "input": "ok so add the pricing AND THEN also like the hero, please",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "novice",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-025",
+    "input": "rewrite the hero on page 1, hide the gallery on page 2, add a contact form on page 3",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-026",
+    "input": "you know what, just make it nicer",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "novice",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-027",
+    "input": "i guess maybe try a different vibe",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "novice",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-028",
+    "input": "delete everything",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "remove",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "n/a",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-029",
+    "input": "hide ALL of it",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "hide",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "n/a",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-030",
+    "input": "switch to industrial modern theme and rewrite the headline and add ROI numbers",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-031",
+    "input": "so um yeah make page two have a contact form i guess",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "add",
+    "expectedTarget": "contact-form",
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-032",
+    "input": "y'all, just like, pricing tiers? on the home page? please?",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "add",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-033",
+    "input": "right so, change the hero to mention agents and rewrite the CTA",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "novice",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-034",
+    "input": "add a case study and a contact form and ROI numbers and an FAQ and pricing tiers",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-edge-035",
+    "input": "so umm okay then like change everything on page 2",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "ambiguous",
+    "persona": "novice",
+    "difficulty": "edge"
   }
 ]

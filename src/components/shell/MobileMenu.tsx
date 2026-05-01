@@ -15,12 +15,14 @@ import { useCallback, useEffect, useRef } from 'react'
 import { X } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { useUIStore } from '@/store/uiStore'
+import { useConfigStore } from '@/store/configStore'
 import { PersonalityPicker } from '@/components/settings/PersonalityPicker'
 import { ReferenceManagement } from '@/components/settings/ReferenceManagement'
 import { BrandContextUpload } from '@/components/settings/BrandContextUpload'
 import { CodebaseContextUpload } from '@/components/settings/CodebaseContextUpload'
 import { LLMSettings } from '@/components/settings/LLMSettings'
 import { ShareSpecButton } from '@/components/shell/ShareSpecButton'
+import { PageSelector } from '@/components/left-panel/PageSelector'
 
 interface MobileMenuProps {
   open: boolean
@@ -34,6 +36,10 @@ export function MobileMenu({ open, onClose, triggerRef }: MobileMenuProps) {
   const rightPanelTab = useUIStore((s) => s.rightPanelTab)
   const setActiveTab = useUIStore((s) => s.setActiveTab)
   const isExpert = rightPanelTab === 'EXPERT'
+  // P82 / OC-CLEANUP (A3) — mount PageSelector inline when multi-page config
+  // is present; reuses the canonical PageSelector (no duplicated CRUD).
+  const pages = useConfigStore((s) => s.config.pages)
+  const hasPages = !!pages && pages.length > 0
 
   // Escape closes; close also returns focus to trigger.
   const handleClose = useCallback(() => {
@@ -112,6 +118,16 @@ export function MobileMenu({ open, onClose, triggerRef }: MobileMenuProps) {
         </header>
 
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
+          {/* P82 / OC-CLEANUP (A3) — page selector (multi-page projects only). */}
+          {hasPages && (
+            <section className="hb-mobile-page-section">
+              <h3 className="text-xs font-mono uppercase tracking-wide text-hb-text-muted mb-2">
+                Pages
+              </h3>
+              <PageSelector />
+            </section>
+          )}
+
           {/* Share Spec — viral primary action up top */}
           <section>
             <h3 className="text-xs font-mono uppercase tracking-wide text-hb-text-muted mb-2">

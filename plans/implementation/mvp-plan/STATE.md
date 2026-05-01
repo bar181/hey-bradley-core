@@ -29,6 +29,14 @@
 | **P69** | OC-5 — Mobile UX Redesign | CLOSED | `753beb5` (parallel with P68) | ADR-090 supersedes ADR-076; single chat surface + inline mic + fullscreen listen + spec bottom sheet; +30 tests; **730/730 cumulative GREEN**. |
 | **P70** | OC-CLEANUP — ruvector + stake-doc realignment | OPEN | (this commit) | A1 backfilled 10 ADR pattern entries (087-096) + CLAUDE.md/STATE.md/README/wiki phase-pin sync. |
 | **P71** | OC-13 — Blog Expansion (parallel with P70) | OPEN | — | Companion sprint to P70/OC-CLEANUP. |
+| **P75** | OC-7 — Section Type Closure (case-study + contact-form) | CLOSED | — | ADR-100 widens enum 16 → 18; ~15 P75 tests; 8 describe blocks. |
+| **P76** | OC-9 — Spec Export Quality Standard | CLOSED | — | ADR-101 canonical export modal CTAs + valid HTML5 + versioned AISP filename + ≥3-heading spec generators; ~10 P76 tests. |
+| **P77** | OC-10 — Performance + Accessibility | CLOSED | — | ADR-102 route lazy + img lazy/dims + aria-labels + ≤800KB gzip cap; +15 P77 tests; 7 describe blocks. |
+| **P78** | OC-11 — Multi-Page MVP Wire | CLOSED | — | ADR-103 `activePageId` + PageSelector + per-page bundle.pages[] + `<nav class="hb-page-nav">`; ~15 P78 tests; 9 describe blocks. |
+| **P79** | OC-14 — Page-Aware Chat Pipeline | CLOSED | — | ADR-104 pageIterator pure module + chatPipeline scopeRoot wire; single-page byte-equivalent preserved; ~12 P79 tests; 5 describe blocks. Composite est. 92. |
+| **P80** | OC-15 — Agentic-Product Templates (4 vertical) | CLOSED | — | ADR-105 ai-agent-marketplace + ai-coding-copilot + ai-workflow-platform + ai-support-copilot; templates 37 → 41; ~12 P80 tests; closes Gap 6 from 25-gap roadmap. Composite 9.25/10 → 92.5. |
+| **P81** | OC-16 — Prompt Library Completeness | CLOSED | — | ADR-106 corpus 280 → 500+ entries across 6 files (multi-page.json + template-triggers.json NEW); 8-field schema; +~15 P81 tests; 9 describe blocks. Composite est. 90. |
+| **P82** | OC-CLEANUP — Carry-forward closure (P79 P1s) | CLOSED | — | ADR-107 page-aware INTENT extension + DECOMP page-targeting + mobile drawer page selector + blog 10→12 (ADR-097 floor met) + RSS refresh + EOP audit (P15-P81 back-fill enumeration); +~15 P82 tests; 8 describe blocks; **~984+ cumulative PURE-UNIT GREEN at combined P81 + P82 seal**. Composite est. 91. |
 
 ---
 

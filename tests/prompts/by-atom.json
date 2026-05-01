@@ -498,5 +498,355 @@
     "expectedRoute": "ambiguous",
     "persona": "n/a",
     "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-001",
+    "input": "make hero brighter and add pricing and change the font",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-002",
+    "input": "rewrite the headline and swap the testimonials and add a CTA",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-003",
+    "input": "hide the gallery and add a contact form and change the hero copy",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-004",
+    "input": "make the pricing section bigger and add an FAQ and tighten the footer",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-005",
+    "input": "use a serif font and a darker theme and rewrite the about section",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-006",
+    "input": "change the hero on page 2 and rewrite the headline on page 3",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-007",
+    "input": "add pricing to the home page and add a contact form to page 2",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-008",
+    "input": "rename page 2 to about and rename page 3 to contact",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-009",
+    "input": "delete the contact page and add a pricing page",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-010",
+    "input": "switch to dark feminine theme and rewrite all the body copy",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-011",
+    "input": "add an agent marketplace listing section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "agent-listing",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-ap-012",
+    "input": "add a pricing tiers section with three plans",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-ap-013",
+    "input": "add an ROI metrics section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "stats",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-ap-014",
+    "input": "add a case study showcase",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "case-study",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-ap-015",
+    "input": "add a contact form for sales inquiries",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": "contact-form",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-ap-016",
+    "input": "remove the agent listing grid",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": "agent-listing",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-ap-017",
+    "input": "change the pricing tier highlight to the pro plan",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "change",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-ap-018",
+    "input": "show the ROI numbers section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "show",
+    "expectedTarget": "stats",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-ap-019",
+    "input": "hide the case study carousel",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "hide",
+    "expectedTarget": "case-study",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-ap-020",
+    "input": "duplicate the pricing section",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "duplicate",
+    "expectedTarget": "pricing",
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-ap-021",
+    "input": "add the AI coding copilot template style",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-022",
+    "input": "use the agent marketplace template",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-023",
+    "input": "switch to ai workflow platform style",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-024",
+    "input": "apply the support copilot template",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-025",
+    "input": "rewrite the agent listing copy with technical precision",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "agent-listing",
+    "expectedRoute": "content",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-ap-026",
+    "input": "make the pricing copy emphasize per-agent cost",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "pricing",
+    "expectedRoute": "content",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-ap-027",
+    "input": "rewrite the case study to emphasize time-to-deploy",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "case-study",
+    "expectedRoute": "content",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-ap-028",
+    "input": "rewrite the contact form prompt to ask about team size",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "contact-form",
+    "expectedRoute": "content",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-ap-029",
+    "input": "make the ROI numbers more credible",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": "stats",
+    "expectedRoute": "content",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-ap-030",
+    "input": "make the agent listings feel more enterprise",
+    "expectedAtom": "ASSUMPTIONS",
+    "expectedVerb": "change",
+    "expectedTarget": "agent-listing",
+    "expectedRoute": "ambiguous",
+    "persona": "agentic-engineer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-031",
+    "input": "tighten the hero on page 2 and add a pricing block on page 3",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-032",
+    "input": "use serif and add testimonials and rewrite the CTA",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-033",
+    "input": "swap to industrial modern theme and rewrite the headline",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-034",
+    "input": "add a pricing page and a contact page and switch to dark theme",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-ap-035",
+    "input": "rename the home page and add a careers page and remove the team section",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "n/a",
+    "difficulty": "hard"
   }
 ]

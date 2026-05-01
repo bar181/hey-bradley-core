@@ -1,12 +1,24 @@
 # Prompt Library Coverage Matrix
 
-**Phase:** P59 (post-RC test library)
-**Corpus size:** 280+ entries across 4 JSON files
-**ADR:** ADR-083
+**Phase:** P81 / OC-16 (corpus expansion 280 → 511)
+**Corpus size:** 511 entries across 6 JSON files
+**ADRs:** ADR-083 (P59 baseline), ADR-106 (P81 expansion — multi-page + template-triggers categories)
 
 This document tracks what the `tests/prompts/` corpus covers today,
 what's deferred to the live-LLM phase, and what gaps are explicitly
 acknowledged (not bugs, not roadmap — just honest scope).
+
+## Section 0 — File map (P81)
+
+| File                       | Entries | Focus                                                          |
+|----------------------------|---------|----------------------------------------------------------------|
+| `by-atom.json`             | 85      | Per-atom dispatch (PATCH / INTENT / SELECTION / CONTENT / ASSUMPTIONS / DECOMP) |
+| `by-section.json`          | 126     | Section × verb matrix (incl. P75 case-study + contact-form, P80 agentic-product sections) |
+| `by-persona.json`          | 155     | Persona × atom matrix (incl. P81 agentic-engineer + Lars expansion) |
+| `edge-cases.json`          | 65      | Adversarial + listen-mode disfluencies + DECOMP multi-clause   |
+| `multi-page.json` (NEW)    | 45      | Multi-page targeting (`pageId`-bearing entries; P78/P79 wire)  |
+| `template-triggers.json` (NEW) | 35  | Template intelligence triggers (P72 / P73 / P80 libraries)     |
+| **TOTAL**                  | **511** | corpus floor (≥500)                                            |
 
 ---
 
@@ -66,11 +78,61 @@ section (clone preserves identity, duplicate forks). Total filled cells
 | Difficulty   | Count | Source                           |
 |--------------|-------|----------------------------------|
 | trivial      | 35    | by-persona.json (grandma-arc)    |
-| easy         | 65    | by-persona.json + by-atom.json   |
-| medium       | 95    | by-section.json + by-atom.json   |
-| hard         | 55    | by-atom.json (ASSUMPTIONS-heavy) |
-| adversarial  | 30    | edge-cases.json                  |
-| **total**    | 280   | corpus floor                     |
+| easy         | ~115  | by-persona.json + by-atom.json + multi-page.json |
+| medium       | ~195  | by-section.json + by-atom.json + multi-page.json + template-triggers.json |
+| hard         | ~85   | by-atom.json (ASSUMPTIONS + DECOMP) + by-persona.json |
+| edge         | ~35   | edge-cases.json (P81 disfluencies + multi-clause) + multi-page.json |
+| adversarial  | 30    | edge-cases.json (legacy P59)     |
+| **total**    | 511   | corpus floor (≥500)              |
+
+### 1.4 Multi-page targeting (`multi-page.json` — NEW P81)
+
+45 entries exercising the page-aware patch-routing path landed by P78
+(ADR-103, page selector + `activePageId`) and P79 (ADR-104, page-aware
+chat pipeline + `pageIterator` module + `scopeRoot` prefix at apply
+sites). Every entry carries `expectedTarget.pageId` so the matcher and
+applyPatches stage can be tested against page-naïve regressions.
+
+| Sub-category               | Count | Examples                                          |
+|----------------------------|-------|---------------------------------------------------|
+| Section on specific page   | 17    | "change page 2 hero", "hide gallery on page 3"    |
+| Page lifecycle (add/remove)| 9     | "add a pricing page", "delete the contact page"   |
+| Page rename                | 5     | "rename page 2 to about"                          |
+| Page navigation            | 6     | "switch to home page", "go to the pricing page"   |
+| Cross-page operations      | 4     | "duplicate hero from page 1 to page 2"            |
+| All-pages scope            | 3     | "change footer on every page", `pageId: "all"`    |
+| Active-page resolver       | 1     | "rewrite hero on the active page"                 |
+| **total**                  | **45**| ≥40 floor                                         |
+
+`pageId` value space: `home`, `about`, `contact`, `pricing`, `careers`,
+`page-2`, `page-3`, `page-4`, `all`, `active`. Matches P78 schema
+(`pages[].id`) and P79 `pageIterator.getActivePage(...)` resolver.
+
+### 1.5 Template-trigger phrasings (`template-triggers.json` — NEW P81)
+
+35 entries exercising the SELECTION_ATOM dispatch path. Each entry maps
+a natural-language trigger phrase to the SELECTION atom — the matcher
+is then expected to rank candidates from the P72/P73 template
+intelligence libraries (21 themes / 15 sections / 15 content styles
+per ADR-098 + P73 fix-pass). Coverage includes the 4 P80 agentic-product
+templates and the 3 P73 new themes.
+
+| Library family                    | Count | Examples                                          |
+|-----------------------------------|-------|---------------------------------------------------|
+| Theme triggers (incl. P73 +3)     | 11    | "dark feminine", "industrial modern", "neon"     |
+| Section arrangements (P73 +3)     | 4     | "course-landing", "booking calendar", "newsroom" |
+| Content styles (P73 +3)           | 3     | "instructional", "punchy social", "sales pressure" |
+| Agentic-product (P80 +4)          | 4     | "agent marketplace", "ai coding copilot", etc.   |
+| Brand mimicry (Linear/Stripe)     | 2     | "make it look like Linear/Stripe"                 |
+| Fuzzy quality phrases             | 5     | "more fun", "more agency vibes", "minimalist"    |
+| Persona-style triggers            | 2     | "don miller style", "law firm site"               |
+| Vertical templates (legacy)       | 4     | "wellness", "bakery", "personal brand"            |
+| **total**                         | **35**| ≥30 floor                                         |
+
+These prompts are **selection-atom-only** by design — they should NOT
+be classified as PATCH/INTENT/CONTENT. Live-LLM phase will measure
+whether matcher rank-1 hits the implied template ≥75% of the time;
+corpus only labels the dispatch atom.
 
 ---
 

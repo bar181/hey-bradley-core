@@ -273,7 +273,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
   //   - scope.sections === config.sections.
   const config = useConfigStore.getState().config
   const activePageId = useUIStore.getState().activePageId
-  const scope = getActivePage(config, activePageId)
+  let scope = getActivePage(config, activePageId)
 
   // P26 Sprint C P1 — AISP rule-based classifier (first in chain).
   // P27 Sprint C P2 — LLM-driven AISP classifier when rule-based < threshold.
@@ -339,6 +339,16 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       }
     }
     aispTrace = { intent: aisp, source: aispSource }
+    // P82 / OC-CLEANUP (A3) — page-aware INTENT override. When the classified
+    // intent carries an explicit pageId (cross-page reference like "on page 2"
+    // or "the contact page"), override `scope` so all downstream apply paths
+    // (DECOMP, template-matcher, runLLMPipeline) target that page instead of
+    // activePageId. Backward-compat: when pageId is undefined (today's most
+    // common path), scope is unchanged → P79 byte-equivalent behavior.
+    if (aisp.target?.pageId) {
+      const overridden = getActivePage(config, aisp.target.pageId)
+      if (overridden.scopeRoot !== '') scope = overridden
+    }
     // P37 A2 — classify route (content vs design vs ambiguous). Pure-rule, $0.
     // P37 R3 L2 fix-pass — classifyRoute always runs (text-driven cue tables
     // are robust even when AISP didn't lock). Previously it ran ONLY at high
@@ -354,7 +364,10 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     try {
       const { decompose } = await import('@/contexts/intelligence/aisp/decompAtom')
       const { executeTodos } = await import('@/contexts/intelligence/aisp/todoExecutor')
-      const decomp = decompose(text, aisp)
+      // P82 / OC-CLEANUP (A3) — pass `pages` so each clause can resolve a
+      // page-targeting reference into `Todo.targetPage`. `undefined` when no
+      // multi-page config → byte-equivalent to P74.
+      const decomp = decompose(text, aisp, config.pages)
       if (decomp.todos.length > 1 && decomp.confidence >= 0.7) {
         // P79 / OC-14 (A3) — feed scoped config so executeTodos sees only the
         // active page's sections (multi-page) or root sections (single-page).
@@ -364,10 +377,28 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         const exec = executeTodos(decomp, decompConfig)
         if (exec.allPatches.length > 0) {
           stageMarks.applyStart = Date.now()
-          // P79 / OC-14 (A3) — prefix patch paths to active page scope.
-          useConfigStore.getState().applyPatches(
-            prefixPatchPaths(exec.allPatches, scope.scopeRoot) as JSONPatch[],
-          )
+          // P82 / OC-CLEANUP (A3) — per-todo page scoping. When any trace
+          // carries a Todo.targetPage, prefix that trace's patches with the
+          // todo's own scopeRoot; remaining traces use the submit-time `scope`.
+          // Backward-compat: when no todo has targetPage, this collapses to
+          // the P79 single-prefix path (byte-equivalent allPatches handling).
+          const anyTodoPage = exec.traces.some((t) => !!t.todo.targetPage)
+          let composed: JSONPatch[]
+          if (anyTodoPage) {
+            composed = []
+            for (const trace of exec.traces) {
+              if (trace.patches.length === 0) continue
+              const todoScope = trace.todo.targetPage
+                ? getActivePage(config, trace.todo.targetPage)
+                : scope
+              composed.push(
+                ...(prefixPatchPaths(trace.patches, todoScope.scopeRoot) as JSONPatch[]),
+              )
+            }
+          } else {
+            composed = prefixPatchPaths(exec.allPatches, scope.scopeRoot) as JSONPatch[]
+          }
+          useConfigStore.getState().applyPatches(composed)
           const doneAt = Date.now()
           return {
             ok: true, appliedPatchCount: exec.allPatches.length, fellBackToCanned: false,

@@ -1,0 +1,352 @@
+[
+  {
+    "id": "P81-tt-001",
+    "input": "make it more fun",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-002",
+    "input": "switch to don miller style",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-003",
+    "input": "more agency vibes",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-004",
+    "input": "make it minimalist",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-tt-005",
+    "input": "use the dark feminine theme",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-tt-006",
+    "input": "switch to the industrial modern theme",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-tt-007",
+    "input": "use the cozy maximalist theme",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-tt-008",
+    "input": "give it a SaaS feel",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "builder",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-009",
+    "input": "make it look like a portfolio",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-010",
+    "input": "use the wellness template",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-tt-011",
+    "input": "use the agent marketplace template",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-012",
+    "input": "switch to ai coding copilot template",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-013",
+    "input": "apply the ai workflow platform template",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-014",
+    "input": "use the ai support copilot template",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-015",
+    "input": "use the bakery template",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-tt-016",
+    "input": "make it feel like a law firm site",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-017",
+    "input": "more startup-y",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-018",
+    "input": "give it a creative agency feel",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-019",
+    "input": "make it more elegant",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-020",
+    "input": "switch to neon vibes",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-tt-021",
+    "input": "use a course-landing layout",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "builder",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-022",
+    "input": "lay it out like a booking calendar page",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "builder",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-023",
+    "input": "make it newsroom style",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-024",
+    "input": "make the copy more instructional",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "content",
+    "persona": "builder",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-025",
+    "input": "make the copy more punchy and social",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "content",
+    "persona": "framer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-026",
+    "input": "use a high-pressure sales tone",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "content",
+    "persona": "framer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-027",
+    "input": "make it look like Linear",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-tt-028",
+    "input": "make it look like Stripe",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-tt-029",
+    "input": "use the personal brand template",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-tt-030",
+    "input": "make it feel like a creator landing page",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-031",
+    "input": "use a kitchen-sink layout that shows everything",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "builder",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-032",
+    "input": "make it more professional looking",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-033",
+    "input": "use the API docs landing template",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-tt-034",
+    "input": "go for a launchpad-style layout",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "builder",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-tt-035",
+    "input": "make it look like a healthcare clinic site",
+    "expectedAtom": "SELECTION",
+    "expectedVerb": "change",
+    "expectedTarget": null,
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "medium"
+  }
+]

@@ -430,3 +430,31 @@ contract is unchanged; default mode now carries the thesis.
 ---
 
 *This document is updated at each phase seal. Last touched: P55 (Sprint L Wave 1 — Spec Unmissable). Source: swarm summary at session-019Yz8Kvzu3u4rVaqSaLxaNq.*
+
+---
+
+## Page-aware addendum (P78 / P79 / P82)
+
+The pipeline above describes the single-page chat path and remains
+byte-equivalent on disk for any single-page config. After ADR-103 (P78
+multi-page MVP) added `activePageId` to `uiStore`, ADR-104 (P79) wired a
+pure `pageIterator` module that the `chatPipeline.submit()` entry now
+consults at submit-time. Two surgical points changed:
+
+1. **Matcher input** is scoped to the active page's sections via
+   `getActivePage(config, activePageId)` before pattern match. Templates
+   that resolve targets via `findSectionByType` now find the active
+   page's hero, not page 1's hero.
+2. **Patch paths** are prefixed via `prefixPatchPaths(patches, scopeRoot)`
+   immediately before each `applyPatches(...)` call, so JSON-Patch ops
+   land on the correct page subtree. Single-page mode (`scopeRoot === ""`)
+   preserves byte-equivalent behavior.
+
+P82 / OC-CLEANUP extended the upstream atoms: INTENT_ATOM now carries a
+`pageId` field with a page-reference regex ("page 2 hero" parses as
+`{verb, target, pageId}`); DECOMP_ATOM now emits `targetPage` per Todo so
+multi-clause utterances spanning pages route correctly downstream.
+
+## Last verified
+
+P82 / OC-CLEANUP — 2026-05-01 (page-aware pipeline P79; intent-page extension P82; rules-only baseline holds)
