@@ -1,0 +1,508 @@
+{
+  "site": {
+    "title": "Atlas · the AI agent marketplace",
+    "description": "Discover, hire, and orchestrate specialist AI agents from a curated catalog. Real capability tags, transparent pricing per task, and one SDK to wire them into any backend in minutes.",
+    "author": "Atlas Marketplace",
+    "email": "hello@atlas-agents.dev",
+    "domain": "atlas-agents.dev",
+    "project": "atlas-agent-marketplace",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "saas",
+    "audience": "developer",
+    "tone": "technical",
+    "brandName": "Atlas",
+    "tagline": "Hire a specialist agent in 30 seconds",
+    "voiceAttributes": ["agentic", "developer-first", "specific", "no-fluff"]
+  },
+  "theme": {
+    "preset": "tech-business",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0b1020",
+      "bgSecondary": "#141a33",
+      "textPrimary": "#eef2ff",
+      "textSecondary": "#a4adcc",
+      "accentPrimary": "#7c5cff",
+      "accentSecondary": "#22d3ee"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#f6f7fb",
+      "bgSecondary": "#eaecf5",
+      "textPrimary": "#0b1020",
+      "textSecondary": "#3a4366",
+      "accentPrimary": "#5b3df6",
+      "accentSecondary": "#0891b2"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Inter",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.65
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1240px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "10px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": { "display": "flex", "padding": "0" },
+      "style": { "background": "#0b1020", "color": "#eef2ff" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Atlas" } },
+        { "id": "browse", "type": "button", "enabled": true, "order": 1, "props": { "text": "Browse Agents", "url": "#agents" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 2, "props": { "text": "List Your Agent", "url": "#publish" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "96px 24px",
+        "maxWidth": "1240px"
+      },
+      "style": { "background": "linear-gradient(160deg, #0b1020 0%, #141a33 60%, #0b1020 100%)", "color": "#eef2ff" },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": { "text": "1,200+ specialist agents · pay-per-task · zero retainer", "icon": "sparkles", "variant": "pill" }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": { "text": "Hire a specialist AI agent in 30 seconds.", "level": 1, "size": "60px", "weight": 700 }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": { "text": "Atlas is a curated marketplace of single-purpose AI agents — for code review, contract redline, SQL drafting, market research, image cleanup, and 80 other vertical tasks. Search by capability, see real benchmark scores, and call any agent through one typed SDK. Pay per task, not per seat. No vendor lock-in." }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": { "text": "Browse the catalog", "url": "#agents", "style": "filled", "size": "lg" }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": { "text": "Read the SDK docs", "url": "#docs", "style": "outline", "size": "lg" }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 5,
+          "props": { "text": "Used by 4,200 dev teams · SOC 2 Type II · Bring-your-own-key supported on every tier", "show": true }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "features-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "icon-cards",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "72px 24px" },
+      "style": { "background": "#141a33", "color": "#eef2ff" },
+      "components": [
+        {
+          "id": "f-1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "search",
+            "title": "Capability-tagged search",
+            "description": "Every agent is tagged with verified capabilities (`code-review`, `pdf-extract`, `legal-redline`) plus benchmark scores against canonical task suites. No vague \"AI assistant\" listings — every entry declares exactly what it does and how well it does it on real evals."
+          }
+        },
+        {
+          "id": "f-2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "plug",
+            "title": "One SDK, every agent",
+            "description": "`atlas.invoke(agentId, payload)` works the same for all 1,200 agents. Typed inputs and outputs, automatic retries, streamed responses, and pre-flight cost estimates. Drop the SDK into your existing backend and ship today; switch agents tomorrow without touching call sites."
+          }
+        },
+        {
+          "id": "f-3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "credit-card",
+            "title": "Pay per task, not per seat",
+            "description": "Every agent publishes a per-call price ($0.002 to $4.50 typical range). You pay only for completed tasks — failures and timeouts are free. Bring your own LLM key on the Pro tier and the marketplace fee drops to 4%. No retainer, no minimum, no surprise overages."
+          }
+        }
+      ],
+      "content": {
+        "heading": "What you actually get",
+        "subheading": "A directory built for engineers, not buyers"
+      }
+    },
+    {
+      "type": "gallery",
+      "id": "agents-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "grid",
+      "layout": { "display": "grid", "columns": 4, "gap": "20px", "padding": "72px 24px" },
+      "style": { "background": "#0b1020", "color": "#eef2ff" },
+      "components": [
+        {
+          "id": "a-1",
+          "type": "gallery-image",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&q=80",
+            "alt": "Code review agent listing card",
+            "caption": "Reviewer · code-review · 14 integrations · $0.12/task"
+          }
+        },
+        {
+          "id": "a-2",
+          "type": "gallery-image",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&auto=format&q=80",
+            "alt": "SQL drafting agent listing card",
+            "caption": "QueryWright · sql-drafting · 9 integrations · $0.08/task"
+          }
+        },
+        {
+          "id": "a-3",
+          "type": "gallery-image",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=600&auto=format&q=80",
+            "alt": "Contract redline agent listing card",
+            "caption": "Redline · legal-redline · 6 integrations · $1.40/task"
+          }
+        },
+        {
+          "id": "a-4",
+          "type": "gallery-image",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&auto=format&q=80",
+            "alt": "Market research agent listing card",
+            "caption": "Scout · market-research · 11 integrations · $2.20/task"
+          }
+        },
+        {
+          "id": "a-5",
+          "type": "gallery-image",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&auto=format&q=80",
+            "alt": "Image cleanup agent listing card",
+            "caption": "Crisp · image-cleanup · 4 integrations · $0.04/task"
+          }
+        },
+        {
+          "id": "a-6",
+          "type": "gallery-image",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&q=80",
+            "alt": "Analytics agent listing card",
+            "caption": "Lens · dashboard-summary · 7 integrations · $0.30/task"
+          }
+        },
+        {
+          "id": "a-7",
+          "type": "gallery-image",
+          "enabled": true,
+          "order": 6,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=600&auto=format&q=80",
+            "alt": "Customer email triage agent listing card",
+            "caption": "Triage · email-routing · 12 integrations · $0.05/task"
+          }
+        },
+        {
+          "id": "a-8",
+          "type": "gallery-image",
+          "enabled": true,
+          "order": 7,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&auto=format&q=80",
+            "alt": "Spec writer agent listing card",
+            "caption": "Spec · prd-drafting · 5 integrations · $0.65/task"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Featured agents",
+        "subheading": "Eight specialists out of 1,200 in the catalog — each with capability tag, integration count, and per-task price"
+      }
+    },
+    {
+      "type": "numbers",
+      "id": "stats-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "counters",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "64px 24px" },
+      "style": { "background": "#141a33", "color": "#eef2ff" },
+      "components": [
+        {
+          "id": "n-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": { "value": "1,200+", "label": "Specialist agents", "description": "Across 80 vertical task categories" }
+        },
+        {
+          "id": "n-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": { "value": "4,200", "label": "Dev teams", "description": "Calling agents in production" }
+        },
+        {
+          "id": "n-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": { "value": "62M", "label": "Tasks / month", "description": "Aggregate across the catalog" }
+        },
+        {
+          "id": "n-4",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 3,
+          "props": { "value": "30s", "label": "Time to first call", "description": "From signup to invoke()" }
+        }
+      ],
+      "content": {
+        "heading": "By the numbers",
+        "subheading": "What 1,200 agents and 4,200 teams look like in production"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "cards",
+      "layout": { "display": "grid", "columns": 3, "gap": "24px", "padding": "64px 24px" },
+      "style": { "background": "#0b1020", "color": "#eef2ff" },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "We replaced three internal scripts with three Atlas agents in one afternoon. Reviewer caught a regression our linter missed and Spec drafted the PRD I was avoiding. The per-task pricing means I never feel guilty calling them.",
+            "author": "Priya Anand",
+            "role": "Staff Engineer, Vertex Labs",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "The capability tags are the magic. I searched `pdf-extract` and got nine ranked agents with real benchmark scores. Picked the second-cheapest, integrated in twenty minutes, and shipped the feature the same day.",
+            "author": "Marco DiSalvo",
+            "role": "Founding Engineer, Loamline",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "Bring-your-own-key cut our agent spend by 70% on the Pro tier. Same SDK, same agents, our LLM costs go straight to Anthropic. That's the only marketplace economics that has ever made sense to a CFO.",
+            "author": "Sela Okonkwo",
+            "role": "VP Eng, Northwind Health",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "From teams shipping with Atlas",
+        "subheading": "Three real customers, three honest receipts"
+      }
+    },
+    {
+      "type": "pricing",
+      "id": "pricing-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "3-tier",
+      "layout": { "display": "flex", "gap": "24px", "padding": "80px 24px" },
+      "style": { "background": "#141a33", "color": "#eef2ff" },
+      "components": [
+        {
+          "id": "tier-1",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "name": "Starter",
+            "price": "$0",
+            "period": "/mo",
+            "features": "Pay-per-task only,Up to 5,000 tasks/mo,Standard SDK access,Community support,Marketplace LLM keys",
+            "ctaText": "Start free",
+            "ctaUrl": "#signup",
+            "highlighted": false
+          }
+        },
+        {
+          "id": "tier-2",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "name": "Pro",
+            "price": "$49",
+            "period": "/mo",
+            "features": "Unlimited tasks,Bring-your-own LLM key,Marketplace fee drops to 4%,Priority routing,Email support,Usage analytics",
+            "ctaText": "Start 14-day trial",
+            "ctaUrl": "#pro",
+            "highlighted": true
+          }
+        },
+        {
+          "id": "tier-3",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "name": "Enterprise",
+            "price": "Custom",
+            "period": "",
+            "features": "Private agent registry,SSO + audit logs,Dedicated capacity,On-prem proxy option,99.99% SLA,Named CSM",
+            "ctaText": "Talk to sales",
+            "ctaUrl": "#sales",
+            "highlighted": false
+          }
+        }
+      ],
+      "content": {
+        "heading": "Pricing without the asterisks",
+        "subheading": "Free to start. Pro pays for itself at ~$700/mo of agent spend."
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 6,
+      "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "72px 24px", "gap": "16px" },
+      "style": { "background": "linear-gradient(135deg, #7c5cff 0%, #22d3ee 100%)", "color": "#0b1020" },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": { "text": "Browse 1,200 specialist agents.", "level": 2, "size": "40px", "weight": 700 }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": { "text": "No credit card. No retainer. Free up to 5,000 tasks per month — and BYOK halves your bill on Pro. The catalog opens in your browser; your first invoke() ships in under 30 seconds." }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": { "text": "Open the catalog", "url": "#agents", "style": "filled", "size": "lg" }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 7,
+      "variant": "multi-column",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "48px 24px" },
+      "style": { "background": "#0b1020", "color": "#a4adcc" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Atlas" } },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": { "heading": "Marketplace", "links": "Browse Agents,Categories,Pricing,Status" }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": { "heading": "Developers", "links": "SDK Docs,Quickstart,Examples,Changelog" }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": { "heading": "Publishers", "links": "List your agent,Revenue share,Quality guidelines,Support" }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": { "text": "© 2026 Atlas Marketplace · SOC 2 Type II · status.atlas-agents.dev" }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

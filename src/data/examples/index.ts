@@ -38,6 +38,11 @@ import researcherAcademic from './researcher-academic.json'
 import cliTool from './cli-tool.json'
 import ossLibrary from './oss-library.json'
 import apiDocsLanding from './api-docs-landing.json'
+// P80 / OC-15 — Agentic-product templates (A1)
+import aiAgentMarketplace from './ai-agent-marketplace.json'
+import aiCodingCopilot from './ai-coding-copilot.json'
+import aiWorkflowPlatform from './ai-workflow-platform.json'
+import aiSupportCopilot from './ai-support-copilot.json'
 import type { MasterConfig } from '@/lib/schemas'
 
 export interface ExampleSite {
@@ -272,5 +277,30 @@ export const EXAMPLE_SITES: ExampleSite[] = [
     description: 'API documentation marketing — dense info, monospace accents, code-sample hero, spec-driven AISP block.',
     theme: 'Tech Business',
     config: apiDocsLanding as unknown as MasterConfig,
+  },
+  // P80 / OC-15 — Agentic-product templates (A1)
+  {
+    name: 'Atlas — AI Agent Marketplace',
+    description: 'Curated marketplace for specialist AI agents — capability-tagged search, per-task pricing, one SDK across 1,200 agents. Indigo-violet on near-black canvas.',
+    theme: 'Tech Business',
+    config: aiAgentMarketplace as unknown as MasterConfig,
+  },
+  {
+    name: 'Mileform — AI Coding Copilot',
+    description: 'Spec-first IDE pair programmer — VS Code/JetBrains/Neovim, repo-aware diffs, JetBrains Mono headings, teal accent on graphite canvas.',
+    theme: 'Tech Business',
+    config: aiCodingCopilot as unknown as MasterConfig,
+  },
+  {
+    name: 'Threadbase — AI Workflow Platform',
+    description: 'Zapier-meets-AI flow builder — 180 integrations, every node an agent, amber accent on slate canvas, ops-friendly outcomes-first voice.',
+    theme: 'Tech Business',
+    config: aiWorkflowPlatform as unknown as MasterConfig,
+  },
+  {
+    name: 'Solva — AI Support Copilot',
+    description: 'Helpdesk copilot for support teams — Zendesk/Intercom/Front, 38% deflection ROI numbers, warm cream light theme with teal+amber accents.',
+    theme: 'Professional',
+    config: aiSupportCopilot as unknown as MasterConfig,
   },
 ]

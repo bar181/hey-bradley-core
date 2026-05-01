@@ -1,0 +1,442 @@
+{
+  "site": {
+    "title": "Mileform · the spec-first IDE pair programmer",
+    "description": "Mileform is an editor extension that drafts, reviews, and refactors code from a one-line intent. Spec-first, repo-aware, and silent until you ask. Works in VS Code, JetBrains, and Neovim.",
+    "author": "Mileform Tools",
+    "email": "hello@mileform.dev",
+    "domain": "mileform.dev",
+    "project": "mileform-ide",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "saas",
+    "audience": "developer",
+    "tone": "technical",
+    "brandName": "Mileform",
+    "tagline": "Your IDE's spec-first pair programmer",
+    "voiceAttributes": ["technical", "developer-first", "agentic", "spec-driven"]
+  },
+  "theme": {
+    "preset": "tech-business",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0a0e14",
+      "bgSecondary": "#11161f",
+      "textPrimary": "#e6edf3",
+      "textSecondary": "#8b96a8",
+      "accentPrimary": "#5eead4",
+      "accentSecondary": "#22d3ee"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#fafbfc",
+      "bgSecondary": "#eef2f5",
+      "textPrimary": "#0a0e14",
+      "textSecondary": "#475569",
+      "accentPrimary": "#0d9488",
+      "accentSecondary": "#0891b2"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "JetBrains Mono",
+      "headingWeight": 600,
+      "baseSize": "16px",
+      "lineHeight": 1.6
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": { "display": "flex", "padding": "0" },
+      "style": { "background": "#0a0e14", "color": "#e6edf3" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Mileform" } },
+        { "id": "docs", "type": "button", "enabled": true, "order": 1, "props": { "text": "Docs", "url": "#docs" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 2, "props": { "text": "Install", "url": "#install" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "96px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": { "background": "#0a0e14", "color": "#e6edf3" },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": { "text": "v1.0 · VS Code · JetBrains · Neovim", "icon": "terminal", "variant": "pill" }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": { "text": "Write the spec. Ship the code.", "level": 1, "size": "60px", "weight": 600 }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": { "text": "Mileform is a pair programmer that takes a one-line intent — \"add a Stripe webhook for refunded charges\" — and returns a full diff: handler, tests, types, and the migration. Repo-aware, spec-first, and silent until you ask. Reviews your PRs against the same spec it just wrote. No autocomplete chatter. No surprise edits." }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": { "text": "Install for VS Code", "url": "#install", "style": "filled", "size": "lg" }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": { "text": "See the demo (90s)", "url": "#demo", "style": "outline", "size": "lg" }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 5,
+          "props": { "text": "Used by engineers at Linear, Cal.com, Replicate, and 6,800 GitHub repos · BYOK supported (Anthropic, OpenAI, OpenRouter)", "show": true }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "valueprops-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "icon-cards",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "72px 24px" },
+      "style": { "background": "#11161f", "color": "#e6edf3" },
+      "components": [
+        {
+          "id": "v-1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "file-text",
+            "title": "Spec-first, not chat-first",
+            "description": "You write a one-line intent. Mileform writes the spec, shows you, and waits. Approve and it generates the diff — handler, tests, types, migration. No back-and-forth, no \"are you sure\" prompts. The spec is the source of truth and it travels with the PR."
+          }
+        },
+        {
+          "id": "v-2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "git-branch",
+            "title": "Repo-aware in three minutes",
+            "description": "Point Mileform at your repo and it indexes types, conventions, test framework, and import style in under three minutes (typical 8KLOC backend). Generated code matches your existing patterns — your custom hooks, your error class, your logger — not a generic template."
+          }
+        },
+        {
+          "id": "v-3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "shield-check",
+            "title": "Silent until you ask",
+            "description": "No ghost text, no autocomplete chatter, no popovers stealing focus. Mileform fires only on `cmd+k`, only on your intent, and only with the diff you confirmed. The most respectful AI tool you'll ever install in your editor."
+          }
+        }
+      ],
+      "content": {
+        "heading": "What makes Mileform different",
+        "subheading": "Designed for engineers who finish PRs, not pair-program with chatbots"
+      }
+    },
+    {
+      "type": "image",
+      "id": "demo-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "framed",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "64px 24px", "gap": "16px", "maxWidth": "1100px" },
+      "style": { "background": "#0a0e14", "color": "#e6edf3" },
+      "components": [
+        {
+          "id": "image",
+          "type": "image",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "url": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1400&auto=format&q=80",
+            "alt": "Mileform editor screenshot showing spec-first diff preview",
+            "aspect": "16:9"
+          }
+        },
+        {
+          "id": "caption",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": { "text": "Cmd+K → type \"add Stripe refund webhook\" → review the spec → approve → diff is staged. The whole loop fits in a 90-second screencast." }
+        }
+      ],
+      "content": {
+        "heading": "The full loop, in your editor",
+        "subheading": "Intent → Spec → Diff → Tests → PR. No tab-switch, no chat panel, no context lost."
+      }
+    },
+    {
+      "type": "numbers",
+      "id": "stats-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "counters",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "64px 24px" },
+      "style": { "background": "#11161f", "color": "#e6edf3" },
+      "components": [
+        {
+          "id": "n-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": { "value": "6,800", "label": "Repos using Mileform", "description": "Active in the last 30 days" }
+        },
+        {
+          "id": "n-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": { "value": "92%", "label": "Diffs accepted as-is", "description": "Internal telemetry, opt-in" }
+        },
+        {
+          "id": "n-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": { "value": "3 min", "label": "First-index time", "description": "Median across 8KLOC repos" }
+        },
+        {
+          "id": "n-4",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 3,
+          "props": { "value": "0", "label": "Autocomplete suggestions", "description": "By design — silent until you ask" }
+        }
+      ],
+      "content": {
+        "heading": "What the numbers say",
+        "subheading": "Honest telemetry from opted-in users, refreshed weekly"
+      }
+    },
+    {
+      "type": "pricing",
+      "id": "pricing-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "3-tier",
+      "layout": { "display": "flex", "gap": "24px", "padding": "80px 24px" },
+      "style": { "background": "#0a0e14", "color": "#e6edf3" },
+      "components": [
+        {
+          "id": "tier-1",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "name": "Starter",
+            "price": "$0",
+            "period": "/mo",
+            "features": "Up to 200 generations/mo,VS Code + JetBrains,BYOK (your LLM key),Local repo index,Community Discord",
+            "ctaText": "Install free",
+            "ctaUrl": "#install",
+            "highlighted": false
+          }
+        },
+        {
+          "id": "tier-2",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "name": "Pro",
+            "price": "$19",
+            "period": "/mo",
+            "features": "Unlimited generations,All editors (incl. Neovim),Repo-aware code review,Spec-stamped PR comments,Priority email support,Telemetry opt-out",
+            "ctaText": "Start 14-day trial",
+            "ctaUrl": "#pro",
+            "highlighted": true
+          }
+        },
+        {
+          "id": "tier-3",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "name": "Enterprise",
+            "price": "$49",
+            "period": "/seat/mo",
+            "features": "SSO + SAML,Audit logs,Self-hosted spec server,Org-wide convention rules,Dedicated CSM,99.95% SLA",
+            "ctaText": "Talk to sales",
+            "ctaUrl": "#sales",
+            "highlighted": false
+          }
+        }
+      ],
+      "content": {
+        "heading": "Pricing for individuals and orgs",
+        "subheading": "BYOK keeps your LLM bill on your card. We charge for the editor, not the tokens."
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "cards",
+      "layout": { "display": "grid", "columns": 3, "gap": "24px", "padding": "64px 24px" },
+      "style": { "background": "#11161f", "color": "#e6edf3" },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "I uninstalled three other AI editor extensions the day I tried Mileform. The spec-first loop fits how I actually work — write the intent, review the plan, approve the diff. No more babysitting an autocomplete.",
+            "author": "Erik Halvorsen",
+            "role": "Senior Engineer, Linear",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "Repo-aware is the bar Mileform actually clears. It uses our custom error class, our logger, our hooks — without me explaining anything. First diff matched our style on day one and that's never happened before.",
+            "author": "Janelle Park",
+            "role": "Tech Lead, Cal.com",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "The PR review feature paid for the team's annual contract in one weekend. It catches the subtle stuff — wrong nullability, mismatched return types, missing test cases — that human reviewers consistently miss.",
+            "author": "Dr. Rosa Mendoza",
+            "role": "VP Engineering, Replicate",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "What engineers say",
+        "subheading": "Three real users at three real companies — full quotes, not blurbs"
+      }
+    },
+    {
+      "type": "questions",
+      "id": "faq-01",
+      "enabled": true,
+      "order": 6,
+      "variant": "accordion",
+      "layout": { "display": "flex", "direction": "column", "gap": "0", "padding": "64px 24px", "maxWidth": "880px" },
+      "style": { "background": "#0a0e14", "color": "#e6edf3" },
+      "components": [
+        {
+          "id": "q-1",
+          "type": "faq-item",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "question": "Does my code leave my machine?",
+            "answer": "Only the slice you submit with each cmd+k call. The repo index is built locally and never uploaded. The active intent + relevant file context goes to your chosen LLM provider (BYOK on Starter and Pro). Enterprise can route through a self-hosted spec server so nothing leaves your VPC."
+          }
+        },
+        {
+          "id": "q-2",
+          "type": "faq-item",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "question": "How is this different from Cursor or Copilot?",
+            "answer": "Spec-first instead of completion-first. We don't fire ghost text, we don't suggest unprompted, and every generation produces a written spec that travels with the PR. If you love autocomplete, Mileform is the wrong tool. If you write small specs anyway, Mileform automates the rest."
+          }
+        },
+        {
+          "id": "q-3",
+          "type": "faq-item",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "question": "Which languages are supported?",
+            "answer": "First-class: TypeScript, JavaScript, Python, Go, Rust, Ruby, Java, Kotlin, Swift, C#. Repo-awareness works on any language with tree-sitter coverage. We're adding Elixir and Zig next quarter based on user votes."
+          }
+        },
+        {
+          "id": "q-4",
+          "type": "faq-item",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "question": "Can I bring my own LLM key?",
+            "answer": "Yes — Anthropic, OpenAI, and OpenRouter on every tier including Starter. Keys are stored in your OS keychain, never on our servers. Pro and Enterprise also support self-hosted gateways and can route through your existing AI proxy if you have one."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Common questions",
+        "subheading": "If you don't see yours, the docs site has 80 more"
+      }
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 7,
+      "variant": "multi-column",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "48px 24px" },
+      "style": { "background": "#0a0e14", "color": "#8b96a8" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Mileform" } },
+        { "id": "col-1", "type": "footer-column", "enabled": true, "order": 1, "props": { "heading": "Product", "links": "Install,Pricing,Docs,Changelog" } },
+        { "id": "col-2", "type": "footer-column", "enabled": true, "order": 2, "props": { "heading": "Editors", "links": "VS Code,JetBrains,Neovim,CLI" } },
+        { "id": "col-3", "type": "footer-column", "enabled": true, "order": 3, "props": { "heading": "Company", "links": "About,Security,Contact,Privacy" } },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": { "text": "© 2026 Mileform Tools · BYOK supported · status.mileform.dev" }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}
