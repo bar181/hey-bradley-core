@@ -251,6 +251,34 @@ export function AISP() {
 
       <AISPDualView />
 
+      {/* Adoption */}
+      <section className="py-20 bg-[#f1ece4]">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <h2 className="text-3xl font-bold mb-4">Building with AISP?</h2>
+          <p className="text-[#6b5e4f] mb-10 max-w-2xl mx-auto leading-relaxed">
+            AISP is open-spec, polyglot-consumable, and ships with TypeScript + Python
+            reference parsers. Drop a Hey Bradley bundle into your pipeline and act on
+            the 5-atom trace directly &mdash; no scraping, no interpretation.
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <a
+              href="https://github.com/bar181/aisp-open-core"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-[#e8772e] text-white hover:bg-[#c45f1c] transition-colors shadow-lg"
+            >
+              View the public AISP repo <ExternalLink className="w-4 h-4" />
+            </a>
+            <Link
+              to="/docs"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold border border-[#e8772e]/30 text-[#2d1f12] hover:bg-[#f1ece4] transition-colors"
+            >
+              3rd-party adoption guide <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="py-12 border-t border-[#e8772e]/20 bg-[#faf8f5]">
         <div className="max-w-5xl mx-auto px-6 text-center">

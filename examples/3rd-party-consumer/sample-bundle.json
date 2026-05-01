@@ -1,0 +1,123 @@
+{
+  "generatedAt": "2026-05-01T12:00:00.000Z",
+  "version": "aisp-1.2",
+  "slug": "coffee-roaster",
+  "filenames": {
+    "northstar": "coffee-roaster-northstar-v1.0.md",
+    "humanSpec": "coffee-roaster-human-spec-v1.0.md",
+    "aisp": "coffee-roaster-aisp-v1.0.txt",
+    "config": "coffee-roaster-config-v1.0.json",
+    "manifest": "coffee-roaster-manifest-v1.0.json"
+  },
+  "site": {
+    "title": "Beanstalk Coffee Co.",
+    "description": "Single-origin coffee, roasted to order in Brooklyn.",
+    "author": "Beanstalk Coffee Co.",
+    "domain": "beanstalkcoffee.com",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "tone": "warm",
+    "tagline": "Single-origin coffee, roasted to order in Brooklyn"
+  },
+  "theme": {
+    "preset": "wellness",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#3e2723",
+      "bgSecondary": "#4e342e",
+      "textPrimary": "#fef7ed",
+      "textSecondary": "#e7d4b5",
+      "accentPrimary": "#a16207",
+      "accentSecondary": "#ca8a04"
+    },
+    "typography": {
+      "fontFamily": "Fraunces",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "borderRadius": "12px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple"
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "overlay",
+      "content": {
+        "heading": "Single-origin coffee, roasted to order in Brooklyn",
+        "subheading": "We roast in 8-pound batches twice a week."
+      }
+    },
+    {
+      "type": "columns",
+      "id": "products-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "image-cards",
+      "content": {
+        "heading": "This week's roasts",
+        "subheading": "Three beans, three roast levels"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "centered",
+      "content": {
+        "heading": "Get fresh coffee on your schedule"
+      }
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "multi-column"
+    }
+  ],
+  "atoms": {
+    "intent": {
+      "verb": "add",
+      "target": { "type": "hero", "index": 1 },
+      "confidence": 0.92,
+      "rationale": "Verb 'add' + target 'hero' both matched enum (Γ R1+R3); index inferred from ordinal '1'."
+    },
+    "assumptions": {
+      "items": [],
+      "count": 0
+    },
+    "selection": {
+      "templateId": "hero-overlay-warm",
+      "confidence": 0.88,
+      "rationale": "Selected by tone='warm' + section='hero' bias (SELECTION_ATOM Γ R1)."
+    },
+    "content": {
+      "text": "Single-origin coffee, roasted to order in Brooklyn",
+      "tone": "warm",
+      "length": "short",
+      "confidence": 0.91,
+      "rationale": "Tone='warm' inferred from site.tone; length<=60 chars (Γ R1 short)."
+    },
+    "patch": {
+      "operations": [
+        {
+          "op": "replace",
+          "path": "/sections/1/content/heading",
+          "value": "Single-origin coffee, roasted to order in Brooklyn"
+        }
+      ],
+      "confidence": 0.95
+    }
+  }
+}
