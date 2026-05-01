@@ -219,7 +219,7 @@ export function BrandContextUpload() {
           <button
             type="button"
             onClick={handleClear}
-            className="p-1.5 text-red-400 hover:bg-red-500/10 rounded focus-visible:ring-2 focus-visible:ring-red-500"
+            className="p-1.5 text-red-400 hover:bg-red-500/10 rounded transition-colors focus-visible:ring-2 focus-visible:ring-red-500"
             aria-label="Remove brand context"
             title="Remove"
           >

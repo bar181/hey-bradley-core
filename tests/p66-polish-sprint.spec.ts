@@ -233,12 +233,19 @@ test.describe('P66.9 — A6 Personality popover in ChatInput (≤1-click afforda
     expect(combined).toMatch(/setShowPersonalityPicker|showPersonalityPicker|personalityPopover|setPersonalityOpen|setPersonality/)
   })
   test('ChatInput Geek-mode footer surfaces raw INTENT_ATOM literal', () => {
-    const src = readFileSync(CHAT_INPUT, 'utf8')
-    expect(src).toContain('INTENT_ATOM')
+    // P67c/A3 moved the message-thread render block into ChatThread.tsx
+    // (along with the Geek INTENT_ATOM footer). Check both files.
+    const chatInputSrc = readFileSync(CHAT_INPUT, 'utf8')
+    const chatThreadPath = join(ROOT, 'src/components/shell/ChatThread.tsx')
+    const chatThreadSrc = existsSync(chatThreadPath) ? readFileSync(chatThreadPath, 'utf8') : ''
+    expect(chatInputSrc + chatThreadSrc).toContain('INTENT_ATOM')
   })
   test('ChatInput Teacher-mode shows "Try:" suggestion chips', () => {
-    const src = readFileSync(CHAT_INPUT, 'utf8')
-    expect(src).toContain('Try:')
+    // P67c/A3 moved the Teacher-mode chips to ChatThread.tsx with the loop.
+    const chatInputSrc = readFileSync(CHAT_INPUT, 'utf8')
+    const chatThreadPath = join(ROOT, 'src/components/shell/ChatThread.tsx')
+    const chatThreadSrc = existsSync(chatThreadPath) ? readFileSync(chatThreadPath, 'utf8') : ''
+    expect(chatInputSrc + chatThreadSrc).toContain('Try:')
   })
 })
 

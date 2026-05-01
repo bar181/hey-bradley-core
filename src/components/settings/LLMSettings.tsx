@@ -150,14 +150,14 @@ export function LLMSettings() {
           type="button"
           onClick={handleSave}
           disabled={saving}
-          className="px-3 py-1.5 text-xs rounded border border-hb-border text-hb-text-primary bg-hb-bg hover:bg-hb-surface disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-hb-accent"
+          className="px-3 py-1.5 text-xs rounded border border-hb-border text-hb-text-primary bg-hb-bg hover:bg-hb-surface transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-hb-accent"
         >
           Save
         </button>
         <button
           type="button"
           onClick={handleTest}
-          className="px-3 py-1.5 text-xs rounded border border-hb-border text-hb-text-primary bg-hb-bg hover:bg-hb-surface focus-visible:ring-2 focus-visible:ring-hb-accent inline-flex items-center gap-1"
+          className="px-3 py-1.5 text-xs rounded border border-hb-border text-hb-text-primary bg-hb-bg hover:bg-hb-surface transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent inline-flex items-center gap-1"
         >
           Test connection
           {testResult === 'ok' && <span className="text-green-400">✓ (connected)</span>}
@@ -167,7 +167,7 @@ export function LLMSettings() {
           type="button"
           onClick={handleClear}
           disabled={!hasKey}
-          className="px-3 py-1.5 text-xs rounded border border-red-500/40 text-red-400 hover:bg-red-500/10 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-red-500"
+          className="px-3 py-1.5 text-xs rounded border border-red-500/40 text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-red-500"
         >
           Clear
         </button>

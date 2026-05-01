@@ -120,12 +120,17 @@ test.describe('P67b.2 — A1 ChatInput orchestrator consumed sub-components', ()
     expect(src).toContain('<ChatInputPersonalityPopover')
   })
   test('ChatInput.tsx still surfaces INTENT_ATOM literal (Geek mode preserved)', () => {
-    const src = read(CHAT_INPUT)
-    expect(src).toContain('INTENT_ATOM')
+    // P67c/A3 moved the message-thread block into ChatThread.tsx.
+    const chatInputSrc = read(CHAT_INPUT)
+    const chatThreadPath = join(process.cwd(), 'src/components/shell/ChatThread.tsx')
+    const chatThreadSrc = existsSync(chatThreadPath) ? read(chatThreadPath) : ''
+    expect(chatInputSrc + chatThreadSrc).toContain('INTENT_ATOM')
   })
   test('ChatInput.tsx still surfaces "Try:" literal (Teacher mode preserved)', () => {
-    const src = read(CHAT_INPUT)
-    expect(src).toContain('Try:')
+    const chatInputSrc = read(CHAT_INPUT)
+    const chatThreadPath = join(process.cwd(), 'src/components/shell/ChatThread.tsx')
+    const chatThreadSrc = existsSync(chatThreadPath) ? read(chatThreadPath) : ''
+    expect(chatInputSrc + chatThreadSrc).toContain('Try:')
   })
 })
 
