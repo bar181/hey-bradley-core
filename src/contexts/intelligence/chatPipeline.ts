@@ -261,6 +261,11 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     const { tryMatchTemplate } = await import('@/contexts/intelligence/templates')
     const { translateIntent } = await import('@/contexts/intelligence/templates/intent')
     const { classifyIntent, llmClassifyIntent, AISP_CONFIDENCE_THRESHOLD, classifyRoute } = await import('@/contexts/intelligence/aisp')
+    // P72 / OC-TI (A4) — Template Intelligence matcher (post-INTENT/route, pre-SELECTION).
+    // Confidence ≥ 0.8 → apply 3-layer template patches + short-circuit;
+    // < 0.8 → fall through to SELECTION_ATOM (alternatives surface via ASSUMPTIONS_ATOM).
+    const { matchTemplates, TEMPLATE_CONFIDENCE_THRESHOLD } = await import('@/contexts/intelligence/templates/templateMatcher')
+    const { applyTemplateMatch } = await import('@/contexts/intelligence/templates/templateApplier')
 
     // P45 Sprint H Wave 2 (A5) — read codebase-context manifest's projectType
     // and pass to classifyIntent (Λ.project_context channel). Defensive:
@@ -314,6 +319,28 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     // past the content gate and hit the LLM patch path. classifyRoute is
     // pure-rule (~$0); calling it unconditionally is the correct floor.
     aispRoute = classifyRoute(aisp.target ? aisp : null, text).route
+    // P72 / OC-TI (A4) — try the 3-layer template matcher first. High-confidence
+    // matches short-circuit SELECTION_ATOM; low-confidence falls through.
+    try {
+      const tplMatch = matchTemplates(text, useConfigStore.getState().config)
+      if (tplMatch.confidence >= TEMPLATE_CONFIDENCE_THRESHOLD) {
+        const tiPatches = applyTemplateMatch(tplMatch, useConfigStore.getState().config)
+        if (tiPatches.length > 0) {
+          stageMarks.applyStart = Date.now()
+          useConfigStore.getState().applyPatches(tiPatches)
+          const doneAt = Date.now()
+          return {
+            ok: true, appliedPatchCount: tiPatches.length, fellBackToCanned: false,
+            summary: `Template intelligence — ${tplMatch.rationale}`,
+            durationMs: doneAt - startedAt, errorKind: null,
+            aisp: aispTrace, aispRoute,
+            latencyMs: doneAt - startedAt, latencyBreakdown: buildBreakdown(stageMarks, doneAt),
+          }
+        }
+      }
+    } catch (e) {
+      if (import.meta.env.DEV) console.warn('[chatPipeline] template intelligence threw', e)
+    }
     if (aisp.confidence >= AISP_CONFIDENCE_THRESHOLD && aisp.target) {
       // AISP wins — construct canonical text from classified intent
       const verbWord = aisp.verb === 'remove' ? 'hide' : aisp.verb
