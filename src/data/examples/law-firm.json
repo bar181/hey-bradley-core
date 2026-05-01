@@ -32,8 +32,8 @@
       "accentSecondary": "#e8b888"
     },
     "typography": {
-      "fontFamily": "Georgia",
-      "headingFamily": "Georgia",
+      "fontFamily": "Fraunces",
+      "headingFamily": "Fraunces",
       "headingWeight": 700,
       "baseSize": "16px",
       "lineHeight": 1.7
@@ -99,9 +99,7 @@
       },
       "style": {
         "background": "#faf8f5",
-        "color": "#1a1a2e",
-        "fontFamily": "Georgia",
-        "borderRadius": "0px"
+        "color": "#1a1a2e"
       },
       "components": [
         {

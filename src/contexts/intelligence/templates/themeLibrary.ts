@@ -13,7 +13,13 @@
  *  - NO new dependencies
  *  - Self-contained: NO imports from peer template-intelligence files
  *  - TypeScript-strict; no `any`
- *  - ≤ 600 LOC total (data + helper)
+ *  - ≤ 700 LOC total (data + helper)
+ *
+ * P73 / OC-TPL-AUDIT update:
+ *  - Added `exampleQueries` field to ThemeTemplate (REQUIRED).
+ *  - Backfilled all 18 prior entries with 2-3 realistic utterances.
+ *  - Added 3 new themes (dark-feminine, industrial-modern, cozy-maximalist)
+ *    per audit §2 → final library count: 21.
  */
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -27,6 +33,10 @@ export interface ThemeTemplate {
   name: string
   description: string
   searchTags: readonly string[]
+  /** 2-3 sample user utterances that should route to this theme.
+   *  Used by templateMatcher for keyword scoring AND as future
+   *  HNSW few-shot training context (per ADR-098). */
+  exampleQueries: readonly string[]
   vectorDescription: string
   theme: {
     primaryColor: string
@@ -40,7 +50,7 @@ export interface ThemeTemplate {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Theme entries (18) — distinct primary color, font pairing, and shadow style
+// Theme entries (21) — distinct primary color, font pairing, and shadow style
 // per brand. Hex values are unique across the library; verified by inspection.
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -51,6 +61,11 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
     description:
       'Cream backdrop with warm orange accents — editorial restraint with approachable warmth.',
     searchTags: ['warm', 'minimal', 'cream', 'editorial', 'clean', 'approachable'],
+    exampleQueries: [
+      'make it warm and minimal',
+      'I want something cozy and approachable',
+      'give it a clean editorial feel',
+    ],
     vectorDescription:
       'Warm minimal cream and orange theme with editorial restraint, clean approachable feel; suits boutique brands and lifestyle editorial.',
     theme: {
@@ -69,6 +84,11 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
     description:
       'Charcoal canvas with electric cyan accents — terminal-precise, developer-first.',
     searchTags: ['dark', 'tech', 'developer', 'terminal', 'precise', 'code'],
+    exampleQueries: [
+      'make it dark and techy',
+      'developer-focused dark mode',
+      'terminal-vibe theme',
+    ],
     vectorDescription:
       'Dark tech charcoal theme with electric cyan accents and monospace headings; precise developer tooling and terminal aesthetic.',
     theme: {
@@ -87,6 +107,11 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
     description:
       'High-energy coral and golden yellow — informal, upbeat, consumer-friendly.',
     searchTags: ['fun', 'playful', 'bright', 'casual', 'energetic', 'colorful'],
+    exampleQueries: [
+      'make it more fun',
+      'brighter colors',
+      'playful and energetic',
+    ],
     vectorDescription:
       'Bright, playful, energetic colorful theme with informal upbeat vibe; suits casual products and consumer brands.',
     theme: {
@@ -105,6 +130,11 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
     description:
       'Navy and steel blue on white — formal, executive, trustworthy.',
     searchTags: ['corporate', 'clean', 'professional', 'executive', 'formal', 'trust'],
+    exampleQueries: [
+      'more professional',
+      'executive feel',
+      'trustworthy corporate',
+    ],
     vectorDescription:
       'Corporate clean navy and steel-blue professional theme on white backdrop; formal executive trust-building tone.',
     theme: {
@@ -123,6 +153,11 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
     description:
       'Burnt orange, cream, and black — 70s editorial statement design.',
     searchTags: ['retro', 'bold', 'vintage', 'editorial', 'statement', '70s'],
+    exampleQueries: [
+      'retro vibes',
+      '70s feel',
+      'bold vintage statement',
+    ],
     vectorDescription:
       'Retro bold burnt-orange and black 70s editorial theme; vintage statement display typography with strong contrast.',
     theme: {
@@ -141,6 +176,11 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
     description:
       'Lavender, cream, and sage — gentle wellness palette with a calm feminine register.',
     searchTags: ['soft', 'pastel', 'gentle', 'wellness', 'feminine', 'calm'],
+    exampleQueries: [
+      'softer and gentler',
+      'wellness aesthetic',
+      'gentle pastels',
+    ],
     vectorDescription:
       'Soft pastel lavender and sage gentle wellness theme; calm feminine register with approachable warmth.',
     theme: {
@@ -165,6 +205,11 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
       'minimal',
       'striking',
       'editorial',
+    ],
+    exampleQueries: [
+      'high contrast',
+      'bold black and white',
+      'striking and accessible',
     ],
     vectorDescription:
       'High contrast black-and-white theme with bold accent yellow; striking accessibility-forward editorial minimalism.',
@@ -191,6 +236,11 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
       'warm',
       'organic-product',
     ],
+    exampleQueries: [
+      'organic and natural',
+      'earthy natural tones',
+      'sustainable hand-made feel',
+    ],
     vectorDescription:
       'Earthy natural forest-green and terracotta organic theme; sustainable warm hand-made product feel.',
     theme: {
@@ -209,6 +259,11 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
     description:
       'Black canvas with neon pink and cyan — synthwave, cyberpunk, gamer energy.',
     searchTags: ['neon', 'digital', 'electric', 'cyberpunk', 'game', 'synthwave'],
+    exampleQueries: [
+      'cyberpunk vibe',
+      'neon and electric',
+      'futuristic synthwave',
+    ],
     vectorDescription:
       'Neon digital black theme with electric pink and cyan; cyberpunk synthwave gaming aesthetic with high energy.',
     theme: {
@@ -227,6 +282,11 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
     description:
       'Pure black with gold and ivory accents — premium, elegant, high-end retail.',
     searchTags: ['luxury', 'black', 'gold', 'premium', 'elegant', 'high-end'],
+    exampleQueries: [
+      'luxury feel',
+      'premium and elegant',
+      'high-end fashion brand',
+    ],
     vectorDescription:
       'Luxury black-and-gold premium theme with ivory accents; elegant high-end retail and fashion register.',
     theme: {
@@ -245,6 +305,11 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
     description:
       'Deep navy, teal, and warm sand — clinical-clean coastal palette suited to medical and trust-led brands.',
     searchTags: ['ocean', 'calm', 'blue', 'clinical', 'medical', 'trust', 'clean'],
+    exampleQueries: [
+      'clinical trust',
+      'medical clean',
+      'calming blue coastal',
+    ],
     vectorDescription:
       'Ocean calm deep-navy and teal coastal theme with sand neutrals; clinical clean medical trust-led register.',
     theme: {
@@ -263,6 +328,11 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
     description:
       'Coral, amber, and cream — golden-hour romance for editorial lifestyle stories.',
     searchTags: ['sunset', 'warm', 'golden', 'romantic', 'editorial', 'lifestyle'],
+    exampleQueries: [
+      'warm sunset',
+      'romantic golden hour',
+      'lifestyle editorial warmth',
+    ],
     vectorDescription:
       'Sunset warm coral and amber golden theme; romantic editorial lifestyle palette with magazine warmth.',
     theme: {
@@ -281,6 +351,11 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
     description:
       'Deep green with moss and cream — botanical wellness palette with grounded calm.',
     searchTags: ['forest', 'green', 'botanical', 'natural', 'wellness', 'organic'],
+    exampleQueries: [
+      'botanical wellness',
+      'forest green organic',
+      'grounded natural calm',
+    ],
     vectorDescription:
       'Forest green deep botanical theme with moss and cream; grounded natural wellness register.',
     theme: {
@@ -299,6 +374,11 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
     description:
       'Full grayscale — Swiss-style editorial, print-ready, type-driven minimalism.',
     searchTags: ['monochrome', 'minimal', 'editorial', 'grayscale', 'swiss', 'print'],
+    exampleQueries: [
+      'monochrome grayscale',
+      'swiss minimal',
+      'print-style editorial',
+    ],
     vectorDescription:
       'Monochrome grayscale Swiss-style minimal editorial theme; print-ready type-driven layout discipline.',
     theme: {
@@ -324,6 +404,11 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
       'literary',
       'journalism',
     ],
+    exampleQueries: [
+      'editorial magazine',
+      'literary newsroom',
+      'journalism feel',
+    ],
     vectorDescription:
       'Editorial serif ivory and rust newsstand magazine theme; literary journalism feel with display + serif body pairing.',
     theme: {
@@ -342,6 +427,11 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
     description:
       'Clinical white, soft blue, and sage — calm healthcare register for clinics and providers.',
     searchTags: ['medical', 'trust', 'clinical', 'healthcare', 'professional', 'calm'],
+    exampleQueries: [
+      'medical clinic',
+      'healthcare trust',
+      'clinical professional calm',
+    ],
     vectorDescription:
       'Medical trust clinical white-and-soft-blue healthcare theme; calm professional sage accents for providers and clinics.',
     theme: {
@@ -360,6 +450,11 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
     description:
       'Deep purple, indigo, and cream — expressive creator palette for audio shows and listener-first brands.',
     searchTags: ['podcast', 'audio', 'creator', 'purple', 'expressive', 'listener'],
+    exampleQueries: [
+      'podcast vibe',
+      'creator audio show',
+      'expressive purple',
+    ],
     vectorDescription:
       'Podcast purple deep indigo creator theme with cream backdrop; expressive listener-first audio show register.',
     theme: {
@@ -385,6 +480,11 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
       'design-forward',
       'impact',
     ],
+    exampleQueries: [
+      'bold agency',
+      'creative statement',
+      'design-forward impact',
+    ],
     vectorDescription:
       'Agency bold black-and-electric-orange creative statement theme; design-forward maximum-impact register for studios and creative shops.',
     theme: {
@@ -395,6 +495,108 @@ export const THEME_LIBRARY: readonly ThemeTemplate[] = [
       fontBody: 'Inter',
       borderRadius: '0rem',
       shadowStyle: 'sharp',
+    },
+  },
+  // ───────────────────────────────────────────────────────────────────────────
+  // P73 / OC-TPL-AUDIT additions (3 themes) — close audit §2 gaps:
+  // dark-feminine · industrial-modern · cozy-maximalist
+  // ───────────────────────────────────────────────────────────────────────────
+  {
+    id: 'dark-feminine',
+    name: 'Dark Feminine',
+    description:
+      'Deep plum and warm rose-gold on warm charcoal — luxury beauty/wellness register with a feminine undertone.',
+    searchTags: [
+      'dark',
+      'feminine',
+      'beauty',
+      'wellness',
+      'luxury',
+      'rose-gold',
+      'plum',
+    ],
+    exampleQueries: [
+      'dark and feminine',
+      'luxury beauty brand',
+      'wellness-luxury vibe',
+      'rose-gold aesthetic',
+    ],
+    vectorDescription:
+      'Dark feminine theme with deep plum and warm rose-gold accents; suits beauty, wellness, and high-end women-led brands.',
+    theme: {
+      primaryColor: '#3A0F3F',
+      secondaryColor: '#C49A6C',
+      backgroundColor: '#1F1A1C',
+      fontHeading: 'Fraunces',
+      fontBody: 'Inter',
+      borderRadius: '0.75rem',
+      shadowStyle: 'medium',
+    },
+  },
+  {
+    id: 'industrial-modern',
+    name: 'Industrial Modern',
+    description:
+      'Charcoal steel and warm brass on pale concrete — manufacturing/B2B engineering register with material honesty.',
+    searchTags: [
+      'industrial',
+      'modern',
+      'steel',
+      'concrete',
+      'manufacturing',
+      'b2b',
+      'factory',
+      'engineering',
+    ],
+    exampleQueries: [
+      'industrial feel',
+      'manufacturing brand',
+      'steel and concrete aesthetic',
+      'B2B engineering',
+    ],
+    vectorDescription:
+      'Industrial modern theme with charcoal steel and warm brass accents on concrete; suits manufacturing, engineering, and B2B brands.',
+    theme: {
+      primaryColor: '#3D3D3D',
+      secondaryColor: '#A07A3C',
+      backgroundColor: '#E8E6E0',
+      fontHeading: 'Inter Display',
+      fontBody: 'Inter',
+      borderRadius: '0.125rem',
+      shadowStyle: 'sharp',
+    },
+  },
+  {
+    id: 'cozy-maximalist',
+    name: 'Cozy Maximalist',
+    description:
+      'Warm terracotta and olive on cream — pattern-rich, eclectic, indie/bohemian register with vintage warmth.',
+    searchTags: [
+      'cozy',
+      'maximalist',
+      'bohemian',
+      'indie',
+      'eclectic',
+      'warm',
+      'pattern',
+      'vintage',
+    ],
+    exampleQueries: [
+      'cozy and eclectic',
+      'bohemian maximalist',
+      'indie brand vibe',
+      'vintage warm',
+    ],
+    vectorDescription:
+      'Cozy maximalist theme with warm terracotta and olive on cream; pattern-rich and eclectic; suits indie/bohemian and vintage-influenced brands.',
+    theme: {
+      primaryColor: '#C4582A',
+      secondaryColor: '#7D8C50',
+      backgroundColor: '#F5EBD6',
+      fontHeading: 'Fraunces',
+      fontBody: 'Inter',
+      borderRadius: '0.75rem',
+      shadowStyle: 'soft',
     },
   },
 ] as const

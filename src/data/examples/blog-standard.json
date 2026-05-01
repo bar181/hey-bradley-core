@@ -35,8 +35,8 @@
       "accentSecondary": "#f59455"
     },
     "typography": {
-      "fontFamily": "DM Sans",
-      "headingFamily": "DM Sans",
+      "fontFamily": "Fraunces",
+      "headingFamily": "Fraunces",
       "headingWeight": 700,
       "baseSize": "17px",
       "lineHeight": 1.75
@@ -60,21 +60,30 @@
         "direction": "column",
         "align": "center",
         "gap": "20px",
-        "padding": "96px 24px",
+        "padding": "80px 24px",
         "maxWidth": "780px"
       },
       "style": {
         "background": "#faf8f5",
-        "color": "#1f1a14",
-        "fontFamily": "DM Sans",
-        "borderRadius": "0px"
+        "color": "#1f1a14"
       },
       "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Weekly notes from a home oven",
+            "icon": "book-open",
+            "variant": "pill"
+          }
+        },
         {
           "id": "headline",
           "type": "heading",
           "enabled": true,
-          "order": 0,
+          "order": 1,
           "props": {
             "text": "Stories from the kitchen",
             "level": 1,
@@ -86,20 +95,32 @@
           "id": "subtitle",
           "type": "text",
           "enabled": true,
-          "order": 1,
+          "order": 2,
           "props": {
-            "text": "Real recipes, real results."
+            "text": "A baking journal kept on Sunday afternoons. Recipes I have actually made (and re-made), the loaves that flopped, and the small revelations that keep me coming back to the oven. Written for home bakers who weigh their flour and trust their hands."
           }
         },
         {
           "id": "primaryCta",
           "type": "button",
           "enabled": true,
-          "order": 2,
+          "order": 3,
           "props": {
             "text": "Read the latest",
             "url": "#blog-01",
             "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Browse the archive",
+            "url": "#archive",
+            "style": "outline",
             "size": "lg"
           }
         }
@@ -121,8 +142,7 @@
       },
       "style": {
         "background": "#faf8f5",
-        "color": "#1f1a14",
-        "fontFamily": "DM Sans"
+        "color": "#1f1a14"
       },
       "components": [
         {

@@ -1,7 +1,7 @@
 {
   "site": {
-    "title": "LaunchPad AI",
-    "description": "Ship AI products 10x faster with the modern deployment platform",
+    "title": "LaunchPad AI · the agent runtime for production teams",
+    "description": "Deploy, orchestrate, and observe LLM agents in production. Multi-agent workflows, deterministic replays, and per-step observability — without building it yourself.",
     "author": "LaunchPad AI",
     "email": "hello@launchpad.ai",
     "domain": "launchpad.ai",
@@ -9,11 +9,11 @@
     "version": "1.0.0-RC1",
     "spec": "aisp-1.2",
     "purpose": "saas",
-    "audience": "enterprise",
-    "tone": "formal",
+    "audience": "ml-platform-team",
+    "tone": "technical",
     "brandName": "LaunchPad AI",
-    "tagline": "Ship AI products 10x faster",
-    "voiceAttributes": ["innovative", "technical", "confident"]
+    "tagline": "Deploy AI agents in production — orchestrate, observe, replay",
+    "voiceAttributes": ["technical", "specific", "platform-team"]
   },
   "theme": {
     "preset": "saas",
@@ -102,9 +102,7 @@
       },
       "style": {
         "background": "linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a1a 100%)",
-        "color": "#f8fafc",
-        "fontFamily": "Inter",
-        "borderRadius": "0px"
+        "color": "#f8fafc"
       },
       "components": [
         {
@@ -113,8 +111,8 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "Now in Public Beta",
-            "icon": "sparkles",
+            "text": "Public beta · 240+ ML platform teams onboard",
+            "icon": "rocket",
             "variant": "pill"
           }
         },
@@ -124,7 +122,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Ship AI Products 10x Faster",
+            "text": "Deploy AI agents in production. Orchestrate. Observe. Replay.",
             "level": 1,
             "size": "56px",
             "weight": 700
@@ -136,7 +134,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "From prototype to production in minutes. LaunchPad handles infrastructure, scaling, and monitoring so you can focus on building what matters."
+            "text": "LaunchPad is the runtime for multi-agent workflows. Compose agents in YAML, deploy with `lp deploy`, observe every tool call and token in production. Deterministic replay catches regressions before users do; structured tracing tells you exactly which agent step burned the budget."
           }
         },
         {
@@ -157,7 +155,7 @@
           "enabled": true,
           "order": 4,
           "props": {
-            "text": "Watch Demo",
+            "text": "Read the Docs",
             "url": "#features",
             "style": "outline",
             "size": "lg"
@@ -196,7 +194,7 @@
           "enabled": true,
           "order": 8,
           "props": {
-            "text": "Trusted by 500+ AI teams worldwide",
+            "text": "Trusted by 240+ ML platform teams · 4.8B agent steps/month · SOC 2 Type II",
             "show": true
           }
         }
@@ -226,9 +224,9 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "icon": "zap",
-            "title": "One-Click Deploy",
-            "description": "Push your model and we handle the rest. Auto-scaling, load balancing, and zero-downtime deploys baked in."
+            "icon": "git-branch",
+            "title": "Multi-agent orchestration",
+            "description": "Compose agents in declarative YAML. Branch, parallelize, retry, and gate steps with deterministic semantics. Sub-agent calls show up as nested spans in tracing — no more guessing which agent stalled."
           }
         },
         {
@@ -237,9 +235,9 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "icon": "shield",
-            "title": "Enterprise Security",
-            "description": "SOC2 compliant with end-to-end encryption and role-based access control out of the box."
+            "icon": "rewind",
+            "title": "Deterministic replay",
+            "description": "Every production run is recorded with seeded RNG, frozen tool I/O, and exact prompts. Replay any failed run locally — `lp replay run_42a` — and catch regressions in CI before they hit users."
           }
         },
         {
@@ -248,15 +246,15 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "icon": "bar-chart",
-            "title": "Real-Time Monitoring",
-            "description": "Track latency, throughput, and cost per inference. Get alerts before your users notice anything."
+            "icon": "activity",
+            "title": "Per-step observability",
+            "description": "Token counts, tool latency, cost, and verdicts on every agent step. Filter by user, by run, by failed evals. Alerts fire on cost spikes and drift in tool-call distributions, not just hard errors."
           }
         }
       ],
       "content": {
-        "heading": "Why Teams Ship Faster",
-        "subheading": "Infrastructure that gets out of your way"
+        "heading": "Built for teams running agents in production",
+        "subheading": "The three primitives every ML platform team rebuilds — done once, done right"
       }
     },
     {
@@ -281,11 +279,11 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "name": "Hobby",
+            "name": "Solo",
             "price": "$0",
             "period": "month",
-            "features": "1 model,1K requests/day,Community support,Shared GPU",
-            "ctaText": "Get Started Free",
+            "features": "3 agent workflows,10K agent steps/mo,7-day replay window,Community Discord,Single workspace",
+            "ctaText": "Start Free",
             "ctaUrl": "#signup",
             "highlighted": false
           }
@@ -296,10 +294,10 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "name": "Pro",
+            "name": "Team",
             "price": "$49",
             "period": "month",
-            "features": "10 models,100K requests/day,Priority support,Dedicated GPU,Custom domains",
+            "features": "Unlimited workflows,1M agent steps/mo,30-day replay window,Slack support (4h),Multi-workspace,Custom evals",
             "ctaText": "Start Free Trial",
             "ctaUrl": "#signup",
             "highlighted": true
@@ -314,7 +312,7 @@
             "name": "Enterprise",
             "price": "Custom",
             "period": "month",
-            "features": "Unlimited models,Unlimited requests,24/7 phone support,VPC deployment,SLA guarantee,SSO/SAML",
+            "features": "Unlimited steps,Custom replay window,Dedicated CSE,VPC / on-prem,99.99% SLA,SSO/SAML/SCIM,Audit log export",
             "ctaText": "Contact Sales",
             "ctaUrl": "#contact",
             "highlighted": false
@@ -322,8 +320,8 @@
         }
       ],
       "content": {
-        "heading": "Simple Pricing",
-        "subheading": "Choose the plan that works for you"
+        "heading": "Pricing — by agent steps, not by seat",
+        "subheading": "Pay for what your agents actually do. No per-seat tax for letting more engineers debug a run."
       }
     },
     {
@@ -349,9 +347,9 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "value": "500+",
-            "label": "AI Teams",
-            "description": "Ship with LaunchPad"
+            "value": "240+",
+            "label": "ML platform teams",
+            "description": "Running agents in production on LaunchPad"
           }
         },
         {
@@ -360,9 +358,9 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "value": "99.99%",
-            "label": "Uptime",
-            "description": "Enterprise SLA"
+            "value": "4.8B",
+            "label": "Agent steps / month",
+            "description": "Aggregate across the network, April 2026"
           }
         },
         {
@@ -371,9 +369,9 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "value": "<50ms",
-            "label": "Latency",
-            "description": "P95 inference"
+            "value": "<120ms",
+            "label": "P95 step overhead",
+            "description": "Orchestrator latency excluding model time"
           }
         },
         {
@@ -382,15 +380,15 @@
           "enabled": true,
           "order": 3,
           "props": {
-            "value": "2B+",
-            "label": "Requests",
-            "description": "Processed monthly"
+            "value": "99.99%",
+            "label": "Uptime SLA",
+            "description": "Enterprise tier · public status page"
           }
         }
       ],
       "content": {
-        "heading": "Built for Scale",
-        "subheading": "Trusted by the fastest-growing AI teams"
+        "heading": "Production telemetry",
+        "subheading": "Numbers we publish on /status, updated weekly"
       }
     },
     {
@@ -417,7 +415,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "Ready to Ship Your AI Product?",
+            "text": "Stop rebuilding the agent runtime",
             "level": 2,
             "size": "36px",
             "weight": 700
@@ -429,7 +427,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Join 500+ teams who deploy with LaunchPad. Free tier available, no credit card required."
+            "text": "Free tier covers 10K agent steps/month — enough to ship a real workflow. No credit card. `lp init` and you're deployed in under five minutes."
           }
         },
         {
@@ -438,7 +436,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "Start Free Trial",
+            "text": "Start Free — 10K steps/mo",
             "url": "#signup",
             "style": "filled",
             "size": "lg"

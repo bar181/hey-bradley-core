@@ -30,6 +30,10 @@ export interface SectionTemplate {
   name: string
   description: string
   searchTags: readonly string[]
+  /** 2-3 sample user utterances that should route to this arrangement.
+   *  Used by templateMatcher for keyword scoring AND as future HNSW
+   *  few-shot training context (per ADR-098). */
+  exampleQueries: readonly string[]
   vectorDescription: string
   /** Ordered list of section types in this arrangement. */
   sections: readonly SectionType[]
@@ -38,7 +42,7 @@ export interface SectionTemplate {
 }
 
 // ---------------------------------------------------------------------------
-// Library entries (12 arrangements)
+// Library entries (15 arrangements)
 // ---------------------------------------------------------------------------
 
 export const SECTION_LIBRARY: readonly SectionTemplate[] = [
@@ -48,6 +52,11 @@ export const SECTION_LIBRARY: readonly SectionTemplate[] = [
     description:
       'Conversion-optimized arrangement for B2B SaaS product pages — feature columns, social proof, pricing tier, and a final CTA.',
     searchTags: ['saas', 'landing', 'b2b', 'product', 'launch', 'conversion'],
+    exampleQueries: [
+      'build me a SaaS site',
+      'B2B product launch page',
+      'make a landing page with pricing',
+    ],
     vectorDescription:
       'A B2B SaaS landing page that walks the visitor from headline to feature columns, into pricing tiers, social proof quotes, and a final call to action.',
     sections: ['menu', 'hero', 'columns', 'pricing', 'quotes', 'action', 'footer'],
@@ -63,6 +72,11 @@ export const SECTION_LIBRARY: readonly SectionTemplate[] = [
     description:
       'Founder / speaker / creator personal site — story-led with portfolio gallery and a single direct CTA.',
     searchTags: ['personal', 'brand', 'portfolio', 'founder', 'speaker', 'about'],
+    exampleQueries: [
+      'personal portfolio site',
+      'I want to build my personal brand',
+      'founder profile',
+    ],
     vectorDescription:
       'A personal brand site that introduces the person, tells a short story, displays portfolio work in a gallery, and ends with a clear call to action.',
     sections: ['menu', 'hero', 'text', 'gallery', 'quotes', 'action', 'footer'],
@@ -78,6 +92,11 @@ export const SECTION_LIBRARY: readonly SectionTemplate[] = [
     description:
       'High-energy launch page — narrative reveal, feature columns, headline metrics, and a strong reservation CTA.',
     searchTags: ['product', 'launch', 'startup', 'reveal', 'marketing', 'viral'],
+    exampleQueries: [
+      'product launch site',
+      'announce a new product',
+      'viral launch page',
+    ],
     vectorDescription:
       'A product launch page that opens with a reveal moment, narrates the why, shows feature columns, hammers headline metrics, and drives toward reservation.',
     sections: ['menu', 'hero', 'text', 'columns', 'quotes', 'numbers', 'action', 'footer'],
@@ -93,6 +112,11 @@ export const SECTION_LIBRARY: readonly SectionTemplate[] = [
     description:
       'Agency or creative portfolio — visual-first gallery with case-study text, testimonials, and a project enquiry CTA.',
     searchTags: ['portfolio', 'agency', 'creative', 'work', 'showcase', 'case-studies'],
+    exampleQueries: [
+      'agency portfolio',
+      'showcase my work',
+      'creative case studies',
+    ],
     vectorDescription:
       'A creative portfolio that leads with the gallery of work, supports it with case-study text and client testimonials, and closes with a project enquiry CTA.',
     sections: ['menu', 'hero', 'gallery', 'text', 'quotes', 'action', 'footer'],
@@ -107,6 +131,11 @@ export const SECTION_LIBRARY: readonly SectionTemplate[] = [
     description:
       'Mission-driven nonprofit page — emotional hero, impact narrative, headline metrics, testimonials, and a donate CTA.',
     searchTags: ['nonprofit', 'mission', 'impact', 'cause', 'donate', 'community'],
+    exampleQueries: [
+      'nonprofit cause site',
+      'donation page',
+      'mission-driven landing',
+    ],
     vectorDescription:
       'A nonprofit page that opens with mission, narrates impact, shows quantitative outcomes, includes community testimonials, and ends with a donate call to action.',
     sections: ['menu', 'hero', 'text', 'numbers', 'quotes', 'action', 'footer'],
@@ -122,6 +151,11 @@ export const SECTION_LIBRARY: readonly SectionTemplate[] = [
     description:
       'Open-source developer tool / CLI — feature columns, install metrics, recent blog posts, and a docs CTA. Image-light by design.',
     searchTags: ['developer', 'tool', 'cli', 'open-source', 'docs', 'api'],
+    exampleQueries: [
+      'dev tool homepage',
+      'OSS library landing',
+      'CLI marketing site',
+    ],
     vectorDescription:
       'A developer tool landing page that lists features in columns, surfaces install / star metrics, lists recent blog posts, and routes to docs. Image-light, copy-dense.',
     sections: ['menu', 'hero', 'columns', 'numbers', 'blog', 'action', 'footer'],
@@ -138,6 +172,11 @@ export const SECTION_LIBRARY: readonly SectionTemplate[] = [
     description:
       'Editorial blog landing — recent posts, category columns, and a newsletter signup CTA.',
     searchTags: ['blog', 'newsletter', 'content', 'editorial', 'articles', 'recent'],
+    exampleQueries: [
+      'blog homepage',
+      'newsletter site',
+      'content blog',
+    ],
     vectorDescription:
       'A blog home page that surfaces recent articles, organizes content categories in columns, and pushes toward newsletter signup.',
     sections: ['menu', 'hero', 'blog', 'columns', 'action', 'footer'],
@@ -153,6 +192,11 @@ export const SECTION_LIBRARY: readonly SectionTemplate[] = [
     description:
       'Local hospitality page — visual menu gallery, story copy, customer quotes, and a reservation CTA.',
     searchTags: ['restaurant', 'food', 'menu', 'hospitality', 'local', 'dining'],
+    exampleQueries: [
+      'restaurant site',
+      'menu and hours',
+      'local food business',
+    ],
     vectorDescription:
       'A restaurant page that opens visually, shows the menu and dishes in a gallery, tells the kitchen story, includes diner quotes, and ends in a reservation CTA.',
     sections: ['menu', 'hero', 'gallery', 'text', 'quotes', 'action', 'footer'],
@@ -168,6 +212,11 @@ export const SECTION_LIBRARY: readonly SectionTemplate[] = [
     description:
       'Conference / single-day event — headline metrics (date, location, attendees), speaker/track columns, and a register CTA.',
     searchTags: ['event', 'conference', 'speakers', 'schedule', 'tickets', 'register'],
+    exampleQueries: [
+      'conference page',
+      'event registration',
+      'speaker showcase',
+    ],
     vectorDescription:
       'An event page that frames date and location as headline numbers, lays out speakers and tracks in columns, and drives registration.',
     sections: ['menu', 'hero', 'numbers', 'columns', 'action', 'footer'],
@@ -183,6 +232,11 @@ export const SECTION_LIBRARY: readonly SectionTemplate[] = [
     description:
       'Single-page MVP / elevator pitch — hero, one paragraph of story, single CTA. Maximally minimal.',
     searchTags: ['startup', 'minimal', 'mvp', 'elevator', 'pitch', 'single-page'],
+    exampleQueries: [
+      'minimal MVP site',
+      'quick startup landing',
+      'single-page elevator',
+    ],
     vectorDescription:
       'A maximally minimal startup MVP page: a hero, a single paragraph that explains the pitch, and one direct call to action.',
     sections: ['menu', 'hero', 'text', 'action', 'footer'],
@@ -197,6 +251,11 @@ export const SECTION_LIBRARY: readonly SectionTemplate[] = [
     description:
       'Medical / healthcare practice — services columns, patient quotes, headline trust metrics, and a booking CTA.',
     searchTags: ['clinic', 'medical', 'healthcare', 'trust', 'services', 'book'],
+    exampleQueries: [
+      'medical clinic',
+      'healthcare practice',
+      "doctor's office site",
+    ],
     vectorDescription:
       'A medical clinic page that earns trust through services columns, patient testimonials, and headline numbers, then directs the visitor to book an appointment.',
     sections: ['menu', 'hero', 'columns', 'quotes', 'numbers', 'action', 'footer'],
@@ -212,6 +271,11 @@ export const SECTION_LIBRARY: readonly SectionTemplate[] = [
     description:
       'Audio show landing — episode columns, recent episode posts, host quotes, and a subscribe CTA.',
     searchTags: ['podcast', 'audio', 'show', 'episodes', 'hosts', 'subscribe'],
+    exampleQueries: [
+      'podcast site',
+      'audio show landing',
+      'episode showcase',
+    ],
     vectorDescription:
       'A podcast show page that introduces the hosts, lays out featured episode columns, lists recent episodes blog-style, includes guest quotes, and pushes subscribe.',
     sections: ['menu', 'hero', 'columns', 'blog', 'quotes', 'action', 'footer'],
@@ -219,6 +283,53 @@ export const SECTION_LIBRARY: readonly SectionTemplate[] = [
       hero: { layout: 'split', headlineWeight: 'display', imageWeight: 'medium' },
       columns: { layout: 'grid', imageWeight: 'medium' },
       blog: { layout: 'list', imageWeight: 'light' },
+    },
+  },
+  {
+    id: 'course-landing',
+    name: 'Course Landing',
+    description:
+      'Online course / training program — curriculum overview, student testimonials, outcome metrics, and an enroll CTA.',
+    searchTags: ['course', 'education', 'curriculum', 'enroll', 'training', 'online-learning', 'edtech'],
+    exampleQueries: ['online course landing', 'training course site', 'educational program page'],
+    vectorDescription:
+      'An online course landing page with curriculum overview, student testimonials, outcome metrics, and an enrollment call to action.',
+    sections: ['menu', 'hero', 'columns', 'quotes', 'numbers', 'action', 'footer'],
+    sectionOverrides: {
+      hero: { layout: 'split', headlineWeight: 'display', imageWeight: 'medium' },
+      columns: { layout: 'grid', imageWeight: 'light' },
+      numbers: { layout: 'grid', headlineWeight: 'display' },
+    },
+  },
+  {
+    id: 'booking-calendar',
+    name: 'Booking Calendar',
+    description:
+      'Booking-driven service site — services overview, social proof, and a clear booking CTA. Booking calendar UI deferred; sections list out the booking flow.',
+    searchTags: ['booking', 'appointment', 'schedule', 'calendar', 'services', 'availability', 'wellness'],
+    exampleQueries: ['booking site', 'appointment scheduling', 'calendar-based service site'],
+    vectorDescription:
+      'A booking-driven service site with available services, social proof, and a clear booking call to action.',
+    sections: ['menu', 'hero', 'columns', 'quotes', 'action', 'footer'],
+    sectionOverrides: {
+      hero: { layout: 'split', headlineWeight: 'bold', imageWeight: 'medium' },
+      columns: { layout: 'grid', imageWeight: 'light' },
+    },
+  },
+  {
+    id: 'newsroom',
+    name: 'Newsroom',
+    description:
+      'Newsroom / editorial media site — featured story, article grid, category columns, and subscriber CTA.',
+    searchTags: ['newsroom', 'media', 'press', 'articles', 'journalism', 'editorial', 'PR'],
+    exampleQueries: ['newsroom layout', 'media press site', 'editorial article grid'],
+    vectorDescription:
+      'A newsroom-style site with featured story, article grid, category columns, and subscriber CTA.',
+    sections: ['menu', 'hero', 'blog', 'columns', 'quotes', 'action', 'footer'],
+    sectionOverrides: {
+      hero: { layout: 'overlay', headlineWeight: 'display', imageWeight: 'heavy' },
+      blog: { layout: 'grid', imageWeight: 'medium' },
+      columns: { layout: 'grid' },
     },
   },
 ] as const

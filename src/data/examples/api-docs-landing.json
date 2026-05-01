@@ -144,7 +144,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "A realtime event platform you can drop into any backend in 12 lines of code. Pub/sub, presence, and replayable message history — across seven regions, with sub-80ms p50 fanout and a single typed SDK in eight languages. No Kafka brokers to manage. No Redis cluster to patch. No 47-service event bus to triage."
+            "text": "A realtime event platform you can drop into any backend in 12 lines of code. `pulse.subscribe('events.created', handler)` and you're live. Pub/sub, presence, and replayable message history — across seven regions, with sub-80ms p50 fanout, 1k req/s on the free tier (10k on Pro, custom on Enterprise), and a single typed SDK in eight languages. The full surface is described by an AISP-compatible OpenAPI 4 schema. No Kafka brokers to manage. No Redis cluster to patch. No 47-service event bus to triage."
           }
         },
         {
@@ -209,7 +209,7 @@
           "props": {
             "icon": "broadcast",
             "title": "Pub / Sub",
-            "description": "Wildcard channels, per-subscriber filters, ordered delivery, exactly-once semantics behind a feature flag. Fan-out tested to 1.2M concurrent subscribers per channel; we have the load-test logs and we'll show you."
+            "description": "`pulse.publish('orders.*', payload)` — wildcard channels, per-subscriber filters, ordered delivery, exactly-once semantics behind a feature flag. Fan-out tested to 1.2M concurrent subscribers per channel; rate-limited at 10k publishes/s/channel on Pro. We have the load-test logs and we'll show you."
           }
         },
         {
@@ -220,7 +220,7 @@
           "props": {
             "icon": "users",
             "title": "Presence",
-            "description": "Track who's online per channel with typed metadata. Heartbeats are managed for you; clients drop cleanly on network failure within 4 seconds. Build cursors, typing indicators, and live dashboards without inventing them again."
+            "description": "`channel.presence.subscribe(callback)` — track who's online per channel with typed metadata. Heartbeats are managed for you; clients drop cleanly on network failure within 4 seconds (configurable 2-30s). Build cursors, typing indicators, and live dashboards without inventing them again."
           }
         },
         {
@@ -231,7 +231,7 @@
           "props": {
             "icon": "history",
             "title": "Replayable history",
-            "description": "Every channel has 7 days of replayable history out of the box, paginated by message ID or timestamp. Late-joiners catch up. Disconnects don't lose state. Audit trails are built-in, not bolted on."
+            "description": "`channel.history({ since: messageId })` — every channel has 7 days of replayable history out of the box (30 days on Pro, configurable on Enterprise), paginated by message ID or timestamp. Late-joiners catch up automatically. Disconnects don't lose state. Audit trails are built-in, not bolted on."
           }
         }
       ],
@@ -263,7 +263,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "body": "The realtime layer is where backends go to die. You start with a WebSocket, add a heartbeat, then a reconnect handler, then a message queue, then a Redis pub/sub, then a presence tracker, then a sticky-session load balancer, then a Kafka topic for replay. Six months later, three engineers are full-time on it and your p99 latency is whatever the last on-call wants it to be. Pulse replaces all of that with one HTTP+WebSocket API and a typed SDK that handles reconnects, ordering, and replay automatically. The full API surface is described by an AISP-compatible OpenAPI 4 schema that round-trips between prose, code, and generated docs with under 2% ambiguity. You can paste a customer's bug report into our docs site and the navigator will jump straight to the endpoint that explains it. We have seven regions with anycast routing, three layers of edge caching, and a 99.99% uptime SLA backed by a public status page that doesn't lie. Ten dollars a month covers a million events. Free tier covers your hackathon. The pricing page has no asterisks."
+            "body": "The realtime layer is where backends go to die. You start with a WebSocket, add a heartbeat, then a reconnect handler, then a message queue, then a Redis pub/sub, then a presence tracker, then a sticky-session load balancer, then a Kafka topic for replay. Six months later, three engineers are full-time on it and your p99 latency is whatever the last on-call wants it to be. Pulse replaces all of that with one HTTP+WebSocket API and a typed SDK (`@pulse/client`, `pulse-go`, `pulse-py`, `pulse-rb`, plus four more) that handles reconnects, ordering, and replay automatically. The full surface is described by an AISP-compatible OpenAPI 4 schema, round-tripping prose → code → generated docs with under 2% ambiguity. Paste a customer's bug report into our docs site and the navigator jumps straight to the endpoint. Seven regions with anycast routing, three layers of edge caching, and a 99.99% uptime SLA (4.32 minutes/month max downtime) backed by a public status page that doesn't lie. Rate limits: 1k req/s on free, 10k on Pro, custom on Enterprise. Ten dollars a month covers a million events. Free tier covers your hackathon. The pricing page has no asterisks."
           }
         }
       ],
