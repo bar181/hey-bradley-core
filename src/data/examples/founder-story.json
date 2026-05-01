@@ -1,0 +1,458 @@
+{
+  "site": {
+    "title": "Marcus Hale · Building Linkpath",
+    "description": "Solo founder building Linkpath in public — the playbook for product launches that actually survive past day 90.",
+    "author": "Marcus Hale",
+    "email": "marcus@linkpath.co",
+    "domain": "marcushale.com",
+    "project": "marcus-hale-founder-story",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "personal",
+    "audience": "founder",
+    "tone": "candid",
+    "brandName": "Marcus Hale",
+    "tagline": "Building Linkpath in public",
+    "voiceAttributes": ["editorial", "candid", "narrative"]
+  },
+  "theme": {
+    "preset": "elegant",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#f5efe6",
+      "bgSecondary": "#ebe3d5",
+      "textPrimary": "#0a0a0a",
+      "textSecondary": "#4a4a4a",
+      "accentPrimary": "#0a0a0a",
+      "accentSecondary": "#7a6a4f"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#0a0a0a",
+      "bgSecondary": "#1a1a1a",
+      "textPrimary": "#f5efe6",
+      "textSecondary": "#bbb4a4",
+      "accentPrimary": "#f5efe6",
+      "accentSecondary": "#c9b48a"
+    },
+    "typography": {
+      "fontFamily": "Playfair Display",
+      "headingFamily": "Playfair Display",
+      "headingWeight": 700,
+      "baseSize": "18px",
+      "lineHeight": 1.75
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1100px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "2px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#f5efe6",
+        "color": "#0a0a0a"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Marcus Hale"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Read the Story",
+            "url": "#story"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "flex-start",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "900px"
+      },
+      "style": {
+        "background": "#f5efe6",
+        "color": "#0a0a0a"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Founder · Linkpath",
+            "icon": "feather",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Most product launches die in the first 90 days. After three failed startups, I built the playbook that actually works.",
+            "level": 1,
+            "size": "60px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "I'm Marcus Hale, a four-time founder. The first three were 18-month bonfires. Linkpath is the fourth — built on every painful lesson from the others, shipped in public, and on track to its first $1M ARR. This is the long version of how that happened, and what I wish someone had told me at startup #1."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Read the Story",
+            "url": "#story",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Follow on X",
+            "url": "https://x.com",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "text": "4 startups · 12 years · 1 that finally worked",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text",
+      "id": "story-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "single",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "padding": "80px 24px",
+        "maxWidth": "780px"
+      },
+      "style": {
+        "background": "#ebe3d5",
+        "color": "#0a0a0a"
+      },
+      "components": [
+        {
+          "id": "body",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "body": "The first one — Pendlemark — raised $2.4M and died because we mistook investor enthusiasm for product-market fit. The second, Quill & Roam, lasted nine months on a team of seven before we admitted nobody actually wanted what we were selling. The third was a B2B compliance tool I built alone in 2023; it had paying customers but I burned out before I could hire. Three deaths, three different lessons, one common thread: I kept skipping the boring middle. Linkpath is what happens when you stop skipping it. I started writing the playbook in the rebuild months — distribution-before-product, ten conversations before any code, weekly revenue checkpoints that are non-negotiable. None of it was novel. All of it was discipline I didn't have at 27. The full essay below covers each failure in detail, the specific moment each one became unsalvageable, and the seven principles I now refuse to violate. Not advice — just notes from the field, written for the founder I was three startups ago."
+          }
+        }
+      ],
+      "content": {
+        "heading": "The Long Version",
+        "subheading": "Three failures, seven principles, one playbook"
+      }
+    },
+    {
+      "type": "numbers",
+      "id": "stats-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "grid",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#f5efe6",
+        "color": "#0a0a0a"
+      },
+      "components": [
+        {
+          "id": "n1",
+          "type": "stat",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "3",
+            "label": "Failed launches",
+            "description": "Each one a tuition payment"
+          }
+        },
+        {
+          "id": "n2",
+          "type": "stat",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "11",
+            "label": "Pivots survived",
+            "description": "Across four products"
+          }
+        },
+        {
+          "id": "n3",
+          "type": "stat",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "12",
+            "label": "Years founding",
+            "description": "Since the first failed seed round"
+          }
+        },
+        {
+          "id": "n4",
+          "type": "stat",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "value": "$1M",
+            "label": "ARR target 2026",
+            "description": "Tracking on schedule"
+          }
+        }
+      ],
+      "content": {
+        "heading": "The Receipts",
+        "subheading": "Twelve years of expensive lessons, in numbers"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "quotes-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#ebe3d5",
+        "color": "#0a0a0a"
+      },
+      "components": [
+        {
+          "id": "t1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "Marcus is the only founder I know who writes about his failures with the same care he writes about his wins. The Linkpath essay changed how my whole team thinks about launches.",
+            "author": "Priya Anand",
+            "role": "Partner, Halfway Capital",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "Read the founder-story essay twice. It's the most honest writing about post-mortem-driven product work I've seen in a decade.",
+            "author": "Soren Kleisner",
+            "role": "ex-CEO, Pendlemark",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "I gave Marcus's seven principles to my entire portfolio. Three founders rebuilt their roadmaps the next week. That doesn't usually happen.",
+            "author": "Inez Bauer",
+            "role": "Founder, Bauer Operators",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "Validators",
+        "subheading": "From investors and operators who read the essay"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "80px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "#f5efe6",
+        "color": "#0a0a0a"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Read the full story",
+            "level": 2,
+            "size": "40px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "11,400 words. One-shot read, no paywall, no email gate. If it changes anything about how you build, that's the only metric I care about."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Read the Story",
+            "url": "#story",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#ebe3d5",
+        "color": "#4a4a4a"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Marcus Hale"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Writing",
+            "links": "Founder Story,The 7 Principles,Build Log,Archive"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Linkpath",
+            "links": "Product,Pricing,Changelog,Status"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Connect",
+            "links": "X,LinkedIn,Newsletter,Email"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "© 2026 Marcus Hale. Building in public, writing in private, shipping every week."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

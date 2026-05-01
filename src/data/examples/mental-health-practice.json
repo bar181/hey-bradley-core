@@ -1,0 +1,471 @@
+{
+  "site": {
+    "title": "Hartwell Therapy Group",
+    "description": "Group therapy practice in Portland — anxiety, couples work, and adolescent care. Sliding-scale options and superbills for out-of-network reimbursement.",
+    "author": "Hartwell Therapy Group",
+    "email": "intake@hartwelltherapy.com",
+    "domain": "hartwelltherapy.com",
+    "project": "hartwell-therapy",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "consumer",
+    "tone": "empathetic",
+    "brandName": "Hartwell Therapy Group",
+    "tagline": "Therapy that meets you where you are",
+    "voiceAttributes": ["empathetic", "professional", "accessible"]
+  },
+  "theme": {
+    "preset": "elegant",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#f3eef8",
+      "bgSecondary": "#fbf6ee",
+      "textPrimary": "#2a1f3d",
+      "textSecondary": "#5b4f6e",
+      "accentPrimary": "#7c5fa3",
+      "accentSecondary": "#c8a26d"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#2a1f3d",
+      "bgSecondary": "#3a2c52",
+      "textPrimary": "#fbf6ee",
+      "textSecondary": "#c8bcd2",
+      "accentPrimary": "#a888c9",
+      "accentSecondary": "#d6b485"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Fraunces",
+      "headingWeight": 500,
+      "baseSize": "16px",
+      "lineHeight": 1.75
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1100px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "12px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#f3eef8",
+        "color": "#2a1f3d"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Hartwell Therapy Group"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Schedule Free Consult",
+            "url": "#consult"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "overlay",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1100px"
+      },
+      "style": {
+        "background": "linear-gradient(150deg, #f3eef8 0%, #fbf6ee 100%)",
+        "color": "#2a1f3d"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Now accepting new clients · Telehealth and in-person",
+            "icon": "heart",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Therapy that meets you where you are — not where you think you should be",
+            "level": 1,
+            "size": "52px",
+            "weight": 500
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Seven licensed therapists, three specialties, one shared belief: good therapy is a relationship, not a worksheet. We offer free 20-minute consultations so you can find the right fit before you commit. Sliding-scale slots reserved for clients without coverage."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Schedule a Free Consultation",
+            "url": "#consult",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Meet the Therapists",
+            "url": "#team",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "text": "Licensed in OR & WA · Superbills provided · Sliding scale available",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "specialties-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "feature-grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#fbf6ee",
+        "color": "#2a1f3d"
+      },
+      "components": [
+        {
+          "id": "s-1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "wind",
+            "title": "Anxiety & Overwhelm",
+            "description": "CBT, ACT, and somatic-informed work for adults navigating chronic worry, panic, perfectionism, and high-functioning anxiety. Most clients see meaningful change in 8-12 sessions."
+          }
+        },
+        {
+          "id": "s-2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "users",
+            "title": "Couples Therapy",
+            "description": "Gottman-method and EFT-trained clinicians supporting couples through communication ruts, infidelity recovery, and pre-marital prep. Sessions are 75 minutes."
+          }
+        },
+        {
+          "id": "s-3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "sparkles",
+            "title": "Teens & Adolescents",
+            "description": "Ages 12-18. Identity work, social anxiety, school stress, family transitions, and gender-affirming care. Parents are looped in only with the client's consent."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Three areas we work in",
+        "subheading": "Specialized care from clinicians who chose this work — not just a license"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#f3eef8",
+        "color": "#2a1f3d"
+      },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "I'd been to three therapists who treated my anxiety like a checklist. My Hartwell therapist asked harder questions and gave me space to actually answer them. Six months in, I'm sleeping again.",
+            "author": "Anonymous client · age 34",
+            "role": "Anxiety care",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "We came in two weeks before calling a divorce attorney. A year later, we're not just still together — we actually talk now. Real talk, the kind we hadn't had since our twenties.",
+            "author": "Anonymous couple · married 12 years",
+            "role": "Couples therapy",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "My daughter was shutting down at home and her therapist found a way in that we couldn't. She's still a teenager — but she's our teenager again.",
+            "author": "Parent of 16-year-old client",
+            "role": "Adolescent care",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "From the work",
+        "subheading": "Themes our clients have given us permission to share"
+      }
+    },
+    {
+      "type": "numbers",
+      "id": "numbers-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "counters",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#fbf6ee",
+        "color": "#2a1f3d"
+      },
+      "components": [
+        {
+          "id": "n-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "7",
+            "label": "Licensed Therapists",
+            "description": "LCSW, LPC, and LMFT"
+          }
+        },
+        {
+          "id": "n-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "11",
+            "label": "Years in Practice",
+            "description": "Founded 2015 in Portland"
+          }
+        },
+        {
+          "id": "n-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "12,000+",
+            "label": "Sessions Held",
+            "description": "Across the group since opening"
+          }
+        }
+      ],
+      "content": {
+        "heading": "About the practice",
+        "subheading": "A small group built on long-term clinical relationships"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #7c5fa3 0%, #c8a26d 100%)",
+        "color": "#fbf6ee"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "The right therapist matters more than the right modality",
+            "level": 2,
+            "size": "34px",
+            "weight": 500
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Free 20-minute consultations are how we make sure the fit is right before either of us commits. If we're not the practice for what you need, we'll point you to one that is."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Schedule a Free Consultation",
+            "url": "#consult",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#2a1f3d",
+        "color": "#fbf6ee"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Hartwell Therapy Group"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Care",
+            "links": "Anxiety,Couples,Teens,Telehealth"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Practice",
+            "links": "Therapists,Approach,Fees,Insurance"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Get Started",
+            "links": "Free Consult,Intake Forms,FAQ,Contact"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "© 2026 Hartwell Therapy Group, PLLC. Portland, OR."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

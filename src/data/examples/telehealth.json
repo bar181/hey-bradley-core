@@ -1,0 +1,471 @@
+{
+  "site": {
+    "title": "Caremeet Telehealth",
+    "description": "On-demand telehealth across all 50 states. Board-certified clinicians, 12-minute median response time, in-network with most major plans.",
+    "author": "Caremeet",
+    "email": "hello@caremeet.health",
+    "domain": "caremeet.health",
+    "project": "caremeet-telehealth",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "consumer",
+    "tone": "tech-forward",
+    "brandName": "Caremeet",
+    "tagline": "Care that meets you where you are",
+    "voiceAttributes": ["accessible", "fast", "tech-forward"]
+  },
+  "theme": {
+    "preset": "saas",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#053e44",
+      "bgSecondary": "#0a5560",
+      "textPrimary": "#f0fdfa",
+      "textSecondary": "#a7d8d2",
+      "accentPrimary": "#2dd4bf",
+      "accentSecondary": "#67e8f9"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#f0fdfa",
+      "bgSecondary": "#ccfbf1",
+      "textPrimary": "#053e44",
+      "textSecondary": "#475e62",
+      "accentPrimary": "#0d9488",
+      "accentSecondary": "#0891b2"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Inter",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.6
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#053e44",
+        "color": "#f0fdfa"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Caremeet"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Start a Visit",
+            "url": "#start"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "overlay",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #053e44 0%, #0a5560 60%, #053e44 100%)",
+        "color": "#f0fdfa"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "12-minute median time-to-clinician",
+            "icon": "zap",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "See a board-certified clinician in under 15 minutes — from your couch",
+            "level": 1,
+            "size": "56px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Caremeet connects you with licensed providers across all 50 states for urgent care, mental health, and chronic-condition follow-ups. Most visits are covered by insurance — and the ones that aren't run $49 flat. No subscriptions, no commute, no waiting room."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Start a Visit",
+            "url": "#start",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Check Insurance",
+            "url": "#insurance",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "text": "HIPAA compliant · Aetna · Cigna · UnitedHealthcare · Humana · BCBS",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "features-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "feature-grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#0a5560",
+        "color": "#f0fdfa"
+      },
+      "components": [
+        {
+          "id": "f-1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "zap",
+            "title": "Instant Access, 24/7",
+            "description": "Median time from request to clinician is 12 minutes. Overnight, weekends, holidays — same staffing, same response time. No appointment-booking dance."
+          }
+        },
+        {
+          "id": "f-2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "home",
+            "title": "Skip the Commute",
+            "description": "Visits happen on your phone or laptop in plain English. Prescriptions go straight to your pharmacy. Lab orders go to the nearest LabCorp or Quest. Done in 20 minutes."
+          }
+        },
+        {
+          "id": "f-3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "shield",
+            "title": "Insurance Accepted",
+            "description": "We're in-network with the five largest national plans plus 80+ regional ones. Most members pay $0-$25 per visit. Self-pay is $49 flat — no add-ons, no surprises."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Why Caremeet",
+        "subheading": "Care designed around your day, not the clinic's schedule"
+      }
+    },
+    {
+      "type": "numbers",
+      "id": "numbers-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "counters",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#053e44",
+        "color": "#f0fdfa"
+      },
+      "components": [
+        {
+          "id": "n-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "12 min",
+            "label": "Median Response",
+            "description": "From visit request to clinician on-screen"
+          }
+        },
+        {
+          "id": "n-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "1,400+",
+            "label": "Licensed Providers",
+            "description": "MDs, NPs, and licensed therapists"
+          }
+        },
+        {
+          "id": "n-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "50 / 50",
+            "label": "States Covered",
+            "description": "Including DC and Puerto Rico"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Built for scale, run for people",
+        "subheading": "The numbers that matter when you're sick at 2am"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#0a5560",
+        "color": "#f0fdfa"
+      },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "Sinus infection at 11pm on a Sunday. I had a prescription at the 24-hour pharmacy across the street by 11:40. The whole thing felt suspiciously easy.",
+            "author": "Daniel R.",
+            "role": "Member · Austin, TX",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "I have ADHD and my refill window is brutal. Caremeet has been the only system that actually respects how my brain runs my calendar. Fifteen minutes, refilled, done.",
+            "author": "Mira A.",
+            "role": "Member · Seattle, WA",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "Used the therapy track during a rough quarter at work. Same therapist every session, real continuity, no app gimmicks. It was just therapy — done over video.",
+            "author": "Jordan K.",
+            "role": "Member · Boston, MA",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "What members say",
+        "subheading": "Real visits from the last 30 days"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #2dd4bf 0%, #67e8f9 100%)",
+        "color": "#053e44"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Need to see someone now?",
+            "level": 2,
+            "size": "36px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Tell us what's going on in two sentences. We'll match you with a clinician licensed in your state and get you on a call in under fifteen minutes — usually faster."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Start a Visit",
+            "url": "#start",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#053e44",
+        "color": "#f0fdfa"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Caremeet Telehealth"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Care",
+            "links": "Urgent Care,Mental Health,Refills,Chronic Conditions"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Members",
+            "links": "Start a Visit,Insurance,Pricing,Member Portal"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Company",
+            "links": "About,Clinicians,Press,Careers"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "© 2026 Caremeet, Inc. HIPAA compliant. Not for emergencies — call 911."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

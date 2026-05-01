@@ -1,0 +1,471 @@
+{
+  "site": {
+    "title": "Lakeside Family Health",
+    "description": "Primary care, pediatrics, and preventive medicine for families across the Twin Cities — same-week appointments, no rush, no jargon.",
+    "author": "Lakeside Family Health",
+    "email": "hello@lakesidefamilyhealth.com",
+    "domain": "lakesidefamilyhealth.com",
+    "project": "lakeside-family-health",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "consumer",
+    "tone": "trustworthy",
+    "brandName": "Lakeside Family Health",
+    "tagline": "Family medicine that listens",
+    "voiceAttributes": ["warm", "professional", "trustworthy"]
+  },
+  "theme": {
+    "preset": "professional",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0f2942",
+      "bgSecondary": "#173653",
+      "textPrimary": "#f5efe2",
+      "textSecondary": "#cdd9e6",
+      "accentPrimary": "#7fb3c9",
+      "accentSecondary": "#e8c897"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#f5efe2",
+      "bgSecondary": "#fbf7ee",
+      "textPrimary": "#0f2942",
+      "textSecondary": "#3e5670",
+      "accentPrimary": "#1f5f7a",
+      "accentSecondary": "#b8893f"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Fraunces",
+      "headingWeight": 600,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "10px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#0f2942",
+        "color": "#f5efe2"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Lakeside Family Health"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Book Appointment",
+            "url": "#book"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "overlay",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #0f2942 0%, #173653 60%, #0f2942 100%)",
+        "color": "#f5efe2"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Accepting new patients · Same-week visits",
+            "icon": "heart",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Family medicine that listens before it prescribes",
+            "level": 1,
+            "size": "56px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Three board-certified physicians, two pediatricians, and a nurse practitioner who actually have time for the visit. We accept most major insurance plans and reserve same-week slots for current patients."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Book an Appointment",
+            "url": "#book",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Meet the Doctors",
+            "url": "#team",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "text": "In-network with Blue Cross · HealthPartners · Medica · UnitedHealthcare",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "services-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "feature-grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#173653",
+        "color": "#f5efe2"
+      },
+      "components": [
+        {
+          "id": "s-1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "stethoscope",
+            "title": "Primary Care",
+            "description": "Annual physicals, chronic-condition management, urgent same-day issues, lab work in-house. Long-term relationships with the same physician — not whoever's on shift."
+          }
+        },
+        {
+          "id": "s-2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "baby",
+            "title": "Pediatrics",
+            "description": "Newborn through age 18. Well-child visits, immunizations on the AAP schedule, school and sports physicals, and after-hours nurse line every day until 9pm."
+          }
+        },
+        {
+          "id": "s-3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "shield",
+            "title": "Preventive Medicine",
+            "description": "Bloodwork panels, colonoscopy referrals, mammogram coordination, cardiovascular risk screening, and tobacco-cessation support. Most preventive care is fully covered by insurance."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Three pillars of care",
+        "subheading": "Comprehensive family medicine — under one roof in Edina"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#0f2942",
+        "color": "#f5efe2"
+      },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "Dr. Patel actually sat down and asked about my mom's health history before suggesting any tests. I've never had a primary care doctor do that. Two years in and I'm not switching.",
+            "author": "Sarah K.",
+            "role": "Patient since 2024",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "We moved our whole family here after a bad experience at a big-box clinic. Three kids, three different needs, and the pediatric team knows every one of them by name.",
+            "author": "Marcus & Devin O.",
+            "role": "Patients since 2022",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "I called on a Monday morning with chest tightness. They had me in by 11am, ran an EKG on site, and walked me through next steps without rushing. That's rare.",
+            "author": "Eleanor M.",
+            "role": "Patient since 2021",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "From our patients",
+        "subheading": "Why families across the Twin Cities choose Lakeside"
+      }
+    },
+    {
+      "type": "numbers",
+      "id": "numbers-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "counters",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#173653",
+        "color": "#f5efe2"
+      },
+      "components": [
+        {
+          "id": "n-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "18",
+            "label": "Years in Practice",
+            "description": "Serving the Twin Cities since 2008"
+          }
+        },
+        {
+          "id": "n-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "4,200+",
+            "label": "Active Patients",
+            "description": "Adults, children, and families"
+          }
+        },
+        {
+          "id": "n-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "2",
+            "label": "Locations",
+            "description": "Edina and St. Paul"
+          }
+        }
+      ],
+      "content": {
+        "heading": "By the numbers",
+        "subheading": "A practice built on long relationships, not patient volume"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #7fb3c9 0%, #e8c897 100%)",
+        "color": "#0f2942"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Ready for a primary care doctor who knows you?",
+            "level": 2,
+            "size": "36px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "New-patient appointments are typically available within seven business days. Booking takes two minutes — most insurance is in-network and we'll verify before your visit."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Book an Appointment",
+            "url": "#book",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#0f2942",
+        "color": "#f5efe2"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Lakeside Family Health"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Care",
+            "links": "Primary Care,Pediatrics,Preventive Medicine,Lab Services"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Patients",
+            "links": "Book Appointment,Patient Portal,Insurance,Forms"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Practice",
+            "links": "Our Doctors,Locations,Hours,Contact"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "© 2026 Lakeside Family Health. Edina · St. Paul, MN."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

@@ -1,0 +1,486 @@
+{
+  "site": {
+    "title": "Dr. Theo Yamada · Carnegie Mellon",
+    "description": "Associate Professor at Carnegie Mellon. I write ML papers that engineers can implement in a weekend. Lab page, publications, and a paper-of-the-month essay series.",
+    "author": "Dr. Theo Yamada",
+    "email": "tyamada@cs.cmu.edu",
+    "domain": "theoyamada.com",
+    "project": "theo-yamada-academic",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "academic",
+    "audience": "researcher",
+    "tone": "rigorous",
+    "brandName": "Theo Yamada Lab",
+    "tagline": "Readable ML research, weekend-implementable",
+    "voiceAttributes": ["rigorous", "plainspoken", "engineering-first"]
+  },
+  "theme": {
+    "preset": "minimalist",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#f5f1e8",
+      "bgSecondary": "#ebe5d3",
+      "textPrimary": "#0d1b2a",
+      "textSecondary": "#3a4a5c",
+      "accentPrimary": "#1b3a5c",
+      "accentSecondary": "#2e5077"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#0d1b2a",
+      "bgSecondary": "#1b2a3c",
+      "textPrimary": "#f5f1e8",
+      "textSecondary": "#bcc4d0",
+      "accentPrimary": "#7ba2cc",
+      "accentSecondary": "#a3bedc"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "JetBrains Mono",
+      "headingWeight": 600,
+      "baseSize": "17px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1100px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "4px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#f5f1e8",
+        "color": "#0d1b2a"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "theo.yamada"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Read Latest Paper",
+            "url": "#latest"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "split",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "flex-start",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1000px"
+      },
+      "style": {
+        "background": "#f5f1e8",
+        "color": "#0d1b2a"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Associate Professor · Carnegie Mellon SCS",
+            "icon": "book",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Most ML papers are unreadable for the engineers building them. I write papers that engineers can implement in a weekend.",
+            "level": 1,
+            "size": "52px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "I'm Theo Yamada, Associate Professor in the School of Computer Science at Carnegie Mellon. My lab studies the gap between ML research and ML engineering — specifically, why so much rigorous work never makes it into a single production system. We publish papers in NeurIPS and ICLR, but every paper ships with a reference implementation that runs on a single GPU and a tutorial-grade README. If a senior engineer can't reproduce our results in a weekend, we consider the paper unfinished."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Read Latest Paper",
+            "url": "#latest",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Visit the Lab",
+            "url": "#lab",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "text": "h-index 38 · NeurIPS Outstanding Paper 2024 · NSF CAREER Award",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "blog",
+      "id": "papers-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "list",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "gap": "24px",
+        "padding": "72px 24px",
+        "maxWidth": "900px"
+      },
+      "style": {
+        "background": "#ebe5d3",
+        "color": "#0d1b2a"
+      },
+      "components": [
+        {
+          "id": "p-1",
+          "type": "blog-post",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "title": "Specification-Grounded Fine-Tuning for Code Models",
+            "excerpt": "We introduce SG-FT, a fine-tuning regimen that grounds gradient updates in machine-checkable specifications rather than reference-completion loss. On HumanEval-Hard, SG-FT yields a 14.2-point pass@1 improvement over SFT baselines while reducing wall-clock training cost by 38%. Full reproduction repo at github.com/yamada-lab/sg-ft.",
+            "date": "2026-04-12",
+            "readTime": "ICLR 2026 · 11 pages",
+            "tags": "code-models,fine-tuning,specifications"
+          }
+        },
+        {
+          "id": "p-2",
+          "type": "blog-post",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "title": "Latent Routing in Mixture-of-Experts Without Auxiliary Losses",
+            "excerpt": "Standard MoE routing relies on auxiliary load-balancing losses that interact poorly with downstream RL fine-tuning. We propose latent routing — an architectural change rather than a loss — that achieves comparable balance with no auxiliary term. Implementation in 240 lines of PyTorch.",
+            "date": "2026-02-08",
+            "readTime": "NeurIPS 2025 · 14 pages",
+            "tags": "moe,architecture,routing"
+          }
+        },
+        {
+          "id": "p-3",
+          "type": "blog-post",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "title": "Memory-Efficient Attention via Hierarchical Caching",
+            "excerpt": "We present a single-GPU attention variant that pushes effective context to 512K tokens by hierarchical caching of intermediate keys. Empirically lossless on long-document QA and summarization. Comes with a 350-line reference kernel and a Jupyter walkthrough.",
+            "date": "2025-11-22",
+            "readTime": "NeurIPS 2024 · 12 pages",
+            "tags": "attention,memory-efficient,long-context"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Recent Papers",
+        "subheading": "Each one published, peer-reviewed, and shipped with runnable code"
+      }
+    },
+    {
+      "type": "columns",
+      "id": "research-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "icon-cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#f5f1e8",
+        "color": "#0d1b2a"
+      },
+      "components": [
+        {
+          "id": "r1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "code",
+            "title": "Code Models & Specifications",
+            "description": "Closing the loop between formal specifications and learned program synthesis. Active collaborations with the CMU Programming Languages group and three industrial partners."
+          }
+        },
+        {
+          "id": "r2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "cpu",
+            "title": "Efficient Architectures",
+            "description": "MoE routing, sparse attention, and the engineering of long-context systems that fit on commodity hardware. Two NSF grants and one DARPA project ongoing."
+          }
+        },
+        {
+          "id": "r3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "graph",
+            "title": "Reproducibility & Tooling",
+            "description": "Tooling for the research community: paper-companion repos, eval harnesses, and reference kernels. Output of this thread underpins the Yamada Lab open-source ledger."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Research Areas",
+        "subheading": "Three threads, one principle: rigor that engineers can use on Monday"
+      }
+    },
+    {
+      "type": "numbers",
+      "id": "stats-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "grid",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#ebe5d3",
+        "color": "#0d1b2a"
+      },
+      "components": [
+        {
+          "id": "n1",
+          "type": "stat",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "47",
+            "label": "Peer-reviewed papers",
+            "description": "Since 2014, mostly NeurIPS / ICLR / ICML"
+          }
+        },
+        {
+          "id": "n2",
+          "type": "stat",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "12,400",
+            "label": "Citations",
+            "description": "Google Scholar, April 2026"
+          }
+        },
+        {
+          "id": "n3",
+          "type": "stat",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "23",
+            "label": "PhD students",
+            "description": "Graduated and currently advised"
+          }
+        },
+        {
+          "id": "n4",
+          "type": "stat",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "value": "100%",
+            "label": "Papers with code",
+            "description": "Lab policy since 2019"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Lab at a Glance",
+        "subheading": "Twelve years, four threads, one open-source ledger"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "72px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "#1b3a5c",
+        "color": "#f5f1e8"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Read the latest paper",
+            "level": 2,
+            "size": "40px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Specification-Grounded Fine-Tuning for Code Models · ICLR 2026 · open-access PDF, runnable repo, and a 25-minute walkthrough video. No paywall, no email gate."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Read Latest Paper",
+            "url": "#latest",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#f5f1e8",
+        "color": "#3a4a5c"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Theo Yamada Lab"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Research",
+            "links": "Publications,Lab,Code Repos,Open Datasets"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Teaching",
+            "links": "15-410,15-780,Office Hours,PhD Admissions"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Connect",
+            "links": "CMU Profile,Google Scholar,arXiv,Email"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "© 2026 Dr. Theo Yamada · School of Computer Science · Carnegie Mellon University · Pittsburgh, PA."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

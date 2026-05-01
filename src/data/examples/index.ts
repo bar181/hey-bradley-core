@@ -24,6 +24,20 @@ import localBusiness from './local-business'
 import coffeeRoaster from './coffee-roaster.json'
 import devConference from './dev-conference.json'
 import podcastShow from './podcast-show.json'
+// P68 / OC-4 Templates Round 2 — Healthcare/Wellness (A1)
+import clinic from './clinic.json'
+import wellnessCoach from './wellness-coach.json'
+import mentalHealthPractice from './mental-health-practice.json'
+import telehealth from './telehealth.json'
+// P68 / OC-4 Templates Round 2 — Creator/Personal Brand (A2)
+import founderStory from './founder-story.json'
+import creatorYoutuber from './creator-youtuber.json'
+import speaker from './speaker.json'
+import researcherAcademic from './researcher-academic.json'
+// P68 / OC-4 Templates Round 2 — Dev Tools/OSS (A3)
+import cliTool from './cli-tool.json'
+import ossLibrary from './oss-library.json'
+import apiDocsLanding from './api-docs-landing.json'
 import type { MasterConfig } from '@/lib/schemas'
 
 export interface ExampleSite {
@@ -189,5 +203,74 @@ export const EXAMPLE_SITES: ExampleSite[] = [
     description: 'Agentic-engineering podcast — deep purple canvas, indigo accent, episode-card layout, conversational inside-baseball voice.',
     theme: 'Creative',
     config: podcastShow as unknown as MasterConfig,
+  },
+  // P68 / OC-4 — Healthcare/Wellness (A1)
+  {
+    name: 'Clinic — Lakeside Family Health',
+    description: 'Independent primary-care clinic — same-week appointments, longer visits, trust-blue palette and warm professional voice.',
+    theme: 'Professional',
+    config: clinic as unknown as MasterConfig,
+  },
+  {
+    name: 'Wellness Coach — Aria Mendez',
+    description: 'Holistic wellness coach — soft sage palette, Fraunces serif, narrative coaching voice and program-first CTAs.',
+    theme: 'Wellness',
+    config: wellnessCoach as unknown as MasterConfig,
+  },
+  {
+    name: 'Mental Health — Hartwell Therapy',
+    description: 'Therapy practice — calm muted palette, careful editorial copy, accessibility-first and consent-led.',
+    theme: 'Wellness',
+    config: mentalHealthPractice as unknown as MasterConfig,
+  },
+  {
+    name: 'Telehealth — Caremeet',
+    description: 'Consumer telehealth platform marketing — clean Inter sans, modern teal, on-demand visit voice.',
+    theme: 'SaaS',
+    config: telehealth as unknown as MasterConfig,
+  },
+  // P68 / OC-4 — Creator/Personal Brand (A2)
+  {
+    name: 'Founder Story — Marcus Hale',
+    description: 'Solo-founder narrative landing — building Linkpath in public, editorial cream canvas, candid-narrative tone.',
+    theme: 'Personal',
+    config: founderStory as unknown as MasterConfig,
+  },
+  {
+    name: 'Creator — Sloane Park',
+    description: 'YouTuber/creator brand — bold modern Inter, video-first hero, sponsor + community CTAs.',
+    theme: 'Creative',
+    config: creatorYoutuber as unknown as MasterConfig,
+  },
+  {
+    name: 'Speaker — Dr. Renata Vela',
+    description: 'Keynote speaker — Playfair Display serif, deep navy authority palette, conference-talk reel and booking CTA.',
+    theme: 'Elegant',
+    config: speaker as unknown as MasterConfig,
+  },
+  {
+    name: 'Academic — Dr. Theo Yamada',
+    description: 'Academic / research personal brand — cream canvas, Fraunces serif, publication list and lab-link prominence.',
+    theme: 'Personal',
+    config: researcherAcademic as unknown as MasterConfig,
+  },
+  // P68 / OC-4 — Dev Tools/OSS (A3)
+  {
+    name: 'CLI Tool — rolldown',
+    description: 'CLI / dev-tool product — JetBrains Mono, dark canvas, install-snippet hero, AISP-prominent spec voice.',
+    theme: 'Tech Business',
+    config: cliTool as unknown as MasterConfig,
+  },
+  {
+    name: 'OSS Library — ConfigMesh',
+    description: 'Open-source library landing — monospace headings, GitHub-flavored navy, ambiguity-collapsing AISP section, contributor + sponsor CTAs.',
+    theme: 'Tech Business',
+    config: ossLibrary as unknown as MasterConfig,
+  },
+  {
+    name: 'API Docs — Pulse API',
+    description: 'API documentation marketing — dense info, monospace accents, code-sample hero, spec-driven AISP block.',
+    theme: 'Tech Business',
+    config: apiDocsLanding as unknown as MasterConfig,
   },
 ]

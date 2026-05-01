@@ -1,26 +1,27 @@
 /**
- * Sprint J P53 (A10) — MobileLayout.
+ * P69 / OC-5 (ADR-090) — MobileLayout single chat surface.
  *
- * 3-tab mobile shell (Chat / Listen / View) that re-uses existing components
- * so we never duplicate. Locked decision D7 (sprint-j-locked.md): Builder is
- * hidden on mobile; advanced surfaces (settings/personality/uploads/share)
- * collapse into the hamburger menu.
+ * Supersedes the Sprint J P53 / ADR-076 3-tab nav (Builder hidden / Chat /
+ * Listen / View). Mobile is now ONE surface: chat thread + input row, with
+ * an inline mic button on the input and a bottom-fixed "See Specs"
+ * affordance. Tapping the mic flips `listenFullscreenOpen` for A7's
+ * `MobileListenFullscreen` overlay; tapping "See Specs" flips
+ * `specBottomSheetOpen` for A7's `MobileSpecBottomSheet`.
  *
  * Wrapper class `md:hidden` so this layer renders ONLY <768px viewport. The
  * sibling desktop tri-pane (Builder.tsx) wears `hidden md:flex`.
  *
- * KISS: tab state is local React useState — no Zustand. Default 'chat'.
+ * Hamburger (MobileMenu) integration is preserved unchanged.
+ * First-run card (MobileFirstRunCard) is preserved; A8 owns its evolution.
  */
 
 import { useRef, useState } from 'react'
-import { Menu } from 'lucide-react'
+import { ChevronUp, Menu, Mic } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { useIntelligenceStore } from '@/store/intelligenceStore'
 import { useUIStore } from '@/store/uiStore'
 import { PERSONALITY_PROFILES } from '@/contexts/intelligence/personality/personalityEngine'
 import { ChatInput } from '@/components/shell/ChatInput'
-import { ListenTab } from '@/components/left-panel/ListenTab'
-import { RealityTab } from '@/components/center-canvas/RealityTab'
 import { MobileMenu } from '@/components/shell/MobileMenu'
 import {
   MobileFirstRunCard,
@@ -28,25 +29,11 @@ import {
   markMobileFirstRunSeen,
 } from '@/components/shell/MobileFirstRunCard'
 
-type MobileTab = 'chat' | 'listen' | 'view'
-
-interface TabSpec {
-  id: MobileTab
-  label: string
-  testid: string
-}
-
-const TABS: readonly TabSpec[] = [
-  { id: 'chat', label: 'Chat', testid: 'mobile-tab-chat' },
-  { id: 'listen', label: 'Listen', testid: 'mobile-tab-listen' },
-  { id: 'view', label: 'View', testid: 'mobile-tab-view' },
-]
-
 export function MobileLayout() {
-  const [activeTab, setActiveTab] = useState<MobileTab>('chat')
   const [menuOpen, setMenuOpen] = useState(false)
   // P66 / A3 — first-run mobile orientation card. Hydrate from kv on mount;
-  // if the user has already dismissed it the card never renders.
+  // if the user has already dismissed it the card never renders. A8 will
+  // evolve this into the pre-filled-prompt + personality-pill UX.
   const [showFirstRun, setShowFirstRun] = useState(() => shouldShowMobileFirstRun())
   const triggerRef = useRef<HTMLButtonElement | null>(null)
 
@@ -56,6 +43,8 @@ export function MobileLayout() {
 
   const setAppMode = useUIStore((s) => s.setAppMode)
   const setInteractionMode = useUIStore((s) => s.setInteractionMode)
+  const setListenFullscreenOpen = useUIStore((s) => s.setListenFullscreenOpen)
+  const setSpecBottomSheetOpen = useUIStore((s) => s.setSpecBottomSheetOpen)
 
   const dismissFirstRun = () => {
     markMobileFirstRunSeen()
@@ -64,22 +53,28 @@ export function MobileLayout() {
   const handleFirstRunListen = () => {
     setAppMode('whiteboard')
     setInteractionMode('LISTEN')
-    setActiveTab('listen')
+    setListenFullscreenOpen(true)
     dismissFirstRun()
   }
   const handleFirstRunChat = () => {
     setAppMode('whiteboard')
-    setActiveTab('chat')
     dismissFirstRun()
+  }
+
+  const handleMicTap = () => {
+    setInteractionMode('LISTEN')
+    setListenFullscreenOpen(true)
+  }
+  const handleSeeSpecsTap = () => {
+    setSpecBottomSheetOpen(true)
   }
 
   return (
     <div
       data-testid="mobile-layout"
-      data-mobile-active-tab={activeTab}
       className="md:hidden flex flex-col h-screen bg-hb-bg text-hb-text-primary"
     >
-      {/* Top bar */}
+      {/* Top bar — hamburger + brand + personality emoji (preserved). */}
       <header className="h-12 shrink-0 flex items-center justify-between px-3 border-b border-hb-border bg-hb-surface">
         <button
           ref={triggerRef}
@@ -106,13 +101,15 @@ export function MobileLayout() {
           aria-label={personality ? `Personality: ${personality.label}` : 'Personality'}
           aria-hidden={!personalityEmoji}
         >
-          {personalityEmoji || ' '}
+          {personalityEmoji || ' '}
         </span>
       </header>
 
-      {/* Active surface */}
-      <main className="flex-1 overflow-hidden flex flex-col min-h-0">
-        {/* P66 / A3 — first-run orientation card (above tab content). */}
+      {/* Single chat surface. ChatInput renders the chat thread + input row. */}
+      <main
+        className="flex-1 overflow-hidden flex flex-col min-h-0 relative"
+        data-testid="mobile-chat-surface"
+      >
         {showFirstRun && (
           <MobileFirstRunCard
             onListen={handleFirstRunListen}
@@ -121,63 +118,55 @@ export function MobileLayout() {
           />
         )}
 
-        {activeTab === 'chat' && (
-          <>
-            <div className="flex-1 overflow-y-auto p-3">
-              <p className="text-xs text-hb-text-muted">
-                Chat with Hey Bradley below. Switch to View to preview your site.
-              </p>
-            </div>
-            <div className="shrink-0 border-t border-hb-border bg-hb-surface p-2">
-              <ChatInput />
-            </div>
-          </>
-        )}
+        <div className="flex-1 min-h-0 flex flex-col">
+          <ChatInput />
+        </div>
 
-        {activeTab === 'listen' && (
-          <div className="flex-1 flex flex-col min-h-0">
-            <ListenTab />
-          </div>
-        )}
+        {/* Inline mic — floats bottom-right of the chat surface above the
+            input. Tap → opens fullscreen listen overlay (A7). 44x44 min
+            touch target per ADR-091. */}
+        <button
+          type="button"
+          onClick={handleMicTap}
+          data-testid="mobile-inline-mic"
+          aria-label="Switch to listen mode"
+          className={cn(
+            'absolute bottom-16 right-3 z-10',
+            'min-h-[44px] min-w-[44px] rounded-full',
+            'bg-hb-accent text-hb-bg shadow-lg',
+            'flex items-center justify-center',
+            'hover:bg-hb-accent/90 active:scale-95',
+            'focus-visible:ring-2 focus-visible:ring-hb-accent focus-visible:ring-offset-2',
+            'transition-all',
+          )}
+        >
+          <Mic size={20} aria-hidden="true" />
+        </button>
 
-        {activeTab === 'view' && (
-          <div className="flex-1 overflow-y-auto">
-            <RealityTab />
-          </div>
-        )}
+        {/* "See Specs" affordance — bottom-fixed pill above safe-area inset.
+            Tap → opens A7's MobileSpecBottomSheet. */}
+        <button
+          type="button"
+          onClick={handleSeeSpecsTap}
+          data-testid="mobile-see-specs"
+          aria-label="See specs"
+          className={cn(
+            'absolute left-1/2 -translate-x-1/2 z-10',
+            'bottom-2 pb-[env(safe-area-inset-bottom)]',
+            'min-h-[36px] px-3 rounded-full',
+            'bg-hb-surface border border-hb-border text-hb-text-primary',
+            'flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider',
+            'hover:bg-hb-accent/10 hover:text-hb-accent hover:border-hb-accent',
+            'focus-visible:ring-2 focus-visible:ring-hb-accent',
+            'transition-colors',
+          )}
+        >
+          <ChevronUp size={14} aria-hidden="true" />
+          <span>See Specs</span>
+        </button>
       </main>
 
-      {/* Sticky bottom tab nav */}
-      <nav
-        role="tablist"
-        aria-label="Mobile sections"
-        className="shrink-0 border-t border-hb-border bg-hb-surface flex items-stretch"
-      >
-        {TABS.map((tab) => {
-          const selected = tab.id === activeTab
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              role="tab"
-              aria-selected={selected}
-              data-testid={tab.testid}
-              onClick={() => setActiveTab(tab.id)}
-              className={cn(
-                'flex-1 py-3 text-xs font-mono uppercase tracking-wider',
-                'transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent',
-                selected
-                  ? 'text-hb-accent border-t-2 border-hb-accent bg-hb-accent/5'
-                  : 'text-hb-text-muted hover:text-hb-text-primary border-t-2 border-transparent',
-              )}
-            >
-              {tab.label}
-            </button>
-          )
-        })}
-      </nav>
-
-      {/* Hamburger menu (modal) */}
+      {/* Hamburger menu (modal) — preserved. */}
       <MobileMenu
         open={menuOpen}
         onClose={() => setMenuOpen(false)}

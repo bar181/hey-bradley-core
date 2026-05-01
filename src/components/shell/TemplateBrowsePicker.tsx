@@ -35,11 +35,15 @@ export interface TemplateBrowsePickerProps {
   onClose: () => void
 }
 
-// ── Filter vocabulary (per P66 Wave-1 A5 brief) ──
+// ── Filter vocabulary (per P66 Wave-1 A5 brief; P68/OC-4 adds visual-style) ──
 type PersonaFilter = 'All' | 'Founder' | 'PM/Team' | 'Senior Engineer' | 'Local Business' | 'Personal'
 type IndustryFilter =
   | 'All' | 'SaaS' | 'Agency' | 'E-commerce' | 'Content' | 'Local Service' | 'Conference' | 'Podcast'
 type ComplexityFilter = 'All' | 'Simple' | 'Standard' | 'Rich'
+// P68 / OC-4 / A4 — Visual style filter. Same conservative semantics as
+// persona/industry: keyword-match against the BrowseTemplate display name;
+// no match → only "All" matches it.
+type VisualStyleFilter = 'All' | 'Warm/serif' | 'Tech/dark' | 'Modern/Inter'
 
 const PERSONA_OPTIONS: readonly PersonaFilter[] = [
   'All', 'Founder', 'PM/Team', 'Senior Engineer', 'Local Business', 'Personal',
@@ -48,6 +52,9 @@ const INDUSTRY_OPTIONS: readonly IndustryFilter[] = [
   'All', 'SaaS', 'Agency', 'E-commerce', 'Content', 'Local Service', 'Conference', 'Podcast',
 ]
 const COMPLEXITY_OPTIONS: readonly ComplexityFilter[] = ['All', 'Simple', 'Standard', 'Rich']
+const VISUAL_STYLE_OPTIONS: readonly VisualStyleFilter[] = [
+  'All', 'Warm/serif', 'Tech/dark', 'Modern/Inter',
+]
 
 const COMPLEXITY_LABELS: Record<ComplexityFilter, string> = {
   All: 'All',
@@ -82,6 +89,38 @@ const PERSONA_KEYWORDS: ReadonlyArray<readonly [PersonaFilter, readonly string[]
   ['Local Business', ['bakery', 'florist', 'restaurant', 'local', 'realty']],
   ['Personal', ['personal', 'photography', 'portfolio', 'blog', 'indie']],
 ]
+
+/**
+ * Visual-style keyword table — coarse mapping from template display-name
+ * signals to one of three canonical aesthetics (per OC-4 / ADR-096 §5):
+ * - Warm/serif → Fraunces / Playfair Display, cream/earth palettes
+ * - Tech/dark → JetBrains Mono + dark canvas (CLI / OSS / API / conf)
+ * - Modern/Inter → Inter sans, lighter palettes (telehealth / SaaS / creator)
+ *
+ * Same conservative match: no signal in the name → only "All" passes.
+ */
+const VISUAL_STYLE_KEYWORDS: ReadonlyArray<readonly [VisualStyleFilter, readonly string[]]> = [
+  ['Tech/dark', [
+    'cli', 'oss', 'api', 'conf', 'conference', 'engineer', 'developer',
+    'launchpad', 'flagship', 'enterprise', 'capstone',
+  ]],
+  ['Warm/serif', [
+    'bakery', 'florist', 'coffee', 'roaster', 'restaurant', 'wellness', 'coach',
+    'speaker', 'academic', 'researcher', 'founder', 'indie', 'realty', 'law',
+    'blog', 'scoop', 'kitchen',
+  ]],
+  ['Modern/Inter', [
+    'telehealth', 'caremeet', 'creator', 'youtuber', 'sloane', 'podcast',
+    'mental health', 'therapy', 'clinic', 'saas', 'platform', 'consulting',
+  ]],
+]
+
+function deriveVisualStyles(name: string): readonly VisualStyleFilter[] {
+  const lower = name.toLowerCase()
+  return VISUAL_STYLE_KEYWORDS.flatMap(([label, keywords]) =>
+    keywords.some((kw) => lower.includes(kw)) ? [label] : []
+  )
+}
 
 function deriveIndustry(name: string): readonly IndustryFilter[] {
   const lower = name.toLowerCase()
@@ -124,6 +163,7 @@ export function TemplateBrowsePicker({ onPick, onClose }: TemplateBrowsePickerPr
   const [persona, setPersona] = useState<PersonaFilter>('All')
   const [industry, setIndustry] = useState<IndustryFilter>('All')
   const [complexity, setComplexity] = useState<ComplexityFilter>('All')
+  const [visualStyle, setVisualStyle] = useState<VisualStyleFilter>('All')
 
   const filtered = useMemo(() => {
     return templates.filter((t) => {
@@ -138,9 +178,13 @@ export function TemplateBrowsePicker({ onPick, onClose }: TemplateBrowsePickerPr
       if (complexity !== 'All') {
         if (deriveComplexity(t) !== complexity) return false
       }
+      if (visualStyle !== 'All') {
+        const styles = deriveVisualStyles(t.name)
+        if (!styles.includes(visualStyle)) return false
+      }
       return true
     })
-  }, [templates, persona, industry, complexity])
+  }, [templates, persona, industry, complexity, visualStyle])
 
   const byCategory = filtered.reduce<Record<string, BrowseTemplate[]>>((acc, t) => {
     if (!acc[t.category]) acc[t.category] = []
@@ -149,11 +193,13 @@ export function TemplateBrowsePicker({ onPick, onClose }: TemplateBrowsePickerPr
   }, {})
   const categoryOrder: Array<BrowseTemplate['category']> = ['theme', 'section', 'content']
 
-  const anyFilterActive = persona !== 'All' || industry !== 'All' || complexity !== 'All'
+  const anyFilterActive =
+    persona !== 'All' || industry !== 'All' || complexity !== 'All' || visualStyle !== 'All'
   const clearFilters = () => {
     setPersona('All')
     setIndustry('All')
     setComplexity('All')
+    setVisualStyle('All')
   }
 
   // Token-derived radius (md = 12px). Inline via style to avoid Tailwind
@@ -238,6 +284,26 @@ export function TemplateBrowsePicker({ onPick, onClose }: TemplateBrowsePickerPr
                 aria-pressed={complexity === opt}
               >
                 {COMPLEXITY_LABELS[opt]}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="flex items-start gap-2 flex-wrap">
+          <span className="text-[10px] uppercase tracking-wider text-hb-text-muted shrink-0 pt-1.5 w-16">
+            Visual style
+          </span>
+          <div className="flex flex-wrap gap-1">
+            {VISUAL_STYLE_OPTIONS.map((opt) => (
+              <button
+                key={opt}
+                type="button"
+                data-testid={`filter-visual-style-${opt}`}
+                onClick={() => setVisualStyle(opt)}
+                className={pillClass(visualStyle === opt)}
+                style={{ borderRadius: pillRadius }}
+                aria-pressed={visualStyle === opt}
+              >
+                {opt}
               </button>
             ))}
           </div>

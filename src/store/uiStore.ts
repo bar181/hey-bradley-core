@@ -142,6 +142,18 @@ interface UIStore {
    */
   aispTraceAutoOpened: boolean
   /**
+   * P69 / OC-5 (ADR-090) — true while the fullscreen mobile listen overlay
+   * is mounted. Toggled by the inline mic button on the mobile chat surface
+   * (A6) and consumed by `MobileListenFullscreen` (A7). In-memory only.
+   */
+  listenFullscreenOpen: boolean
+  /**
+   * P69 / OC-5 (ADR-090) — true while the mobile spec bottom sheet is open
+   * (half- or full-open). Toggled by the "See Specs" affordance on the mobile
+   * chat surface (A6) and consumed by `MobileSpecBottomSheet` (A7).
+   */
+  specBottomSheetOpen: boolean
+  /**
    * P63 / OC-2 (ADR-088) — three-mode discriminator. `null` on first run;
    * persists to kv['ui_app_mode'] once the user picks a mode in the
    * 3-card selector (Whiteboard / Planning / Agentics). Existing users
@@ -185,6 +197,10 @@ interface UIStore {
   markSpecSeen: () => void
   /** P60.5 — flip the AISP-trace auto-opened flag (idempotent; in-memory). */
   markAispTraceAutoOpened: () => void
+  /** P69 / OC-5 (ADR-090) — open/close the fullscreen mobile listen overlay. */
+  setListenFullscreenOpen: (open: boolean) => void
+  /** P69 / OC-5 (ADR-090) — open/close the mobile spec bottom sheet. */
+  setSpecBottomSheetOpen: (open: boolean) => void
   /**
    * P63 / OC-2 (ADR-088) — pick a mode. Persists to kv['ui_app_mode'].
    * Whiteboard is the only live mode today; Planning + Agentics ship at
@@ -226,12 +242,23 @@ export const useUIStore = create<UIStore>((set, get) => ({
   specPanelHasAutoOpened: loadSpecPanelAutoOpened(),
   specHasUnseenUpdate: false,
   aispTraceAutoOpened: false,
+  // P69 / OC-5 (ADR-090) — mobile-only overlay flags. In-memory only.
+  listenFullscreenOpen: false,
+  specBottomSheetOpen: false,
   // P63 / OC-2 (ADR-088) — hydrate the persisted mode choice on store init.
   // Falls back to null if kv unavailable (pre-DB boot) so the selector renders.
   appMode: loadAppMode(),
   markAispTraceAutoOpened: () => {
     if (get().aispTraceAutoOpened) return
     set({ aispTraceAutoOpened: true })
+  },
+  setListenFullscreenOpen: (open) => {
+    if (get().listenFullscreenOpen === open) return
+    set({ listenFullscreenOpen: open })
+  },
+  setSpecBottomSheetOpen: (open) => {
+    if (get().specBottomSheetOpen === open) return
+    set({ specBottomSheetOpen: open })
   },
   setAppMode: (mode) => {
     if (!APP_MODE_VALID.includes(mode)) return
