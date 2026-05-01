@@ -10,15 +10,19 @@
 
 import { useConfigStore } from '@/store/configStore'
 import { useIntelligenceStore } from '@/store/intelligenceStore'
+import { useUIStore } from '@/store/uiStore'
 import { buildSystemPrompt } from '@/contexts/intelligence/prompts/system'
 import { parseResponse } from '@/contexts/intelligence/llm/responseParser'
 import { validatePatches } from '@/contexts/intelligence/llm/patchValidator'
 import { auditedComplete } from '@/contexts/intelligence/llm/auditedComplete'
 import { recordPipelineFailure } from '@/contexts/intelligence/llm/recordPipelineFailure'
 import { parseChatCommand, parseMultiPartCommand } from '@/lib/cannedChat'
+import { getActivePage, prefixPatchPaths } from '@/contexts/intelligence/pageIterator'
+import type { PageScope } from '@/contexts/intelligence/pageIterator'
 import type { ChatErrorKind } from '@/lib/mapChatError'
 import type { ClassifiedIntent } from '@/contexts/intelligence/aisp'
 import type { PersonalityId } from '@/contexts/intelligence/personality/personalityEngine'
+import type { JSONPatch } from '@/lib/schemas/patches'
 
 export interface ChatPipelineOptions {
   source: 'chat' | 'listen' | 'test'
@@ -112,20 +116,26 @@ async function derivePersonalityMessage(
   }
 }
 
-/** P48 (A5) — defensive 1-3 next-step suggestions for a successful patch. */
+/** P48 (A5) — defensive 1-3 next-step suggestions for a successful patch.
+ *  P79 / OC-14 (A3) — `sections` comes from the active page scope so the
+ *  improvement suggester sees the active-page sections only (multi-page) or
+ *  root sections (single-page). Backward-compat: when omitted, falls back to
+ *  the full config sections (byte-equivalent to pre-P79 behavior). */
 async function deriveImprovements(
   userText: string,
   appliedPatchCount: number,
   summary: string,
   aispTrace: { intent: ClassifiedIntent | null } | null,
+  scope?: PageScope,
 ): Promise<readonly string[] | undefined> {
   if (appliedPatchCount <= 0) return undefined
   try {
     const mod = await import('@/contexts/intelligence/aisp/improvementSuggester')
     const intent = aispTrace?.intent ?? null
+    const sections = scope ? scope.sections : useConfigStore.getState().config.sections
     const out = mod.suggestImprovements({
       userText, appliedPatchCount, summary,
-      sectionTypesPresent: useConfigStore.getState().config.sections.map((s) => s.type),
+      sectionTypesPresent: sections.map((s) => s.type),
       verb: intent?.verb, targetType: intent?.target?.type,
     })
     return out.length > 0 ? out.map((s) => s.text) : undefined
@@ -156,6 +166,7 @@ async function runLLMPipeline(
   text: string,
   source: 'chat' | 'listen' | 'test',
   history?: ChatPipelineOptions['history'],
+  scope?: PageScope,
 ): Promise<{
   applied: number
   summary: string
@@ -203,7 +214,12 @@ async function runLLMPipeline(
     return { applied: 0, summary: '', errorKind: 'validation_failed' }
   }
   try {
-    useConfigStore.getState().applyPatches(parsed.envelope.patches)
+    // P79 / OC-14 (A3) — page-aware apply: prefix patch paths to active page
+    // scope (single-page mode = byte-equivalent reference-equal pass-through).
+    const scopedPatches = scope
+      ? (prefixPatchPaths(parsed.envelope.patches, scope.scopeRoot) as JSONPatch[])
+      : parsed.envelope.patches
+    useConfigStore.getState().applyPatches(scopedPatches)
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e)
     recordPipelineFailure(callId, 'apply', `@apply: ${msg}`)
@@ -247,6 +263,17 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       durationMs: Date.now() - startedAt, errorKind: null, latencyMs: null, latencyBreakdown: null,
     }
   }
+
+  // P79 / OC-14 (A3) — page-aware pipeline (ADR-104). Read activePageId once
+  // at submit entry; resolve scope ({ page, sections, scopeRoot }). When
+  // scopeRoot === '' (single-page mode / no multi-page config), every
+  // downstream call is byte-equivalent to pre-P79 behavior:
+  //   - prefixPatchPaths(patches, '') returns the input array reference-equal;
+  //   - the scopedConfig conditional collapses to config;
+  //   - scope.sections === config.sections.
+  const config = useConfigStore.getState().config
+  const activePageId = useUIStore.getState().activePageId
+  const scope = getActivePage(config, activePageId)
 
   // P26 Sprint C P1 — AISP rule-based classifier (first in chain).
   // P27 Sprint C P2 — LLM-driven AISP classifier when rule-based < threshold.
@@ -329,10 +356,18 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       const { executeTodos } = await import('@/contexts/intelligence/aisp/todoExecutor')
       const decomp = decompose(text, aisp)
       if (decomp.todos.length > 1 && decomp.confidence >= 0.7) {
-        const exec = executeTodos(decomp, useConfigStore.getState().config)
+        // P79 / OC-14 (A3) — feed scoped config so executeTodos sees only the
+        // active page's sections (multi-page) or root sections (single-page).
+        const decompConfig = scope.scopeRoot
+          ? { ...useConfigStore.getState().config, sections: scope.sections }
+          : useConfigStore.getState().config
+        const exec = executeTodos(decomp, decompConfig)
         if (exec.allPatches.length > 0) {
           stageMarks.applyStart = Date.now()
-          useConfigStore.getState().applyPatches(exec.allPatches)
+          // P79 / OC-14 (A3) — prefix patch paths to active page scope.
+          useConfigStore.getState().applyPatches(
+            prefixPatchPaths(exec.allPatches, scope.scopeRoot) as JSONPatch[],
+          )
           const doneAt = Date.now()
           return {
             ok: true, appliedPatchCount: exec.allPatches.length, fellBackToCanned: false,
@@ -349,12 +384,21 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     // P72 / OC-TI (A4) — try the 3-layer template matcher first. High-confidence
     // matches short-circuit SELECTION_ATOM; low-confidence falls through.
     try {
-      const tplMatch = matchTemplates(text, useConfigStore.getState().config)
+      // P79 / OC-14 (A3) — feed scoped config so the matcher + applier see
+      // only the active page's sections (multi-page) or root sections
+      // (single-page; scopedConfig === config when scope.scopeRoot === '').
+      const scopedConfig = scope.scopeRoot
+        ? { ...useConfigStore.getState().config, sections: scope.sections }
+        : useConfigStore.getState().config
+      const tplMatch = matchTemplates(text, scopedConfig)
       if (tplMatch.confidence >= TEMPLATE_CONFIDENCE_THRESHOLD) {
-        const tiPatches = applyTemplateMatch(tplMatch, useConfigStore.getState().config)
+        const tiPatches = applyTemplateMatch(tplMatch, scopedConfig)
         if (tiPatches.length > 0) {
           stageMarks.applyStart = Date.now()
-          useConfigStore.getState().applyPatches(tiPatches)
+          // P79 / OC-14 (A3) — prefix patch paths to active page scope.
+          useConfigStore.getState().applyPatches(
+            prefixPatchPaths(tiPatches, scope.scopeRoot) as JSONPatch[],
+          )
           const doneAt = Date.now()
           return {
             ok: true, appliedPatchCount: tiPatches.length, fellBackToCanned: false,
@@ -383,13 +427,17 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     if (tpl && tpl.envelope.patches.length > 0) {
       try {
         stageMarks.applyStart = Date.now()
-        useConfigStore.getState().applyPatches(tpl.envelope.patches)
+        // P79 / OC-14 (A3) — prefix patch paths to active page scope.
+        useConfigStore.getState().applyPatches(
+          prefixPatchPaths(tpl.envelope.patches, scope.scopeRoot) as JSONPatch[],
+        )
         const tplSummary = `${tpl.envelope.summary} _(template: ${tpl.template.id})_`
         const improvements = await deriveImprovements(
           text,
           tpl.envelope.patches.length,
           tplSummary,
           aispTrace,
+          scope,
         )
         const personalityMessage = await derivePersonalityMessage(
           { summary: tplSummary, patches: tpl.envelope.patches },
@@ -466,9 +514,11 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
   let pipelineErrorKind: ChatErrorKind | null = null
   try {
     stageMarks.patchStart = Date.now()
-    const llm = await runLLMPipeline(text, opts.source, opts.history)
+    // P79 / OC-14 (A3) — thread scope into runLLMPipeline so its applyPatches
+    // call also lands on the active page (or root, single-page mode).
+    const llm = await runLLMPipeline(text, opts.source, opts.history, scope)
     if (llm.applied > 0) {
-      const improvements = await deriveImprovements(text, llm.applied, llm.summary, aispTrace)
+      const improvements = await deriveImprovements(text, llm.applied, llm.summary, aispTrace, scope)
       const personalityMessage = await derivePersonalityMessage(
         { summary: llm.summary, patches: new Array(llm.applied) },
         aispTrace,
