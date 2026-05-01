@@ -50,7 +50,8 @@ const MODES: readonly ModeCardSpec[] = [
     title: 'Planning',
     tagline: 'Design the process',
     audience: 'PMs + Teams, Product Leads',
-    available: false,
+    // P90 / AW-MODE-ARCH (A3) — enabled; routes to /planning stub (full body P91-P95).
+    available: true,
     testid: 'mode-card-planning',
   },
   {
@@ -59,7 +60,8 @@ const MODES: readonly ModeCardSpec[] = [
     title: 'Agentics',
     tagline: 'Coordinate your swarm',
     audience: 'Engineers, Architects',
-    available: false,
+    // P90 / AW-MODE-ARCH (A3) — enabled; routes to /agentics stub (full body P92-P100).
+    available: true,
     testid: 'mode-card-agentics',
   },
 ] as const

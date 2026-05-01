@@ -32,6 +32,9 @@ const SharedSpec = lazy(() => import('@/pages/SharedSpec').then((m) => ({ defaul
 const ListenModeDemo = lazy(() => import('@/demos/ListenModeDemo').then((m) => ({ default: m.ListenModeDemo })))
 const ChatModeDemo = lazy(() => import('@/demos/ChatModeDemo').then((m) => ({ default: m.ChatModeDemo })))
 const FullSiteSimulator = lazy(() => import('@/demos/FullSiteSimulator').then((m) => ({ default: m.FullSiteSimulator })))
+// P90 / AW-MODE-ARCH (A3) — Planning + Agentics route stubs (per ADR-088 + ADR-116).
+const Planning = lazy(() => import('@/pages/Planning').then((m) => ({ default: m.Planning })))
+const Agentics = lazy(() => import('@/pages/Agentics').then((m) => ({ default: m.Agentics })))
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -82,6 +85,8 @@ initDB()
               <Route path="/demo/listen" element={<ListenModeDemo />} />
               <Route path="/demo/chat" element={<ChatModeDemo />} />
               <Route path="/demo/full-site" element={<FullSiteSimulator />} />
+              <Route path="/planning" element={<Planning />} />
+              <Route path="/agentics" element={<Agentics />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
@@ -118,6 +123,8 @@ initDB()
               <Route path="/demo/listen" element={<ListenModeDemo />} />
               <Route path="/demo/chat" element={<ChatModeDemo />} />
               <Route path="/demo/full-site" element={<FullSiteSimulator />} />
+              <Route path="/planning" element={<Planning />} />
+              <Route path="/agentics" element={<Agentics />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

@@ -108,12 +108,15 @@ test.describe('P63.4 ModeSelectorCard — Coming soon markers for Planning + Age
     expect(src).toMatch(/disabled=\{!isLive\}/)
     expect(src).toMatch(/aria-disabled=\{!isLive\}/)
   })
-  test('Whiteboard is the only live mode today', () => {
+  test('all three modes live as of P90 / AW-MODE-ARCH', () => {
+    // P90 enabled Planning + Agentics (stubs; routes /planning + /agentics).
+    // Pre-P90: Whiteboard sole live mode; this test gated `available: true`
+    // count at 1. Post-P90 the count is 3 — see ADR-116 + tests/p90-*.spec.ts.
     const src = read(MODE_CARD)
     const trueMatches = src.match(/available:\s*true/g) ?? []
     const falseMatches = src.match(/available:\s*false/g) ?? []
-    expect(trueMatches.length).toBe(1)
-    expect(falseMatches.length).toBe(2)
+    expect(trueMatches.length).toBe(3)
+    expect(falseMatches.length).toBe(0)
   })
 })
 

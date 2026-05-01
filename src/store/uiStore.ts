@@ -161,6 +161,18 @@ interface UIStore {
    */
   appMode: AppMode | null
   /**
+   * P90 / AW-MODE-ARCH (A3) — non-null active-mode discriminator for the
+   * Agentic Workbench. Mirrors `appMode` but defaults to `'whiteboard'`
+   * (never `null`) so route-aware components (AppShell — A4) can render
+   * a layout immediately on first paint. Setter (`setActiveMode`) keeps
+   * `appMode` in sync via kv persistence so existing consumers and the
+   * ModeSelectorCard fall-through gating (`appMode === null`) continue to
+   * function unchanged.
+   *
+   * See: ADR-088 (Mode Architecture), ADR-116 (Three-Mode Product Architecture).
+   */
+  activeMode: AppMode
+  /**
    * P78 / OC-11 (ADR-085, ADR-103) — view-state for the active page in the
    * multi-page page-selector strip. `null` on first run / single-page mode;
    * set to a page id when the user clicks a tab or adds a new page.
@@ -217,6 +229,14 @@ interface UIStore {
    */
   setAppMode: (mode: AppMode) => void
   /**
+   * P90 / AW-MODE-ARCH (A3) — set the active mode for the Agentic Workbench
+   * routes (AppShell layout + /planning + /agentics + /builder). Updates
+   * `activeMode` in-memory AND mirrors to `appMode` (kv-persisted) so the
+   * ModeSelectorCard first-run gate continues to pass once the user has
+   * picked any mode.
+   */
+  setActiveMode: (mode: AppMode) => void
+  /**
    * P78 / OC-11 (ADR-085, ADR-103) — set the active page id for the
    * page-selector strip. Pass `null` to clear (returns the surface to
    * single-page mode). No persistence — view state only.
@@ -262,6 +282,10 @@ export const useUIStore = create<UIStore>((set, get) => ({
   // P63 / OC-2 (ADR-088) — hydrate the persisted mode choice on store init.
   // Falls back to null if kv unavailable (pre-DB boot) so the selector renders.
   appMode: loadAppMode(),
+  // P90 / AW-MODE-ARCH (A3) — non-null active-mode for AppShell + routes.
+  // Hydrates from persisted appMode when present; falls back to 'whiteboard'
+  // so route-aware layout components always have a concrete mode to render.
+  activeMode: loadAppMode() ?? 'whiteboard',
   // P78 / OC-11 (ADR-085, ADR-103) — view-state only; no kv persistence.
   activePageId: null,
   markAispTraceAutoOpened: () => {
@@ -278,7 +302,12 @@ export const useUIStore = create<UIStore>((set, get) => ({
   },
   setAppMode: (mode) => {
     if (!APP_MODE_VALID.includes(mode)) return
-    set({ appMode: mode })
+    set({ appMode: mode, activeMode: mode })
+    try { kvSet(APP_MODE_KEY, mode) } catch { /* swallow — pre-DB boot */ }
+  },
+  setActiveMode: (mode) => {
+    if (!APP_MODE_VALID.includes(mode)) return
+    set({ activeMode: mode, appMode: mode })
     try { kvSet(APP_MODE_KEY, mode) } catch { /* swallow — pre-DB boot */ }
   },
   setActivePageId: (id) => {

@@ -5,6 +5,11 @@
 - **Phase:** P89 / TIER2-FOUNDATION
 - **Cross-refs:** ADR-114 (Supabase Architecture), ADR-082 (Open Core RC)
 
+> **Tier-2 planning document — not part of open-core v1.0.0.**
+> Implementation archived at `plans/tier-2/featureFlag-archived.ts` per P89b correction.
+> Open-core build has zero feature-flag code; commercial fork applies this pattern.
+> See `plans/tier-2/README.md` for the boundary.
+
 ## Context
 
 ADR-114 ships the Supabase architecture (auth + schema + migration path) for the Tier-2

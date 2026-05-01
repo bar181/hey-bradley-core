@@ -7,7 +7,6 @@ import type { Database, SqlJsStatic } from 'sql.js';
 import { runMigrations } from './migrations';
 import { pruneOldLLMLogs, pruneLLMLogsByCount } from './repositories/llmLogs';
 import { seedPromptLibraryFromFiles } from './repositories/promptLibrary';
-import { isSupabaseMode } from './featureFlag';
 
 // FIX 7 (Phase 18b): default 30-day retention for llm_logs forensic table.
 // ADR-047 §Retention now states this is enforced (was "documented for future
@@ -60,14 +59,6 @@ function getChannel(): BroadcastChannel | null {
  * Idempotent: concurrent callers share one promise, repeat callers get the singleton.
  */
 export async function initDB(): Promise<Database> {
-  if (isSupabaseMode()) {
-    // P89: Supabase mode — local sql.js init skipped.
-    // P90 will route persistence through src/contexts/persistence/supabase/
-    // and the Supabase client. Until then, call sites in commercial mode must
-    // be guarded by `isSupabaseMode()` and never reach this function.
-    if (import.meta.env.DEV) console.info('[persistence] Supabase mode active; local sql.js init skipped');
-    throw new Error('[persistence] Supabase runtime not yet wired (P90); guard call sites with isSupabaseMode()');
-  }
   if (dbInstance) return dbInstance;
   if (initPromise) return initPromise;
 

@@ -552,6 +552,11 @@ export function Onboarding() {
           // Persist mode → triggers re-render. Next render falls through to
           // either personality picker (if not asked) or the project picker.
           setAppMode(mode)
+          // P90 / AW-MODE-ARCH (A3) — Planning + Agentics route to their stubs;
+          // Whiteboard falls through to the existing personality / project picker
+          // chain so the v1 onboarding flow is byte-equivalent for that mode.
+          if (mode === 'planning') navigate('/planning')
+          else if (mode === 'agentics') navigate('/agentics')
         }}
       />
     )

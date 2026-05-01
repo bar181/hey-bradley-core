@@ -5,6 +5,11 @@
 - **Phase:** P89 / TIER2-FOUNDATION
 - **Cross-refs:** ADR-016 (Local Database sql.js), ADR-043 (API Key Trust Boundaries), ADR-082 (Open Core RC), ADR-109 (Open Core RC Architecture)
 
+> **Tier-2 planning document — not part of open-core v1.0.0.**
+> Implementation source archived at `plans/tier-2/supabase/` per P89b correction.
+> Open-core build (this repo's `main` branch) has zero Supabase code references.
+> See `plans/tier-2/README.md` for the open-core / Tier-2 boundary.
+
 ## Context
 
 v1.0.0-RC1 sealed. Open-core uses local sql.js + IndexedDB persistence (ADR-016). BYOK keys live in localStorage with strict trust boundaries (ADR-043) — keys never cross to a remote server, ever. Tier-2 commercial track begins here with this phase (P89 / TIER2-FOUNDATION) as the architectural gate.
