@@ -17,6 +17,7 @@ import { Progress } from '@/pages/Progress'
 import { SharedSpec } from '@/pages/SharedSpec'
 import { ListenModeDemo } from '@/demos/ListenModeDemo'
 import { ChatModeDemo } from '@/demos/ChatModeDemo'
+import { FullSiteSimulator } from '@/demos/FullSiteSimulator'
 import { NotFound } from '@/pages/NotFound'
 import { initDB } from '@/contexts/persistence/db'
 import { migrateLegacyLocalStorage } from '@/contexts/persistence/legacyMigration'
@@ -72,6 +73,7 @@ initDB()
             <Route path="/spec/:hash" element={<SharedSpec />} />
             <Route path="/demo/listen" element={<ListenModeDemo />} />
             <Route path="/demo/chat" element={<ChatModeDemo />} />
+            <Route path="/demo/full-site" element={<FullSiteSimulator />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
@@ -105,6 +107,7 @@ initDB()
             <Route path="/spec/:hash" element={<SharedSpec />} />
             <Route path="/demo/listen" element={<ListenModeDemo />} />
             <Route path="/demo/chat" element={<ChatModeDemo />} />
+            <Route path="/demo/full-site" element={<FullSiteSimulator />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
