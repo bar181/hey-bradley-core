@@ -11,21 +11,21 @@ export function OpenCore() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#A51C30]/10 via-transparent to-[#A51C30]/5" />
-        <div className="relative max-w-3xl mx-auto px-6 py-24">
+        <div className="relative max-w-3xl mx-auto px-4 md:px-6 py-16 md:py-24">
           <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-4 font-medium">Open core &middot; MIT License</p>
-          <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
             The 55% problem<br />nobody&apos;s solving.
           </h1>
-          <p className="text-xl text-[#6b5e4f] leading-relaxed mb-8 max-w-2xl">
+          <p className="text-base md:text-xl text-[#6b5e4f] leading-relaxed mb-8 max-w-2xl">
             AI made coding 3x faster. But coding was never the bottleneck.
             The real cost is everything that happens <em>before</em> the first line of code&mdash;the
             meetings, the specs, the &ldquo;that&rsquo;s not what I meant.&rdquo;
             Hey&nbsp;Bradley is built for that 55%.
           </p>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-col md:flex-row md:flex-wrap gap-3">
             <Link
               to="/onboarding"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
+              className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-6 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
             >
               Try the open source version
               <ArrowRight className="w-4 h-4" />
@@ -34,7 +34,7 @@ export function OpenCore() {
               href="https://github.com/bar181/aisp-open-core"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors"
+              className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-6 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors"
             >
               Explore AISP
               <ArrowRight className="w-4 h-4" />
@@ -44,9 +44,9 @@ export function OpenCore() {
       </section>
 
       {/* The Bottleneck */}
-      <section className="max-w-4xl mx-auto px-6 py-20">
+      <section className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-20">
         <p className="text-xs uppercase tracking-[0.2em] text-red-400 font-medium mb-4">The bottleneck nobody talks about</p>
-        <h2 className="text-3xl lg:text-4xl font-bold mb-6">AI solved the wrong half of the problem.</h2>
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">AI solved the wrong half of the problem.</h2>
         <div className="space-y-4 text-[#6b5e4f] leading-relaxed max-w-3xl">
           <p>
             The last three years of AI investment compressed the &ldquo;writing code&rdquo; portion of software
@@ -84,9 +84,9 @@ export function OpenCore() {
 
       {/* What Open Core Means */}
       <section className="border-t border-white/5">
-        <div className="max-w-4xl mx-auto px-6 py-20">
+        <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-20">
           <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] font-medium mb-4">The model</p>
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">What &ldquo;open core&rdquo; means here.</h2>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">What &ldquo;open core&rdquo; means here.</h2>
           <div className="space-y-4 text-[#6b5e4f] leading-relaxed max-w-3xl">
             <p>
               Open core is a development model: one codebase, one product, with a natural boundary.
@@ -110,9 +110,9 @@ export function OpenCore() {
 
       {/* Spec-First Development */}
       <section className="border-t border-white/5">
-        <div className="max-w-4xl mx-auto px-6 py-20">
+        <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-20">
           <p className="text-xs uppercase tracking-[0.2em] text-purple-400 font-medium mb-4">The methodology</p>
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">Spec-first development for<br />teams that don&rsquo;t write code.</h2>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">Spec-first development for<br />teams that don&rsquo;t write code.</h2>
           <div className="space-y-4 text-[#6b5e4f] leading-relaxed max-w-3xl mb-12">
             <p>
               The shift has already happened. Developers at companies adopting agentic processes are
@@ -216,9 +216,9 @@ export function OpenCore() {
 
       {/* AISP */}
       <section className="border-t border-white/5">
-        <div className="max-w-4xl mx-auto px-6 py-20">
+        <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-20">
           <p className="text-xs uppercase tracking-[0.2em] text-amber-400 font-medium mb-4">The protocol</p>
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">AISP: why near-zero ambiguity<br />makes this possible.</h2>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">AISP: why near-zero ambiguity<br />makes this possible.</h2>
           <div className="space-y-4 text-[#6b5e4f] leading-relaxed max-w-3xl mb-10">
             <p>
               The AI Symbolic Protocol (AISP) is a math-first neural symbolic language with 512 symbols
@@ -267,9 +267,9 @@ export function OpenCore() {
 
       {/* How It Was Built */}
       <section className="border-t border-white/5">
-        <div className="max-w-4xl mx-auto px-6 py-20">
+        <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-20">
           <p className="text-xs uppercase tracking-[0.2em] text-cyan-400 font-medium mb-4">How it&apos;s built</p>
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">Agentic engineering,<br />from architecture to ship.</h2>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">Agentic engineering,<br />from architecture to ship.</h2>
           <div className="space-y-4 text-[#6b5e4f] leading-relaxed max-w-3xl mb-10">
             <p>
               Hey Bradley is itself built using the methodology it teaches. The entire 100K+ line
@@ -285,7 +285,7 @@ export function OpenCore() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-white/[0.03] border border-[#e8772e]/20 rounded-xl p-5">
               <Layers className="w-5 h-5 text-cyan-400 mb-3" />
               <div className="text-2xl font-bold">28K+</div>
@@ -322,9 +322,9 @@ export function OpenCore() {
 
       {/* The Repositories */}
       <section className="border-t border-white/5">
-        <div className="max-w-4xl mx-auto px-6 py-20">
+        <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-20">
           <p className="text-xs uppercase tracking-[0.2em] text-emerald-400 font-medium mb-4">The repositories</p>
-          <h2 className="text-3xl lg:text-4xl font-bold mb-8">Two open projects. One methodology.</h2>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-8">Two open projects. One methodology.</h2>
           <div className="grid md:grid-cols-2 gap-6">
             <a
               href="https://github.com/bar181/hey-bradley-core"
@@ -364,9 +364,9 @@ export function OpenCore() {
 
       {/* About Bradley */}
       <section className="border-t border-white/5">
-        <div className="max-w-4xl mx-auto px-6 py-20">
+        <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-20">
           <p className="text-xs uppercase tracking-[0.2em] text-[#6b5e4f] font-medium mb-4">About the research</p>
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">Built by Bradley Ross.</h2>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">Built by Bradley Ross.</h2>
           <div className="space-y-4 text-[#6b5e4f] leading-relaxed max-w-3xl">
             <p>
               Hey Bradley is a Harvard ALM capstone project in Digital Media Design, built to demonstrate
@@ -403,16 +403,16 @@ export function OpenCore() {
 
       {/* CTA */}
       <section className="border-t border-white/5">
-        <div className="max-w-4xl mx-auto px-6 py-20 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">The telephone game is over.</h2>
+        <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-20 text-center">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">The telephone game is over.</h2>
           <p className="text-[#6b5e4f] max-w-xl mx-auto mb-8 leading-relaxed">
             Describe what you see. Watch it appear. Specs generated automatically.
             Any AI builds it. What you approved is what ships.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-col md:flex-row md:flex-wrap items-stretch md:items-center justify-center gap-4">
             <Link
               to="/onboarding"
-              className="inline-flex items-center gap-2 px-8 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
+              className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-8 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
             >
               Try the open source version <ArrowRight className="w-4 h-4" />
             </Link>
@@ -420,7 +420,7 @@ export function OpenCore() {
               href="https://github.com/bar181/aisp-open-core"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors"
+              className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-8 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors"
             >
               Explore AISP <ArrowRight className="w-4 h-4" />
             </a>

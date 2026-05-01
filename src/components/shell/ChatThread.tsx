@@ -169,10 +169,10 @@ export function ChatThread({ messages }: ChatThreadProps) {
           {msg.role === 'bradley' && msg.improvements && msg.improvements.length > 0 && (
             <div
               data-testid="aisp-improvement-suggestions"
-              className="mt-1.5 px-2 py-1.5 text-[11px] text-hb-text-muted border-l-2 border-hb-accent/30"
+              className="mt-2 px-3 py-2 text-xs text-hb-text-muted border-l-2 border-hb-accent/30 transition-colors duration-200"
             >
-              <div className="font-medium mb-0.5">💡 Next steps:</div>
-              <ul className="space-y-0.5">
+              <div className="font-medium mb-1 text-hb-text-primary">💡 Next steps:</div>
+              <ul className="space-y-1">
                 {msg.improvements.slice(0, 3).map((s, i) => (
                   <li key={i}>• {s}</li>
                 ))}

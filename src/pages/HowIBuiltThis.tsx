@@ -79,11 +79,11 @@ export function HowIBuiltThis() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#A51C30]/10 via-transparent to-indigo-600/10" />
-        <div className="relative max-w-5xl mx-auto px-6 py-20 text-center">
-          <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+        <div className="relative max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-20 text-center">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
             52 Phases. One Human. Many Agents.
           </h1>
-          <p className="text-xl text-[#6b5e4f] max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base md:text-xl text-[#6b5e4f] max-w-2xl mx-auto leading-relaxed">
             Hey Bradley shipped 52 sealed phases through P69 — POC foundation,
             local persistence, real LLM chat across 5 providers, voice mode,
             open-core release, premium templates, and a documented architecture
@@ -93,7 +93,7 @@ export function HowIBuiltThis() {
       </section>
 
       {/* Stats Bar */}
-      <section className="max-w-5xl mx-auto px-6 py-8">
+      <section className="max-w-5xl mx-auto px-4 md:px-6 py-8">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {STATS.map((stat) => (
             <div key={stat.label} className="bg-white border border-[#e8772e]/20 rounded-xl p-4 text-center">
@@ -106,8 +106,8 @@ export function HowIBuiltThis() {
       </section>
 
       {/* Phase Trajectory */}
-      <section className="max-w-5xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold mb-8">Phase Trajectory (P1-P21)</h2>
+      <section className="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-8">Phase Trajectory (P1-P21)</h2>
         <div className="space-y-3">
           {PHASES.map((p) => (
             <div key={p.phase} className="flex items-center gap-4">
@@ -137,8 +137,8 @@ export function HowIBuiltThis() {
       </section>
 
       {/* Methodology */}
-      <section className="max-w-5xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold mb-8">The Methodology</h2>
+      <section className="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-8">The Methodology</h2>
         <div className="grid md:grid-cols-3 gap-6">
           {METHODOLOGY.map((m) => (
             <div key={m.title} className="bg-white border border-[#e8772e]/20 rounded-2xl p-8">
@@ -151,8 +151,8 @@ export function HowIBuiltThis() {
       </section>
 
       {/* Technical Innovation */}
-      <section className="max-w-5xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold mb-8">Technical Innovation</h2>
+      <section className="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-8">Technical Innovation</h2>
         <div className="grid md:grid-cols-3 gap-6">
           {INNOVATIONS.map((item) => (
             <div key={item.title} className="bg-white border border-[#e8772e]/20 rounded-2xl p-8">
@@ -165,8 +165,8 @@ export function HowIBuiltThis() {
       </section>
 
       {/* What I Learned */}
-      <section className="max-w-5xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold mb-8">What I Learned</h2>
+      <section className="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-8">What I Learned</h2>
         <div className="grid md:grid-cols-2 gap-6">
           <div className="bg-white border border-[#e8772e]/20 rounded-2xl p-8">
             <h3 className="text-lg font-semibold mb-3 text-emerald-400">What Worked</h3>
@@ -191,11 +191,11 @@ export function HowIBuiltThis() {
       </section>
 
       {/* CTA */}
-      <section className="max-w-5xl mx-auto px-6 py-16 text-center">
-        <div className="flex items-center justify-center gap-4 flex-wrap">
+      <section className="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16 text-center">
+        <div className="flex flex-col md:flex-row md:flex-wrap items-stretch md:items-center justify-center gap-4">
           <Link
             to="/onboarding"
-            className="inline-flex items-center gap-2 px-8 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
+            className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-8 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
           >
             Try the open source version <ArrowRight className="w-4 h-4" />
           </Link>
@@ -203,7 +203,7 @@ export function HowIBuiltThis() {
             href="https://github.com/bar181/aisp-open-core"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors"
+            className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-8 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors"
           >
             Explore AISP <ArrowRight className="w-4 h-4" />
           </a>

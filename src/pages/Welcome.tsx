@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom"
 import { ArrowRight, Mic, MessageSquare, SlidersHorizontal } from "lucide-react"
 import { MarketingNav } from "@/components/MarketingNav"
-import { HEADLINE_STATS } from "@/data/progress-eval"
 import { listBlogPosts } from "@/lib/blogPosts"
 
 const MODES = [
@@ -40,18 +39,18 @@ export function Welcome() {
           Harvard ALM Capstone &middot; AISP-powered
         </p>
         <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
-          Tell Bradley what you want. Watch it appear.
+          Your AI builds the wrong site 55% of the time.
         </h1>
         <p className="text-xl text-[#6b5e4f] leading-relaxed mb-8">
-          A whiteboard that listens, builds what you describe in real-time, and
-          writes enterprise specs in the background. Local-only. BYOK. No backend.
+          Hey Bradley generates a structured AISP spec before any code lands.
+          Sub-2% ambiguity. Open protocol. Local-only. BYOK. No backend.
         </p>
         <div className="flex flex-wrap gap-3">
           <Link
             to="/onboarding"
             className="inline-flex items-center gap-2 px-6 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
           >
-            Try the open source version
+            Try Hey Bradley &mdash; free
             <ArrowRight className="w-4 h-4" />
           </Link>
           <a
@@ -75,11 +74,11 @@ export function Welcome() {
       {/* Social proof bar */}
       <section className="border-y border-[#e8772e]/15 bg-[#f1ece4]/40">
         <div className="max-w-5xl mx-auto px-6 py-5 flex flex-wrap gap-x-8 gap-y-2 text-sm text-[#6b5e4f] justify-center items-center">
-          <span><strong className="text-[#2d1f12]">{HEADLINE_STATS.adrsAccepted}</strong> ADRs</span>
-          <span><strong className="text-[#2d1f12]">{HEADLINE_STATS.testsGreen}</strong> tests green</span>
-          <span><strong className="text-[#2d1f12]">61/80</strong> competitive score</span>
-          <span><strong className="text-[#2d1f12]">42K</strong> LOC</span>
-          <span>built by a swarm in <strong className="text-[#2d1f12]">{HEADLINE_STATS.codingDays} days</strong></span>
+          <span><strong className="text-[#2d1f12]">701</strong> tests passing</span>
+          <span><strong className="text-[#2d1f12]">110</strong> ADRs Accepted</span>
+          <span><strong className="text-[#2d1f12]">41</strong> templates</span>
+          <span><strong className="text-[#2d1f12]">12</strong> blog posts</span>
+          <span>composite <strong className="text-[#2d1f12]">82/100</strong> (vs SOTA 80)</span>
         </div>
       </section>
 
@@ -114,9 +113,9 @@ export function Welcome() {
         </p>
         <h2 className="text-3xl font-bold mb-3">Built in 2 days. Ready in 10.</h2>
         <p className="text-[#6b5e4f] leading-relaxed mb-6">
-          An open-core capstone shipped at sprint pace &mdash; {HEADLINE_STATS.phasesSealed} phases sealed
-          (P15&ndash;P69), {HEADLINE_STATS.sprintsSealed} sprints, {HEADLINE_STATS.adrsAccepted} ADRs Accepted, and
-          {' '}{HEADLINE_STATS.testsGreen} PURE-UNIT tests GREEN. Every decision is in the open.
+          An open-core capstone shipped at sprint pace &mdash; 71 phases sealed
+          (P15&ndash;P85), 110 ADRs Accepted, 701 PURE-UNIT tests GREEN, and a
+          composite score of 82/100 (vs SOTA 80). Every decision is in the open.
         </p>
         <div className="flex flex-wrap gap-3">
           <Link

@@ -36,7 +36,8 @@ export const ChatInputBar = forwardRef<HTMLInputElement, ChatInputBarProps>(
     return (
       <div
         className={cn(
-          'flex items-center gap-2 px-3 py-2 border-t border-hb-border bg-hb-surface transition-opacity',
+          'flex items-center gap-2 px-3 py-2 border-t border-hb-border bg-hb-surface',
+          'transition-opacity duration-200',
           isBusy && 'opacity-60'
         )}
       >
@@ -53,7 +54,7 @@ export const ChatInputBar = forwardRef<HTMLInputElement, ChatInputBarProps>(
           aria-busy={isBusy}
           data-testid="chat-input"
           disabled={isBusy}
-          className="flex-1 h-auto bg-transparent border-none outline-none ring-0 text-sm text-hb-text-primary placeholder:text-hb-text-muted disabled:opacity-50 focus-visible:border-none focus-visible:ring-0"
+          className="flex-1 h-auto bg-transparent border-none outline-none ring-0 text-sm text-hb-text-primary placeholder:text-hb-text-muted disabled:opacity-50 transition-colors duration-200 focus-visible:border-none focus-visible:ring-0"
         />
         <Button
           variant="ghost"
@@ -61,7 +62,7 @@ export const ChatInputBar = forwardRef<HTMLInputElement, ChatInputBarProps>(
           aria-label="Send message"
           onClick={onSend}
           disabled={isBusy || !value.trim()}
-          className="flex items-center justify-center w-8 h-8 rounded-full text-hb-accent hover:bg-hb-accent/10 transition-colors disabled:opacity-30"
+          className="flex items-center justify-center w-8 h-8 rounded-full text-hb-accent hover:bg-hb-accent/10 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hb-accent focus-visible:ring-offset-2 disabled:opacity-30"
         >
           <SendHorizontal size={16} />
         </Button>

@@ -33,7 +33,7 @@ export function MobileFirstRunCard({ onListen, onChat, onSkip }: MobileFirstRunC
   const buttonBase = cn(
     'w-full min-h-[44px] flex items-center justify-center gap-2 rounded-md',
     'border border-hb-border bg-hb-surface text-hb-text-primary text-sm font-mono',
-    'uppercase tracking-wider transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent',
+    'uppercase tracking-wider transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hb-accent focus-visible:ring-offset-2',
     'hover:bg-hb-accent/10 hover:border-hb-accent/30 hover:text-hb-accent',
   )
   return (
@@ -70,7 +70,7 @@ export function MobileFirstRunCard({ onListen, onChat, onSkip }: MobileFirstRunC
           type="button"
           onClick={onSkip}
           data-testid="mobile-first-run-skip"
-          className="min-h-[44px] px-2 text-xs font-mono uppercase tracking-wider text-hb-text-muted hover:text-hb-accent transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent rounded"
+          className="min-h-[44px] px-3 text-xs font-mono uppercase tracking-wider text-hb-text-muted hover:text-hb-accent transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hb-accent focus-visible:ring-offset-2 rounded"
         >
           Skip →
         </button>

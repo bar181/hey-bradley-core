@@ -83,22 +83,22 @@ export function Docs() {
       <MarketingNav />
 
       {/* Hero */}
-      <section className="max-w-5xl mx-auto px-6 py-20 text-center">
+      <section className="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-20 text-center">
         <div className="flex items-center justify-center gap-3 mb-6">
           <BookOpen className="w-8 h-8 text-[#e8772e]" />
         </div>
-        <h1 className="text-5xl lg:text-6xl font-bold tracking-tight text-neutral-900 mb-6">Documentation</h1>
-        <p className="text-xl text-[#6b5e4f] max-w-2xl mx-auto">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-neutral-900 mb-6">Documentation</h1>
+        <p className="text-base md:text-xl text-[#6b5e4f] max-w-2xl mx-auto">
           Everything you need to build with Hey Bradley &mdash; {SECTION_TYPES.length} section
           types, {totalVariants} variants, {THEMES.length} themes, and {SPEC_GENERATORS.length} spec generators.
         </p>
       </section>
 
       {/* Quick Start */}
-      <section className="max-w-5xl mx-auto px-6 py-16">
+      <section className="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16">
         <div className="flex items-center gap-3 mb-8">
           <Zap className="w-6 h-6 text-[#e8772e]" />
-          <h2 className="text-3xl font-bold text-neutral-900">Quick Start</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-neutral-900">Quick Start</h2>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
           {QUICK_START.map((item) => (
@@ -114,7 +114,7 @@ export function Docs() {
         <div className="mt-8 text-center">
           <Link
             to="/new-project"
-            className="inline-flex px-8 py-3 bg-[#e8772e] text-[#2d1f12] font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
+            className="inline-flex items-center justify-center w-full md:w-auto min-h-[44px] px-8 py-3 bg-[#e8772e] text-[#2d1f12] font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
           >
             Open the Builder
           </Link>
@@ -122,8 +122,8 @@ export function Docs() {
       </section>
 
       {/* Workflow */}
-      <section className="max-w-5xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold text-neutral-900 mb-8">Full Workflow</h2>
+      <section className="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16">
+        <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 mb-8">Full Workflow</h2>
         <div className="space-y-4">
           {WORKFLOW_STEPS.map((step, i) => (
             <div key={i} className="flex items-start gap-4 bg-white rounded-xl border border-neutral-200 p-6 shadow-sm">
@@ -140,12 +140,12 @@ export function Docs() {
       </section>
 
       {/* Section Reference */}
-      <section className="max-w-5xl mx-auto px-6 py-16">
+      <section className="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16">
         <div className="flex items-center gap-3 mb-8">
           <Layout className="w-6 h-6 text-[#e8772e]" />
-          <h2 className="text-3xl font-bold text-neutral-900">Section Reference</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-neutral-900">Section Reference</h2>
         </div>
-        <div className="bg-white rounded-2xl border border-neutral-200 overflow-hidden shadow-sm">
+        <div className="bg-white rounded-2xl border border-neutral-200 overflow-x-auto shadow-sm">
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-neutral-200 bg-neutral-50">
@@ -176,10 +176,10 @@ export function Docs() {
       </section>
 
       {/* Theme Reference */}
-      <section className="max-w-5xl mx-auto px-6 py-16">
+      <section className="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16">
         <div className="flex items-center gap-3 mb-8">
           <Palette className="w-6 h-6 text-[#e8772e]" />
-          <h2 className="text-3xl font-bold text-neutral-900">Theme Reference</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-neutral-900">Theme Reference</h2>
         </div>
         <p className="text-[#6b5e4f] mb-6">
           Each theme includes a primary palette, 4 alternative palettes, a dark/light
@@ -201,10 +201,10 @@ export function Docs() {
       </section>
 
       {/* Spec Reference */}
-      <section className="max-w-5xl mx-auto px-6 py-16">
+      <section className="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16">
         <div className="flex items-center gap-3 mb-8">
           <FileText className="w-6 h-6 text-[#e8772e]" />
-          <h2 className="text-3xl font-bold text-neutral-900">Spec Generator Reference</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-neutral-900">Spec Generator Reference</h2>
         </div>
         <p className="text-[#6b5e4f] mb-6">
           Hey Bradley generates 6 specification documents from your site config. Open
@@ -221,8 +221,8 @@ export function Docs() {
       </section>
 
       {/* Resources */}
-      <section className="max-w-5xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold text-neutral-900 mb-8">Resources</h2>
+      <section className="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16">
+        <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 mb-8">Resources</h2>
         <div className="grid md:grid-cols-3 gap-4">
           <a
             href="https://github.com/bar181/aisp-open-core"
@@ -262,11 +262,11 @@ export function Docs() {
       </section>
 
       {/* CTA */}
-      <section className="max-w-5xl mx-auto px-6 py-16 text-center">
-        <div className="flex items-center justify-center gap-4 flex-wrap">
+      <section className="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16 text-center">
+        <div className="flex flex-col md:flex-row md:flex-wrap items-stretch md:items-center justify-center gap-4">
           <Link
             to="/onboarding"
-            className="inline-flex items-center gap-2 px-8 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
+            className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-8 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
           >
             Try the open source version <ArrowRight className="w-4 h-4" />
           </Link>
@@ -274,7 +274,7 @@ export function Docs() {
             href="https://github.com/bar181/aisp-open-core"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-3 border border-[#e8772e]/30 text-neutral-900 font-semibold rounded-xl hover:bg-neutral-100 transition-colors"
+            className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-8 py-3 border border-[#e8772e]/30 text-neutral-900 font-semibold rounded-xl hover:bg-neutral-100 transition-colors"
           >
             Explore AISP <ArrowRight className="w-4 h-4" />
           </a>

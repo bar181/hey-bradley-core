@@ -60,12 +60,12 @@ export function BYOK() {
       <MarketingNav />
 
       {/* Hero */}
-      <section className="max-w-3xl mx-auto px-6 py-24">
+      <section className="max-w-3xl mx-auto px-4 md:px-6 py-16 md:py-24">
         <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-4 font-medium">Bring Your Own Key</p>
-        <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
           No account. Your key. Your machine.
         </h1>
-        <p className="text-xl text-[#6b5e4f] leading-relaxed">
+        <p className="text-base md:text-xl text-[#6b5e4f] leading-relaxed">
           Hey Bradley runs entirely in your browser. No backend. No analytics. When
           you bring a key, it stays in your browser&rsquo;s memory. When you finish, you
           can forget it with one click.
@@ -73,8 +73,8 @@ export function BYOK() {
       </section>
 
       {/* The Problem */}
-      <article className="max-w-3xl mx-auto px-6 pb-16">
-        <h2 className="text-3xl font-bold mb-4">Why BYOK?</h2>
+      <article className="max-w-3xl mx-auto px-4 md:px-6 pb-12 md:pb-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">Why BYOK?</h2>
         <p className="text-[#6b5e4f] leading-relaxed mb-4">
           Most AI tools collect your prompts. Some sell them. Most need an account
           before you can try anything. None of that is required to build a website
@@ -90,8 +90,8 @@ export function BYOK() {
       </article>
 
       {/* Provider Table */}
-      <article className="max-w-4xl mx-auto px-6 pb-16">
-        <h2 className="text-3xl font-bold mb-6">Five providers. Pick one.</h2>
+      <article className="max-w-4xl mx-auto px-4 md:px-6 pb-12 md:pb-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6">Five providers. Pick one.</h2>
         <div className="space-y-4">
           {PROVIDERS.map((p) => (
             <div key={p.name} className="bg-white border border-[#e8772e]/20 rounded-2xl p-6">
@@ -117,8 +117,8 @@ export function BYOK() {
       </article>
 
       {/* The 60-Second Walkthrough */}
-      <article className="max-w-3xl mx-auto px-6 pb-16">
-        <h2 className="text-3xl font-bold mb-4">The 60-second setup</h2>
+      <article className="max-w-3xl mx-auto px-4 md:px-6 pb-12 md:pb-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">The 60-second setup</h2>
         <ol className="space-y-4 text-[#6b5e4f] leading-relaxed">
           <li><strong className="text-[#2d1f12]">1.</strong> Open the builder. Click the cog icon top-right.</li>
           <li><strong className="text-[#2d1f12]">2.</strong> Pick a provider. Paste your key.</li>
@@ -129,8 +129,8 @@ export function BYOK() {
       </article>
 
       {/* Privacy Promise */}
-      <article className="max-w-3xl mx-auto px-6 pb-16">
-        <h2 className="text-3xl font-bold mb-4">What we do and don&rsquo;t store</h2>
+      <article className="max-w-3xl mx-auto px-4 md:px-6 pb-12 md:pb-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">What we do and don&rsquo;t store</h2>
         <div className="grid md:grid-cols-2 gap-4">
           <div className="bg-white border border-emerald-300 rounded-2xl p-6">
             <Shield className="w-6 h-6 text-emerald-600 mb-3" />
@@ -158,8 +158,8 @@ export function BYOK() {
       </article>
 
       {/* Cost Cap */}
-      <article className="max-w-3xl mx-auto px-6 pb-16">
-        <h2 className="text-3xl font-bold mb-4">The cost cap that stops surprises</h2>
+      <article className="max-w-3xl mx-auto px-4 md:px-6 pb-12 md:pb-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">The cost cap that stops surprises</h2>
         <p className="text-[#6b5e4f] leading-relaxed mb-4">
           Real LLM keys can rack up real bills if a loop goes wrong. Every chat
           call in Hey Bradley is metered against a per-session USD cap. Default:
@@ -174,11 +174,11 @@ export function BYOK() {
       </article>
 
       {/* CTA */}
-      <section className="max-w-3xl mx-auto px-6 py-20 text-center">
-        <div className="flex items-center justify-center gap-4 flex-wrap">
+      <section className="max-w-3xl mx-auto px-4 md:px-6 py-12 md:py-20 text-center">
+        <div className="flex flex-col md:flex-row md:flex-wrap items-stretch md:items-center justify-center gap-4">
           <Link
             to="/onboarding"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg text-lg"
+            className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-8 py-4 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg text-lg"
           >
             <Zap className="w-5 h-5" />
             Try the open source version
@@ -188,7 +188,7 @@ export function BYOK() {
             href="https://github.com/bar181/aisp-open-core"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-4 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors text-lg"
+            className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-8 py-4 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors text-lg"
           >
             Explore AISP <ArrowRight className="w-5 h-5" />
           </a>

@@ -65,14 +65,14 @@ export function Blog() {
       <MarketingNav />
 
       {/* Hero */}
-      <section className="max-w-4xl mx-auto px-6 py-20">
+      <section className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-20">
         <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-4 font-medium">
           The Hey Bradley blog
         </p>
-        <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
           Building Hey Bradley in public.
         </h1>
-        <p className="text-xl text-[#6b5e4f] leading-relaxed max-w-2xl">
+        <p className="text-base md:text-xl text-[#6b5e4f] leading-relaxed max-w-2xl">
           Field notes from a Harvard ALM capstone. Velocity, AISP, the spec
           layer, and the parts of the build that the rest of the AI-builder
           industry is leaving on the table.
@@ -80,8 +80,8 @@ export function Blog() {
       </section>
 
       {/* Stats banner */}
-      <section className="max-w-4xl mx-auto px-6 pb-16">
-        <div className="bg-white border border-[#e8772e]/20 rounded-2xl px-6 py-5 flex flex-wrap items-center justify-around gap-4">
+      <section className="max-w-4xl mx-auto px-4 md:px-6 pb-12 md:pb-16">
+        <div className="bg-white border border-[#e8772e]/20 rounded-2xl px-4 md:px-6 py-5 flex flex-wrap items-center justify-around gap-4">
           {STATS.map((s, i) => (
             <div key={s.label} className="flex items-center gap-3">
               <span className="text-3xl font-bold text-[#A51C30]">{s.value}</span>
@@ -94,7 +94,7 @@ export function Blog() {
 
       {/* Tag filter */}
       {allTags.length > 0 && (
-        <section className="max-w-5xl mx-auto px-6 pb-6" data-testid="blog-tag-filter">
+        <section className="max-w-5xl mx-auto px-4 md:px-6 pb-6" data-testid="blog-tag-filter">
           <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
@@ -130,8 +130,8 @@ export function Blog() {
       )}
 
       {/* Post grid */}
-      <section className="max-w-5xl mx-auto px-6 pb-24">
-        <div className="grid md:grid-cols-2 gap-6">
+      <section className="max-w-5xl mx-auto px-4 md:px-6 pb-16 md:pb-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {posts.map((post) => (
             <Link
               key={post.slug}
@@ -150,7 +150,7 @@ export function Blog() {
                   {post.readingTimeMin} min read
                 </span>
               </div>
-              <h2 className="text-2xl font-bold mb-2 leading-tight group-hover:text-[#A51C30] transition-colors">
+              <h2 className="text-xl md:text-2xl font-bold mb-2 leading-tight group-hover:text-[#A51C30] transition-colors">
                 {post.title}
               </h2>
               <p className="text-sm font-medium text-[#e8772e] mb-4">{post.subtitle}</p>

@@ -65,21 +65,21 @@ export function Progress() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#A51C30]/10 via-transparent to-amber-900/10" />
-        <div className="relative max-w-3xl mx-auto px-6 py-24">
+        <div className="relative max-w-3xl mx-auto px-4 md:px-6 py-16 md:py-24">
           <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-4 font-medium">
             Building in public
           </p>
-          <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
             Hey Bradley — built in 2 days, ready in 10.
           </h1>
-          <p className="text-xl text-[#6b5e4f] leading-relaxed mb-8 max-w-2xl">
+          <p className="text-base md:text-xl text-[#6b5e4f] leading-relaxed mb-8 max-w-2xl">
             A build-in-public snapshot of the open-core capstone.
           </p>
-          <div className="flex flex-wrap gap-3">
-            <Link to="/onboarding" className="inline-flex items-center gap-2 px-6 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg">
+          <div className="flex flex-col md:flex-row md:flex-wrap gap-3">
+            <Link to="/onboarding" className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-6 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg">
               Try the open source version <ArrowRight className="w-4 h-4" />
             </Link>
-            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors">
+            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-6 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors">
               Explore AISP <ArrowRight className="w-4 h-4" />
             </a>
           </div>
@@ -87,8 +87,8 @@ export function Progress() {
       </section>
 
       {/* Headline stats */}
-      <section className="py-10">
-        <div className="max-w-6xl mx-auto px-6">
+      <section className="py-8 md:py-10">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
           <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
             {STAT_CARDS.map((card) => (
               <div
@@ -108,18 +108,18 @@ export function Progress() {
 
       {/* Blog teaser */}
       <section className="py-12 bg-[#f1ece4]">
-        <div className="max-w-4xl mx-auto px-6">
+        <div className="max-w-4xl mx-auto px-4 md:px-6">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-xl bg-[#e8772e]/20 flex items-center justify-center">
               <BookOpen className="w-5 h-5 text-[#e8772e]" />
             </div>
-            <h2 className="text-2xl font-bold">From the build journal</h2>
+            <h2 className="text-xl md:text-2xl font-bold">From the build journal</h2>
           </div>
           <article
             data-testid="progress-blog-teaser"
-            className="bg-white border border-[#e8772e]/20 rounded-2xl p-8"
+            className="bg-white border border-[#e8772e]/20 rounded-2xl p-6 md:p-8"
           >
-            <h3 className="text-2xl font-semibold mb-3 leading-tight">{teaser.title}</h3>
+            <h3 className="text-xl md:text-2xl font-semibold mb-3 leading-tight">{teaser.title}</h3>
             <p className="text-[#6b5e4f] leading-relaxed mb-6">{teaser.excerpt}</p>
             <Link
               to="/blog/lovable-vs-hey-bradley"
@@ -135,9 +135,9 @@ export function Progress() {
       </section>
 
       {/* Eval */}
-      <section className="py-16">
-        <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-3xl font-bold mb-2">Swarm eval — honest scores</h2>
+      <section className="py-12 md:py-16">
+        <div className="max-w-5xl mx-auto px-4 md:px-6">
+          <h2 className="text-2xl md:text-3xl font-bold mb-2">Swarm eval — honest scores</h2>
           <p className="text-[#6b5e4f] mb-10 max-w-2xl">
             Eighteen items, scored 1-10 against the Sprint J system-wide review and the 2026-04-29 product
             evaluation. Excellent / Strong / Partial / Gap — gaps are not hidden.
@@ -194,15 +194,15 @@ export function Progress() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-b from-[#242424] to-[#1a1a1a] text-center text-[#faf8f5]">
-        <div className="max-w-3xl mx-auto px-6">
-          <h2 className="text-3xl font-bold mb-4">Want the full story?</h2>
+      <section className="py-12 md:py-20 bg-gradient-to-b from-[#242424] to-[#1a1a1a] text-center text-[#faf8f5]">
+        <div className="max-w-3xl mx-auto px-4 md:px-6">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">Want the full story?</h2>
           <p className="text-[#cab9a3] mb-8">
             The blog walks through the moat decisions, the velocity bet, and the discipline brake.
           </p>
           <Link
             to="/blog"
-            className="inline-flex items-center gap-2 px-8 py-3 bg-[#e8772e] text-[#2d1f12] font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
+            className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-8 py-3 bg-[#e8772e] text-[#2d1f12] font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
           >
             Read the build journal <ArrowRight className="w-4 h-4" />
           </Link>

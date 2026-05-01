@@ -577,7 +577,7 @@ export function ChatInput() {
           {isSimulated && (
             <span
               data-testid="chat-simulated-pill"
-              className="inline-block px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-hb-surface text-hb-text-muted border border-hb-border/40"
+              className="inline-block px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-hb-surface text-hb-text-muted border border-hb-border/40 transition-colors duration-200"
             >
               simulated mode
             </span>

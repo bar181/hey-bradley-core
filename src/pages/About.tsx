@@ -8,17 +8,17 @@ export function About() {
       <MarketingNav />
 
       {/* Hero */}
-      <section className="relative overflow-hidden py-24">
+      <section className="relative overflow-hidden py-16 md:py-24">
         <div className="absolute inset-0 bg-gradient-to-br from-[#A51C30]/10 via-transparent to-amber-900/10" />
-        <div className="relative max-w-5xl mx-auto px-6 text-center">
+        <div className="relative max-w-5xl mx-auto px-4 md:px-6 text-center">
           <span className="inline-flex items-center gap-2 bg-[#e8772e]/20 text-[#e8772e] px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
             <GraduationCap className="w-4 h-4" />
             Harvard ALM Capstone 2026
           </span>
-          <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
             Meet Bradley.
           </h1>
-          <p className="text-xl text-[#6b5e4f] max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base md:text-xl text-[#6b5e4f] max-w-2xl mx-auto leading-relaxed">
             I&apos;m Bradley Ross, a Harvard Extension ALM candidate who got tired of
             watching great ideas die in the gap between &ldquo;what I imagined&rdquo;
             and &ldquo;what got built.&rdquo; Hey Bradley is my answer.
@@ -42,8 +42,8 @@ export function About() {
       </section>
 
       {/* The Insight */}
-      <section className="py-20 bg-[#f1ece4]">
-        <div className="max-w-5xl mx-auto px-6">
+      <section className="py-12 md:py-20 bg-[#f1ece4]">
+        <div className="max-w-5xl mx-auto px-4 md:px-6">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-10 h-10 rounded-xl bg-[#e8772e]/20 flex items-center justify-center">
               <Heart className="w-5 h-5 text-[#e8772e]" />
@@ -78,8 +78,8 @@ export function About() {
       </section>
 
       {/* AISP */}
-      <section className="py-20 bg-[#faf8f5]">
-        <div className="max-w-5xl mx-auto px-6">
+      <section className="py-12 md:py-20 bg-[#faf8f5]">
+        <div className="max-w-5xl mx-auto px-4 md:px-6">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
               <Atom className="w-5 h-5 text-purple-400" />
@@ -129,8 +129,8 @@ export function About() {
       </section>
 
       {/* The Vision */}
-      <section className="py-20 bg-[#f1ece4]">
-        <div className="max-w-5xl mx-auto px-6">
+      <section className="py-12 md:py-20 bg-[#f1ece4]">
+        <div className="max-w-5xl mx-auto px-4 md:px-6">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
               <BookOpen className="w-5 h-5 text-[#2d1f12]" />
@@ -167,8 +167,8 @@ export function About() {
       </section>
 
       {/* The Journey */}
-      <section className="py-20 bg-[#faf8f5]">
-        <div className="max-w-5xl mx-auto px-6">
+      <section className="py-12 md:py-20 bg-[#faf8f5]">
+        <div className="max-w-5xl mx-auto px-4 md:px-6">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-10 h-10 rounded-xl bg-[#e8772e]/20 flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-[#e8772e]" />
@@ -211,15 +211,15 @@ export function About() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-b from-[#242424] to-[#1a1a1a] text-center">
-        <div className="max-w-3xl mx-auto px-6">
-          <h2 className="text-3xl font-bold mb-4">Ready to try it?</h2>
+      <section className="py-12 md:py-20 bg-gradient-to-b from-[#242424] to-[#1a1a1a] text-center">
+        <div className="max-w-3xl mx-auto px-4 md:px-6">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to try it?</h2>
           <p className="text-[#6b5e4f] mb-8">Jump into the builder and see what spec-driven development feels like.</p>
-          <div className="flex items-center justify-center gap-4 flex-wrap">
-            <Link to="/onboarding" className="inline-flex items-center gap-2 px-8 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg">
+          <div className="flex flex-col md:flex-row items-stretch md:items-center justify-center gap-4 md:flex-wrap">
+            <Link to="/onboarding" className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-8 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg">
               Try the open source version <ArrowRight className="w-4 h-4" />
             </Link>
-            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors">
+            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-8 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors">
               Explore AISP <ArrowRight className="w-4 h-4" />
             </a>
           </div>
