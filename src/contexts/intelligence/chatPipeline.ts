@@ -90,6 +90,21 @@ export interface ChatPipelineResult {
   latencyMs?: number | null
   /** Optional pipeline-stage breakdown for EXPERT mode. ms per stage. */
   latencyBreakdown?: { classify?: number; select?: number; patch?: number; apply?: number } | null
+  /**
+   * P85 / OC-19 (A2) — Template matcher confidence chip text (Recommendation 1).
+   * Surfaced when the 3-layer Template Intelligence matcher fires above
+   * threshold. Drives the inline `selected <name> (<conf> confidence)` chip
+   * under the bradley reply. Undefined when the matcher did not short-circuit
+   * (low confidence, no layer match, error path, or non-template route).
+   */
+  matcherConfidence?: { name: string; confidence: number }
+  /**
+   * P85 / OC-19 (A2) — Decomp todos surfaced for the user-visible
+   * "I found N things to do" inline list (Recommendation 2). Populated only on
+   * the DECOMP_ATOM short-circuit path (≥2 todos, confidence ≥ 0.7, ≥1 patch).
+   * Render gate `decompTodos.length >= 2` keeps single-clause replies clean.
+   */
+  decompTodos?: Array<{ verb: string; target?: string; status: 'applied' | 'deferred' | 'skipped' }>
 }
 
 /** Sprint K P54 (A1) — compose latencyBreakdown from optional stage marks. */
@@ -400,12 +415,19 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
           }
           useConfigStore.getState().applyPatches(composed)
           const doneAt = Date.now()
+          // P85 / OC-19 (A2) — Recommendation 2: surface user-visible todo list.
+          const decompTodos: ChatPipelineResult['decompTodos'] = exec.traces.map((t) => ({
+            verb: t.todo.verb,
+            target: t.todo.target,
+            status: t.status,
+          }))
           return {
             ok: true, appliedPatchCount: exec.allPatches.length, fellBackToCanned: false,
             summary: `Decomposed ${decomp.todos.length} todos — ${exec.allPatches.length} patches applied`,
             durationMs: doneAt - startedAt, errorKind: null,
             aisp: aispTrace, aispRoute,
             latencyMs: doneAt - startedAt, latencyBreakdown: buildBreakdown(stageMarks, doneAt),
+            decompTodos,
           }
         }
       }
@@ -431,12 +453,20 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
             prefixPatchPaths(tiPatches, scope.scopeRoot) as JSONPatch[],
           )
           const doneAt = Date.now()
+          // P85 / OC-19 (A2) — Recommendation 1: surface matcher confidence chip.
+          // Name derived from highest-priority layer that matched (theme >
+          // sectionArrangement > contentStyle); falls back to 'template' on the
+          // unreachable case where confidence ≥ threshold but no layer object
+          // is set (defensive — TemplateMatch contract guarantees ≥1 layer).
+          const matcherName =
+            tplMatch.theme?.id ?? tplMatch.sectionArrangement?.id ?? tplMatch.contentStyle?.id ?? 'template'
           return {
             ok: true, appliedPatchCount: tiPatches.length, fellBackToCanned: false,
             summary: `Template intelligence — ${tplMatch.rationale}`,
             durationMs: doneAt - startedAt, errorKind: null,
             aisp: aispTrace, aispRoute,
             latencyMs: doneAt - startedAt, latencyBreakdown: buildBreakdown(stageMarks, doneAt),
+            matcherConfidence: { name: matcherName, confidence: tplMatch.confidence },
           }
         }
       }

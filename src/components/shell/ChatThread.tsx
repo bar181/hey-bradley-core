@@ -14,6 +14,7 @@ import { cn } from '@/lib/cn'
 import { useUIStore } from '@/store/uiStore'
 import { AISPSurface } from '@/components/shell/AISPSurface'
 import { PatchLatencyBadge } from '@/components/shell/PatchLatencyBadge'
+import { BradleyMessageChips } from '@/components/shell/BradleyMessageChips'
 import type { ChatMessage } from '@/components/shell/ChatInput'
 // P74 / Track B / A4 — chat surface shows 5-25 word highlight; full text
 // stays on the ChatMessage object so ConversationLogTab can render in full.
@@ -24,6 +25,9 @@ export interface ChatThreadProps {
 }
 
 export function ChatThread({ messages }: ChatThreadProps) {
+  // P85 / OC-19 (A2) — Recommendation 3: EXPERT-mode error-code chip gate.
+  // Read once at render so all message rows share the same mode flag.
+  const isExpertMode = useUIStore((s) => s.rightPanelTab) === 'EXPERT'
   return (
     <>
       {messages.map((msg) => {
@@ -69,6 +73,11 @@ export function ChatThread({ messages }: ChatThreadProps) {
           {msg.role === 'bradley' && (
             <PatchLatencyBadge latencyMs={msg.latencyMs} breakdown={msg.latencyBreakdown} />
           )}
+          {/* P85 / OC-19 (A2) — Dual-view chips per ADR-110 AISP visibility
+              standard. Extracted to BradleyMessageChips to honor the P67c.5
+              ≤200 LOC canonical cap. Three chips: matcher confidence, DECOMP
+              todo summary, EXPERT error-code. */}
+          <BradleyMessageChips msg={msg} isExpertMode={isExpertMode} />
           {/* Sprint J P50 (A2) — personality-rendered secondary voice layer
               (composition; no Σ widening). Renders UNDER the typewriter
               primary text. Sprint J P51 (A5) — per-personality bubble styling

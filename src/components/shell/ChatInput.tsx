@@ -81,6 +81,12 @@ export interface ChatMessage {
   // Sprint K P54 (A1) — latency for the badge; A2 mounts the renderer.
   latencyMs?: number | null
   latencyBreakdown?: { classify?: number; select?: number; patch?: number; apply?: number } | null
+  /** P85 / OC-19 (A2) — template matcher confidence chip (Recommendation 1). */
+  matcherConfidence?: { name: string; confidence: number }
+  /** P85 / OC-19 (A2) — decomp todos for inline list render (Recommendation 2). */
+  decompTodos?: Array<{ verb: string; target?: string; status: 'applied' | 'deferred' | 'skipped' }>
+  /** P85 / OC-19 (A2) — pipeline error kind for EXPERT-mode AISP code chip (Recommendation 3). */
+  errorKind?: import('@/lib/mapChatError').ChatErrorKind | null
 }
 
 const MAX_MESSAGES = 20
@@ -113,6 +119,10 @@ export function ChatInput() {
     personalityId?: PersonalityId | null
     latencyMs?: number | null
     latencyBreakdown?: ChatMessage['latencyBreakdown']
+    // P85 / OC-19 (A2) — dual-view fields plumbed from chatPipeline result.
+    matcherConfidence?: ChatMessage['matcherConfidence']
+    decompTodos?: ChatMessage['decompTodos']
+    errorKind?: ChatMessage['errorKind']
   } | null>(null)
   // P34 Sprint E P1 (A2) — /browse picker visibility.
   const [showBrowsePicker, setShowBrowsePicker] = useState(false)
@@ -179,6 +189,10 @@ export function ChatInput() {
           personalityMessage: pending?.personalityMessage ?? null,
           personalityId: pending?.personalityId ?? null,
           latencyMs: pending?.latencyMs ?? null, latencyBreakdown: pending?.latencyBreakdown ?? null,
+          // P85 / OC-19 (A2) — attach dual-view fields to the bradley message.
+          matcherConfidence: pending?.matcherConfidence,
+          decompTodos: pending?.decompTodos,
+          errorKind: pending?.errorKind ?? null,
         },
       ])
       setTypingText('')
@@ -382,6 +396,10 @@ export function ChatInput() {
       personalityMessage: result.personalityMessage ?? null,
       personalityId: result.personalityId ?? null,
       latencyMs: result.latencyMs ?? null, latencyBreakdown: result.latencyBreakdown ?? null,
+      // P85 / OC-19 (A2) — plumb dual-view fields through to the bradley message.
+      matcherConfidence: result.matcherConfidence,
+      decompTodos: result.decompTodos,
+      errorKind: result.errorKind ?? null,
     }
     if (result.ok && !result.fellBackToCanned && result.appliedPatchCount > 0) {
       setTypingText('')
