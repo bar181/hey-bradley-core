@@ -48,10 +48,10 @@ export function CaseStudyCards({ section }: { section: Section }) {
   const cards = parseCards(section)
   const accent = section.style.color
     ? `color-mix(in srgb, ${section.style.color} 60%, transparent)`
-    : '#6366f1'
+    : 'var(--hb-accent)'
   const chipBg = section.style.color
     ? `color-mix(in srgb, ${section.style.color} 14%, transparent)`
-    : 'rgba(99,102,241,0.14)'
+    : 'color-mix(in srgb, var(--hb-accent) 14%, transparent)'
 
   return (
     <section
@@ -83,7 +83,8 @@ export function CaseStudyCards({ section }: { section: Section }) {
         {cards.map((card, idx) => (
           <article
             key={card.id}
-            className={`group rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl opacity-0 animate-card-reveal ${effectClass}`}
+            tabIndex={0}
+            className={`group rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] focus-visible:-translate-y-1 opacity-0 animate-card-reveal ${effectClass}`}
             style={{
               animationDelay: `${idx * 100}ms`,
               background: section.style.background,

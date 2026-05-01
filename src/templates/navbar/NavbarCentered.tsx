@@ -50,7 +50,7 @@ export function NavbarCentered({ section }: { section: Section }) {
             <a
               key={link.id}
               href={`#${link.id}`}
-              className="text-sm px-3 py-1.5 rounded-md opacity-70 hover:opacity-100 hover:bg-white/5 transition-all"
+              className="text-sm px-3 py-1.5 rounded-md opacity-70 hover:opacity-100 hover:bg-white/5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)]"
               style={{ color: 'inherit' }}
             >
               {link.label}
@@ -59,10 +59,10 @@ export function NavbarCentered({ section }: { section: Section }) {
           {ctaEnabled && (
             <a
               href="#"
-              className="ml-2 inline-flex items-center px-4 py-1.5 rounded-lg text-sm font-medium transition-colors hover:opacity-90 hover:shadow-sm"
+              className="ml-2 inline-flex items-center px-4 py-1.5 rounded-lg text-sm font-medium transition-colors duration-200 hover:opacity-90 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] focus-visible:ring-offset-2"
               style={{
-                background: 'var(--theme-accent, #6366f1)',
-                color: '#fff',
+                background: 'var(--theme-accent, var(--hb-accent))',
+                color: 'var(--hb-bg)',
               }}
             >
               {ctaText}
@@ -74,10 +74,10 @@ export function NavbarCentered({ section }: { section: Section }) {
         {ctaEnabled && (
           <a
             href="#"
-            className="md:hidden mt-1 inline-flex items-center px-4 py-1.5 rounded-lg text-sm font-medium transition-colors"
+            className="md:hidden mt-1 inline-flex items-center px-4 py-1.5 rounded-lg text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] focus-visible:ring-offset-2"
             style={{
-              background: 'var(--theme-accent, #6366f1)',
-              color: '#fff',
+              background: 'var(--theme-accent, var(--hb-accent))',
+              color: 'var(--hb-bg)',
             }}
           >
             {ctaText}

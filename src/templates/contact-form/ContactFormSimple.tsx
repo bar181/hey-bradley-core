@@ -65,10 +65,10 @@ export function ContactFormSimple({ section }: { section: Section }) {
   const button = parseButton(section)
   const accent = section.style.color
     ? `color-mix(in srgb, ${section.style.color} 60%, transparent)`
-    : '#6366f1'
+    : 'var(--hb-accent)'
   const fieldBorder = section.style.color
     ? `color-mix(in srgb, ${section.style.color} 22%, transparent)`
-    : 'rgba(99,102,241,0.22)'
+    : 'color-mix(in srgb, var(--hb-accent) 22%, transparent)'
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -139,7 +139,7 @@ export function ContactFormSimple({ section }: { section: Section }) {
                     required={field.required}
                     aria-required={field.required}
                     rows={4}
-                    className="rounded-lg px-3 py-2 text-sm bg-transparent transition-colors focus:outline-none focus:ring-2"
+                    className="rounded-lg px-3 py-2 text-sm bg-transparent transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)]"
                     style={{
                       border: `1px solid ${fieldBorder}`,
                       color: section.style.color,
@@ -153,7 +153,7 @@ export function ContactFormSimple({ section }: { section: Section }) {
                     placeholder={field.placeholder}
                     required={field.required}
                     aria-required={field.required}
-                    className="rounded-lg px-3 py-2 text-sm bg-transparent transition-colors focus:outline-none focus:ring-2"
+                    className="rounded-lg px-3 py-2 text-sm bg-transparent transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)]"
                     style={{
                       border: `1px solid ${fieldBorder}`,
                       color: section.style.color,
@@ -167,7 +167,7 @@ export function ContactFormSimple({ section }: { section: Section }) {
           {button && (
             <button
               type="submit"
-              className="inline-flex items-center justify-center w-full mt-2 px-6 py-2.5 rounded-lg font-semibold text-sm shadow-sm transition-all hover:opacity-90 hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center w-full mt-2 px-6 py-2.5 rounded-lg font-semibold text-sm shadow-sm transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] focus-visible:ring-offset-2"
               style={{ background: accent, color: section.style.background }}
             >
               {button.label}

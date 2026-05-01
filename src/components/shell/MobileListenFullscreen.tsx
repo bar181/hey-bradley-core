@@ -59,7 +59,7 @@ export function MobileListenFullscreen(props: MobileListenFullscreenProps) {
       aria-modal="true"
       aria-label="Listen mode"
       className={
-        'fixed inset-0 z-30 bg-[#faf8f5] flex flex-col items-center justify-between ' +
+        'fixed inset-0 z-30 bg-[var(--hb-listen-bg)] flex flex-col items-center justify-between ' +
         'transition-opacity duration-200 ease-out ' +
         (mounted ? 'opacity-100' : 'opacity-0')
       }
@@ -79,16 +79,16 @@ export function MobileListenFullscreen(props: MobileListenFullscreenProps) {
           className={
             'relative flex items-center justify-center rounded-full ' +
             'w-40 h-40 min-h-[120px] min-w-[120px] ' +
-            'bg-[#2d1f12] text-[#faf8f5] ' +
+            'bg-[var(--hb-listen-fg)] text-[var(--hb-listen-bg)] ' +
             'transition-transform duration-200 ease-out active:scale-95 ' +
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6b5e4f]'
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-listen-accent)]'
           }
           style={{ boxShadow: tokens.shadow.elevated }}
         >
           {recording && (
             <span
               aria-hidden="true"
-              className="absolute inset-0 rounded-full bg-[#2d1f12]/30 animate-pulse"
+              className="absolute inset-0 rounded-full bg-[var(--hb-listen-fg)] opacity-30 animate-pulse"
             />
           )}
           <Mic className="w-32 h-32 relative" aria-hidden="true" />
@@ -97,7 +97,7 @@ export function MobileListenFullscreen(props: MobileListenFullscreenProps) {
         <div
           data-testid="mobile-listen-transcript"
           aria-live="polite"
-          className="text-center text-base font-mono text-[#6b5e4f] min-h-[3rem] px-4"
+          className="text-center text-base font-mono text-[var(--hb-listen-accent)] min-h-[3rem] px-4"
         >
           {recording ? 'Listening...' : 'Tap mic to start'}
         </div>
@@ -111,9 +111,9 @@ export function MobileListenFullscreen(props: MobileListenFullscreenProps) {
           onClick={onClose}
           className={
             'min-h-[44px] min-w-[44px] px-5 py-2 rounded-md ' +
-            'bg-[#2d1f12] text-[#faf8f5] text-sm font-mono uppercase tracking-wider ' +
-            'transition-colors duration-200 hover:bg-[#6b5e4f] ' +
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6b5e4f]'
+            'bg-[var(--hb-listen-fg)] text-[var(--hb-listen-bg)] text-sm font-mono uppercase tracking-wider ' +
+            'transition-colors duration-200 hover:bg-[var(--hb-listen-accent)] ' +
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-listen-accent)]'
           }
         >
           Done

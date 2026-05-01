@@ -51,7 +51,7 @@ export function NavbarSimple({ section }: { section: Section }) {
             <a
               key={link.id}
               href={`#${link.id}`}
-              className="text-sm opacity-70 hover:opacity-100 transition-opacity"
+              className="text-sm px-2 py-1 rounded-md opacity-70 hover:opacity-100 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)]"
               style={{ color: 'inherit' }}
             >
               {link.label}
@@ -63,10 +63,10 @@ export function NavbarSimple({ section }: { section: Section }) {
         {ctaEnabled && (
           <a
             href="#"
-            className="hidden sm:inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            className="hidden sm:inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] focus-visible:ring-offset-2"
             style={{
-              background: 'var(--theme-accent, #6366f1)',
-              color: '#fff',
+              background: 'var(--theme-accent, var(--hb-accent))',
+              color: 'var(--hb-bg)',
             }}
           >
             {ctaText}

@@ -32,6 +32,10 @@ body {
     --hb-accent-light: rgba(165, 28, 48, 0.22); /* Crimson transparent */
     --hb-accent-hover: #C1283E;    /* Bright crimson — hover */
     --hb-nav-bg: #8C1515;          /* Dark crimson — top bar */
+    /* P88 — Listen-mode parchment/espresso palette (mode-independent) */
+    --hb-listen-bg: #faf8f5;       /* Warm parchment — fullscreen overlay bg */
+    --hb-listen-fg: #2d1f12;       /* Dark espresso — mic + button surface */
+    --hb-listen-accent: #6b5e4f;   /* Warm taupe — focus ring + hover + transcript */
   }
   .light-chrome {
     /* Hey Bradley Chrome — Light Mode (Harvard HMS Brand)
