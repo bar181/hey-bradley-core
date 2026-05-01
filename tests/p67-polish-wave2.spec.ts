@@ -211,13 +211,19 @@ test.describe('P67.6 — A3 social proof updated', () => {
   test('progress-eval.ts exists', () => {
     expect(existsSync(PROGRESS_EVAL)).toBe(true)
   })
-  test('HEADLINE_STATS contains testsGreen: 528', () => {
+  test('HEADLINE_STATS contains testsGreen at or above 528 (moving snapshot)', () => {
     const src = read(PROGRESS_EVAL)
-    expect(src).toMatch(/testsGreen\s*:\s*528/)
+    // HEADLINE_STATS is a moving snapshot; bumped at each polish wave.
+    // P67 raised to 528; subsequent waves keep >= 528.
+    const m = src.match(/testsGreen\s*:\s*(\d+)/)
+    expect(m, 'testsGreen field present').toBeTruthy()
+    expect(Number(m![1]), `testsGreen >= 528`).toBeGreaterThanOrEqual(528)
   })
-  test('HEADLINE_STATS contains adrsAccepted: 91', () => {
+  test('HEADLINE_STATS contains adrsAccepted at or above 91 (moving snapshot)', () => {
     const src = read(PROGRESS_EVAL)
-    expect(src).toMatch(/adrsAccepted\s*:\s*91/)
+    const m = src.match(/adrsAccepted\s*:\s*(\d+)/)
+    expect(m, 'adrsAccepted field present').toBeTruthy()
+    expect(Number(m![1]), `adrsAccepted >= 91`).toBeGreaterThanOrEqual(91)
   })
 })
 

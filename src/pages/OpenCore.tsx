@@ -281,7 +281,7 @@ export function OpenCore() {
               The project uses deep agentic engineering practices: hierarchical mesh topology for agent
               coordination, HNSW-indexed vector memory for pattern learning, domain-driven design with
               bounded contexts, and a 3-tier model routing system that selects the right AI for each
-              task. 37 Architecture Decision Records document every significant choice.
+              task. 96 Architecture Decision Records document every significant choice.
             </p>
           </div>
 
@@ -293,18 +293,18 @@ export function OpenCore() {
             </div>
             <div className="bg-white/[0.03] border border-[#e8772e]/20 rounded-xl p-5">
               <Target className="w-5 h-5 text-cyan-400 mb-3" />
-              <div className="text-2xl font-bold">244</div>
+              <div className="text-2xl font-bold">730</div>
               <div className="text-xs text-[#6b5e4f] mt-1">PURE-UNIT tests GREEN</div>
             </div>
             <div className="bg-white/[0.03] border border-[#e8772e]/20 rounded-xl p-5">
               <Zap className="w-5 h-5 text-cyan-400 mb-3" />
-              <div className="text-2xl font-bold">79</div>
+              <div className="text-2xl font-bold">96</div>
               <div className="text-xs text-[#6b5e4f] mt-1">Architecture Decision Records</div>
             </div>
             <div className="bg-white/[0.03] border border-[#e8772e]/20 rounded-xl p-5">
               <Cpu className="w-5 h-5 text-cyan-400 mb-3" />
-              <div className="text-2xl font-bold">42</div>
-              <div className="text-xs text-[#6b5e4f] mt-1">phases sealed (P15&ndash;P56)</div>
+              <div className="text-2xl font-bold">52</div>
+              <div className="text-xs text-[#6b5e4f] mt-1">phases sealed (P15&ndash;P69)</div>
             </div>
           </div>
 

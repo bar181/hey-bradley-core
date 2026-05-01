@@ -113,7 +113,7 @@ Everything in this repo is the **open-core MVP**. The commercial track ships pos
 |---|---|
 | Builder + Chat + Listen modes | Multi-page polish (nav linking, route persistence) |
 | 5-atom AISP pipeline | Supabase auth + hosted accounts (BYOK only here) |
-| 16 section types, 12 themes, 17 examples | Tier-2 SaaS-dashboard flagship |
+| 16 section types, 12 themes, 37 templates across 8+ verticals | Tier-2 SaaS-dashboard flagship |
 | BYOK across 4 real providers + 2 mocks | Agentic Support System (Hey Bradley uses Hey Bradley) |
 | Static HTML export + shareable hosted URL | Learning-flywheel runtime / vector-DB pattern search |
 | MIT-licensed source for everything above | Interview Mode (voice-led question loop) |
@@ -126,13 +126,15 @@ See [`plans/strategic-reviews/open-core-moat-roadmap.md`](plans/strategic-review
 
 | Metric | Value |
 |---|---|
-| ADRs Accepted | 80 (ADR-001 → ADR-081, with documented numbering gaps; see [`docs/adr/README.md`](docs/adr/README.md)) |
-| PURE-UNIT tests cumulative at RC | ~298 GREEN |
-| Sprints sealed in the moat window | 7 (Sprint J → Sprint O) over ~2 working days |
+| ADRs Accepted | 96 (through ADR-096; documented numbering gaps in [`docs/adr/README.md`](docs/adr/README.md)) |
+| PURE-UNIT tests cumulative at P68/P69 seal | 730 GREEN |
+| Sprints sealed in the moat + open-core window | 12+ (Sprint J → OC-5) — moat sequence + Open-Core Tier-2 polish arc |
 | Source lines of TS/TSX | ~28,400 across 227 files |
-| Themes / examples / section types | 12 / 17 / 16 |
+| Themes / examples / section types | 12 / 37 / 16 |
 | Crystal Atoms in production | 5 |
 | Real LLM adapters | 4 (plus 2 mocks) |
+| Mobile shell | Single chat surface + inline mic + fullscreen listen + spec bottom sheet (ADR-090) |
+| Demo routes (no API key) | `/demo/listen`, `/demo/chat` — fixture AgentProxy, $0 cost |
 
 Velocity discipline kept the brake on: every phase carries an ADR, an end-of-phase retrospective, persona scoring against the rubric, and a brutal-honest review with fix-passes before the next phase opens.
 

@@ -23,10 +23,10 @@ export interface ProgressItem {
 export const HEADLINE_STATS = {
   codingDays: 2,
   daysToDefense: 14,
-  phasesSealed: 51,    // P15 through P66 inclusive (Polish Wave 1 sealed)
-  adrsAccepted: 91,    // ADR-092 added at P66
-  testsGreen: 528,     // P66 Polish Wave 1 cumulative seal-gate
-  sprintsSealed: 15,   // F, H, I, J, K, L, M, N, O, OC-1, OC-2, OC-3, OC-2.5, OC-2.5 W2, Polish Wave 1
+  phasesSealed: 52,    // P15 through P69 inclusive (OC-4 + OC-5 sealed in parallel)
+  adrsAccepted: 96,    // ADR-096 added at P68/P69
+  testsGreen: 730,     // P68/P69 OC-4 + OC-5 cumulative seal-gate
+  sprintsSealed: 17,   // F, H, I, J, K, L, M, N, O, OC-1, OC-2, OC-3, OC-2.5, OC-2.5 W2, Polish Wave 1, Polish Wave 2/Close-the-Gap, OC-4/OC-5
 } as const
 
 export const PROGRESS_ITEMS: ProgressItem[] = [

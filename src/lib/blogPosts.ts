@@ -44,6 +44,7 @@ export interface BlogPost {
   readingTimeMin: number
   excerpt: string
   body: string
+  tags: string[]
 }
 
 interface BlogPostMeta {
@@ -52,18 +53,45 @@ interface BlogPostMeta {
   subtitle: string
   date: string
   readingTimeMin: number
+  tags?: string[]
 }
 
-// Hardcoded registry. A4 writes the .md content; this list governs ordering
-// and metadata. If the .md file is missing, body is empty + excerpt shows
-// "Coming soon" so the index card still renders without crashing.
+// Words-per-minute heuristic for read-time estimation. ADR-097 fixes 200wpm
+// as the canonical rate; `readTimeMinutes` is `Math.ceil(words / 200)`.
+const WORDS_PER_MINUTE = 200
+
+export function countWords(body: string): number {
+  if (!body) return 0
+  const stripped = body
+    .replace(/^---[\s\S]*?\n---\n?/, '')   // frontmatter
+    .replace(/`{1,3}[^`]*`{1,3}/g, ' ')    // inline + fenced code
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/[#*_>\-|]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+  if (!stripped) return 0
+  return stripped.split(' ').filter(Boolean).length
+}
+
+export function readTimeMinutes(body: string): number {
+  const words = countWords(body)
+  if (words === 0) return 1
+  return Math.max(1, Math.ceil(words / WORDS_PER_MINUTE))
+}
+
+// Hardcoded registry. A4 + A5 write the .md content; this list governs
+// ordering and metadata. If the .md file is missing, body is empty +
+// excerpt shows "Coming soon" so the index card still renders without
+// crashing. P71 / OC-13 (ADR-097) expands 4 → 10.
 const REGISTRY: BlogPostMeta[] = [
+  // P58 baseline (4 posts)
   {
     slug: 'lovable-vs-hey-bradley',
     title: 'Lovable Builds the Site. Hey Bradley Designs It First.',
     subtitle: 'Why the spec layer is the real bottleneck — and the moat.',
     date: '2026-04-29',
     readingTimeMin: 6,
+    tags: ['positioning', 'spec-first'],
   },
   {
     slug: 'six-sprints-two-days',
@@ -71,6 +99,7 @@ const REGISTRY: BlogPostMeta[] = [
     subtitle: 'What sustained 50× velocity actually feels like, and why discipline is the brake.',
     date: '2026-04-29',
     readingTimeMin: 5,
+    tags: ['velocity', 'process'],
   },
   {
     slug: 'aisp-made-visible',
@@ -78,21 +107,96 @@ const REGISTRY: BlogPostMeta[] = [
     subtitle: 'How always-on atom traces turn the spec layer from invisible plumbing into the headline feature.',
     date: '2026-04-29',
     readingTimeMin: 4,
+    tags: ['aisp', 'product'],
+  },
+  {
+    slug: 'jira-vs-agentics',
+    title: 'Why Jira Is Incompatible With Agentic Development',
+    subtitle: 'The relay-race tracker meets a wave-gate workflow — and the relay race loses.',
+    date: '2026-04-29',
+    readingTimeMin: 5,
+    tags: ['agentic-engineering', 'process'],
+  },
+  // P71 / OC-13 expansion (6 posts)
+  {
+    slug: 'pm-architect-designer-now-one-person',
+    title: 'The PM, Architect, and Designer Are Now One Person',
+    subtitle: 'Founders carry three lanes by force, not choice. Lane-aware capture is what makes that survivable.',
+    date: '2026-05-01',
+    readingTimeMin: 5,
+    tags: ['founders', 'spec-first', 'agentic-engineering'],
+  },
+  {
+    slug: 'spec-first-vs-vibe-coding',
+    title: 'Spec-First vs Vibe-Coding: A Head-to-Head Comparison',
+    subtitle: 'Vibe works for one prompt. Spec-first wins on the second.',
+    date: '2026-05-01',
+    readingTimeMin: 5,
+    tags: ['spec-first', 'aisp', 'comparison'],
+  },
+  {
+    slug: 'built-open-core-in-2-days-with-swarm',
+    title: 'Built an Open-Core Product in 2 Days With a Swarm',
+    subtitle: 'What 50× velocity actually looks like when the swarm holds the gate.',
+    date: '2026-05-01',
+    readingTimeMin: 5,
+    tags: ['velocity', 'swarm', 'process'],
+  },
+  {
+    slug: 'template-first-beats-llm-from-scratch',
+    title: 'Why Template-First Beats LLM-From-Scratch Every Time',
+    subtitle: 'Lovable starts at 60-70%. Templates start at 90%. The math is decided before the first prompt.',
+    date: '2026-05-01',
+    readingTimeMin: 5,
+    tags: ['templates', 'product'],
+  },
+  {
+    slug: 'building-hey-bradley-with-hey-bradley',
+    title: 'Building Hey Bradley With Hey Bradley',
+    subtitle: 'Dogfooding the spec layer to ship the spec layer.',
+    date: '2026-05-01',
+    readingTimeMin: 5,
+    tags: ['meta', 'dogfooding', 'aisp'],
+  },
+  {
+    slug: 'the-55-percent-problem',
+    title: 'The 55% Problem',
+    subtitle: 'Most AI-assisted-build effort is spent on ambiguity removal, not code. The tools optimize the wrong half.',
+    date: '2026-05-01',
+    readingTimeMin: 5,
+    tags: ['research', 'spec-first', 'capstone'],
   },
 ]
 
 function buildPost(meta: BlogPostMeta): BlogPost {
   const raw = rawFor(meta.slug)
   const body = stripFrontmatter(raw)
+  // Prefer the body-derived read time when the .md is present; fall back to
+  // the registry estimate (used while a post is still being authored).
+  const computed = body ? readTimeMinutes(body) : meta.readingTimeMin
   return {
-    ...meta,
+    slug: meta.slug,
+    title: meta.title,
+    subtitle: meta.subtitle,
+    date: meta.date,
+    tags: meta.tags ?? [],
+    readingTimeMin: computed,
     body,
     excerpt: body ? excerptOf(body, 209) : 'Coming soon — this post is being written.',
   }
 }
 
 export function listBlogPosts(): BlogPost[] {
-  return REGISTRY.map(buildPost)
+  // Sort by date descending (most recent first); ties preserve registry order.
+  return REGISTRY.map(buildPost).sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0))
+}
+
+export function listBlogTags(): string[] {
+  const all = new Set<string>()
+  for (const meta of REGISTRY) {
+    for (const t of meta.tags ?? []) all.add(t)
+  }
+  return Array.from(all).sort()
 }
 
 export function getBlogPost(slug: string): BlogPost | null {

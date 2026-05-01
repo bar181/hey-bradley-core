@@ -6,9 +6,9 @@ const STATS = [
   { icon: Code, label: 'Lines of TS/TSX', value: '~28K' },
   { icon: FileText, label: 'Source Files', value: '227' },
   { icon: Clock, label: 'Dev Hours', value: '~60' },
-  { icon: Layers, label: 'ADRs', value: '43' },
+  { icon: Layers, label: 'ADRs', value: '96' },
   { icon: Users, label: 'Bounded Contexts', value: '5' },
-  { icon: Layers, label: 'Tests Passing', value: '63+' },
+  { icon: Layers, label: 'Tests Passing', value: '730' },
 ]
 
 const PHASES = [
@@ -81,13 +81,13 @@ export function HowIBuiltThis() {
         <div className="absolute inset-0 bg-gradient-to-br from-[#A51C30]/10 via-transparent to-indigo-600/10" />
         <div className="relative max-w-5xl mx-auto px-6 py-20 text-center">
           <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-            21 Phases. One Human. Many Agents.
+            52 Phases. One Human. Many Agents.
           </h1>
           <p className="text-xl text-[#6b5e4f] max-w-2xl mx-auto leading-relaxed">
-            Hey Bradley shipped 21 sealed phases through P21 — POC foundation,
-            local persistence, real LLM chat across 5 providers, voice mode, and
-            a documented architecture of 43 ADRs and 5 DDD bounded contexts. This
-            is the build story.
+            Hey Bradley shipped 52 sealed phases through P69 — POC foundation,
+            local persistence, real LLM chat across 5 providers, voice mode,
+            open-core release, premium templates, and a documented architecture
+            of 96 ADRs and 5 DDD bounded contexts. This is the build story.
           </p>
         </div>
       </section>

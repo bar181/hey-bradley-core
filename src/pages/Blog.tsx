@@ -1,16 +1,17 @@
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Clock } from 'lucide-react'
+import { ArrowRight, Clock, Share2, Check } from 'lucide-react'
 import { MarketingNav } from '@/components/MarketingNav'
-import { listBlogPosts } from '@/lib/blogPosts'
+import { listBlogPosts, listBlogTags } from '@/lib/blogPosts'
+import { HEADLINE_STATS } from '@/data/progress-eval'
 
-// Stats banner numbers are hardcoded for now. The Progress page (Agent A2)
-// is the canonical source — when it lands we can wire these to the same
-// constants module. Defense ~10 days out; copy here is intentionally simple.
+// Stats banner numbers are wired to HEADLINE_STATS (canonical source on the
+// Progress page). Defense ~10 days out; copy here is intentionally simple.
 const STATS = [
-  { label: 'days', value: '2' },
-  { label: 'sprints', value: '6' },
-  { label: 'ADRs', value: '79' },
-  { label: 'tests', value: '244' },
+  { label: 'days', value: String(HEADLINE_STATS.codingDays) },
+  { label: 'sprints', value: String(HEADLINE_STATS.sprintsSealed) },
+  { label: 'ADRs', value: String(HEADLINE_STATS.adrsAccepted) },
+  { label: 'tests', value: String(HEADLINE_STATS.testsGreen) },
 ]
 
 function formatDate(iso: string): string {
@@ -27,7 +28,34 @@ function formatDate(iso: string): string {
 }
 
 export function Blog() {
-  const posts = listBlogPosts()
+  // listBlogPosts() already sorts by date descending (ADR-097 cadence).
+  const allPosts = listBlogPosts()
+  const allTags = listBlogTags()
+  const [activeTag, setActiveTag] = useState<string | null>(null)
+  const [copiedSlug, setCopiedSlug] = useState<string | null>(null)
+
+  const posts = useMemo(
+    () => activeTag ? allPosts.filter((p) => p.tags.includes(activeTag)) : allPosts,
+    [allPosts, activeTag],
+  )
+
+  // Share = copy `${origin}/blog/${slug}` to clipboard. KISS — no library;
+  // brief "Copied!" feedback per-post via ephemeral useState.
+  const handleShare = async (slug: string, e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const origin = typeof window !== 'undefined' ? window.location.origin : ''
+    const url = `${origin}/blog/${slug}`
+    try {
+      if (typeof navigator !== 'undefined' && navigator.clipboard) {
+        await navigator.clipboard.writeText(url)
+      }
+      setCopiedSlug(slug)
+      window.setTimeout(() => setCopiedSlug((s) => (s === slug ? null : s)), 1600)
+    } catch {
+      /* clipboard blocked — silently no-op; cards stay clickable */
+    }
+  }
 
   return (
     <main
@@ -64,6 +92,43 @@ export function Blog() {
         </div>
       </section>
 
+      {/* Tag filter */}
+      {allTags.length > 0 && (
+        <section className="max-w-5xl mx-auto px-6 pb-6" data-testid="blog-tag-filter">
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setActiveTag(null)}
+              data-testid="blog-tag-all"
+              className={
+                'text-xs px-3 py-1 rounded-full border transition-colors ' +
+                (activeTag === null
+                  ? 'bg-[#e8772e] border-[#e8772e] text-white'
+                  : 'bg-white border-[#e8772e]/30 text-[#6b5e4f] hover:border-[#e8772e]/60')
+              }
+            >
+              All
+            </button>
+            {allTags.map((tag) => (
+              <button
+                key={tag}
+                type="button"
+                onClick={() => setActiveTag(tag === activeTag ? null : tag)}
+                data-testid={`blog-tag-${tag}`}
+                className={
+                  'text-xs px-3 py-1 rounded-full border transition-colors ' +
+                  (activeTag === tag
+                    ? 'bg-[#e8772e] border-[#e8772e] text-white'
+                    : 'bg-white border-[#e8772e]/30 text-[#6b5e4f] hover:border-[#e8772e]/60')
+                }
+              >
+                #{tag}
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Post grid */}
       <section className="max-w-5xl mx-auto px-6 pb-24">
         <div className="grid md:grid-cols-2 gap-6">
@@ -77,7 +142,10 @@ export function Blog() {
               <div className="flex items-center gap-3 text-xs text-[#6b5e4f] mb-3">
                 <span>{formatDate(post.date)}</span>
                 <span className="text-[#e8772e]/40">·</span>
-                <span className="inline-flex items-center gap-1">
+                <span
+                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#e8772e]/10 text-[#A51C30]"
+                  data-testid={`blog-post-readtime-${post.slug}`}
+                >
                   <Clock className="w-3 h-3" />
                   {post.readingTimeMin} min read
                 </span>
@@ -89,9 +157,28 @@ export function Blog() {
               <p className="text-sm text-[#6b5e4f] leading-relaxed mb-6 flex-1">
                 {post.excerpt}
               </p>
-              <span className="inline-flex items-center gap-1 text-sm font-semibold text-[#e8772e] group-hover:gap-2 transition-all mt-auto">
-                Read post <ArrowRight className="w-4 h-4" />
-              </span>
+              <div className="flex items-center justify-between mt-auto">
+                <span className="inline-flex items-center gap-1 text-sm font-semibold text-[#e8772e] group-hover:gap-2 transition-all">
+                  Read post <ArrowRight className="w-4 h-4" />
+                </span>
+                <button
+                  type="button"
+                  onClick={(e) => handleShare(post.slug, e)}
+                  data-testid={`blog-post-share-${post.slug}`}
+                  aria-label={`Copy link to ${post.title}`}
+                  className="inline-flex items-center gap-1 text-xs text-[#6b5e4f] hover:text-[#A51C30] transition-colors px-2 py-1 rounded-md hover:bg-[#e8772e]/5"
+                >
+                  {copiedSlug === post.slug ? (
+                    <>
+                      <Check className="w-3.5 h-3.5" /> Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Share2 className="w-3.5 h-3.5" /> Share
+                    </>
+                  )}
+                </button>
+              </div>
             </Link>
           ))}
         </div>
@@ -110,6 +197,13 @@ export function Blog() {
             <Link to="/" className="hover:text-[#e8772e] transition-colors">Home</Link>
             <Link to="/about" className="hover:text-[#e8772e] transition-colors">About</Link>
             <Link to="/aisp" className="hover:text-[#e8772e] transition-colors">AISP</Link>
+            <a
+              href="/blog/feed.xml"
+              data-testid="blog-rss-link"
+              className="hover:text-[#e8772e] transition-colors"
+            >
+              RSS
+            </a>
           </div>
         </div>
       </footer>

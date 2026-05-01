@@ -1,9 +1,9 @@
 # Hey Bradley — LLM Call Process Flow
 
 > **Status:** Living document — wiki / how-it-works guide
-> **Last verified against code:** P55 (Sprint L Wave 1 — Spec Unmissable; commit will be set at seal time)
-> **Cross-references:** ADR-045, ADR-053, ADR-057, ADR-060, ADR-064, ADR-065, ADR-066, ADR-067, ADR-068, ADR-069, ADR-070, ADR-071, ADR-072, ADR-073, ADR-074, ADR-075, ADR-076, ADR-077, ADR-078
-> **Contributors:** Bradley Ross + claude-flow swarm (P18 → P55)
+> **Last verified against code:** P68/P69 (OC-4 + OC-5 sealed at `753beb5`; verified 2026-05-01)
+> **Cross-references:** ADR-045, ADR-053, ADR-057, ADR-060, ADR-064, ADR-065, ADR-066, ADR-067, ADR-068, ADR-069, ADR-070, ADR-071, ADR-072, ADR-073, ADR-074, ADR-075, ADR-076, ADR-077, ADR-078, ADR-085, ADR-087, ADR-088, ADR-089, ADR-090, ADR-091, ADR-092, ADR-093, ADR-094, ADR-095, ADR-096
+> **Contributors:** Bradley Ross + claude-flow swarm (P18 → P69)
 
 This is the canonical end-to-end picture of how a single user input — text in chat OR voice transcript in listen mode — flows through Hey Bradley's pipeline to produce a JSON-Patch envelope. Every box on the flow chart maps to a concrete module in `src/contexts/intelligence/`.
 

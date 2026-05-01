@@ -114,9 +114,9 @@ export function Welcome() {
         </p>
         <h2 className="text-3xl font-bold mb-3">Built in 2 days. Ready in 10.</h2>
         <p className="text-[#6b5e4f] leading-relaxed mb-6">
-          An open-core capstone shipped at sprint pace &mdash; 42 phases sealed
-          (P15&ndash;P56), 7 sprints (F, H, I, J, K, L, M), 79 ADRs Accepted, and
-          244 PURE-UNIT tests GREEN. Every decision is in the open.
+          An open-core capstone shipped at sprint pace &mdash; {HEADLINE_STATS.phasesSealed} phases sealed
+          (P15&ndash;P69), {HEADLINE_STATS.sprintsSealed} sprints, {HEADLINE_STATS.adrsAccepted} ADRs Accepted, and
+          {' '}{HEADLINE_STATS.testsGreen} PURE-UNIT tests GREEN. Every decision is in the open.
         </p>
         <div className="flex flex-wrap gap-3">
           <Link

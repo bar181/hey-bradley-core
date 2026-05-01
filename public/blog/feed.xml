@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Hey Bradley blog — static RSS 2.0 stub.
+  P71 / OC-13 / ADR-097 ships this file with the 4 P58-baseline posts as
+  placeholder items. The 6 P71 expansion posts are tracked in
+  src/lib/blogPosts.ts and will be added by a follow-up build-step
+  generator (OC-CLEANUP carry-forward — see ADR-097 §Out of scope).
+-->
+<rss version="2.0">
+  <channel>
+    <title>Hey Bradley Blog</title>
+    <link>https://heybradley.dev/blog</link>
+    <description>Field notes from a Harvard ALM capstone — AISP, agentic engineering, and the spec layer.</description>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 01 May 2026 00:00:00 GMT</lastBuildDate>
+    <generator>Hey Bradley static RSS stub (P71 / ADR-097)</generator>
+    <item>
+      <title>Lovable Builds the Site. Hey Bradley Designs It First.</title>
+      <link>https://heybradley.dev/blog/lovable-vs-hey-bradley</link>
+      <guid isPermaLink="true">https://heybradley.dev/blog/lovable-vs-hey-bradley</guid>
+      <description>Why the spec layer is the real bottleneck — and the moat.</description>
+      <pubDate>Wed, 29 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Six Sprints in Two Days</title>
+      <link>https://heybradley.dev/blog/six-sprints-two-days</link>
+      <guid isPermaLink="true">https://heybradley.dev/blog/six-sprints-two-days</guid>
+      <description>What sustained 50x velocity actually feels like, and why discipline is the brake.</description>
+      <pubDate>Wed, 29 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>AISP, Made Visible</title>
+      <link>https://heybradley.dev/blog/aisp-made-visible</link>
+      <guid isPermaLink="true">https://heybradley.dev/blog/aisp-made-visible</guid>
+      <description>How always-on atom traces turn the spec layer from invisible plumbing into the headline feature.</description>
+      <pubDate>Wed, 29 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Why Jira Is Incompatible With Agentic Development</title>
+      <link>https://heybradley.dev/blog/jira-vs-agentics</link>
+      <guid isPermaLink="true">https://heybradley.dev/blog/jira-vs-agentics</guid>
+      <description>The relay-race tracker meets a wave-gate workflow — and the relay race loses.</description>
+      <pubDate>Wed, 29 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

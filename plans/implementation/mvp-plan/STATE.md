@@ -1,10 +1,34 @@
 # MVP Implementation — State of the Program
 
-> **Updated:** 2026-04-29 (after housekeeping audit — P54+P55 sealed; P38/P44-P53 row backfill).
-> **Latest seal:** P55 Sprint L Wave 1 — Spec Unmissable at `2944461` (cumulative 234/234 GREEN; 78 ADRs Accepted).
+> **Updated:** 2026-05-01 (P70/A1 ruvector + stake-doc realignment — backfills P56-P69 status table below).
+> **Latest seal:** P68 / OC-4 + P69 / OC-5 (parallel) at `753beb5` — cumulative **730/730 PURE-UNIT GREEN**; **96 ADRs Accepted** (ADR-001 → ADR-096); **37 templates** registered.
 > **Branch:** `claude/verify-flywheel-init-qlIBr`
 > **Companion:** `08-master-checklist.md` (all DoD ticks), per-phase `retrospective.md` and `session-log.md` files.
 > **Latest deep-dive:** `plans/strategic-reviews/2026-04-29-sprint-j-system-wide/` (Sprint J system-wide; composite 89.75 PASS at `ef9a421`).
+
+## Phase status snapshot (P56 → P69) — backfilled 2026-05-01 by P70/A1
+
+| Phase | Sprint | Status | Commit | Highlight |
+|---|---|---|---|---|
+| **P56** | Sprint M Wave 1 — Premium Templates (moat #3) | CLOSED | `3398702` | 3-5 strongly opinionated templates + design discipline; ADR-079. |
+| **P57** | Sprint N — Shareable Output (moat #4) | CLOSED | Wave 1 `e692204`; Wave 2 `c00c2b7` | Static HTML export + hosted spec URL; ADR-080 + ADR-081 supersedes ADR-075; cumulative 298/298 GREEN. |
+| **P58** | Sprint O — Open Core RC | CLOSED | `v1.0.0-RC1` tag | README/CLAUDE final + demo video + Agentics Foundation beta + public release; ADR-082. |
+| **P59** | Test Library — Prompt Corpus | CLOSED | `f81474c` | 280-entry canonical corpus for AgentProxy + live-LLM testing arc; ADR-083; 366/366 PURE-UNIT GREEN. |
+| **P60** | Comprehensive QA Architecture | CLOSED | `7ab9e02` / `0dc2afa` / `6f28a22` | 50 personality + 80 LLM matrix + flagship + 2 persona templates; ADR-084; 392/392 GREEN. |
+| **P61** | Multi-Page MVP + Process Pages Split | CLOSED | `64e305c` / `b1a9652` (P61b `8025878`) | ADR-085 multi-page; ADR-086 content/runtime split. |
+| **P62** | OC-1 (Open-Core polish wave 1) | CLOSED | `6a86d5c` | +10 P62 OC-1 tests. |
+| **P63** | OC-2 — Mode Architecture + Agentics Data Model | CLOSED | `ac6f973` | ADR-088 mode discriminator (Whiteboard/Planning/Agentics); ADR-089 schema migration 005 design; +20 tests. |
+| **P64** | OC-3 — Templates Round 1 (3 templates) | CLOSED | `0701b37` | coffee-roaster + dev-conference + podcast-show; +14 tests; library 23 → 26. |
+| **P65** | OC-2.5 — Design Token System | CLOSED | `261d840` | ADR-087 `src/styles/design-tokens.ts`; +11 tests. |
+| **P65b** | OC-2.5 Wave 2 — Canonical Components | CLOSED | `e7b6af2` | 7 canonical components (4 Hero + 2 Feature + 1 Testimonial); ADR-091; +31 tests. |
+| **P66** | Polish Sprint Wave 1 (OC-MKTG + 6 polish surfaces) | CLOSED | `62af4a4` / `34699d4` | ADR-092 5 polish standards; demos, mobile first-run, mode selector, filter UI, inline personality popover; +47 tests. |
+| **P67** | Polish Wave 2 — Component Decomposition | CLOSED | `17c9635` | ADR-093 file-size caps + ChatInput 1013 → 250 LOC orchestrator + 3 sub-components; +42 tests. |
+| **P67b** | Close-the-Gap (Professional Grade) | CLOSED | `37933e8` | ADR-094 8.5 quantified gates + 5 sub-page hero consistency + mobile audit; +34 tests. |
+| **P67c** | Library-Wide Polish (legacy sweep) | CLOSED | `8d46ddf` | ADR-095 coverage standard; settings drawer parity, EXPERT editor collapse parity, ChatThread 157-LOC extraction; +22 tests. |
+| **P68** | OC-4 — Templates Round 2 (11 templates) | CLOSED | `753beb5` | ADR-096 expansion standard; 4 healthcare/wellness + 4 creator/personal + 3 dev-tools/OSS; registry 26 → 37; +74 tests. |
+| **P69** | OC-5 — Mobile UX Redesign | CLOSED | `753beb5` (parallel with P68) | ADR-090 supersedes ADR-076; single chat surface + inline mic + fullscreen listen + spec bottom sheet; +30 tests; **730/730 cumulative GREEN**. |
+| **P70** | OC-CLEANUP — ruvector + stake-doc realignment | OPEN | (this commit) | A1 backfilled 10 ADR pattern entries (087-096) + CLAUDE.md/STATE.md/README/wiki phase-pin sync. |
+| **P71** | OC-13 — Blog Expansion (parallel with P70) | OPEN | — | Companion sprint to P70/OC-CLEANUP. |
 
 ---
 
