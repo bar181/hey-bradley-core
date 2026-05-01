@@ -3,7 +3,8 @@
 - **Status:** Accepted
 - **Date:** 2026-05-01
 - **Phase:** P79 / OC-14
-- **Cross-refs:** ADR-085 (Multi-Page MVP — data-model predecessor), ADR-086 (Process Pages content/runtime split), ADR-099 (DECOMP_ATOM — front-of-pipeline splitter), ADR-053 (INTENT_ATOM)
+- **Cross-refs (primary):** ADR-085 (Multi-Page MVP — data-model predecessor), ADR-099 (DECOMP_ATOM — front-of-pipeline splitter), ADR-053 (INTENT_ATOM)
+- **Cross-refs (secondary):** ADR-086 (Process Pages content/runtime split — context only; not pipeline architecture)
 
 ## Context
 
