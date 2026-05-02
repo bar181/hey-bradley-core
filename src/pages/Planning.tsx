@@ -2,11 +2,14 @@
  * P91 / AW-PLANNING-MAP (A2) — Planning Mode integration.
  * P92 / AW-PROCESS-ATOM (A3) — PlanningChatBar wired above project list.
  * P93 / AW-DDD-ATOM (A6) — view toggle + DomainModelSVG wired.
+ * P95 / AW-SPEC-WORKBENCH (A2) — SpecWorkbench replaces simple node detail.
  *
  * 3-pane layout: project list (left) · process map / domain model (center) ·
- * node-detail panel (right). Wires A1's ProcessMapSVG with sample
+ * SpecWorkbench (right). Wires A1's ProcessMapSVG with sample
  * Hey Bradley arc data from src/data/sample-process-map.ts and the
- * P93 DomainModelSVG with live DDD_ATOM output.
+ * P93 DomainModelSVG with live DDD_ATOM output. Right pane now hosts
+ * SpecWorkbench seeded with HEY_BRADLEY_SAMPLE_PHASES; map node clicks
+ * map to phase via NODE_TO_PHASE_ID.
  *
  * P92: PlanningChatBar (text → PROCESS_ATOM → liveMap) sits above the
  * project list in the left panel. When liveMap is non-null, the center
@@ -18,9 +21,7 @@
  * Per ADR-116 three-mode product architecture + ADR-088 mode
  * architecture + ADR-091 token-derived styling + ADR-118 PROCESS_ATOM
  * + ADR-119 DDD_ATOM. Stub testid `planning-mode-stub` retained for
- * backward-compat with P90.
- *
- * Full AGENT_ATOM body arrives P94+.
+ * backward-compat with P90; existing testids preserved for P91-P94.
  */
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -37,10 +38,12 @@ import {
   toDomainModel,
   type DomainModel,
 } from '@/contexts/intelligence/aisp/dddAtom'
+import { SpecWorkbench } from '@/components/agentics/SpecWorkbench'
+import { HEY_BRADLEY_SAMPLE_MAP } from '@/data/sample-process-map'
 import {
-  HEY_BRADLEY_SAMPLE_MAP,
-  SAMPLE_NODE_DETAILS,
-} from '@/data/sample-process-map'
+  HEY_BRADLEY_SAMPLE_PHASES,
+  NODE_TO_PHASE_ID,
+} from '@/data/sample-spec-workbench'
 
 interface PlanningProject {
   id: string
@@ -65,29 +68,49 @@ export function Planning() {
   const [selectedNodeId, setSelectedNodeId] = useState<string | undefined>(
     HEY_BRADLEY_SAMPLE_MAP.activeNodeId,
   )
+  // P95 / A2: SpecWorkbench selection — phase + sprint derived from node.
+  const initialPhaseId =
+    (HEY_BRADLEY_SAMPLE_MAP.activeNodeId &&
+      NODE_TO_PHASE_ID[HEY_BRADLEY_SAMPLE_MAP.activeNodeId]) ||
+    HEY_BRADLEY_SAMPLE_PHASES[0]?.id ||
+    ''
+  const [activePhaseId, setActivePhaseId] = useState<string>(initialPhaseId)
+  const [activeSprintId, setActiveSprintId] = useState<string | undefined>(
+    HEY_BRADLEY_SAMPLE_PHASES.find((p) => p.id === initialPhaseId)?.sprints[0]?.id,
+  )
 
   // Stub: only Hey Bradley project carries data; others render empty state.
   const hasMap = activeProjectId === 'hey-bradley'
   const activeMap: ProcessMap = liveMap ?? HEY_BRADLEY_SAMPLE_MAP
 
-  const selectedNode = selectedNodeId
-    ? activeMap.nodes.find((n) => n.id === selectedNodeId) ?? null
-    : null
-  const selectedDetail = selectedNodeId
-    ? SAMPLE_NODE_DETAILS[selectedNodeId] ?? null
-    : null
+  const selectPhaseFromNode = (nodeId: string | undefined): void => {
+    if (!nodeId) return
+    const phaseId = NODE_TO_PHASE_ID[nodeId]
+    if (!phaseId) return
+    setActivePhaseId(phaseId)
+    const phase = HEY_BRADLEY_SAMPLE_PHASES.find((p) => p.id === phaseId)
+    setActiveSprintId(phase?.sprints[0]?.id)
+  }
+
+  const handleNodeSelect = (nodeId: string): void => {
+    setSelectedNodeId(nodeId)
+    selectPhaseFromNode(nodeId)
+  }
 
   const handleProjectClick = (projectId: string): void => {
     setActiveProjectId(projectId)
-    setSelectedNodeId(
-      projectId === 'hey-bradley' ? HEY_BRADLEY_SAMPLE_MAP.activeNodeId : undefined,
-    )
+    const nextNodeId =
+      projectId === 'hey-bradley' ? HEY_BRADLEY_SAMPLE_MAP.activeNodeId : undefined
+    setSelectedNodeId(nextNodeId)
+    selectPhaseFromNode(nextNodeId)
   }
 
   const handleProcessMapChange = (map: ProcessMap): void => {
     setLiveMap(map)
-    // Auto-select first node so the right-pane detail surfaces immediately.
-    setSelectedNodeId(map.activeNodeId ?? map.nodes[0]?.id)
+    // Auto-select first node so the right-pane SpecWorkbench surfaces immediately.
+    const next = map.activeNodeId ?? map.nodes[0]?.id
+    setSelectedNodeId(next)
+    selectPhaseFromNode(next)
   }
 
   // P93 / A6: relay raw chat text into DDD_ATOM in parallel with PROCESS_ATOM.
@@ -167,7 +190,7 @@ export function Planning() {
             <div data-testid="planning-process-map">
               <ProcessMapSVG
                 map={{ ...activeMap, activeNodeId: selectedNodeId }}
-                onNodeSelect={setSelectedNodeId}
+                onNodeSelect={handleNodeSelect}
               />
             </div>
           ) : liveDomainModel ? (
@@ -184,51 +207,22 @@ export function Planning() {
           )}
         </main>
 
-        {/* Right panel: node detail */}
+        {/* Right panel: SpecWorkbench (P95) — was simple node detail (P91). */}
         <aside
           data-testid="planning-node-detail"
-          className="w-full md:w-80 border-t md:border-t-0 md:border-l border-[var(--hb-border)] bg-[var(--hb-surface)] p-4"
+          className="w-full md:w-96 border-t md:border-t-0 md:border-l border-[var(--hb-border)] bg-[var(--hb-surface)] p-4 overflow-y-auto"
         >
-          <h2 className="text-xs font-mono uppercase tracking-wider text-[var(--hb-text-muted)] mb-3">
-            Node Detail
-          </h2>
-          {selectedNode && selectedDetail ? (
-            <div className="space-y-3">
-              <div>
-                <div className="text-xs font-mono text-[var(--hb-text-muted)]">
-                  Phase {selectedNode.phase}
-                </div>
-                <div className="text-base font-medium text-[var(--hb-text-primary)]">
-                  {selectedNode.label}
-                </div>
-              </div>
-              <div className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-mono uppercase tracking-wider bg-[var(--hb-accent)]/10 text-[var(--hb-accent)]">
-                {selectedNode.status}
-              </div>
-              <p className="text-sm text-[var(--hb-text-secondary)] leading-relaxed">
-                {selectedDetail.description}
-              </p>
-              {selectedDetail.adrs.length > 0 && (
-                <div>
-                  <div className="text-xs font-mono uppercase tracking-wider text-[var(--hb-text-muted)] mb-1">
-                    ADRs
-                  </div>
-                  <div className="flex flex-wrap gap-1">
-                    {selectedDetail.adrs.map((adr) => (
-                      <span
-                        key={adr}
-                        className="px-2 py-0.5 rounded text-xs font-mono bg-[var(--hb-surface-hover)] text-[var(--hb-text-secondary)]"
-                      >
-                        {adr}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
+          {hasMap ? (
+            <div data-testid="planning-spec-workbench">
+              <SpecWorkbench
+                phases={HEY_BRADLEY_SAMPLE_PHASES}
+                activePhaseId={activePhaseId}
+                activeSprintId={activeSprintId}
+              />
             </div>
           ) : (
             <div className="text-sm text-[var(--hb-text-muted)]">
-              Click a node on the map to see its detail.
+              Select a project to see its spec.
             </div>
           )}
         </aside>
