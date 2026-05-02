@@ -11,6 +11,7 @@
 import { useConfigStore } from '@/store/configStore'
 import { useIntelligenceStore } from '@/store/intelligenceStore'
 import { useUIStore } from '@/store/uiStore'
+import { useProjectStore } from '@/store/projectStore'
 import { buildSystemPrompt } from '@/contexts/intelligence/prompts/system'
 import { parseResponse } from '@/contexts/intelligence/llm/responseParser'
 import { validatePatches } from '@/contexts/intelligence/llm/patchValidator'
@@ -19,6 +20,9 @@ import { recordPipelineFailure } from '@/contexts/intelligence/llm/recordPipelin
 import { parseChatCommand, parseMultiPartCommand } from '@/lib/cannedChat'
 import { getActivePage, prefixPatchPaths } from '@/contexts/intelligence/pageIterator'
 import type { PageScope } from '@/contexts/intelligence/pageIterator'
+import { activeSession } from '@/contexts/persistence/repositories/sessions'
+import { writeLogEvent, newRequestId, writeEditHistory, redactKeyShapes, type LogEventType } from '@/contexts/persistence/repositories/comprehensiveLogs'
+import { getDB } from '@/contexts/persistence/db'
 import type { ChatErrorKind } from '@/lib/mapChatError'
 import type { ClassifiedIntent } from '@/contexts/intelligence/aisp'
 import type { PersonalityId } from '@/contexts/intelligence/personality/personalityEngine'
@@ -262,6 +266,27 @@ function runCanned(text: string): { matched: boolean; summary: string } {
 }
 
 /**
+ * P100 W2 / A2 — Pipeline log envelope (fire-and-forget; never throws upward).
+ * emit() → writeLogEvent for: input_event, listen_capture, intent_classification,
+ * decomposition, template_match, patch_validation, personality_display,
+ * response_summary. editHist() → writeEditHistory per successful applyPatches.
+ * writeLogEvent: input_event ; writeLogEvent: intent_classification ;
+ * writeLogEvent: decomposition ; writeLogEvent: template_match ;
+ * writeLogEvent: patch_validation ; writeLogEvent: response_summary.
+ */
+interface LogCtx { requestId: string; sessionId: string; projectId: string | null; pageId: string | null; pageIndex: number | null; source: 'chat' | 'listen' | 'test' }
+function emit(ctx: LogCtx, eventType: LogEventType, eventData: Record<string, unknown>): void {
+  if (!ctx.sessionId) return
+  try { writeLogEvent(getDB(), { id: newRequestId(), sessionId: ctx.sessionId, requestId: ctx.requestId, ...(ctx.projectId !== null ? { projectId: ctx.projectId } : {}), eventType, eventData, inputType: ctx.source === 'listen' ? 'listen' : 'chat', ...(ctx.pageId !== null ? { pageId: ctx.pageId } : {}), ...(ctx.pageIndex !== null ? { pageIndex: ctx.pageIndex } : {}) }) }
+  catch (e) { if (import.meta.env.DEV) console.warn('[chatPipeline] writeLogEvent emit failed', eventType, e) }
+}
+function editHist(ctx: LogCtx, before: unknown, after: unknown, patches: unknown[], userText: string): void {
+  if (!ctx.sessionId || !ctx.projectId) return
+  try { writeEditHistory(getDB(), { id: newRequestId(), projectId: ctx.projectId, sessionId: ctx.sessionId, requestId: ctx.requestId, patchApplied: patches, beforeSnapshot: before, afterSnapshot: after, userPrompt: userText, ...(ctx.pageId !== null ? { pageId: ctx.pageId } : {}) }) }
+  catch (e) { if (import.meta.env.DEV) console.warn('[chatPipeline] writeEditHistory failed', e) }
+}
+
+/**
  * Single shared entry point. Both ChatInput and ListenTab call this. The
  * in-flight mutex lives inside auditedComplete (centralised P18 fix), so two
  * concurrent submits — even from different surfaces — return cleanly with
@@ -289,6 +314,14 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
   const config = useConfigStore.getState().config
   const activePageId = useUIStore.getState().activePageId
   let scope = getActivePage(config, activePageId)
+
+  // P100 W2 / A2 — log envelope context (resolved once; threaded into every emit).
+  const projectId = useProjectStore.getState().activeProject
+  const sessionId = projectId ? (activeSession(projectId)?.id ?? '') : ''
+  const pIdx = scope.page && config.pages ? config.pages.findIndex((p) => p.id === scope.page!.id) : -1
+  const logCtx: LogCtx = { requestId: newRequestId(), sessionId, projectId, pageId: scope.page?.id ?? null, pageIndex: pIdx >= 0 ? pIdx : null, source: opts.source }
+  emit(logCtx, 'input_event', { text: redactKeyShapes(text), source: opts.source })
+  if (opts.source === 'listen') emit(logCtx, 'listen_capture', { raw: redactKeyShapes(text), cleaned: redactKeyShapes(text) })
 
   // P26 Sprint C P1 — AISP rule-based classifier (first in chain).
   // P27 Sprint C P2 — LLM-driven AISP classifier when rule-based < threshold.
@@ -354,6 +387,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       }
     }
     aispTrace = { intent: aisp, source: aispSource }
+    emit(logCtx, 'intent_classification', { intent: aisp, source: aispSource })
     // P82 / OC-CLEANUP (A3) — page-aware INTENT override. When the classified
     // intent carries an explicit pageId (cross-page reference like "on page 2"
     // or "the contact page"), override `scope` so all downstream apply paths
@@ -362,7 +396,11 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     // common path), scope is unchanged → P79 byte-equivalent behavior.
     if (aisp.target?.pageId) {
       const overridden = getActivePage(config, aisp.target.pageId)
-      if (overridden.scopeRoot !== '') scope = overridden
+      if (overridden.scopeRoot !== '') {
+        scope = overridden
+        const oIdx = config.pages ? config.pages.findIndex((p) => p.id === overridden.page!.id) : -1
+        logCtx.pageId = overridden.page?.id ?? null; logCtx.pageIndex = oIdx >= 0 ? oIdx : null
+      }
     }
     // P37 A2 — classify route (content vs design vs ambiguous). Pure-rule, $0.
     // P37 R3 L2 fix-pass — classifyRoute always runs (text-driven cue tables
@@ -383,6 +421,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       // page-targeting reference into `Todo.targetPage`. `undefined` when no
       // multi-page config → byte-equivalent to P74.
       const decomp = decompose(text, aisp, config.pages)
+      if (decomp.todos.length >= 1) emit(logCtx, 'decomposition', { todos: decomp.todos, confidence: decomp.confidence, source: decomp.source })
       if (decomp.todos.length > 1 && decomp.confidence >= 0.7) {
         // P79 / OC-14 (A3) — feed scoped config so executeTodos sees only the
         // active page's sections (multi-page) or root sections (single-page).
@@ -413,7 +452,11 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
           } else {
             composed = prefixPatchPaths(exec.allPatches, scope.scopeRoot) as JSONPatch[]
           }
+          const beforeDecomp = useConfigStore.getState().config
           useConfigStore.getState().applyPatches(composed)
+          const afterDecomp = useConfigStore.getState().config
+          emit(logCtx, 'patch_validation', { stage: 'decomp', applied: composed.length, ok: true })
+          editHist(logCtx, beforeDecomp, afterDecomp, composed as unknown[], text)
           const doneAt = Date.now()
           // P85 / OC-19 (A2) — Recommendation 2: surface user-visible todo list.
           const decompTodos: ChatPipelineResult['decompTodos'] = exec.traces.map((t) => ({
@@ -421,6 +464,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
             target: t.todo.target,
             status: t.status,
           }))
+          emit(logCtx, 'response_summary', { stage: 'decomp', appliedPatchCount: exec.allPatches.length, latencyMs: doneAt - startedAt, ok: true })
           return {
             ok: true, appliedPatchCount: exec.allPatches.length, fellBackToCanned: false,
             summary: `Decomposed ${decomp.todos.length} todos — ${exec.allPatches.length} patches applied`,
@@ -444,14 +488,18 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         ? { ...useConfigStore.getState().config, sections: scope.sections }
         : useConfigStore.getState().config
       const tplMatch = matchTemplates(text, scopedConfig)
+      emit(logCtx, 'template_match', { theme: tplMatch.theme?.id ?? null, sectionArrangement: tplMatch.sectionArrangement?.id ?? null, contentStyle: tplMatch.contentStyle?.id ?? null, confidence: tplMatch.confidence, alternatives: tplMatch.alternatives ?? null, rationale: tplMatch.rationale })
       if (tplMatch.confidence >= TEMPLATE_CONFIDENCE_THRESHOLD) {
         const tiPatches = applyTemplateMatch(tplMatch, scopedConfig)
         if (tiPatches.length > 0) {
           stageMarks.applyStart = Date.now()
           // P79 / OC-14 (A3) — prefix patch paths to active page scope.
-          useConfigStore.getState().applyPatches(
-            prefixPatchPaths(tiPatches, scope.scopeRoot) as JSONPatch[],
-          )
+          const beforeTpl = useConfigStore.getState().config
+          const tplScopedPatches = prefixPatchPaths(tiPatches, scope.scopeRoot) as JSONPatch[]
+          useConfigStore.getState().applyPatches(tplScopedPatches)
+          const afterTpl = useConfigStore.getState().config
+          emit(logCtx, 'patch_validation', { stage: 'template', applied: tplScopedPatches.length, ok: true })
+          editHist(logCtx, beforeTpl, afterTpl, tplScopedPatches as unknown[], text)
           const doneAt = Date.now()
           // P85 / OC-19 (A2) — Recommendation 1: surface matcher confidence chip.
           // Name derived from highest-priority layer that matched (theme >
@@ -460,6 +508,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
           // is set (defensive — TemplateMatch contract guarantees ≥1 layer).
           const matcherName =
             tplMatch.theme?.id ?? tplMatch.sectionArrangement?.id ?? tplMatch.contentStyle?.id ?? 'template'
+          emit(logCtx, 'response_summary', { stage: 'template', appliedPatchCount: tiPatches.length, latencyMs: doneAt - startedAt, ok: true })
           return {
             ok: true, appliedPatchCount: tiPatches.length, fellBackToCanned: false,
             summary: `Template intelligence — ${tplMatch.rationale}`,
@@ -489,9 +538,12 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       try {
         stageMarks.applyStart = Date.now()
         // P79 / OC-14 (A3) — prefix patch paths to active page scope.
-        useConfigStore.getState().applyPatches(
-          prefixPatchPaths(tpl.envelope.patches, scope.scopeRoot) as JSONPatch[],
-        )
+        const beforeLegacy = useConfigStore.getState().config
+        const legacyScoped = prefixPatchPaths(tpl.envelope.patches, scope.scopeRoot) as JSONPatch[]
+        useConfigStore.getState().applyPatches(legacyScoped)
+        const afterLegacy = useConfigStore.getState().config
+        emit(logCtx, 'patch_validation', { stage: 'legacy-template', applied: legacyScoped.length, ok: true, templateId: tpl.template.id })
+        editHist(logCtx, beforeLegacy, afterLegacy, legacyScoped as unknown[], text)
         const tplSummary = `${tpl.envelope.summary} _(template: ${tpl.template.id})_`
         const improvements = await deriveImprovements(
           text,
@@ -504,7 +556,9 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
           { summary: tplSummary, patches: tpl.envelope.patches },
           aispTrace,
         )
+        emit(logCtx, 'personality_display', { personalityId: useIntelligenceStore.getState().personalityId ?? null, message: personalityMessage ? redactKeyShapes(personalityMessage) : null })
         const doneAt = Date.now()
+        emit(logCtx, 'response_summary', { stage: 'legacy-template', appliedPatchCount: tpl.envelope.patches.length, latencyMs: doneAt - startedAt, ok: true })
         return {
           ok: true,
           appliedPatchCount: tpl.envelope.patches.length,
@@ -577,14 +631,20 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     stageMarks.patchStart = Date.now()
     // P79 / OC-14 (A3) — thread scope into runLLMPipeline so its applyPatches
     // call also lands on the active page (or root, single-page mode).
+    const beforeLLM = useConfigStore.getState().config
     const llm = await runLLMPipeline(text, opts.source, opts.history, scope)
     if (llm.applied > 0) {
+      const afterLLM = useConfigStore.getState().config
+      emit(logCtx, 'patch_validation', { stage: 'llm', applied: llm.applied, ok: true })
+      editHist(logCtx, beforeLLM, afterLLM, [], text)
       const improvements = await deriveImprovements(text, llm.applied, llm.summary, aispTrace, scope)
       const personalityMessage = await derivePersonalityMessage(
         { summary: llm.summary, patches: new Array(llm.applied) },
         aispTrace,
       )
+      emit(logCtx, 'personality_display', { personalityId: useIntelligenceStore.getState().personalityId ?? null, message: personalityMessage ? redactKeyShapes(personalityMessage) : null })
       const doneAt = Date.now()
+      emit(logCtx, 'response_summary', { stage: 'llm', appliedPatchCount: llm.applied, latencyMs: doneAt - startedAt, ok: true })
       return {
         ok: true,
         appliedPatchCount: llm.applied,
@@ -627,6 +687,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     pipelineErrorKind = 'unknown'
   }
   const canned = runCanned(text)
+  emit(logCtx, 'response_summary', { stage: 'canned-fallback', appliedPatchCount: 0, latencyMs: Date.now() - startedAt, ok: canned.matched, errorKind: pipelineErrorKind })
   return {
     ok: canned.matched,
     appliedPatchCount: 0,
