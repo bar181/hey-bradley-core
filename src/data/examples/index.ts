@@ -43,6 +43,9 @@ import aiAgentMarketplace from './ai-agent-marketplace.json'
 import aiCodingCopilot from './ai-coding-copilot.json'
 import aiWorkflowPlatform from './ai-workflow-platform.json'
 import aiSupportCopilot from './ai-support-copilot.json'
+// E2E test sprint — 2 sites built end-to-end via simulated pipeline
+import aispExecutive from './aisp-executive.json'
+import aispDeveloperRetro from './aisp-developer-retro.json'
 import type { MasterConfig } from '@/lib/schemas'
 
 export interface ExampleSite {
@@ -302,5 +305,18 @@ export const EXAMPLE_SITES: ExampleSite[] = [
     description: 'Helpdesk copilot for support teams — Zendesk/Intercom/Front, 38% deflection ROI numbers, warm cream light theme with teal+amber accents.',
     theme: 'Professional',
     config: aiSupportCopilot as unknown as MasterConfig,
+  },
+  // E2E test sprint — 2 sites built end-to-end via simulated pipeline
+  {
+    name: 'AISP Executive Overview',
+    description: 'Executive-level AISP overview — ROI, benefits, how it works (built end-to-end via simulated pipeline)',
+    theme: 'Professional',
+    config: aispExecutive as unknown as MasterConfig,
+  },
+  {
+    name: 'AISP Developer Retro',
+    description: 'Developer-focused AISP + agentic workflow — terminal aesthetic with dry humor',
+    theme: 'Tech Business',
+    config: aispDeveloperRetro as unknown as MasterConfig,
   },
 ]
