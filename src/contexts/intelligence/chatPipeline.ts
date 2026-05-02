@@ -18,6 +18,9 @@ import { validatePatches } from '@/contexts/intelligence/llm/patchValidator'
 import { auditedComplete } from '@/contexts/intelligence/llm/auditedComplete'
 import { recordPipelineFailure } from '@/contexts/intelligence/llm/recordPipelineFailure'
 import { parseChatCommand, parseMultiPartCommand } from '@/lib/cannedChat'
+import { isUnmeasurableGoal } from '@/contexts/intelligence/aisp/intentAtom'
+import { hasContradiction } from '@/contexts/intelligence/aisp/decompAtom'
+import { cleanTranscript } from '@/contexts/intelligence/stt/transcriptCleanup'
 import { getActivePage, prefixPatchPaths } from '@/contexts/intelligence/pageIterator'
 import type { PageScope } from '@/contexts/intelligence/pageIterator'
 import { activeSession } from '@/contexts/persistence/repositories/sessions'
@@ -321,7 +324,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
   const pIdx = scope.page && config.pages ? config.pages.findIndex((p) => p.id === scope.page!.id) : -1
   const logCtx: LogCtx = { requestId: newRequestId(), sessionId, projectId, pageId: scope.page?.id ?? null, pageIndex: pIdx >= 0 ? pIdx : null, source: opts.source }
   emit(logCtx, 'input_event', { text: redactKeyShapes(text), source: opts.source })
-  if (opts.source === 'listen') emit(logCtx, 'listen_capture', { raw: redactKeyShapes(text), cleaned: redactKeyShapes(text) })
+  if (opts.source === 'listen') emit(logCtx, 'listen_capture', { raw: redactKeyShapes(text), cleaned: redactKeyShapes(cleanTranscript(text)) })
 
   // P26 Sprint C P1 — AISP rule-based classifier (first in chain).
   // P27 Sprint C P2 — LLM-driven AISP classifier when rule-based < threshold.
@@ -387,7 +390,12 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       }
     }
     aispTrace = { intent: aisp, source: aispSource }
-    emit(logCtx, 'intent_classification', { intent: aisp, source: aispSource })
+    // P100 W2 / D1 — wire A7 atom helpers as ALIVE flags (consulted + logged,
+    // non-blocking). Future P101 may act on these (e.g., clarification prompt
+    // when isUnmeasurable=true). Today they end the dead-code state per C1 §4.1.
+    const isUnmeasurable = isUnmeasurableGoal(text)
+    const isContradiction = hasContradiction(text)
+    emit(logCtx, 'intent_classification', { intent: aisp, source: aispSource, isUnmeasurable, isContradiction })
     // P82 / OC-CLEANUP (A3) — page-aware INTENT override. When the classified
     // intent carries an explicit pageId (cross-page reference like "on page 2"
     // or "the contact page"), override `scope` so all downstream apply paths

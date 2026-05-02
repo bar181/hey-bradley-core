@@ -37,7 +37,13 @@ CREATE TABLE IF NOT EXISTS log_events (
     'input_event','intent_classification','decomposition','template_match',
     'patch_validation','personality_display','listen_capture','multi_page_scope',
     'process_atom_output','ddd_atom_output','error_event','response_summary',
-    'todo_execution'
+    'todo_execution',
+    -- P100 W2 / D1 (fix 3 of 3) — additive enum extension to admit fixture
+    -- event types that were silently rejected by the prior 13-value CHECK.
+    -- Safe for fresh installs (idempotent CREATE TABLE IF NOT EXISTS). Existing
+    -- installs would need migration 006 (full table rebuild — SQLite doesn't
+    -- support DROP CONSTRAINT) — deferred to P101 per C1 §8 fix 3 option A.
+    'decomp_split','export_emit'
   )),
   event_data   TEXT NOT NULL,                          -- JSON blob (redacted before write)
   page_id      TEXT,

@@ -25,7 +25,11 @@ export type LogEventType =
   | 'ddd_atom_output'
   | 'error_event'
   | 'response_summary'
-  | 'todo_execution';
+  | 'todo_execution'
+  // P100 W2 / D1 fix 3 — additive enum extension to mirror migration 005
+  // CHECK list (admits previously fixture-only event types).
+  | 'decomp_split'
+  | 'export_emit';
 
 export type InputType = 'chat' | 'listen';
 

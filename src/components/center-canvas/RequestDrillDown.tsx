@@ -44,6 +44,8 @@ const STAGE_LABEL: Record<LogEventType, string> = {
   personality_display: 'Personality response',
   response_summary: 'Response summary',
   error_event: 'Error',
+  decomp_split: 'Decomposition split',
+  export_emit: 'Export emit',
 }
 
 export interface RequestSummary {
