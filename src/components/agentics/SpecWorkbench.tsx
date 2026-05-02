@@ -8,6 +8,7 @@
  */
 import { useEffect, useState } from 'react'
 import { BookOpen, ChevronRight, Code2, Copy, FileText } from 'lucide-react'
+import { ExportClaudeCodeButton } from '@/components/agentics/ExportClaudeCodeButton'
 
 export type SpecTab = 'human' | 'aisp' | 'adr'
 type Status = 'planned' | 'in-flight' | 'sealed' | 'deferred'
@@ -263,7 +264,10 @@ export function SpecWorkbench({ phases, activePhaseId, activeSprintId, onSprintE
           </span>
           <h2 className="text-lg font-semibold text-[var(--hb-text-primary)]">{phase.name}</h2>
         </div>
-        <StatusPill status={phase.status} />
+        <div className="flex items-center gap-3">
+          <StatusPill status={phase.status} />
+          <ExportClaudeCodeButton phase={phase} />
+        </div>
       </header>
 
       <section
