@@ -1,0 +1,185 @@
+{
+  "site": {
+    "title": "Northstar AI — AI for small businesses",
+    "description": "Plug-and-play AI workflows for small businesses. Less ops drag, more shipped work — without a data team, a Slack bot army, or a six-figure consulting bill.",
+    "author": "Northstar AI",
+    "email": "hello@northstar-ai.example",
+    "domain": "northstar-ai.example",
+    "project": "northstar-ai",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "business",
+    "tone": "warm",
+    "brandName": "Northstar AI",
+    "tagline": "AI that pays back the same week",
+    "voiceAttributes": ["approachable", "specific", "no-hype"]
+  },
+  "theme": {
+    "preset": "saas-startup",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#f4f8fb",
+      "bgSecondary": "#ffffff",
+      "textPrimary": "#0b1f3a",
+      "textSecondary": "#3d5170",
+      "accentPrimary": "#1f6feb",
+      "accentSecondary": "#1ea97c"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#0b1f3a",
+      "bgSecondary": "#0f2748",
+      "textPrimary": "#f4f8fb",
+      "textSecondary": "#9bb1cc",
+      "accentPrimary": "#5aa0ff",
+      "accentSecondary": "#3fcf8e"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Plus Jakarta Sans",
+      "headingWeight": 700,
+      "baseSize": "17px",
+      "lineHeight": 1.65
+    },
+    "spacing": {
+      "sectionPadding": "96px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "28px"
+    },
+    "borderRadius": "14px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": { "display": "flex", "padding": "16px 32px", "gap": "24px", "justify": "between", "align": "center" },
+      "style": { "background": "#ffffff", "color": "#0b1f3a" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Northstar AI" } },
+        { "id": "nav-pricing", "type": "link", "enabled": true, "order": 1, "props": { "text": "Pricing", "url": "#pricing" } },
+        { "id": "nav-contact", "type": "link", "enabled": true, "order": 2, "props": { "text": "Contact", "url": "#contact" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 3, "props": { "text": "Start free", "url": "#pricing", "style": "filled" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered-large",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "32px", "padding": "144px 24px", "maxWidth": "1100px" },
+      "style": {
+        "background": "linear-gradient(135deg, #1f6feb 0%, #1ea97c 100%)",
+        "color": "#ffffff",
+        "borderRadius": "0px"
+      },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "For small business operators", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "AI that pays back the same week.", "level": 1, "size": "72px", "weight": 800 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Northstar AI is plug-and-play AI for small businesses — automate the boring 80% of admin, sales follow-up, and inbox triage. No data team. No six-figure rollout. Free for your first 100 tasks." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "Start free — 100 tasks on us", "url": "#pricing", "style": "filled", "size": "lg" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4, "props": { "text": "See pricing", "url": "#pricing", "style": "outline", "size": "lg" } },
+        { "id": "trustBadges", "type": "trust", "enabled": true, "order": 5, "props": { "text": "Loved by 1,200+ small businesses across retail, services, and trades.", "show": true } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "value-props-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "value-props",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "96px 24px", "maxWidth": "1200px" },
+      "style": { "background": "#ffffff", "color": "#0b1f3a" },
+      "components": [
+        { "id": "v-1", "type": "feature-card", "enabled": true, "order": 0, "props": { "icon": "zap", "title": "Built for small teams",
+          "description": "Northstar AI ships with workflows tuned for shops with 1-50 people. No platform team required — your office manager can run it on day one." } },
+        { "id": "v-2", "type": "feature-card", "enabled": true, "order": 1, "props": { "icon": "clock", "title": "Time back, the same week",
+          "description": "Most customers reclaim 6-12 hours a week within the first 7 days. We measure it for you and send the receipt to your inbox every Friday." } },
+        { "id": "v-3", "type": "feature-card", "enabled": true, "order": 2, "props": { "icon": "shield", "title": "Your data stays yours",
+          "description": "Bring your own keys. Your data never trains our models. Cancel anytime and walk away with a full export — no lock-in, no surprises." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "pricing",
+      "id": "pricing-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "three-tier",
+      "layout": { "display": "grid", "columns": 3, "gap": "24px", "padding": "96px 24px", "maxWidth": "1200px" },
+      "style": { "background": "#f4f8fb", "color": "#0b1f3a" },
+      "components": [
+        { "id": "tier-free", "type": "pricing-card", "enabled": true, "order": 0, "props": {
+          "name": "Starter",
+          "price": "$0",
+          "cadence": "/month",
+          "tagline": "Try the platform on the house",
+          "features": ["100 AI tasks / month", "1 connected workspace", "Email support", "Cancel anytime"],
+          "ctaText": "Start free",
+          "ctaUrl": "#contact",
+          "highlighted": false
+        } },
+        { "id": "tier-grow", "type": "pricing-card", "enabled": true, "order": 1, "props": {
+          "name": "Grow",
+          "price": "$49",
+          "cadence": "/month",
+          "tagline": "For shops with 5-25 people",
+          "features": ["2,500 AI tasks / month", "5 connected workspaces", "Priority support", "Weekly hours-saved report", "Custom workflow templates"],
+          "ctaText": "Start 14-day trial",
+          "ctaUrl": "#contact",
+          "highlighted": true
+        } },
+        { "id": "tier-scale", "type": "pricing-card", "enabled": true, "order": 2, "props": {
+          "name": "Scale",
+          "price": "$199",
+          "cadence": "/month",
+          "tagline": "For multi-location small businesses",
+          "features": ["20,000 AI tasks / month", "Unlimited workspaces", "Dedicated success manager", "Custom data integrations", "SOC 2-aligned controls"],
+          "ctaText": "Talk to sales",
+          "ctaUrl": "#contact",
+          "highlighted": false
+        } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "contact-form",
+      "id": "contact-form-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "stacked",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "24px", "padding": "96px 24px", "maxWidth": "640px" },
+      "style": { "background": "#ffffff", "color": "#0b1f3a" },
+      "components": [
+        { "id": "contact-eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "Talk to a human", "variant": "pill" } },
+        { "id": "contact-heading", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Tell us about your business.", "level": 2, "size": "40px", "weight": 700 } },
+        { "id": "contact-subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Drop your details. We'll send a 5-minute teardown of where Northstar AI would save you time, with a Loom — no calls, no spam." } },
+        { "id": "field-name", "type": "input", "enabled": true, "order": 3, "props": { "label": "Your name", "name": "name", "required": true, "placeholder": "Alex Rivera" } },
+        { "id": "field-email", "type": "input", "enabled": true, "order": 4, "props": { "label": "Work email", "name": "email", "type": "email", "required": true, "placeholder": "alex@yourshop.com" } },
+        { "id": "field-business", "type": "input", "enabled": true, "order": 5, "props": { "label": "Business + 1-line context", "name": "business", "required": false, "placeholder": "12-person plumbing co. — drowning in dispatcher follow-ups" } },
+        { "id": "submit", "type": "button", "enabled": true, "order": 6, "props": { "text": "Send my 5-min teardown", "url": "#thanks", "style": "filled", "size": "lg" } },
+        { "id": "privacy", "type": "text", "enabled": true, "order": 7, "props": { "text": "We never sell your data. Unsubscribe one-click." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "16px", "padding": "48px 24px" },
+      "style": { "background": "#0b1f3a", "color": "#9bb1cc" },
+      "components": [
+        { "id": "footer-brand", "type": "text", "enabled": true, "order": 0, "props": { "text": "Northstar AI — made for the people who actually run small businesses." } },
+        { "id": "footer-copy", "type": "text", "enabled": true, "order": 1, "props": { "text": "© 2026 Northstar AI. All rights reserved." } }
+      ],
+      "content": {}
+    }
+  ]
+}

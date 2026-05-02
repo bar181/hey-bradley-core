@@ -1,0 +1,493 @@
+{
+  "site": {
+    "title": "Axon — Faster command parsing. Saner CLI ergonomics.",
+    "description": "Axon is a TypeScript-first CLI framework that parses arguments, validates input, and ships ergonomic help screens — without 400 lines of boilerplate.",
+    "author": "Axon Labs",
+    "email": "hello@axon.dev",
+    "domain": "axon.dev",
+    "project": "axon-cli",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "saas",
+    "audience": "developer",
+    "tone": "technical",
+    "brandName": "Axon",
+    "tagline": "Faster command parsing. Saner CLI ergonomics.",
+    "voiceAttributes": ["technical", "concise", "no-nonsense", "developer-first"]
+  },
+  "theme": {
+    "preset": "dev-tool-dark",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#08090b",
+      "bgSecondary": "#101114",
+      "textPrimary": "#f4f4f5",
+      "textSecondary": "#a1a1aa",
+      "accentPrimary": "#7c3aed",
+      "accentSecondary": "#22d3ee"
+    },
+    "typography": {
+      "fontFamily": "Inter, ui-sans-serif, system-ui, sans-serif",
+      "headingFamily": "JetBrains Mono, ui-monospace, SFMono-Regular, monospace",
+      "headingWeight": 600,
+      "baseSize": "15px",
+      "lineHeight": 1.6
+    },
+    "spacing": {
+      "sectionPadding": "96px",
+      "containerMaxWidth": "1120px",
+      "componentGap": "20px"
+    },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar",
+      "enabled": true,
+      "order": 0,
+      "variant": "minimal-mono",
+      "layout": {
+        "display": "flex",
+        "direction": "row",
+        "align": "center",
+        "justify": "between",
+        "gap": "32px",
+        "padding": "16px 32px",
+        "maxWidth": "1280px"
+      },
+      "content": {
+        "brand": "axon",
+        "links": [
+          { "label": "Docs", "url": "/docs" },
+          { "label": "Changelog", "url": "/docs#changelog" },
+          { "label": "Pricing", "url": "#pricing" },
+          { "label": "GitHub", "url": "https://github.com/axon-labs/axon" }
+        ],
+        "cta": { "text": "npm i axon", "url": "#quickstart" }
+      },
+      "style": {
+        "background": "#08090b",
+        "color": "#f4f4f5",
+        "fontFamily": "JetBrains Mono"
+      },
+      "components": []
+    },
+    {
+      "type": "hero",
+      "id": "hero",
+      "enabled": true,
+      "order": 1,
+      "variant": "centered-mono",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "justify": "center",
+        "gap": "24px",
+        "padding": "128px 32px"
+      },
+      "content": {
+        "heading": {
+          "text": "Faster command parsing. Saner CLI ergonomics.",
+          "level": 1,
+          "size": "64px",
+          "weight": 600
+        },
+        "subheading": "Axon is a TypeScript-first CLI framework. Parse arguments, validate input, render ergonomic help — in 12 lines instead of 400.",
+        "cta": { "text": "Read the quickstart", "url": "#quickstart", "show": true },
+        "secondaryCta": { "text": "View on GitHub", "url": "https://github.com/axon-labs/axon" },
+        "badge": { "text": "v1.0.0 — stable", "show": true }
+      },
+      "style": {
+        "background": "#08090b",
+        "color": "#f4f4f5"
+      },
+      "components": []
+    },
+    {
+      "type": "columns",
+      "id": "quickstart",
+      "enabled": true,
+      "order": 2,
+      "variant": "code-steps",
+      "layout": {
+        "display": "grid",
+        "gap": "24px",
+        "padding": "96px 32px",
+        "maxWidth": "1120px",
+        "columns": 3
+      },
+      "content": {
+        "title": "Quickstart",
+        "subtitle": "Three commands to a fully-typed CLI.",
+        "steps": [
+          {
+            "id": "install",
+            "label": "1. Install",
+            "code": "npm install axon",
+            "description": "Zero peer-deps. Works with Node 18+ and Bun."
+          },
+          {
+            "id": "define",
+            "label": "2. Define",
+            "code": "import { cli } from 'axon'\n\ncli('greet')\n  .arg('name', { required: true })\n  .flag('--shout', { type: 'boolean' })\n  .run(({ name, shout }) => {\n    const msg = `hi, ${name}`\n    console.log(shout ? msg.toUpperCase() : msg)\n  })",
+            "description": "Type-safe args + flags. No string-bag config."
+          },
+          {
+            "id": "ship",
+            "label": "3. Ship",
+            "code": "$ npx greet world --shout\n> HI, WORLD",
+            "description": "Help screens generated automatically. Errors are humans-first."
+          }
+        ]
+      },
+      "style": {
+        "background": "#101114",
+        "color": "#f4f4f5",
+        "fontFamily": "JetBrains Mono"
+      },
+      "components": []
+    },
+    {
+      "type": "columns",
+      "id": "value-props",
+      "enabled": true,
+      "order": 3,
+      "variant": "icon-grid-3",
+      "layout": {
+        "display": "grid",
+        "gap": "32px",
+        "padding": "96px 32px",
+        "maxWidth": "1120px",
+        "columns": 3
+      },
+      "content": {
+        "title": "Why Axon",
+        "items": [
+          {
+            "id": "vp-types",
+            "icon": "type",
+            "title": "Types you can trust",
+            "description": "Args and flags are inferred end-to-end. Refactor your handler — the parser updates with you."
+          },
+          {
+            "id": "vp-help",
+            "icon": "book-open",
+            "title": "Help screens that ship",
+            "description": "Auto-generated --help with examples, deprecations, and per-command sections. No hand-rolled string templates."
+          },
+          {
+            "id": "vp-errors",
+            "icon": "alert-triangle",
+            "title": "Human errors",
+            "description": "When a flag is missing, Axon points at the line and suggests a fix. No 7-line stack trace for a typo."
+          }
+        ]
+      },
+      "style": {
+        "background": "#08090b",
+        "color": "#f4f4f5"
+      },
+      "components": []
+    },
+    {
+      "type": "pricing",
+      "id": "pricing",
+      "enabled": true,
+      "order": 4,
+      "variant": "two-tier-dev",
+      "layout": {
+        "display": "grid",
+        "gap": "24px",
+        "padding": "96px 32px",
+        "maxWidth": "960px",
+        "columns": 2
+      },
+      "content": {
+        "title": "Pricing",
+        "subtitle": "Open source forever. Pro is for teams who want telemetry, presets, and SLAs.",
+        "tiers": [
+          {
+            "id": "free",
+            "name": "Free",
+            "price": "$0",
+            "interval": "forever",
+            "tagline": "Everything you need to ship a CLI.",
+            "features": [
+              "MIT-licensed core",
+              "All parsers, validators, and help renderers",
+              "Single-author projects",
+              "Community support on GitHub"
+            ],
+            "cta": { "text": "npm i axon", "url": "#quickstart" }
+          },
+          {
+            "id": "pro",
+            "name": "Pro",
+            "price": "$19",
+            "interval": "per developer / month",
+            "tagline": "For teams shipping internal tooling.",
+            "features": [
+              "Telemetry dashboard (opt-in, self-hosted option)",
+              "Org-wide presets and lint rules",
+              "Priority Discord + 24h SLA on critical issues",
+              "Migration guides for legacy CLIs (yargs, commander)"
+            ],
+            "cta": { "text": "Start 14-day trial", "url": "/billing" },
+            "highlighted": true
+          }
+        ]
+      },
+      "style": {
+        "background": "#101114",
+        "color": "#f4f4f5"
+      },
+      "components": []
+    },
+    {
+      "type": "numbers",
+      "id": "social-proof",
+      "enabled": true,
+      "order": 5,
+      "variant": "horizontal-stats",
+      "layout": {
+        "display": "grid",
+        "gap": "16px",
+        "padding": "64px 32px",
+        "maxWidth": "1120px",
+        "columns": 4
+      },
+      "content": {
+        "title": "Loved by builders",
+        "stats": [
+          { "id": "stars", "value": "12.4k", "label": "GitHub stars", "source": "github.com/axon-labs/axon" },
+          { "id": "downloads", "value": "284k", "label": "npm downloads / month", "source": "npmjs.com" },
+          { "id": "contributors", "value": "186", "label": "open-source contributors" },
+          { "id": "production", "value": "2,400+", "label": "CLIs in production" }
+        ]
+      },
+      "style": {
+        "background": "#08090b",
+        "color": "#f4f4f5",
+        "fontFamily": "JetBrains Mono"
+      },
+      "components": []
+    },
+    {
+      "type": "action",
+      "id": "cta",
+      "enabled": true,
+      "order": 6,
+      "variant": "centered-mono",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "justify": "center",
+        "gap": "24px",
+        "padding": "96px 32px"
+      },
+      "content": {
+        "heading": "Ship a CLI before lunch.",
+        "subheading": "Three commands. Type-safe. No yargs gymnastics.",
+        "button": { "text": "npm install axon", "url": "#quickstart" },
+        "secondary": { "text": "Read the docs", "url": "/docs" }
+      },
+      "style": {
+        "background": "#101114",
+        "color": "#f4f4f5"
+      },
+      "components": []
+    },
+    {
+      "type": "footer",
+      "id": "footer",
+      "enabled": true,
+      "order": 7,
+      "variant": "minimal-mono",
+      "layout": {
+        "display": "flex",
+        "direction": "row",
+        "align": "center",
+        "justify": "between",
+        "gap": "32px",
+        "padding": "32px",
+        "maxWidth": "1280px"
+      },
+      "content": {
+        "brand": "axon",
+        "tagline": "Faster command parsing.",
+        "columns": [
+          {
+            "title": "Product",
+            "links": [
+              { "label": "Docs", "url": "/docs" },
+              { "label": "Pricing", "url": "#pricing" },
+              { "label": "Changelog", "url": "/docs#changelog" }
+            ]
+          },
+          {
+            "title": "Community",
+            "links": [
+              { "label": "GitHub", "url": "https://github.com/axon-labs/axon" },
+              { "label": "Discord", "url": "https://discord.gg/axon" },
+              { "label": "Twitter", "url": "https://twitter.com/axoncli" }
+            ]
+          },
+          {
+            "title": "Company",
+            "links": [
+              { "label": "About", "url": "/about" },
+              { "label": "Privacy", "url": "/privacy" }
+            ]
+          }
+        ],
+        "copyright": "© 2026 Axon Labs. MIT-licensed core."
+      },
+      "style": {
+        "background": "#08090b",
+        "color": "#a1a1aa"
+      },
+      "components": []
+    }
+  ],
+  "pages": [
+    {
+      "id": "home",
+      "title": "Axon — Faster command parsing.",
+      "slug": "/",
+      "isHome": true,
+      "sections": []
+    },
+    {
+      "id": "docs",
+      "title": "Axon Docs",
+      "slug": "/docs",
+      "isHome": false,
+      "sections": [
+        {
+          "type": "hero",
+          "id": "docs-hero",
+          "enabled": true,
+          "order": 0,
+          "variant": "left-aligned-mono",
+          "layout": {
+            "display": "flex",
+            "direction": "column",
+            "align": "start",
+            "justify": "center",
+            "gap": "16px",
+            "padding": "96px 32px",
+            "maxWidth": "960px"
+          },
+          "content": {
+            "heading": {
+              "text": "Documentation",
+              "level": 1,
+              "size": "48px",
+              "weight": 600
+            },
+            "subheading": "Everything you need to wire Axon into a real project. Quickstart on the home page; deep-dive sections below.",
+            "cta": { "text": "Quickstart", "url": "/#quickstart", "show": true }
+          },
+          "style": {
+            "background": "#08090b",
+            "color": "#f4f4f5"
+          },
+          "components": []
+        },
+        {
+          "type": "blog",
+          "id": "changelog",
+          "enabled": true,
+          "order": 1,
+          "variant": "version-list",
+          "layout": {
+            "display": "flex",
+            "direction": "column",
+            "align": "start",
+            "justify": "start",
+            "gap": "32px",
+            "padding": "64px 32px",
+            "maxWidth": "960px"
+          },
+          "content": {
+            "title": "Changelog",
+            "subtitle": "Public, terse, semver-respecting.",
+            "entries": [
+              {
+                "id": "v1-0-0",
+                "version": "1.0.0",
+                "date": "2026-04-28",
+                "tag": "stable",
+                "title": "Stable release",
+                "body": "Type inference for nested subcommands is now exhaustive. Help screens render in <2ms even on Node 18 cold starts. No public-API changes from 0.9.x — `npm install axon@1` is a drop-in upgrade."
+              },
+              {
+                "id": "v0-9-0",
+                "version": "0.9.0",
+                "date": "2026-03-15",
+                "tag": "beta",
+                "title": "Async validators + bun runtime",
+                "body": "`.flag(name, { validate: async fn })` is supported end-to-end. Bun is now a first-class runtime in CI; everything that worked on Node 18 works on Bun 1.0+."
+              },
+              {
+                "id": "v0-8-0",
+                "version": "0.8.0",
+                "date": "2026-02-02",
+                "tag": "beta",
+                "title": "Subcommand groups",
+                "body": "`cli('git').group('remote').command('add', ...)` finally works without a custom router. The help screen groups by namespace automatically."
+              },
+              {
+                "id": "v0-7-0",
+                "version": "0.7.0",
+                "date": "2026-01-10",
+                "tag": "beta",
+                "title": "Prompt fallback for missing required flags",
+                "body": "Missing required flags now fall back to an interactive prompt when `process.stdin.isTTY` is true. Disable with `--no-prompt` or `cli().prompt(false)`."
+              }
+            ]
+          },
+          "style": {
+            "background": "#101114",
+            "color": "#f4f4f5",
+            "fontFamily": "JetBrains Mono"
+          },
+          "components": []
+        },
+        {
+          "type": "footer",
+          "id": "docs-footer",
+          "enabled": true,
+          "order": 2,
+          "variant": "minimal-mono",
+          "layout": {
+            "display": "flex",
+            "direction": "row",
+            "align": "center",
+            "justify": "between",
+            "gap": "32px",
+            "padding": "32px",
+            "maxWidth": "1280px"
+          },
+          "content": {
+            "brand": "axon",
+            "tagline": "Faster command parsing.",
+            "links": [
+              { "label": "Home", "url": "/" },
+              { "label": "GitHub", "url": "https://github.com/axon-labs/axon" }
+            ],
+            "copyright": "© 2026 Axon Labs."
+          },
+          "style": {
+            "background": "#08090b",
+            "color": "#a1a1aa"
+          },
+          "components": []
+        }
+      ]
+    }
+  ]
+}
