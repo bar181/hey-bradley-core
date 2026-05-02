@@ -53,6 +53,7 @@ export const ALLOWED_TARGET_TYPES = [
   'testimonials', 'faq', 'value-props', 'gallery', 'image',
   'team', 'columns', 'action', 'quotes', 'questions', 'numbers',
   'divider', 'text', 'logos', 'menu',
+  'case-study', 'contact-form',
 ] as const
 
 export type IntentTarget = {

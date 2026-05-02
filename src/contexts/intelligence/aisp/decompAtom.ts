@@ -236,8 +236,8 @@ function scoreConfidence(verbHit: boolean, targetHit: boolean): number {
  */
 export function decompose(
   utterance: string,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- reserved for LLM path
-  intent?: ClassifiedIntent | null,
+  // Reserved for LLM-enriched DECOMP path; underscore prefix marks intentional non-use.
+  _intent?: ClassifiedIntent | null,
   pages?: ReadonlyArray<PageRef>,
 ): DecompAtomResult {
   const clauses = splitClauses(utterance)

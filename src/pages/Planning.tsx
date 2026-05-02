@@ -1,19 +1,42 @@
 /**
  * P91 / AW-PLANNING-MAP (A2) — Planning Mode integration.
+ * P92 / AW-PROCESS-ATOM (A3) — PlanningChatBar wired above project list.
+ * P93 / AW-DDD-ATOM (A6) — view toggle + DomainModelSVG wired.
  *
- * 3-pane layout: project list (left) · process map (center) ·
+ * 3-pane layout: project list (left) · process map / domain model (center) ·
  * node-detail panel (right). Wires A1's ProcessMapSVG with sample
- * Hey Bradley arc data from src/data/sample-process-map.ts.
+ * Hey Bradley arc data from src/data/sample-process-map.ts and the
+ * P93 DomainModelSVG with live DDD_ATOM output.
+ *
+ * P92: PlanningChatBar (text → PROCESS_ATOM → liveMap) sits above the
+ * project list in the left panel. When liveMap is non-null, the center
+ * pane renders it instead of the hardcoded HEY_BRADLEY_SAMPLE_MAP.
+ * P93: same chat bar relays raw text via `onRawText` to DDD_ATOM
+ * `classifyContexts(...)`; resulting `liveDomainModel` powers the
+ * DomainModelSVG view when the toggle is set to `domain-model`.
  *
  * Per ADR-116 three-mode product architecture + ADR-088 mode
- * architecture + ADR-091 token-derived styling. Stub testid
- * `planning-mode-stub` retained for backward-compat with P90 tests.
+ * architecture + ADR-091 token-derived styling + ADR-118 PROCESS_ATOM
+ * + ADR-119 DDD_ATOM. Stub testid `planning-mode-stub` retained for
+ * backward-compat with P90.
  *
- * Full PROCESS_ATOM / DDD_ATOM / AGENT_ATOM bodies arrive P92-P95.
+ * Full AGENT_ATOM body arrives P94+.
  */
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ProcessMapSVG } from '@/components/planning/ProcessMapSVG'
+import type { ProcessMap } from '@/components/planning/ProcessMapSVG'
+import { PlanningChatBar } from '@/components/planning/PlanningChatBar'
+import { DomainModelSVG } from '@/components/planning/DomainModelSVG'
+import {
+  PlanningViewToggle,
+  type PlanningView,
+} from '@/components/planning/PlanningViewToggle'
+import {
+  classifyContexts,
+  toDomainModel,
+  type DomainModel,
+} from '@/contexts/intelligence/aisp/dddAtom'
 import {
   HEY_BRADLEY_SAMPLE_MAP,
   SAMPLE_NODE_DETAILS,
@@ -30,17 +53,25 @@ const PROJECTS: readonly PlanningProject[] = [
   { id: 'portfolio', label: 'Portfolio Refresh' },
 ]
 
-export function Planning(): JSX.Element {
+export function Planning() {
   const [activeProjectId, setActiveProjectId] = useState<string>('hey-bradley')
+  // P92 / A3: live process map produced from PlanningChatBar (PROCESS_ATOM).
+  // null → fall back to the hardcoded HEY_BRADLEY_SAMPLE_MAP.
+  const [liveMap, setLiveMap] = useState<ProcessMap | null>(null)
+  // P93 / A6: live domain model from DDD_ATOM (sibling atom to PROCESS_ATOM).
+  const [liveDomainModel, setLiveDomainModel] = useState<DomainModel | null>(null)
+  // P93 / A6: view toggle between process-map ↔ domain-model.
+  const [view, setView] = useState<PlanningView>('process-map')
   const [selectedNodeId, setSelectedNodeId] = useState<string | undefined>(
     HEY_BRADLEY_SAMPLE_MAP.activeNodeId,
   )
 
   // Stub: only Hey Bradley project carries data; others render empty state.
   const hasMap = activeProjectId === 'hey-bradley'
+  const activeMap: ProcessMap = liveMap ?? HEY_BRADLEY_SAMPLE_MAP
 
   const selectedNode = selectedNodeId
-    ? HEY_BRADLEY_SAMPLE_MAP.nodes.find((n) => n.id === selectedNodeId) ?? null
+    ? activeMap.nodes.find((n) => n.id === selectedNodeId) ?? null
     : null
   const selectedDetail = selectedNodeId
     ? SAMPLE_NODE_DETAILS[selectedNodeId] ?? null
@@ -53,20 +84,29 @@ export function Planning(): JSX.Element {
     )
   }
 
+  const handleProcessMapChange = (map: ProcessMap): void => {
+    setLiveMap(map)
+    // Auto-select first node so the right-pane detail surfaces immediately.
+    setSelectedNodeId(map.activeNodeId ?? map.nodes[0]?.id)
+  }
+
+  // P93 / A6: relay raw chat text into DDD_ATOM in parallel with PROCESS_ATOM.
+  const handleRawText = (raw: string): void => {
+    const dddOutput = classifyContexts(raw)
+    setLiveDomainModel(toDomainModel(dddOutput))
+  }
+
   return (
     <div
       data-testid="planning-mode-stub"
       className="min-h-screen bg-[var(--hb-bg)] text-[var(--hb-text-primary)]"
     >
-      <header className="border-b border-[var(--hb-border)] px-4 md:px-8 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
+      <header className="border-b border-[var(--hb-border)] px-4 md:px-8 py-4 flex items-center justify-between gap-3 flex-wrap">
+        <div className="flex items-center gap-3 flex-wrap">
           <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-mono uppercase tracking-wider bg-[var(--hb-accent)]/10 text-[var(--hb-accent)]">
-            Planning · P91
+            Planning · P93
           </span>
-          <span className="text-base font-medium">Process Map</span>
-          <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[var(--hb-surface-hover)] text-[var(--hb-text-muted)]">
-            Coming soon
-          </span>
+          <PlanningViewToggle value={view} onChange={setView} />
         </div>
         <Link
           to="/"
@@ -78,11 +118,15 @@ export function Planning(): JSX.Element {
       </header>
 
       <div className="flex flex-col md:flex-row min-h-[calc(100vh-64px)]">
-        {/* Left panel: project list */}
+        {/* Left panel: chat bar + project list */}
         <aside
           data-testid="planning-project-list"
-          className="w-full md:w-64 border-b md:border-b-0 md:border-r border-[var(--hb-border)] bg-[var(--hb-surface)] p-4"
+          className="w-full md:w-64 border-b md:border-b-0 md:border-r border-[var(--hb-border)] bg-[var(--hb-surface)] p-4 flex flex-col gap-4"
         >
+          <PlanningChatBar
+            onProcessMapChange={handleProcessMapChange}
+            onRawText={handleRawText}
+          />
           <h2 className="text-xs font-mono uppercase tracking-wider text-[var(--hb-text-muted)] mb-3">
             Projects
           </h2>
@@ -110,21 +154,32 @@ export function Planning(): JSX.Element {
           </ul>
         </aside>
 
-        {/* Center: process map OR empty state */}
+        {/* Center: process map OR domain model OR empty state */}
         <main className="flex-1 p-4 md:p-6 overflow-x-auto">
-          {hasMap ? (
-            <div data-testid="planning-process-map">
-              <ProcessMapSVG
-                map={{ ...HEY_BRADLEY_SAMPLE_MAP, activeNodeId: selectedNodeId }}
-                onNodeSelect={setSelectedNodeId}
-              />
-            </div>
-          ) : (
+          {!hasMap ? (
             <div
               data-testid="planning-empty-state"
               className="flex items-center justify-center h-full min-h-[300px] text-sm text-[var(--hb-text-muted)]"
             >
               Start a project to see your process map.
+            </div>
+          ) : view === 'process-map' ? (
+            <div data-testid="planning-process-map">
+              <ProcessMapSVG
+                map={{ ...activeMap, activeNodeId: selectedNodeId }}
+                onNodeSelect={setSelectedNodeId}
+              />
+            </div>
+          ) : liveDomainModel ? (
+            <div data-testid="planning-domain-model">
+              <DomainModelSVG model={liveDomainModel} />
+            </div>
+          ) : (
+            <div
+              data-testid="planning-domain-model-empty"
+              className="flex items-center justify-center h-full min-h-[300px] text-sm text-[var(--hb-text-muted)]"
+            >
+              Type a project description to see its domain model.
             </div>
           )}
         </main>

@@ -101,9 +101,10 @@ const INTERACTIONS: readonly InteractionStep[] = [
   },
 ]
 
-// Default-fallback constant retained for any historical asserts; live
-// per-char delay is computed via nextCharDelay() for a more human cadence.
-const TYPING_CHAR_MS = 35
+// Default fallback retained as documentation; live per-char delay
+// is computed via nextCharDelay() for a more human cadence.
+const _TYPING_CHAR_MS_DEFAULT = 35
+void _TYPING_CHAR_MS_DEFAULT
 
 function nextCharDelay(prevChar: string): number {
   const base = 28 + Math.floor(Math.random() * 16)
