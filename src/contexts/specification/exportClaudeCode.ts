@@ -21,6 +21,7 @@
  *      ADR-108 (AISP adoption), ADR-121 (SpecWorkbench).
  */
 import type { PhaseCard, SprintSummary } from '@/components/agentics/SpecWorkbench'
+import { buildTDDScaffold } from '@/contexts/specification/exporters/tddScaffoldGenerator'
 
 export interface ExportClaudeCodeBundle {
   /** Full markdown bundle as single string with file markers. */
@@ -203,6 +204,13 @@ export function buildClaudeCodeBundle(
     })
     waveIndex += 1
   }
+
+  // P97 / A2 — per-phase TDD test spec scaffold (sibling A1 module).
+  const tddScaffold = buildTDDScaffold(phase)
+  files.push({
+    path: `phase-plans/${phase.id}-test-spec.md`,
+    content: tddScaffold.markdown,
+  })
 
   const markdown = files
     .map((f) => `# === FILE: ${f.path} ===\n\n${f.content}`)

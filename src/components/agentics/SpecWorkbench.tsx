@@ -7,8 +7,9 @@
  * See: ADR-121, ADR-110, ADR-116, ADR-120, ADR-091, ADR-090.
  */
 import { useEffect, useState } from 'react'
-import { BookOpen, ChevronRight, Code2, Copy, FileText } from 'lucide-react'
+import { BookOpen, ChevronRight, Code2, Copy, FileText, FlaskConical } from 'lucide-react'
 import { ExportClaudeCodeButton } from '@/components/agentics/ExportClaudeCodeButton'
+import { buildTDDScaffold } from '@/contexts/specification/exporters/tddScaffoldGenerator'
 
 export type SpecTab = 'human' | 'aisp' | 'adr'
 type Status = 'planned' | 'in-flight' | 'sealed' | 'deferred'
@@ -220,6 +221,37 @@ function AdrTab({ refs }: { refs: PhaseCard['adrRefs'] }) {
   )
 }
 
+function slugForTestSpec(s: string): string {
+  return (s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')) || 'phase'
+}
+
+function GenerateTestSpecButton({ phase }: { phase: PhaseCard }) {
+  const handleClick = (): void => {
+    const out = buildTDDScaffold(phase)
+    const blob = new Blob([out.markdown], { type: 'text/markdown;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${slugForTestSpec(phase.id)}-test-spec.md`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      data-testid="generate-test-spec-button"
+      aria-label="Generate TDD test spec markdown"
+      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono uppercase tracking-wider border border-[var(--hb-border)] bg-[var(--hb-surface)] hover:bg-[var(--hb-surface-hover)] text-[var(--hb-text-primary)] ${FOCUS} transition-colors duration-200`}
+    >
+      <FlaskConical size={14} aria-hidden="true" />
+      Generate Test Spec
+    </button>
+  )
+}
+
 export function SpecWorkbench({ phases, activePhaseId, activeSprintId, onSprintExpand }: SpecWorkbenchProps) {
   const [tab, setTab] = useState<SpecTab>('human')
   const [expanded, setExpanded] = useState<string | undefined>(activeSprintId)
@@ -266,6 +298,7 @@ export function SpecWorkbench({ phases, activePhaseId, activeSprintId, onSprintE
         </div>
         <div className="flex items-center gap-3">
           <StatusPill status={phase.status} />
+          <GenerateTestSpecButton phase={phase} />
           <ExportClaudeCodeButton phase={phase} />
         </div>
       </header>

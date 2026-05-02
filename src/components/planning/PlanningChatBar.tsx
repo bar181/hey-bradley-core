@@ -1,5 +1,11 @@
 import { useState } from 'react'
 import { classifyProcess, toProcessMap } from '@/contexts/intelligence/aisp/processAtom'
+import { classifyContexts } from '@/contexts/intelligence/aisp/dddAtom'
+import {
+  classifyAgents,
+  type AgentSpec,
+  type WaveContext,
+} from '@/contexts/intelligence/aisp/agentAtom'
 import type { ProcessMap } from '@/components/planning/ProcessMapSVG'
 
 export interface PlanningChatBarProps {
@@ -7,11 +13,18 @@ export interface PlanningChatBarProps {
   onProcessMapChange: (map: ProcessMap) => void
   /** P93/A6: optional raw-text relay for sibling atoms (e.g. DDD_ATOM). */
   onRawText?: (text: string) => void
+  /** P97/A1: optional AGENT_ATOM enrichment relay (full AgentSpec[] across waves). */
+  onAgentsChange?: (agents: AgentSpec[]) => void
   /** Optional placeholder override. */
   placeholder?: string
 }
 
-export function PlanningChatBar({ onProcessMapChange, onRawText, placeholder }: PlanningChatBarProps) {
+export function PlanningChatBar({
+  onProcessMapChange,
+  onRawText,
+  onAgentsChange,
+  placeholder,
+}: PlanningChatBarProps) {
   const [text, setText] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
@@ -26,6 +39,23 @@ export function PlanningChatBar({ onProcessMapChange, onRawText, placeholder }: 
       const output = classifyProcess(text)
       const map = toProcessMap(output)
       onProcessMapChange(map)
+
+      // P97 / A1: AGENT_ATOM enrichment — fan out PROCESS_ATOM AgentScope hints
+      // into full AgentSpec[] using DDD context as situational input. First
+      // production call site of `classifyAgents` (closes P101 carry-forward #1).
+      if (onAgentsChange) {
+        const ddd = classifyContexts(text)
+        const allAgents: AgentSpec[] = []
+        for (const wave of output.waves) {
+          const ctx: WaveContext = {
+            wave,
+            contexts: ddd.contexts,
+            scopeHints: output.agents.filter((a) => a.waveId === wave.id),
+          }
+          allAgents.push(...classifyAgents(ctx).agents)
+        }
+        onAgentsChange(allAgents)
+      }
     } finally {
       setSubmitting(false)
     }
