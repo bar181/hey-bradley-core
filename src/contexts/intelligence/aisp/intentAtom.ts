@@ -190,3 +190,8 @@ export const PROJECT_TYPE_TARGET_BIAS: Record<ProjectType, ReadonlyArray<typeof 
   'portfolio':      ['hero', 'gallery', 'team', 'text'],
   'unknown':        [],
 }
+
+/** P100 W2 / A7 — Unmeasurable-goal pattern (additive; opt-in for chatPipeline). */
+export const UNMEASURABLE_GOAL_RE =
+  /\b(?:make\s+(?:it|this|the\s+site)\s+(?:perfect|better|nicer|amazing|awesome|cool|great)|fix\s+(?:it|this)|this\s+is\s+wrong|idk\s+make)/i
+export function isUnmeasurableGoal(text: string): boolean { return UNMEASURABLE_GOAL_RE.test(text) }

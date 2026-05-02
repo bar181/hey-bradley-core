@@ -277,3 +277,8 @@ export function decompose(
     confidence: aggregate,
   }
 }
+
+/** P100 W2 / A7 — Contradiction pattern (additive; does NOT modify decompose()). */
+export const CONTRADICTION_RE =
+  /\b(?:remove|delete|drop|hide)\b[^.;]*\band\s+add\s+(?:it|them|that|the\s+\w+)\s+back\b/i
+export function hasContradiction(utterance: string): boolean { return CONTRADICTION_RE.test(utterance) }

@@ -139,3 +139,10 @@ export function validateAssumptionsAtomOutput(raw: unknown): AssumptionAtomItem[
   }
   return validated
 }
+
+/** P100 W2 / A7 — Canonical fallback (Γ R3/R4/R5 + Ε V2 compliant; opt-in). */
+export const ASSUMPTIONS_FALLBACK_TEMPLATES: ReadonlyArray<AssumptionAtomItem> = [
+  { id: 'revert-last-change', label: 'Revert last change', rephrasing: 'reset to the previous state', confidence: 0.7 },
+  { id: 'reset-to-default-theme', label: 'Reset to default theme', rephrasing: 'reset the theme to default', confidence: 0.5 },
+  { id: 'clarify-target', label: 'Tell me what to change', rephrasing: 'change which section or theme', confidence: 0.3 },
+]
