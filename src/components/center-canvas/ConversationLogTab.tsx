@@ -17,6 +17,13 @@ import {
   type ConversationLogFilter,
   type ConversationTurn,
 } from '@/contexts/specification/conversationLogExport'
+import { getDB } from '@/contexts/persistence/db'
+import {
+  getEventsForRequest,
+  type LogEventInsert,
+} from '@/contexts/persistence/repositories/comprehensiveLogs'
+import { useUIStore } from '@/store/uiStore'
+import { RequestDrillDown, type RequestSummary } from './RequestDrillDown'
 
 // P74/A5 — Soft shape for a per-todo decomp trace row (A1+A2+A3 wire via
 // chatPipeline). Render-block is guarded by `'todoTraces' in t`.
@@ -51,6 +58,53 @@ function shortHash(h: string | null): string {
   return h ? redactKeyShapes(h).slice(0, 8) : '—'
 }
 
+// P100 W2 / A8 — Pull distinct request_ids from log_events (most-recent first)
+// then resolve each to a RequestSummary via getEventsForRequest. Read-only;
+// fire-and-forget; never throws. Returns [] in DEV/test envs without a DB.
+function loadRequestSummaries(limit = 30): RequestSummary[] {
+  let db: ReturnType<typeof getDB> | null = null
+  try { db = getDB() } catch { return [] }
+  if (!db) return []
+  const ids: string[] = []
+  let stmt: ReturnType<typeof db.prepare> | null = null
+  try {
+    stmt = db.prepare(
+      `SELECT request_id, MAX(created_at) AS ts
+       FROM log_events
+       GROUP BY request_id
+       ORDER BY ts DESC
+       LIMIT ?`,
+    )
+    stmt.bind([limit])
+    while (stmt.step()) {
+      const row = stmt.getAsObject() as { request_id?: string }
+      if (row.request_id) ids.push(row.request_id)
+    }
+  } catch { /* table may not exist yet */ } finally {
+    if (stmt) try { stmt.free() } catch { /* ignore */ }
+  }
+  return ids.map((rid) => buildSummary(db!, rid)).filter((s): s is RequestSummary => s !== null)
+}
+
+function buildSummary(db: ReturnType<typeof getDB>, requestId: string): RequestSummary | null {
+  const events = getEventsForRequest(db, requestId)
+  if (events.length === 0) return null
+  const startedAt = events.reduce((m, e) => {
+    const c = (e as LogEventInsert & { createdAt?: number }).createdAt
+    return c != null && c < m ? c : m
+  }, Date.now())
+  const totalLatencyMs = events.reduce((n, e) => n + (e.latencyMs ?? 0), 0)
+  const inputEvent = events.find((e) => e.eventType === 'input_event')
+  const promptRaw = (inputEvent?.eventData?.['prompt'] ?? inputEvent?.eventData?.['text'] ?? '') as unknown
+  const prompt = typeof promptRaw === 'string' ? promptRaw : ''
+  const mode: RequestSummary['mode'] =
+    inputEvent?.inputType === 'listen' ? 'listen' : inputEvent?.inputType === 'chat' ? 'chat' : '—'
+  const hasError = events.some((e) => e.eventType === 'error_event')
+  const hasSummary = events.some((e) => e.eventType === 'response_summary')
+  const status: RequestSummary['status'] = hasError ? 'error' : hasSummary ? 'success' : 'pending'
+  return { requestId, startedAt, prompt, mode, totalLatencyMs, status, events }
+}
+
 export function ConversationLogTab() {
   const [filter, setFilter] = useState<ConversationLogFilter>({})
   // Per-row "Show full" / "Show highlight" toggle. Default = full (this is the
@@ -58,6 +112,8 @@ export function ConversationLogTab() {
   const [highlightRows, setHighlightRows] = useState<Record<string, boolean>>({})
   const toggleHighlight = (key: string): void =>
     setHighlightRows((prev) => ({ ...prev, [key]: !prev[key] }))
+  // P100 W2 / A8 — EXPERT mode toggle drives AISP Σ trace overlay per stage.
+  const expert = useUIStore((s) => s.rightPanelTab === 'EXPERT')
 
   const sessions = useMemo(() => {
     try {
@@ -66,6 +122,13 @@ export function ConversationLogTab() {
       return []
     }
   }, [filter])
+
+  // P100 W2 / A8 — Per-request drill-down summaries pulled from log_events.
+  const requestSummaries = useMemo(() => loadRequestSummaries(30), [filter])
+  const sessionTotalCost = requestSummaries.reduce(
+    (n, s) => n + s.totalLatencyMs * 0.0001,
+    0,
+  )
 
   const totalTurns = sessions.reduce((n, s) => n + s.turns.length, 0)
 
@@ -149,6 +212,25 @@ export function ConversationLogTab() {
           </button>
         )}
       </div>
+
+      {requestSummaries.length > 0 && (
+        <section className="space-y-2">
+          <div className="flex items-center gap-2 text-xs">
+            <h3 className="font-semibold text-hb-text-secondary">Per-request drill-down</h3>
+            <span className="text-hb-text-muted">
+              {requestSummaries.length} request{requestSummaries.length === 1 ? '' : 's'}
+            </span>
+            <span className="ml-auto font-mono text-hb-text-muted" title="session total estimated cost">
+              ~${sessionTotalCost.toFixed(4)}
+            </span>
+          </div>
+          <div className="space-y-1.5">
+            {requestSummaries.map((s) => (
+              <RequestDrillDown key={s.requestId} summary={s} expert={expert} />
+            ))}
+          </div>
+        </section>
+      )}
 
       {sessions.length === 0 ? (
         <p className="text-xs text-hb-text-muted italic">
