@@ -1,10 +1,10 @@
 # Architecture Decision Records (ADR) Index
 
-**Last updated:** 2026-05-04 (P109 / ADR-LEDGER-TRUTH-UP) · **Total files on disk:** 127 · **Highest-ID:** ADR-136
+**Last updated:** 2026-05-04 (P109 / ADR-LEDGER-TRUTH-UP + FINAL-CLEANUP) · **Total files on disk:** 128 · **Highest-ID:** ADR-137
 
 This directory contains the Architecture Decision Records for the Hey Bradley project. Each ADR captures one architectural decision, its context, and its consequences in immutable form.
 
-> **Truth-up note:** Prior to P109 this README claimed 38 ADRs through ADR-048 (last touched 2026-04-27 / post-P19). Disk reality at P108 seal was 127 files through ADR-136 across 60+ phases. P109 / ADR-LEDGER-TRUTH-UP rebuilds the ledger to disk reality. Source-of-truth for every entry below is the actual ADR file's first heading.
+> **Truth-up note:** Prior to P109 this README claimed 38 ADRs through ADR-048 (last touched 2026-04-27 / post-P19). Disk reality at P108 seal was 127 files through ADR-136 across 60+ phases. P109 / ADR-LEDGER-TRUTH-UP rebuilds the ledger to disk reality; the P109 closer added ADR-137 same-sprint (128 files / ADR-137 highest-ID). Source-of-truth for every entry below is the actual ADR file's first heading.
 
 ---
 
@@ -188,7 +188,7 @@ Each ADR uses a consistent shape: a `# ADR-NNN: Title` first-line heading, a `St
 - ADR-129 — KISS Review Architecture (P98 / KISS-REVIEW)
 - ADR-130 — Seal Panel + EOP Persistence (P99 / SEAL-PANEL)
 
-### v2.0.0-RC1 boundary + RC1 hardening (P101-P108)
+### v2.0.0-RC1 boundary + RC1 hardening (P101-P109)
 
 - ADR-131 — Agentic Workbench RC Architecture (P101 / AW-RC)
 - ADR-132 — Final QA · Token Migration · Agentics Live-Wire · v2.0.0-RC1 Persona Gate (P102 / OC-POLISH-W5)
@@ -196,6 +196,7 @@ Each ADR uses a consistent shape: a `# ADR-NNN: Title` first-line heading, a `St
 - ADR-134 — Dead-Code Purge + Atom→View Inversion Fix + Section-Enum Reconciliation (P106)
 - ADR-135 — Log Integrity Expansion (event_type Wires + writeErrorEvent Helper) (P107)
 - ADR-136 — Test Runtime Shift (Mobile Viewports + Behavioral Helper Coverage + p76 Audit Correction) (P108)
+- ADR-137 — ADR Ledger Truth-Up + Section-Enum Drift Regression Guard (P109)
 
 ---
 
@@ -257,4 +258,4 @@ Three ADR numbers have two files on disk: a P21-era Proposed stub and a later Ac
 
 ---
 
-**Last updated:** 2026-05-04 (P109 / ADR-LEDGER-TRUTH-UP / Wave 1 / Agent A12).
+**Last updated:** 2026-05-04 (P109 / ADR-LEDGER-TRUTH-UP / Wave 1 / Agent A12 + FINAL-CLEANUP / Agent A3 — counter fix 127→128 + ADR-137 row appended).

@@ -1139,5 +1139,67 @@
     "input_type": "listen",
     "latency_ms": 1340,
     "created_at": 1714746613850
+  },
+  {
+    "id": "e2e2-todo-exec-001",
+    "session_id": "e2e2-coffee-essay-session-01",
+    "request_id": "e2e2-coffee-essay-req-006",
+    "event_type": "todo_execution",
+    "event_data": {
+      "atom": "DECOMP_TODO_EXECUTOR",
+      "todo_order": 1,
+      "verb": "add",
+      "target": "section",
+      "section_type": "quotes",
+      "status": "applied",
+      "patches_count": 1,
+      "highlight": "Pull-quote section appended after the long-form text body"
+    },
+    "latency_ms": 142,
+    "created_at": 1714746700000
+  },
+  {
+    "id": "e2e2-todo-exec-002",
+    "session_id": "e2e2-northlight-session-01",
+    "request_id": "e2e2-northlight-req-005",
+    "event_type": "todo_execution",
+    "event_data": {
+      "atom": "DECOMP_TODO_EXECUTOR",
+      "todo_order": 2,
+      "verb": "tighten",
+      "target": "tone",
+      "section_type": "site-wide",
+      "status": "applied",
+      "patches_count": 4,
+      "highlight": "Wes-Anderson palette persisted; copy tightened across hero + features + footer"
+    },
+    "latency_ms": 188,
+    "created_at": 1714746800000
+  },
+  {
+    "id": "e2e2-error-event-001",
+    "session_id": "e2e2-coffee-essay-session-01",
+    "request_id": "e2e2-coffee-essay-req-007",
+    "event_type": "error_event",
+    "event_data": {
+      "source": "chatPipeline.templateApplyPatches",
+      "message": "Section index out of bounds: hero-2 (active page has 1 hero section)",
+      "stack": "Error: Section index out of bounds: hero-2\n    at applyPatches (chatPipeline.ts:619:14)\n    at runLLMPipeline (chatPipeline.ts:728:9)"
+    },
+    "latency_ms": 0,
+    "created_at": 1714746900000
+  },
+  {
+    "id": "e2e2-error-event-002",
+    "session_id": "e2e2-switchback-session-01",
+    "request_id": "e2e2-switchback-req-011",
+    "event_type": "error_event",
+    "event_data": {
+      "source": "chatPipeline.templateIntelligence",
+      "message": "Template matcher returned zero candidates for input: 'make it feel cozy'",
+      "stack": "Error: Template matcher returned zero candidates\n    at matchTemplates (chatPipeline.ts:561:11)"
+    },
+    "latency_ms": 0,
+    "created_at": 1714747000000
   }
 ]

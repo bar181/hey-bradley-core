@@ -2,11 +2,12 @@
 
 **Date:** 2026-05-04
 **Branch:** claude/verify-flywheel-init-qlIBr
-**Final commit:** 9edeb11
+**Final commit:** [FINAL-CLEANUP-HASH]
+**Predecessor commit:** 3a54445 (initial completion report) · 9edeb11 (4-reviewer brutal review) · 067f92c (5-projects sprint)
 
 ## Summary
 
-Five sealed phases (P104 → P109) plus a 5-PROJECTS persona-driven validation sprint and a final 4-reviewer brutal-review pass shipped across this autonomous run. Every swarm-doable item from the brutal-honest 8-chunk gap audit (`plans/strategic-reviews/2026-05-04-gaps-to-done/`) is closed; cumulative regression is 237/237 GREEN; 5 new EXAMPLE_SITES (51 total) with 98 BYOK-clean log_event fixture rows wire onboarding, drill-down, and persona scoring end-to-end. Verdict: **swarm complete · branch ready for human attestation · v2.0.0-RC1 launch is owner-gated**.
+Five sealed phases (P104 → P109) plus a 5-PROJECTS persona-driven validation sprint and a final 4-reviewer brutal-review pass shipped across this autonomous run, then a FINAL-CLEANUP swarm closed every honest gap surfaced by the brutal review. Every swarm-doable item from the brutal-honest 8-chunk gap audit (`plans/strategic-reviews/2026-05-04-gaps-to-done/`) is closed; cumulative regression is 237/237 GREEN; 5 new EXAMPLE_SITES (51 total) with 98+ BYOK-clean log_event fixture rows (now covering ALL 5 declared event_types) wire onboarding, drill-down, and persona scoring end-to-end. Verdict: **swarm complete + cleanup sealed · branch ready for human attestation · v2.0.0-RC1 launch is owner-gated**.
 
 ## Phases Completed
 
@@ -40,13 +41,13 @@ Invalid event_type values: **0** (post-`validateEventType()` `patch_applied → 
 BYOK key shapes detected: **0** (regex `sk-[a-zA-Z0-9]{20,}|AIza[0-9A-Za-z_-]{35}|Bearer\s+...` returns ZERO matches across all 6 fixtures per ADR-043 + ADR-114 D3)
 Schema completeness: 5 required fields on all 98 rows; `latency_ms` 100% coverage (range 380-2890ms)
 Retention prune: **ACTIVE** at `db.ts:116-117` (30d log_events / 90d edit_history; fire-and-forget, non-fatal)
-Verdict: **PARTIAL PASS** — 4 honest gaps named (none P1):
-  1. Project-4 wraps `{_meta, rows}` while siblings are bare arrays (loader branch needed)
-  2. Sessions p2/p3 mislabeled with `p5-` prefix (functionally distinct; cosmetic mislabel)
-  3. `patch_applied` (8 project-4 rows) relies on runtime alias remap; direct-insert path bypasses CHECK enum
-  4. `todo_execution` + `error_event` declared in CHECK enum but no fixture row emits them yet
+Verdict: **PASS** — all 4 honest gaps CLOSED in FINAL-CLEANUP (0 P1/P2/P3 honest gaps remaining):
+  1. ~~Project-4 wraps `{_meta, rows}` while siblings are bare arrays~~ → CLOSED (A1: project-4 unwrapped to bare array; loader-branch unnecessary)
+  2. ~~Sessions p2/p3 mislabeled with `p5-` prefix~~ → CLOSED (A1: session prefixes corrected)
+  3. ~~`patch_applied` (8 project-4 rows) relies on runtime alias remap; direct-insert path bypasses CHECK enum~~ → CLOSED (A1: direct rewrite to `patch_validation`; runtime remap path no longer load-bearing for fixtures)
+  4. ~~`todo_execution` + `error_event` declared in CHECK enum but no fixture row emits them yet~~ → CLOSED (A2: fixture rows added; **5 of 5 declared event_types now have BOTH production writers AND fixture coverage** — ADR-135 §D1 closure complete in fixture surface)
 
-Full report at `docs/validation/database-integrity-report.md` (155 LOC).
+Full report at `docs/validation/database-integrity-report.md` (refreshed by A2 with Check 2 update).
 
 ## Test Results
 
@@ -64,9 +65,9 @@ ADR ID range: 001..137 (with documented gaps 002-004, 006-009, 034-037, 123-125 
 ## Brutal Review Composite Scores
 
 R1 — Projects load + visual quality: **PASS · 9.4/10** · 0 P1 / 0 P2 / 3 P3
-R3 — KISS + architecture: **PASS** · 1 P3 (README counter stale by 1) + 2 P3 watch-items (p106 spec at 299/300 LOC; chatPipeline.ts at 764 LOC)
+R3 — KISS + architecture: **PASS** · 1 P3 (README counter stale by 1) → CLOSED in FINAL-CLEANUP (A3 fixed `docs/adr/README.md` header 127/ADR-136 → 128/ADR-137 + appended ADR-137 row to RC1-hardening bucket); 2 P3 watch-items remain as documented advisories (p106 spec at 299/300 LOC; chatPipeline.ts at 764 LOC)
 R4 — Owner-readiness: **COMPLETE** · "Swarm work DONE"
-DB-validation: **PARTIAL PASS** · 4 honest gaps named (none P1)
+DB-validation: **PASS** · all 4 honest gaps CLOSED in FINAL-CLEANUP (A1 fixture normalization + A2 todo_execution + error_event wires)
 
 ## Competitive Score
 
@@ -94,7 +95,7 @@ Per `docs/launch/owner-launch-checklist.md` + R4 review:
 14. Color contrast computation (WCAG AA verification)
 15. Cross-tab persistence smoke (BroadcastChannel coverage)
 16. Welcome 3-card copy decision (#39 — owner copy override path)
-17. Triage P3 reviewer findings (3 cosmetic — Bordo monotone visual rhythm / Quattro `images.example.com` placeholders / `docs/adr/README.md:3` counter 127→128)
+17. Triage P3 reviewer findings (2 cosmetic remaining post-cleanup — Bordo monotone visual rhythm / Quattro `images.example.com` placeholders; `docs/adr/README.md:3` counter 127→128 CLOSED in FINAL-CLEANUP A3)
 
 ## Items Deferred (Tier-2)
 
@@ -139,4 +140,4 @@ UI components → persistence direct calls (#64); IndexedDB delta-tracking (#65)
 
 ## Final verdict
 
-**Swarm complete.** Branch ready for human attestation. v2.0.0-RC1 launch is owner-gated by design (ADR-131 §CF#4 / CF#5 + ADR-133 §4).
+**Swarm complete + cleanup sealed.** Branch ready for human attestation. v2.0.0-RC1 launch is owner-gated by design (ADR-131 §CF#4 / CF#5 + ADR-133 §4). All 4 DB-integrity honest gaps closed; ADR README counter reconciled to disk truth (128/ADR-137); 5 of 5 declared event_types covered in both production and fixture surfaces.

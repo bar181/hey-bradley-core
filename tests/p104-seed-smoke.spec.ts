@@ -170,11 +170,12 @@ test.describe('P104.6 — validateSectionType helper exported', () => {
   })
 })
 
-// P104.7 — counts: 35 rows / 3 unique session_ids / event_type histogram (3)
+// P104.7 — counts: 39 rows (35 baseline + 4 FINAL-CLEANUP A2: 2 todo_execution + 2 error_event)
+//          / 3 unique session_ids / event_type histogram (3)
 test.describe('P104.7 — seed counts + histogram', () => {
-  test('exactly 35 rows', () => {
+  test('exactly 39 rows (35 baseline + 4 FINAL-CLEANUP A2)', () => {
     const rows = parseSeed(SEED_FIXTURE)
-    expect(rows.length).toBe(35)
+    expect(rows.length).toBe(39)
   })
 
   test('exactly 3 unique session_ids', () => {

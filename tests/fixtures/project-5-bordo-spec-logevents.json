@@ -188,5 +188,23 @@
     },
     "latency_ms": 41,
     "created_at": 1714723201279
+  },
+  {
+    "id": "project-5-bordo-todo-exec-001",
+    "session_id": "project-5-bordo-spec-session-01",
+    "request_id": "project-5-bordo-req-008",
+    "event_type": "todo_execution",
+    "event_data": {
+      "atom": "DECOMP_TODO_EXECUTOR",
+      "todo_order": 1,
+      "verb": "decompose",
+      "target": "wave",
+      "status": "applied",
+      "patches_count": 0,
+      "agents_emitted": 4,
+      "highlight": "Wave 2 AGENT_ATOM emitted 4 disjoint-ownedFile agents from Phase 3 sprint scope"
+    },
+    "latency_ms": 220,
+    "created_at": 1714723220000
   }
 ]

@@ -1,295 +1,564 @@
-{
-  "_meta": {
-    "scenario": "Project 4 — Grandma persona listen-mode site (Mrs. Albright's Tutoring)",
-    "phase": "5-PROJECTS / Project 4",
-    "date": "2026-05-03",
+[
+  {
+    "id": "p4-albright-evt-001",
     "session_id": "p4-albright-session-01",
+    "request_id": "p4-albright-req-001",
     "project_id": "mrs-albright-tutoring",
-    "row_count": 11,
+    "event_type": "intent_classification",
+    "event_data": {
+      "atom": "INTENT_ATOM",
+      "raw_transcript": "uh okay hey bradley I want to make a website for my tutoring, you know, my english tutoring for high school kids",
+      "cleaned_transcript": "okay hey bradley I want to make a website for my tutoring, my english tutoring for high school kids",
+      "trigger_words": [
+        "make a website",
+        "tutoring",
+        "english",
+        "high school"
+      ],
+      "verb": "add",
+      "target": {
+        "type": "undefined",
+        "scope": "whole-site"
+      },
+      "extracted": {
+        "purpose": "marketing",
+        "audience": "consumer",
+        "vertical": "education-tutoring",
+        "learners": "high-school"
+      },
+      "disfluencies_stripped": [
+        "uh",
+        "you know"
+      ],
+      "confidence": 0.91
+    },
     "input_type": "listen",
-    "persona": "grandma",
-    "notes": "All listen-mode rows include both raw_transcript + cleaned_transcript in event_data per ADR-126 + ADR-127 listen-mode 2-stage capture closure. cleanTranscript() strips uh/um/you know/like + collapses false-starts. No credential shapes (sk-/AIza/auth-token). Mirrors LogEventInsert shape from src/contexts/persistence/repositories/comprehensiveLogs.ts. Includes decomp_split row for turn 9 (forget X / make Y reversal). All event_types are valid per migration 005 CHECK enum: intent_classification, patch_applied, decomp_split."
+    "latency_ms": 1420,
+    "created_at": 1714705200000
   },
-  "rows": [
-    {
-      "id": "p4-albright-evt-001",
-      "session_id": "p4-albright-session-01",
-      "request_id": "p4-albright-req-001",
-      "project_id": "mrs-albright-tutoring",
-      "event_type": "intent_classification",
-      "event_data": {
-        "atom": "INTENT_ATOM",
-        "raw_transcript": "uh okay hey bradley I want to make a website for my tutoring, you know, my english tutoring for high school kids",
-        "cleaned_transcript": "okay hey bradley I want to make a website for my tutoring, my english tutoring for high school kids",
-        "trigger_words": ["make a website", "tutoring", "english", "high school"],
-        "verb": "add",
-        "target": { "type": "undefined", "scope": "whole-site" },
-        "extracted": { "purpose": "marketing", "audience": "consumer", "vertical": "education-tutoring", "learners": "high-school" },
-        "disfluencies_stripped": ["uh", "you know"],
-        "confidence": 0.91
+  {
+    "id": "p4-albright-evt-002",
+    "session_id": "p4-albright-session-01",
+    "request_id": "p4-albright-req-002",
+    "project_id": "mrs-albright-tutoring",
+    "event_type": "patch_validation",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "raw_transcript": "the title should be um, Mrs. Albright's Tutoring, that's me",
+      "cleaned_transcript": "the title should be Mrs. Albright's Tutoring, that's me",
+      "trigger_words": [
+        "title",
+        "Mrs. Albright's Tutoring"
+      ],
+      "verb": "change",
+      "target": {
+        "type": "site",
+        "field": "title"
       },
-      "input_type": "listen",
-      "latency_ms": 1420,
-      "created_at": 1714705200000
-    },
-    {
-      "id": "p4-albright-evt-002",
-      "session_id": "p4-albright-session-01",
-      "request_id": "p4-albright-req-002",
-      "project_id": "mrs-albright-tutoring",
-      "event_type": "patch_applied",
-      "event_data": {
-        "atom": "PATCH_ATOM",
-        "raw_transcript": "the title should be um, Mrs. Albright's Tutoring, that's me",
-        "cleaned_transcript": "the title should be Mrs. Albright's Tutoring, that's me",
-        "trigger_words": ["title", "Mrs. Albright's Tutoring"],
-        "verb": "change",
-        "target": { "type": "site", "field": "title" },
-        "patches": [
-          { "op": "replace", "path": "/site/title", "value": "Mrs. Albright's Tutoring" },
-          { "op": "replace", "path": "/site/brandName", "value": "Mrs. Albright's Tutoring" },
-          { "op": "replace", "path": "/site/author", "value": "Mrs. Margaret Albright" }
-        ],
-        "verbatim_preserved": true,
-        "disfluencies_stripped": ["um"],
-        "confidence": 0.95
-      },
-      "input_type": "listen",
-      "latency_ms": 1280,
-      "created_at": 1714705201520
-    },
-    {
-      "id": "p4-albright-evt-003",
-      "session_id": "p4-albright-session-01",
-      "request_id": "p4-albright-req-003",
-      "project_id": "mrs-albright-tutoring",
-      "event_type": "intent_classification",
-      "event_data": {
-        "atom": "INTENT_ATOM",
-        "raw_transcript": "make it look like, you know, friendly and warm. not flashy. soft yellows and warm grays",
-        "cleaned_transcript": "make it look friendly and warm. not flashy. soft yellows and warm grays",
-        "trigger_words": ["friendly", "warm", "not flashy", "soft yellows", "warm grays"],
-        "verb": "change",
-        "target": { "type": "theme", "scope": "site-wide" },
-        "extracted": {
-          "preset": "warm-paper",
-          "mode": "light",
-          "accent_primary": "#c69a3a",
-          "accent_secondary": "#8aa37b",
-          "bg_primary": "#fdf8ec",
-          "text_primary": "#3a3528",
-          "heading_family": "Lora",
-          "tone_attributes": ["warm", "encouraging", "plain-spoken"]
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/site/title",
+          "value": "Mrs. Albright's Tutoring"
         },
-        "persona_adjustments": { "baseSize": "18px", "lineHeight": 1.7, "rationale": "grandma persona — older user — readable type" },
-        "disfluencies_stripped": ["like", "you know"],
-        "confidence": 0.87
-      },
-      "input_type": "listen",
-      "latency_ms": 1340,
-      "created_at": 1714705202900
+        {
+          "op": "replace",
+          "path": "/site/brandName",
+          "value": "Mrs. Albright's Tutoring"
+        },
+        {
+          "op": "replace",
+          "path": "/site/author",
+          "value": "Mrs. Margaret Albright"
+        }
+      ],
+      "verbatim_preserved": true,
+      "disfluencies_stripped": [
+        "um"
+      ],
+      "confidence": 0.95
     },
-    {
-      "id": "p4-albright-evt-004",
-      "session_id": "p4-albright-session-01",
-      "request_id": "p4-albright-req-004",
-      "project_id": "mrs-albright-tutoring",
-      "event_type": "patch_applied",
-      "event_data": {
-        "atom": "PATCH_ATOM",
-        "raw_transcript": "the hero should say, uh, 'Help your student love English again.' with a small sub-line about, you know, my 32 years teaching",
-        "cleaned_transcript": "the hero should say, 'Help your student love English again.' with a small sub-line about my 32 years teaching",
-        "trigger_words": ["hero", "say", "32 years teaching"],
-        "verb": "change",
-        "target": { "type": "hero", "index": 1 },
-        "patches": [
-          { "op": "replace", "path": "/sections/1/components/1/props/text", "value": "Help your student love English again." },
-          { "op": "replace", "path": "/sections/1/components/2/props/text", "value": "Hello — I'm Margaret Albright. I taught high school English at Roosevelt High for 32 years, and now I tutor students one-on-one from my home office. We read good books, we write honest sentences, and we talk about both. That's all there is to it." },
-          { "op": "replace", "path": "/site/tagline", "value": "Help your student love English again." }
-        ],
-        "verbatim_preserved": true,
-        "disfluencies_stripped": ["uh", "you know"],
-        "confidence": 0.94
+    "input_type": "listen",
+    "latency_ms": 1280,
+    "created_at": 1714705201520
+  },
+  {
+    "id": "p4-albright-evt-003",
+    "session_id": "p4-albright-session-01",
+    "request_id": "p4-albright-req-003",
+    "project_id": "mrs-albright-tutoring",
+    "event_type": "intent_classification",
+    "event_data": {
+      "atom": "INTENT_ATOM",
+      "raw_transcript": "make it look like, you know, friendly and warm. not flashy. soft yellows and warm grays",
+      "cleaned_transcript": "make it look friendly and warm. not flashy. soft yellows and warm grays",
+      "trigger_words": [
+        "friendly",
+        "warm",
+        "not flashy",
+        "soft yellows",
+        "warm grays"
+      ],
+      "verb": "change",
+      "target": {
+        "type": "theme",
+        "scope": "site-wide"
       },
-      "input_type": "listen",
-      "latency_ms": 1510,
-      "created_at": 1714705204280
+      "extracted": {
+        "preset": "warm-paper",
+        "mode": "light",
+        "accent_primary": "#c69a3a",
+        "accent_secondary": "#8aa37b",
+        "bg_primary": "#fdf8ec",
+        "text_primary": "#3a3528",
+        "heading_family": "Lora",
+        "tone_attributes": [
+          "warm",
+          "encouraging",
+          "plain-spoken"
+        ]
+      },
+      "persona_adjustments": {
+        "baseSize": "18px",
+        "lineHeight": 1.7,
+        "rationale": "grandma persona — older user — readable type"
+      },
+      "disfluencies_stripped": [
+        "like",
+        "you know"
+      ],
+      "confidence": 0.87
     },
-    {
-      "id": "p4-albright-evt-005",
-      "session_id": "p4-albright-session-01",
-      "request_id": "p4-albright-req-005",
-      "project_id": "mrs-albright-tutoring",
-      "event_type": "patch_applied",
-      "event_data": {
-        "atom": "PATCH_ATOM",
-        "raw_transcript": "add a section about who I help, you know, students who hate English class but, like, deserve to find their voice",
-        "cleaned_transcript": "add a section about who I help, students who hate English class but deserve to find their voice",
-        "trigger_words": ["add", "section", "who I help", "students", "find their voice"],
-        "verb": "add",
-        "target": { "type": "text", "variant": "default" },
-        "patches": [
-          { "op": "add", "path": "/sections/-", "value": { "type": "text", "id": "who-i-help", "variant": "default", "order": 1 } }
-        ],
-        "extracted": { "headline": "Students who hate English class — and deserve to find their voice.", "near_verbatim": true },
-        "disfluencies_stripped": ["you know", "like"],
-        "confidence": 0.9
+    "input_type": "listen",
+    "latency_ms": 1340,
+    "created_at": 1714705202900
+  },
+  {
+    "id": "p4-albright-evt-004",
+    "session_id": "p4-albright-session-01",
+    "request_id": "p4-albright-req-004",
+    "project_id": "mrs-albright-tutoring",
+    "event_type": "patch_validation",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "raw_transcript": "the hero should say, uh, 'Help your student love English again.' with a small sub-line about, you know, my 32 years teaching",
+      "cleaned_transcript": "the hero should say, 'Help your student love English again.' with a small sub-line about my 32 years teaching",
+      "trigger_words": [
+        "hero",
+        "say",
+        "32 years teaching"
+      ],
+      "verb": "change",
+      "target": {
+        "type": "hero",
+        "index": 1
       },
-      "input_type": "listen",
-      "latency_ms": 1380,
-      "created_at": 1714705205870
+      "patches": [
+        {
+          "op": "replace",
+          "path": "/sections/1/components/1/props/text",
+          "value": "Help your student love English again."
+        },
+        {
+          "op": "replace",
+          "path": "/sections/1/components/2/props/text",
+          "value": "Hello — I'm Margaret Albright. I taught high school English at Roosevelt High for 32 years, and now I tutor students one-on-one from my home office. We read good books, we write honest sentences, and we talk about both. That's all there is to it."
+        },
+        {
+          "op": "replace",
+          "path": "/site/tagline",
+          "value": "Help your student love English again."
+        }
+      ],
+      "verbatim_preserved": true,
+      "disfluencies_stripped": [
+        "uh",
+        "you know"
+      ],
+      "confidence": 0.94
     },
-    {
-      "id": "p4-albright-evt-006",
-      "session_id": "p4-albright-session-01",
-      "request_id": "p4-albright-req-006",
-      "project_id": "mrs-albright-tutoring",
-      "event_type": "patch_applied",
-      "event_data": {
-        "atom": "PATCH_ATOM",
-        "raw_transcript": "and add a, an article about my approach — three short paragraphs about, like, reading discussion not drills",
-        "cleaned_transcript": "and add an article about my approach three short paragraphs about reading discussion not drills",
-        "trigger_words": ["add", "article", "approach", "three paragraphs", "reading", "discussion", "not drills"],
-        "verb": "add",
-        "target": { "type": "text", "variant": "long-form" },
-        "patches": [
-          { "op": "add", "path": "/sections/-", "value": { "type": "text", "id": "approach-article", "variant": "long-form", "order": 2, "paragraphs": 3 } }
-        ],
-        "false_start_collapsed": "a, an → an",
-        "disfluencies_stripped": ["like"],
-        "confidence": 0.92
+    "input_type": "listen",
+    "latency_ms": 1510,
+    "created_at": 1714705204280
+  },
+  {
+    "id": "p4-albright-evt-005",
+    "session_id": "p4-albright-session-01",
+    "request_id": "p4-albright-req-005",
+    "project_id": "mrs-albright-tutoring",
+    "event_type": "patch_validation",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "raw_transcript": "add a section about who I help, you know, students who hate English class but, like, deserve to find their voice",
+      "cleaned_transcript": "add a section about who I help, students who hate English class but deserve to find their voice",
+      "trigger_words": [
+        "add",
+        "section",
+        "who I help",
+        "students",
+        "find their voice"
+      ],
+      "verb": "add",
+      "target": {
+        "type": "text",
+        "variant": "default"
       },
-      "input_type": "listen",
-      "latency_ms": 1620,
-      "created_at": 1714705207340
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "text",
+            "id": "who-i-help",
+            "variant": "default",
+            "order": 1
+          }
+        }
+      ],
+      "extracted": {
+        "headline": "Students who hate English class — and deserve to find their voice.",
+        "near_verbatim": true
+      },
+      "disfluencies_stripped": [
+        "you know",
+        "like"
+      ],
+      "confidence": 0.9
     },
-    {
-      "id": "p4-albright-evt-007",
-      "session_id": "p4-albright-session-01",
-      "request_id": "p4-albright-req-007",
-      "project_id": "mrs-albright-tutoring",
-      "event_type": "patch_applied",
-      "event_data": {
-        "atom": "PATCH_ATOM",
-        "raw_transcript": "add a, you know, schedule section, just three time slots: weekdays after school, saturday mornings, and tuesday evenings",
-        "cleaned_transcript": "add a schedule section, just three time slots: weekdays after school, saturday mornings, and tuesday evenings",
-        "trigger_words": ["add", "schedule", "three time slots", "weekdays", "saturday", "tuesday"],
-        "verb": "add",
-        "target": { "type": "pricing", "variant": "default", "tiers": 3 },
-        "patches": [
-          { "op": "add", "path": "/sections/-", "value": { "type": "pricing", "id": "schedule-01", "variant": "default", "tiers": 3, "order": 3, "slots": ["weekdays after school", "saturday mornings", "tuesday evenings"] } }
-        ],
-        "false_start_collapsed": "a, you know, → a",
-        "disfluencies_stripped": ["you know"],
-        "note": "Reversed at turn 9 — see decomp_split + REMOVE patch on req-009",
-        "confidence": 0.86
+    "input_type": "listen",
+    "latency_ms": 1380,
+    "created_at": 1714705205870
+  },
+  {
+    "id": "p4-albright-evt-006",
+    "session_id": "p4-albright-session-01",
+    "request_id": "p4-albright-req-006",
+    "project_id": "mrs-albright-tutoring",
+    "event_type": "patch_validation",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "raw_transcript": "and add a, an article about my approach — three short paragraphs about, like, reading discussion not drills",
+      "cleaned_transcript": "and add an article about my approach three short paragraphs about reading discussion not drills",
+      "trigger_words": [
+        "add",
+        "article",
+        "approach",
+        "three paragraphs",
+        "reading",
+        "discussion",
+        "not drills"
+      ],
+      "verb": "add",
+      "target": {
+        "type": "text",
+        "variant": "long-form"
       },
-      "input_type": "listen",
-      "latency_ms": 1480,
-      "created_at": 1714705208980
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "text",
+            "id": "approach-article",
+            "variant": "long-form",
+            "order": 2,
+            "paragraphs": 3
+          }
+        }
+      ],
+      "false_start_collapsed": "a, an → an",
+      "disfluencies_stripped": [
+        "like"
+      ],
+      "confidence": 0.92
     },
-    {
-      "id": "p4-albright-evt-008",
-      "session_id": "p4-albright-session-01",
-      "request_id": "p4-albright-req-008",
-      "project_id": "mrs-albright-tutoring",
-      "event_type": "patch_applied",
-      "event_data": {
-        "atom": "PATCH_ATOM",
-        "raw_transcript": "make a contact form — name, parent email, student grade, what they're working on",
-        "cleaned_transcript": "make a contact form name, parent email, student grade, what they're working on",
-        "trigger_words": ["make", "contact form", "name", "parent email", "student grade", "working on"],
-        "verb": "add",
-        "target": { "type": "contact-form", "variant": "default" },
-        "patches": [
-          { "op": "add", "path": "/sections/-", "value": { "type": "contact-form", "id": "contact-01", "variant": "default", "order": 4, "fields": [
-            { "name": "parent_name", "label": "Your name", "fieldType": "text", "required": true },
-            { "name": "parent_email", "label": "Parent email", "fieldType": "email", "required": true },
-            { "name": "student_grade", "label": "Student grade", "fieldType": "select", "required": true, "options": ["9th", "10th", "11th", "12th"] },
-            { "name": "working_on", "label": "What is your student working on?", "fieldType": "textarea", "required": true }
-          ] } }
-        ],
-        "section_type_validation": "contact-form ∈ valid 18 per ADR-100",
-        "disfluencies_stripped": [],
-        "confidence": 0.95
+    "input_type": "listen",
+    "latency_ms": 1620,
+    "created_at": 1714705207340
+  },
+  {
+    "id": "p4-albright-evt-007",
+    "session_id": "p4-albright-session-01",
+    "request_id": "p4-albright-req-007",
+    "project_id": "mrs-albright-tutoring",
+    "event_type": "patch_validation",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "raw_transcript": "add a, you know, schedule section, just three time slots: weekdays after school, saturday mornings, and tuesday evenings",
+      "cleaned_transcript": "add a schedule section, just three time slots: weekdays after school, saturday mornings, and tuesday evenings",
+      "trigger_words": [
+        "add",
+        "schedule",
+        "three time slots",
+        "weekdays",
+        "saturday",
+        "tuesday"
+      ],
+      "verb": "add",
+      "target": {
+        "type": "pricing",
+        "variant": "default",
+        "tiers": 3
       },
-      "input_type": "listen",
-      "latency_ms": 1390,
-      "created_at": 1714705210560
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "pricing",
+            "id": "schedule-01",
+            "variant": "default",
+            "tiers": 3,
+            "order": 3,
+            "slots": [
+              "weekdays after school",
+              "saturday mornings",
+              "tuesday evenings"
+            ]
+          }
+        }
+      ],
+      "false_start_collapsed": "a, you know, → a",
+      "disfluencies_stripped": [
+        "you know"
+      ],
+      "note": "Reversed at turn 9 — see decomp_split + REMOVE patch on req-009",
+      "confidence": 0.86
     },
-    {
-      "id": "p4-albright-evt-009a",
-      "session_id": "p4-albright-session-01",
-      "request_id": "p4-albright-req-009",
-      "project_id": "mrs-albright-tutoring",
-      "event_type": "decomp_split",
-      "event_data": {
-        "atom": "DECOMP_ATOM",
-        "raw_transcript": "uh forget the schedule, just make the contact form the main thing. and a small note that I respond within a day",
-        "cleaned_transcript": "forget the schedule, make the contact form the main thing. and a small note that I respond within a day",
-        "trigger_words": ["forget", "schedule", "make", "contact form", "main thing", "respond within a day"],
-        "todos": [
-          { "id": "t1", "verb": "remove", "target": { "type": "pricing", "id": "schedule-01" }, "confidence": 0.92, "status": "pending" },
-          { "id": "t2", "verb": "change", "target": { "type": "contact-form", "id": "contact-01" }, "extracted": { "promote_to_primary": true, "add_response_note": "I respond within a day, often the same evening." }, "confidence": 0.88, "status": "pending" }
-        ],
-        "split_count": 2,
-        "reversal_pattern": "forget X, make Y — DECOMP reversal closure",
-        "disfluencies_stripped": ["uh"],
-        "note": "Validates DECOMP correctly handles mid-sequence reversal without orphan patches; mirrors indie-coffee-roaster turn 9 precedent."
+    "input_type": "listen",
+    "latency_ms": 1480,
+    "created_at": 1714705208980
+  },
+  {
+    "id": "p4-albright-evt-008",
+    "session_id": "p4-albright-session-01",
+    "request_id": "p4-albright-req-008",
+    "project_id": "mrs-albright-tutoring",
+    "event_type": "patch_validation",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "raw_transcript": "make a contact form — name, parent email, student grade, what they're working on",
+      "cleaned_transcript": "make a contact form name, parent email, student grade, what they're working on",
+      "trigger_words": [
+        "make",
+        "contact form",
+        "name",
+        "parent email",
+        "student grade",
+        "working on"
+      ],
+      "verb": "add",
+      "target": {
+        "type": "contact-form",
+        "variant": "default"
       },
-      "input_type": "listen",
-      "latency_ms": 105,
-      "created_at": 1714705212100
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "contact-form",
+            "id": "contact-01",
+            "variant": "default",
+            "order": 4,
+            "fields": [
+              {
+                "name": "parent_name",
+                "label": "Your name",
+                "fieldType": "text",
+                "required": true
+              },
+              {
+                "name": "parent_email",
+                "label": "Parent email",
+                "fieldType": "email",
+                "required": true
+              },
+              {
+                "name": "student_grade",
+                "label": "Student grade",
+                "fieldType": "select",
+                "required": true,
+                "options": [
+                  "9th",
+                  "10th",
+                  "11th",
+                  "12th"
+                ]
+              },
+              {
+                "name": "working_on",
+                "label": "What is your student working on?",
+                "fieldType": "textarea",
+                "required": true
+              }
+            ]
+          }
+        }
+      ],
+      "section_type_validation": "contact-form ∈ valid 18 per ADR-100",
+      "disfluencies_stripped": [],
+      "confidence": 0.95
     },
-    {
-      "id": "p4-albright-evt-009b",
-      "session_id": "p4-albright-session-01",
-      "request_id": "p4-albright-req-009",
-      "project_id": "mrs-albright-tutoring",
-      "event_type": "patch_applied",
-      "event_data": {
-        "atom": "PATCH_ATOM",
-        "raw_transcript": "uh forget the schedule, just make the contact form the main thing. and a small note that I respond within a day",
-        "cleaned_transcript": "forget the schedule, make the contact form the main thing. and a small note that I respond within a day",
-        "trigger_words": ["forget", "remove", "promote", "contact form", "respond within a day"],
-        "verb": "replace",
-        "target": { "type": "multi", "scope": "schedule+contact-form" },
-        "patches": [
-          { "op": "remove", "path": "/sections/3", "note": "removes schedule-01 pricing section from turn 7" },
-          { "op": "add", "path": "/sections/3/components/-", "value": { "id": "response-note", "type": "text", "enabled": true, "order": 8, "props": { "text": "I respond within a day, often the same evening. There's no obligation — we'll just have a short conversation about whether I'm the right tutor for your student." } } }
-        ],
-        "net_effect": "REMOVE schedule + PROMOTE contact-form + APPEND response-note",
-        "disfluencies_stripped": ["uh"],
-        "confidence": 0.89
-      },
-      "input_type": "listen",
-      "latency_ms": 1640,
-      "created_at": 1714705212210
+    "input_type": "listen",
+    "latency_ms": 1390,
+    "created_at": 1714705210560
+  },
+  {
+    "id": "p4-albright-evt-009a",
+    "session_id": "p4-albright-session-01",
+    "request_id": "p4-albright-req-009",
+    "project_id": "mrs-albright-tutoring",
+    "event_type": "decomp_split",
+    "event_data": {
+      "atom": "DECOMP_ATOM",
+      "raw_transcript": "uh forget the schedule, just make the contact form the main thing. and a small note that I respond within a day",
+      "cleaned_transcript": "forget the schedule, make the contact form the main thing. and a small note that I respond within a day",
+      "trigger_words": [
+        "forget",
+        "schedule",
+        "make",
+        "contact form",
+        "main thing",
+        "respond within a day"
+      ],
+      "todos": [
+        {
+          "id": "t1",
+          "verb": "remove",
+          "target": {
+            "type": "pricing",
+            "id": "schedule-01"
+          },
+          "confidence": 0.92,
+          "status": "pending"
+        },
+        {
+          "id": "t2",
+          "verb": "change",
+          "target": {
+            "type": "contact-form",
+            "id": "contact-01"
+          },
+          "extracted": {
+            "promote_to_primary": true,
+            "add_response_note": "I respond within a day, often the same evening."
+          },
+          "confidence": 0.88,
+          "status": "pending"
+        }
+      ],
+      "split_count": 2,
+      "reversal_pattern": "forget X, make Y — DECOMP reversal closure",
+      "disfluencies_stripped": [
+        "uh"
+      ],
+      "note": "Validates DECOMP correctly handles mid-sequence reversal without orphan patches; mirrors indie-coffee-roaster turn 9 precedent."
     },
-    {
-      "id": "p4-albright-evt-010",
-      "session_id": "p4-albright-session-01",
-      "request_id": "p4-albright-req-010",
-      "project_id": "mrs-albright-tutoring",
-      "event_type": "patch_applied",
-      "event_data": {
-        "atom": "PATCH_ATOM",
-        "raw_transcript": "and, you know, a footer with my email and a small line saying I've taught at Roosevelt High since 1988",
-        "cleaned_transcript": "and, a footer with my email and a small line saying I've taught at Roosevelt High since 1988",
-        "trigger_words": ["footer", "email", "Roosevelt High", "since 1988"],
-        "verb": "add",
-        "target": { "type": "footer", "variant": "simple" },
-        "patches": [
-          { "op": "add", "path": "/sections/-", "value": { "type": "footer", "id": "footer-01", "variant": "simple", "order": 4, "email": "mrs.albright@albrightenglish.com", "credentials_line": "Teaching English at Roosevelt High since 1988. Now tutoring from home." } }
-        ],
-        "extracted": { "school": "Roosevelt High", "since_year": 1988, "tenure_years": 32 },
-        "verbatim_preserved": true,
-        "disfluencies_stripped": ["you know"],
-        "confidence": 0.95
+    "input_type": "listen",
+    "latency_ms": 105,
+    "created_at": 1714705212100
+  },
+  {
+    "id": "p4-albright-evt-009b",
+    "session_id": "p4-albright-session-01",
+    "request_id": "p4-albright-req-009",
+    "project_id": "mrs-albright-tutoring",
+    "event_type": "patch_validation",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "raw_transcript": "uh forget the schedule, just make the contact form the main thing. and a small note that I respond within a day",
+      "cleaned_transcript": "forget the schedule, make the contact form the main thing. and a small note that I respond within a day",
+      "trigger_words": [
+        "forget",
+        "remove",
+        "promote",
+        "contact form",
+        "respond within a day"
+      ],
+      "verb": "replace",
+      "target": {
+        "type": "multi",
+        "scope": "schedule+contact-form"
       },
-      "input_type": "listen",
-      "latency_ms": 1410,
-      "created_at": 1714705213890
-    }
-  ]
-}
+      "patches": [
+        {
+          "op": "remove",
+          "path": "/sections/3",
+          "note": "removes schedule-01 pricing section from turn 7"
+        },
+        {
+          "op": "add",
+          "path": "/sections/3/components/-",
+          "value": {
+            "id": "response-note",
+            "type": "text",
+            "enabled": true,
+            "order": 8,
+            "props": {
+              "text": "I respond within a day, often the same evening. There's no obligation — we'll just have a short conversation about whether I'm the right tutor for your student."
+            }
+          }
+        }
+      ],
+      "net_effect": "REMOVE schedule + PROMOTE contact-form + APPEND response-note",
+      "disfluencies_stripped": [
+        "uh"
+      ],
+      "confidence": 0.89
+    },
+    "input_type": "listen",
+    "latency_ms": 1640,
+    "created_at": 1714705212210
+  },
+  {
+    "id": "p4-albright-evt-010",
+    "session_id": "p4-albright-session-01",
+    "request_id": "p4-albright-req-010",
+    "project_id": "mrs-albright-tutoring",
+    "event_type": "patch_validation",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "raw_transcript": "and, you know, a footer with my email and a small line saying I've taught at Roosevelt High since 1988",
+      "cleaned_transcript": "and, a footer with my email and a small line saying I've taught at Roosevelt High since 1988",
+      "trigger_words": [
+        "footer",
+        "email",
+        "Roosevelt High",
+        "since 1988"
+      ],
+      "verb": "add",
+      "target": {
+        "type": "footer",
+        "variant": "simple"
+      },
+      "patches": [
+        {
+          "op": "add",
+          "path": "/sections/-",
+          "value": {
+            "type": "footer",
+            "id": "footer-01",
+            "variant": "simple",
+            "order": 4,
+            "email": "mrs.albright@albrightenglish.com",
+            "credentials_line": "Teaching English at Roosevelt High since 1988. Now tutoring from home."
+          }
+        }
+      ],
+      "extracted": {
+        "school": "Roosevelt High",
+        "since_year": 1988,
+        "tenure_years": 32
+      },
+      "verbatim_preserved": true,
+      "disfluencies_stripped": [
+        "you know"
+      ],
+      "confidence": 0.95
+    },
+    "input_type": "listen",
+    "latency_ms": 1410,
+    "created_at": 1714705213890
+  }
+]

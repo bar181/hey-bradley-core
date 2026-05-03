@@ -1,22 +1,24 @@
 # Database Integrity Report
 
-> Generated: 2026-05-04 · Sources: 6 fixtures (5 project + e2e2-seed) + comprehensiveLogs.ts + migrations/005-comprehensive-logs.sql · Branch: `claude/verify-flywheel-init-qlIBr` · Predecessor: 5-projects sealed at `067f92c`
+> Generated: 2026-05-04 · Sources: 6 fixtures (5 project + e2e2-seed) + comprehensiveLogs.ts + migrations/005-comprehensive-logs.sql · Branch: `claude/verify-flywheel-init-qlIBr` · Predecessor: 5-projects sealed at `067f92c` · Update: FINAL-CLEANUP A2 added 7 rows to close `todo_execution` + `error_event` coverage gaps.
 
 ## Summary
 
-98 rows total across 6 fixtures, 8 distinct sessions. All `event_type` values map to migration 005 CHECK enum (15 values) **except** project-4 which uses `patch_applied` (8 rows) — silently remapped to `patch_validation` by the `validateEventType()` helper at write-time per ADR-126 D4 / ADR-127. BYOK regex sweep returns ZERO matches across all 6 fixtures. Verdict: **PARTIAL PASS** — schema integrity + BYOK boundary + retention wiring all GREEN; structural inconsistency in fixture format (project-4 wraps in `{_meta, rows}` while siblings are bare arrays) and 2 of 5 declared event_types still uncovered (`todo_execution` + `error_event`) flag honest carry-forwards.
+105 rows total across 6 fixtures, 8 distinct sessions. All `event_type` values map to migration 005 CHECK enum (15 values) **except** project-4 which uses `patch_applied` (8 rows) — silently remapped to `patch_validation` by the `validateEventType()` helper at write-time per ADR-126 D4 / ADR-127. BYOK regex sweep returns ZERO matches across all 6 fixtures. Verdict: **PARTIAL PASS** — schema integrity + BYOK boundary + retention wiring all GREEN; **all 5 P107-declared event_types now have ≥1 fixture row** (`todo_execution` + `error_event` coverage closed by FINAL-CLEANUP A2); structural inconsistency in fixture format (project-4 wraps in `{_meta, rows}` while siblings are bare arrays) remains an honest carry-forward.
 
 ## Check 1 — Total row count
 
 | Fixture | Rows | Sessions |
 |---------|------|----------|
-| project-1-axon-cli | 19 | 1 |
+| project-1-axon-cli | 21 | 1 |
 | project-2-greenlane-startup | 13 | 1 |
 | project-3-quattro-studio | 12 | 1 |
 | project-4-mrs-albright-tutoring | 11 | 1 |
-| project-5-bordo-spec | 8 | 1 |
-| e2e2-seed | 35 | 3 |
-| **TOTAL** | **98** | **8** |
+| project-5-bordo-spec | 9 | 1 |
+| e2e2-seed | 39 | 3 |
+| **TOTAL** | **105** | **8** |
+
+> FINAL-CLEANUP A2 delta: +2 rows project-1 (1 `todo_execution` + 1 `error_event`) · +1 row project-5 (`todo_execution`) · +4 rows e2e2-seed (2 `todo_execution` + 2 `error_event`). Total +7 rows; both P107 carry-forward gaps closed.
 
 NOTE: project-4 wraps as `{_meta: {...}, rows: [...]}` (object root) — the 5 sibling project fixtures + e2e2-seed are bare arrays. Row count uses `.rows.length` for project-4 and `.length` for the others. Structural inconsistency flagged but not failing — `_meta` block at lines 1-12 of project-4 documents the wrap intentionally (input_type=listen, persona=grandma, ADR-126 + ADR-127 listen-mode 2-stage capture per fixture comment).
 
@@ -30,11 +32,13 @@ NOTE: project-4 wraps as `{_meta: {...}, rows: [...]}` (object root) — the 5 s
 | patch_applied | 8 | ALIAS (project-4 only — remapped → patch_validation at write-time per `comprehensiveLogs.ts:80`) |
 | process_atom_output | 7 | OK |
 | template_match | 5 | OK |
+| todo_execution | 4 | OK (FINAL-CLEANUP A2; P107 closure) |
 | response_summary | 4 | OK |
+| error_event | 3 | OK (FINAL-CLEANUP A2; P107 closure) |
 | multi_page_scope | 1 | OK |
 | export_emit | 1 | OK |
 | ddd_atom_output | 1 | OK |
-| **TOTAL** | **98** | |
+| **TOTAL** | **105** | |
 
 ### VALID_LOG_EVENT_TYPES (15) — coverage matrix
 
@@ -50,15 +54,15 @@ NOTE: project-4 wraps as `{_meta: {...}, rows: [...]}` (object root) — the 5 s
 | multi_page_scope | 1 |
 | process_atom_output | 7 |
 | ddd_atom_output | 1 |
-| error_event | **0 — P107 carry-forward** |
+| error_event | **3 — CLOSED (FINAL-CLEANUP A2)** |
 | response_summary | 4 |
-| todo_execution | **0 — P107 carry-forward** |
+| todo_execution | **4 — CLOSED (FINAL-CLEANUP A2)** |
 | decomp_split | 13 |
 | export_emit | 1 |
 
 **Unknown event_types: ZERO** (after `patch_applied` alias remap).
 
-**P107 closure status (5 declared event_types ≥1 row each):** 3 of 5 covered (`multi_page_scope` 1 / `decomp_split` 13 / `export_emit` 1); 2 still uncovered (`todo_execution` / `error_event`).
+**P107 closure status (5 declared event_types ≥1 row each):** **5 of 5 covered** — `multi_page_scope` 1 / `decomp_split` 13 / `export_emit` 1 / `todo_execution` **4** (FINAL-CLEANUP A2) / `error_event` **3** (FINAL-CLEANUP A2). All P107-declared event_types now have ≥1 row in fixtures.
 
 ## Check 3 — Session distribution
 
@@ -117,11 +121,11 @@ Both prune calls fire **once per `initDB()`** invocation (per session bootstrap)
 
 | Check | Status | Notes |
 |-------|--------|-------|
-| 1. Row count | PASS | 98 rows / 8 sessions |
-| 2. Event type histogram | PASS | All values in CHECK enum after `patch_applied → patch_validation` alias remap |
+| 1. Row count | PASS | 105 rows / 8 sessions |
+| 2. Event type histogram | PASS | All values in CHECK enum after `patch_applied → patch_validation` alias remap; 5/5 P107-declared event_types covered |
 | 3. Session distribution | PASS | 8 distinct sessions ≥ target 8 |
 | 4. BYOK boundary | PASS | ZERO regex matches |
-| 5. Schema completeness | PASS | 5 required fields on all 98 rows |
+| 5. Schema completeness | PASS | 5 required fields on all 105 rows |
 | 6. Retention prune wiring | PASS | ACTIVE at db.ts:116-117 |
 
 Rationale for PARTIAL (not full PASS):
@@ -129,12 +133,12 @@ Rationale for PARTIAL (not full PASS):
 1. **Fixture format inconsistency** — project-4 wraps in `{_meta, rows}` while the 5 siblings + e2e2-seed are bare JSON arrays. Loaders must branch on shape. Non-blocking but a fix-pass candidate.
 2. **Session naming drift** — project-2 + project-3 prefix sessions with `p5-` instead of `p2-`/`p3-`. Functionally distinct IDs (no collision); cosmetic mislabel; fix-pass candidate.
 3. **`patch_applied` (8 rows in project-4)** is NOT in the migration 005 CHECK enum directly — it relies on the runtime `validateEventType()` alias remap. If a fixture loader bypasses `writeLogEvent` and inserts straight to SQLite, those 8 rows would fail the CHECK constraint. Defense-in-depth holds at the documented write path; direct-insert paths would surprise.
-4. **5 declared event_types coverage**: `todo_execution` + `error_event` still have ZERO rows across all 6 fixtures. Migration 005 + comprehensiveLogs.ts both declared these in the CHECK enum since P100 W2 LOG-BUILD; P107 named "≥1 row each" as a closure target. 3 of 5 covered, 2 outstanding.
+4. ~~**5 declared event_types coverage**: `todo_execution` + `error_event` still have ZERO rows across all 6 fixtures.~~ **CLOSED by FINAL-CLEANUP A2** — `todo_execution` now has 4 rows (project-1 / project-5 / e2e2-seed ×2); `error_event` now has 3 rows (project-1 / e2e2-seed ×2). All 5 P107-declared event_types covered.
 
 ## Coverage gaps
 
-- **`todo_execution`** — declared in CHECK enum + VALID_LOG_EVENT_TYPES but no fixture row emits it. Carry-forward to P107 / next fixture sprint.
-- **`error_event`** — declared but no fixture row emits it. Carry-forward to P107 / next fixture sprint.
+- ~~**`todo_execution`**~~ **CLOSED (FINAL-CLEANUP A2)** — 4 rows across project-1 / project-5 / e2e2-seed.
+- ~~**`error_event`**~~ **CLOSED (FINAL-CLEANUP A2)** — 3 rows across project-1 / e2e2-seed (synthetic stack frames; zero BYOK shapes per ADR-043 sweep).
 - **`input_event` / `decomposition` / `personality_display` / `listen_capture`** — declared in the 15-value enum but no fixture row exercises them. (`decomposition` is closely related to `decomp_split` which has 13 rows; `listen_capture` is structurally covered by listen-mode `intent_classification` rows in project-4 carrying `raw_transcript` + `cleaned_transcript` per ADR-127, but never emitted as its own event_type.) Lower-priority gaps; not blocking.
 - **`patch_applied` in project-4** — should be remapped at fixture-author time to `patch_validation` for direct-insert safety; alias remap remains the runtime safety net. Fixture-level fix-pass candidate.
 - **No CI smoke test exercises the `patch_applied → patch_validation` alias remap path against an actual sql.js in-memory DB at PR time** — P104 smoke test is regex-based per `tests/p104-seed-smoke.spec.ts` (12 cases). Full WASM DB load per P104 § honest-deferred remains TBD.
@@ -143,12 +147,12 @@ Rationale for PARTIAL (not full PASS):
 
 Sources:
 
-- `tests/fixtures/project-1-axon-cli-logevents.json` (19 rows, bare array)
+- `tests/fixtures/project-1-axon-cli-logevents.json` (21 rows, bare array; +2 FINAL-CLEANUP A2: `todo_execution` + `error_event`)
 - `tests/fixtures/project-2-greenlane-startup-logevents.json` (13 rows, bare array; `p5-greenlane-session-01`)
 - `tests/fixtures/project-3-quattro-studio-logevents.json` (12 rows, bare array; `p5-quattro-session-01`)
 - `tests/fixtures/project-4-mrs-albright-tutoring-logevents.json` (11 rows in `.rows[]`; object root with `_meta`)
-- `tests/fixtures/project-5-bordo-spec-logevents.json` (8 rows, bare array)
-- `tests/fixtures/e2e2-seed.json` (35 rows, bare array; 3 sessions)
+- `tests/fixtures/project-5-bordo-spec-logevents.json` (9 rows, bare array; +1 FINAL-CLEANUP A2: `todo_execution`)
+- `tests/fixtures/e2e2-seed.json` (39 rows, bare array; 3 sessions; +4 FINAL-CLEANUP A2: 2 `todo_execution` + 2 `error_event`)
 - `src/contexts/persistence/repositories/comprehensiveLogs.ts` (lines 50-66 enum / 75-90 validator / 168-183 redaction / 340-365 prune)
 - `src/contexts/persistence/migrations/005-comprehensive-logs.sql` (lines 42-69 log_events table; CHECK enum at 47-58)
 - `src/contexts/persistence/db.ts` (lines 113-120 retention sweep wire)

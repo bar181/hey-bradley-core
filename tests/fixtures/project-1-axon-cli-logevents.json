@@ -328,5 +328,36 @@
     },
     "latency_ms": 110,
     "created_at": 1714730560960
+  },
+  {
+    "id": "project-1-axon-todo-exec-001",
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-008",
+    "event_type": "todo_execution",
+    "event_data": {
+      "atom": "DECOMP_TODO_EXECUTOR",
+      "todo_order": 2,
+      "verb": "split",
+      "target": "page",
+      "page_id": "docs",
+      "status": "applied",
+      "patches_count": 3,
+      "highlight": "Docs page split into getting-started + cli-reference + advanced subpages"
+    },
+    "latency_ms": 165,
+    "created_at": 1714730580000
+  },
+  {
+    "id": "project-1-axon-error-event-001",
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-009",
+    "event_type": "error_event",
+    "event_data": {
+      "source": "chatPipeline.templateMatch",
+      "message": "Template match miss: no candidate scored above threshold (input: 'make the cli reference fancier')",
+      "stack": "Error: zero candidates above 0.65\n    at matchTemplates (chatPipeline.ts:561:11)"
+    },
+    "latency_ms": 0,
+    "created_at": 1714730600000
   }
 ]
