@@ -31,6 +31,54 @@ export type LogEventType =
   | 'decomp_split'
   | 'export_emit';
 
+// ─── P104 / SCHEMA-GUARDS — runtime validator helper ──────────────────────
+// Mirrors migration 005-comprehensive-logs.sql CHECK enum (15 values).
+// Defensive — validates AT WRITE TIME (writeLogEvent) and exported for
+// fixture authors / CI smoke tests. NEVER throws (ADR-126 D4 fire-and-forget).
+
+/** Per migration 005 CHECK enum (15 values). Defensive — validates AT WRITE TIME. */
+export const VALID_LOG_EVENT_TYPES = [
+  'input_event',
+  'intent_classification',
+  'decomposition',
+  'template_match',
+  'patch_validation',
+  'personality_display',
+  'listen_capture',
+  'multi_page_scope',
+  'process_atom_output',
+  'ddd_atom_output',
+  'error_event',
+  'response_summary',
+  'todo_execution',
+  'decomp_split',
+  'export_emit',
+] as const;
+
+export type ValidLogEventType = typeof VALID_LOG_EVENT_TYPES[number];
+
+/**
+ * Returns the input if valid, else returns null + warns to console.
+ * NEVER throws — fire-and-forget per ADR-126 D4.
+ * Common alias remap: 'patch_applied' → 'patch_validation' (per E2E-TEST-2 finding).
+ */
+export function validateEventType(t: string): ValidLogEventType | null {
+  if ((VALID_LOG_EVENT_TYPES as readonly string[]).includes(t)) {
+    return t as ValidLogEventType;
+  }
+  // Known alias remap (the E2E-TEST-2 gotcha)
+  if (t === 'patch_applied') {
+    if (typeof console !== 'undefined') {
+      console.warn('[validateEventType] alias remap: patch_applied → patch_validation');
+    }
+    return 'patch_validation';
+  }
+  if (typeof console !== 'undefined') {
+    console.warn(`[validateEventType] unknown event_type: ${t} — drop`);
+  }
+  return null;
+}
+
 export type InputType = 'chat' | 'listen';
 
 export interface LogEventInsert {
@@ -131,8 +179,13 @@ function warn(label: string, err: unknown): void {
 
 // ─── Writes ───────────────────────────────────────────────────────────────
 
-/** Insert a log event. Fire-and-forget; never throws. */
+/** Insert a log event. Fire-and-forget; never throws.
+ *  P104 / SCHEMA-GUARDS — validates event_type at write time; drops invalid
+ *  rows; remaps known aliases (e.g. patch_applied → patch_validation). */
 export function writeLogEvent(db: Database, event: LogEventInsert): void {
+  // P104 — validate event_type AT WRITE TIME. Drop invalid rows; remap aliases.
+  const validated = validateEventType(event.eventType);
+  if (validated === null) return; // Drop the row; never throw.
   let stmt: ReturnType<Database['prepare']> | null = null;
   try {
     stmt = db.prepare(
@@ -146,7 +199,7 @@ export function writeLogEvent(db: Database, event: LogEventInsert): void {
       event.sessionId,
       event.requestId,
       event.projectId ?? null,
-      event.eventType,
+      validated,
       safeStringifyRedacted(event.eventData),
       event.pageId ?? null,
       event.pageIndex ?? null,
