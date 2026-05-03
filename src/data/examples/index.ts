@@ -50,6 +50,12 @@ import aispDeveloperRetro from './aisp-developer-retro.json'
 import coffeeEssay from './coffee-essay.json'
 import northLightAgency from './north-light-agency.json'
 import indieCoffeeRoaster from './indie-coffee-roaster.json'
+// 5-PROJECTS sprint — 5 persona-driven full-pipeline builds (post-P109)
+import axonCli from './axon-cli.json'
+import greenlaneStartup from './greenlane-startup.json'
+import quattroStudio from './quattro-studio.json'
+import mrsAlbrightTutoring from './mrs-albright-tutoring.json'
+import bordoSpec from './bordo-spec.json'
 import type { MasterConfig } from '@/lib/schemas'
 import { validateSectionType } from '@/lib/schemas/section'
 
@@ -342,6 +348,37 @@ export const EXAMPLE_SITES: ExampleSite[] = [
     description: 'Direct-trade Brooklyn coffee roaster — punchy listen-mode build with disfluency-stripped raw+cleaned transcripts. Warm-earth palette, conversational tone.',
     theme: 'Wellness',
     config: indieCoffeeRoaster as unknown as MasterConfig,
+  },
+  // 5-PROJECTS sprint — full-pipeline persona-driven builds with seeded log_events
+  {
+    name: 'Axon CLI — Agentic Code Review',
+    description: 'Multi-page developer-tool landing (home + docs) for a hypothetical parallel-review CLI. Dark terminal, monospace, 30 parallel agents. Built via 10-prompt full-pipeline simulation.',
+    theme: 'Tech Business',
+    config: axonCli as unknown as MasterConfig,
+  },
+  {
+    name: 'GreenLane — Compliance for Clean Energy',
+    description: 'B2B SaaS landing with Don Miller story-brand framing. Voice arc from startup-bro to understated-professional across 8 chat turns. Deep-green palette, founder-direct copy.',
+    theme: 'SaaS',
+    config: greenlaneStartup as unknown as MasterConfig,
+  },
+  {
+    name: 'Quattro Studio — Boutique Brand Agency',
+    description: 'Austin agency for seed-to-Series-B startups. Polished/restrained voice. Case studies + portfolio gallery + contact form. Warm-cream + deep-navy + brass palette.',
+    theme: 'Agency',
+    config: quattroStudio as unknown as MasterConfig,
+  },
+  {
+    name: 'Mrs. Albright\'s Tutoring',
+    description: 'Retired English teacher offering remote tutoring. Built via 10 voice transcripts with disfluencies stripped via cleanTranscript. Warm-yellow palette, plain-spoken voice, larger body type for older eyes.',
+    theme: 'Personal',
+    config: mrsAlbrightTutoring as unknown as MasterConfig,
+  },
+  {
+    name: 'Bordo — Wineries Spec',
+    description: 'Agentic-engineering spec showcase. PROCESS_ATOM + DDD + AGENT atoms wired into a 6-prompt Planning-mode build. Includes TDD scaffold + KISS verdict + Seal panel + Claude Code bundle export.',
+    theme: 'Tech Business',
+    config: bordoSpec as unknown as MasterConfig,
   },
 ]
 

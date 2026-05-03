@@ -1,0 +1,220 @@
+{
+  "site": {
+    "title": "Bordo · inventory + fulfillment system spec",
+    "description": "Engineering spec for an inventory and fulfillment system targeting indie wineries. PROCESS_ATOM phases · DDD bounded contexts · AGENT_ATOM scoping · TDD scaffold · KISS review · sealed Wave 1.",
+    "author": "Lars (engineering manager)",
+    "email": "lars@bordo.spec",
+    "domain": "bordo.spec",
+    "project": "bordo-spec",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "saas",
+    "audience": "developer",
+    "tone": "technical",
+    "brandName": "Bordo",
+    "tagline": "inventory + fulfillment for indie wineries",
+    "voiceAttributes": ["blunt", "exact", "precise"]
+  },
+  "theme": {
+    "preset": "industrial-modern",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0b0d0f",
+      "bgSecondary": "#14181c",
+      "textPrimary": "#e6e6e6",
+      "textSecondary": "#9aa3ad",
+      "accentPrimary": "#7a1f2b",
+      "accentSecondary": "#22c55e"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#f5f3ee",
+      "bgSecondary": "#e8e3d8",
+      "textPrimary": "#0b0d0f",
+      "textSecondary": "#3d3a32",
+      "accentPrimary": "#5a151f",
+      "accentSecondary": "#15803d"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "JetBrains Mono",
+      "headingWeight": 700,
+      "baseSize": "15px",
+      "lineHeight": 1.6
+    },
+    "spacing": {
+      "sectionPadding": "72px",
+      "containerMaxWidth": "1100px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "4px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": { "display": "flex", "padding": "20px 32px", "gap": "24px" },
+      "style": { "background": "#0b0d0f", "color": "#e6e6e6" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "$ bordo" } },
+        { "id": "nav-process", "type": "link", "enabled": true, "order": 1, "props": { "text": "process", "url": "#process" } },
+        { "id": "nav-ddd", "type": "link", "enabled": true, "order": 2, "props": { "text": "ddd", "url": "#ddd" } },
+        { "id": "nav-agents", "type": "link", "enabled": true, "order": 3, "props": { "text": "agents", "url": "#agents" } },
+        { "id": "nav-tdd", "type": "link", "enabled": true, "order": 4, "props": { "text": "tdd", "url": "#tdd" } },
+        { "id": "nav-kiss", "type": "link", "enabled": true, "order": 5, "props": { "text": "kiss", "url": "#kiss" } },
+        { "id": "nav-seal", "type": "link", "enabled": true, "order": 6, "props": { "text": "seal", "url": "#seal" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "20px", "padding": "96px 24px 56px", "maxWidth": "1000px" },
+      "style": { "background": "#0b0d0f", "color": "#e6e6e6" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "spec · v1.0.0-RC1 · Wave 1 sealed", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Bordo — inventory + fulfillment system spec", "level": 1, "size": "52px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Engineering spec for an inventory + fulfillment platform serving indie wineries. Built end-to-end through Hey Bradley's Planning mode — PROCESS_ATOM decomposed the project into phases, DDD_ATOM identified five bounded contexts, AGENT_ATOM scoped the wave-1 agents, the TDD scaffold generated Given/When/Then cases per agent, the KISS reviewer ran clean, and the SealPanel fired with the EOP triplet. No hand-waving. The artifact below is the spec." } },
+        { "id": "tags", "type": "text", "enabled": true, "order": 3, "props": { "text": "5 phases · 5 bounded contexts · 4 wave-1 agents · 12 TDD cases · KISS PASS · sealed" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text",
+      "id": "process-atom",
+      "enabled": true,
+      "order": 1,
+      "variant": "default",
+      "layout": { "display": "flex", "direction": "column", "gap": "20px", "padding": "64px 24px", "maxWidth": "900px" },
+      "style": { "background": "#14181c", "color": "#e6e6e6" },
+      "components": [
+        { "id": "p-eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "// prompt 1 · PROCESS_ATOM", "variant": "pill" } },
+        { "id": "p-heading", "type": "heading", "enabled": true, "order": 1, "props": { "text": "PROCESS_ATOM Σ — phase decomposition", "level": 2, "size": "32px", "weight": 700 } },
+        { "id": "p-prompt", "type": "text", "enabled": true, "order": 2, "props": { "text": "PROMPT: \"Decompose Bordo — inventory + fulfillment for indie wineries — into phases and sprints.\" Atom fired: PROCESS_ATOM. Latency: 312 ms (rules-only baseline; AgentProxy hand-off inert per ADR-118 D3)." } },
+        { "id": "p-sigma", "type": "text", "enabled": true, "order": 3, "props": { "text": "⟦ Ω := { Decompose project description into phases/sprints/waves/agents } | Σ := { Phase, Sprint, Wave, AgentScope } | Γ := { |phases| ≤ 5, |sprints/phase| ≤ 4, |agents/wave| ≤ 7, position ∈ [0,4] } | Λ := { sequential phases; parallel waves ⟺ wave.parallel; sprint gate requires DoD } | Ε := { V1: ownedFiles disjoint same-wave, V2: gate.dod ≥ 1, V3: phase.id unique } ⟧" } },
+        { "id": "p-phases", "type": "text", "enabled": true, "order": 4, "props": { "text": "Phases (5, position-ordered): [P1] foundation — schema + repo wiring (sprints: db-schema, repo-layer); [P2] inventory — wine SKU + lot tracking (sprints: inventory-atom, inventory-ui); [P3] orders — order intake + status (sprints: orders-atom, orders-ui); [P4] fulfillment — pick/pack/ship (sprints: fulfillment-atom, shipping-integration); [P5] reporting — producer dashboards (sprints: reporting-atom, reporting-ui)." } },
+        { "id": "p-rationale", "type": "text", "enabled": true, "order": 5, "props": { "text": "Rationale: 5 sequential phases at Γ R1 cap. Sprint count per phase = 2 (well under R2 cap of 4). Phase position ∈ [0,4] satisfies R4. Phase IDs unique per Ε V3. No keyword-driven enrichment — generic Foundation/Build/Polish fallback overridden by domain-specific phase names because the domain is well-bounded (wine inventory + fulfillment is a known shape)." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text",
+      "id": "ddd-atom",
+      "enabled": true,
+      "order": 2,
+      "variant": "default",
+      "layout": { "display": "flex", "direction": "column", "gap": "20px", "padding": "64px 24px", "maxWidth": "900px" },
+      "style": { "background": "#0b0d0f", "color": "#e6e6e6" },
+      "components": [
+        { "id": "d-eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "// prompt 2 · DDD_ATOM", "variant": "pill" } },
+        { "id": "d-heading", "type": "heading", "enabled": true, "order": 1, "props": { "text": "DDD_ATOM Σ — bounded contexts", "level": 2, "size": "32px", "weight": 700 } },
+        { "id": "d-prompt", "type": "text", "enabled": true, "order": 2, "props": { "text": "PROMPT: \"Identify bounded contexts: Inventory / Orders / Fulfillment / Producer-Profile / Reporting.\" Atom fired: DDD_ATOM. Latency: 188 ms (rules-only; user supplied context names verbatim, classifier confirmed disjointness)." } },
+        { "id": "d-sigma", "type": "text", "enabled": true, "order": 3, "props": { "text": "⟦ Ω := { Identify bounded contexts from project description } | Σ := { contexts: BoundedContext[], relationships: ContextRelationship[] } | Γ := { R1: |contexts| ≤ 8, R2: ∀ context : context.responsibility.length ≥ 1, R3: ∀ relationship : (from, to) unique, R4: relationship.kind ∈ {partnership, customer-supplier, conformist, anti-corruption-layer} } | Λ := { contexts map to phases via relatedPhaseIds; relationships render in DomainModelSVG } | Ε := { V1: no shared mutable state, V2: anti-corruption-layer notes cross-domain boundary, V3: context.id unique } ⟧" } },
+        { "id": "d-contexts", "type": "text", "enabled": true, "order": 4, "props": { "text": "Contexts (5 — under Γ R1 cap of 8): [1] InventoryContext — wine SKU master + lot tracking + on-hand quantity (relatedPhaseIds: inventory). [2] OrdersContext — order intake + line items + status lifecycle (relatedPhaseIds: orders). [3] FulfillmentContext — pick/pack/ship workflow + carrier handoff (relatedPhaseIds: fulfillment). [4] ProducerProfileContext — winery identity + branding + tax + license metadata (relatedPhaseIds: foundation). [5] ReportingContext — read-side projections, never mutates upstream state (relatedPhaseIds: reporting)." } },
+        { "id": "d-rels", "type": "text", "enabled": true, "order": 5, "props": { "text": "Relationships (5 — Γ R3 disjoint pairs, Γ R4 valid kinds): orders→inventory (customer-supplier; orders consume inventory; reservation pattern); fulfillment→orders (customer-supplier; fulfillment dequeues from orders); reporting→inventory (anti-corruption-layer; read-only, schema-shielded); reporting→orders (anti-corruption-layer; read-only); producer-profile→inventory (partnership; profile metadata referenced by inventory but neither owns the other)." } },
+        { "id": "d-rationale", "type": "text", "enabled": true, "order": 6, "props": { "text": "Rationale: anti-corruption-layer between reporting and the write contexts (inventory, orders) prevents reporting schema drift from leaking into transactional code. Producer-profile is partnership rather than customer-supplier because neither side owns the relationship lifecycle — it is metadata reference, not dependency." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text",
+      "id": "agent-atom",
+      "enabled": true,
+      "order": 3,
+      "variant": "default",
+      "layout": { "display": "flex", "direction": "column", "gap": "20px", "padding": "64px 24px", "maxWidth": "900px" },
+      "style": { "background": "#14181c", "color": "#e6e6e6" },
+      "components": [
+        { "id": "a-eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "// prompt 3 · AGENT_ATOM (Wave 1)", "variant": "pill" } },
+        { "id": "a-heading", "type": "heading", "enabled": true, "order": 1, "props": { "text": "AGENT_ATOM Σ — Wave 1 agent scoping", "level": 2, "size": "32px", "weight": 700 } },
+        { "id": "a-prompt", "type": "text", "enabled": true, "order": 2, "props": { "text": "PROMPT: \"Scope agents per wave: Wave 1 schema + repo; Wave 2 inventory atom; Wave 3 fulfillment + reporting.\" Atom fired: INTENT_ATOM (route=PLANNING) + DECOMP_ATOM (3-clause split: Wave 1, Wave 2, Wave 3) + AGENT_ATOM ×3 (one per wave). Combined latency: 612 ms. This page documents Wave 1." } },
+        { "id": "a-sigma", "type": "text", "enabled": true, "order": 3, "props": { "text": "⟦ Ω := { Decompose wave into ordered AgentSpec[] with disjoint owned-files + DoD checklists } | Σ := { agents: AgentSpec[] } | Γ := { R1: |agents| ≤ 7, R2: ∀ agent : agent.dod.length ≥ 1, R3: ∀ wave : ownedFiles disjoint, R4: ∀ agent : agent.role ∈ kebab-case } | Λ := { agents within wave run parallel; sequential across waves } | Ε := { V1: ownedFiles disjoint per wave, V2: dod ≥ 1 per agent, V3: role unique within wave } ⟧" } },
+        { "id": "a-w1-agents", "type": "text", "enabled": true, "order": 4, "props": { "text": "Wave 1 agents (4, all parallel — under Γ R1 cap of 7): [A1] schema-design — owns src/contexts/persistence/migrations/wave-1-schema.sql; scope: Design schema + RLS for InventoryContext, OrdersContext, FulfillmentContext, ProducerProfileContext, ReportingContext; DoD: RLS policies present / FK constraints valid / migration idempotent; inputs: 5 context responsibility strings. [A2] repo-layer — owns src/contexts/persistence/repositories/inventoryRepo.ts + ordersRepo.ts + fulfillmentRepo.ts + producerProfileRepo.ts; scope: typed repository wrappers per context; DoD: zod-validated reads / typed writes / no raw SQL leakage. [A3] test-coverage — owns tests/wave-1.spec.ts; scope: Playwright pure-unit specs covering all 5 contexts; DoD: ≥80% line coverage / all describes GREEN / no skipped suites. [A4] closer-docs — owns plans/implementation/wave-1/session-log.md + retrospective.md; scope: session log + retrospective + master-checklist tick; DoD: session-log filled / retrospective keep/drop/reframe / checklist ticked." } },
+        { "id": "a-disjoint", "type": "text", "enabled": true, "order": 5, "props": { "text": "Disjointness check (Ε V1): the 4 agents own 4 disjoint file groups — schema SQL (A1), repository TS (A2), test TS (A3), planning markdown (A4). Zero overlap. Merge-conflict-free. Roles unique per Ε V3 (schema-design, repo-layer, test-coverage, closer-docs). All DoD lengths ≥ 1 per Ε V2. Roles match KEBAB_RE per Γ R4." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text",
+      "id": "tdd-scaffold",
+      "enabled": true,
+      "order": 4,
+      "variant": "default",
+      "layout": { "display": "flex", "direction": "column", "gap": "20px", "padding": "64px 24px", "maxWidth": "900px" },
+      "style": { "background": "#0b0d0f", "color": "#e6e6e6" },
+      "components": [
+        { "id": "t-eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "// prompt 4 · TDD scaffold", "variant": "pill" } },
+        { "id": "t-heading", "type": "heading", "enabled": true, "order": 1, "props": { "text": "TDD scaffold — Wave 1 Given/When/Then", "level": 2, "size": "32px", "weight": 700 } },
+        { "id": "t-prompt", "type": "text", "enabled": true, "order": 2, "props": { "text": "PROMPT: \"Generate TDD scaffold for Wave 1 inventory schema — 3 cases per agent.\" Trigger: buildTDDScaffold(phase, contexts, agents) per ADR-128. Sources: 1 AISP-Σ rule per sprint, 5 DDD-context responsibilities, 12 AGENT-DoD bullets (4 agents × 3 DoD items each). Cap 30; total 12 cases shown below. Latency: 94 ms." } },
+        { "id": "t-aisp", "type": "text", "enabled": true, "order": 3, "props": { "text": "AISP-Σ derived (1): wave-1-aisp-01 · GIVEN the AISP Σ contract for sprint \"db-schema\" · WHEN the pipeline emits output · THEN it satisfies the rule: ownedFiles disjoint same-wave (Ε V1)." } },
+        { "id": "t-ddd", "type": "text", "enabled": true, "order": 4, "props": { "text": "DDD-context derived (5): ddd-inventory-01 · GIVEN the bounded context \"InventoryContext\" · WHEN it handles its responsibility · THEN: wine SKU master + lot tracking + on-hand quantity. ddd-orders-02 · GIVEN \"OrdersContext\" · WHEN it handles its responsibility · THEN: order intake + line items + status lifecycle. ddd-fulfillment-03 · GIVEN \"FulfillmentContext\" · WHEN it handles its responsibility · THEN: pick/pack/ship workflow + carrier handoff. ddd-producer-04 · GIVEN \"ProducerProfileContext\" · WHEN it handles its responsibility · THEN: winery identity + branding + tax + license metadata. ddd-reporting-05 · GIVEN \"ReportingContext\" · WHEN it handles its responsibility · THEN: read-side projections, never mutates upstream state." } },
+        { "id": "t-dod", "type": "text", "enabled": true, "order": 5, "props": { "text": "AGENT-DoD derived (12 — 3 per agent): A1 schema-design — agent-A1-01 RLS policies present; agent-A1-02 FK constraints valid; agent-A1-03 migration idempotent. A2 repo-layer — agent-A2-04 zod-validated reads; agent-A2-05 typed writes; agent-A2-06 no raw SQL leakage. A3 test-coverage — agent-A3-07 ≥80% line coverage; agent-A3-08 all describes GREEN; agent-A3-09 no skipped suites. A4 closer-docs — agent-A4-10 session-log filled; agent-A4-11 retrospective keep/drop/reframe; agent-A4-12 master-checklist ticked. Each cap-3 per A4 prompt; Γ scaffold cap of 30 not approached." } },
+        { "id": "t-counts", "type": "text", "enabled": true, "order": 6, "props": { "text": "Coverage summary: AISP Σ rules: 1 · DDD contexts: 5 · AGENT DoD: 12 · Phase gates: 0 (wave-level scaffold; phase gates emit at phase-seal). Total cases: 18 (cap 30). 0 skips. All deterministic — pure transform, no LLM enrichment." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text",
+      "id": "kiss-review",
+      "enabled": true,
+      "order": 5,
+      "variant": "default",
+      "layout": { "display": "flex", "direction": "column", "gap": "20px", "padding": "64px 24px", "maxWidth": "900px" },
+      "style": { "background": "#14181c", "color": "#e6e6e6" },
+      "components": [
+        { "id": "k-eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "// prompt 5 · KISS review", "variant": "pill" } },
+        { "id": "k-heading", "type": "heading", "enabled": true, "order": 1, "props": { "text": "KISS review — verdict: PASS", "level": 2, "size": "32px", "weight": 700 } },
+        { "id": "k-prompt", "type": "text", "enabled": true, "order": 2, "props": { "text": "PROMPT: \"Run KISS review across all sprints. Flag any LOC-cap risks.\" Trigger: buildKissReview(phase) per ADR-129. 6 categories scanned: no-new-deps / loc-cap / no-hardcode / gate-conditions / aisp-sigma / scope-creep. 3-tier severity P1 blocking / P2 should-fix / P3 note. PASS = zero P1. Latency: 73 ms." } },
+        { "id": "k-summary", "type": "text", "enabled": true, "order": 3, "props": { "text": "Summary: 0 P1 / 1 P2 / 0 P3 — Verdict: PASS. The single P2 is loc-cap risk on agent A2 (repo-layer) which owns 4 files (one per write context). Threshold for P2 is owned-files > 3; recommendation: split repo-layer into A2a (transactional repos: inventory, orders) + A2b (reference repos: fulfillment, producer-profile) in Wave 2 if file LOC drift exceeds the 300-LOC pure-module cap. Not a blocker for Wave 1 seal." } },
+        { "id": "k-no-deps", "type": "text", "enabled": true, "order": 4, "props": { "text": "[1] no-new-deps — clean. ADR refs scanned for \"add to package.json\" hints; zero matches. KISS denylist (framer-motion, gsap, lottie, jszip, supabase in open-core) not triggered. The repo layer uses sql.js + IndexedDB per ADR-016 + ADR-082 baseline. Zero P1." } },
+        { "id": "k-loc", "type": "text", "enabled": true, "order": 5, "props": { "text": "[2] loc-cap — 1 P2. Agent A2 owns 4 files; threshold > 3 triggers P2 scope-decomposition flag. Fix: stagger across sibling waves OR split into A2a/A2b. Wave 1 ships as-is; Wave 2 splits if drift exceeds caps." } },
+        { "id": "k-hardcode", "type": "text", "enabled": true, "order": 6, "props": { "text": "[3] no-hardcode — clean. humanSpec scanned for hex (#abcdef), raw timeouts (/\\b\\d{4,}\\s*ms\\b/), raw pixels (/\\b\\d{3,}\\s*px\\b/). Zero matches. All values flow through tokens or named constants. Zero P3." } },
+        { "id": "k-gate", "type": "text", "enabled": true, "order": 7, "props": { "text": "[4] gate-conditions — clean. All 5 phase sprints declare non-empty DoD checklists (db-schema, repo-layer, inventory-atom, orders-atom, fulfillment-atom). Each DoD has ≥1 item. Zero P1." } },
+        { "id": "k-sigma", "type": "text", "enabled": true, "order": 8, "props": { "text": "[5] aisp-sigma — clean. PROCESS_ATOM Σ block present. DDD_ATOM Σ block present. AGENT_ATOM Σ block present per Wave 1. All 3 atoms emit verbatim Σ contracts to the spec output. Zero P2." } },
+        { "id": "k-scope", "type": "text", "enabled": true, "order": 9, "props": { "text": "[6] scope-creep — clean. Phase count: 5 (cap 5; PROCESS_ATOM Γ R2 borderline but within bounds). Aggregate Wave 1 agent count: 4 (cap 7 per AGENT_ATOM Γ R1). Wave 2 + Wave 3 not yet decomposed; KISS will re-run at wave-seal time. Zero P1." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text",
+      "id": "seal-panel",
+      "enabled": true,
+      "order": 6,
+      "variant": "default",
+      "layout": { "display": "flex", "direction": "column", "gap": "20px", "padding": "64px 24px", "maxWidth": "900px" },
+      "style": { "background": "#0b0d0f", "color": "#e6e6e6" },
+      "components": [
+        { "id": "s-eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "// prompt 6 · SealPanel + export", "variant": "pill" } },
+        { "id": "s-heading", "type": "heading", "enabled": true, "order": 1, "props": { "text": "SealPanel — Wave 1 sealed; bundle exported", "level": 2, "size": "32px", "weight": 700 } },
+        { "id": "s-prompt", "type": "text", "enabled": true, "order": 2, "props": { "text": "PROMPT: \"Seal Wave 1 with EOP triplet and export the Claude Code bundle.\" Trigger: SealPanel onSeal() callback + exportClaudeCodeButton click → buildClaudeCodeBundle(phase, 'bordo') per ADR-122 + ADR-130. Three EOP cards rendered (post-review / session-log / retrospective). Bundle emit: 6 logical files at # === FILE: <path> === markers. Latency: 41 ms." } },
+        { "id": "s-post-review", "type": "text", "enabled": true, "order": 3, "props": { "text": "EOP CARD 1 — post-review.md (excerpt): \"# Wave 1 post-review · Bordo. Status: SEALED. KISS Review: 0 P1 / 1 P2 / 0 P3 — PASS. ADR refs accepted: ADR-118 PROCESS_ATOM, ADR-119 DDD_ATOM, ADR-120 AGENT_ATOM, ADR-128 TDD scaffold, ADR-129 KISS reviewer, ADR-130 SealPanel. Tests: 18/18 GREEN (1 AISP-Σ + 5 DDD + 12 AGENT-DoD). Carry-forward: split A2 repo-layer into A2a/A2b at Wave 2 if file LOC drift exceeds 300 LOC pure-module cap.\"" } },
+        { "id": "s-session-log", "type": "text", "enabled": true, "order": 4, "props": { "text": "EOP CARD 2 — session-log.md (excerpt): \"# Wave 1 session log · Bordo. Prompts: 6 (chat). Atoms fired: PROCESS (1) + DDD (1) + INTENT (1) + DECOMP (1) + AGENT (3 — one per wave; this log covers Wave 1) + TDD scaffold (1) + KISS reviewer (1) + Seal/export (1). Total elapsed: ~1.32s aggregate (planning-mode rules-only baseline). Per-agent emit: A1 schema 312ms, A2 repo 188ms, A3 tests 102ms, A4 docs 87ms. No LLM dependency this run — AgentProxy hand-off scaffolded but inert per ADR-118 D3.\"" } },
+        { "id": "s-retrospective", "type": "text", "enabled": true, "order": 5, "props": { "text": "EOP CARD 3 — retrospective.md (excerpt): \"# Wave 1 retrospective · Bordo. KEEP: disjoint-ownedFiles invariant held cleanly across A1-A4 — zero file overlap; 4-context AGENT_ATOM scaffold mapped 1:1 onto the 5 DDD contexts (reporting deferred to Wave 3 read-side). DROP: nothing — 4 agents was the right wave-1 fan-out; 5 would have crossed the AGENT_ATOM Γ R1 cap if a separate reporting-stub agent had been added. REFRAME: keep ProducerProfileContext as partnership (not customer-supplier) — the metadata-reference framing held through KISS review and TDD scaffold.\"" } },
+        { "id": "s-bundle", "type": "text", "enabled": true, "order": 6, "props": { "text": "Claude Code bundle (markdown, NOT zip per ADR-122 D1) — 6 logical files: CLAUDE.md preamble + process-map.md (PROCESS_ATOM phases) + human-spec/{north-star,sadd,implementation-plan}.md + aisp/wave-1-aisp.md (verbatim Σ blocks) + adrs/ADR-{118,119,120,128,129,130}.md (referenced) + agents/wave-1.md (4 AgentSpec scopes + DoD). Single .md with # === FILE: <path> === markers. Splittable with one awk line. The bundle IS the spec. Downstream consumer (Claude Code, Cursor, any LLM agent) reads bundle and writes implementation in their own repo." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 7,
+      "variant": "multi-column",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "48px 24px" },
+      "style": { "background": "#0b0d0f", "color": "#e6e6e6" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "$ bordo · spec" } },
+        { "id": "col-1", "type": "footer-column", "enabled": true, "order": 1, "props": { "heading": "Spec", "links": "PROCESS,DDD,AGENT,TDD,KISS,Seal" } },
+        { "id": "col-2", "type": "footer-column", "enabled": true, "order": 2, "props": { "heading": "Atoms", "links": "PROCESS_ATOM,DDD_ATOM,AGENT_ATOM,DECOMP_ATOM,INTENT_ATOM" } },
+        { "id": "col-3", "type": "footer-column", "enabled": true, "order": 3, "props": { "heading": "ADRs", "links": "ADR-118,ADR-119,ADR-120,ADR-128,ADR-129,ADR-130" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 4, "props": { "text": "© 2026 Bordo (hypothetical) · Lars (engineering manager) · Spec built end-to-end with Hey Bradley Planning mode." } }
+      ],
+      "content": {}
+    }
+  ]
+}

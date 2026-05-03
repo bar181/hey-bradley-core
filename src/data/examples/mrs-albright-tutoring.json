@@ -1,0 +1,155 @@
+{
+  "site": {
+    "title": "Mrs. Albright's Tutoring · helping students love English again",
+    "description": "Remote one-on-one English tutoring for high school students from a retired English teacher with 32 years in the classroom. Reading, writing, and discussion — not drills.",
+    "author": "Mrs. Margaret Albright",
+    "email": "mrs.albright@albrightenglish.com",
+    "domain": "albrightenglish.com",
+    "project": "mrs-albright-tutoring",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "consumer",
+    "tone": "warm",
+    "brandName": "Mrs. Albright's Tutoring",
+    "tagline": "Help your student love English again.",
+    "voiceAttributes": ["warm", "encouraging", "plain-spoken"]
+  },
+  "theme": {
+    "preset": "warm-paper",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#fdf8ec",
+      "bgSecondary": "#f5edd8",
+      "textPrimary": "#3a3528",
+      "textSecondary": "#6e6552",
+      "accentPrimary": "#c69a3a",
+      "accentSecondary": "#8aa37b"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#3a3528",
+      "bgSecondary": "#4a4334",
+      "textPrimary": "#fdf8ec",
+      "textSecondary": "#d8cfb7",
+      "accentPrimary": "#e0b864",
+      "accentSecondary": "#a3bb94"
+    },
+    "typography": {
+      "fontFamily": "Lora",
+      "headingFamily": "Lora",
+      "headingWeight": 600,
+      "baseSize": "18px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "72px",
+      "containerMaxWidth": "820px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": { "display": "flex", "padding": "20px 28px", "gap": "24px", "maxWidth": "820px" },
+      "style": { "background": "#fdf8ec", "color": "#3a3528" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Mrs. Albright" } },
+        { "id": "nav-about", "type": "link", "enabled": true, "order": 1, "props": { "text": "About me", "url": "#about" } },
+        { "id": "nav-approach", "type": "link", "enabled": true, "order": 2, "props": { "text": "My approach", "url": "#approach" } },
+        { "id": "nav-contact", "type": "link", "enabled": true, "order": 3, "props": { "text": "Get in touch", "url": "#contact" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "24px", "padding": "96px 24px 64px", "maxWidth": "780px" },
+      "style": { "background": "#fdf8ec", "color": "#3a3528" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "Remote one-on-one tutoring · high school English", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Help your student love English again.", "level": 1, "size": "48px", "weight": 600 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Hello — I'm Margaret Albright. I taught high school English at Roosevelt High for 32 years, and now I tutor students one-on-one from my home office. We read good books, we write honest sentences, and we talk about both. That's all there is to it." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "Get in touch", "url": "#contact", "style": "filled", "size": "lg" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4, "props": { "text": "How I work →", "url": "#approach", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text",
+      "id": "who-i-help",
+      "enabled": true,
+      "order": 1,
+      "variant": "default",
+      "layout": { "display": "flex", "direction": "column", "align": "stretch", "gap": "16px", "padding": "64px 24px", "maxWidth": "720px" },
+      "style": { "background": "#f5edd8", "color": "#3a3528" },
+      "components": [
+        { "id": "who-eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "who I help", "variant": "pill" } },
+        { "id": "who-title", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Students who hate English class — and deserve to find their voice.", "level": 2, "size": "30px", "weight": 600 } },
+        { "id": "who-body", "type": "text", "enabled": true, "order": 2, "props": { "text": "Most of my students arrive a little tired. They've been told their writing is wrong, or their reading is slow, or that they just aren't English-class kids. I don't believe any of that. Every young person has a voice waiting to be heard on the page — and once we find it together, the grades follow on their own. I work with high schoolers from ninth grade through senior year, including students preparing for the SAT essay, the AP Language exam, and college application essays." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text",
+      "id": "approach-article",
+      "enabled": true,
+      "order": 2,
+      "variant": "long-form",
+      "layout": { "display": "flex", "direction": "column", "align": "stretch", "gap": "20px", "padding": "72px 24px", "maxWidth": "720px" },
+      "style": { "background": "#fdf8ec", "color": "#3a3528" },
+      "components": [
+        { "id": "art-eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "my approach", "variant": "pill" } },
+        { "id": "art-title", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Reading and discussion. Not drills.", "level": 2, "size": "32px", "weight": 600 } },
+        { "id": "art-body-1", "type": "text", "enabled": true, "order": 2, "props": { "text": "Most tutoring leans on worksheets and grammar drills. I don't. After 32 years of teaching, I learned that students improve fastest when they read something they actually want to talk about, write a few honest sentences in response, and then sit with a teacher who takes their thinking seriously. So that's what we do. Together we pick a book — sometimes from your student's class, sometimes from my own shelf — and we read a chapter or two before each session." } },
+        { "id": "art-body-2", "type": "text", "enabled": true, "order": 3, "props": { "text": "When we meet, we talk. About the book, yes, but also about whatever your student notices. A character who reminds them of someone they know. A sentence that made them laugh. A question they couldn't answer in class. Discussion is where the real learning happens, because it's where a young reader discovers they have something to say. Once they believe that, the writing comes easily — first as conversation, then as paragraphs, then as whole essays they're genuinely proud of." } },
+        { "id": "art-body-3", "type": "text", "enabled": true, "order": 4, "props": { "text": "Grammar still matters, of course, and we work on it — but always inside a piece of real writing your student cares about. A misplaced comma is much easier to learn when it's in your own sentence than when it's on a worksheet about somebody else's. By the end of the school year, most of my students bring home a folder full of essays they wrote, revised, and finished — and a noticeably calmer relationship with their English teacher. That's the goal." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "contact-form",
+      "id": "contact-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "default",
+      "layout": { "display": "flex", "direction": "column", "align": "stretch", "gap": "20px", "padding": "80px 24px", "maxWidth": "640px" },
+      "style": { "background": "#f5edd8", "color": "#3a3528" },
+      "components": [
+        { "id": "contact-eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "let's get started", "variant": "pill" } },
+        { "id": "contact-title", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Tell me about your student.", "level": 2, "size": "32px", "weight": 600 } },
+        { "id": "contact-intro", "type": "text", "enabled": true, "order": 2, "props": { "text": "Send me a quick note about your student and what they're working on. I read every message myself and reply within a day — usually the same evening." } },
+        { "id": "field-name", "type": "form-field", "enabled": true, "order": 3, "props": { "label": "Your name", "name": "parent_name", "required": true, "fieldType": "text", "placeholder": "Parent or guardian name" } },
+        { "id": "field-email", "type": "form-field", "enabled": true, "order": 4, "props": { "label": "Parent email", "name": "parent_email", "required": true, "fieldType": "email", "placeholder": "you@example.com" } },
+        { "id": "field-grade", "type": "form-field", "enabled": true, "order": 5, "props": { "label": "Student grade", "name": "student_grade", "required": true, "fieldType": "select", "options": "9th grade,10th grade,11th grade,12th grade" } },
+        { "id": "field-working-on", "type": "form-field", "enabled": true, "order": 6, "props": { "label": "What is your student working on?", "name": "working_on", "required": true, "fieldType": "textarea", "placeholder": "A specific class, an essay, the SAT, a college application — whatever you'd like me to know." } },
+        { "id": "submit", "type": "button", "enabled": true, "order": 7, "props": { "text": "Send Mrs. Albright a note", "url": "#submit", "style": "filled", "size": "lg" } },
+        { "id": "response-note", "type": "text", "enabled": true, "order": 8, "props": { "text": "I respond within a day, often the same evening. There's no obligation — we'll just have a short conversation about whether I'm the right tutor for your student." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "12px", "padding": "48px 24px" },
+      "style": { "background": "#3a3528", "color": "#fdf8ec" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Mrs. Albright's Tutoring" } },
+        { "id": "contact-line", "type": "text", "enabled": true, "order": 1, "props": { "text": "mrs.albright@albrightenglish.com" } },
+        { "id": "credentials", "type": "text", "enabled": true, "order": 2, "props": { "text": "Teaching English at Roosevelt High since 1988. Now tutoring from home." } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 3, "props": { "text": "© 2026 Margaret Albright · Made with care, one student at a time." } }
+      ],
+      "content": {}
+    }
+  ]
+}

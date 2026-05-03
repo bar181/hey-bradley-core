@@ -1,0 +1,267 @@
+[
+  {
+    "session_id": "p5-greenlane-session-01",
+    "request_id": "p5-greenlane-req-001",
+    "event_type": "intent_classification",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "INTENT_ATOM",
+      "prompt_excerpt": "Build a SaaS landing page for GreenLane — automated compliance reporting for clean-energy startups",
+      "trigger_words": ["build", "saas", "landing page", "compliance", "clean-energy"],
+      "verb": "add",
+      "target_type": null,
+      "purpose_inference": "saas",
+      "audience_inference": "business",
+      "brand_name_capture": "GreenLane",
+      "confidence": 0.88
+    },
+    "latency_ms": 200,
+    "created_at": 1714823100000
+  },
+  {
+    "session_id": "p5-greenlane-session-01",
+    "request_id": "p5-greenlane-req-001",
+    "event_type": "template_match",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "SELECTION_ATOM",
+      "category": "saas",
+      "matched_template": "saas-founder",
+      "confidence": 0.88,
+      "default_sections": ["menu", "hero", "columns", "pricing", "action", "footer"]
+    },
+    "latency_ms": 140,
+    "created_at": 1714823100200
+  },
+  {
+    "session_id": "p5-greenlane-session-01",
+    "request_id": "p5-greenlane-req-002",
+    "event_type": "intent_classification",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "INTENT_ATOM",
+      "prompt_excerpt": "Lead with the customer's problem, not features. They're drowning in regulatory paperwork — make that visible",
+      "trigger_words": ["lead with", "problem", "not features", "paperwork", "visible"],
+      "verb": "add",
+      "target_type": "text",
+      "story_brand_signal": "problem-first",
+      "patches": [
+        { "path": "/sections/insertAt/1", "value": { "type": "text", "id": "problem-01", "variant": "two-column" } }
+      ],
+      "confidence": 0.84
+    },
+    "latency_ms": 240,
+    "created_at": 1714823112000
+  },
+  {
+    "session_id": "p5-greenlane-session-01",
+    "request_id": "p5-greenlane-req-003",
+    "event_type": "patch_validation",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "prompt_excerpt": "Hero copy should follow Don Miller: 'You're a clean-energy founder. You're spending 40 hours a week on compliance reports instead of building product.'",
+      "trigger_words": ["hero", "copy", "Don Miller", "you-the-hero"],
+      "verb": "change",
+      "target_type": "hero",
+      "target_index": 0,
+      "verbatim_capture": "You're a clean-energy founder. You're spending 40 hours a week on compliance reports instead of building product.",
+      "voice_signal": "you-the-hero",
+      "voice_inheritance": ["confident", "direct", "fast"],
+      "patches": [
+        { "path": "/sections/0/components/1/props/text", "value": "You're a clean-energy founder. You're spending 40 hours a week on compliance reports instead of building product." },
+        { "path": "/sections/0/components/0/props/text", "value": "Compliance reporting · automated · for clean-energy startups" },
+        { "path": "/site/voiceAttributes", "value": ["confident", "direct", "fast"] }
+      ]
+    },
+    "latency_ms": 980,
+    "created_at": 1714823124000
+  },
+  {
+    "session_id": "p5-greenlane-session-01",
+    "request_id": "p5-greenlane-req-004",
+    "event_type": "decomp_split",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "DECOMP_ATOM",
+      "prompt_excerpt": "Add a 'How it works' section — 3 steps with icons (connect, automate, ship)",
+      "trigger_words": ["add", "how it works", "3 steps", "icons"],
+      "split_strategy": "comma-list-with-parenthetical-icons",
+      "todos": [
+        { "step": "Connect", "icon": "plug", "confidence": 0.91 },
+        { "step": "Automate", "icon": "zap", "confidence": 0.91 },
+        { "step": "Ship", "icon": "send", "confidence": 0.91 }
+      ]
+    },
+    "latency_ms": 130,
+    "created_at": 1714823138000
+  },
+  {
+    "session_id": "p5-greenlane-session-01",
+    "request_id": "p5-greenlane-req-004",
+    "event_type": "patch_validation",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "verb": "add",
+      "target_type": "columns",
+      "voice_inheritance": ["confident", "direct", "fast"],
+      "patches": [
+        { "path": "/sections/insertAt/2", "value": { "type": "columns", "id": "how-it-works-01", "variant": "value-props", "components": "3 feature-cards (Connect plug / Automate zap / Ship send)" } }
+      ]
+    },
+    "latency_ms": 1640,
+    "created_at": 1714823138130
+  },
+  {
+    "session_id": "p5-greenlane-session-01",
+    "request_id": "p5-greenlane-req-005",
+    "event_type": "decomp_split",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "DECOMP_ATOM",
+      "prompt_excerpt": "Add pricing — 3 tiers: starter $299/mo, growth $999/mo, enterprise contact",
+      "trigger_words": ["add", "pricing", "tiers", "starter", "growth", "enterprise"],
+      "split_strategy": "comma-list-with-price-tokens",
+      "todos": [
+        { "tier": "starter", "price": "$299", "period": "month", "highlighted": false, "confidence": 0.93 },
+        { "tier": "growth", "price": "$999", "period": "month", "highlighted": true, "confidence": 0.93 },
+        { "tier": "enterprise", "price": "Contact us", "period": "", "highlighted": false, "confidence": 0.93 }
+      ]
+    },
+    "latency_ms": 130,
+    "created_at": 1714823152000
+  },
+  {
+    "session_id": "p5-greenlane-session-01",
+    "request_id": "p5-greenlane-req-005",
+    "event_type": "patch_validation",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "verb": "add",
+      "target_type": "pricing",
+      "voice_inheritance": ["confident", "direct", "fast"],
+      "patches": [
+        { "path": "/sections/insertAt/3", "value": { "type": "pricing", "id": "pricing-01", "variant": "default", "components": "3 pricing-tiers (Starter $299 / Growth $999 highlighted / Enterprise contact)" } }
+      ]
+    },
+    "latency_ms": 1820,
+    "created_at": 1714823152130
+  },
+  {
+    "session_id": "p5-greenlane-session-01",
+    "request_id": "p5-greenlane-req-006",
+    "event_type": "decomp_split",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "DECOMP_ATOM",
+      "prompt_excerpt": "Add a team section — me (Marcus, CEO/founder), Priya (CTO), and Diego (Head of Compliance)",
+      "trigger_words": ["add", "team", "section", "founder", "CTO", "compliance"],
+      "split_strategy": "comma-list-with-parenthetical-roles",
+      "todos": [
+        { "name": "Marcus Reyes", "role": "CEO & Co-founder", "confidence": 0.94 },
+        { "name": "Priya Anand", "role": "CTO & Co-founder", "confidence": 0.94 },
+        { "name": "Diego Marín", "role": "Head of Compliance", "confidence": 0.94 }
+      ]
+    },
+    "latency_ms": 140,
+    "created_at": 1714823166000
+  },
+  {
+    "session_id": "p5-greenlane-session-01",
+    "request_id": "p5-greenlane-req-006",
+    "event_type": "patch_validation",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "verb": "add",
+      "target_type": "team",
+      "voice_inheritance": ["confident", "direct", "fast"],
+      "patches": [
+        { "path": "/sections/insertAt/4", "value": { "type": "team", "id": "team-01", "variant": "grid", "components": "3 team-members (Marcus Reyes CEO / Priya Anand CTO / Diego Marín Compliance)" } }
+      ]
+    },
+    "latency_ms": 1980,
+    "created_at": 1714823166140
+  },
+  {
+    "session_id": "p5-greenlane-session-01",
+    "request_id": "p5-greenlane-req-007",
+    "event_type": "intent_classification",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "INTENT_ATOM",
+      "prompt_excerpt": "Make the voice slightly less startup-bro and more 'understated professional with conviction'",
+      "trigger_words": ["voice", "less startup-bro", "understated", "professional", "conviction"],
+      "verb": "change",
+      "target_type": "voice",
+      "voice_adjectives_normalized": ["confident", "direct", "understated"],
+      "voice_drop": ["fast"],
+      "voice_add": ["understated"],
+      "regen_targets": [
+        "/sections/0/components/2/props/text",
+        "/sections/1/components/2/props/text",
+        "/sections/1/components/3/props/text",
+        "/sections/1/components/4/props/text",
+        "/sections/2/components/0/props/description",
+        "/sections/2/components/1/props/description",
+        "/sections/2/components/2/props/description",
+        "/sections/4/components/0/props/bio",
+        "/sections/4/components/1/props/bio",
+        "/sections/4/components/2/props/bio"
+      ],
+      "patches": [
+        { "path": "/site/voiceAttributes", "value": ["confident", "direct", "understated"] }
+      ],
+      "confidence": 0.89
+    },
+    "latency_ms": 2240,
+    "created_at": 1714823180000
+  },
+  {
+    "session_id": "p5-greenlane-session-01",
+    "request_id": "p5-greenlane-req-008",
+    "event_type": "patch_validation",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "prompt_excerpt": "Add a CTA: 'See your compliance hours go to 4. Book a 20-minute demo.'",
+      "trigger_words": ["add", "CTA", "demo", "compliance hours"],
+      "verb": "add",
+      "target_type": "action",
+      "verbatim_capture": "See your compliance hours go to 4. Book a 20-minute demo.",
+      "voice_inheritance": ["confident", "direct", "understated"],
+      "patches": [
+        { "path": "/sections/insertAt/5", "value": { "type": "action", "id": "cta-01", "variant": "default", "components": "heading (verbatim) + supporting copy + button + fineprint" } },
+        { "path": "/sections/5/components/0/props/text", "value": "See your compliance hours go to 4. Book a 20-minute demo." },
+        { "path": "/sections/5/components/2/props/text", "value": "Book a 20-minute demo" }
+      ]
+    },
+    "latency_ms": 1320,
+    "created_at": 1714823196000
+  },
+  {
+    "session_id": "p5-greenlane-session-01",
+    "request_id": "p5-greenlane-req-008",
+    "event_type": "process_atom_output",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "PROCESS_ATOM",
+      "summary": "Site complete: 8 sections (menu/hero/text/columns/pricing/team/action/footer) · Don Miller story-brand arc materialized: Hero → Problem → Plan/Guide → CTA · voice accumulator settled at ['confident','direct','understated'] after turn-7 refinement (dropped 'fast', added 'understated')",
+      "total_prompts": 8,
+      "total_latency_ms": 11160,
+      "atom_path_distribution": {
+        "INTENT_only_or_PATCH_only": 3,
+        "INTENT_to_CONTENT": 1,
+        "INTENT_to_DECOMP_to_CONTENT": 3,
+        "INTENT_voice_to_regen_fanout": 1
+      },
+      "section_count_final": 8,
+      "voice_attributes_final": ["confident", "direct", "understated"],
+      "story_brand_arc": ["hero-customer", "problem-named", "plan-3-step", "guide-founders", "call-concrete"]
+    },
+    "latency_ms": 70,
+    "created_at": 1714823197320
+  }
+]

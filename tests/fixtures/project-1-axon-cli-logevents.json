@@ -1,0 +1,332 @@
+[
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-001",
+    "event_type": "intent_classification",
+    "event_data": {
+      "atom": "INTENT_ATOM",
+      "verb": "generate",
+      "target": "site",
+      "confidence": 0.92,
+      "prompt_excerpt": "Build a landing page for Axon CLI — an agentic CLI for parallel code review",
+      "highlight": "Initial site generation; purpose=saas, audience=developer, tone=technical"
+    },
+    "latency_ms": 1820,
+    "created_at": 1714730400000
+  },
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-001",
+    "event_type": "template_match",
+    "event_data": {
+      "atom": "SELECTION_ATOM",
+      "theme_match": "industrial-modern",
+      "theme_confidence": 0.84,
+      "section_set": ["menu", "hero", "columns", "pricing", "quotes", "action", "footer"],
+      "matched_keywords": ["CLI", "agentic", "parallel", "code review", "dependency"],
+      "highlight": "Theme=industrial-modern (dark + mono cues); 7-section scaffold queued"
+    },
+    "latency_ms": 280,
+    "created_at": 1714730402220
+  },
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-001",
+    "event_type": "patch_validation",
+    "event_data": {
+      "patch_count": 38,
+      "sections_inserted": ["menu", "hero", "columns", "pricing", "quotes", "action", "footer"],
+      "section_count_after": 7,
+      "validation_result": "applied",
+      "highlight": "Initial scaffold applied (38 ops); 7 sections live; placeholder copy pending refinement"
+    },
+    "latency_ms": 130,
+    "created_at": 1714730402500
+  },
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-002",
+    "event_type": "intent_classification",
+    "event_data": {
+      "atom": "INTENT_ATOM",
+      "verb": "change",
+      "target": "theme",
+      "target_attr": "palette+typography",
+      "confidence": 0.91,
+      "extracted_color": "#6c4dff",
+      "prompt_excerpt": "Theme: dark mode terminal-inspired; monospace heading font; deep-purple accent",
+      "highlight": "Theme override; deep-purple #6c4dff accent + JetBrains Mono headings"
+    },
+    "latency_ms": 410,
+    "created_at": 1714730418000
+  },
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-003",
+    "event_type": "intent_classification",
+    "event_data": {
+      "atom": "CONTENT_ATOM",
+      "verb": "change",
+      "target": "hero",
+      "target_components": ["headline", "subtitle"],
+      "verbatim_input": true,
+      "confidence": 0.95,
+      "prompt_excerpt": "Hero: 'Stop reviewing dependencies one PR at a time.' subheadline 'Axon runs 30 parallel...'",
+      "highlight": "User-supplied verbatim hero copy honored; no CONTENT_ATOM regen"
+    },
+    "latency_ms": 920,
+    "created_at": 1714730432000
+  },
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-004",
+    "event_type": "decomp_split",
+    "event_data": {
+      "atom": "DECOMP_ATOM",
+      "todos_count": 6,
+      "confidence": 0.93,
+      "split_marker": "slash",
+      "todos": [
+        { "kind": "feature-card", "scope": "features-01", "target": "parallel-review" },
+        { "kind": "feature-card", "scope": "features-01", "target": "dependency-graphs" },
+        { "kind": "feature-card", "scope": "features-01", "target": "security-scanning" },
+        { "kind": "feature-card", "scope": "features-01", "target": "batch-refactor" },
+        { "kind": "feature-card", "scope": "features-01", "target": "lint-enforcement" },
+        { "kind": "feature-card", "scope": "features-01", "target": "atomic-rollback" }
+      ],
+      "highlight": "Slash-separated list split into 6 disjoint feature todos; conf 0.93"
+    },
+    "latency_ms": 380,
+    "created_at": 1714730448000
+  },
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-004",
+    "event_type": "process_atom_output",
+    "event_data": {
+      "atom": "CONTENT_ATOM",
+      "regen_count": 6,
+      "voice_attributes": ["technical", "dry", "precise"],
+      "tone": "technical",
+      "regenerated": [
+        "feature-card.parallel-review (60-char body)",
+        "feature-card.dependency-graphs (74-char body)",
+        "feature-card.security-scanning (72-char body)",
+        "feature-card.batch-refactor (88-char body)",
+        "feature-card.lint-enforcement (82-char body)",
+        "feature-card.atomic-rollback (76-char body)"
+      ],
+      "highlight": "6 feature cards regenerated in voice=technical/dry/precise; bodies 60-90 chars"
+    },
+    "latency_ms": 1240,
+    "created_at": 1714730448380
+  },
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-004",
+    "event_type": "patch_validation",
+    "event_data": {
+      "patch_count": 12,
+      "sections_modified": ["columns#features-01"],
+      "section_count_after": 7,
+      "validation_result": "applied",
+      "highlight": "Features section populated with 6 cards; no other sections affected"
+    },
+    "latency_ms": 80,
+    "created_at": 1714730449620
+  },
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-005",
+    "event_type": "intent_classification",
+    "event_data": {
+      "atom": "CONTENT_ATOM",
+      "verb": "add",
+      "target": "text",
+      "target_variant": "code-block",
+      "language_hint": "bash",
+      "confidence": 0.89,
+      "prompt_excerpt": "Add a code example section showing `axon run --parallel 30 --review`",
+      "highlight": "Terminal-output mock generated; deterministic-output explainer paragraph attached"
+    },
+    "latency_ms": 1080,
+    "created_at": 1714730468000
+  },
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-006",
+    "event_type": "intent_classification",
+    "event_data": {
+      "atom": "CONTENT_ATOM",
+      "verb": "add",
+      "target": "pricing",
+      "target_variant": "three-tier",
+      "tier_count": 3,
+      "highlighted_tier": "Team",
+      "confidence": 0.94,
+      "prompt_excerpt": "Add a pricing section — open source + team $99/mo + enterprise contact",
+      "highlight": "3 pricing-card components generated; Team tier highlighted=true; agent-count axis"
+    },
+    "latency_ms": 1340,
+    "created_at": 1714730484000
+  },
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-007",
+    "event_type": "multi_page_scope",
+    "event_data": {
+      "atom": "INTENT_ATOM",
+      "verb": "add",
+      "target": "page",
+      "page_id": "docs",
+      "slug": "docs",
+      "is_home": false,
+      "confidence": 0.96,
+      "prompt_excerpt": "Add a docs page (page 2) at /docs with a getting-started article and CLI reference",
+      "highlight": "Multi-page expansion; pages[] gains docs page; home page unchanged"
+    },
+    "latency_ms": 240,
+    "created_at": 1714730502000
+  },
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-007",
+    "event_type": "decomp_split",
+    "event_data": {
+      "atom": "DECOMP_ATOM",
+      "todos_count": 2,
+      "confidence": 0.91,
+      "page_scope": "docs",
+      "todos": [
+        { "kind": "article", "scope": "docs.text", "target": "getting-started-3-paragraphs" },
+        { "kind": "feature-grid", "scope": "docs.columns", "target": "cli-reference-5-commands" }
+      ],
+      "highlight": "Docs page split into article + CLI reference grid; conf 0.91"
+    },
+    "latency_ms": 320,
+    "created_at": 1714730502240
+  },
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-007",
+    "event_type": "process_atom_output",
+    "event_data": {
+      "atom": "CONTENT_ATOM",
+      "regen_count": 6,
+      "voice_attributes": ["technical", "dry", "precise"],
+      "tone": "technical",
+      "page_scope": "docs",
+      "regenerated": [
+        "docs.text.p1 (install paragraph)",
+        "docs.text.p2 (axon init paragraph)",
+        "docs.text.p3 (axon run paragraph)",
+        "docs.columns.cli-1 (axon init card)",
+        "docs.columns.cli-2 (axon run card)",
+        "docs.columns.cli-3-4-5 (rollback/graph/report cards)"
+      ],
+      "highlight": "Docs page populated; 3 article paragraphs (~150 words) + 5 CLI feature-cards"
+    },
+    "latency_ms": 2180,
+    "created_at": 1714730502560
+  },
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-007",
+    "event_type": "patch_validation",
+    "event_data": {
+      "patch_count": 24,
+      "page_scope": "docs",
+      "sections_inserted": ["hero", "text", "columns", "footer"],
+      "section_count_after": 4,
+      "validation_result": "applied",
+      "highlight": "Docs page now carries 4 sections; home page unchanged"
+    },
+    "latency_ms": 110,
+    "created_at": 1714730504740
+  },
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-008",
+    "event_type": "intent_classification",
+    "event_data": {
+      "atom": "CONTENT_ATOM",
+      "verb": "add",
+      "target": "quotes",
+      "target_variant": "three-up",
+      "trigger_word": "testimonials",
+      "count": 3,
+      "confidence": 0.93,
+      "prompt_excerpt": "Add testimonials — 3 quotes from engineering managers",
+      "highlight": "3 testimonial components; engineering manager titles; ≤16 words per quote"
+    },
+    "latency_ms": 1190,
+    "created_at": 1714730528000
+  },
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-009",
+    "event_type": "intent_classification",
+    "event_data": {
+      "atom": "INTENT_ATOM",
+      "verb": "change",
+      "target": "footer",
+      "target_attr": "components",
+      "links_added": ["GitHub", "Discord", "Email"],
+      "confidence": 0.88,
+      "prompt_excerpt": "Add a footer with GitHub link + Discord + email",
+      "highlight": "Footer Community column updated; canonical URLs in Links column"
+    },
+    "latency_ms": 380,
+    "created_at": 1714730544000
+  },
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-010",
+    "event_type": "intent_classification",
+    "event_data": {
+      "atom": "CONTENT_ATOM",
+      "verb": "change",
+      "target": "site",
+      "target_attr": "voice",
+      "length_constraint": "tighten",
+      "max_words_per_sentence": 12,
+      "voice_attributes_after": ["technical", "dry", "precise"],
+      "confidence": 0.86,
+      "prompt_excerpt": "Make all the copy slightly drier; remove any marketing fluff; trim to 12 words",
+      "highlight": "Global voice tighten queued; sentence cap 12 words; CONTENT_ATOM regen across 18 components"
+    },
+    "latency_ms": 220,
+    "created_at": 1714730558000
+  },
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-010",
+    "event_type": "process_atom_output",
+    "event_data": {
+      "atom": "CONTENT_ATOM",
+      "regen_count": 18,
+      "voice_attributes": ["technical", "dry", "precise"],
+      "tone": "technical",
+      "scope": "site-wide",
+      "rejected_words": ["delight", "unleash", "empower", "magical", "world-class"],
+      "word_count_before": 1940,
+      "word_count_after": 1395,
+      "highlight": "18 components rewritten; ~28% word count reduction; zero marketing-fluff tokens"
+    },
+    "latency_ms": 2740,
+    "created_at": 1714730558220
+  },
+  {
+    "session_id": "project-1-axon-session-01",
+    "request_id": "project-1-axon-req-010",
+    "event_type": "patch_validation",
+    "event_data": {
+      "patch_count": 18,
+      "sections_modified": ["hero", "columns#features-01", "pricing", "quotes#testimonials-01", "action", "docs.text", "docs.columns"],
+      "validation_result": "applied",
+      "highlight": "Site-wide tone tighten applied; sentence-length cap held at ≤12 words"
+    },
+    "latency_ms": 110,
+    "created_at": 1714730560960
+  }
+]
