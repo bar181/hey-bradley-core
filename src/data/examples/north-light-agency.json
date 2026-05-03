@@ -1,0 +1,233 @@
+{
+  "site": {
+    "title": "North Light Studio",
+    "description": "A four-person creative agency in Vancouver, building brands that read in 10 years.",
+    "author": "Margot Sarno",
+    "email": "hello@northlight.studio",
+    "domain": "northlight.studio",
+    "project": "north-light-agency",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "agency",
+    "audience": "business",
+    "tone": "formal",
+    "brandName": "North Light",
+    "tagline": "Lit by north windows. Built by daylight.",
+    "voiceAttributes": ["specific", "dry", "precise"]
+  },
+  "theme": {
+    "preset": "elegant",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#1a3d2e",
+      "bgSecondary": "#2c2c2c",
+      "textPrimary": "#f7f4ed",
+      "textSecondary": "#cdd6c8",
+      "accentPrimary": "#d4af37",
+      "accentSecondary": "#f7f4ed"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#f7f4ed",
+      "bgSecondary": "#ece8dc",
+      "textPrimary": "#1a3d2e",
+      "textSecondary": "#2c2c2c",
+      "accentPrimary": "#1a3d2e",
+      "accentSecondary": "#d4af37"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Fraunces",
+      "headingWeight": 600,
+      "baseSize": "17px",
+      "lineHeight": 1.65
+    },
+    "spacing": { "sectionPadding": "96px", "containerMaxWidth": "1180px", "componentGap": "32px" },
+    "borderRadius": "4px"
+  },
+  "sections": [
+    {
+      "type": "menu", "id": "navbar-01", "enabled": true, "order": -1, "variant": "simple",
+      "layout": { "display": "flex", "padding": "0", "gap": "28px" },
+      "style": { "background": "#1a3d2e", "color": "#f7f4ed" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "North Light" } },
+        { "id": "nav-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "Work", "url": "#work" } },
+        { "id": "nav-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "Studio", "url": "#about" } },
+        { "id": "nav-3", "type": "link", "enabled": true, "order": 3, "props": { "text": "Team", "url": "#team" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 4, "props": { "text": "Let's talk", "url": "#contact" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero", "id": "hero-01", "enabled": true, "order": 0, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "28px", "padding": "144px 32px 112px", "maxWidth": "1080px" },
+      "style": { "background": "#1a3d2e", "color": "#f7f4ed", "fontFamily": "Fraunces" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0,
+          "props": { "text": "A four-person studio · Vancouver · Est. 2017", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "We make brands that age well.", "level": 1, "size": "72px", "weight": 600 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "North Light Studio works with founders who care about how their brand reads in 10 years. We've been at this since 2017 — eight years, 47 brands, three of which still exist." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "See the work", "url": "#work", "style": "filled", "size": "lg", "background": "#d4af37", "color": "#1a3d2e" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4,
+          "props": { "text": "Start a conversation", "url": "#contact", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text", "id": "about-01", "enabled": true, "order": 1, "variant": "two-column",
+      "layout": { "display": "grid", "columns": 2, "gap": "64px", "padding": "112px 32px", "maxWidth": "1100px" },
+      "style": { "background": "#f7f4ed", "color": "#1a3d2e" },
+      "components": [
+        { "id": "about-heading", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "A four-person agency. On purpose.", "level": 2, "size": "44px", "weight": 600 } },
+        { "id": "about-body-1", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "North Light Studio is a four-person creative agency in Vancouver. We work with founders who care about how their brand reads in 10 years — not how it looks on Dribbble next month." } },
+        { "id": "about-body-2", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "Our office sits on the third floor of a building on Powell Street, which is north-facing and consequently lit by the kind of cool, even daylight that photographers prefer and brand designers should. Hence the name." } },
+        { "id": "about-body-3", "type": "text", "enabled": true, "order": 3,
+          "props": { "text": "We take on six to nine clients a year. Always small. Always serious. Always for at least three months." } }
+      ],
+      "content": { "heading": "About the studio", "subheading": "Small on purpose. Specific on principle." }
+    },
+    {
+      "type": "columns", "id": "value-props-01", "enabled": true, "order": 2, "variant": "value-props",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "96px 32px", "maxWidth": "1180px" },
+      "style": { "background": "#2c2c2c", "color": "#f7f4ed" },
+      "components": [
+        { "id": "v-1", "type": "feature-card", "enabled": true, "order": 0,
+          "props": { "icon": "compass", "title": "Brand strategy",
+            "description": "Two weeks of interviews, one document, no slide deck. The brief is six pages and your CEO can quote from it by week three." } },
+        { "id": "v-2", "type": "feature-card", "enabled": true, "order": 1,
+          "props": { "icon": "type", "title": "Identity & visual system",
+            "description": "Logo, palette, type, art-direction notes. Designed to survive a CMO change. Delivered in a single PDF and a single Figma file." } },
+        { "id": "v-3", "type": "feature-card", "enabled": true, "order": 2,
+          "props": { "icon": "edit-3", "title": "Voice & copy",
+            "description": "The home page, the about page, the four sales emails your founder keeps rewriting. Written once, well, in the voice we agreed on." } }
+      ],
+      "content": { "heading": "Three things we do. That's the list.", "subheading": "We don't do logos for $500. We don't do TikTok strategy. We don't do AI mascots." }
+    },
+    {
+      "type": "case-study", "id": "case-studies-01", "enabled": true, "order": 3, "variant": "tile-grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "40px", "padding": "112px 32px", "maxWidth": "1180px" },
+      "style": { "background": "#1a3d2e", "color": "#f7f4ed" },
+      "components": [
+        { "id": "cs-1", "type": "case-study-card", "enabled": true, "order": 0,
+          "props": {
+            "client": "Kenji Coffee",
+            "title": "Rebrand · 2024",
+            "challenge": "An eight-year-old roastery whose wholesale customers had outgrown the original packaging — which was, by their own founder's admission, a logo they made in Canva at 2 a.m.",
+            "solution": "A wordmark in custom-drawn Spectral, four bag colorways indexed to roast level, and a voice guide that tells the in-house team when to use the word \"hand-roasted\" (almost never).",
+            "outcome": "Wholesale revenue up 38% in eight months. The new bags are now in 41 cafes. The 2 a.m. logo has been retired with full honors.",
+            "metrics": "+38% wholesale · 41 cafes · 4 colorways"
+          } },
+        { "id": "cs-2", "type": "case-study-card", "enabled": true, "order": 1,
+          "props": {
+            "client": "Margot Press",
+            "title": "Book design · 2023–2024",
+            "challenge": "An independent literary press launching its first six titles in eighteen months, with no in-house designer and an editorial taste that had outpaced its production budget.",
+            "solution": "A reusable cover system: one typographic logic, one trim size, six commissioned illustrators. The result reads as a series without ever looking like a template.",
+            "outcome": "Three of the six titles were stocked by Type Books in Toronto. One was reviewed in The Walrus. The press now has a waitlist of 400.",
+            "metrics": "6 titles shipped · 1 Walrus review · 400-person waitlist"
+          } },
+        { "id": "cs-3", "type": "case-study-card", "enabled": true, "order": 2,
+          "props": {
+            "client": "Lattice Lighting",
+            "title": "E-commerce · 2024",
+            "challenge": "A small-batch lighting maker selling brass pendants out of a single Shopify page that loaded in 6.2 seconds and converted at 0.4%.",
+            "solution": "Brand refresh with a tighter color story (warm cream, deep slate, brass), a new product photography direction shot on the actual studio floor, and a Shopify theme rebuilt around three categories instead of seventeen.",
+            "outcome": "Conversion rate to 1.9% in four months. Average order value up 22%. Page load down to 1.4 seconds. Brass pendants now ship to nineteen countries.",
+            "metrics": "0.4% → 1.9% conversion · +22% AOV · 19 countries"
+          } }
+      ],
+      "content": { "heading": "Three recent clients", "subheading": "Each took six to nine months. Each is still using what we made." }
+    },
+    {
+      "type": "quotes", "id": "testimonials-01", "enabled": true, "order": 4, "variant": "grid",
+      "layout": { "display": "grid", "columns": 2, "gap": "40px", "padding": "96px 32px", "maxWidth": "1100px" },
+      "style": { "background": "#f7f4ed", "color": "#1a3d2e" },
+      "components": [
+        { "id": "q-1", "type": "testimonial", "enabled": true, "order": 0,
+          "props": {
+            "quote": "I had been told for eight years that my packaging was charming. North Light was the first studio that asked, politely and on the record, whether I actually wanted it to be charming. We agreed I did not. The new bags do not look charming. They look correct.",
+            "author": "Kenji Tanaka", "role": "Founder, Kenji Coffee", "rating": 5
+          } },
+        { "id": "q-2", "type": "testimonial", "enabled": true, "order": 1,
+          "props": {
+            "quote": "Margot — the designer, not the press — handed us a six-page brand brief on a Tuesday in March. Two years later we still use the same six pages. We have not had a single internal disagreement about a font.",
+            "author": "Aiko Lavoie", "role": "Publisher, Margot Press", "rating": 5
+          } },
+        { "id": "q-3", "type": "testimonial", "enabled": true, "order": 2,
+          "props": {
+            "quote": "The brief said: \"Make Lattice look like a small company that knows what it is doing.\" The brief was correct. They did that. Our conversion rate did the rest.",
+            "author": "Devraj Bhatia", "role": "Founder, Lattice Lighting", "rating": 5
+          } }
+      ],
+      "content": { "heading": "What clients say, on the record", "subheading": "We do not pay for testimonials. We do, occasionally, edit for length." }
+    },
+    {
+      "type": "team", "id": "team-01", "enabled": true, "order": 5, "variant": "grid",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "96px 32px", "maxWidth": "1180px" },
+      "style": { "background": "#2c2c2c", "color": "#f7f4ed" },
+      "components": [
+        { "id": "t-1", "type": "team-member", "enabled": true, "order": 0,
+          "props": { "name": "Margot", "role": "Brand & art direction",
+            "bio": "Eleven years in identity. Speaks French and a slightly worse version of Italian. Owns most of the studio's books." } },
+        { "id": "t-2", "type": "team-member", "enabled": true, "order": 1,
+          "props": { "name": "Henri", "role": "Strategy & writing",
+            "bio": "Former editor at a magazine you have probably read at a dentist's office. Writes the briefs. Reads them out loud at least twice." } },
+        { "id": "t-3", "type": "team-member", "enabled": true, "order": 2,
+          "props": { "name": "Sayaka", "role": "Type & system design",
+            "bio": "Designed three typefaces, two of which are public. Builds the Figma files no one else can find a fault with." } },
+        { "id": "t-4", "type": "team-member", "enabled": true, "order": 3,
+          "props": { "name": "Owen", "role": "Production & web",
+            "bio": "Ships the Shopify themes. Refuses, on principle, to install any plugin that has been updated in the last 30 days." } }
+      ],
+      "content": { "heading": "Four partners. No interns. No account managers.", "subheading": "If you hire us, one of these four people answers the email." }
+    },
+    {
+      "type": "contact-form", "id": "contact-01", "enabled": true, "order": 6, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "24px", "padding": "112px 32px", "maxWidth": "780px" },
+      "style": { "background": "#1a3d2e", "color": "#f7f4ed" },
+      "components": [
+        { "id": "form-heading", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Let's talk.", "level": 2, "size": "56px", "weight": 600 } },
+        { "id": "form-blurb", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "We answer email within two business days. Tell us, in three or four sentences, what your company does, what you are trying to make of it, and roughly when. We will write back, on the record, with whether we are the right people for it." } },
+        { "id": "form-field-name", "type": "input", "enabled": true, "order": 2,
+          "props": { "label": "Your name", "placeholder": "First and last", "type": "text", "required": true } },
+        { "id": "form-field-company", "type": "input", "enabled": true, "order": 3,
+          "props": { "label": "Company", "placeholder": "What it's called", "type": "text", "required": true } },
+        { "id": "form-field-email", "type": "input", "enabled": true, "order": 4,
+          "props": { "label": "Email", "placeholder": "you@yourcompany.com", "type": "email", "required": true } },
+        { "id": "form-field-budget", "type": "input", "enabled": true, "order": 5,
+          "props": { "label": "Approximate budget (CAD)", "placeholder": "We work with budgets of $30k and up", "type": "text", "required": false } },
+        { "id": "form-field-message", "type": "input", "enabled": true, "order": 6,
+          "props": { "label": "Three or four sentences", "placeholder": "What you do · what you're trying to make of it · roughly when", "type": "textarea", "required": true } },
+        { "id": "form-submit", "type": "button", "enabled": true, "order": 7,
+          "props": { "text": "Send to North Light", "url": "#submit", "style": "filled", "size": "lg", "background": "#d4af37", "color": "#1a3d2e" } }
+      ],
+      "content": { "heading": "Let's talk", "subheading": "Two-business-day response. Always from one of the four partners." }
+    },
+    {
+      "type": "footer", "id": "footer-01", "enabled": true, "order": 7, "variant": "multi-column",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "56px 32px" },
+      "style": { "background": "#2c2c2c", "color": "#f7f4ed" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0,
+          "props": { "text": "North Light Studio", "tagline": "Lit by north windows. Built by daylight." } },
+        { "id": "col-1", "type": "footer-column", "enabled": true, "order": 1,
+          "props": { "heading": "Studio", "links": "Work,About,Team,Contact" } },
+        { "id": "col-2", "type": "footer-column", "enabled": true, "order": 2,
+          "props": { "heading": "Services", "links": "Brand strategy,Identity,Voice & copy,Web" } },
+        { "id": "col-3", "type": "footer-column", "enabled": true, "order": 3,
+          "props": { "heading": "Elsewhere", "links": "Are.na,Instagram,Read.cv,Substack" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 4,
+          "props": { "text": "© 2026 North Light Studio · Vancouver · Lit by north windows." } }
+      ],
+      "content": {}
+    }
+  ]
+}

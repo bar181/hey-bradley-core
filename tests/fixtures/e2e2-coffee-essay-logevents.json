@@ -1,0 +1,194 @@
+[
+  {
+    "session_id": "e2e2-coffee-essay-session-01",
+    "request_id": "e2e2-coffee-essay-req-001",
+    "event_type": "intent_classification",
+    "event_data": {
+      "verb": "generate",
+      "target": "article",
+      "confidence": 0.91,
+      "atom": "DECOMP_ATOM",
+      "input_length_chars": 2078,
+      "long_form_path": true,
+      "prompt_excerpt": "essay-2078words [paste]",
+      "highlight": "Long-form input detected (2078 chars); routing through DECOMP+CONTENT atoms"
+    },
+    "latency_ms": 1820,
+    "created_at": 1714723200000
+  },
+  {
+    "session_id": "e2e2-coffee-essay-session-01",
+    "request_id": "e2e2-coffee-essay-req-001",
+    "event_type": "decomp_split",
+    "event_data": {
+      "atom": "DECOMP_ATOM",
+      "todos_count": 6,
+      "confidence": 0.88,
+      "todos": [
+        { "kind": "summarize", "scope": "intro", "target": "hero.subtitle" },
+        { "kind": "extract-section", "scope": "section-1", "target": "article.subhead+para-1" },
+        { "kind": "extract-section", "scope": "section-2", "target": "article.subhead-2+para-2" },
+        { "kind": "extract-section", "scope": "section-3", "target": "article.subhead-3+para-3" },
+        { "kind": "extract-section", "scope": "section-4", "target": "article.subhead-4+para-4" },
+        { "kind": "extract-pull-quote", "scope": "section-3", "target": "pull-quote-candidate" }
+      ],
+      "highlight": "Essay split into 5 sections + 1 pull-quote candidate; paragraph 3 flagged"
+    },
+    "latency_ms": 220,
+    "created_at": 1714723201820
+  },
+  {
+    "session_id": "e2e2-coffee-essay-session-01",
+    "request_id": "e2e2-coffee-essay-req-001",
+    "event_type": "template_match",
+    "event_data": {
+      "atom": "SELECTION_ATOM",
+      "theme_match": "warm-paper",
+      "theme_confidence": 0.81,
+      "section_set": ["menu", "hero", "text", "action", "footer"],
+      "matched_keywords": ["pour-over", "Sunday morning", "first-person", "essay", "kitchen scale"],
+      "highlight": "Theme=warm-paper; section set scaffolded"
+    },
+    "latency_ms": 290,
+    "created_at": 1714723202040
+  },
+  {
+    "session_id": "e2e2-coffee-essay-session-01",
+    "request_id": "e2e2-coffee-essay-req-001",
+    "event_type": "process_atom_output",
+    "event_data": {
+      "atom": "CONTENT_ATOM",
+      "regen_count": 6,
+      "voice_attributes": ["thoughtful", "specific", "first-person"],
+      "tone": "warm",
+      "regenerated": [
+        "hero.subtitle (92-word summary)",
+        "article.para-1 (V60 vs espresso)",
+        "article.para-2 (acidity legibility)",
+        "article.para-3 (single-origin)",
+        "article.para-4 (brewing math)",
+        "pull-quote-candidate (60-100 char excerpt from para-3)"
+      ],
+      "highlight": "Hero summary + 4 article paragraphs + 1 pull-quote draft"
+    },
+    "latency_ms": 2480,
+    "created_at": 1714723202330
+  },
+  {
+    "session_id": "e2e2-coffee-essay-session-01",
+    "request_id": "e2e2-coffee-essay-req-001",
+    "event_type": "patch_validation",
+    "event_data": {
+      "patch_count": 47,
+      "sections_inserted": ["menu", "hero", "text", "action", "footer"],
+      "section_count_after": 5,
+      "validation_result": "applied",
+      "highlight": "Initial scaffold patch applied (47 ops); 5 sections live"
+    },
+    "latency_ms": 140,
+    "created_at": 1714723204810
+  },
+  {
+    "session_id": "e2e2-coffee-essay-session-01",
+    "request_id": "e2e2-coffee-essay-req-002",
+    "event_type": "intent_classification",
+    "event_data": {
+      "verb": "change",
+      "target": "hero",
+      "target_attr": "style.background",
+      "confidence": 0.79,
+      "atom": "INTENT_ATOM",
+      "prompt_excerpt": "make the hero darker",
+      "highlight": "Design patch (no CONTENT regen); user intent flagged ambiguous — reverted in next prompt"
+    },
+    "latency_ms": 180,
+    "created_at": 1714723236000
+  },
+  {
+    "session_id": "e2e2-coffee-essay-session-01",
+    "request_id": "e2e2-coffee-essay-req-003",
+    "event_type": "intent_classification",
+    "event_data": {
+      "verb": "change",
+      "target": "cta",
+      "target_attr": "style.background",
+      "confidence": 0.86,
+      "atom": "INTENT_ATOM",
+      "corrects_request_id": "e2e2-coffee-essay-req-002",
+      "prompt_excerpt": "actually keep parchment but darken the cta gradient",
+      "highlight": "Corrective verb pattern; previous patch rolled back; cta gradient deepens espresso"
+    },
+    "latency_ms": 240,
+    "created_at": 1714723244000
+  },
+  {
+    "session_id": "e2e2-coffee-essay-session-01",
+    "request_id": "e2e2-coffee-essay-req-004",
+    "event_type": "intent_classification",
+    "event_data": {
+      "verb": "add",
+      "target": "quotes",
+      "target_variant": "pull-quote",
+      "source_paragraph": 3,
+      "confidence": 0.93,
+      "atom": "CONTENT_ATOM",
+      "trigger_word": "pull-quote",
+      "prompt_excerpt": "add a pull-quote from the third paragraph",
+      "highlight": "Trigger word pull-quote routes to quotes section variant=single; excerpt 60-100 chars"
+    },
+    "latency_ms": 870,
+    "created_at": 1714723258000
+  },
+  {
+    "session_id": "e2e2-coffee-essay-session-01",
+    "request_id": "e2e2-coffee-essay-req-005",
+    "event_type": "intent_classification",
+    "event_data": {
+      "verb": "change",
+      "target": "hero",
+      "target_component": "subtitle",
+      "length_constraint": "shorten",
+      "before_word_count": 134,
+      "after_word_count": 92,
+      "confidence": 0.9,
+      "atom": "CONTENT_ATOM",
+      "prompt_excerpt": "shorten the article excerpt in the hero",
+      "highlight": "CONTENT_ATOM tightens hero subtitle 134→92 words; voice preserved"
+    },
+    "latency_ms": 950,
+    "created_at": 1714723270000
+  },
+  {
+    "session_id": "e2e2-coffee-essay-session-01",
+    "request_id": "e2e2-coffee-essay-req-006",
+    "event_type": "intent_classification",
+    "event_data": {
+      "verb": "add",
+      "target": "quotes",
+      "target_variant": "two-up",
+      "count": 2,
+      "confidence": 0.89,
+      "atom": "CONTENT_ATOM",
+      "trigger_word": "testimonial",
+      "prompt_excerpt": "add a small testimonial section with two reader quotes",
+      "highlight": "Two reader quotes generated in voice-matched first-person register"
+    },
+    "latency_ms": 1140,
+    "created_at": 1714723284000
+  },
+  {
+    "session_id": "e2e2-coffee-essay-session-01",
+    "request_id": "e2e2-coffee-essay-req-006",
+    "event_type": "patch_validation",
+    "event_data": {
+      "patch_count": 6,
+      "sections_inserted": ["quotes:testimonials"],
+      "section_count_before": 6,
+      "section_count_after": 7,
+      "validation_result": "applied",
+      "highlight": "Testimonial section inserted at order=3; final layout = menu/hero/article/pull-quote/testimonials/cta/footer"
+    },
+    "latency_ms": 90,
+    "created_at": 1714723285140
+  }
+]

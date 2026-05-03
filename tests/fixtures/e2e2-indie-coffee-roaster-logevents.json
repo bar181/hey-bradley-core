@@ -1,0 +1,286 @@
+{
+  "_meta": {
+    "scenario": "Site 3 — Listen-mode coffee roastery (Switchback)",
+    "phase": "E2E-TEST-2 / C3",
+    "date": "2026-05-03",
+    "session_id": "e2e2-switchback-session-01",
+    "project_id": "indie-coffee-roaster",
+    "row_count": 12,
+    "input_type": "listen",
+    "notes": "All rows include both raw_transcript + cleaned_transcript in event_data per ADR-126 listen_capture closure. No credential shapes (sk-/AIza/auth-token-prefix). Mirrors LogEventInsert shape from src/contexts/persistence/repositories/comprehensiveLogs.ts."
+  },
+  "rows": [
+    {
+      "id": "e2e2-switchback-evt-001",
+      "session_id": "e2e2-switchback-session-01",
+      "request_id": "e2e2-switchback-req-001",
+      "project_id": "indie-coffee-roaster",
+      "event_type": "intent_classification",
+      "event_data": {
+        "atom": "INTENT_ATOM",
+        "raw_transcript": "uh okay hey bradley I want to like, build a site for my coffee roastery — it's called Switchback",
+        "cleaned_transcript": "okay hey bradley I want to build a site for my coffee roastery it's called Switchback",
+        "trigger_words": ["build a site", "coffee roastery", "called"],
+        "verb": "add",
+        "target": { "type": "undefined", "scope": "whole-site" },
+        "extracted": { "brandName": "Switchback", "purpose": "marketing", "audience": "consumer" },
+        "confidence": 0.92
+      },
+      "input_type": "listen",
+      "latency_ms": 1480,
+      "created_at": 1714746600000
+    },
+    {
+      "id": "e2e2-switchback-evt-002",
+      "session_id": "e2e2-switchback-session-01",
+      "request_id": "e2e2-switchback-req-002",
+      "project_id": "indie-coffee-roaster",
+      "event_type": "patch_applied",
+      "event_data": {
+        "atom": "PATCH_ATOM",
+        "raw_transcript": "make the hero say something like 'fresh-roasted small-batch coffee for people who actually taste their drink'",
+        "cleaned_transcript": "make the hero say 'fresh-roasted small-batch coffee for people who actually taste their drink'",
+        "trigger_words": ["make", "hero", "say"],
+        "verb": "change",
+        "target": { "type": "hero", "index": 1 },
+        "patches": [
+          { "op": "replace", "path": "/sections/1/components/1/props/text", "value": "Fresh-roasted small-batch coffee for people who actually taste their drink." }
+        ],
+        "verbatim_preserved": true,
+        "confidence": 0.94
+      },
+      "input_type": "listen",
+      "latency_ms": 1320,
+      "created_at": 1714746601580
+    },
+    {
+      "id": "e2e2-switchback-evt-003",
+      "session_id": "e2e2-switchback-session-01",
+      "request_id": "e2e2-switchback-req-003",
+      "project_id": "indie-coffee-roaster",
+      "event_type": "intent_classification",
+      "event_data": {
+        "atom": "INTENT_ATOM",
+        "raw_transcript": "uh, change the colors to be like, you know, warm — kind of caramel and espresso, dark mode I guess",
+        "cleaned_transcript": "change the colors to be warm caramel and espresso, dark mode",
+        "trigger_words": ["change", "colors", "warm", "caramel", "espresso", "dark mode"],
+        "verb": "change",
+        "target": { "type": "text", "scope": "theme" },
+        "extracted": { "preset": "industrial-modern", "mode": "dark", "accent_primary": "#d68c45", "accent_secondary": "#8b4513" },
+        "confidence": 0.88
+      },
+      "input_type": "listen",
+      "latency_ms": 1180,
+      "created_at": 1714746603000
+    },
+    {
+      "id": "e2e2-switchback-evt-004",
+      "session_id": "e2e2-switchback-session-01",
+      "request_id": "e2e2-switchback-req-004",
+      "project_id": "indie-coffee-roaster",
+      "event_type": "patch_applied",
+      "event_data": {
+        "atom": "PATCH_ATOM",
+        "raw_transcript": "add a, an article section about our roasting philosophy, like 200 words",
+        "cleaned_transcript": "add an article section about our roasting philosophy, 200 words",
+        "trigger_words": ["add", "article", "section", "200 words"],
+        "verb": "add",
+        "target": { "type": "text", "variant": "long-form" },
+        "patches": [
+          { "op": "add", "path": "/sections/-", "value": { "type": "text", "id": "article-roasting-philosophy", "variant": "long-form", "order": 1 } }
+        ],
+        "false_start_collapsed": "a, an → an",
+        "confidence": 0.91
+      },
+      "input_type": "listen",
+      "latency_ms": 1620,
+      "created_at": 1714746604280
+    },
+    {
+      "id": "e2e2-switchback-evt-005a",
+      "session_id": "e2e2-switchback-session-01",
+      "request_id": "e2e2-switchback-req-005",
+      "project_id": "indie-coffee-roaster",
+      "event_type": "decomp_split",
+      "event_data": {
+        "atom": "DECOMP_ATOM",
+        "raw_transcript": "and I want like a pricing section with three tiers — taster pack at $18, monthly at $32, and a bag-of-the-month club at $45",
+        "cleaned_transcript": "I want a pricing section with three tiers taster pack at $18, monthly at $32, and a bag-of-the-month club at $45",
+        "trigger_words": ["pricing", "three tiers", "$18", "$32", "$45"],
+        "todos": [
+          { "id": "t1", "verb": "add", "target": { "type": "pricing", "tiers": 3 }, "confidence": 0.87, "status": "pending" }
+        ],
+        "split_count": 1
+      },
+      "input_type": "listen",
+      "latency_ms": 90,
+      "created_at": 1714746606000
+    },
+    {
+      "id": "e2e2-switchback-evt-005b",
+      "session_id": "e2e2-switchback-session-01",
+      "request_id": "e2e2-switchback-req-005",
+      "project_id": "indie-coffee-roaster",
+      "event_type": "patch_applied",
+      "event_data": {
+        "atom": "PATCH_ATOM",
+        "raw_transcript": "and I want like a pricing section with three tiers — taster pack at $18, monthly at $32, and a bag-of-the-month club at $45",
+        "cleaned_transcript": "I want a pricing section with three tiers taster pack at $18, monthly at $32, and a bag-of-the-month club at $45",
+        "trigger_words": ["add", "pricing"],
+        "verb": "add",
+        "target": { "type": "pricing", "variant": "default" },
+        "patches": [
+          { "op": "add", "path": "/sections/-", "value": { "type": "pricing", "id": "pricing-01", "variant": "default", "tiers": 3, "order": 2 } }
+        ],
+        "note": "Reversed at turn 9 — see decomp_split + REMOVE patch on req-009"
+      },
+      "input_type": "listen",
+      "latency_ms": 1450,
+      "created_at": 1714746606090
+    },
+    {
+      "id": "e2e2-switchback-evt-006",
+      "session_id": "e2e2-switchback-session-01",
+      "request_id": "e2e2-switchback-req-006",
+      "project_id": "indie-coffee-roaster",
+      "event_type": "patch_applied",
+      "event_data": {
+        "atom": "PATCH_ATOM",
+        "raw_transcript": "oh and add a team section, just two people, me and my brother Diego",
+        "cleaned_transcript": "and add a team section, just two people, me and my brother Diego",
+        "trigger_words": ["add", "team", "two people"],
+        "verb": "add",
+        "target": { "type": "team", "columns": 2 },
+        "patches": [
+          { "op": "add", "path": "/sections/-", "value": { "type": "team", "id": "team-01", "variant": "cards", "columns": 2, "order": 3, "members": ["Mateo Vega", "Diego Vega"] } }
+        ],
+        "name_resolution": { "me": "Mateo Vega (site.author)", "brother": "Diego Vega" },
+        "confidence": 0.89
+      },
+      "input_type": "listen",
+      "latency_ms": 1380,
+      "created_at": 1714746607640
+    },
+    {
+      "id": "e2e2-switchback-evt-007",
+      "session_id": "e2e2-switchback-session-01",
+      "request_id": "e2e2-switchback-req-007",
+      "project_id": "indie-coffee-roaster",
+      "event_type": "patch_applied",
+      "event_data": {
+        "atom": "PATCH_ATOM",
+        "raw_transcript": "for the cta, say 'Get tomorrow's roast.' I dunno, sound urgent",
+        "cleaned_transcript": "for the cta, say 'Get tomorrow's roast.' sound urgent",
+        "trigger_words": ["cta", "say", "urgent"],
+        "verb": "change",
+        "target": { "type": "action", "index": 1 },
+        "patches": [
+          { "op": "replace", "path": "/sections/5/components/0/props/text", "value": "Get tomorrow's roast." },
+          { "op": "replace", "path": "/sections/1/components/3/props/text", "value": "Get tomorrow's roast." }
+        ],
+        "verbatim_preserved": true,
+        "tone_override": "urgent",
+        "confidence": 0.93
+      },
+      "input_type": "listen",
+      "latency_ms": 1280,
+      "created_at": 1714746609120
+    },
+    {
+      "id": "e2e2-switchback-evt-008",
+      "session_id": "e2e2-switchback-session-01",
+      "request_id": "e2e2-switchback-req-008",
+      "project_id": "indie-coffee-roaster",
+      "event_type": "patch_applied",
+      "event_data": {
+        "atom": "CONTENT_ATOM",
+        "raw_transcript": "make it more, uh, more punchy. shorter sentences",
+        "cleaned_transcript": "make it more punchy. shorter sentences",
+        "trigger_words": ["make it", "punchy", "shorter sentences"],
+        "verb": "change",
+        "target": { "type": "undefined", "scope": "site-wide-tone" },
+        "patches": [
+          { "op": "replace", "path": "/site/voiceAttributes", "value": ["punchy", "urgent", "specific"] }
+        ],
+        "regen_targets": ["hero.subtitle", "article.body[]", "cta.subhead"],
+        "false_start_collapsed": "more more → more",
+        "structural_changes": 0,
+        "confidence": 0.86
+      },
+      "input_type": "listen",
+      "latency_ms": 1450,
+      "created_at": 1714746610500
+    },
+    {
+      "id": "e2e2-switchback-evt-009a",
+      "session_id": "e2e2-switchback-session-01",
+      "request_id": "e2e2-switchback-req-009",
+      "project_id": "indie-coffee-roaster",
+      "event_type": "decomp_split",
+      "event_data": {
+        "atom": "DECOMP_ATOM",
+        "raw_transcript": "actually forget the pricing tiers, just make pricing a single hero — uh, hero pricing with the monthly $32 plan",
+        "cleaned_transcript": "forget the pricing tiers, make pricing a single hero hero pricing with the monthly $32 plan",
+        "trigger_words": ["forget", "pricing", "single hero", "monthly", "$32"],
+        "todos": [
+          { "id": "t1", "verb": "remove", "target": { "type": "pricing", "index": 1 }, "confidence": 0.9, "status": "pending" },
+          { "id": "t2", "verb": "add", "target": { "type": "pricing", "variant": "single-hero" }, "extracted": { "plan": "monthly", "price": "$32" }, "confidence": 0.85, "status": "pending" }
+        ],
+        "split_count": 2,
+        "reversal_pattern": "forget X, replace with Y",
+        "note": "Closes preflight cf#3 closure validation — DECOMP correctly handles mid-sequence reversal without orphan patches"
+      },
+      "input_type": "listen",
+      "latency_ms": 110,
+      "created_at": 1714746612050
+    },
+    {
+      "id": "e2e2-switchback-evt-009b",
+      "session_id": "e2e2-switchback-session-01",
+      "request_id": "e2e2-switchback-req-009",
+      "project_id": "indie-coffee-roaster",
+      "event_type": "patch_applied",
+      "event_data": {
+        "atom": "PATCH_ATOM",
+        "raw_transcript": "actually forget the pricing tiers, just make pricing a single hero — uh, hero pricing with the monthly $32 plan",
+        "cleaned_transcript": "forget the pricing tiers, make pricing a single hero hero pricing with the monthly $32 plan",
+        "trigger_words": ["forget", "remove", "add", "pricing"],
+        "verb": "replace",
+        "target": { "type": "pricing", "variant": "single-hero" },
+        "patches": [
+          { "op": "remove", "path": "/sections/3", "note": "removes 3-tier pricing-01 from turn 5" },
+          { "op": "add", "path": "/sections/3", "value": { "type": "pricing", "id": "pricing-01", "variant": "single-hero", "plan": { "name": "Monthly Bag", "price": "$32", "period": "month" }, "order": 2 } }
+        ],
+        "net_effect": "REPLACE",
+        "confidence": 0.88
+      },
+      "input_type": "listen",
+      "latency_ms": 1590,
+      "created_at": 1714746612160
+    },
+    {
+      "id": "e2e2-switchback-evt-010",
+      "session_id": "e2e2-switchback-session-01",
+      "request_id": "e2e2-switchback-req-010",
+      "project_id": "indie-coffee-roaster",
+      "event_type": "patch_applied",
+      "event_data": {
+        "atom": "PATCH_ATOM",
+        "raw_transcript": "add a footer with our address — Berkeley California, 94703",
+        "cleaned_transcript": "add a footer with our address Berkeley California, 94703",
+        "trigger_words": ["add a", "footer", "address", "Berkeley California", "94703"],
+        "verb": "add",
+        "target": { "type": "footer", "variant": "multi-column", "columns": 4 },
+        "patches": [
+          { "op": "replace", "path": "/sections/6", "value": { "type": "footer", "id": "footer-01", "variant": "multi-column", "columns": 4, "address": "1847 University Ave, Berkeley CA 94703", "order": 5 } }
+        ],
+        "extracted": { "city": "Berkeley", "state": "California", "zip": "94703" },
+        "disfluencies_stripped": 0,
+        "confidence": 0.95
+      },
+      "input_type": "listen",
+      "latency_ms": 1340,
+      "created_at": 1714746613850
+    }
+  ]
+}

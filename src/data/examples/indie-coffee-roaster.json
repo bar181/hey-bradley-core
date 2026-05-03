@@ -1,0 +1,168 @@
+{
+  "site": {
+    "title": "Switchback Coffee Co. · roasted yesterday, yours tomorrow",
+    "description": "Small-batch coffee roastery from Berkeley. Drum-roasted fresh every weekday, shipped within 24 hours. One bag, $32 a month, no subscription gymnastics.",
+    "author": "Mateo Vega",
+    "email": "hello@switchbackcoffee.co",
+    "domain": "switchbackcoffee.co",
+    "project": "indie-coffee-roaster",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "consumer",
+    "tone": "bold",
+    "brandName": "Switchback",
+    "tagline": "Roasted yesterday. Yours tomorrow.",
+    "voiceAttributes": ["punchy", "urgent", "specific"]
+  },
+  "theme": {
+    "preset": "industrial-modern",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#1a0f08",
+      "bgSecondary": "#2a1810",
+      "textPrimary": "#f5e6d3",
+      "textSecondary": "#c8a882",
+      "accentPrimary": "#d68c45",
+      "accentSecondary": "#8b4513"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#f5e6d3",
+      "bgSecondary": "#e8d4b8",
+      "textPrimary": "#1a0f08",
+      "textSecondary": "#5a3a22",
+      "accentPrimary": "#a0522d",
+      "accentSecondary": "#3d1f0a"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Playfair Display",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.6
+    },
+    "spacing": {
+      "sectionPadding": "72px",
+      "containerMaxWidth": "1100px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "6px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": { "display": "flex", "padding": "20px 32px", "gap": "24px" },
+      "style": { "background": "#1a0f08", "color": "#f5e6d3" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Switchback" } },
+        { "id": "nav-coffee", "type": "link", "enabled": true, "order": 1, "props": { "text": "Coffee", "url": "#pricing" } },
+        { "id": "nav-roast", "type": "link", "enabled": true, "order": 2, "props": { "text": "Roast", "url": "#article" } },
+        { "id": "nav-team", "type": "link", "enabled": true, "order": 3, "props": { "text": "Us", "url": "#team" } },
+        { "id": "nav-cta", "type": "link", "enabled": true, "order": 4, "props": { "text": "Get tomorrow's roast", "url": "#cta" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "24px", "padding": "112px 24px 72px", "maxWidth": "1000px" },
+      "style": { "background": "#1a0f08", "color": "#f5e6d3" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "Berkeley · drum-roasted weekdays · ships next morning", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Fresh-roasted small-batch coffee for people who actually taste their drink.", "level": 1, "size": "52px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "No mystery beans. No aged stock. We roast Tuesday through Friday and ship the next morning. You drink it within the 14-day window when coffee is supposed to be drunk." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "Get tomorrow's roast.", "url": "#cta", "style": "filled", "size": "lg" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4, "props": { "text": "How we roast →", "url": "#article", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text",
+      "id": "article-roasting-philosophy",
+      "enabled": true,
+      "order": 1,
+      "variant": "long-form",
+      "layout": { "display": "flex", "direction": "column", "align": "stretch", "gap": "20px", "padding": "80px 24px", "maxWidth": "780px" },
+      "style": { "background": "#2a1810", "color": "#f5e6d3" },
+      "components": [
+        { "id": "art-eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "our roasting philosophy", "variant": "pill" } },
+        { "id": "art-title", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Drum, not air. Light-medium, not dark. Fourteen days, not ninety.", "level": 2, "size": "36px", "weight": 700 } },
+        { "id": "art-body-1", "type": "text", "enabled": true, "order": 2, "props": { "text": "We roast on a 5-kilo drum. Drum roasting is slower than air roasting. It costs us more. We do it anyway because the bean develops sugar and body the way it's supposed to — slow heat, long Maillard, a finish you can taste twenty minutes after you swallow." } },
+        { "id": "art-body-2", "type": "text", "enabled": true, "order": 3, "props": { "text": "Light-medium is the only roast on the menu. Dark roast hides defects. We don't have any. The greens come from three farms we've visited — one in Huehuetenango, one in Yirgacheffe, one in Antigua — and the cup tells the truth about the soil. A French roast would burn that information away. We won't do that to you." } },
+        { "id": "art-body-3", "type": "text", "enabled": true, "order": 4, "props": { "text": "Fourteen days. That's the window. Seven to ten days post-roast is peak; day fourteen is the line where flavor falls off a cliff. Grocery-store coffee is roasted in March and shelved in October. That bag in your kitchen is dead. Ours arrives at your door the morning after it leaves the drum, and you drink it before it has a chance to forget what it was." } },
+        { "id": "art-body-4", "type": "text", "enabled": true, "order": 5, "props": { "text": "That's the whole philosophy. Drum roast the good greens, ship them fast, ask you to drink them on time. No subscriptions you'll forget about. No app. One bag, one week, one cup at a time." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "pricing",
+      "id": "pricing-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "single-hero",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "24px", "padding": "80px 24px", "maxWidth": "640px" },
+      "style": { "background": "#1a0f08", "color": "#f5e6d3" },
+      "components": [
+        { "id": "price-eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "one plan · cancel anytime · no app", "variant": "pill" } },
+        { "id": "price-title", "type": "heading", "enabled": true, "order": 1, "props": { "text": "One bag. Every month. Thirty-two dollars.", "level": 2, "size": "40px", "weight": 700 } },
+        { "id": "price-tier", "type": "pricing-tier", "enabled": true, "order": 2, "props": { "name": "Monthly Bag", "price": "$32", "period": "month", "features": "12 oz drum-roasted bag,Ships first business day of every month,Roasted within 24 hours of shipping,Three-farm rotation (Guatemala / Ethiopia / Antigua),Cancel anytime — one click,Free shipping in continental US", "ctaText": "Get tomorrow's roast.", "ctaUrl": "#cta", "highlighted": true } },
+        { "id": "price-fineprint", "type": "text", "enabled": true, "order": 3, "props": { "text": "We don't run a tiered pricing maze. One bag. One price. We tested taster packs and bag-of-the-month clubs — turns out people just want good coffee on a schedule. So that's what we sell." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "team",
+      "id": "team-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "cards",
+      "layout": { "display": "grid", "columns": 2, "gap": "32px", "padding": "80px 24px", "maxWidth": "900px" },
+      "style": { "background": "#2a1810", "color": "#f5e6d3" },
+      "components": [
+        { "id": "team-eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "two brothers · one drum", "variant": "pill" } },
+        { "id": "m1", "type": "team-member", "enabled": true, "order": 1, "props": { "name": "Mateo Vega", "role": "Roaster · co-founder", "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&q=80", "bio": "Q-grader since 2019. Spent four years at a wholesale roastery in Oakland before opening Switchback with Diego. Believes the cup tells the truth about the soil." } },
+        { "id": "m2", "type": "team-member", "enabled": true, "order": 2, "props": { "name": "Diego Vega", "role": "Sourcing · co-founder", "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&q=80", "bio": "Visits every farm we buy from. Three trips a year — Guatemala in February, Ethiopia in May, Antigua in October. The relationships are the supply chain." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "20px", "padding": "96px 24px" },
+      "style": { "background": "#1a0f08", "color": "#f5e6d3" },
+      "components": [
+        { "id": "cta-heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Get tomorrow's roast.", "level": 2, "size": "44px", "weight": 700 } },
+        { "id": "cta-sub", "type": "text", "enabled": true, "order": 1, "props": { "text": "Sign up by midnight Pacific. We pull the green beans, drum-roast at sunrise, and ship before lunch. You'll have it on your kitchen counter by Friday." } },
+        { "id": "cta-button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Start the monthly bag", "url": "https://switchbackcoffee.co/signup", "style": "filled", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "multi-column",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "48px 24px" },
+      "style": { "background": "#2a1810", "color": "#c8a882" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Switchback Coffee Co." } },
+        { "id": "col-1", "type": "footer-column", "enabled": true, "order": 1, "props": { "heading": "Roastery", "links": "1847 University Ave,Berkeley CA 94703,Open Tue-Fri 7-3,Cuppings Saturdays 10am" } },
+        { "id": "col-2", "type": "footer-column", "enabled": true, "order": 2, "props": { "heading": "Coffee", "links": "Monthly bag,How we roast,Origin trips,Wholesale" } },
+        { "id": "col-3", "type": "footer-column", "enabled": true, "order": 3, "props": { "heading": "Contact", "links": "hello@switchbackcoffee.co,(510) 555-0184,Instagram,Newsletter" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 4, "props": { "text": "© 2026 Switchback Coffee Co. · Berkeley, California. Roasted by hand. Drunk on time." } }
+      ],
+      "content": {}
+    }
+  ]
+}
