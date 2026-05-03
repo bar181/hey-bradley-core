@@ -142,7 +142,8 @@ function renderNode(
         x={node.x}
         y={node.y + 4}
         textAnchor="middle"
-        fontSize={13}
+        fontSize={14}
+        fontWeight={500}
         fill="var(--hb-text)"
       >
         {truncate(node.label)}

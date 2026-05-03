@@ -86,7 +86,7 @@ function SprintChip({ sprint, active, expanded, onClick }: {
       onClick={onClick}
       aria-expanded={expanded}
       data-testid={`spec-sprint-${sprint.id}`}
-      className={`flex-shrink-0 min-w-[200px] text-left p-3 rounded-md border ${border} bg-[var(--hb-surface)] hover:bg-[var(--hb-surface-hover)] ${FOCUS} transition-colors duration-200`}
+      className={`flex-shrink-0 min-w-[200px] text-left p-3 rounded-md border ${border} bg-[var(--hb-surface)] hover:bg-[var(--hb-surface-hover)] hover:-translate-y-0.5 transform ${FOCUS} transition-all duration-200`}
       style={{ filter: active ? 'drop-shadow(0 0 8px var(--hb-accent))' : undefined }}
     >
       <div className="flex items-center justify-between gap-2 mb-1">

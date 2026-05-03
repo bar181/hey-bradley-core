@@ -1,0 +1,275 @@
+[
+  {
+    "id": "evt-001",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-axon-001",
+    "projectId": "axon-cli",
+    "eventType": "input_event",
+    "eventData": {
+      "text": "Create a site for my CLI tool called Axon"
+    },
+    "inputType": "chat",
+    "latencyMs": 5
+  },
+  {
+    "id": "evt-002",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-axon-001",
+    "projectId": "axon-cli",
+    "eventType": "intent_classification",
+    "eventData": {
+      "route": "design",
+      "confidence": 0.91
+    },
+    "inputType": "chat",
+    "latencyMs": 12
+  },
+  {
+    "id": "evt-003",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-axon-001",
+    "projectId": "axon-cli",
+    "eventType": "template_match",
+    "eventData": {
+      "template": "dev-tool-dark",
+      "score": 0.93
+    },
+    "inputType": "chat",
+    "latencyMs": 18
+  },
+  {
+    "id": "evt-004",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-axon-001",
+    "projectId": "axon-cli",
+    "eventType": "patch_validation",
+    "eventData": {
+      "patches": 7,
+      "valid": 7
+    },
+    "inputType": "chat",
+    "latencyMs": 23
+  },
+  {
+    "id": "evt-005",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-axon-001",
+    "projectId": "axon-cli",
+    "eventType": "response_summary",
+    "eventData": {
+      "kind": "design",
+      "applied": 7,
+      "latencyMs": 612
+    },
+    "inputType": "chat",
+    "latencyMs": 612
+  },
+  {
+    "id": "evt-006",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-edge-001",
+    "projectId": "axon-cli",
+    "eventType": "input_event",
+    "eventData": {
+      "text": "Add pricing AND remove pricing — also need a contact form"
+    },
+    "inputType": "chat",
+    "latencyMs": 4
+  },
+  {
+    "id": "evt-007",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-edge-001",
+    "projectId": "axon-cli",
+    "eventType": "intent_classification",
+    "eventData": {
+      "route": "design",
+      "confidence": 0.71,
+      "flags": {
+        "contradiction": true
+      }
+    },
+    "inputType": "chat",
+    "latencyMs": 14
+  },
+  {
+    "id": "evt-008",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-edge-001",
+    "projectId": "axon-cli",
+    "eventType": "decomp_split",
+    "eventData": {
+      "todos": 3,
+      "confidence": 0.78
+    },
+    "inputType": "chat",
+    "latencyMs": 21
+  },
+  {
+    "id": "evt-009",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-edge-001",
+    "projectId": "axon-cli",
+    "eventType": "todo_execution",
+    "eventData": {
+      "applied": 2,
+      "deferred": 1,
+      "skipped": 0
+    },
+    "inputType": "chat",
+    "latencyMs": 32
+  },
+  {
+    "id": "evt-010",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-edge-001",
+    "projectId": "axon-cli",
+    "eventType": "response_summary",
+    "eventData": {
+      "kind": "decomp",
+      "applied": 2,
+      "latencyMs": 488
+    },
+    "inputType": "chat",
+    "latencyMs": 488
+  },
+  {
+    "id": "evt-011",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-listen-001",
+    "projectId": "axon-cli",
+    "eventType": "listen_capture",
+    "eventData": {
+      "rawTranscript": "um make the hero brighter you know",
+      "cleaned": "make the hero brighter"
+    },
+    "inputType": "listen",
+    "latencyMs": 8
+  },
+  {
+    "id": "evt-012",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-listen-001",
+    "projectId": "axon-cli",
+    "eventType": "input_event",
+    "eventData": {
+      "text": "make the hero brighter"
+    },
+    "inputType": "listen",
+    "latencyMs": 9
+  },
+  {
+    "id": "evt-013",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-listen-001",
+    "projectId": "axon-cli",
+    "eventType": "intent_classification",
+    "eventData": {
+      "route": "design",
+      "confidence": 0.86
+    },
+    "inputType": "listen",
+    "latencyMs": 17
+  },
+  {
+    "id": "evt-014",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-listen-001",
+    "projectId": "axon-cli",
+    "eventType": "patch_validation",
+    "eventData": {
+      "patches": 2,
+      "valid": 2
+    },
+    "inputType": "listen",
+    "latencyMs": 22
+  },
+  {
+    "id": "evt-015",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-listen-001",
+    "projectId": "axon-cli",
+    "eventType": "response_summary",
+    "eventData": {
+      "kind": "design",
+      "applied": 2,
+      "latencyMs": 391
+    },
+    "inputType": "listen",
+    "latencyMs": 391
+  },
+  {
+    "id": "evt-016",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-plan-001",
+    "projectId": "saas-auth",
+    "eventType": "input_event",
+    "eventData": {
+      "text": "A SaaS auth product with magic link and Google OAuth"
+    },
+    "inputType": "chat",
+    "latencyMs": 6
+  },
+  {
+    "id": "evt-017",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-plan-001",
+    "projectId": "saas-auth",
+    "eventType": "process_atom_output",
+    "eventData": {
+      "phases": 4,
+      "sprints": 7,
+      "waves": 9,
+      "agents": 22
+    },
+    "inputType": "chat",
+    "latencyMs": 28
+  },
+  {
+    "id": "evt-018",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-plan-001",
+    "projectId": "saas-auth",
+    "eventType": "ddd_atom_output",
+    "eventData": {
+      "contexts": 5,
+      "relationships": 6
+    },
+    "inputType": "chat",
+    "latencyMs": 31
+  },
+  {
+    "id": "evt-019",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-plan-001",
+    "projectId": "saas-auth",
+    "eventType": "export_emit",
+    "eventData": {
+      "bundleSize": 6,
+      "files": [
+        "CLAUDE.md",
+        "process-map.md",
+        "human-spec/north-star.md",
+        "aisp/phase-aisp.md",
+        "adrs/ADR-114.md",
+        "agents/wave-1.md"
+      ]
+    },
+    "inputType": "chat",
+    "latencyMs": 142
+  },
+  {
+    "id": "evt-020",
+    "sessionId": "s-p101-seed",
+    "requestId": "req-plan-001",
+    "projectId": "saas-auth",
+    "eventType": "response_summary",
+    "eventData": {
+      "kind": "planning",
+      "applied": 0,
+      "latencyMs": 802
+    },
+    "inputType": "chat",
+    "latencyMs": 802
+  }
+]

@@ -37,6 +37,11 @@ const VERB_RULES: ReadonlyArray<[RegExp, IntentVerb, number]> = [
   [/\bget\s+rid\s+of\b/i, 'remove', 0.88],
   [/\btake\s+out\b/i, 'remove', 0.88],
   [/\bmake\s+(?:it|the)\b/i, 'change', 0.86],
+  // P101 / A1 — verb classifier extension (carry-forward #3)
+  // word-boundary regex prevents false positives on "forgetful" / "needed" / "creation"
+  [/\bforget\b/i, 'remove', 0.85],
+  [/\bneed\b/i, 'add', 0.80],
+  [/\bcreate\b/i, 'add', 0.85],
 ]
 
 const SCOPE_TOKEN_RE = /\/([a-z][a-z-]*?)(?:-(\d+))?\b/i

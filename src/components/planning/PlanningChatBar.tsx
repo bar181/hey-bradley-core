@@ -110,7 +110,7 @@ export function PlanningChatBar({
         type="submit"
         disabled={!text.trim() || submitting}
         data-testid="planning-chat-submit"
-        className="self-start px-4 py-2 rounded text-sm font-medium bg-[var(--hb-accent)] text-[var(--hb-bg)] hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] focus-visible:ring-offset-2 transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+        className="self-start px-4 py-2 rounded text-sm font-medium bg-[var(--hb-accent)] text-[var(--hb-bg)] hover:opacity-90 hover:-translate-y-0.5 transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] focus-visible:ring-offset-2 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none"
       >
         {submitting ? 'Decomposing…' : 'Decompose'}
       </button>
