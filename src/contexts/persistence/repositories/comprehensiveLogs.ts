@@ -262,6 +262,45 @@ export function writeLogEvent(db: Database, event: LogEventInsert): void {
   }
 }
 
+/**
+ * P107 / A6 — Centralized error event writer (C5 closure).
+ *
+ * Replaces scattered `console.warn` DEV-only catch sites in chatPipeline.ts so
+ * production builds emit `error_event` rows the owner can debug from an
+ * exported DB. BYOK redaction at every write boundary per ADR-043 +
+ * ADR-114 D3; fire-and-forget per ADR-126 D4 — NEVER throws upward.
+ *
+ * The internal try/catch is defence-in-depth: if writeLogEvent itself throws
+ * (it shouldn't — its own try/catch swallows), we fall back to a console
+ * warn so the error_event itself doesn't escape and crash the pipeline.
+ */
+export function writeErrorEvent(
+  db: Database,
+  ctx: { sessionId: string; requestId?: string | null },
+  err: unknown,
+  source: string,
+): void {
+  try {
+    if (!ctx.sessionId) return; // No session → no row (mirrors emit() guard).
+    const message = err instanceof Error ? err.message : String(err);
+    const stack = err instanceof Error ? err.stack?.slice(0, 500) : undefined;
+    writeLogEvent(db, {
+      id: newRequestId(),
+      sessionId: ctx.sessionId,
+      requestId: ctx.requestId ?? '',
+      eventType: 'error_event',
+      eventData: {
+        source,
+        message: redactKeyShapes(message),
+        stack: stack ? redactKeyShapes(stack) : undefined,
+      },
+      latencyMs: 0,
+    });
+  } catch (e) {
+    warn('writeErrorEvent', e);
+  }
+}
+
 /** Insert an edit_history row. Fire-and-forget; never throws. */
 export function writeEditHistory(db: Database, entry: EditHistoryInsert): void {
   let stmt: ReturnType<Database['prepare']> | null = null;

@@ -10,8 +10,14 @@ import { Download } from 'lucide-react'
 import {
   buildClaudeCodeBundle,
   type ExportClaudeCodeBundle,
+  type ExportEmitEvent,
 } from '@/contexts/specification/exportClaudeCode'
 import type { PhaseCard } from '@/components/agentics/SpecWorkbench'
+import {
+  writeLogEvent,
+  newRequestId,
+} from '@/contexts/persistence/repositories/comprehensiveLogs'
+import { getDB } from '@/contexts/persistence/db'
 
 export interface ExportClaudeCodeButtonProps {
   phase: PhaseCard | null
@@ -23,7 +29,26 @@ export function ExportClaudeCodeButton({ phase, projectSlug }: ExportClaudeCodeB
 
   const handleExport = (): void => {
     if (!phase) return
-    const bundle: ExportClaudeCodeBundle = buildClaudeCodeBundle(phase, projectSlug)
+    // P107 / A5 — observability hook for `export_emit` log_event. Pure module
+    // (exportClaudeCode.ts) emits via callback; integration layer here owns
+    // the writeLogEvent call. Fire-and-forget per ADR-126 D4 — try/catch
+    // wraps both getDB() and the write so a missing/uninitialized DB is
+    // silently swallowed (the export itself proceeds regardless).
+    const onEmit = (event: ExportEmitEvent): void => {
+      try {
+        // getDB() throws when not initialized; the outer catch swallows it.
+        writeLogEvent(getDB(), {
+          id: newRequestId(),
+          sessionId: 'export-' + Date.now(),
+          requestId: newRequestId(),
+          eventType: 'export_emit',
+          eventData: event.data as unknown as Record<string, unknown>,
+        })
+      } catch {
+        /* fire-and-forget per ADR-126 D4 */
+      }
+    }
+    const bundle: ExportClaudeCodeBundle = buildClaudeCodeBundle(phase, projectSlug, onEmit)
     const blob = new Blob([bundle.markdown], { type: 'text/markdown;charset=utf-8' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')

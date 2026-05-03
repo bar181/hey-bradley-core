@@ -24,7 +24,7 @@ import { cleanTranscript } from '@/contexts/intelligence/stt/transcriptCleanup'
 import { getActivePage, prefixPatchPaths } from '@/contexts/intelligence/pageIterator'
 import type { PageScope } from '@/contexts/intelligence/pageIterator'
 import { activeSession } from '@/contexts/persistence/repositories/sessions'
-import { writeLogEvent, newRequestId, writeEditHistory, redactKeyShapes, type LogEventType } from '@/contexts/persistence/repositories/comprehensiveLogs'
+import { writeLogEvent, newRequestId, writeEditHistory, writeErrorEvent, redactKeyShapes, type LogEventType } from '@/contexts/persistence/repositories/comprehensiveLogs'
 import { getDB } from '@/contexts/persistence/db'
 import type { ChatErrorKind } from '@/lib/mapChatError'
 import type { ClassifiedIntent } from '@/contexts/intelligence/aisp'
@@ -325,6 +325,16 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
   const logCtx: LogCtx = { requestId: newRequestId(), sessionId, projectId, pageId: scope.page?.id ?? null, pageIndex: pIdx >= 0 ? pIdx : null, source: opts.source }
   emit(logCtx, 'input_event', { text: redactKeyShapes(text), source: opts.source })
   if (opts.source === 'listen') emit(logCtx, 'listen_capture', { raw: redactKeyShapes(text), cleaned: redactKeyShapes(cleanTranscript(text)) })
+  // P107 / A5 — multi_page_scope emit (ADR-104). Fires when active page is NOT
+  // root (single-page byte-equivalent suppressed). Closes "5 declared event_types
+  // are dead enum slots" finding from C1 / 03-persistence-observability.md.
+  if (scope.scopeRoot !== '') {
+    emit(logCtx, 'multi_page_scope', {
+      activePageId: activePageId ?? null,
+      scopeRoot: scope.scopeRoot,
+      pagesAvailable: config.pages?.length ?? 0,
+    })
+  }
   // P105 / A3 — listen-source pipeline reads disfluency-cleaned text (B7+D1 closure);
   // raw `text` preserved for logging emits and user-facing edit_history writes.
   const effectiveText = opts.source === 'listen' ? cleanTranscript(text) : text
@@ -433,6 +443,17 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       // multi-page config → byte-equivalent to P74.
       const decomp = decompose(effectiveText, aisp, config.pages)
       if (decomp.todos.length >= 1) emit(logCtx, 'decomposition', { todos: decomp.todos, confidence: decomp.confidence, source: decomp.source })
+      // P107 / A5 — decomp_split emit. Fires when DECOMP_ATOM produces a
+      // multi-clause split (≥2 todos), independent of whether the executor
+      // ultimately runs (gated below at confidence ≥ 0.7). Closes C1 / §4.1.
+      if (decomp.todos.length >= 2) {
+        emit(logCtx, 'decomp_split', {
+          todoCount: decomp.todos.length,
+          verbs: decomp.todos.map((t) => t.verb),
+          targets: decomp.todos.map((t) => t.target),
+          confidence: decomp.confidence,
+        })
+      }
       if (decomp.todos.length > 1 && decomp.confidence >= 0.7) {
         // P79 / OC-14 (A3) — feed scoped config so executeTodos sees only the
         // active page's sections (multi-page) or root sections (single-page).
@@ -440,6 +461,18 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
           ? { ...useConfigStore.getState().config, sections: scope.sections }
           : useConfigStore.getState().config
         const exec = executeTodos(decomp, decompConfig)
+        // P107 / A5 — todo_execution emit per executor pass (one per trace,
+        // regardless of status). Closes C1 / §4.1; surfaces deferred + skipped
+        // todos to the forensic log for later debugging.
+        for (let i = 0; i < exec.traces.length; i += 1) {
+          const trace = exec.traces[i]
+          emit(logCtx, 'todo_execution', {
+            order: i,
+            verb: trace.todo.verb,
+            target: trace.todo.target,
+            status: trace.status,
+          })
+        }
         if (exec.allPatches.length > 0) {
           stageMarks.applyStart = Date.now()
           // P82 / OC-CLEANUP (A3) — per-todo page scoping. When any trace
@@ -487,6 +520,11 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         }
       }
     } catch (e) {
+      // P107 / A6 — centralized error_event capture (C5 closure). DB write
+      // gives owner production-debug visibility from exported DB; the dev
+      // console branch stays for immediate engineer feedback. Both honour
+      // ADR-126 D4 fire-and-forget — neither throws upward.
+      writeErrorEvent(getDB(), { sessionId: logCtx.sessionId, requestId: logCtx.requestId }, e, 'chatPipeline.decompAtom')
       if (import.meta.env.DEV) console.warn('[chatPipeline] decomp atom threw', e)
     }
     // P72 / OC-TI (A4) — try the 3-layer template matcher first. High-confidence
@@ -531,6 +569,8 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         }
       }
     } catch (e) {
+      // P107 / A6 — centralized error_event capture (C5 closure).
+      writeErrorEvent(getDB(), { sessionId: logCtx.sessionId, requestId: logCtx.requestId }, e, 'chatPipeline.templateIntelligence')
       if (import.meta.env.DEV) console.warn('[chatPipeline] template intelligence threw', e)
     }
     if (aisp.confidence >= AISP_CONFIDENCE_THRESHOLD && aisp.target) {
@@ -587,6 +627,8 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
           latencyBreakdown: buildBreakdown(stageMarks, doneAt),
         }
       } catch (e) {
+        // P107 / A6 — centralized error_event capture (C5 closure).
+        writeErrorEvent(getDB(), { sessionId: logCtx.sessionId, requestId: logCtx.requestId }, e, 'chatPipeline.templateApplyPatches')
         if (import.meta.env.DEV) console.warn('[chatPipeline] template applyPatches threw', e)
         // fall through to LLM on apply failure
       }
@@ -694,6 +736,8 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     // null because the LLM-pipeline body owns its own audit row, but a throw
     // here means we never got one) and DEV-warn so engineers can debug.
     recordPipelineFailure(null, 'apply', `@root: ${e instanceof Error ? e.message : String(e)}`)
+    // P107 / A6 — centralized error_event capture (C5 closure).
+    writeErrorEvent(getDB(), { sessionId: logCtx.sessionId, requestId: logCtx.requestId }, e, 'chatPipeline.runLLMPipeline')
     if (import.meta.env.DEV) console.warn('[chatPipeline] runLLMPipeline threw', e)
     pipelineErrorKind = 'unknown'
   }

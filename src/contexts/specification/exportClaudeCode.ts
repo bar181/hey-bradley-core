@@ -36,6 +36,24 @@ export interface ExportClaudeCodeBundle {
   readonly filename: string
 }
 
+/**
+ * P107 / A5 — observability hook for `export_emit` log_event. Pure module
+ * stays free of persistence imports; the integration layer (button / caller)
+ * implements the callback and writes the row. Callback is invoked exactly
+ * once per `buildClaudeCodeBundle()` call after the bundle is composed.
+ */
+export interface ExportEmitEvent {
+  readonly type: 'export_emit'
+  readonly data: {
+    readonly slug: string
+    readonly filename: string
+    readonly fileCount: number
+    readonly markdownLength: number
+  }
+}
+
+export type ExportEmitCallback = (event: ExportEmitEvent) => void
+
 /** kebab-case slugifier; ASCII-only; collapses runs of separators. */
 function slugify(s: string): string {
   return (
@@ -177,10 +195,15 @@ function buildAgentWaveFile(sprint: SprintSummary, waveIndex: number): string {
  *
  * @param phase        PhaseCard atomic unit (SpecWorkbench contract).
  * @param projectSlug  Optional project slug; falls back to phase.id then phase.name.
+ * @param onEmit       P107 / A5 — optional observability hook fired once after
+ *                     the bundle is composed. Integration layer (button)
+ *                     implements `writeLogEvent({event_type:'export_emit',…})`.
+ *                     Pure module stays free of persistence imports.
  */
 export function buildClaudeCodeBundle(
   phase: PhaseCard,
   projectSlug?: string,
+  onEmit?: ExportEmitCallback,
 ): ExportClaudeCodeBundle {
   const files: { path: string; content: string }[] = []
 
@@ -221,6 +244,26 @@ export function buildClaudeCodeBundle(
   const slugSource = projectSlug ?? phase.id ?? phase.name
   const slug = slugify(slugSource)
   const filename = `${slug}-spec-bundle.md`
+
+  // P107 / A5 — fire-and-forget observability hook. Pure module stays free of
+  // persistence imports; callback path keeps the atom-pure contract per
+  // ADR-122 D1 + ADR-134 / P106 atom-view-fix. Integration layer (button)
+  // owns the writeLogEvent call. Try/catch preserves ADR-126 D4.
+  if (onEmit) {
+    try {
+      onEmit({
+        type: 'export_emit',
+        data: {
+          slug,
+          filename,
+          fileCount: files.length,
+          markdownLength: markdown.length,
+        },
+      })
+    } catch {
+      /* fire-and-forget per ADR-126 D4; never throws upward */
+    }
+  }
 
   return { markdown, files, slug, filename }
 }
