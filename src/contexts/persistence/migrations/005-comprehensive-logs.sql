@@ -27,6 +27,17 @@
 -- again would raise "duplicate column name" and rollback the entire
 -- migration. Confirmed via grep on 002-llm-logs.sql. See log-design.md §7(b).
 --
+-- P102 / CF#12 — INTENT_FUTURE: 5 of the 15 event_type values below are
+-- declared in the CHECK enum but have NO writer in src/ as of P102:
+--   * multi_page_scope  — reserved for future page-aware scope-emit per ADR-104
+--   * error_event       — reserved for centralized error capture (P102+ candidate)
+--   * todo_execution    — reserved for todoExecutor.ts emit wiring (P102+ candidate)
+--   * decomp_split      — reserved for DECOMP_ATOM per-split row (P102+ candidate)
+--   * export_emit       — reserved for exportClaudeCode.ts emit wiring (P102+ candidate)
+-- Declaring them up-front keeps the schema stable across enum-extension waves
+-- (SQLite cannot DROP CONSTRAINT — see lines 41-46 below). Wiring writers is
+-- additive-only and does not require a migration bump. Audit owner: ADR-126.
+--
 -- Schema-only here; runner bumps schema_version 5 -> 6.
 CREATE TABLE IF NOT EXISTS log_events (
   id           TEXT PRIMARY KEY,                      -- UUID v4 (stage_id)

@@ -14,10 +14,10 @@
  * three PhaseCards (foundation / intelligence / polish). Clicking a
  * map node selects the phase via NODE_TO_PHASE_ID.
  */
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AISPDeveloperCard } from '@/components/onboarding/AISPDeveloperCard'
-import { ProcessMapSVG } from '@/components/planning/ProcessMapSVG'
+import { ProcessMapSVG, type ProcessMap } from '@/components/planning/ProcessMapSVG'
 import { SpecWorkbench } from '@/components/agentics/SpecWorkbench'
 import { SealPanel } from '@/components/agentics/SealPanel'
 import { HEY_BRADLEY_SAMPLE_MAP } from '@/data/sample-process-map'
@@ -27,6 +27,10 @@ import {
 } from '@/data/sample-spec-workbench'
 import { writeLogEvent, newRequestId } from '@/contexts/persistence/repositories/comprehensiveLogs'
 import { getDB } from '@/contexts/persistence/db'
+import {
+  toProcessMap,
+  type ProcessAtomOutput,
+} from '@/contexts/intelligence/aisp/processAtom'
 
 export function Agentics() {
   const phases = HEY_BRADLEY_SAMPLE_PHASES
@@ -40,6 +44,37 @@ export function Agentics() {
   const [expandedPhaseIds, setExpandedPhaseIds] = useState<readonly string[]>([
     'foundation',
   ])
+
+  // P102 / A2 (CF#8 closure) — surface most-recent PROCESS_ATOM output from
+  // log_events into the Agentics center map. Fire-and-forget per ADR-126; on
+  // miss → fall back to HEY_BRADLEY_SAMPLE_MAP (page never blank-states).
+  const [liveMap, setLiveMap] = useState<ProcessMap | null>(null)
+  useEffect(() => {
+    let stmt: ReturnType<ReturnType<typeof getDB>['prepare']> | null = null
+    try {
+      stmt = getDB().prepare(
+        `SELECT event_data FROM log_events WHERE event_type = 'process_atom_output' ORDER BY created_at DESC LIMIT 1`,
+      )
+      if (stmt.step()) {
+        const row = stmt.getAsObject() as { event_data?: string }
+        if (row.event_data) {
+          const p = JSON.parse(row.event_data) as Partial<ProcessAtomOutput>
+          if (p.phases && p.sprints && p.waves) {
+            setLiveMap(toProcessMap({
+              phases: p.phases, sprints: p.sprints, waves: p.waves,
+              agents: p.agents ?? [], rationale: p.rationale ?? '',
+            }))
+          }
+        }
+      }
+    } catch (e) {
+      if (typeof console !== 'undefined') console.warn('[Agentics] live map load failed', e)
+    } finally {
+      if (stmt) try { stmt.free() } catch { /* ignore */ }
+    }
+  }, [])
+
+  const activeMap = liveMap ?? HEY_BRADLEY_SAMPLE_MAP
 
   const activePhase = useMemo(
     () => phases.find((p) => p.id === activePhaseId) ?? null,
@@ -168,7 +203,7 @@ export function Agentics() {
           className="flex-1 p-4 md:p-6 overflow-x-auto"
         >
           <ProcessMapSVG
-            map={{ ...HEY_BRADLEY_SAMPLE_MAP, activeNodeId: selectedNodeId }}
+            map={{ ...activeMap, activeNodeId: selectedNodeId }}
             onNodeSelect={handleNodeSelect}
           />
         </main>

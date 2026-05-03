@@ -30,25 +30,25 @@ const MODES = [
 export function Welcome() {
   const recentPosts = listBlogPosts().slice(0, 3)
   return (
-    <main className="min-h-screen bg-[#faf8f5] text-[#2d1f12]">
+    <main className="min-h-screen bg-[var(--hb-paper)] text-[var(--hb-ink)]">
       <MarketingNav />
 
       {/* Hero */}
       <section className="max-w-3xl mx-auto px-6 py-24">
-        <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-4 font-medium">
+        <p className="text-xs uppercase tracking-[0.2em] text-[var(--hb-warm)] mb-4 font-medium">
           Harvard ALM Capstone &middot; AISP-powered
         </p>
         <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
           Your AI builds the wrong site 55% of the time.
         </h1>
-        <p className="text-xl text-[#6b5e4f] leading-relaxed mb-8">
+        <p className="text-xl text-[var(--hb-ink-muted)] leading-relaxed mb-8">
           Hey Bradley generates a structured AISP spec before any code lands.
           Sub-2% ambiguity. Open protocol. Local-only. BYOK. No backend.
         </p>
         <div className="flex flex-wrap gap-3">
           <Link
             to="/onboarding"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--hb-warm)] text-white font-semibold rounded-xl hover:bg-[var(--hb-warm-hover)] transition-colors shadow-lg"
           >
             Try Hey Bradley &mdash; free
             <ArrowRight className="w-4 h-4" />
@@ -57,14 +57,14 @@ export function Welcome() {
             href="https://github.com/bar181/aisp-open-core"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 border border-[rgb(var(--hb-warm-rgb)/0.3)] text-[var(--hb-ink)] font-semibold rounded-xl hover:bg-[var(--hb-paper-soft)] transition-colors"
           >
             Explore AISP
             <ArrowRight className="w-4 h-4" />
           </a>
           <Link
             to="/aisp"
-            className="inline-flex items-center gap-2 px-6 py-3 text-[#6b5e4f] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 text-[var(--hb-ink-muted)] font-semibold rounded-xl hover:bg-[var(--hb-paper-soft)] transition-colors"
           >
             Read the AISP spec
           </Link>
@@ -72,30 +72,30 @@ export function Welcome() {
       </section>
 
       {/* Social proof bar */}
-      <section className="border-y border-[#e8772e]/15 bg-[#f1ece4]/40">
-        <div className="max-w-5xl mx-auto px-6 py-5 flex flex-wrap gap-x-8 gap-y-2 text-sm text-[#6b5e4f] justify-center items-center">
-          <span><strong className="text-[#2d1f12]">1162+</strong> tests passing</span>
-          <span><strong className="text-[#2d1f12]">130</strong> ADRs Accepted</span>
-          <span><strong className="text-[#2d1f12]">43</strong> templates</span>
-          <span><strong className="text-[#2d1f12]">12</strong> blog posts</span>
-          <span>composite <strong className="text-[#2d1f12]">79–84/100</strong> (vs SOTA 80)</span>
+      <section className="border-y border-[rgb(var(--hb-warm-rgb)/0.15)] bg-[rgb(var(--hb-paper-soft-rgb)/0.4)]">
+        <div className="max-w-5xl mx-auto px-6 py-5 flex flex-wrap gap-x-8 gap-y-2 text-sm text-[var(--hb-ink-muted)] justify-center items-center">
+          <span><strong className="text-[var(--hb-ink)]">1162+</strong> tests passing</span>
+          <span><strong className="text-[var(--hb-ink)]">130</strong> ADRs Accepted</span>
+          <span><strong className="text-[var(--hb-ink)]">43</strong> templates</span>
+          <span><strong className="text-[var(--hb-ink)]">12</strong> blog posts</span>
+          <span>composite <strong className="text-[var(--hb-ink)]">79–84/100</strong> (vs SOTA 80)</span>
         </div>
       </section>
 
       {/* The Story (Don Miller blog-style) */}
       <article className="max-w-3xl mx-auto px-6 pb-16">
         <h2 className="text-3xl font-bold mb-4">The 55% problem</h2>
-        <p className="text-[#6b5e4f] leading-relaxed mb-4">
+        <p className="text-[var(--hb-ink-muted)] leading-relaxed mb-4">
           AI made coding three times faster. But coding was never the bottleneck.
           The real cost is everything that happens <em>before</em> the first line
           of code &mdash; the meetings, the specs, the &ldquo;that&rsquo;s not what I meant.&rdquo;
         </p>
-        <p className="text-[#6b5e4f] leading-relaxed mb-4">
-          Industry research finds <strong className="text-[#2d1f12]">40&ndash;65% of implementation intent</strong> is
+        <p className="text-[var(--hb-ink-muted)] leading-relaxed mb-4">
+          Industry research finds <strong className="text-[var(--hb-ink)]">40&ndash;65% of implementation intent</strong> is
           lost in each stakeholder-to-builder handoff. Faster AI just plays the
           telephone game at higher speed.
         </p>
-        <p className="text-[#6b5e4f] leading-relaxed">
+        <p className="text-[var(--hb-ink-muted)] leading-relaxed">
           Hey Bradley is built for that 55%. Tell it what you want. The site
           appears. The spec appears next to it &mdash; in plain English and in AISP,
           a math-first format LLMs understand natively. Hand the spec to your AI
@@ -108,11 +108,11 @@ export function Welcome() {
         data-testid="welcome-build-snapshot-section"
         className="max-w-3xl mx-auto px-6 pb-16"
       >
-        <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-3 font-medium">
+        <p className="text-xs uppercase tracking-[0.2em] text-[var(--hb-warm)] mb-3 font-medium">
           Building in public
         </p>
         <h2 className="text-3xl font-bold mb-3">Built in 2 days. Ready in 10.</h2>
-        <p className="text-[#6b5e4f] leading-relaxed mb-6">
+        <p className="text-[var(--hb-ink-muted)] leading-relaxed mb-6">
           An open-core capstone shipped at sprint pace &mdash; 99 phases sealed
           (P15&ndash;P101), 130 ADRs Accepted, 1162+ PURE-UNIT tests GREEN, and a
           composite score of 79&ndash;84/100 (vs SOTA 80). Every decision is in the open.
@@ -120,13 +120,13 @@ export function Welcome() {
         <div className="flex flex-wrap gap-3">
           <Link
             to="/progress"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--hb-warm)] text-white font-semibold rounded-xl hover:bg-[var(--hb-warm-hover)] transition-colors"
           >
             See the build snapshot <ArrowRight className="w-4 h-4" />
           </Link>
           <Link
             to="/blog"
-            className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 border border-[rgb(var(--hb-warm-rgb)/0.3)] text-[var(--hb-ink)] font-semibold rounded-xl hover:bg-[var(--hb-paper-soft)] transition-colors"
           >
             Read the journal
           </Link>
@@ -142,12 +142,12 @@ export function Welcome() {
             <Link
               key={m.title}
               to={m.href}
-              className="bg-white border border-[#e8772e]/20 rounded-2xl p-6 hover:border-[#e8772e]/60 hover:shadow-md transition-all group max-sm:snap-center max-sm:min-h-[60vh] max-sm:flex max-sm:flex-col max-sm:justify-center"
+              className="bg-white border border-[rgb(var(--hb-warm-rgb)/0.2)] rounded-2xl p-6 hover:border-[rgb(var(--hb-warm-rgb)/0.6)] hover:shadow-md transition-all group max-sm:snap-center max-sm:min-h-[60vh] max-sm:flex max-sm:flex-col max-sm:justify-center"
             >
-              <m.icon className="w-7 h-7 text-[#e8772e] mb-4" />
+              <m.icon className="w-7 h-7 text-[var(--hb-warm)] mb-4" />
               <h3 className="text-xl font-semibold mb-2">{m.title}</h3>
-              <p className="text-sm text-[#6b5e4f] leading-relaxed mb-4">{m.desc}</p>
-              <span className="inline-flex items-center gap-1 text-sm font-semibold text-[#e8772e] group-hover:gap-2 transition-all">
+              <p className="text-sm text-[var(--hb-ink-muted)] leading-relaxed mb-4">{m.desc}</p>
+              <span className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--hb-warm)] group-hover:gap-2 transition-all">
                 {m.cta} <ArrowRight className="w-4 h-4" />
               </span>
             </Link>
@@ -158,15 +158,15 @@ export function Welcome() {
       {/* What You Get (blog-style summary) */}
       <article className="max-w-3xl mx-auto px-6 pb-16">
         <h2 className="text-3xl font-bold mb-4">What you get</h2>
-        <p className="text-[#6b5e4f] leading-relaxed mb-4">
+        <p className="text-[var(--hb-ink-muted)] leading-relaxed mb-4">
           A live React preview of your site, updated as you talk or type. A
           single JSON file behind everything &mdash; portable, exportable, AI-
           readable. An AISP Crystal Atom spec with under 2% ambiguity, side-by-
           side with a human-readable version your team can review.
         </p>
-        <p className="text-[#6b5e4f] leading-relaxed">
+        <p className="text-[var(--hb-ink-muted)] leading-relaxed">
           21 themes. 43 example sites. 18 section types. 300 images. Export the
-          whole project as a <code className="text-sm bg-[#f1ece4] px-2 py-0.5 rounded">.heybradley</code> zip.
+          whole project as a <code className="text-sm bg-[var(--hb-paper-soft)] px-2 py-0.5 rounded">.heybradley</code> zip.
           Import it later. Hand it to your AI coding system. Or paste the AISP
           spec into your prompt and let the agent build production code.
         </p>
@@ -175,24 +175,24 @@ export function Welcome() {
       {/* Open Core vs Commercial (single sentence) */}
       <article className="max-w-3xl mx-auto px-6 pb-20">
         <h2 className="text-3xl font-bold mb-4">Open core vs commercial</h2>
-        <p className="text-[#6b5e4f] leading-relaxed">
-          What you see here is the <strong className="text-[#2d1f12]">open core</strong> &mdash; MIT-licensed,
+        <p className="text-[var(--hb-ink-muted)] leading-relaxed">
+          What you see here is the <strong className="text-[var(--hb-ink)]">open core</strong> &mdash; MIT-licensed,
           single-page sites, BYOK, local storage, no backend. The commercial
           version (separate repo, post-MVP) adds Supabase auth, hosted demo
           without BYOK, multi-page sites, complex apps, and the agentic support
-          system. This page is the open core. <Link to="/open-core" className="text-[#e8772e] underline">Read the differences here.</Link>
+          system. This page is the open core. <Link to="/open-core" className="text-[var(--hb-warm)] underline">Read the differences here.</Link>
         </p>
       </article>
 
       {/* Blog preview — Don Miller hook "The spec layer explained" */}
       <section className="max-w-5xl mx-auto px-6 py-20">
-        <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-3 font-medium">
+        <p className="text-xs uppercase tracking-[0.2em] text-[var(--hb-warm)] mb-3 font-medium">
           The blog
         </p>
         <h2 className="text-3xl lg:text-4xl font-bold tracking-tight mb-2">
           The spec layer explained
         </h2>
-        <p className="text-[#6b5e4f] mb-10 max-w-2xl">
+        <p className="text-[var(--hb-ink-muted)] mb-10 max-w-2xl">
           Field notes from the build. Velocity, AISP, and the parts of agentic
           engineering the rest of the AI-builder industry leaves on the table.
         </p>
@@ -201,11 +201,11 @@ export function Welcome() {
             <Link
               key={post.slug}
               to={`/blog/${post.slug}`}
-              className="block p-6 rounded-xl border border-[#e8772e]/15 bg-white hover:border-[#e8772e]/40 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)]"
+              className="block p-6 rounded-xl border border-[rgb(var(--hb-warm-rgb)/0.15)] bg-white hover:border-[rgb(var(--hb-warm-rgb)/0.4)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)]"
             >
-              <h3 className="font-semibold text-lg mb-2 text-[#2d1f12] leading-snug">{post.title}</h3>
-              <p className="text-sm text-[#6b5e4f] mb-3 leading-relaxed">{post.excerpt}</p>
-              <span className="text-sm text-[#e8772e] font-medium inline-flex items-center gap-1">
+              <h3 className="font-semibold text-lg mb-2 text-[var(--hb-ink)] leading-snug">{post.title}</h3>
+              <p className="text-sm text-[var(--hb-ink-muted)] mb-3 leading-relaxed">{post.excerpt}</p>
+              <span className="text-sm text-[var(--hb-warm)] font-medium inline-flex items-center gap-1">
                 Read more <ArrowRight className="w-3.5 h-3.5" />
               </span>
             </Link>
@@ -218,7 +218,7 @@ export function Welcome() {
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Link
             to="/onboarding"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg text-lg"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--hb-warm)] text-white font-semibold rounded-xl hover:bg-[var(--hb-warm-hover)] transition-colors shadow-lg text-lg"
           >
             Try the open source version
             <ArrowRight className="w-5 h-5" />
@@ -227,25 +227,25 @@ export function Welcome() {
             href="https://github.com/bar181/hey-bradley-core"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-4 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors text-lg"
+            className="inline-flex items-center gap-2 px-8 py-4 border border-[rgb(var(--hb-warm-rgb)/0.3)] text-[var(--hb-ink)] font-semibold rounded-xl hover:bg-[var(--hb-paper-soft)] transition-colors text-lg"
           >
             Open core on GitHub
           </a>
         </div>
-        <p className="text-sm text-[#6b5e4f] mt-4">
+        <p className="text-sm text-[var(--hb-ink-muted)] mt-4">
           No account required. No key required for Simulated mode.
         </p>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t border-[#e8772e]/20 bg-[#f1ece4]">
+      <footer className="py-12 border-t border-[rgb(var(--hb-warm-rgb)/0.2)] bg-[var(--hb-paper-soft)]">
         <div className="max-w-5xl mx-auto px-6 text-center">
-          <p className="text-sm text-[#6b5e4f] mb-2">Harvard ALM Capstone &mdash; Digital Media Design &mdash; May 2026</p>
-          <p className="text-sm text-[#6b5e4f]">Bradley Ross &mdash; Creator of AISP &mdash; bar181@yahoo.com</p>
-          <div className="mt-4 flex items-center justify-center gap-6 text-sm text-[#6b5e4f]">
-            <a href="https://github.com/bar181/hey-bradley-core" className="hover:text-[#e8772e] transition-colors" target="_blank" rel="noopener noreferrer">Open core repo</a>
-            <a href="https://github.com/bar181/aisp-open-core" className="hover:text-[#e8772e] transition-colors" target="_blank" rel="noopener noreferrer">AISP open core</a>
-            <Link to="/about" className="hover:text-[#e8772e] transition-colors">About</Link>
+          <p className="text-sm text-[var(--hb-ink-muted)] mb-2">Harvard ALM Capstone &mdash; Digital Media Design &mdash; May 2026</p>
+          <p className="text-sm text-[var(--hb-ink-muted)]">Bradley Ross &mdash; Creator of AISP &mdash; bar181@yahoo.com</p>
+          <div className="mt-4 flex items-center justify-center gap-6 text-sm text-[var(--hb-ink-muted)]">
+            <a href="https://github.com/bar181/hey-bradley-core" className="hover:text-[var(--hb-warm)] transition-colors" target="_blank" rel="noopener noreferrer">Open core repo</a>
+            <a href="https://github.com/bar181/aisp-open-core" className="hover:text-[var(--hb-warm)] transition-colors" target="_blank" rel="noopener noreferrer">AISP open core</a>
+            <Link to="/about" className="hover:text-[var(--hb-warm)] transition-colors">About</Link>
           </div>
         </div>
       </footer>

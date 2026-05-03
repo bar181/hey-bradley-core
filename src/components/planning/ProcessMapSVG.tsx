@@ -58,16 +58,16 @@ function statusStyle(status: ProcessNodeStatus): StatusStyle {
         stroke: 'var(--hb-accent)',
       }
     case 'sealed':
-      // #22c55e literal — no green token in palette (ADR-117)
+      // P102 / CF#11 — token-backed; closes ADR-117 D4 literal-hex stopgap
       return {
-        fill: 'color-mix(in srgb, #22c55e 12%, transparent)',
-        stroke: '#22c55e',
+        fill: 'color-mix(in srgb, var(--hb-status-sealed) 12%, transparent)',
+        stroke: 'var(--hb-status-sealed)',
       }
     case 'deferred':
-      // #f59e0b literal — no amber token in palette (ADR-117)
+      // P102 / CF#11 — token-backed; closes ADR-117 D4 literal-hex stopgap
       return {
-        fill: 'color-mix(in srgb, #f59e0b 12%, transparent)',
-        stroke: '#f59e0b',
+        fill: 'color-mix(in srgb, var(--hb-status-deferred) 12%, transparent)',
+        stroke: 'var(--hb-status-deferred)',
       }
     case 'planned':
     default:

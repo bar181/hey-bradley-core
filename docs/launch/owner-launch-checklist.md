@@ -1,13 +1,15 @@
-# Owner Launch Checklist — v1.0.0-RC1
+# Owner Launch Checklist — v2.0.0-RC1
 
-> Generated at P84 seal. These tasks are owner-only; not part of any code sprint.
-> Cross-ref: ADR-109 § 4 (post-RC owner-only tasks).
+> Generated at P103 seal. These tasks are owner-only; not part of any code sprint.
+> Cross-ref: ADR-131 § CF#4 / CF#5 (post-RC owner-required) + ADR-133 (P103 release artifacts).
 
 ## Immediate (release day)
 
-- [ ] `git tag v1.0.0-RC1 && git push --tags`
-- [ ] BYOK smoke test — 5 prompts × 3 providers (Claude / Gemini / OpenRouter); budget ~$0.01
-- [ ] GitHub release (paste from `docs/launch/release-notes-v1.0.0-rc1.md`)
+- [ ] `git tag v2.0.0-RC1 && git push --tags`
+- [ ] GitHub release (paste from `docs/launch/release-notes-v2.0.0-rc1.md`)
+- [ ] BYOK smoke test — 5 prompts × 3 providers (Claude / Gemini / OpenRouter); budget ~$0.05
+- [ ] Verify CF#4 — schema rejection / latency / Crystal Atom compliance / cost cap with real Haiku
+- [ ] Verify CF#5 — listen STT cleanup quality with real microphone
 
 ## Distribution (week 1)
 
@@ -18,13 +20,13 @@
 
 ## Community engagement (weeks 1-2)
 
-- [ ] Twitter/X thread on the 55% problem + AISP solution
-- [ ] LinkedIn long-form post (Don Miller voice; founder authority)
-- [ ] Reddit r/programming + r/SideProject
+- [ ] Twitter/X thread on the 55% problem + AISP solution (8-atom suite framing)
+- [ ] LinkedIn long-form post (Don Miller voice; founder authority; three-mode workbench)
+- [ ] Reddit r/programming + r/SideProject + r/LocalLLaMA
 - [ ] AISP open-spec repo announcement (link to https://github.com/bar181/aisp-open-core)
 
 ## Follow-up (post-launch)
 
-- [ ] Collect feedback issues / PRs
+- [ ] Triage feedback issues / PRs
 - [ ] Triage Tier-2 commercial inquiries
 - [ ] Schedule first AISP RFC review (post-RC; if breaking changes proposed per ADR-109 § 3)
