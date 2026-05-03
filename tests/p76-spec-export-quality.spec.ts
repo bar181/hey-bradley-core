@@ -156,7 +156,8 @@ describe("P76.7 — Attribution constant (A4 surface)", () => {
 
 describe("P76.8 — EOP triplet present (A6 deliverables)", () => {
   it("02-post-review.md exists", () => {
-    expect(exists("plans/implementation/phase-76/02-post-review.md")).toBe(true);
+    // Post-scaffolding cleanup: 02-post-review.md archived under archive/.
+    expect(exists("plans/implementation/phase-76/archive/02-post-review.md")).toBe(true);
   });
   it("session-log.md exists", () => {
     expect(exists("plans/implementation/phase-76/session-log.md")).toBe(true);

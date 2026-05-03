@@ -41,19 +41,21 @@ const ATOM_FILES: ReadonlyArray<{ name: string; file: string; importToken: strin
 // --- main.tsx routes ---
 const MAIN_TSX = join(ROOT, 'src/main.tsx')
 
-// --- Reviewer artifacts (Wave 2) ---
-const SEAL_DIR_101 = 'plans/implementation/phase-101/seal'
+// --- Reviewer artifacts (Wave 2) — archived to archive/seal/ post-scaffolding cleanup ---
+const PHASE_DIR_101 = 'plans/implementation/phase-101'
+const ARCHIVE_SEAL_101 = `${PHASE_DIR_101}/archive/seal`
 const REVIEWER_DOCS = [
   '04-r1-whiteboard-review.md',
   '05-r2-planning-agentics-review.md',
   '06-r3-security-log-integrity.md',
   '07-r4-architecture-kiss.md',
-].map((f) => join(ROOT, SEAL_DIR_101, f))
+].map((f) => join(ROOT, ARCHIVE_SEAL_101, f))
 
-// --- EOP triplet for P101 (A4 owns) ---
-const EOP_REVIEW = join(ROOT, SEAL_DIR_101, '02-post-review.md')
-const EOP_LOG = join(ROOT, SEAL_DIR_101, 'session-log.md')
-const EOP_RETRO = join(ROOT, SEAL_DIR_101, 'retrospective.md')
+// --- EOP triplet for P101 (A4 owns) — post-scaffolding cleanup:
+//     02-post-review.md archived; session-log.md + retrospective.md at phase root ---
+const EOP_REVIEW = join(ROOT, ARCHIVE_SEAL_101, '02-post-review.md')
+const EOP_LOG = join(ROOT, PHASE_DIR_101, 'session-log.md')
+const EOP_RETRO = join(ROOT, PHASE_DIR_101, 'retrospective.md')
 
 function read(p: string): string {
   return readFileSync(p, 'utf8')

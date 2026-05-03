@@ -5,8 +5,10 @@
 `Three-mode AI workbench: spec it, plan it, ship it via AISP`
 
 ## Description (258 / 260 chars)
+<!-- Char count preserved at 258 (replaced "43 templates" with "51 templates" — neutral 1-char delta absorbed) -->
 
-`Whiteboard chat, Planning maps, Agentics spec factory. 8 Crystal Atoms classify every prompt. Export Claude Code bundle, drop into any LLM agent. Sub-second response. 43 templates. Multi-page. BYOK Claude/Gemini/OpenRouter. Polyglot parsers. MIT. v2.0.0-RC1.`
+
+`Whiteboard chat, Planning maps, Agentics spec factory. 8 Crystal Atoms classify every prompt. Export Claude Code bundle, drop into any LLM agent. Sub-second response. 51 templates. Multi-page. BYOK Claude/Gemini/OpenRouter. Polyglot parsers. MIT. v2.0.0-RC1.`
 
 ## Tags (3)
 

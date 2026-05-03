@@ -47,7 +47,10 @@ const ADR_134 = join(
   ROOT,
   'docs/adr/ADR-134-dead-code-purge-atom-view-fix.md',
 )
-const SEAL_DIR = join(ROOT, 'plans/implementation/phase-106/seal')
+// Post-scaffolding cleanup: 02-post-review.md lives in archive/seal/; session-log.md
+// and retrospective.md live at phase root.
+const PHASE_DIR = join(ROOT, 'plans/implementation/phase-106')
+const ARCHIVE_SEAL_DIR = join(PHASE_DIR, 'archive/seal')
 const PACKAGE_JSON = join(ROOT, 'package.json')
 
 function read(p: string): string {
@@ -266,15 +269,15 @@ test.describe('P106.7 — ADR-134 exists with correct shape and cross-refs', () 
 // P106.8 — EOP triplet present (3 cases)
 test.describe('P106.8 — EOP triplet at plans/implementation/phase-106/seal/', () => {
   test('02-post-review.md exists', () => {
-    expect(existsSync(join(SEAL_DIR, '02-post-review.md'))).toBe(true)
+    expect(existsSync(join(ARCHIVE_SEAL_DIR, '02-post-review.md'))).toBe(true)
   })
 
   test('session-log.md exists', () => {
-    expect(existsSync(join(SEAL_DIR, 'session-log.md'))).toBe(true)
+    expect(existsSync(join(PHASE_DIR, 'session-log.md'))).toBe(true)
   })
 
   test('retrospective.md exists', () => {
-    expect(existsSync(join(SEAL_DIR, 'retrospective.md'))).toBe(true)
+    expect(existsSync(join(PHASE_DIR, 'retrospective.md'))).toBe(true)
   })
 })
 

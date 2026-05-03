@@ -30,12 +30,14 @@ export function About() {
       <section className="py-12">
         <div className="max-w-3xl mx-auto px-6">
           <div className="bg-white border border-[#e8772e]/20 rounded-2xl p-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-2 font-medium">As of P69 (May 2026)</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-2 font-medium">As of P109 (May 2026)</p>
             <p className="text-[#6b5e4f] leading-relaxed">
-              Hey Bradley has sealed 52 phases through P69 &mdash; POC foundation,
+              Hey Bradley has sealed ~99 phases through P109 &mdash; POC foundation,
               local persistence, real LLM chat across 5 providers, voice mode,
-              open-core release, premium templates, mobile redesign &mdash; with
-              96 ADRs Accepted and 730 PURE-UNIT tests GREEN. Defending May 2026 at Harvard.
+              open-core release, premium templates, mobile redesign, three-mode
+              product architecture (Whiteboard / Planning / Agentics), 8 Crystal
+              Atoms, SpecWorkbench, and v2.0.0-RC1 ship boundary &mdash; with
+              128 ADRs Accepted and ~1491+ PURE-UNIT tests GREEN. Defending May 2026 at Harvard.
             </p>
           </div>
         </div>
@@ -185,9 +187,9 @@ export function About() {
             {[
               { stage: '1', name: 'Presentation', description: 'Capstone demo with canned simulations, themes, visual builder, and spec generation.', status: 'Complete' },
               { stage: '2', name: 'Pre-LLM MVP', description: 'Full builder with image upload, brand management, project persistence, and color picker.', status: 'Complete' },
-              { stage: '3', name: 'LLM MVP', description: 'Real AI chat and listen modes, BYOK API keys, streaming responses, and intelligent suggestions.', status: 'Planned' },
-              { stage: '4', name: 'Open Core', description: 'Public open-source release of the free builder. Commercial features split to a pro tier.', status: 'Planned' },
-              { stage: '5', name: 'Post-Open-Core', description: 'Cloud persistence, team collaboration, template marketplace, and enterprise features.', status: 'Future' },
+              { stage: '3', name: 'LLM MVP', description: 'Real AI chat and listen modes across 5 providers (Claude / Gemini / OpenRouter / Simulated / AgentProxy), BYOK API keys, streaming responses, and intelligent suggestions.', status: 'Complete' },
+              { stage: '4', name: 'Open Core', description: 'Public open-source release of the free builder; v1.0.0-RC1 sealed at P58/P84, v2.0.0-RC1 boundary sealed at P103 with three-mode product (Whiteboard / Planning / Agentics) and 8 Crystal Atoms.', status: 'Complete' },
+              { stage: '5', name: 'Post-Open-Core', description: 'Cloud persistence (Supabase), team collaboration, template marketplace, and enterprise features &mdash; deferred to commercial Tier-2 track per ADR-114.', status: 'Future' },
             ].map((item) => (
               <div key={item.stage} className="flex items-start gap-4 bg-white border border-[#e8772e]/20 rounded-xl p-6">
                 <div className="w-8 h-8 rounded-full bg-[#e8772e] text-[#2d1f12] flex items-center justify-center font-bold text-sm shrink-0">

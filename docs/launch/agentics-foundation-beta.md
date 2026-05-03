@@ -40,7 +40,7 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:5173` and hold push-to-talk. Describe a site in one sentence. Watch the five atoms fire. (Mirrors the canonical Quick Start in `README.md`.)
+Open `http://localhost:5173` and hold push-to-talk. Describe a site in one sentence. Watch the eight atoms fire. (Mirrors the canonical Quick Start in `README.md`.)
 
 ## BYOK providers
 

@@ -21,12 +21,12 @@ export interface ProgressItem {
 }
 
 export const HEADLINE_STATS = {
-  codingDays: 2,
-  daysToDefense: 14,
-  phasesSealed: 52,    // P15 through P69 inclusive (OC-4 + OC-5 sealed in parallel)
-  adrsAccepted: 96,    // ADR-096 added at P68/P69
-  testsGreen: 730,     // P68/P69 OC-4 + OC-5 cumulative seal-gate
-  sprintsSealed: 17,   // F, H, I, J, K, L, M, N, O, OC-1, OC-2, OC-3, OC-2.5, OC-2.5 W2, Polish Wave 1, Polish Wave 2/Close-the-Gap, OC-4/OC-5
+  codingDays: 4,
+  daysToDefense: 7,
+  phasesSealed: 99,    // P11 through P109 inclusive (Open Core arc + Agentic Workbench arc + RC1 hardening)
+  adrsAccepted: 128,   // ADR-137 added at P109 / ADR-LEDGER-TRUTH-UP
+  testsGreen: 1491,    // Cumulative session OC chain GREEN at P109 anchor (current regression: 237)
+  sprintsSealed: 35,   // F, H, I, J, K, L, M, N, O, OC-1..OC-18, AW (P90-P101), RC1 hardening sprints (P102-P109)
 } as const
 
 export const PROGRESS_ITEMS: ProgressItem[] = [
@@ -40,10 +40,10 @@ export const PROGRESS_ITEMS: ProgressItem[] = [
   },
   {
     category: 'Architecture',
-    name: 'Σ-restriction discipline preserved across 79 ADRs',
+    name: 'Σ-restriction discipline preserved across 128 ADRs',
     score: 10,
     verdict: 'excellent',
-    evidence: 'Every ADR honors the Σ symbol budget — no widening waivers, no ADR over 120 LOC, cross-references intact through 79 Accepted decisions.',
+    evidence: 'Every ADR honors the Σ symbol budget — no widening waivers, no ADR over 120 LOC, cross-references intact through 128 Accepted decisions.',
     reference: 'docs/adr/',
   },
   {
@@ -112,7 +112,7 @@ export const PROGRESS_ITEMS: ProgressItem[] = [
   },
   {
     category: 'Engineering',
-    name: '79 ADRs Accepted, ≤120 LOC each',
+    name: '128 ADRs Accepted, ≤120 LOC each',
     score: 9.5,
     verdict: 'excellent',
     evidence: 'Every architectural decision is captured in a tight, dated ADR with cross-references to the phase that landed it. No ADR exceeds the 120-LOC budget.',

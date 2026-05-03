@@ -138,10 +138,42 @@ export function Progress() {
       <section className="py-12 md:py-16">
         <div className="max-w-5xl mx-auto px-4 md:px-6">
           <h2 className="text-2xl md:text-3xl font-bold mb-2">Swarm eval — honest scores</h2>
-          <p className="text-[#6b5e4f] mb-10 max-w-2xl">
-            Eighteen items, scored 1-10 against the Sprint J system-wide review and the 2026-04-29 product
-            evaluation. Excellent / Strong / Partial / Gap — gaps are not hidden.
+          <p className="text-[#6b5e4f] mb-6 max-w-2xl">
+            Eighteen items, scored 1-10 against the v2.0.0-RC1 system-wide review (P102 / ADR-132 seal).
+            Excellent / Strong / Partial / Gap — gaps are not hidden.
           </p>
+
+          {/* Persona scores callout (P102 / ADR-132 v2.0.0-RC1 boundary) */}
+          <div
+            data-testid="progress-persona-scores"
+            className="mb-10 bg-white border border-[#e8772e]/20 rounded-2xl p-6"
+          >
+            <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-3 font-medium">
+              Persona scoring · v2.0.0-RC1 (ADR-132)
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-[#2d1f12] tabular-nums">86</div>
+                <div className="text-xs uppercase tracking-wider text-[#6b5e4f] font-medium mt-1">Grandma</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-[#2d1f12] tabular-nums">86</div>
+                <div className="text-xs uppercase tracking-wider text-[#6b5e4f] font-medium mt-1">Framer</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-[#2d1f12] tabular-nums">88</div>
+                <div className="text-xs uppercase tracking-wider text-[#6b5e4f] font-medium mt-1">Lars</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-[#A51C30] tabular-nums">86.7</div>
+                <div className="text-xs uppercase tracking-wider text-[#6b5e4f] font-medium mt-1">Composite</div>
+              </div>
+            </div>
+            <p className="text-xs text-[#6b5e4f] mt-4 leading-relaxed">
+              All three persona floors cleared at the v2.0.0-RC1 seal. SOTA composite delta +6.7 vs Lovable 80/100 baseline.
+              Zero floor breaches — gaps named, not papered.
+            </p>
+          </div>
 
           <div className="space-y-12">
             {CATEGORY_ORDER.map((cat) => {
@@ -211,7 +243,7 @@ export function Progress() {
 
       <footer className="py-12 border-t border-[#e8772e]/20 bg-[#faf8f5]">
         <div className="max-w-5xl mx-auto px-6 text-center">
-          <p className="text-sm text-[#6b5e4f]">Harvard ALM Capstone · Sprint M sealed · 2026-04-29</p>
+          <p className="text-sm text-[#6b5e4f]">Harvard ALM Capstone · v2.0.0-RC1 sealed · post-P109</p>
         </div>
       </footer>
     </main>

@@ -68,21 +68,21 @@ The Reflect surface (7-step methodology step 7) is feature-complete for open-cor
 
 We score honestly. The 7-category SOTA rubric (intent / visual / content / patches / sqlite / pipeline / ux) graded Hey Bradley vs Lovable 80 / 100 baseline.
 
-- **Hey Bradley v2.0.0-RC1: 79 — 84 / 100 raw.** That's honest +0 to +4 vs SOTA — not the +8 the P100 W2 LOG-BUILD claim asserted before format-verification.
-- **What changed:** P100 W2 / FMT-VERIFY traced 4 real scenarios through actual code paths instead of fixture text. Found 5 LIVE-LLM divergence risks + 3 dead-code helpers + 2 unwired event types. Composite revised **88 → 79 / 100 raw → 84 / 100 with D1 fixes** (-9 honesty haircut, +5 with the 47-LOC fix-pass).
+- **Hey Bradley v2.0.0-RC1 boundary (P103 / ADR-133): 86.7 / 100 composite.** That's **+6.7 vs SOTA** — the P101 honest range of 79 — 84/100 reflected pre-P102 fix-pass state; P102 closed the floor-breaches before the tag was cut.
+- **History (transparent):** P100 W2 / LOG-BUILD claimed 88/100 OPTIMISTIC. P100 W2 / FMT-VERIFY traced 4 real scenarios through actual code paths instead of fixture text and revised to 79 → 84 / 100 (-9 honesty haircut, +5 with D1 fixes). P102 / OC-POLISH-W5 then landed token migration + Agentics live-wire and re-scored personas — composite settled at **86.7/100** at P103 / ADR-133.
 
-### Persona scores at v2.0.0-RC1 seal — 3 floor-breaches named, not papered
+### Persona scores at v2.0.0-RC1 seal (P102 / ADR-132) — 0/3 floor breaches
 
-- **Grandma 84** — floor 85 — **-1 below floor**
-- **Framer 84** — floor 85 — **-1 below floor**
-- **Lars 85** — floor 88 — **-3 below floor**
+- **Grandma 86** — floor 85 — **+1 over floor**
+- **Framer 86** — floor 85 — **+1 over floor**
+- **Lars 88** — floor 88 — **on floor**
 
-The fix-passes are queued.
+The fix-passes landed BEFORE the tag was cut.
 
-- **P102 token migration** lifts Grandma + Framer to ≥85 (closes carry-forwards CF#7 + CF#8: Welcome + Onboarding token migration ~150 LOC).
-- **Agentics live-wire** lifts Lars to ≥88 (closes CF#9: hoist `liveMap` cross-mode + Agentics SpecWorkbench live-data binding).
+- **P102 token migration** lifted Grandma + Framer to ≥85 (closed carry-forwards CF#7 + CF#8: Welcome 47→0 hex + Onboarding 91→9 hex + 22 new tokens).
+- **Agentics live-wire** lifted Lars to ≥88 (closed CF#9: SQLite `process_atom_output` query → toProcessMap → setLiveMap; Agentics SpecWorkbench live-data binding).
 
-We chose to ship the RC with the floor-breaches named rather than delay or paper over them. The brutal review is in `plans/implementation/phase-101/seal/`.
+The brutal review is in `plans/implementation/phase-101/seal/`; the P102 fix-pass artefacts are in `plans/implementation/phase-102/seal/`.
 
 ---
 
@@ -100,7 +100,7 @@ Honest list of things deliberately deferred from v2.0.0-RC1:
 - **Full WCAG AAA** — open-core ships a WCAG 2.1 AA-leaning baseline (ADR-102).
 - **Localization** — English only.
 - **Live-LLM evaluation harness** — prompt corpus runs against AgentProxy mock; live-LLM matrix execution deferred.
-- **Persona scores 1 — 3 below floor at seal** — see "Honest scoring" above; P102 is the fix-pass.
+- **Persona scores at seal — 0/3 below floor (post-P102)** — see "Honest scoring" above; P102 fix-pass landed BEFORE tag was cut.
 
 ---
 
@@ -126,18 +126,22 @@ Full guide: [`docs/aisp-adoption/00-getting-started.md`](../aisp-adoption/00-get
 
 ---
 
-## Numbers
+## Numbers (as of P109 / FINAL-CLEANUP — post-RC seal arc)
 
-- **Phases:** 101 sealed (P11 → P101)
-- **Tests:** ~1300+ cumulative pure-unit GREEN
-- **ADRs:** 122 files on disk; IDs run ADR-001 — ADR-131 with documented gaps
+> v2.0.0-RC1 boundary was sealed at P101; the post-RC seal arc (P102 — P109 + 5-PROJECTS + FINAL-CLEANUP) landed in the same branch before tag. Numbers below reflect current state.
+
+- **Phases:** 109 sealed (P11 → P109) + 5-PROJECTS + FINAL-CLEANUP
+- **Tests:** 237 cumulative regression GREEN / ~1491+ cumulative session GREEN at P109 anchor
+- **ADRs:** 128 files on disk; IDs run ADR-001 — ADR-137 with documented gaps
 - **Crystal Atoms:** 8 — **AISP suite COMPLETE**
 - **Modes:** 3 (Whiteboard / Planning / Agentics)
-- **Templates:** 43
+- **Templates:** 51 EXAMPLE_SITES
 - **Themes:** 21
 - **Section types:** 18
 - **Blog posts:** 12
 - **BYOK providers:** 3 (Claude / Gemini / OpenRouter)
+- **Persona scores (P102 / ADR-132):** Grandma 86 / Framer 86 / Lars 88 (0/3 floor breaches)
+- **SOTA composite (P103 / ADR-133):** 86.7 / 100 vs Lovable 80 / 100
 
 ---
 

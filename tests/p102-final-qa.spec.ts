@@ -34,12 +34,14 @@ const INDEX_CSS = join(ROOT, 'src/index.css')
 const PROCESS_MAP_SVG = join(ROOT, 'src/components/planning/ProcessMapSVG.tsx')
 const MIGRATION_005 = join(ROOT, 'src/contexts/persistence/migrations/005-comprehensive-logs.sql')
 
-// --- A4-owned EOP triplet + persona doc (hard-gate) ---
-const SEAL_DIR_102 = 'plans/implementation/phase-102/seal'
-const PERSONA_RESCORE = join(ROOT, SEAL_DIR_102, 'persona-rescore.md')
-const EOP_REVIEW = join(ROOT, SEAL_DIR_102, '02-post-review.md')
-const EOP_LOG = join(ROOT, SEAL_DIR_102, 'session-log.md')
-const EOP_RETRO = join(ROOT, SEAL_DIR_102, 'retrospective.md')
+// --- A4-owned EOP triplet + persona doc (hard-gate) — post-scaffolding cleanup:
+//     persona-rescore.md + 02-post-review.md archived; session-log.md + retrospective.md at phase root ---
+const PHASE_DIR_102 = 'plans/implementation/phase-102'
+const ARCHIVE_SEAL_102 = `${PHASE_DIR_102}/archive/seal`
+const PERSONA_RESCORE = join(ROOT, ARCHIVE_SEAL_102, 'persona-rescore.md')
+const EOP_REVIEW = join(ROOT, ARCHIVE_SEAL_102, '02-post-review.md')
+const EOP_LOG = join(ROOT, PHASE_DIR_102, 'session-log.md')
+const EOP_RETRO = join(ROOT, PHASE_DIR_102, 'retrospective.md')
 
 function read(p: string): string {
   return readFileSync(p, 'utf8')

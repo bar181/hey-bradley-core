@@ -90,8 +90,8 @@ export function OpenCore() {
           <div className="space-y-4 text-[#6b5e4f] leading-relaxed max-w-3xl">
             <p>
               Open core is a development model: one codebase, one product, with a natural boundary.
-              Everything that runs in your browser ships free under MIT. The visual builder, 12 themes,
-              15 example websites, 6 enterprise spec generators, 300+ media images, 13 image effects,
+              Everything that runs in your browser ships free under MIT. The visual builder, 21 themes,
+              51 example websites, 6 enterprise spec generators, 300+ media images, 13 image effects,
               and the AISP Crystal Atom output&mdash;all open source.
             </p>
             <p>
@@ -103,6 +103,12 @@ export function OpenCore() {
               For engineers: the architecture has clear integration points where LLM connections, database
               layers, and auth systems attach. Any skilled engineer can wire their own API key, connect
               a Supabase instance, or plug in a custom model. The architecture is yours.
+            </p>
+            <p>
+              Recent additions (P85&ndash;P109): three-mode product architecture (Whiteboard / Planning / Agentics),
+              the full 8-atom AISP Crystal Atom suite (PATCH + INTENT + SELECTION + CONTENT + ASSUMPTIONS + DECOMP + PROCESS + DDD + AGENT),
+              SpecWorkbench, Export Claude Code markdown bundle, multi-page MVP, page-aware chat pipeline,
+              comprehensive LLM interaction logging, schema guards, and dead-code purge. v2.0.0-RC1 ship boundary sealed.
             </p>
           </div>
         </div>
@@ -281,7 +287,7 @@ export function OpenCore() {
               The project uses deep agentic engineering practices: hierarchical mesh topology for agent
               coordination, HNSW-indexed vector memory for pattern learning, domain-driven design with
               bounded contexts, and a 3-tier model routing system that selects the right AI for each
-              task. 96 Architecture Decision Records document every significant choice.
+              task. 128 Architecture Decision Records document every significant choice.
             </p>
           </div>
 
@@ -293,22 +299,22 @@ export function OpenCore() {
             </div>
             <div className="bg-white/[0.03] border border-[#e8772e]/20 rounded-xl p-5">
               <Target className="w-5 h-5 text-cyan-400 mb-3" />
-              <div className="text-2xl font-bold">730</div>
+              <div className="text-2xl font-bold">~1491+</div>
               <div className="text-xs text-[#6b5e4f] mt-1">PURE-UNIT tests GREEN</div>
             </div>
             <div className="bg-white/[0.03] border border-[#e8772e]/20 rounded-xl p-5">
               <Zap className="w-5 h-5 text-cyan-400 mb-3" />
-              <div className="text-2xl font-bold">96</div>
+              <div className="text-2xl font-bold">128</div>
               <div className="text-xs text-[#6b5e4f] mt-1">Architecture Decision Records</div>
             </div>
             <div className="bg-white/[0.03] border border-[#e8772e]/20 rounded-xl p-5">
               <Cpu className="w-5 h-5 text-cyan-400 mb-3" />
-              <div className="text-2xl font-bold">52</div>
-              <div className="text-xs text-[#6b5e4f] mt-1">phases sealed (P15&ndash;P69)</div>
+              <div className="text-2xl font-bold">~99</div>
+              <div className="text-xs text-[#6b5e4f] mt-1">phases sealed (P11&ndash;P109)</div>
             </div>
           </div>
 
-          {/* Sprint J/K/L/M capabilities refresh */}
+          {/* Sprint J/K/L/M + Open Core arc + Agentic Workbench capabilities refresh */}
           <ul className="mt-8 grid md:grid-cols-2 gap-x-6 gap-y-2 text-sm text-[#6b5e4f] leading-relaxed">
             <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>5-mode personality system (professional / fun / geek / teacher / coach)</span></li>
             <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>AISP atom trace visible on every reply (Sprint L)</span></li>
@@ -316,6 +322,12 @@ export function OpenCore() {
             <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>Premium opinionated templates (Sprint M)</span></li>
             <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>Mobile-native 3-tab nav with hamburger drawer</span></li>
             <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>Conversation Log &mdash; every prompt + reply in EXPERT mode (chat &#8904; llm_logs)</span></li>
+            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>Three-mode product (Whiteboard / Planning / Agentics) routed since P90</span></li>
+            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>8 Crystal Atoms (PATCH + INTENT + SELECTION + CONTENT + ASSUMPTIONS + DECOMP + PROCESS + DDD + AGENT)</span></li>
+            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>SpecWorkbench + Export Claude Code markdown bundle</span></li>
+            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>Multi-page MVP + page-aware chat pipeline (ADR-103 + ADR-104)</span></li>
+            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>TDD scaffold + KISS reviewer + Seal Panel (P97-P99)</span></li>
+            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>Comprehensive LLM interaction logging (ADR-126) + schema guards</span></li>
           </ul>
         </div>
       </section>
@@ -336,7 +348,7 @@ export function OpenCore() {
               <p className="text-sm text-[#6b5e4f] mb-1">The reference implementation</p>
               <p className="text-sm text-[#6b5e4f] leading-relaxed mb-4">
                 Visual builder that generates AISP specs from human interactions. React + TypeScript + Tailwind.
-                12 themes, 15 examples, 300+ images, 6 spec generators, 13 image effects.
+                21 themes, 51 examples, 300+ images, 6 spec generators, 13 image effects.
               </p>
               <span className="inline-flex items-center gap-1 text-sm text-[#e8772e] font-medium group-hover:underline">
                 github.com/bar181/hey-bradley-core <ArrowRight className="w-3.5 h-3.5" />

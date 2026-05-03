@@ -6,7 +6,7 @@ const QUICK_START = [
   {
     step: 1,
     title: 'Pick a Theme',
-    description: 'Choose from 12 professional themes or start with one of 17 pre-built example sites. Each theme includes a full color palette, font stack, and section styling.',
+    description: 'Choose from 21 professional themes or start with one of 51 pre-built example sites. Each theme includes a full color palette, font stack, and section styling.',
   },
   {
     step: 2,
@@ -28,29 +28,37 @@ const WORKFLOW_STEPS = [
   { label: 'Export and build', detail: 'Download your config as JSON. Hand it to a developer, feed it to an AI agent, or use the AISP spec for automated implementation.' },
 ]
 
+// Canonical 18 section types per ADR-100 (widened from 15 by P75 / OC-7 with
+// case-study + contact-form). Aliases like "cta" / "testimonial" / "faq" /
+// "features" / "value-props" live in the validateSectionType runtime helper
+// only (per ADR-104 + ADR-134 + ADR-137 — section-enum drift regression
+// guard locks 5 sources to canonical 18).
 const SECTION_TYPES = [
   { type: 'menu', name: 'Navigation Bar', variants: 2, description: 'Navigation bar with logo and links' },
   { type: 'hero', name: 'Hero', variants: 4, description: 'Main banner with headline, image, and call-to-action' },
-  { type: 'columns', name: 'Content Cards', variants: 8, description: 'Cards with images, icons, and text in grid layouts' },
+  { type: 'columns', name: 'Content Cards', variants: 8, description: 'Cards with images, icons, and text in grid layouts (covers features / value-props aliases)' },
   { type: 'pricing', name: 'Pricing', variants: 3, description: 'Pricing plans and tier comparison' },
-  { type: 'action', name: 'Action Block', variants: 4, description: 'Section with button and message for conversions' },
+  { type: 'action', name: 'Action Block', variants: 4, description: 'Section with button and message for conversions (covers CTA alias)' },
   { type: 'footer', name: 'Footer', variants: 4, description: 'Page footer with links and branding' },
-  { type: 'quotes', name: 'Quotes', variants: 4, description: 'Customer testimonials and social proof' },
-  { type: 'questions', name: 'Questions', variants: 4, description: 'Frequently asked questions with accordion' },
-  { type: 'numbers', name: 'Numbers', variants: 4, description: 'Key metrics, stats, and value propositions' },
+  { type: 'quotes', name: 'Quotes', variants: 4, description: 'Customer testimonials and social proof (covers testimonials / pull-quote aliases)' },
+  { type: 'questions', name: 'Questions', variants: 4, description: 'Frequently asked questions with accordion (covers FAQ alias)' },
+  { type: 'numbers', name: 'Numbers', variants: 4, description: 'Key metrics, stats, and value propositions (covers stats alias)' },
   { type: 'gallery', name: 'Gallery', variants: 4, description: 'Image gallery with lightbox and effects' },
   { type: 'image', name: 'Image', variants: 4, description: 'Full-width photo with optional text overlay' },
   { type: 'divider', name: 'Spacer', variants: 3, description: 'Visual separator between sections' },
-  { type: 'text', name: 'Text', variants: 3, description: 'Long-form content for articles or about pages' },
+  { type: 'text', name: 'Text', variants: 3, description: 'Long-form content for articles or about pages (covers article / long-form aliases)' },
   { type: 'logos', name: 'Logo Cloud', variants: 3, description: 'Partner or sponsor logos in a row' },
   { type: 'team', name: 'Team', variants: 3, description: 'Team member cards with photos and roles' },
-  { type: 'cta', name: 'Call to Action', variants: 2, description: 'Focused conversion section' },
-  { type: 'features', name: 'Features', variants: 2, description: 'Feature highlights with icons and descriptions' },
-  { type: 'faq', name: 'FAQ', variants: 2, description: 'Expandable question-and-answer blocks' },
-  { type: 'testimonials', name: 'Testimonials', variants: 1, description: 'Social proof and customer reviews' },
-  { type: 'value-props', name: 'Value Props', variants: 1, description: 'Key selling points for your product' },
+  { type: 'blog', name: 'Blog Post', variants: 2, description: 'Long-form article layout with title, body, and metadata' },
+  { type: 'case-study', name: 'Case Study', variants: 2, description: 'Customer story with problem / approach / outcome structure' },
+  { type: 'contact-form', name: 'Contact Form', variants: 2, description: 'Form section with fields, validation, and submit handler' },
 ]
 
+// 21 themes total (12 MasterConfig categorical themes + 9 Template
+// Intelligence design-style themes added in P72 / OC-TI / ADR-098 + P73
+// audit/expansion). Categorical themes load as preset MasterConfig; design-
+// style themes are matched by Template Intelligence per ADR-098 (3-layer
+// theme/section/content matcher).
 const THEMES = [
   { slug: 'saas', name: 'Tech Business', color: '#6366F1', description: 'Software products, developer tools, tech platforms' },
   { slug: 'agency', name: 'Agency', color: '#EC4899', description: 'Design studios, creative agencies, marketing firms' },
@@ -64,6 +72,15 @@ const THEMES = [
   { slug: 'blog', name: 'Blog', color: '#7C3AED', description: 'Writers, publishers, newsletters, content creators' },
   { slug: 'elegant', name: 'Elegant', color: '#D4A574', description: 'Luxury brands, high-end services, refined experiences' },
   { slug: 'neon', name: 'Neon', color: '#00FF88', description: 'Gaming, nightlife, crypto, cutting-edge tech' },
+  { slug: 'warm-minimal', name: 'Warm Minimal', color: '#A47551', description: 'Warm-toned minimalism, cozy editorial, indie publications' },
+  { slug: 'dark-tech', name: 'Dark Tech', color: '#0EA5E9', description: 'Dark dashboards, developer tools, terminal aesthetics' },
+  { slug: 'editorial-serif', name: 'Editorial Serif', color: '#92400E', description: 'Long-form journalism, essays, serif-heavy editorial sites' },
+  { slug: 'medical-trust', name: 'Medical Trust', color: '#0891B2', description: 'Healthcare, clinics, medical practices, trust-first design' },
+  { slug: 'industrial-modern', name: 'Industrial Modern', color: '#525252', description: 'Architecture, manufacturing, industrial design, grit + grid' },
+  { slug: 'dark-feminine', name: 'Dark Feminine', color: '#9F1239', description: 'Bold dark-mode beauty, fashion editorial, statement brands' },
+  { slug: 'cozy-maximalist', name: 'Cozy Maximalist', color: '#B45309', description: 'Warm patterns, layered textures, hospitality + lifestyle' },
+  { slug: 'forest-green', name: 'Forest Green', color: '#14532D', description: 'Outdoor brands, sustainability, earthy + grounded' },
+  { slug: 'sunset-warm', name: 'Sunset Warm', color: '#EA580C', description: 'Travel, food, hospitality, warm sunset palettes' },
 ]
 
 const SPEC_GENERATORS = [

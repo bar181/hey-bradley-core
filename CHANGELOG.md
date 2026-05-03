@@ -6,7 +6,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); the pro
 
 ## [v2.0.0-RC1] — 2026-05-01
 
-Second release-candidate of the Hey Bradley open-core SPA — the **Agentic Workbench RC**. **101 phases sealed (P11 → P101)**; ~1300+ cumulative pure-unit GREEN; **122 ADRs on disk (IDs run ADR-001 — ADR-131 with documented gaps)**; 43 templates; 21 themes; 18 section types; 12 blog posts; **8 Crystal Atoms — AISP suite COMPLETE** (PATCH + INTENT + SELECTION + CONTENT + ASSUMPTIONS + DECOMP + PROCESS + DDD + AGENT); **3 modes routed** (Whiteboard / Planning / Agentics); **7-step methodology** (Research → Decompose → Architect → Spec → Plan → Build → Reflect).
+Second release-candidate of the Hey Bradley open-core SPA — the **Agentic Workbench RC**. As of P109 / FINAL-CLEANUP: **109 phases sealed (P11 → P109)** + 5-PROJECTS + FINAL-CLEANUP; **237 cumulative regression GREEN / ~1491+ cumulative session GREEN**; **128 ADRs on disk (IDs run ADR-001 — ADR-137 with documented gaps)**; **51 templates** (EXAMPLE_SITES); 21 themes; 18 section types; 12 blog posts; **8 Crystal Atoms — AISP suite COMPLETE** (PATCH + INTENT + SELECTION + CONTENT + ASSUMPTIONS + DECOMP + PROCESS + DDD + AGENT); **3 modes routed** (Whiteboard / Planning / Agentics); **7-step methodology** (Research → Decompose → Architect → Spec → Plan → Build → Reflect). Persona scores **Grandma 86 / Framer 86 / Lars 88** per ADR-132 (0/3 floor breaches at v2.0.0-RC1 seal); SOTA composite **86.7/100** vs Lovable 80/100 baseline per ADR-133.
 
 ### Highlights
 
@@ -16,7 +16,7 @@ Second release-candidate of the Hey Bradley open-core SPA — the **Agentic Work
 - **Comprehensive SQLite log infrastructure.** Two-table architecture (`log_events` + `edit_history`) with 30 / 90 day retention; three-level ID hierarchy (`session_id` → `request_id` → `event_id`); BYOK trust boundary preserved via `redactKeyShapes` at every write boundary. ADR-126.
 - **Markdown spec bundle export for Claude Code consumption.** Single `.md` with `# === FILE: <path> ===` markers; ≥6 logical files (CLAUDE.md preamble + process map + human spec + AISP spec + ADRs + agent wave scopes); bundle IS the canonical Hey Bradley OUTPUT — downstream consumer (Claude Code, Cursor, any LLM agent) reads bundle and writes implementation in their own repo. ADR-122.
 - **TDD scaffold + KISS review + Seal Panel.** Given/When/Then markdown derived from AISP-Σ + DDD context + AGENT DoD + phase-gate (ADR-128); 6-category 3-tier KISS reviewer with PASS = zero P1 (ADR-129); 3-card EOP markdown panel with PROCESS+DDD log persistence (ADR-130).
-- **43 templates / 18 section types / 21 themes / 12 blog posts.** Open-core asset surface unchanged from v1.0.0-RC1 baseline (+2 E2E-validation entries: aisp-executive + aisp-developer-retro).
+- **51 templates / 18 section types / 21 themes / 12 blog posts.** Open-core asset surface expanded post-RC: +2 E2E-validation entries (aisp-executive + aisp-developer-retro), +3 E2E-TEST-2 multi-scenario entries (coffee-essay + north-light-agency + indie-coffee-roaster), +5 5-PROJECTS persona-driven full-pipeline builds (Axon CLI + GreenLane + Quattro Studio + Mrs. Albright's Tutoring + Bordo Spec; composite reviewer score 9.4/10).
 
 ### Phase ledger
 
@@ -111,16 +111,29 @@ Full ledger lives in `plans/implementation/mvp-plan/STATE.md`. Highlights only h
 - **P100 W2 / FMT-VERIFY** — Format Verification + Top-3 Atom-Helper Fixes: AgentProxy response shape MATCHES Zod schema for happy path with 5 LIVE-LLM divergence risks documented; 3 critical helpers wired (`isUnmeasurableGoal` + `hasContradiction` + `cleanTranscript`); schema CHECK enum extended. **Honest SOTA revision: 88 → 79 / 100 raw → 84 / 100 with D1 fixes** (-9 honesty haircut, +5 with fixes). ADR-127.
 - **P101 / AW-RC** — Agentic Workbench RC: definitive boundary record naming what ships at v2.0.0-RC1 (3 modes routed + 8 atoms wired + 7-step methodology); 12-item carry-forward registry (CF#1-3 CLOSED + CF#4-5 OWNER-REQUIRED + CF#6 TIER-2 + CF#7-12 P102 candidates); 4 PARTIAL verdicts from W2 brutal review with A4 fix-pass landing 4 cheapest blockers (≤70 LOC cap). ADR-131.
 
+#### Post-RC seal arc (P102 — P109 + 5-PROJECTS + FINAL-CLEANUP) — landed before tag
+
+- **P102 / OC-POLISH-W5** — Final QA + Token Migration + Agentics Live-Wire + Persona Gate. Welcome 47→0 hex + Onboarding 91→9 hex + 22 new tokens; Agentics live-wire SQLite `process_atom_output` query → toProcessMap → setLiveMap; CF#11 status palette tokens `--hb-status-{sealed,deferred}` + CF#12 migration 005 INTENT_FUTURE comment block. Persona re-score Grandma 84→86 / Framer 84→86 / Lars 85→88 — **0/3 floor breaches** at v2.0.0-RC1 seal. ADR-132.
+- **P103 / RC-RELEASE** — v2.0.0-RC1 Open Core Boundary record. CHANGELOG + release notes + Show HN + Product Hunt tagline + demo video script + owner launch checklist. Composite **86.7/100** vs Lovable 80/100. ADR-133 (definitive ship-boundary record).
+- **P104 / SCHEMA-GUARDS** — Runtime validators. `validateEventType()` in `comprehensiveLogs.ts` (writeLogEvent integration; `patch_applied` → `patch_validation` remap) + `validateSectionType()` with alias map (article/long-form→text, testimonial/pull-quote→quotes, nav→menu, cta→action, faq→questions, stats→numbers) + CI smoke test. 12 new tests; 2 schema-enum carry-forwards from E2E-TEST-2 closed.
+- **P105 / RC-BLOCKERS-CLOSURE** — Top-4 P1 blockers closed (4 parallel disjoint-scope agents). Welcome routes (5× `/onboarding` → `/new-project`) + AppShell cleanup (113→67 LOC dead-branch purge per ADR-116 D3) + log persistence flush (`scheduleFlush` 500ms debounce + `flushLogsImmediate` + pagehide listener — closes "logs evaporate on tab close") + cleanTranscript pipeline wire (effectiveText threaded through 14 consumers when `source==='listen'`) + validateSectionType production-wire (0 → 2 production callers). 17 new tests.
+- **P106 / DEAD-CODE-PURGE + ATOM-VIEW-FIX** — Architectural-debt P1 closure (3 parallel disjoint-scope agents). twoStepPipeline.ts orphan DELETED (-123 LOC; ADR-057 SUPERSEDED in implementation; templateMatcher.ts is canonical SELECTION) + atom→view dependency inversion FIXED (NEW `processMapTypes.ts` + `types.ts` neutral type modules; 4 atom modules re-pointed; zero `@/components` imports in `src/contexts/`) + section-type enum 3-way reconciliation (PATCH_ATOM 16→18 + ALLOWED_TARGET_TYPES 23→18 + intentTargetTypeSchema 23→18; 5 sources agree on canonical 18 per ADR-100). 22 new tests. ADR-134.
+- **P107 / LOG-INTEGRITY-EXPANSION** — Persistence/observability P1 closure. 4 unwired event_types now have production writers (`multi_page_scope` + `decomp_split` + `todo_execution` + `export_emit`; preserves atom-pure contract via NEW `ExportEmitCallback` type) + centralized `writeErrorEvent(db, ctx, err, source)` helper (BYOK redaction via `redactKeyShapes` on **both** message AND stack per ADR-043; 4 chatPipeline catch sites wired). CHECK enum coverage 10/15 → **15/15 = 100%**. 19 new tests. ADR-135.
+- **P108 / TEST-RUNTIME-SHIFT** — Test-trustworthiness P1 closure. p76 spec audit-correction (D7 was false positive — `const it = test;` aliasing audit grep missed; trimmed 217→167 LOC) + mobile viewport projects (`playwright.config.ts` 1→4 projects: chromium Desktop preserved + mobile-375 iPhone-SE + mobile-390 iPhone-13 + mobile-428 iPhone-13-Pro-Max; opt-in via `testMatch`) + helpers behavioral coverage (NEW spec — cleanTranscript 12 cases + validateSectionType 13 cases + validateEventType 5 cases via `node:vm` `runInNewContext` sandbox + integration sanity 3 cases; behavioral finding `cleanTranscript` does NOT preserve quoted strings). 87 new test runs. ADR-136.
+- **P109 / ADR-LEDGER-TRUTH-UP** — Documentation truth-up P1 closure. `docs/adr/README.md` rebuilt to disk reality (was 38 ADRs through ADR-048 last touched 2026-04-27 / post-P19; 60+ phases stale; now 127 entries / 18 phase-family buckets / 260 LOC) + section-enum drift regression guard (NEW `tests/p109-section-enum-drift-guard.spec.ts` — 13 cases / 7 describes; locks 5 sources of section-type truth to canonical 18; promotes ADR-100 discipline to CI-enforced invariant). 13 new tests. ADR-137.
+- **5-PROJECTS / persona validation sprint** — 5 persona-driven full-pipeline builds wired into `EXAMPLE_SITES`: Axon CLI (Claude Code dev) + GreenLane (Marcus startup founder) + Quattro Studio (Sarah agency) + Mrs. Albright's Tutoring (Grandma listen-mode) + Bordo Spec (Lars agentic engineering). Composite reviewer score 9.4/10. 4-reviewer brutal-review pass with 0 P1 / 0 P2 / 3 P3 cosmetic findings.
+- **FINAL-CLEANUP** (post-P109; same-branch swarm closure) — Fixture normalization (project-4 wrapper unwrap / `patch_applied`→`patch_validation` direct-rewrite / session-prefix mislabels fixed) + `todo_execution` + `error_event` fixture rows added so all **5 of 5 declared event_types now have BOTH production writers AND fixture coverage** + `docs/adr/README.md` header counter fix 127/ADR-136 → 128/ADR-137. All 4 honest gaps from `docs/validation/database-integrity-report.md` Check 2 CLOSED. EXAMPLE_SITES 51 (was 46 at v2.0.0-RC1 boundary; +5 from this sprint).
+
 ### Honest scoring vs SOTA
 
-Per ADR-127 §C and ADR-131:
+Per ADR-132 (P102 persona re-score) and ADR-133 (v2.0.0-RC1 boundary):
 
-- **vs Lovable 80 / 100 baseline:** Hey Bradley scored **79 — 84 / 100** (honest +0 to +4 vs SOTA on the 7-category rubric: intent / visual / content / patches / sqlite / pipeline / ux).
-- **Persona scores at v2.0.0-RC1 seal — 3 floor-breaches named, not papered:**
-  - Grandma 84 (floor 85; -1)
-  - Framer 84 (floor 85; -1)
-  - Lars 85 (floor 88; -3)
-- **P102 token migration** is expected to lift Grandma + Framer to ≥85 (closes CF#7 + CF#8); **Agentics live-wire** (CF#9) is expected to lift Lars to ≥88.
+- **vs Lovable 80 / 100 baseline:** Hey Bradley scored **86.7 / 100** at v2.0.0-RC1 seal (P103 / ADR-133) — **+6.7 vs SOTA** on the 7-category rubric (intent / visual / content / patches / sqlite / pipeline / ux). The earlier P101 honest range of 79 — 84/100 reflected pre-P102 fix-pass state; P102 token migration + Agentics live-wire landed BEFORE tag.
+- **Persona scores at v2.0.0-RC1 seal (P102 / ADR-132) — 0/3 floor breaches:**
+  - Grandma **86** (floor 85; +1)
+  - Framer **86** (floor 85; +1)
+  - Lars **88** (floor 88; on)
+- P102 token migration **lifted** Grandma + Framer to ≥85 (closed CF#7 + CF#8); Agentics live-wire **lifted** Lars to ≥88 (closed CF#9). Composite delta vs Lovable 80 is +6.7. Post-P109 + 5-PROJECTS honest delta estimate: +0 to +2 vs RC1 (no persona re-score this sprint; gains compound silently — token migration verified, log integrity proven, mobile coverage live, atom-view discipline locked, ADR ledger reconciled to disk truth).
 
 ### Known limitations (honest)
 
@@ -150,12 +163,12 @@ Per ADR-127 §C and ADR-131:
   - `aisp-1.X` minor bumps preserve backward compatibility on the bundle parsing surface.
   - `aisp-2.0+` major bumps require an **RFC issue** with motivation, alternatives, migration path, and backward-compat shim plan.
 
-### Numbers
+### Numbers (as of P109 / FINAL-CLEANUP)
 
-- **Phases:** 101 sealed (P11 → P101)
-- **Tests:** ~1300+ cumulative pure-unit GREEN at P101 seal
-- **ADRs:** 122 files on disk; ADR IDs run ADR-001 — ADR-131 with documented gaps (002-004, 006-009, 034-037, 123-125 reserved) plus 3 P21-stub-then-superseded duplicates (ADR-051 / 052 / 053)
-- **Templates:** 43 (37 .json + 6 directories; +2 E2E-validation entries since v1.0.0-RC1)
+- **Phases:** 109 sealed (P11 → P109) + 5-PROJECTS + FINAL-CLEANUP
+- **Tests:** 237 cumulative regression GREEN / ~1491+ cumulative session GREEN at P109 anchor
+- **ADRs:** 128 files on disk; ADR IDs run ADR-001 — ADR-137 with documented gaps (002-004, 006-009, 034-037, 123-125 reserved) plus 3 P21-stub-then-superseded duplicates (ADR-051 / 052 / 053)
+- **Templates:** 51 EXAMPLE_SITES (17 baseline + 3 OC-3 + 11 OC-4 + 4 OC-15 agentic-product + 2 E2E-TEST + 3 E2E-TEST-2 + 5 5-PROJECTS persona-driven full-pipeline)
 - **Crystal Atoms:** 8 (PATCH + INTENT + SELECTION + CONTENT + ASSUMPTIONS + DECOMP + PROCESS + DDD + AGENT) — **AISP suite COMPLETE**
 - **Modes:** 3 (Whiteboard / Planning / Agentics)
 - **Themes:** 21
@@ -168,6 +181,8 @@ Per ADR-127 §C and ADR-131:
 - **BYOK providers:** 3 (Claude / Gemini / OpenRouter) + simulated + AgentProxy mock + DEV-only fixture
 - **Images:** 300; **image effects:** 13 (8 core + 5 wow-factor)
 - **Ruvector entries:** 126 (manually curated; HNSW deferred)
+- **Persona scores (P102 / ADR-132):** Grandma 86 / Framer 86 / Lars 88 (0/3 floor breaches)
+- **SOTA composite (P103 / ADR-133):** 86.7 / 100 vs Lovable 80 / 100
 
 ### Contributors
 

@@ -19,10 +19,17 @@ a CI pipeline, a different framework — is a one-file integration.
 
 The public AISP repo: <https://github.com/bar181/aisp-open-core>.
 
-## The 5 atoms (plus DECOMP)
+## The 8 atoms — AISP suite COMPLETE
 
-Every Hey Bradley pipeline run can emit traces for up to five Crystal Atoms,
-plus an optional pre-pipeline decomposition atom from P74:
+The AISP suite is **COMPLETE at v2.0.0-RC1** with eight production-wired
+Crystal Atoms. Five emit into the `bundle.atoms` object that ships with every
+Whiteboard-mode bundle (the surface 3rd-party consumers parse). Three additional
+atoms drive Planning + Agentics workbench surfaces and are NOT serialised in
+`bundle.atoms` by design — they live in their own emit channels (Process Map,
+Domain Model, Agent Spec) consumed by the markdown spec bundle (ADR-122) rather
+than the JSON bundle.
+
+### Bundle-emitted atoms (5 + DECOMP — what `bundle.atoms` carries)
 
 | Atom | Role | ADR |
 |------|------|-----|
@@ -32,6 +39,19 @@ plus an optional pre-pipeline decomposition atom from P74:
 | `CONTENT` | generate constrained text (tone, length capped) | ADR-060 |
 | `PATCH` | the final JSON-Patch envelope applied to the master config | ADR-045 |
 | `DECOMP` | split a multi-clause utterance into ordered todos *before* INTENT | ADR-099 |
+
+### Workbench atoms (Planning + Agentics modes)
+
+| Atom | Role | ADR |
+|------|------|-----|
+| `PROCESS` | project description → phases / sprints / waves / agents → ProcessMap (Planning mode) | ADR-118 |
+| `DDD` | project description → bounded contexts + 4-kind relationships → DomainModelSVG (Planning mode) | ADR-119 |
+| `AGENT` | wave context → ordered AgentSpec[] with disjoint ownedFiles + DoD checklists (Agentics mode; final atom of the suite) | ADR-120 |
+
+If you only consume Whiteboard-mode bundles (the JSON shape below), you parse
+the 5 baseline atoms + optional DECOMP. The PROCESS / DDD / AGENT atoms live in
+the markdown spec bundle (ADR-122) — a separate emit surface designed for
+Claude Code / Cursor / agent-pipeline consumption.
 
 ## The bundle shape
 

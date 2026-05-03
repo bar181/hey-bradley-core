@@ -58,19 +58,19 @@
 
 ---
 
-## Concrete shipped numbers (cite on screen if helpful)
+## Concrete shipped numbers (cite on screen if helpful — as of P109 / FINAL-CLEANUP)
 
-- ~1300+ pure-unit tests GREEN at P101 seal
-- 131 ADRs Accepted on disk
-- 43 templates (17 baseline + 26 expansion across OC-3 / OC-4 / OC-15 + E2E)
+- 237 cumulative regression GREEN / ~1491+ cumulative session GREEN at P109 anchor
+- 128 ADRs Accepted on disk (IDs run ADR-001 — ADR-137 with documented gaps)
+- 51 EXAMPLE_SITES (17 baseline + 26 OC expansion + 2 E2E + 3 E2E-TEST-2 + 5 5-PROJECTS persona-driven full-pipeline)
 - 12 blog posts (ADR-097 floor met at P82)
 - 18 section types (ADR-100 widening)
 - 21 themes / 15 section arrangements / 15 content styles
 - 8 Crystal Atoms — AISP suite COMPLETE (5 baseline INTENT/ASSUMPTIONS/SELECTION/CONTENT/PATCH + DECOMP + PROCESS + DDD + AGENT)
 - 3 modes — Whiteboard / Planning / Agentics (ADR-116)
-- 101 phases sealed (P11 → P101)
-- Persona scores — Grandma 84 / Framer 84 / Lars 85 (ADR-094 rubric; ADR-131 honest)
-- SOTA composite 79–84/100 vs Lovable 80/100 (ADR-127 §C)
+- 109 phases sealed (P11 → P109) + 5-PROJECTS + FINAL-CLEANUP
+- Persona scores — Grandma 86 / Framer 86 / Lars 88 (ADR-094 rubric; ADR-132 P102 re-score; 0/3 floor breaches)
+- SOTA composite 86.7/100 vs Lovable 80/100 (ADR-133 v2.0.0-RC1 boundary)
 
 ## Recording notes
 

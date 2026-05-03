@@ -42,11 +42,13 @@ const FIXTURES = [FIX_1, FIX_2, FIX_3]
 const TRIGGER_DOC = join(ROOT, 'docs/aisp-adoption/03-trigger-word-taxonomy.md')
 const SEED_SCRIPT = join(ROOT, 'scripts/seed-e2e2-logevents.ts')
 
-// --- C4-owned EOP triplet at seal/ ---
-const SEAL_DIR = 'plans/implementation/phase-e2e-test-2/seal'
-const EOP_REVIEW = join(ROOT, SEAL_DIR, '02-post-review.md')
-const EOP_LOG = join(ROOT, SEAL_DIR, 'session-log.md')
-const EOP_RETRO = join(ROOT, SEAL_DIR, 'retrospective.md')
+// --- C4-owned EOP triplet — post-scaffolding cleanup:
+//     02-post-review.md archived to archive/seal/; session-log.md + retrospective.md at phase root ---
+const PHASE_DIR = 'plans/implementation/phase-e2e-test-2'
+const ARCHIVE_SEAL_DIR = `${PHASE_DIR}/archive/seal`
+const EOP_REVIEW = join(ROOT, ARCHIVE_SEAL_DIR, '02-post-review.md')
+const EOP_LOG = join(ROOT, PHASE_DIR, 'session-log.md')
+const EOP_RETRO = join(ROOT, PHASE_DIR, 'retrospective.md')
 
 // CHECK enum from migration 005-comprehensive-logs.sql §46-58
 const ALLOWED_EVENT_TYPES = new Set([
