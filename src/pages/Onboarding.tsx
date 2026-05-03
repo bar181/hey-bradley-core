@@ -27,8 +27,8 @@ const MODE_HINT_DISMISSED_KEY_PREFIX = 'hb-onboarding-mode-hint-dismissed-'
  *  once the user has selected a mode and lands on a fresh project state. */
 const MODE_HINT_COPY: Record<ModeId, string> = {
   whiteboard: "Try: 'create a landing page for a coffee roaster'",
-  planning: "Planning mode ships in v2 — try Whiteboard for now.",
-  agentics: "Agentics mode ships in v2 — try Whiteboard for now.",
+  planning: "Planning mode is live — open /planning to map a project.",
+  agentics: "Agentics mode is live — open /agentics for the spec workbench.",
 }
 
 /** Map example names to preview screenshot filenames */

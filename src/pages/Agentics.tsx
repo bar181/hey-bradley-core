@@ -25,6 +25,8 @@ import {
   HEY_BRADLEY_SAMPLE_PHASES,
   NODE_TO_PHASE_ID,
 } from '@/data/sample-spec-workbench'
+import { writeLogEvent, newRequestId } from '@/contexts/persistence/repositories/comprehensiveLogs'
+import { getDB } from '@/contexts/persistence/db'
 
 export function Agentics() {
   const phases = HEY_BRADLEY_SAMPLE_PHASES
@@ -190,7 +192,26 @@ export function Agentics() {
                 Carry-forward: P101+ to add fetch/build-time pre-bake.
               */}
               <div className="mt-4">
-                <SealPanel phase={activePhase} eop={null} />
+                <SealPanel
+                  phase={activePhase}
+                  eop={null}
+                  onSeal={() => {
+                    // P101 / R2 G2 fix — wire seal-event to log_events.
+                    // Fire-and-forget per ADR-126; uses 'response_summary'
+                    // event_type with kind:'seal-event' marker (avoids CHECK
+                    // enum extension at P101).
+                    try {
+                      writeLogEvent(getDB(), {
+                        id: newRequestId(),
+                        sessionId: 'agentics',
+                        requestId: newRequestId(),
+                        eventType: 'response_summary',
+                        eventData: { kind: 'seal-event', phaseId: activePhase.id },
+                        latencyMs: 0,
+                      })
+                    } catch { /* fire-and-forget per ADR-126 */ }
+                  }}
+                />
               </div>
             </>
           ) : (

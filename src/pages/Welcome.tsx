@@ -74,11 +74,11 @@ export function Welcome() {
       {/* Social proof bar */}
       <section className="border-y border-[#e8772e]/15 bg-[#f1ece4]/40">
         <div className="max-w-5xl mx-auto px-6 py-5 flex flex-wrap gap-x-8 gap-y-2 text-sm text-[#6b5e4f] justify-center items-center">
-          <span><strong className="text-[#2d1f12]">701</strong> tests passing</span>
-          <span><strong className="text-[#2d1f12]">110</strong> ADRs Accepted</span>
-          <span><strong className="text-[#2d1f12]">41</strong> templates</span>
+          <span><strong className="text-[#2d1f12]">1162+</strong> tests passing</span>
+          <span><strong className="text-[#2d1f12]">130</strong> ADRs Accepted</span>
+          <span><strong className="text-[#2d1f12]">43</strong> templates</span>
           <span><strong className="text-[#2d1f12]">12</strong> blog posts</span>
-          <span>composite <strong className="text-[#2d1f12]">82/100</strong> (vs SOTA 80)</span>
+          <span>composite <strong className="text-[#2d1f12]">79–84/100</strong> (vs SOTA 80)</span>
         </div>
       </section>
 
@@ -113,9 +113,9 @@ export function Welcome() {
         </p>
         <h2 className="text-3xl font-bold mb-3">Built in 2 days. Ready in 10.</h2>
         <p className="text-[#6b5e4f] leading-relaxed mb-6">
-          An open-core capstone shipped at sprint pace &mdash; 71 phases sealed
-          (P15&ndash;P85), 110 ADRs Accepted, 701 PURE-UNIT tests GREEN, and a
-          composite score of 82/100 (vs SOTA 80). Every decision is in the open.
+          An open-core capstone shipped at sprint pace &mdash; 99 phases sealed
+          (P15&ndash;P101), 130 ADRs Accepted, 1162+ PURE-UNIT tests GREEN, and a
+          composite score of 79&ndash;84/100 (vs SOTA 80). Every decision is in the open.
         </p>
         <div className="flex flex-wrap gap-3">
           <Link
@@ -165,7 +165,7 @@ export function Welcome() {
           side with a human-readable version your team can review.
         </p>
         <p className="text-[#6b5e4f] leading-relaxed">
-          12 themes. 17 example sites. 16 section types. 300 images. Export the
+          21 themes. 43 example sites. 18 section types. 300 images. Export the
           whole project as a <code className="text-sm bg-[#f1ece4] px-2 py-0.5 rounded">.heybradley</code> zip.
           Import it later. Hand it to your AI coding system. Or paste the AISP
           spec into your prompt and let the agent build production code.

@@ -7,6 +7,8 @@ import type { Database, SqlJsStatic } from 'sql.js';
 import { runMigrations } from './migrations';
 import { pruneOldLLMLogs, pruneLLMLogsByCount } from './repositories/llmLogs';
 import { seedPromptLibraryFromFiles } from './repositories/promptLibrary';
+// P101 / R3 P1 fix — wire ADR-126 retention sweep on init (was doc-only).
+import { pruneOldLogs, pruneOldEditHistory } from './repositories/comprehensiveLogs';
 
 // FIX 7 (Phase 18b): default 30-day retention for llm_logs forensic table.
 // ADR-047 §Retention now states this is enforced (was "documented for future
@@ -103,6 +105,14 @@ export async function initDB(): Promise<Database> {
       void seedPromptLibraryFromFiles();
     } catch (e) {
       if (import.meta.env.DEV) console.warn('[persistence] prompt_library seed failed', e);
+    }
+    // P101 / R3 P1 fix — wire ADR-126 retention sweep (30d log_events / 90d
+    // edit_history). Fire-and-forget; non-fatal so init never blocks.
+    try {
+      pruneOldLogs(db, 30);
+      pruneOldEditHistory(db, 90);
+    } catch (e) {
+      if (import.meta.env.DEV) console.warn('[persistence] comprehensive_logs prune failed', e);
     }
     // Re-register the BroadcastChannel listener on every fresh init so peers
     // continue to invalidate this tab after closeDB() / import flows.
