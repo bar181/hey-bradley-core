@@ -7,9 +7,12 @@
  * See: ADR-121, ADR-110, ADR-116, ADR-120, ADR-091, ADR-090.
  */
 import { useEffect, useState } from 'react'
-import { BookOpen, ChevronRight, Code2, Copy, FileText, FlaskConical } from 'lucide-react'
+import { BookOpen, ChevronRight, Code2, Copy, FileText, FlaskConical, ShieldCheck } from 'lucide-react'
 import { ExportClaudeCodeButton } from '@/components/agentics/ExportClaudeCodeButton'
 import { buildTDDScaffold } from '@/contexts/specification/exporters/tddScaffoldGenerator'
+import { buildKissReview } from '@/contexts/specification/reviewers/kissReviewer'
+import { writeLogEvent, newRequestId } from '@/contexts/persistence/repositories/comprehensiveLogs'
+import { getDB } from '@/contexts/persistence/db'
 
 export type SpecTab = 'human' | 'aisp' | 'adr'
 type Status = 'planned' | 'in-flight' | 'sealed' | 'deferred'
@@ -225,6 +228,24 @@ function slugForTestSpec(s: string): string {
   return (s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')) || 'phase'
 }
 
+function RunKissReviewButton({ phase }: { phase: PhaseCard }) {
+  const [s, setS] = useState<{ p1: number; p2: number; p3: number } | null>(null)
+  const handleClick = (): void => {
+    const out = buildKissReview(phase)
+    const f = (out.findings ?? []) as ReadonlyArray<{ severity?: string }>
+    const p1 = f.filter((x) => x.severity === 'P1').length, p2 = f.filter((x) => x.severity === 'P2').length, p3 = f.filter((x) => x.severity === 'P3').length
+    setS({ p1, p2, p3 })
+    try { writeLogEvent(getDB(), { id: newRequestId(), sessionId: 'kiss-review', requestId: newRequestId(), eventType: 'response_summary', eventData: { kind: 'kiss-review', phaseId: phase.id, findings: out.findings, summary: { p1, p2, p3 } }, latencyMs: 0 }) } catch { /* fire-and-forget per ADR-126 */ }
+  }
+  return (
+    <div className="inline-flex flex-col items-end gap-1">
+      <button type="button" onClick={handleClick} data-testid="run-kiss-review-button" aria-label="Run KISS review on active phase" className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono uppercase tracking-wider border border-[var(--hb-border)] bg-[var(--hb-surface)] hover:bg-[var(--hb-surface-hover)] text-[var(--hb-text-primary)] ${FOCUS} transition-colors duration-200`}>
+        <ShieldCheck size={14} aria-hidden="true" /> Run KISS Review
+      </button>
+      {s && <span data-testid="kiss-review-summary" className="text-[10px] font-mono text-[var(--hb-text-muted)]">KISS Review: {s.p1} P1 / {s.p2} P2 / {s.p3} P3 — {s.p1 === 0 ? 'PASS' : 'FAIL'}</span>}
+    </div>
+  )
+}
 function GenerateTestSpecButton({ phase }: { phase: PhaseCard }) {
   const handleClick = (): void => {
     const out = buildTDDScaffold(phase)
@@ -298,6 +319,7 @@ export function SpecWorkbench({ phases, activePhaseId, activeSprintId, onSprintE
         </div>
         <div className="flex items-center gap-3">
           <StatusPill status={phase.status} />
+          <RunKissReviewButton phase={phase} />
           <GenerateTestSpecButton phase={phase} />
           <ExportClaudeCodeButton phase={phase} />
         </div>

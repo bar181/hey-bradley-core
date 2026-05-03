@@ -171,8 +171,11 @@ export function RequestDrillDown({ summary, expert }: DrillDownProps) {
             const trace = AISP_TRACE_BY_STAGE[ev.eventType]
             let preview = ''
             try { preview = JSON.stringify(ev.eventData) } catch { preview = '[unstringifiable]' }
+            // P98 / A5 — KISS review row: severity badges + summary line.
+            const isKiss = ev.eventType === 'response_summary' && (ev.eventData as { kind?: string })?.kind === 'kiss-review'
+            const kissSum = isKiss ? ((ev.eventData as { summary?: { p1: number; p2: number; p3: number } }).summary ?? null) : null
             return (
-              <li key={`${ev.id}-${i}`} className="border-l border-hb-border pl-2">
+              <li key={`${ev.id}-${i}`} className="border-l border-hb-border pl-2" data-testid={isKiss ? 'log-row-kiss-review' : undefined}>
                 <div className="flex flex-wrap items-baseline gap-2">
                   <span className="font-medium text-hb-text-secondary">{STAGE_LABEL[ev.eventType] ?? ev.eventType}</span>
                   {ev.latencyMs != null && (
@@ -183,6 +186,14 @@ export function RequestDrillDown({ summary, expert }: DrillDownProps) {
                       data-testid="conversation-log-aisp-trace"
                       className="text-[10px] px-1 rounded bg-hb-bg-elevated border border-hb-border text-hb-text-muted font-mono"
                     >{trace}</span>
+                  )}
+                  {kissSum && (
+                    <span data-testid="kiss-review-row-summary" className="text-[10px] font-mono">
+                      <span className="px-1 rounded mr-1" style={{ backgroundColor: '#ef444422', color: '#ef4444' }}>P1 {kissSum.p1}</span>
+                      <span className="px-1 rounded mr-1" style={{ backgroundColor: '#f59e0b22', color: '#f59e0b' }}>P2 {kissSum.p2}</span>
+                      <span className="px-1 rounded mr-1 bg-hb-bg-elevated text-hb-text-muted">P3 {kissSum.p3}</span>
+                      <span className="text-hb-text-muted">— KISS Review: {kissSum.p1} P1 / {kissSum.p2} P2 / {kissSum.p3} P3 — {kissSum.p1 === 0 ? 'PASS' : 'FAIL'}</span>
+                    </span>
                   )}
                 </div>
                 <pre className="mt-0.5 text-[10px] font-mono text-hb-text-muted whitespace-pre-wrap break-words overflow-x-auto max-h-40">
