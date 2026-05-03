@@ -18,9 +18,9 @@ export type {
 export { classifyIntent } from './intentClassifier'
 export { llmClassifyIntent } from './llmClassifier'
 export { selectTemplate, STEP1_THRESHOLD } from './templateSelector'
-export { runTwoStepPipeline } from './twoStepPipeline'
+// P106 / A1 — runTwoStepPipeline + TwoStepResult removed per ADR-134.
+// templateMatcher.ts is the de-facto SELECTION; no production callers existed.
 export type { TemplateSelection } from './templateSelector'
-export type { TwoStepResult } from './twoStepPipeline'
 // P34 Sprint E P1 (A3) — Assumptions engine + persistence.
 export {
   ASSUMPTIONS_TRIGGER_THRESHOLD,

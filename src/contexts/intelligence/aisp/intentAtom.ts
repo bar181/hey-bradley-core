@@ -25,7 +25,7 @@ export const INTENT_ATOM = `⟦
   Γ := {
     R1: ∀ Intent : Verb is one of the enumerated 6 ops,
     R2: target.index ∈ ℕ ⇒ index ≥ 1 (1-based user-facing),
-    R3: target.type ∈ {hero, blog, footer, features, pricing, cta, testimonials, faq, value-props, gallery, image, team, columns, action, quotes, questions, numbers, divider, text, logos, menu},
+    R3: target.type ∈ {hero, menu, columns, pricing, action, footer, quotes, questions, numbers, gallery, logos, team, image, divider, text, blog, case-study, contact-form},
     R4: params is verb-specific; only when verb ∈ {change, add}
   }
   Λ := {
@@ -47,13 +47,25 @@ export const INTENT_ATOM = `⟦
 /** TypeScript reflection of the atom for runtime use. */
 export type IntentVerb = 'hide' | 'show' | 'change' | 'remove' | 'add' | 'reset'
 
-/** Allowed target.type per Γ R3. Mirrors Hey Bradley section types. */
+/**
+ * Allowed target.type per Γ R3. Mirrors the canonical 18 section types in
+ * `sectionTypeSchema` (src/lib/schemas/section.ts; ADR-100).
+ *
+ * P106 / A3 — Section-enum 3-way reconciliation. Previously this list
+ * carried 23 entries including 5 user-facing aliases (`features`, `cta`,
+ * `testimonials`, `faq`, `value-props`). Aliases now live exclusively in
+ * the `validateSectionType` helper at `src/lib/schemas/section.ts`. Atom
+ * enums stay CANONICAL ONLY to enforce a single source of truth and avoid
+ * silent drift from the Zod schema.
+ *
+ * Alias remap (apply via `validateSectionType` before reaching this enum):
+ *   features → columns · cta → action · testimonials → quotes
+ *   faq → questions · value-props → columns
+ */
 export const ALLOWED_TARGET_TYPES = [
-  'hero', 'blog', 'footer', 'features', 'pricing', 'cta',
-  'testimonials', 'faq', 'value-props', 'gallery', 'image',
-  'team', 'columns', 'action', 'quotes', 'questions', 'numbers',
-  'divider', 'text', 'logos', 'menu',
-  'case-study', 'contact-form',
+  'hero', 'menu', 'columns', 'pricing', 'action', 'footer',
+  'quotes', 'questions', 'numbers', 'gallery', 'logos', 'team',
+  'image', 'divider', 'text', 'blog', 'case-study', 'contact-form',
 ] as const
 
 export type IntentTarget = {
@@ -183,9 +195,12 @@ export type ProjectType = typeof PROJECT_TYPES[number]
  * 'unknown' is intentionally empty — when projectType is null/'unknown' the
  * classifier MUST behave byte-identically to P44.
  */
+// P106 / A3 — Bias values remapped to canonical 18 (ADR-100). Prior aliases
+// remapped: cta → action, features → columns, testimonials → quotes,
+// value-props → columns. Aliases live in `validateSectionType` only.
 export const PROJECT_TYPE_TARGET_BIAS: Record<ProjectType, ReadonlyArray<typeof ALLOWED_TARGET_TYPES[number]>> = {
-  'saas-app':       ['pricing', 'cta', 'features', 'testimonials'],
-  'landing-page':   ['hero', 'cta', 'features', 'value-props'],
+  'saas-app':       ['pricing', 'action', 'columns', 'quotes'],
+  'landing-page':   ['hero', 'action', 'columns'],
   'static-site':    ['hero', 'blog', 'footer', 'text'],
   'portfolio':      ['hero', 'gallery', 'team', 'text'],
   'unknown':        [],

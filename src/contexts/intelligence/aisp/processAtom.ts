@@ -29,12 +29,14 @@
  *             ADR-116 Three-Mode, ADR-117 Process Map SVG.
  */
 
+// P106 / A2 — Pure-module discipline per ADR-118 D1 + ADR-134: import shared
+// types from the neutral processMapTypes module, NOT from the React renderer.
 import type {
   ProcessEdge,
   ProcessMap,
   ProcessNode,
   ProcessNodeStatus,
-} from '@/components/planning/ProcessMapSVG'
+} from '@/contexts/intelligence/aisp/processMapTypes'
 
 /** PROCESS_ATOM Crystal Atom (verbatim AISP). */
 export const PROCESS_ATOM = `⟦

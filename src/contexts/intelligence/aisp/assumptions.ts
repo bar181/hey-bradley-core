@@ -70,15 +70,19 @@ const VERB_CUES: Record<IntentVerb, readonly string[]> = {
  * type to ALLOWED_TARGET_TYPES is compile-time-safe (no silent drift).
  */
 type AllowedSectionType = typeof ALLOWED_TARGET_TYPES[number]
+// P106 / A3 — Cues remapped to canonical 18 (ADR-100). User-facing alias
+// words ('feature', 'cta', 'testimonial', 'faq') still trigger scoring; they
+// now resolve to the canonical type ('columns', 'action', 'quotes',
+// 'questions'). Aliases live in `validateSectionType` only.
 const SECTION_CUES: Partial<Record<AllowedSectionType, readonly string[]>> = {
   hero: ['hero', 'banner', 'top', 'headline', 'header'],
   blog: ['blog', 'article', 'post', 'news'],
   footer: ['footer', 'bottom'],
-  features: ['feature', 'capability'],
+  columns: ['feature', 'capability'],
   pricing: ['pricing', 'price', 'plan', 'tier'],
-  cta: ['cta', 'call to action', 'button'],
-  testimonials: ['testimonial', 'quote', 'review'],
-  faq: ['faq', 'question', 'q&a'],
+  action: ['cta', 'call to action', 'button'],
+  quotes: ['testimonial', 'quote', 'review'],
+  questions: ['faq', 'question', 'q&a'],
   team: ['team', 'about us', 'people'],
 }
 

@@ -16,7 +16,9 @@
  *             ADR-119 DDD, ADR-120 AGENT, ADR-121 SpecWorkbench.
  */
 
-import type { PhaseCard, SprintSummary } from '@/components/agentics/SpecWorkbench'
+// P106 / A2 — Pure-module discipline per ADR-128 D1 + ADR-134: import spec
+// types from the neutral types module, NOT from the React workbench.
+import type { PhaseCard, SprintSummary } from '@/contexts/specification/types'
 import type { BoundedContext } from '@/contexts/intelligence/aisp/dddAtom'
 import type { AgentSpec } from '@/contexts/intelligence/aisp/agentAtom'
 

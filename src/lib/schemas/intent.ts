@@ -11,13 +11,13 @@ import { z } from 'zod'
 
 export const intentVerbSchema = z.enum(['hide', 'show', 'change', 'remove', 'add', 'reset'])
 
+// P106 / A3 — Section-enum 3-way reconciliation. Mirrors canonical 18 from
+// `sectionTypeSchema` (src/lib/schemas/section.ts; ADR-100). Aliases live
+// in `validateSectionType` only — never duplicated in atom enums.
 export const intentTargetTypeSchema = z.enum([
-  'hero', 'blog', 'footer', 'features', 'pricing', 'cta',
-  'testimonials', 'faq', 'value-props', 'gallery', 'image',
-  'team', 'columns', 'action', 'quotes', 'questions', 'numbers',
-  'divider', 'text', 'logos', 'menu',
-  // P75 / OC-7 / Agent A1 — section types added (case-study, contact-form).
-  'case-study', 'contact-form',
+  'hero', 'menu', 'columns', 'pricing', 'action', 'footer',
+  'quotes', 'questions', 'numbers', 'gallery', 'logos', 'team',
+  'image', 'divider', 'text', 'blog', 'case-study', 'contact-form',
 ])
 
 export const intentTargetSchema = z.object({

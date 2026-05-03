@@ -41,8 +41,9 @@ const CRYSTAL_ATOM = `\`\`\`aisp
     Patch       := { op: 𝔼{add,replace,remove}, path: 𝕊, value: 𝕁 ?},
     Envelope    := { patches: [Patch] (1..20), summary: 𝕊 (≤140) ? },
     Section     := { type: SectionType, id: 𝕊, layout: Layout, content: Content, style: Style },
-    SectionType := 𝔼{ navbar, hero, features, pricing, action, quotes, questions, numbers,
-                      gallery, logos, team, image, divider, text, blog, footer }
+    SectionType := 𝔼{ hero, menu, columns, pricing, action, footer,
+                      quotes, questions, numbers, gallery, logos, team,
+                      image, divider, text, blog, case-study, contact-form }
   }
   Γ := {
     R1: response.shape == Envelope ∧ response.format == application/json,

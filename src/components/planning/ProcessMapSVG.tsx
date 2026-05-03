@@ -6,31 +6,22 @@
  * Read-only + click at open-core; pan/zoom is Tier-2 carry-forward.
  */
 import type { JSX, KeyboardEvent } from 'react'
+// P106 / A2 — Types live in the neutral module per ADR-134; re-exported
+// here so existing component-path consumers keep working unchanged.
+import type {
+  ProcessEdge,
+  ProcessMap,
+  ProcessNode,
+  ProcessNodeStatus,
+} from '@/contexts/intelligence/aisp/processMapTypes'
 
-export type ProcessNodeStatus = 'planned' | 'in-flight' | 'sealed' | 'deferred'
-export type ProcessEdgeType = 'sequential' | 'parallel' | 'gate'
-
-export interface ProcessNode {
-  id: string
-  label: string
-  phase: number
-  status: ProcessNodeStatus
-  x: number
-  y: number
-  shape?: 'rect' | 'diamond'
-}
-
-export interface ProcessEdge {
-  from: string
-  to: string
-  type: ProcessEdgeType
-}
-
-export interface ProcessMap {
-  nodes: ProcessNode[]
-  edges: ProcessEdge[]
-  activeNodeId?: string
-}
+export type {
+  ProcessEdge,
+  ProcessEdgeType,
+  ProcessMap,
+  ProcessNode,
+  ProcessNodeStatus,
+} from '@/contexts/intelligence/aisp/processMapTypes'
 
 export interface ProcessMapSVGProps {
   map: ProcessMap

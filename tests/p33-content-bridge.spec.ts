@@ -79,29 +79,17 @@ test.describe('P33 — Library decoration order', () => {
   })
 })
 
-test.describe('P33 — 2-step pipeline kind dispatch (source-level)', () => {
+// P106 / A1 — twoStepPipeline.ts removed at P106 per ADR-134.
+// SELECTION_ATOM orphan path purged (zero production callers); templateMatcher.ts
+// is the de-facto selection path. The kind-dispatch branch + TwoStepResult shape
+// asserted below lived only in the orphan. Block kept as `.skip` for history.
+test.describe.skip('P33 — 2-step pipeline kind dispatch (source-level) (REMOVED at P106/A1 per ADR-134)', () => {
   test('twoStepPipeline.ts contains kind-dispatch branch', () => {
-    const src = readFileSync(
-      join(
-        process.cwd(),
-        'src/contexts/intelligence/aisp/twoStepPipeline.ts',
-      ),
-      'utf8',
-    )
-    expect(src).toContain("tpl.kind === 'generator'")
-    expect(src).toContain('generateContent')
-    expect(src).toContain('heroHeadingPath')
+    // Asserts removed at P106 per ADR-134 — file deleted (was orphan).
   })
 
   test('TwoStepResult exposes optional `generated` field for UI', () => {
-    const src = readFileSync(
-      join(
-        process.cwd(),
-        'src/contexts/intelligence/aisp/twoStepPipeline.ts',
-      ),
-      'utf8',
-    )
-    expect(src).toMatch(/generated\?:\s*GeneratedContent/)
+    // Asserts removed at P106 per ADR-134 — file deleted (was orphan).
   })
 
   test('ADR-062 declares kind dispatch decision', () => {

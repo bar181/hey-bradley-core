@@ -20,7 +20,9 @@
  * See: ADR-122 (markdown bundle), ADR-101 (spec export quality),
  *      ADR-108 (AISP adoption), ADR-121 (SpecWorkbench).
  */
-import type { PhaseCard, SprintSummary } from '@/components/agentics/SpecWorkbench'
+// P106 / A2 — Pure-module discipline per ADR-122 D1 + ADR-134: import spec
+// types from the neutral types module, NOT from the React workbench.
+import type { PhaseCard, SprintSummary } from '@/contexts/specification/types'
 import { buildTDDScaffold } from '@/contexts/specification/exporters/tddScaffoldGenerator'
 
 export interface ExportClaudeCodeBundle {

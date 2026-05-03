@@ -6,7 +6,9 @@
  * markdown. Pure — no React, no fs, no store. Cross-refs ADR-091/118/121/128.
  */
 
-import type { PhaseCard, SprintSummary } from '@/components/agentics/SpecWorkbench'
+// P106 / A2 — Pure-module discipline per ADR-129 D1 + ADR-134: import spec
+// types from the neutral types module, NOT from the React workbench.
+import type { PhaseCard, SprintSummary } from '@/contexts/specification/types'
 
 export type KissSeverity = 'P1' | 'P2' | 'P3'
 export type KissCategory =

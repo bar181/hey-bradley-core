@@ -13,43 +13,14 @@ import { buildTDDScaffold } from '@/contexts/specification/exporters/tddScaffold
 import { buildKissReview } from '@/contexts/specification/reviewers/kissReviewer'
 import { writeLogEvent, newRequestId } from '@/contexts/persistence/repositories/comprehensiveLogs'
 import { getDB } from '@/contexts/persistence/db'
+// P106 / A2 — Spec types live in the neutral module per ADR-134; re-exported
+// here so existing component-path consumers keep working unchanged.
+import type { PhaseCard, SprintSummary, SpecStatus } from '@/contexts/specification/types'
+
+export type { PhaseCard, SprintSummary, SpecStatus } from '@/contexts/specification/types'
 
 export type SpecTab = 'human' | 'aisp' | 'adr'
-type Status = 'planned' | 'in-flight' | 'sealed' | 'deferred'
-
-export interface SprintSummary {
-  readonly id: string
-  readonly name: string
-  readonly status: Status
-  readonly agentCount: number
-  readonly keyDeliverable: string
-  readonly agentScopes?: ReadonlyArray<{
-    readonly id: string
-    readonly role: string
-    readonly ownedFiles: ReadonlyArray<string>
-  }>
-  readonly dod?: ReadonlyArray<string>
-  readonly aispSpec?: string
-}
-
-export interface PhaseCard {
-  readonly id: string
-  readonly phase: number
-  readonly name: string
-  readonly status: Status
-  readonly sprints: ReadonlyArray<SprintSummary>
-  readonly humanSpec: {
-    readonly northStar: string
-    readonly sadd: string
-    readonly implementationPlan: string
-  }
-  readonly aispSpec: string
-  readonly adrRefs: ReadonlyArray<{
-    readonly id: string
-    readonly title: string
-    readonly href?: string
-  }>
-}
+type Status = SpecStatus
 
 export interface SpecWorkbenchProps {
   phases: ReadonlyArray<PhaseCard>

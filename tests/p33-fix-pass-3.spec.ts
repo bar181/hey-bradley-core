@@ -26,10 +26,7 @@ const EXPORT_FILE = join(
   process.cwd(),
   'src/contexts/persistence/exportImport.ts',
 )
-const PIPELINE_FILE = join(
-  process.cwd(),
-  'src/contexts/intelligence/aisp/twoStepPipeline.ts',
-)
+// P106 / A1 — PIPELINE_FILE constant removed; twoStepPipeline.ts deleted per ADR-134.
 
 test.describe('R3 F1 — importBundle user_templates truncate', () => {
   test('exportImport.ts truncates user_templates after runMigrations', () => {
@@ -97,16 +94,17 @@ test.describe('R3 F3 — size + row count caps', () => {
   })
 })
 
-test.describe('R3 L4 — resolveTargetPath sectionType validation', () => {
+// P106 / A1 — twoStepPipeline.ts removed at P106 per ADR-134.
+// The L4 sectionType allowlist (SECTION_TYPE_RE + resolveTargetPath) lived only
+// in the orphan twoStepPipeline.ts. SELECTION runs through templateMatcher.ts now.
+// Block kept as `.skip` for historical reference.
+test.describe.skip('R3 L4 — resolveTargetPath sectionType validation (REMOVED at P106/A1 per ADR-134)', () => {
   test('SECTION_TYPE_RE allowlist guards path resolution', () => {
-    const src = readFileSync(PIPELINE_FILE, 'utf8')
-    expect(src).toContain('SECTION_TYPE_RE')
-    expect(src).toMatch(/SECTION_TYPE_RE\.test\(sectionType\)/)
+    // Asserts removed at P106 per ADR-134 — file deleted (was orphan).
   })
 
   test('resolveTargetPath body returns null when sectionType fails allowlist', () => {
-    const src = readFileSync(PIPELINE_FILE, 'utf8')
-    expect(src).toMatch(/if\s*\(\s*!SECTION_TYPE_RE\.test\(sectionType\)\s*\)\s*return\s+null/)
+    // Asserts removed at P106 per ADR-134 — file deleted (was orphan).
   })
 })
 

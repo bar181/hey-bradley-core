@@ -136,29 +136,27 @@ test.describe('R4 F1 — BASELINE_META deletion', () => {
   })
 })
 
-test.describe('R4 F2 — resolveTargetPath extension hook', () => {
+// P106 / A1 — twoStepPipeline.ts removed at P106 per ADR-134.
+// SELECTION_ATOM was orphan dead-code (zero production callers); templateMatcher.ts
+// is the de-facto selection path. The R4 F2 resolveTargetPath helper that lived
+// in twoStepPipeline.ts is no longer required (the runtime path it served was
+// never invoked in production). Block kept as `.skip` for historical reference.
+test.describe.skip('R4 F2 — resolveTargetPath extension hook (REMOVED at P106/A1 per ADR-134)', () => {
   test('twoStepPipeline.ts declares resolveTargetPath helper', () => {
-    const src = readFileSync(
-      join(process.cwd(), 'src/contexts/intelligence/aisp/twoStepPipeline.ts'),
-      'utf8',
-    )
-    expect(src).toContain('function resolveTargetPath')
-    expect(src).toMatch(/resolveTargetPath\(\s*sectionType\s*,\s*config\s*\)/)
+    // Asserts removed at P106 per ADR-134 — file deleted (was orphan).
   })
 
   test('generator dispatch no longer hardcodes heroHeadingPath in the branch', () => {
-    const src = readFileSync(
-      join(process.cwd(), 'src/contexts/intelligence/aisp/twoStepPipeline.ts'),
-      'utf8',
+    // Asserts removed at P106 per ADR-134 — file deleted (was orphan).
+  })
+})
+
+test.describe('R4 F2 — twoStepPipeline removed (P106 / A1)', () => {
+  test('twoStepPipeline.ts no longer exists in the source tree', () => {
+    const path = join(
+      process.cwd(),
+      'src/contexts/intelligence/aisp/twoStepPipeline.ts',
     )
-    // Hero path is now reachable only through the helper.
-    const generatorBranch = src.match(/if \(tpl\.kind === 'generator'\)[\s\S]*?(?=\/\/ Patcher path)/)
-    expect(generatorBranch).not.toBeNull()
-    if (generatorBranch) {
-      // The branch body should call resolveTargetPath, not heroHeadingPath directly.
-      expect(generatorBranch[0]).toContain('resolveTargetPath')
-      // The branch body should NOT call heroHeadingPath directly anymore.
-      expect(generatorBranch[0]).not.toMatch(/=\s*heroHeadingPath\(/)
-    }
+    expect(() => readFileSync(path, 'utf8')).toThrow()
   })
 })
