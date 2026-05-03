@@ -7,8 +7,18 @@
 // * Redaction: event_data + snapshots + user_prompt are JSON-stringified +
 //   redactKeyShapes()-scrubbed at the boundary (defence-in-depth; ADR-043).
 // * UUIDs: crypto.randomUUID() preferred; Math.random fallback for older harnesses.
+// * P105 / A2 — debounced IndexedDB flush. writeLogEvent + writeEditHistory
+//   each schedule a single coalesced persist() (500ms) so canned-fallback /
+//   error-path / listen-reject submits no longer lose their logs to in-memory
+//   sql.js. Preserves ADR-126 D4 fire-and-forget contract — write returns
+//   sync; the persist callback's catch swallows errors via warn().
 
 import type { Database } from 'sql.js';
+// NOTE: db.ts imports pruneOldLogs/pruneOldEditHistory from this module —
+// the import below is therefore part of a circular cycle. Safe because
+// `persist` is only dereferenced lazily inside scheduleFlush() (at write
+// time), well after both modules have finished initial evaluation.
+import { persist } from '../db';
 
 // ─── Types ────────────────────────────────────────────────────────────────
 
@@ -177,6 +187,42 @@ function warn(label: string, err: unknown): void {
   if (typeof console !== 'undefined') console.warn(`[comprehensiveLogs] ${label} failed`, err);
 }
 
+// ─── P105 / A2 — Debounced IndexedDB flush ────────────────────────────────
+// `writeLogEvent` + `writeEditHistory` write to in-memory sql.js synchronously
+// per ADR-126 D4 (fire-and-forget). Without a flush, submits with zero
+// downstream patches (canned fallback / error path / listen reject) never
+// reach IndexedDB on tab close. We coalesce all writes into a single
+// `persist()` call after 500ms of idle to avoid IDB thrash. Errors are
+// swallowed by the catch — the public write API never throws upward.
+
+const FLUSH_DEBOUNCE_MS = 500;
+let flushTimer: ReturnType<typeof setTimeout> | null = null;
+
+function scheduleFlush(): void {
+  if (flushTimer) clearTimeout(flushTimer);
+  flushTimer = setTimeout(() => {
+    flushTimer = null;
+    void persist().catch((e) => warn('persist', e));
+  }, FLUSH_DEBOUNCE_MS);
+}
+
+/**
+ * Cancel any pending debounced flush and await `persist()` synchronously.
+ * For callers that need a guaranteed flush (e.g., before page navigation,
+ * before export, before test assertions). Awaits the IDB write; never throws.
+ */
+export async function flushLogsImmediate(): Promise<void> {
+  if (flushTimer) {
+    clearTimeout(flushTimer);
+    flushTimer = null;
+  }
+  try {
+    await persist();
+  } catch (e) {
+    warn('flushLogsImmediate', e);
+  }
+}
+
 // ─── Writes ───────────────────────────────────────────────────────────────
 
 /** Insert a log event. Fire-and-forget; never throws.
@@ -207,6 +253,8 @@ export function writeLogEvent(db: Database, event: LogEventInsert): void {
       event.latencyMs ?? null,
       Date.now(),
     ]);
+    // P105 / A2 — schedule debounced IDB flush after successful INSERT.
+    scheduleFlush();
   } catch (err) {
     warn('writeLogEvent', err);
   } finally {
@@ -238,6 +286,8 @@ export function writeEditHistory(db: Database, entry: EditHistoryInsert): void {
       redactKeyShapes(entry.userPrompt),
       Date.now(),
     ]);
+    // P105 / A2 — schedule debounced IDB flush (shares timer with writeLogEvent).
+    scheduleFlush();
   } catch (err) {
     warn('writeEditHistory', err);
   } finally {

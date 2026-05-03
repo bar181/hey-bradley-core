@@ -51,6 +51,7 @@ import coffeeEssay from './coffee-essay.json'
 import northLightAgency from './north-light-agency.json'
 import indieCoffeeRoaster from './indie-coffee-roaster.json'
 import type { MasterConfig } from '@/lib/schemas'
+import { validateSectionType } from '@/lib/schemas/section'
 
 export interface ExampleSite {
   name: string
@@ -343,3 +344,26 @@ export const EXAMPLE_SITES: ExampleSite[] = [
     config: indieCoffeeRoaster as unknown as MasterConfig,
   },
 ]
+
+// ---------------------------------------------------------------------------
+// P105 / RC-BLOCKERS-CLOSURE / A4 — validateSectionType production wire
+// ---------------------------------------------------------------------------
+// Closes A6 + B1 convergence: P104 shipped `validateSectionType` with a
+// 10-entry alias map but had ZERO callers outside its declaration file. This
+// dev-only pass iterates each EXAMPLE_SITES entry's sections (top-level +
+// per-page) and surfaces alias / unknown-type warnings at module-load time.
+// OBSERVATIONAL ONLY — no mutation; Zod (sectionTypeSchema) remains the strict
+// source of truth for MasterConfig validation.
+if (typeof console !== 'undefined' && import.meta.env.DEV) {
+  for (const site of EXAMPLE_SITES) {
+    const cfg = site.config
+    for (const section of cfg.sections ?? []) {
+      validateSectionType(section.type)
+    }
+    for (const page of cfg.pages ?? []) {
+      for (const section of page.sections ?? []) {
+        validateSectionType(section.type)
+      }
+    }
+  }
+}

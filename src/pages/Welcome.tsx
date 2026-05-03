@@ -9,21 +9,21 @@ const MODES = [
     title: "Builder",
     desc: "Drag-and-drop sections. Tune CSS. Edit JSON directly. The classic site-builder surface, with everything visible.",
     cta: "Open Builder",
-    href: "/onboarding",
+    href: "/new-project",
   },
   {
     icon: MessageSquare,
     title: "Chat",
     desc: "Type what you want. Hey Bradley updates the JSON, the preview, and the spec all at once. Five LLM providers; bring your own key.",
     cta: "Try Chat",
-    href: "/onboarding",
+    href: "/new-project",
   },
   {
     icon: Mic,
     title: "Listen",
     desc: "Push to talk. Describe a change in your own words. Web Speech API transcribes; the same chat pipeline applies it.",
     cta: "Try Listen",
-    href: "/onboarding",
+    href: "/new-project",
   },
 ]
 
@@ -47,7 +47,7 @@ export function Welcome() {
         </p>
         <div className="flex flex-wrap gap-3">
           <Link
-            to="/onboarding"
+            to="/new-project"
             className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--hb-warm)] text-white font-semibold rounded-xl hover:bg-[var(--hb-warm-hover)] transition-colors shadow-lg"
           >
             Try Hey Bradley &mdash; free
@@ -217,7 +217,7 @@ export function Welcome() {
       <section className="max-w-3xl mx-auto px-6 pb-24 text-center">
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Link
-            to="/onboarding"
+            to="/new-project"
             className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--hb-warm)] text-white font-semibold rounded-xl hover:bg-[var(--hb-warm-hover)] transition-colors shadow-lg text-lg"
           >
             Try the open source version

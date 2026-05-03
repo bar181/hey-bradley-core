@@ -28,6 +28,10 @@ let SQL: SqlJsStatic | null = null;
 let initPromise: Promise<Database> | null = null;
 let isStale = false;
 let warnedNoLocks = false;
+// P105 / A2 — register the `pagehide` flush listener exactly once across all
+// initDB() calls. Pairs with the debounced flush in comprehensiveLogs.ts so
+// pending writes survive tab close even if the 500ms debounce hasn't fired.
+let pageHideRegistered = false;
 
 // CROSS-TAB: Two tabs sharing this app must not corrupt each other's writes.
 // 1. `persist()` flushes are serialized across tabs via Web Locks (exclusive
@@ -117,6 +121,16 @@ export async function initDB(): Promise<Database> {
     // Re-register the BroadcastChannel listener on every fresh init so peers
     // continue to invalidate this tab after closeDB() / import flows.
     getChannel();
+    // P105 / A2 — register `pagehide` flush exactly once per page lifecycle.
+    // Best-effort: persist any pending in-memory writes before the tab dies.
+    if (!pageHideRegistered && typeof window !== 'undefined') {
+      pageHideRegistered = true;
+      window.addEventListener(
+        'pagehide',
+        () => { void persist().catch(() => { /* swallow — best effort */ }); },
+        { capture: true },
+      );
+    }
     return db;
   })();
 

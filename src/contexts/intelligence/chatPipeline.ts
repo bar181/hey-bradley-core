@@ -325,6 +325,9 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
   const logCtx: LogCtx = { requestId: newRequestId(), sessionId, projectId, pageId: scope.page?.id ?? null, pageIndex: pIdx >= 0 ? pIdx : null, source: opts.source }
   emit(logCtx, 'input_event', { text: redactKeyShapes(text), source: opts.source })
   if (opts.source === 'listen') emit(logCtx, 'listen_capture', { raw: redactKeyShapes(text), cleaned: redactKeyShapes(cleanTranscript(text)) })
+  // P105 / A3 — listen-source pipeline reads disfluency-cleaned text (B7+D1 closure);
+  // raw `text` preserved for logging emits and user-facing edit_history writes.
+  const effectiveText = opts.source === 'listen' ? cleanTranscript(text) : text
 
   // P26 Sprint C P1 — AISP rule-based classifier (first in chain).
   // P27 Sprint C P2 — LLM-driven AISP classifier when rule-based < threshold.
@@ -376,12 +379,12 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
 
     let canonicalForTemplate: string
     stageMarks.classifyStart = Date.now()
-    let aisp = classifyIntent(text, projectType)
+    let aisp = classifyIntent(effectiveText, projectType)
     let aispSource: 'rules' | 'llm' | 'fallthrough' = 'rules'
     // P27: when rule-based AISP is below threshold, ask the LLM to classify
     // via the SAME Crystal Atom. Thesis demonstration ADR-056.
     if (aisp.confidence < AISP_CONFIDENCE_THRESHOLD || !aisp.target) {
-      const llmAisp = await llmClassifyIntent(text)
+      const llmAisp = await llmClassifyIntent(effectiveText)
       if (llmAisp && llmAisp.confidence >= AISP_CONFIDENCE_THRESHOLD && llmAisp.target) {
         aisp = llmAisp
         aispSource = 'llm'
@@ -393,8 +396,8 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     // P100 W2 / D1 — wire A7 atom helpers as ALIVE flags (consulted + logged,
     // non-blocking). Future P101 may act on these (e.g., clarification prompt
     // when isUnmeasurable=true). Today they end the dead-code state per C1 §4.1.
-    const isUnmeasurable = isUnmeasurableGoal(text)
-    const isContradiction = hasContradiction(text)
+    const isUnmeasurable = isUnmeasurableGoal(effectiveText)
+    const isContradiction = hasContradiction(effectiveText)
     emit(logCtx, 'intent_classification', { intent: aisp, source: aispSource, isUnmeasurable, isContradiction })
     // P82 / OC-CLEANUP (A3) — page-aware INTENT override. When the classified
     // intent carries an explicit pageId (cross-page reference like "on page 2"
@@ -416,7 +419,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     // AISP confidence, so a low-confidence "rewrite the headline" slipped
     // past the content gate and hit the LLM patch path. classifyRoute is
     // pure-rule (~$0); calling it unconditionally is the correct floor.
-    aispRoute = classifyRoute(aisp.target ? aisp : null, text).route
+    aispRoute = classifyRoute(aisp.target ? aisp : null, effectiveText).route
     // P74 / OC-DECOMP (A3) — DECOMP_ATOM short-circuit. Multi-clause input
     // ("make it brighter and add pricing") splits into ordered Todo[]; when
     // ≥2 todos with confidence ≥0.7 produce patches, apply + return early.
@@ -428,7 +431,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       // P82 / OC-CLEANUP (A3) — pass `pages` so each clause can resolve a
       // page-targeting reference into `Todo.targetPage`. `undefined` when no
       // multi-page config → byte-equivalent to P74.
-      const decomp = decompose(text, aisp, config.pages)
+      const decomp = decompose(effectiveText, aisp, config.pages)
       if (decomp.todos.length >= 1) emit(logCtx, 'decomposition', { todos: decomp.todos, confidence: decomp.confidence, source: decomp.source })
       if (decomp.todos.length > 1 && decomp.confidence >= 0.7) {
         // P79 / OC-14 (A3) — feed scoped config so executeTodos sees only the
@@ -495,7 +498,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       const scopedConfig = scope.scopeRoot
         ? { ...useConfigStore.getState().config, sections: scope.sections }
         : useConfigStore.getState().config
-      const tplMatch = matchTemplates(text, scopedConfig)
+      const tplMatch = matchTemplates(effectiveText, scopedConfig)
       emit(logCtx, 'template_match', { theme: tplMatch.theme?.id ?? null, sectionArrangement: tplMatch.sectionArrangement?.id ?? null, contentStyle: tplMatch.contentStyle?.id ?? null, confidence: tplMatch.confidence, alternatives: tplMatch.alternatives ?? null, rationale: tplMatch.rationale })
       if (tplMatch.confidence >= TEMPLATE_CONFIDENCE_THRESHOLD) {
         const tiPatches = applyTemplateMatch(tplMatch, scopedConfig)
@@ -538,7 +541,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       canonicalForTemplate = `${verbWord} ${scopeToken}${paramsTail}`.trim()
     } else {
       // AISP not confident — fall through to P25 rule-based translator
-      canonicalForTemplate = translateIntent(text).canonicalText
+      canonicalForTemplate = translateIntent(effectiveText).canonicalText
     }
     stageMarks.selectStart = Date.now()
     const tpl = tryMatchTemplate(canonicalForTemplate)
@@ -554,7 +557,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         editHist(logCtx, beforeLegacy, afterLegacy, legacyScoped as unknown[], text)
         const tplSummary = `${tpl.envelope.summary} _(template: ${tpl.template.id})_`
         const improvements = await deriveImprovements(
-          text,
+          effectiveText,
           tpl.envelope.patches.length,
           tplSummary,
           aispTrace,
@@ -615,7 +618,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
   // so the user gets a sensible reply instead of a wrong-shape JSON patch.
   // TODO: content route → P38 LLM content call (CONTENT_ATOM verbatim → LLM).
   if (aispRoute === 'content') {
-    const canned = runCanned(text)
+    const canned = runCanned(effectiveText)
     // P37 R1 F2 fix-pass — replace the dev-y "wired up in the next phase"
     // dead-end with a Grandma-friendly nudge that gives a concrete next step
     // and does NOT loop the user (mentions a specific phrasing form they
@@ -640,12 +643,12 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     // P79 / OC-14 (A3) — thread scope into runLLMPipeline so its applyPatches
     // call also lands on the active page (or root, single-page mode).
     const beforeLLM = useConfigStore.getState().config
-    const llm = await runLLMPipeline(text, opts.source, opts.history, scope)
+    const llm = await runLLMPipeline(effectiveText, opts.source, opts.history, scope)
     if (llm.applied > 0) {
       const afterLLM = useConfigStore.getState().config
       emit(logCtx, 'patch_validation', { stage: 'llm', applied: llm.applied, ok: true })
       editHist(logCtx, beforeLLM, afterLLM, [], text)
-      const improvements = await deriveImprovements(text, llm.applied, llm.summary, aispTrace, scope)
+      const improvements = await deriveImprovements(effectiveText, llm.applied, llm.summary, aispTrace, scope)
       const personalityMessage = await derivePersonalityMessage(
         { summary: llm.summary, patches: new Array(llm.applied) },
         aispTrace,
@@ -674,7 +677,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     // user gets a usable reply, but we surface the precondition reason in the
     // summary (kept short, KISS) and skip the LLM-error catch path entirely.
     if (llm.preconditionFailed === 'no_adapter') {
-      const canned = runCanned(text)
+      const canned = runCanned(effectiveText)
       return {
         ok: canned.matched,
         appliedPatchCount: 0,
@@ -694,7 +697,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     if (import.meta.env.DEV) console.warn('[chatPipeline] runLLMPipeline threw', e)
     pipelineErrorKind = 'unknown'
   }
-  const canned = runCanned(text)
+  const canned = runCanned(effectiveText)
   emit(logCtx, 'response_summary', { stage: 'canned-fallback', appliedPatchCount: 0, latencyMs: Date.now() - startedAt, ok: canned.matched, errorKind: pipelineErrorKind })
   return {
     ok: canned.matched,
