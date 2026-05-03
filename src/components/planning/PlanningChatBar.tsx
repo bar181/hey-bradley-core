@@ -7,6 +7,11 @@ import {
   type WaveContext,
 } from '@/contexts/intelligence/aisp/agentAtom'
 import type { ProcessMap } from '@/components/planning/ProcessMapSVG'
+import {
+  writeLogEvent,
+  newRequestId,
+} from '@/contexts/persistence/repositories/comprehensiveLogs'
+import { getDB } from '@/contexts/persistence/db'
 
 export interface PlanningChatBarProps {
   /** Fired when chat input produces a new ProcessMap. */
@@ -39,6 +44,24 @@ export function PlanningChatBar({
       const output = classifyProcess(text)
       const map = toProcessMap(output)
       onProcessMapChange(map)
+
+      // P99 / A8 — persist PROCESS_ATOM + DDD_ATOM outputs to log_events
+      // (closes P101 carry-forward #2). Fire-and-forget per ADR-126.
+      try {
+        const db = getDB()
+        const reqId = newRequestId()
+        writeLogEvent(db, {
+          id: newRequestId(), sessionId: 'planning', requestId: reqId,
+          eventType: 'process_atom_output',
+          eventData: { phases: output.phases, sprints: output.sprints, waves: output.waves, rationale: output.rationale },
+        })
+        const dddForLog = classifyContexts(text)
+        writeLogEvent(db, {
+          id: newRequestId(), sessionId: 'planning', requestId: reqId,
+          eventType: 'ddd_atom_output',
+          eventData: { contexts: dddForLog.contexts, relationships: dddForLog.relationships, rationale: dddForLog.rationale },
+        })
+      } catch { /* fire-and-forget */ }
 
       // P97 / A1: AGENT_ATOM enrichment — fan out PROCESS_ATOM AgentScope hints
       // into full AgentSpec[] using DDD context as situational input. First

@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom'
 import { AISPDeveloperCard } from '@/components/onboarding/AISPDeveloperCard'
 import { ProcessMapSVG } from '@/components/planning/ProcessMapSVG'
 import { SpecWorkbench } from '@/components/agentics/SpecWorkbench'
+import { SealPanel } from '@/components/agentics/SealPanel'
 import { HEY_BRADLEY_SAMPLE_MAP } from '@/data/sample-process-map'
 import {
   HEY_BRADLEY_SAMPLE_PHASES,
@@ -176,11 +177,22 @@ export function Agentics() {
           className="w-full md:w-96 border-t md:border-t-0 md:border-l border-[var(--hb-border)] bg-[var(--hb-surface)] p-4 overflow-y-auto"
         >
           {activePhase ? (
-            <SpecWorkbench
-              phases={phases}
-              activePhaseId={activePhaseId}
-              activeSprintId={activeSprintId}
-            />
+            <>
+              <SpecWorkbench
+                phases={phases}
+                activePhaseId={activePhaseId}
+                activeSprintId={activeSprintId}
+              />
+              {/*
+                P99 / A8 — SealPanel mount. EOP triplets live on disk under
+                `plans/implementation/phase-{N}/seal/`; browser surface has no
+                runtime fetch yet, so eop=null shows the "No EOP yet" state.
+                Carry-forward: P101+ to add fetch/build-time pre-bake.
+              */}
+              <div className="mt-4">
+                <SealPanel phase={activePhase} eop={null} />
+              </div>
+            </>
           ) : (
             <div className="text-sm text-[var(--hb-text-muted)]">
               Select a phase from the map to see its spec.
