@@ -46,6 +46,10 @@ import aiSupportCopilot from './ai-support-copilot.json'
 // E2E test sprint — 2 sites built end-to-end via simulated pipeline
 import aispExecutive from './aisp-executive.json'
 import aispDeveloperRetro from './aisp-developer-retro.json'
+// E2E-TEST-2 — 3 multi-scenario pipeline-validation sites
+import coffeeEssay from './coffee-essay.json'
+import northLightAgency from './north-light-agency.json'
+import indieCoffeeRoaster from './indie-coffee-roaster.json'
 import type { MasterConfig } from '@/lib/schemas'
 
 export interface ExampleSite {
@@ -318,5 +322,24 @@ export const EXAMPLE_SITES: ExampleSite[] = [
     description: 'Developer-focused AISP + agentic workflow — terminal aesthetic with dry humor',
     theme: 'Tech Business',
     config: aispDeveloperRetro as unknown as MasterConfig,
+  },
+  // E2E-TEST-2 — 3 multi-scenario pipeline-validation sites (built end-to-end via simulated AgentProxy)
+  {
+    name: 'The Pour Lab — Coffee Essay',
+    description: 'Specialty coffee long-form blog — Hario V60 essay, warm-paper palette, Fraunces serif. Built via DECOMP-heavy long-form-paste pipeline.',
+    theme: 'Personal',
+    config: coffeeEssay as unknown as MasterConfig,
+  },
+  {
+    name: 'North Light — Wes Anderson Agency',
+    description: 'Four-person Vancouver creative agency — Wes Anderson voice, gold-on-deep-green palette, named case studies. Built via mixed chat+listen brand+contact pipeline.',
+    theme: 'Agency',
+    config: northLightAgency as unknown as MasterConfig,
+  },
+  {
+    name: 'Switchback — Indie Coffee Roaster',
+    description: 'Direct-trade Brooklyn coffee roaster — punchy listen-mode build with disfluency-stripped raw+cleaned transcripts. Warm-earth palette, conversational tone.',
+    theme: 'Wellness',
+    config: indieCoffeeRoaster as unknown as MasterConfig,
   },
 ]
