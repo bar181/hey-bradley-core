@@ -1,0 +1,23 @@
+{
+  "$schema": "https://code.claude.com/schemas/plugin.json",
+  "name": "hey-bradley",
+  "version": "0.1.0",
+  "description": "The missing first step before Claude Code — spec-first planning workbench with 8 Crystal Atoms, 3 modes, 7-step methodology",
+  "author": {
+    "name": "Bradley Ross",
+    "url": "https://github.com/bar181"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/bar181/hey-bradley-core",
+  "homepage": "https://heybradley.app",
+  "keywords": [
+    "spec",
+    "planning",
+    "aisp",
+    "claude-code",
+    "crystal-atom",
+    "ddd",
+    "agent-scopes",
+    "hey-bradley"
+  ]
+}

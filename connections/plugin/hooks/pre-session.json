@@ -1,0 +1,25 @@
+{
+  "$comment": "Hey Bradley pre-session hook config. Per ADR-C03 D1 (event=SessionStart with startup+resume matchers) + D2 (type=command pointing at ${CLAUDE_PLUGIN_ROOT}/hooks/pre-session.sh). Schema per inventory-claude-plugin.md §3 — source: https://code.claude.com/docs/en/hooks-guide. The 'clear' matcher is intentionally OMITTED per ADR-C03 D1 (user-driven reset; injection on every clear is noisy).",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/pre-session.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/pre-session.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
