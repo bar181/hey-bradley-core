@@ -1,0 +1,65 @@
+# Crystal Atom: MCP_GET_SPEC
+# Date: 2026-05-04 · Phase: Connections P3 (Spec)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Silver (δ ≥ 0.40); Ambig < 0.05 (Phase-3); Ambig < 0.02 (production)
+
+⟦
+  Ω := { Generate Hey Bradley AISP-compliant spec from plain-text description via 8-atom pipeline; structured-content output mirrors ExportClaudeCodeBundle shape per ADR-122 }
+  Σ := {
+    Input:{
+      description:𝕊[10..4000],
+      include_aisp?:𝔹,
+      tier_target?:◊⁻|◊|◊⁺|◊⁺⁺,
+      _meta?:{ session_id?:𝕊 }
+    },
+    Output:{
+      slug:𝕊,
+      humanSpec:𝕊,
+      northStar:𝕊,
+      sadd:𝕊,
+      implementationPlan:𝕊,
+      aisp:AispBlock[],
+      tier:𝕋,
+      ambig:ℝ,
+      density:ℝ
+    },
+    AispBlock:{ atom:𝕊, body:𝕊, ambig:ℝ, density:ℝ },
+    Errors:{
+      EDescTooShort,    # JSON-RPC -32602 invalid params
+      EDescTooLong,     # JSON-RPC -32602
+      ETierInvalid,     # JSON-RPC -32602
+      ESpecGenTimeout,  # result.isError = true (semantic)
+      EByokLeak         # JSON-RPC -32602 (defence-in-depth strip)
+    }
+  }
+  Γ := {
+    R1: ∀ output : Ambig(output.aisp) < 0.02,
+    R2: ¬∃ s ∈ (input ∪ output) : s ∋ {sk-, AIza, Bearer },
+    R3: |output.aisp| ≥ 5,
+    R4: output.tier ⊒ tier_target ?? ◊,
+    R5: ∀ block ∈ output.aisp : block parses to ⟦Ω⟧⟦Σ⟧⟦Γ⟧⟦Λ⟧⟦Ε⟧
+  }
+  Λ := {
+    timeout := 30s,
+    fallback := MCP unavailable ⇒ deterministic rules-classifier baseline (no LLM),
+    llm_handoff := inert@v0.1.0 (CF#4; classifyX() only),
+    transport := stdio,
+    backs_skill := /spec-init (per ADR-C02 §D1)
+  }
+  Ε := {
+    V1: VERIFY Ambig(output.aisp) < 0.02 (production hard gate),
+    V2: VERIFY output.density ≥ 0.40 (Silver tier minimum),
+    V3: VERIFY output.tier ⊒ tier_target,
+    V4: VERIFY redactKeyShapes() applied at write boundary per ADR-126,
+    V5: VERIFY tool_call row emitted to log_events with _meta.session_id
+  }
+⟧
+
+# Cross-refs:
+# - ADR-C04 §D1 (get_spec inputSchema + outputSchema + error semantics)
+# - ADR-C04 §D6 (common conventions: BYOK, two-channel errors, _meta.session_id)
+# - ADR-053 (AISP intent classifier discipline; first atom in pipeline)
+# - ADR-120 (AGENT_ATOM — closes 8-atom AISP suite)
+# - ADR-122 (markdown bundle is downstream emit; this tool produces source spec)
+# - ADR-126 D2/D3 (3-level ID hierarchy; redactKeyShapes write boundary)
+# - ADR-043 + ADR-114 D3 (BYOK trust boundary — Γ R2 + Ε V4)
