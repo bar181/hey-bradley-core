@@ -71,10 +71,12 @@ fi
 # AISP atoms are denoted by ⟦…⟧ delimiters per AISP reference. Count distinct opens.
 # Suite is 8 atoms (PATCH+INTENT+SELECTION+CONTENT+ASSUMPTIONS+DECOMP+PROCESS+DDD+AGENT minus dupes).
 # Per ADR-120 the suite is COMPLETE at 8.
-atom_count=$(grep -c '^⟦' "$SPEC_PATH" 2>/dev/null || echo 0)
-# Strip any trailing whitespace/newlines defensively.
+atom_count=$(grep -c '^⟦' "$SPEC_PATH" 2>/dev/null) || atom_count=0
+# Strip any non-numeric chars defensively (newlines, padding).
 atom_count="${atom_count//[^0-9]/}"
 atom_count="${atom_count:-0}"
+# Strip leading zeros so "07" doesn't print weirdly; preserve "0".
+atom_count=$((10#${atom_count}))
 
 buffer+="### AISP atoms wired: ${atom_count}/8"$'\n\n'
 buffer+='_(Run `/spec-export` to emit a CLAUDE.md bundle. Use `/sprint-plan "scope"` to plan agent waves.)_'$'\n'

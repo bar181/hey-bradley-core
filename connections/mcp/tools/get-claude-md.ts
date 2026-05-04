@@ -1,0 +1,77 @@
+// connections/mcp/tools/get-claude-md.ts
+// MCP tool: get_claude_md — convert stored spec to CLAUDE.md markdown bundle.
+// Per ADR-C04 §D2 + mcp-get-claude-md.aisp + ADR-122.
+// v0.1.0 STUB — wraps a canned 6-file bundle; wire to buildClaudeCodeBundle() in v0.2.0+.
+
+import { detectByokLeak, type ToolDef, type ToolMeta } from './types';
+
+interface GetClaudeMdInput {
+  spec_id: string;
+  include_atoms?: boolean;
+  include_adrs?: boolean;
+  _meta?: ToolMeta;
+}
+
+interface FileEntry { path: string; content: string }
+
+interface GetClaudeMdOutput {
+  markdown: string;
+  files: FileEntry[];
+  slug: string;
+  filename: string;
+}
+
+export const getClaudeMd: ToolDef<GetClaudeMdInput, GetClaudeMdOutput> = {
+  name: 'get_claude_md',
+  description:
+    'Convert stored spec into CLAUDE.md markdown bundle per ADR-122 (single .md with `# === FILE: <path> ===` markers; ≥6 logical files). v0.1.0 STUB returns canned bundle.',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      spec_id: { type: 'string', minLength: 1 },
+      include_atoms: { type: 'boolean', default: true },
+      include_adrs: { type: 'boolean', default: true },
+      _meta: { type: 'object', properties: { session_id: { type: 'string' } } },
+    },
+    required: ['spec_id'],
+    additionalProperties: false,
+  },
+  outputSchema: {
+    type: 'object',
+    properties: {
+      markdown: { type: 'string' },
+      files: { type: 'array' },
+      slug: { type: 'string' },
+      filename: { type: 'string' },
+    },
+    required: ['markdown', 'files', 'slug', 'filename'],
+  },
+  async handler(input) {
+    if (detectByokLeak(input)) {
+      return { isError: true, content: 'BYOK key shape detected in input — rejected per ADR-043' };
+    }
+    const specId = input?.spec_id ?? '';
+    if (typeof specId !== 'string' || specId.length < 1) {
+      return { isError: true, content: 'spec_id is required and must be non-empty' };
+    }
+    const slug = specId.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'spec';
+    // v0.1.0 STUB — six logical files per ADR-122 D4
+    const files: FileEntry[] = [
+      { path: 'CLAUDE.md', content: `# ${slug}\n\nProject preamble (stub).` },
+      { path: 'process-map.md', content: '# Process Map\n\n(stub — phases/sprints/waves)' },
+      { path: 'human-spec/north-star.md', content: '# North Star\n\n(stub)' },
+      { path: 'aisp/phase-aisp.md', content: '# AISP\n\n⟦ Ω := { stub } ⟧' },
+      { path: 'adrs/ADR-001.md', content: '# ADR-001\n\n(stub)' },
+      { path: 'agents/wave-1.md', content: '# Wave 1\n\n(stub)' },
+    ];
+    const markdown = files
+      .map((f) => `# === FILE: ${f.path} ===\n\n${f.content}`)
+      .join('\n\n');
+    return {
+      markdown,
+      files,
+      slug,
+      filename: `${slug}-spec-bundle.md`,
+    };
+  },
+};

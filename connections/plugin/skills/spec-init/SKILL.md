@@ -9,28 +9,26 @@ allowed-tools: mcp__heybradley__get_spec Write
 
 # spec-init
 
-You are scaffolding a draft AISP spec for a new Hey Bradley project.
+Scaffold a draft AISP spec for a new Hey Bradley project.
 
 ## Inputs
 
-- `$description` — one-paragraph plain-text project description (positional `$1`, required, 10-4000 chars per AISP spec).
-- Default tier target: `silver` (`◊`, δ ≥ 0.40, Ambig < 0.05) per AISP §4.2.
+- `$description` — positional `$1`, required, 10-4000 chars (Γ R1/R2).
+- Default `tier_target`: `silver` (`◊`, δ ≥ 0.40, Ambig < 0.05) per AISP §4.2.
 
 ## Steps
 
-1. Validate `$description` length is within 10-4000 chars. If not, abort with a short error citing AISP Γ R1/R2.
-2. Call MCP tool `get_spec` (defined in ADR-C04) with body:
-   - `description: $description`
-   - `tier_target: "silver"`
-3. Expect an AispBundle response (atoms[], humanSpec, northStar, sadd, implementationPlan). The spec MUST include ⟦Ω⟧⟦Σ⟧⟦Γ⟧⟦Λ⟧⟦Ε⟧ blocks per atom (Γ R5).
-4. Verify Γ R3 |spec.atoms| ≥ 5 and Γ R4 tier ⊒ silver. If below silver, surface `ETierBelowTarget` and let the user retry with a richer description.
-5. Verify Ε V5: NO BYOK key shapes (`sk-`, `AIza`, `Bearer `) appear anywhere in the bundle. If found, redact and warn.
-6. Use the Write tool to save the markdown bundle to `${CLAUDE_SKILL_DIR}/spec.md`.
-7. Print a short stdout summary: tier, atom count, ambig score, file path.
+1. Validate `|$description|` ∈ [10, 4000]. On violation, abort citing Γ R1/R2.
+2. Call MCP tool `get_spec` with `{description: $description, tier_target: "silver"}`.
+3. Receive AispBundle (atoms[], humanSpec, northStar, sadd, implementationPlan). Each atom MUST include ⟦Ω⟧⟦Σ⟧⟦Γ⟧⟦Λ⟧⟦Ε⟧ (Γ R5).
+4. Verify Γ R3 |atoms| ≥ 5 and Γ R4 tier ⊒ silver. Below silver → surface `ETierBelowTarget` so the user can retry with a richer description.
+5. Verify Ε V5: NO BYOK key shapes (`sk-`, `AIza`, `Bearer `) in the bundle. Redact + warn if found.
+6. Use Write to save the bundle to `${CLAUDE_SKILL_DIR}/spec.md`.
+7. Print stdout summary: tier, atom count, ambig score, file path.
 
 ## Fallback
 
-If MCP is unavailable (`EMcpUnavailable`), state clearly: "MCP server not reachable. Install the heybradley MCP server (see plugin README) or visit heybradley.app for the full pipeline." Do NOT attempt to fabricate atoms locally.
+If MCP returns `EMcpUnavailable`, state: "MCP server not reachable. Install the heybradley MCP server (see plugin README) or use heybradley.app." Do NOT fabricate atoms locally.
 
 ## Cross-refs
 
