@@ -33,41 +33,46 @@ export function Welcome() {
     <main className="min-h-screen bg-[var(--hb-paper)] text-[var(--hb-ink)]">
       <MarketingNav />
 
-      {/* Hero */}
+      {/* Hero — spec workbench framing (entry-signal repositioning) */}
       <section className="max-w-3xl mx-auto px-6 py-24">
         <p className="text-xs uppercase tracking-[0.2em] text-[var(--hb-warm)] mb-4 font-medium">
-          Harvard ALM Capstone &middot; AISP-powered
+          Spec workbench &middot; AISP-powered &middot; Harvard ALM Capstone
         </p>
         <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
-          Your AI builds the wrong site 55% of the time.
+          Messy ideas → enterprise specs, instantly.
         </h1>
-        <p className="text-xl text-[var(--hb-ink-muted)] leading-relaxed mb-8">
-          Hey Bradley generates a structured AISP spec before any code lands.
-          Sub-2% ambiguity. Open protocol. Local-only. BYOK. No backend.
+        <p className="text-xl text-[var(--hb-ink-muted)] leading-relaxed mb-6">
+          Hey Bradley turns the conversation you're already having &mdash; about what
+          you're building, why, and how &mdash; into a formal spec your AI coding tool
+          can execute without guessing.
+        </p>
+        <p className="text-sm text-[var(--hb-ink-muted)] leading-relaxed mb-8 font-mono">
+          <span className="text-[var(--hb-warm)] font-semibold">AISP trace:</span>{" "}
+          INTENT &rarr; ASSUMPTIONS &rarr; DECOMP &rarr; SELECTION &rarr; CONTENT &rarr; PATCH &rarr; spec.
         </p>
         <div className="flex flex-wrap gap-3">
           <Link
             to="/new-project"
             className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--hb-warm)] text-white font-semibold rounded-xl hover:bg-[var(--hb-warm-hover)] transition-colors shadow-lg"
           >
-            Try Hey Bradley &mdash; free
+            Start with your idea
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+          <Link
+            to="/aisp"
+            className="inline-flex items-center gap-2 px-6 py-3 border border-[rgb(var(--hb-warm-rgb)/0.3)] text-[var(--hb-ink)] font-semibold rounded-xl hover:bg-[var(--hb-paper-soft)] transition-colors"
+          >
+            Explore AISP
             <ArrowRight className="w-4 h-4" />
           </Link>
           <a
             href="https://github.com/bar181/aisp-open-core"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 border border-[rgb(var(--hb-warm-rgb)/0.3)] text-[var(--hb-ink)] font-semibold rounded-xl hover:bg-[var(--hb-paper-soft)] transition-colors"
-          >
-            Explore AISP
-            <ArrowRight className="w-4 h-4" />
-          </a>
-          <Link
-            to="/aisp"
             className="inline-flex items-center gap-2 px-6 py-3 text-[var(--hb-ink-muted)] font-semibold rounded-xl hover:bg-[var(--hb-paper-soft)] transition-colors"
           >
             Read the AISP spec
-          </Link>
+          </a>
         </div>
       </section>
 
