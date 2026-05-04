@@ -1,6 +1,6 @@
 ---
 name: spec-export
-description: Read project-local .heybradley/spec.aisp and emit a CLAUDE.md-formatted markdown bundle per ADR-122 (single .md with `# === FILE: <path> ===` markers covering preamble + process map + human spec + AISP spec + ADRs + agent waves). Pure transform; the spec must already exist.
+description: 'Read project-local .heybradley/spec.aisp and emit a CLAUDE.md-formatted markdown bundle per ADR-122 (single .md with `# === FILE: <path> ===` markers covering preamble + process map + human spec + AISP spec + ADRs + agent waves). Pure transform; the spec must already exist.'
 when_to_use: Use after `/spec-init` (or after editing in heybradley.app) to materialize the bundle into a Claude Code-readable CLAUDE.md. Examples - "/spec-export", "/spec-export --output-path ./CLAUDE.md". Does not generate a fresh spec (use /spec-init) and does not run KISS review.
 argument-hint: "[--output-path ./CLAUDE.md]"
 arguments: [output-path]
