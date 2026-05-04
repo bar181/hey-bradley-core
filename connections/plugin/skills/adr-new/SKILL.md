@@ -18,10 +18,10 @@ Scaffold a new ADR. Self-contained per ADR-C02 D3 — no MCP.
 ## Steps
 
 1. Validate `|$title|` ∈ [5, 80].
-2. List `docs/adr/ADR-*.md`; parse IDs; `next_id = max(IDs) + 1` (Γ R3/R4 monotonic, no gap reuse). Missing dir → `EAdrDirNotFound`.
-3. `slug = kebab-case($title)` (lowercase, non-alphanum→`-`, collapse, trim) per Γ R5.
-4. Filename: `docs/adr/ADR-${pad3(next_id)}-${slug}.md`. Existing path → `EIdCollision`.
-5. Write scaffold (≤120 LOC, Ε V5). Header includes `Status: Proposed` (Ε V2) + today's date. Body includes 4 sections (Γ R6).
+2. List `docs/adr/ADR-*.md`; parse IDs; `next_id = max(IDs)+1` (Γ R3/R4 monotonic). Missing dir → `EAdrDirNotFound`.
+3. `slug = kebab-case($title)` per Γ R5.
+4. Filename: `docs/adr/ADR-${pad3(next_id)}-${slug}.md`. Existing → `EIdCollision`.
+5. Write scaffold (≤120 LOC, Ε V5). Header `Status: Proposed` (Ε V2) + today's date. Body has 4 sections (Γ R6).
 6. Print new path + ID.
 
 ## Scaffold

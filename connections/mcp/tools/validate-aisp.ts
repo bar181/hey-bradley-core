@@ -51,11 +51,8 @@ export const validateAisp: ToolDef<ValidateAispInput, ValidateAispOutput> = {
   outputSchema: {
     type: 'object',
     properties: {
-      density: { type: 'number' },
-      ambig: { type: 'number' },
-      tier: { type: 'string' },
-      parse_total: { type: 'integer' },
-      parse_unique: { type: 'integer' },
+      density: { type: 'number' }, ambig: { type: 'number' }, tier: { type: 'string' },
+      parse_total: { type: 'integer' }, parse_unique: { type: 'integer' },
       errors: { type: 'array', items: { type: 'string' } },
     },
     required: ['density', 'ambig', 'tier', 'parse_total', 'parse_unique', 'errors'],
