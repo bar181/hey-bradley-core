@@ -1,0 +1,20 @@
+{
+  "name": "hey-bradley",
+  "version": "0.1.0",
+  "description": "Hey Bradley CLI — spec-first planning workbench (init/spec/export/score)",
+  "type": "module",
+  "bin": {
+    "hey-bradley": "./dist/bin/cli.js"
+  },
+  "files": ["dist/"],
+  "engines": { "node": ">=18.0.0" },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/cli.js"
+  },
+  "dependencies": {},
+  "devDependencies": { "typescript": "^5.0.0" },
+  "repository": "github:bar181/hey-bradley-core",
+  "license": "MIT",
+  "keywords": ["cli", "spec", "aisp", "claude-code", "hey-bradley"]
+}

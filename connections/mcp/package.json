@@ -1,0 +1,39 @@
+{
+  "name": "hey-bradley-mcp",
+  "version": "0.1.0",
+  "description": "Standalone MCP server for Hey Bradley spec workbench (Cursor + IDE-agnostic)",
+  "type": "module",
+  "bin": {
+    "hey-bradley-mcp": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/",
+    "tools/"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.28.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "repository": "github:bar181/hey-bradley-core",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "aisp",
+    "spec",
+    "claude-code",
+    "hey-bradley",
+    "cursor"
+  ]
+}

@@ -1,0 +1,83 @@
+// connections/npx/commands/init.ts
+// `hey-bradley init` — scaffold .heybradley/ per ADR-C05 D2 + npx-init.aisp.
+
+import { existsSync, mkdirSync, writeFileSync, renameSync } from 'node:fs';
+import { join } from 'node:path';
+import { parseFlags, logEvent } from './utils.js';
+
+const SPEC_PLACEHOLDER = `# Crystal Atom: PROJECT_SPEC
+# Date: ${new Date().toISOString().slice(0, 10)} · Phase: P0 (init)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Silver (δ ≥ 0.40); Ambig < 0.05
+
+⟦
+  Ω := { TODO: describe the project goal here }
+  Σ := { Input:{}, Output:{}, Errors:{} }
+  Γ := { R1: TODO }
+  Λ := { timeout := 30s }
+  Ε := { V1: VERIFY TODO }
+⟧
+
+# Run \`hey-bradley spec --prompt "..."\` to populate, or paste from web app.
+`;
+
+const GITIGNORE_BODY = `log.json
+*.db
+*.db-journal
+.cache/
+`;
+
+function atomicWrite(path: string, body: string): void {
+  const tmp = `${path}.tmp-${process.pid}`;
+  writeFileSync(tmp, body, 'utf8');
+  renameSync(tmp, path);
+}
+
+export async function runInit(argv: string[]): Promise<number> {
+  const { flags } = parseFlags(argv);
+  const cwd = process.cwd();
+  const root = join(cwd, '.heybradley');
+  const force = flags.force === true;
+  const name = typeof flags.name === 'string' ? flags.name : undefined;
+
+  const created: string[] = [];
+  const skipped: string[] = [];
+
+  if (existsSync(root) && !force) {
+    console.warn(`.heybradley/ already exists — pass --force to overwrite.`);
+    logEvent(cwd, { cmd: 'init', exit: 1, reason: 'EExistingDirNoForce' });
+    return 1;
+  }
+
+  try {
+    if (!existsSync(root)) mkdirSync(root, { recursive: true });
+
+    const projectName = name ?? cwd.split(/[\\/]/).filter(Boolean).pop() ?? 'untitled';
+    if (!/^[A-Za-z0-9_.-]+$/.test(projectName)) {
+      console.error(`Invalid --name "${projectName}" (allowed: A-Za-z0-9_.-).`);
+      logEvent(cwd, { cmd: 'init', exit: 2, reason: 'EInvalidName' });
+      return 2;
+    }
+
+    const config = { projectName, tierTarget: 'silver', version: '0.1.0' };
+    const targets: Array<[string, string]> = [
+      [join(root, 'spec.aisp'), SPEC_PLACEHOLDER],
+      [join(root, 'config.json'), JSON.stringify(config, null, 2) + '\n'],
+      [join(root, '.gitignore'), GITIGNORE_BODY],
+    ];
+
+    for (const [path, body] of targets) {
+      atomicWrite(path, body);
+      created.push(path);
+    }
+
+    console.log(`Scaffolded .heybradley/ at ${root}`);
+    for (const f of created) console.log(`  + ${f}`);
+    logEvent(cwd, { cmd: 'init', exit: 0, created: created.length, skipped: skipped.length });
+    return 0;
+  } catch (err) {
+    console.error('init failed:', (err as Error).message);
+    logEvent(cwd, { cmd: 'init', exit: 2, reason: 'EWritePermissionDenied' });
+    return 2;
+  }
+}
