@@ -13,17 +13,9 @@ interface GetDddInput {
 }
 
 interface Context { name: string; role: string; description: string }
-interface Relationship {
-  from: string;
-  to: string;
-  kind: 'partnership' | 'customer-supplier' | 'conformist' | 'anti-corruption-layer';
-  rationale: string;
-}
-
-interface GetDddOutput {
-  contexts: Context[];
-  relationships: Relationship[];
-}
+type RelKind = 'partnership' | 'customer-supplier' | 'conformist' | 'anti-corruption-layer';
+interface Relationship { from: string; to: string; kind: RelKind; rationale: string }
+interface GetDddOutput { contexts: Context[]; relationships: Relationship[] }
 
 export const getDdd: ToolDef<GetDddInput, GetDddOutput> = {
   name: 'get_ddd',
@@ -47,10 +39,7 @@ export const getDdd: ToolDef<GetDddInput, GetDddOutput> = {
   },
   outputSchema: {
     type: 'object',
-    properties: {
-      contexts: { type: 'array' },
-      relationships: { type: 'array' },
-    },
+    properties: { contexts: { type: 'array' }, relationships: { type: 'array' } },
     required: ['contexts', 'relationships'],
   },
   async handler(input) {

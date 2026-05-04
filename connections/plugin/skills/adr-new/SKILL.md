@@ -9,7 +9,7 @@ allowed-tools: Bash(ls docs/adr/*) Write
 
 # adr-new
 
-Scaffold a new ADR file. Self-contained per ADR-C02 D3 — no MCP required.
+Scaffold a new ADR. Self-contained per ADR-C02 D3 — no MCP.
 
 ## Inputs
 
@@ -17,14 +17,14 @@ Scaffold a new ADR file. Self-contained per ADR-C02 D3 — no MCP required.
 
 ## Steps
 
-1. Validate `|$title|` ∈ [5, 80]. Reject otherwise.
-2. List `docs/adr/ADR-*.md` (Bash `ls`). Parse the integer ID from each filename and compute `next_id = max(IDs) + 1` (Γ R3 + R4: monotonic, no gap reuse). Missing dir → `EAdrDirNotFound`.
-3. `slug = kebab-case($title)`: lowercase, replace non-alphanum with `-`, collapse repeats, trim edges (Γ R5).
+1. Validate `|$title|` ∈ [5, 80].
+2. List `docs/adr/ADR-*.md`; parse IDs; `next_id = max(IDs) + 1` (Γ R3/R4 monotonic, no gap reuse). Missing dir → `EAdrDirNotFound`.
+3. `slug = kebab-case($title)` (lowercase, non-alphanum→`-`, collapse, trim) per Γ R5.
 4. Filename: `docs/adr/ADR-${pad3(next_id)}-${slug}.md`. Existing path → `EIdCollision`.
-5. Write the scaffold (≤120 LOC, Ε V5). Header MUST include `Status: Proposed` (Ε V2) + today's date. Body MUST include the 4 sections (Γ R6).
-6. Print stdout: new path + ID.
+5. Write scaffold (≤120 LOC, Ε V5). Header includes `Status: Proposed` (Ε V2) + today's date. Body includes 4 sections (Γ R6).
+6. Print new path + ID.
 
-## Scaffold template
+## Scaffold
 
 ```markdown
 # ADR-NNN: <Title>
@@ -41,7 +41,7 @@ Scaffold a new ADR file. Self-contained per ADR-C02 D3 — no MCP required.
 
 ### D1 — <name>
 
-(Decision body — specific + testable.)
+(Specific + testable.)
 
 ## Consequences
 
@@ -49,7 +49,7 @@ Scaffold a new ADR file. Self-contained per ADR-C02 D3 — no MCP required.
 
 ## Cross-refs
 
-(Related ADRs by ID + one-line note each.)
+(Related ADRs + one-line note.)
 ```
 
 ## Cross-refs

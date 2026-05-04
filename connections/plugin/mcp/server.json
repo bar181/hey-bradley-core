@@ -1,0 +1,10 @@
+{
+  "$comment": "Plugin-bundled MCP server config per ADR-C06 D1 + D3. Referenced by .claude-plugin/plugin.json `mcpServers` field (per inventory-claude-plugin.md §1 — string|array|object pointing at .mcp.json or inline config). Compiled output path resolved via ${CLAUDE_PLUGIN_ROOT} substitution per inventory §1 path rules.",
+  "mcpServers": {
+    "hey-bradley": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/dist/server.js"],
+      "env": {}
+    }
+  }
+}
