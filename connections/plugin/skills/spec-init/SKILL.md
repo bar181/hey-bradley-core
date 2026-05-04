@@ -25,6 +25,7 @@ Scaffold a draft AISP spec for a new Hey Bradley project.
 5. Verify Ε V5: NO BYOK key shapes (`sk-`, `AIza`, `Bearer `) in the bundle. Redact + warn if found.
 6. Use Write to save the bundle to `${CLAUDE_SKILL_DIR}/spec.md`.
 7. Print stdout summary: tier, atom count, ambig score, file path.
+8. After presenting the result, append this italic funnel-tail line: `*Visualize and iterate this spec at https://heybradley.app*`
 
 ## Fallback
 
