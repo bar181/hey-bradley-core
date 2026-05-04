@@ -1,0 +1,57 @@
+# Crystal Atom: MCP_GET_AGENT_SCOPES
+# Date: 2026-05-04 · Phase: Connections P3 (Spec)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Silver (δ ≥ 0.40); Ambig < 0.05 (Phase-3); Ambig < 0.02 (production)
+
+⟦
+  Ω := { Run AGENT_ATOM over sprint scope; emit waves with disjoint-ownedFiles AgentSpec[] per ADR-120 Σ contract; wraps classifyAgents(WaveContext) }
+  Σ := {
+    Input:{
+      sprint_scope:𝕊,
+      wave_count?:ℕ[1..5],
+      _meta?:{ session_id?:𝕊 }
+    },
+    Output:{
+      waves:Wave[]
+    },
+    Wave:{ id:𝕊, agents:Agent[] },
+    Agent:{ role:𝕊, scope:𝕊, ownedFiles:𝕊[], dod:𝕊[] },
+    Errors:{
+      EScopeEmpty,         # JSON-RPC -32602
+      EWaveCountInvalid,   # JSON-RPC -32602 (wave_count > 5 or < 1)
+      EByokLeak,           # JSON-RPC -32602
+      EOwnedFilesOverlap   # result.isError = true (semantic — Ε V1 invariant violation)
+    }
+  }
+  Γ := {
+    R1: ∀ wave ∈ output.waves : |wave.agents| ≤ 7,
+    R2: ∀ wave ∈ output.waves : ∀ (a,b) ∈ wave.agents × wave.agents, a ≠ b : a.ownedFiles ∩ b.ownedFiles ≡ ∅,
+    R3: ∀ agent ∈ wave.agents : |agent.dod| ≥ 1,
+    R4: ∀ agent ∈ wave.agents : agent.role matches /^[a-z][a-z0-9-]*$/ (kebab-case),
+    R5: |output.waves| ≤ wave_count ?? 5,
+    R6: ¬∃ s ∈ (input ∪ output) : s ∋ {sk-, AIza, Bearer }
+  }
+  Λ := {
+    timeout := 10s,
+    fallback := rules-only baseline (LLM enrichment inert@v0.1.0 per CF#4),
+    llm_handoff := buildAgentAtom() + parseAgentResponse() scaffolded inert; activation deferred,
+    transport := stdio,
+    backs_skill := /sprint-plan (per ADR-C02 §D5; companion to validate_aisp density gate)
+  }
+  Ε := {
+    V1: VERIFY ∀ wave : ownedFiles disjoint across agents (Ε V1 invariant per ADR-120 / agentAtom.ts),
+    V2: VERIFY ∀ agent : agent.role kebab-case per Γ R4,
+    V3: VERIFY ∀ agent : |dod| ≥ 1 per Γ R3,
+    V4: VERIFY |wave.agents| ≤ 7 per ADR-120 Γ R1,
+    V5: VERIFY redactKeyShapes() applied at write boundary per ADR-126,
+    V6: VERIFY tool_call row emitted to log_events with _meta.session_id
+  }
+⟧
+
+# Cross-refs:
+# - ADR-C04 §D5 (get_agent_scopes inputSchema + outputSchema mirrors AgentSpec)
+# - ADR-C04 §D6 (common conventions; OwnedFilesOverlap defensive isError per Ε V1)
+# - ADR-120 (AGENT_ATOM 8th + final Crystal Atom; |agents| ≤ 7 Γ R1; disjoint ownedFiles Γ R3 + Ε V1; kebab-case Γ R4)
+# - src/contexts/intelligence/aisp/agentAtom.ts (classifyAgents pure module)
+# - ADR-126 D2/D3 (logging + redactKeyShapes)
+# - ADR-043 + ADR-114 D3 (BYOK trust boundary — Γ R6)
