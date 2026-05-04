@@ -1,0 +1,68 @@
+# Crystal Atom: NPX_EXPORT_COMMAND
+# Date: 2026-05-04 · Phase: Connections P3 (Spec)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Silver (δ ≥ 0.40); Ambig < 0.05
+
+⟦
+  Ω := { Convert .heybradley/spec.aisp into Claude Code markdown bundle per ADR-122; single .md with # === FILE: <path> === markers; ≥6 logical files; --zip and --directory deferred Tier-2 }
+  Σ := {
+    Input:{
+      claude_code:𝔹,
+      output?:𝕊,
+      phase?:𝕊
+    },
+    Output:{
+      bundle_path:𝕊,
+      file_count:ℕ,
+      byte_count:ℕ,
+      exit_code:ℕ
+    },
+    LogicalFiles := 𝔼{
+      "CLAUDE.md (preamble)",
+      "process-map.md",
+      "human-spec/north-star.md",
+      "human-spec/sadd.md",
+      "human-spec/implementation-plan.md",
+      "aisp/phase-aisp.md",
+      "adrs/ADR-{id}.md",
+      "agents/wave-{n}.md"
+    },
+    Errors:{
+      ESpecMissing,
+      ESpecUnparseable,
+      EWriteFailed,
+      EFlagDeferredTier2
+    }
+  }
+  Γ := {
+    R1: exists(.heybradley/spec.aisp) ∨ raise ESpecMissing,
+    R2: file_count ≥ 6 (per ADR-122 D4),
+    R3: --zip ∨ --directory ⇒ raise EFlagDeferredTier2 (per ADR-122 D2),
+    R4: bundle has all # === FILE: <path> === markers (per ADR-122 D2),
+    R5: idempotent — same spec ⇒ same bundle bytes (modulo timestamps),
+    R6: phase = ∅ ⇒ select latest sealed PhaseCard,
+    R7: bundle reuses buildClaudeCodeBundle() per ADR-C05 D4 — single source of truth
+  }
+  Λ := {
+    timeout := 5s,
+    output_default := ./CLAUDE.md (cwd, NOT .heybradley/),
+    network := ∅ (fully offline; pure transform),
+    log_target := .heybradley/log.json (fire-and-forget per ADR-126 D4)
+  }
+  Ε := {
+    V1: VERIFY bundle contains ≥6 # === FILE: <path> === markers,
+    V2: VERIFY bundle_path defaults to ./CLAUDE.md when output = ∅,
+    V3: VERIFY no BYOK key shapes (sk-/AIza/Bearer ) in emitted bundle,
+    V4: VERIFY exit_code = 0 on success; exit_code = 1 on spec_missing/unparseable; exit_code = 2 on write_failed,
+    V5: VERIFY byte_count ≤ 2MB target (matches NPX tarball envelope per ADR-C05 D1),
+    V6: VERIFY bundle is single .md file (NOT ZIP, NOT directory split — per ADR-122 D2)
+  }
+⟧
+
+# Cross-refs:
+# - ADR-C05 §D4 (export --claude-code command contract)
+# - ADR-122 (Export Claude Code Markdown Bundle — file-marker pattern, ≥6 logical files, bundle-not-ZIP)
+# - ADR-114 (Tier-2 boundary — --zip + --directory flags deferred)
+# - ADR-043 (BYOK trust boundary — Ε V3)
+# - ADR-126 D4 (fire-and-forget log writes)
+# - ADR-101 (Spec Export Quality — bundle is canonical Hey Bradley output)

@@ -1,0 +1,58 @@
+# Crystal Atom: MCP_GET_DDD
+# Date: 2026-05-04 · Phase: Connections P3 (Spec)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Silver (δ ≥ 0.40); Ambig < 0.05 (Phase-3); Ambig < 0.02 (production)
+
+⟦
+  Ω := { Run DDD_ATOM over project description or stored spec; emit bounded contexts + relationships per ADR-119 Σ contract; wraps classifyContexts() → toDomainModel() }
+  Σ := {
+    Input:{
+      source:{ type:𝕊, value:𝕊 },
+      _meta?:{ session_id?:𝕊 }
+    },
+    source.type ∈ {description, spec_id},
+    Output:{
+      contexts:Context[],
+      relationships:Relationship[]
+    },
+    Context:{ name:𝕊, role:𝕊, description:𝕊 },
+    Relationship:{ from:𝕊, to:𝕊, kind:𝕊, rationale:𝕊 },
+    Errors:{
+      ESpecIdUnknown,    # JSON-RPC -32602
+      EDescTooShort,     # JSON-RPC -32602 (|value| < 10 when type=description)
+      ESourceTypeInvalid,# JSON-RPC -32602
+      EByokLeak,         # JSON-RPC -32602
+      EClassifierEmpty   # result.isError = true (semantic — zero contexts emitted)
+    }
+  }
+  Γ := {
+    R1: |output.contexts| ≤ 8,
+    R2: ∀ rel ∈ output.relationships : rel.from ∈ output.contexts ∧ rel.to ∈ output.contexts,
+    R3: ∀ rel : rel.kind ∈ {partnership, customer-supplier, conformist, anti-corruption-layer},
+    R4: ∀ context : |context.role| ≥ 1 ∧ |context.description| ≥ 1,
+    R5: ∀ rel.pair (from,to) : unique,
+    R6: ¬∃ s ∈ (input ∪ output) : s ∋ {sk-, AIza, Bearer }
+  }
+  Λ := {
+    timeout := 10s,
+    fallback := rules-only baseline (LLM enrichment inert@v0.1.0 per CF#4),
+    llm_handoff := buildDDDAtom() + parseDDDResponse() scaffolded inert; activation deferred,
+    transport := stdio,
+    backs_skill := /ddd-map (per ADR-C02 §D4)
+  }
+  Ε := {
+    V1: VERIFY |output.contexts| ≤ 8 per ADR-119 Γ R1,
+    V2: VERIFY no shared mutable state between contexts (per dddAtom.ts Ε V1),
+    V3: VERIFY ∀ relationship.kind ∈ ADR-119 Γ R4 enum (4 kinds),
+    V4: VERIFY redactKeyShapes() applied at write boundary per ADR-126,
+    V5: VERIFY tool_call row emitted to log_events with _meta.session_id
+  }
+⟧
+
+# Cross-refs:
+# - ADR-C04 §D4 (get_ddd inputSchema discriminated-union + outputSchema mirrors DomainModel)
+# - ADR-C04 §D6 (common conventions)
+# - ADR-119 (DDD_ATOM 7th Crystal Atom; |contexts| ≤ 8; 4 relationship kinds; Γ R1/R4)
+# - src/contexts/intelligence/aisp/dddAtom.ts (classifyContexts + toDomainModel pure module)
+# - ADR-126 D2/D3 (logging + redactKeyShapes)
+# - ADR-043 + ADR-114 D3 (BYOK trust boundary — Γ R6)

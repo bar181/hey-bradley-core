@@ -1,0 +1,64 @@
+# Crystal Atom: NPX_SCORE_COMMAND
+# Date: 2026-05-04 · Phase: Connections P3 (Spec)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Silver (δ ≥ 0.40); Ambig < 0.05
+
+⟦
+  Ω := { Score current .heybradley/spec.aisp; emit δ density + Ambig + tier verdict; CI-friendly via deterministic exit codes; --strict tightens to Gold tier }
+  Σ := {
+    Input:{
+      strict?:𝔹,
+      json?:𝔹
+    },
+    Output:{
+      density:ℝ,
+      ambig:ℝ,
+      tier:𝕋,
+      exit_code:ℕ,
+      format:𝕊
+    },
+    TierLadder := 𝔼{
+      ◊⁺⁺ ⇔ δ ≥ 0.75,
+      ◊⁺ ⇔ δ ≥ 0.60,
+      ◊  ⇔ δ ≥ 0.40,
+      ◊⁻ ⇔ δ ≥ 0.20,
+      ⊘  ⇔ δ < 0.20
+    },
+    Errors:{
+      ESpecMissing,
+      ESpecUnparseable,
+      ETierBelowGate
+    }
+  }
+  Γ := {
+    R1: exit_code = 0 ⇔ tier ⊒ ◊ ∧ Ambig < 0.05,
+    R2: exit_code = 1 ⇔ tier ⊏ ◊ ∨ Ambig ≥ 0.05,
+    R3: exit_code = 2 ⇔ ¬exists(.heybradley/spec.aisp) ∨ parse(spec) failed,
+    R4: strict = ⊤ ⇒ R1 tightens to (tier ⊒ ◊⁺ ∧ Ambig < 0.02),
+    R5: δ and Ambig are INDEPENDENT metrics (per AISP v5.1 §4.3 — never conflated),
+    R6: density formula δ ≜ |valid_aisp_symbols| / |non_ws_tokens| (verbatim per AISP v5.1 §4.2),
+    R7: ambig formula Ambig ≜ 1 - |Parse_u(D)| / |Parse_t(D)| (verbatim per AISP v5.1 §4.3)
+  }
+  Λ := {
+    timeout := 2s,
+    validator := per ADR-C07 chosen runtime (δ + Ambig + tier symbol mapping),
+    network := ∅ (fully offline — pure compute),
+    log_target := .heybradley/log.json (fire-and-forget per ADR-126 D4)
+  }
+  Ε := {
+    V1: VERIFY exit_code matches Γ R1-R3 truth table for non-strict mode,
+    V2: VERIFY exit_code matches Γ R4 for --strict mode,
+    V3: VERIFY default output renders human-readable terminal text (ANSI when TTY),
+    V4: VERIFY --json ⇒ machine-readable JSON object { density, ambig, tier, exit_code },
+    V5: VERIFY identical δ/Ambig values to MCP validate_aisp tool (per ADR-C04 single-source-of-truth),
+    V6: VERIFY no BYOK key shapes (sk-/AIza/Bearer ) in any error/log output
+  }
+⟧
+
+# Cross-refs:
+# - ADR-C05 §D5 (score command contract — exit codes, --strict, --json)
+# - ADR-C07 (AISP validator runtime — δ + Ambig + tier computation engine)
+# - ADR-C04 (MCP validate_aisp — same δ/Ambig values via shared pure-module backend)
+# - ADR-053 (AISP intent classifier discipline — Ambig < 0.02 production gate)
+# - ADR-126 D4 (fire-and-forget log writes; log failure never crashes score)
+# - ADR-043 (BYOK trust boundary — Ε V6)

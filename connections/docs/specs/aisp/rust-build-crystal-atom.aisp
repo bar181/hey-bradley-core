@@ -1,0 +1,59 @@
+# Crystal Atom: RUST_BUILD_CRYSTAL_ATOM
+# Date: 2026-05-04 · Phase: Connections P3 (Spec)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Gold (δ ≥ 0.50); Ambig < 0.02
+# Exposure: Rust → WASM (per ADR-C07 D1 = Option C)
+
+⟦
+  Ω := { Assemble AISP-compliant Crystal Atom text from Σ/Γ/Λ/Ε string inputs; reject any block whose Ambig ≥ 0.02 BEFORE assembly; output begins with 𝔸 sigil per AISP v5.1 full form }
+  Σ := {
+    Input:{
+      atom_name:𝕊,
+      sigma:𝕊,
+      gamma:𝕊,
+      lambda:𝕊,
+      epsilon:𝕊
+    },
+    Output: Result<CrystalAtom, AmbigError>,
+    CrystalAtom:{
+      text:String,
+      ambig:f64,
+      tier:𝕋,
+      blocks:HashMap<String,String>
+    },
+    AmbigError:{
+      EBlockAmbigExceeded{block:𝕊, ambig:f64},
+      EBlockUnparseable{block:𝕊},
+      EMissingBlock{block:𝕊},
+      ESymbolDensityLow{density:f64}
+    }
+  }
+  Γ := {
+    R1: Output text starts with 𝔸 per AISP v5.1 full form,
+    R2: Block sequence ⟦Ω⟧ → ⟦Σ⟧ → ⟦Γ⟧ → ⟦Λ⟧ → ⟦Ε⟧,
+    R3: ∀ block ∈ {Ω,Σ,Γ,Λ,Ε} : Ambig(block) < 0.02 BEFORE assembly,
+    R4: |atom_name| ≥ 3 ∧ atom_name matches /^[A-Z][A-Z_0-9]*$/,
+    R5: symbol_density(output) ≥ 0.40
+  }
+  Λ := {
+    purity := pure_function (no I/O, no network, no clock),
+    determinism := same_input ⇒ same_output,
+    wasm_export := build_crystal_atom,
+    fallback := none (errors propagate via Result),
+    sibling_atoms := {extract_ddd_contexts, format_claude_md, ambig_diff}
+  }
+  Ε := {
+    V1: VERIFY Ambig(output) < 0.02,
+    V2: VERIFY ∀ block ∈ output : block parses to its declared shape,
+    V3: VERIFY symbol_density(output) ≥ 0.40,
+    V4: VERIFY output starts with 𝔸 sigil,
+    V5: VERIFY block order = ⟨Ω,Σ,Γ,Λ,Ε⟩ (no permutation)
+  }
+⟧
+
+# Cross-refs:
+# - ADR-C07 §D1 (WASM export = Option C; this is one of 4 enhanced functions)
+# - ADR-122 (markdown bundle output format — sibling concern in format_claude_md)
+# - ADR-119 (DDD_ATOM Crystal Atom Σ/Γ/Λ/Ε contract; mirrored here)
+# - ADR-134 (atom→view fix: pure module — no React/store imports)
+# - ADR-053 (AISP intent classifier discipline — Crystal Atom verbatim → consumer)

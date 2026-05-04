@@ -1,0 +1,60 @@
+# Crystal Atom: MCP_GET_CLAUDE_MD
+# Date: 2026-05-04 · Phase: Connections P3 (Spec)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Silver (δ ≥ 0.40); Ambig < 0.05 (Phase-3); Ambig < 0.02 (production)
+
+⟦
+  Ω := { Convert stored spec into CLAUDE.md markdown bundle per ADR-122; wraps buildClaudeCodeBundle() without modifying its contract; bundle IS canonical Hey Bradley OUTPUT }
+  Σ := {
+    Input:{
+      spec_id:𝕊,
+      include_atoms?:𝔹,
+      include_adrs?:𝔹,
+      _meta?:{ session_id?:𝕊 }
+    },
+    Output:{
+      markdown:𝕊,
+      files:FileEntry[],
+      slug:𝕊,
+      filename:𝕊
+    },
+    FileEntry:{ path:𝕊, content:𝕊 },
+    Errors:{
+      ESpecIdUnknown,   # JSON-RPC -32602
+      ESpecIdEmpty,     # JSON-RPC -32602
+      EByokLeak,        # JSON-RPC -32602 (defence-in-depth)
+      EBundleMalformed  # result.isError = true (semantic)
+    }
+  }
+  Γ := {
+    R1: |output.files| ≥ 6,
+    R2: output.filename ≡ output.slug + "-spec-bundle.md",
+    R3: ∀ marker ∈ output.markdown : marker.shape ≡ "# === FILE: <path> ===",
+    R4: ∀ file ∈ output.files : ∃ marker : marker.path ≡ file.path,
+    R5: ¬∃ s ∈ (input ∪ output) : s ∋ {sk-, AIza, Bearer },
+    R6: output.markdown idempotent on identical spec_id
+  }
+  Λ := {
+    timeout := 5s,
+    fallback := none (pure transform; no LLM dependency),
+    llm_handoff := n/a (deterministic emitter per ADR-122 D1),
+    transport := stdio,
+    backs_skill := /spec-export (per ADR-C02 §D2),
+    atom_pure := preserved (zero @/contexts/persistence imports per ADR-134)
+  }
+  Ε := {
+    V1: VERIFY |output.files| ≥ 6 (CLAUDE.md + process-map + human-spec/ + aisp/ + adrs/ + agents/) per ADR-122 D4,
+    V2: VERIFY ∀ file : output.markdown ∋ "# === FILE: " + file.path + " ===",
+    V3: VERIFY output.filename matches "{slug}-spec-bundle.md",
+    V4: VERIFY redactKeyShapes() applied at write boundary per ADR-126,
+    V5: VERIFY tool_call row emitted to log_events with _meta.session_id
+  }
+⟧
+
+# Cross-refs:
+# - ADR-C04 §D2 (get_claude_md inputSchema + outputSchema mirrors ExportClaudeCodeBundle)
+# - ADR-C04 §D6 (common conventions)
+# - ADR-122 D1/D2/D3/D4 (markdown bundle NOT ZIP; file markers; atom-pure; ≥6 logical files)
+# - ADR-134 (atom→view inversion: atoms MUST NOT import from src/components)
+# - ADR-126 D2/D3 (logging + redactKeyShapes)
+# - ADR-043 + ADR-114 D3 (BYOK trust boundary — Γ R5)

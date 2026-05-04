@@ -1,0 +1,63 @@
+# Crystal Atom: NPX_SPEC_COMMAND
+# Date: 2026-05-04 · Phase: Connections P3 (Spec)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Silver (δ ≥ 0.40); Ambig < 0.05
+
+⟦
+  Ω := { Generate new .heybradley/spec.aisp from --prompt OR re-validate existing spec; emit δ density + Ambig + tier symbol; offline mode falls back to deterministic rules-only classifier }
+  Σ := {
+    Input:{
+      prompt?:𝕊,
+      tier?:◊⁻|◊|◊⁺|◊⁺⁺,
+      offline?:𝔹,
+      output?:𝕊
+    },
+    Output:{
+      spec_path:𝕊,
+      ambig:ℝ,
+      tier:𝕋,
+      density:ℝ,
+      exit_code:ℕ
+    },
+    Errors:{
+      EPromptTooShort,
+      EPromptTooLong,
+      ETierBelowTarget,
+      ENetworkUnavailable,
+      EParseFailed
+    }
+  }
+  Γ := {
+    R1: prompt ≠ ∅ ⇒ write_new_spec; prompt = ∅ ⇒ re_validate_existing,
+    R2: offline = ⊤ ⇒ rules_only_classifier (no MCP, no LLM, no network),
+    R3: tier ⊒ requested_tier ∨ raise ETierBelowTarget,
+    R4: density ≥ tier_threshold(tier) per AISP v5.1 §4.2,
+    R5: 10 ≤ |prompt| ≤ 4000 chars,
+    R6: output ≠ ∅ ⇒ write_path := output ELSE .heybradley/spec.aisp,
+    R7: output ⌣ ".txt" ⇒ apply ADR-101 D3 versioned suffix pattern
+  }
+  Λ := {
+    timeout_online := 30s,
+    timeout_offline := 5s,
+    fallback := network_fail ∨ offline ⇒ rules_classifier,
+    mcp_tool := get_spec (per ADR-C04),
+    validator := per ADR-C07 chosen runtime
+  }
+  Ε := {
+    V1: VERIFY spec_path written ∧ parses to {Ω,Σ,Γ,Λ,Ε} blocks,
+    V2: VERIFY tier ⊒ ◊ ⇒ Ambig < 0.05,
+    V3: VERIFY tier ⊒ ◊⁺ ⇒ Ambig < 0.02 (production hard constraint),
+    V4: VERIFY density ratio matches AISP δ formula (valid_symbols / non_ws_tokens),
+    V5: VERIFY no BYOK key shapes (sk-/AIza/Bearer ) in spec output,
+    V6: VERIFY exit_code = 0 on success; exit_code = 1 on tier_below_target; exit_code = 2 on parse_fail
+  }
+⟧
+
+# Cross-refs:
+# - ADR-C05 §D3 (spec command behavior — write/validate dual path)
+# - ADR-C04 (MCP get_spec — online generation backend)
+# - ADR-C07 (AISP validator runtime — δ + Ambig computation source)
+# - ADR-053 (AISP intent classifier discipline)
+# - ADR-101 D3 (versioned filename pattern — *-aisp-v{n}.txt)
+# - ADR-114 D3 (BYOK keys env-only; never persisted to .heybradley/)
+# - ADR-043 (BYOK trust boundary — Ε V5)
