@@ -18,7 +18,10 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prepare": "husky",
-    "test": "npx playwright test --reporter=line"
+    "test": "npx playwright test --reporter=line",
+    "check:invariants": "playwright test tests/architecture-invariants.spec.ts",
+    "check:adr-lint": "node --experimental-strip-types --no-warnings scripts/adr-lint.ts",
+    "check:gates": "npm run check:invariants && npm run check:adr-lint"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.27.3",

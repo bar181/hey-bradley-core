@@ -47,6 +47,52 @@ Husky runs `scripts/check-secrets.sh` on every commit. Rejects 9 key-shape patte
 - Real keys in test fixtures (use `sk-ant-FAKE...` synthetic strings)
 - Real keys in committed logs, screenshots, or comments
 
+## Running the gates
+
+Hey Bradley enforces architectural decisions via two automated checks introduced in P110 / ADR-138 and made owner-runnable in P111.
+
+### Architecture invariants
+
+```bash
+npm run check:invariants
+```
+
+Runs `tests/architecture-invariants.spec.ts` — 12 fitness functions verifying ADR compliance (bundle gzip ≤800KB / hex literal ceiling 240 / atom-pure boundary `src/contexts/` ↛ `src/components/` / zero secret-shape columns in migrations / etc).
+
+### ADR-lint
+
+```bash
+npm run check:adr-lint
+```
+
+Runs `scripts/adr-lint.ts` — maps changed files to governing ADRs via a 12-entry rule table and enforces commit-message citation when invoked with `--commit-msg <path>`. Exit 0 on PASS, 1 on VIOLATION.
+
+### Combined
+
+```bash
+npm run check:gates
+```
+
+Runs both checks in sequence.
+
+### Full gates runner (secrets + invariants + ADR-lint)
+
+```bash
+bash scripts/run-gates.sh
+```
+
+Chains all three gates with summary output. This is the script intended for the pre-commit hook.
+
+### Pre-commit wire (owner action — currently sandbox-blocked)
+
+To make the gates fire on every commit, append this line to `.husky/pre-commit`:
+
+```sh
+bash scripts/run-gates.sh || exit 1
+```
+
+Until this wire lands (sandbox-blocked at P110 / ADR-138 D3), run `npm run check:gates` (or `bash scripts/run-gates.sh`) manually before committing — or rely on CI to catch violations at PR time.
+
 ## Verification before pushing
 
 ```bash
