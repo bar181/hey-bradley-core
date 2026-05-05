@@ -8,21 +8,26 @@
  *
  * Output shape:
  *   - `markdown` — single string with `# === FILE: <path> ===` markers
- *   - `files`    — logical file array (≥6) for testability + future
- *                  multi-file directory writes (Tier-2 File System Access API)
+ *   - `files`    — logical file array (≥10 per ADR-138) for testability +
+ *                  future multi-file directory writes (Tier-2 FSA API)
  *   - `slug`     — kebab-case slug (from projectSlug or phase.id)
  *   - `filename` — `{slug}-spec-bundle.md`
  *
- * Hard rules: pure module (no React / no store imports); no new deps;
- * TypeScript-strict (no `any`); explicit interfaces; ≤300 LOC including
- * JSDoc; output is HUMAN-READABLE markdown.
+ * Hard rules: pure module (no React / no store / no fs imports); no new deps;
+ * TypeScript-strict (no `any`); explicit interfaces; output is HUMAN-READABLE
+ * markdown. Side-effects (logging via `onEmit`, ADR text reads via `readAdr`)
+ * happen via inversion-of-control callbacks supplied by the integration layer.
  *
- * See: ADR-122 (markdown bundle), ADR-101 (spec export quality),
- *      ADR-108 (AISP adoption), ADR-121 (SpecWorkbench).
+ * See: ADR-122 (markdown bundle baseline P96),
+ *      ADR-138 (Export Completeness Standard P110 — adds 4 logical files),
+ *      ADR-101 (spec export quality), ADR-108 (AISP adoption),
+ *      ADR-121 (SpecWorkbench), ADR-128 (TDD scaffold), ADR-135 (IoC pattern).
  */
 // P106 / A2 — Pure-module discipline per ADR-122 D1 + ADR-134: import spec
 // types from the neutral types module, NOT from the React workbench.
 import type { PhaseCard, SprintSummary } from '@/contexts/specification/types'
+import type { BoundedContext, ContextRelationship } from '@/contexts/intelligence/aisp/dddAtom'
+import type { Phase, Sprint, Wave, AgentScope } from '@/contexts/intelligence/aisp/processAtom'
 import { buildTDDScaffold } from '@/contexts/specification/exporters/tddScaffoldGenerator'
 
 export interface ExportClaudeCodeBundle {
@@ -35,6 +40,18 @@ export interface ExportClaudeCodeBundle {
   /** Suggested filename for browser download. */
   readonly filename: string
 }
+
+/**
+ * P110 / A2 — ADR reader callback (Option B per preflight). Pure-module
+ * discipline forbids fs imports inside `exportClaudeCode.ts`; the caller
+ * (web-app, plugin, CLI) supplies a reader that returns the ADR file
+ * content (or `null` to fall back to a stub note). Mirrors the
+ * `ExportEmitCallback` inversion-of-control pattern from P107 / ADR-135.
+ *
+ * @param adrId  Stable ADR identifier (e.g. `ADR-122`).
+ * @returns      Markdown content of the ADR, or `null` when not available.
+ */
+export type ReadAdrCallback = (adrId: string) => string | null
 
 /**
  * P107 / A5 — observability hook for `export_emit` log_event. Pure module
@@ -163,6 +180,152 @@ function buildAdrFile(adr: PhaseCard['adrRefs'][number]): string {
   return [`# ${adr.id} — ${adr.title}`, '', `See ${href}`, ''].join('\n')
 }
 
+// ---------------------------------------------------------------------------
+// P110 / A2 — Export Bundle Completeness (ADR-138). 4 NEW logical files:
+//   1. ddd-contexts.md           (DDD_ATOM bounded contexts as prose)
+//   2. adr-bundle/ADR-NNN.md     (ADR text per cited ADR; fs read via
+//                                 `readAdr` callback to keep atom-pure)
+//   3. implementation-plan.md    (already emitted under human-spec/; P110
+//                                 enriches with PROCESS_ATOM prose when
+//                                 phase.processOutput is present)
+//   4. tdd-scaffold.md           (replaces phase-plans/{id}-test-spec.md;
+//                                 same buildTDDScaffold output, canonical
+//                                 top-level path per ADR-138)
+// ---------------------------------------------------------------------------
+
+/**
+ * P110 / A2 — Render bounded contexts as human-readable prose. One section
+ * per context (name / responsibility / what it owns / boundaries / ACLs).
+ * Falls back to a placeholder section when `phase.dddOutput` is absent.
+ */
+function buildDddContexts(phase: PhaseCard): string {
+  const lines: string[] = [`# Bounded Contexts — ${phase.name}`, '']
+  const out = phase.dddOutput
+  if (!out || out.contexts.length === 0) {
+    lines.push(
+      '_No DDD_ATOM output recorded for this phase. Run the DDD atom from the_',
+      '_Planning chat to populate bounded contexts. See ADR-119 (DDD_ATOM)._',
+      '',
+    )
+    return lines.join('\n')
+  }
+  lines.push(`> ${out.contexts.length} context(s) · ${out.relationships.length} relationship(s)`, '')
+  if (out.rationale) {
+    lines.push('## Rationale', '', out.rationale, '')
+  }
+  for (const ctx of out.contexts) {
+    lines.push(...buildSingleContext(ctx, out.relationships))
+  }
+  return lines.join('\n')
+}
+
+function buildSingleContext(
+  ctx: BoundedContext,
+  relationships: readonly ContextRelationship[],
+): string[] {
+  const owns = relationships
+    .filter((r) => r.from === ctx.id && r.kind === 'customer-supplier')
+    .map((r) => r.to)
+  const boundaries = relationships
+    .filter((r) => (r.from === ctx.id || r.to === ctx.id) && r.kind !== 'anti-corruption-layer')
+    .map((r) => (r.from === ctx.id ? `→ ${r.to} (${r.kind})` : `← ${r.from} (${r.kind})`))
+  const acls = relationships
+    .filter((r) => (r.from === ctx.id || r.to === ctx.id) && r.kind === 'anti-corruption-layer')
+    .map((r) => (r.from === ctx.id ? `→ ${r.to}` : `← ${r.from}`))
+  const lines: string[] = [`## ${ctx.name}`, '', `**Responsibility:** ${ctx.responsibility}`, '']
+  if (ctx.relatedPhaseIds.length > 0) {
+    lines.push(`**Related phases:** ${ctx.relatedPhaseIds.join(', ')}`, '')
+  }
+  lines.push(
+    `**Owns (downstream):** ${owns.length > 0 ? owns.join(', ') : '_(none)_'}`,
+    '',
+    `**Boundaries:** ${boundaries.length > 0 ? boundaries.join(' · ') : '_(isolated)_'}`,
+    '',
+    `**Anti-corruption layers:** ${acls.length > 0 ? acls.join(' · ') : '_(none)_'}`,
+    '',
+  )
+  return lines
+}
+
+/**
+ * P110 / A2 — Read ADR content via callback (Option B / ADR-135 IoC pattern).
+ * Returns the ADR markdown when the callback supplies it; otherwise emits a
+ * stub note pointing at the canonical doc location. Pure module — no fs
+ * imports here; the caller decides how to read.
+ */
+function buildAdrBundleFile(
+  adr: PhaseCard['adrRefs'][number],
+  readAdr: ReadAdrCallback | undefined,
+): string {
+  const supplied = readAdr ? readAdr(adr.id) : null
+  if (supplied && supplied.length > 0) return supplied
+  const href =
+    adr.href ?? `https://github.com/bar181/hey-bradley-core/blob/main/docs/adr/${adr.id}.md`
+  return [
+    `# ${adr.id} — ${adr.title}`,
+    '',
+    `_ADR text not embedded; see ${href} or repo /docs/adr/._`,
+    '',
+  ].join('\n')
+}
+
+/**
+ * P110 / A2 — Implementation plan enriched from PROCESS_ATOM. Renders the
+ * existing `humanSpec.implementationPlan` prose followed by phase / sprint /
+ * wave / agent breakdown derived from `phase.processOutput`. Consumer-
+ * friendly markdown — NOT AISP notation. Falls back to plan prose alone
+ * when PROCESS_ATOM output is absent.
+ */
+function buildImplementationPlanEnriched(phase: PhaseCard): string {
+  const lines: string[] = ['# Implementation Plan', '', phase.humanSpec.implementationPlan, '']
+  const out = phase.processOutput
+  if (!out || out.phases.length === 0) {
+    lines.push(
+      '_No PROCESS_ATOM output recorded for this phase. Run the Planning chat_',
+      '_to decompose the project into phases / sprints / waves / agents._',
+      '_See ADR-118 (PROCESS_ATOM)._',
+      '',
+    )
+    return lines.join('\n')
+  }
+  lines.push('## Phase / Sprint / Wave / Agent Breakdown', '')
+  if (out.rationale) lines.push(`> ${out.rationale}`, '')
+  for (const p of out.phases) lines.push(...buildSinglePhaseSection(p, out.sprints, out.waves, out.agents))
+  return lines.join('\n')
+}
+
+function buildSinglePhaseSection(
+  p: Phase,
+  sprints: readonly Sprint[],
+  waves: readonly Wave[],
+  agents: readonly AgentScope[],
+): string[] {
+  const phaseSprints = sprints.filter((s) => s.phaseId === p.id)
+  const lines: string[] = [
+    `### Phase ${p.position} · ${p.name}`,
+    '',
+    `Status: \`${p.status}\` · ${phaseSprints.length} sprint(s)`,
+    '',
+  ]
+  for (const s of phaseSprints) {
+    const sprintWaves = waves.filter((w) => w.sprintId === s.id)
+    lines.push(`#### Sprint: ${s.name}`, '', `Status: \`${s.status}\``, '')
+    for (const w of sprintWaves) {
+      const waveAgents = agents.filter((a) => a.waveId === w.id)
+      lines.push(
+        `- **Wave ${w.position + 1}** (${w.parallel ? 'parallel' : 'sequential'}) — ${waveAgents.length} agent(s)`,
+      )
+      for (const a of waveAgents) {
+        lines.push(
+          `  - \`${a.role}\` owns: ${a.ownedFiles.length > 0 ? a.ownedFiles.map((f) => `\`${f}\``).join(', ') : '_(scope TBD)_'}`,
+        )
+      }
+    }
+    lines.push('')
+  }
+  return lines
+}
+
 function buildAgentWaveFile(sprint: SprintSummary, waveIndex: number): string {
   const lines: string[] = [`# Wave ${waveIndex} — ${sprint.name}`, '', '## Agent scopes', '']
   if (sprint.agentScopes && sprint.agentScopes.length > 0) {
@@ -188,10 +351,22 @@ function buildAgentWaveFile(sprint: SprintSummary, waveIndex: number): string {
 /**
  * Build a Claude Code markdown bundle from a PhaseCard.
  *
- * Emits ≥6 logical files (CLAUDE.md, process-map.md, 3× human-spec/*.md,
- * aisp/phase-aisp.md, plus one adrs/ADR-*.md per adrRef and one
- * agents/wave-{n}.md per sprint). Concatenates into a single markdown
- * string with `# === FILE: <path> ===` separators between each file.
+ * Per ADR-122 (P96) and ADR-138 (P110 Export Completeness Standard) the
+ * bundle now emits ≥10 logical files:
+ *   - CLAUDE.md (preamble)
+ *   - process-map.md (sprint summary table)
+ *   - human-spec/{north-star,sadd,implementation-plan}.md
+ *   - aisp/phase-aisp.md (verbatim Σ block)
+ *   - adrs/ADR-*.md (one stub-link per adrRef; back-compat with P96)
+ *   - agents/wave-{n}.md (one per sprint with agent scopes + DoD)
+ *   - **ddd-contexts.md** (P110 NEW — DDD_ATOM bounded contexts as prose)
+ *   - **adr-bundle/ADR-NNN.md** (P110 NEW — ADR text per cited ADR;
+ *     populated via `readAdr` callback to preserve atom purity)
+ *   - **implementation-plan.md** (P110 NEW — top-level enriched view that
+ *     includes PROCESS_ATOM phase/sprint/wave/agent prose; the existing
+ *     `human-spec/implementation-plan.md` stays for back-compat)
+ *   - **tdd-scaffold.md** (P110 — relocated from phase-plans/{id}-test-spec.md
+ *     to canonical top-level path; same `buildTDDScaffold(phase)` content)
  *
  * @param phase        PhaseCard atomic unit (SpecWorkbench contract).
  * @param projectSlug  Optional project slug; falls back to phase.id then phase.name.
@@ -199,11 +374,17 @@ function buildAgentWaveFile(sprint: SprintSummary, waveIndex: number): string {
  *                     the bundle is composed. Integration layer (button)
  *                     implements `writeLogEvent({event_type:'export_emit',…})`.
  *                     Pure module stays free of persistence imports.
+ * @param readAdr      P110 / A2 — optional ADR reader callback. When supplied
+ *                     the exporter embeds full ADR text into `adr-bundle/`;
+ *                     when omitted (or it returns null) a stub link is used.
+ *                     Mirrors `onEmit` IoC pattern from P107 / ADR-135 to
+ *                     preserve the pure-module contract (ADR-122 D1 + ADR-134).
  */
 export function buildClaudeCodeBundle(
   phase: PhaseCard,
   projectSlug?: string,
   onEmit?: ExportEmitCallback,
+  readAdr?: ReadAdrCallback,
 ): ExportClaudeCodeBundle {
   const files: { path: string; content: string }[] = []
 
@@ -230,12 +411,31 @@ export function buildClaudeCodeBundle(
     waveIndex += 1
   }
 
-  // P97 / A2 — per-phase TDD test spec scaffold (sibling A1 module).
-  const tddScaffold = buildTDDScaffold(phase)
+  // P110 / A2 — NEW file 1: DDD bounded contexts as readable prose.
+  files.push({ path: 'ddd-contexts.md', content: buildDddContexts(phase) })
+
+  // P110 / A2 — NEW file 2: per-ADR full text in adr-bundle/ subdirectory.
+  // Pure-module contract preserved via `readAdr` callback (ADR-138).
+  for (const adr of phase.adrRefs) {
+    files.push({
+      path: `adr-bundle/${adr.id}.md`,
+      content: buildAdrBundleFile(adr, readAdr),
+    })
+  }
+
+  // P110 / A2 — NEW file 3: top-level implementation plan enriched with
+  // PROCESS_ATOM phase/sprint/wave/agent prose. The existing
+  // `human-spec/implementation-plan.md` stays for back-compat with P96.
   files.push({
-    path: `phase-plans/${phase.id}-test-spec.md`,
-    content: tddScaffold.markdown,
+    path: 'implementation-plan.md',
+    content: buildImplementationPlanEnriched(phase),
   })
+
+  // P110 / A2 — NEW file 4: TDD Given/When/Then scaffold (P97 / ADR-128).
+  // Canonical top-level path per ADR-138; replaces P97's
+  // `phase-plans/{id}-test-spec.md` with the same content.
+  const tddScaffold = buildTDDScaffold(phase)
+  files.push({ path: 'tdd-scaffold.md', content: tddScaffold.markdown })
 
   const markdown = files
     .map((f) => `# === FILE: ${f.path} ===\n\n${f.content}`)

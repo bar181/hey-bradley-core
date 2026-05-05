@@ -15,8 +15,12 @@
  *
  * Cross-refs: ADR-121 SpecWorkbench, ADR-122 Export Claude Code,
  *             ADR-128 TDD Scaffold, ADR-129 KISS Reviewer,
- *             ADR-130 Seal Panel, ADR-134 Atom→view dependency inversion fix.
+ *             ADR-130 Seal Panel, ADR-134 Atom→view dependency inversion fix,
+ *             ADR-138 Export Completeness (P110).
  */
+
+import type { DDDAtomOutput } from '@/contexts/intelligence/aisp/dddAtom'
+import type { ProcessAtomOutput } from '@/contexts/intelligence/aisp/processAtom'
 
 /** Status palette shared with ProcessMapSVG; mirrors `ProcessNodeStatus`. */
 export type SpecStatus = 'planned' | 'in-flight' | 'sealed' | 'deferred'
@@ -55,4 +59,17 @@ export interface PhaseCard {
     readonly title: string
     readonly href?: string
   }>
+  /**
+   * P110 / A2 — Optional DDD_ATOM output for the phase. When present the
+   * exporter emits `ddd-contexts.md` from this; when absent a placeholder
+   * is emitted instead. Per ADR-138 Export Completeness Standard.
+   */
+  readonly dddOutput?: DDDAtomOutput
+  /**
+   * P110 / A2 — Optional PROCESS_ATOM output for the phase. When present
+   * the exporter enriches `implementation-plan.md` with phase/sprint/wave/
+   * agent prose; when absent the existing `humanSpec.implementationPlan`
+   * text alone is rendered. Per ADR-138 Export Completeness Standard.
+   */
+  readonly processOutput?: ProcessAtomOutput
 }
