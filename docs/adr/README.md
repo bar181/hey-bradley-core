@@ -1,10 +1,10 @@
 # Architecture Decision Records (ADR) Index
 
-**Last updated:** 2026-05-06 (P117 / SECTION-CAPABILITY-AUDIT-FIX) · **Total files on disk:** 136 · **Highest-ID:** ADR-145
+**Last updated:** 2026-05-06 (P118 / SIMPLE-MESSAGING-AND-POSITIONING) · **Total files on disk:** 137 · **Highest-ID:** ADR-146
 
 This directory contains the Architecture Decision Records for the Hey Bradley project. Each ADR captures one architectural decision, its context, and its consequences in immutable form.
 
-> **Truth-up note:** Prior to P109 this README claimed 38 ADRs through ADR-048 (last touched 2026-04-27 / post-P19). Disk reality at P108 seal was 127 files through ADR-136 across 60+ phases. P109 / ADR-LEDGER-TRUTH-UP rebuilds the ledger to disk reality; the P109 closer added ADR-137 same-sprint. P110 / ADR-EXPORT added ADR-138; P111 / DOGFOOD-GATES added ADR-139 (130 files / ADR-139 highest-ID); P112 / GAP-CLOSURE added ADR-140; P113 / QUALITY-PUSH added ADR-141 (132 files / ADR-141 highest-ID); P114 / FEATURE-AUDIT + FIX added ADR-142; P115 / VISUAL-QUALITY-BUILDER-POLISH added ADR-143 (134 files / ADR-143 highest-ID); P116 / FINAL-POLISH added ADR-144 (135 files / ADR-144 highest-ID); P117 / SECTION-CAPABILITY-AUDIT-FIX added ADR-145 (136 files / ADR-145 highest-ID). Source-of-truth for every entry below is the actual ADR file's first heading.
+> **Truth-up note:** Prior to P109 this README claimed 38 ADRs through ADR-048 (last touched 2026-04-27 / post-P19). Disk reality at P108 seal was 127 files through ADR-136 across 60+ phases. P109 / ADR-LEDGER-TRUTH-UP rebuilds the ledger to disk reality; the P109 closer added ADR-137 same-sprint. P110 / ADR-EXPORT added ADR-138; P111 / DOGFOOD-GATES added ADR-139 (130 files / ADR-139 highest-ID); P112 / GAP-CLOSURE added ADR-140; P113 / QUALITY-PUSH added ADR-141 (132 files / ADR-141 highest-ID); P114 / FEATURE-AUDIT + FIX added ADR-142; P115 / VISUAL-QUALITY-BUILDER-POLISH added ADR-143 (134 files / ADR-143 highest-ID); P116 / FINAL-POLISH added ADR-144 (135 files / ADR-144 highest-ID); P117 / SECTION-CAPABILITY-AUDIT-FIX added ADR-145 (136 files / ADR-145 highest-ID); P118 / SIMPLE-MESSAGING-AND-POSITIONING added ADR-146 (137 files / ADR-146 highest-ID). Source-of-truth for every entry below is the actual ADR file's first heading.
 
 ---
 
@@ -198,7 +198,7 @@ Each ADR uses a consistent shape: a `# ADR-NNN: Title` first-line heading, a `St
 - ADR-136 — Test Runtime Shift (Mobile Viewports + Behavioral Helper Coverage + p76 Audit Correction) (P108)
 - ADR-137 — ADR Ledger Truth-Up + Section-Enum Drift Regression Guard (P109)
 
-### Post-RC hardening (P110-P117)
+### Post-RC hardening (P110-P118)
 
 - ADR-138 — Export Completeness Standard + ADR Enforcement Architecture (P110 / ADR-EXPORT)
 - ADR-139 — Dogfood Gates + DDD/ADR Output Priority (P111 / DOGFOOD-GATES)
@@ -208,6 +208,7 @@ Each ADR uses a consistent shape: a `# ADR-NNN: Title` first-line heading, a `St
 - ADR-143 — Visual Quality + Builder Polish (Builder UX ≥8.5 + Long-form Typography + Image Interactions + Bottom-15 Lift + 3 Demos) (P115 / VISUAL-QUALITY-BUILDER-POLISH)
 - ADR-144 — Final Visual Quality Standard (5 Non-SaaS Demos + Bottom-N Enum Truth-Up + Inline Edit Hero + Section-Type Swap + 90% Quality Floor) (P116 / FINAL-POLISH)
 - ADR-145 — Section Capability Standard (Render Completeness + vs-SOTA Variant Floor) (P117 / SECTION-CAPABILITY-AUDIT-FIX)
+- ADR-146 — Simple Messaging + Product-Market Fit Standard (P118 / SIMPLE-MESSAGING-AND-POSITIONING)
 
 ---
 
@@ -222,7 +223,7 @@ The following ADR numbers have NO files on disk by design. The historical record
 | Pre-P15 JSON-architecture pivot | **034, 035, 036, 037** | Drafted during P14 marketing-review pivot. Re-scoped into ADR-031 (JSON Data Architecture) and ADR-029 (Pre-LLM MVP Architecture, Stage 2). 034-037 drafts were superseded before acceptance. |
 | Reserved for future phases | **123, 124, 125** | Numbering gap left explicitly during the P97-P100 methodology arc; reserved for future ADR allocation. Do NOT re-use. |
 
-**Policy:** New ADRs MUST continue at **ADR-146+**. Do NOT re-use any of the missing numbers above.
+**Policy:** New ADRs MUST continue at **ADR-147+**. Do NOT re-use any of the missing numbers above.
 
 ---
 
@@ -251,7 +252,7 @@ Three ADR numbers have two files on disk: a P21-era Proposed stub and a later Ac
 
 ## How to add a new ADR
 
-1. **Filename:** `ADR-NNN-kebab-case-title.md` where `NNN` is the next free number (currently ≥ 146).
+1. **Filename:** `ADR-NNN-kebab-case-title.md` where `NNN` is the next free number (currently ≥ 147).
 2. **First line:** `# ADR-NNN: Title` (or `# ADR-NNN — Title` per recent style; exact-case match to filename).
 3. **Status field:** `Proposed` → `Accepted` → optionally `Superseded by ADR-XXX`. Never delete an ADR file once committed; mark it `Superseded` and link forward.
 4. **Cross-references:** When a new ADR builds on or supersedes an existing one, link both directions (the older ADR gets a `Superseded by` line; the new ADR cites prior ADRs in its Context block).
@@ -269,4 +270,4 @@ Three ADR numbers have two files on disk: a P21-era Proposed stub and a later Ac
 
 ---
 
-**Last updated:** 2026-05-06 (P117 / SECTION-CAPABILITY-AUDIT-FIX / Wave 3 closer — counter 135 → 136, ADR-145 row appended; bucket renamed "Post-RC hardening (P110-P117)"; policy line ADR-145+ → ADR-146+).
+**Last updated:** 2026-05-06 (P118 / SIMPLE-MESSAGING-AND-POSITIONING / Wave 3 closer — counter 136 → 137, ADR-146 row appended; bucket renamed "Post-RC hardening (P110-P118)"; policy line ADR-146+ → ADR-147+).
