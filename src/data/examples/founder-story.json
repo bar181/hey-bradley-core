@@ -8,12 +8,16 @@
     "project": "marcus-hale-founder-story",
     "version": "1.0.0-RC1",
     "spec": "aisp-1.2",
-    "purpose": "personal",
-    "audience": "founder",
-    "tone": "candid",
+    "purpose": "portfolio",
+    "audience": "business",
+    "tone": "casual",
     "brandName": "Marcus Hale",
     "tagline": "Building Linkpath in public",
-    "voiceAttributes": ["editorial", "candid", "narrative"]
+    "voiceAttributes": [
+      "editorial",
+      "candid",
+      "narrative"
+    ]
   },
   "theme": {
     "preset": "elegant",
@@ -95,7 +99,7 @@
       "layout": {
         "display": "flex",
         "direction": "column",
-        "align": "flex-start",
+        "align": "start",
         "gap": "24px",
         "padding": "80px 24px",
         "maxWidth": "900px"

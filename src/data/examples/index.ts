@@ -66,6 +66,12 @@ import researchNewsletter from './research-newsletter.json'
 import editorialMagazine from './editorial-magazine.json'
 import indieGameStudio from './indie-game-studio.json'
 import researchLab from './research-lab.json'
+// P116 / FINAL-POLISH / B1 — 5 NEW non-SaaS demos (corpus skew correction)
+import weddingPlanner from './wedding-planner.json'
+import foodTruckRestaurant from './food-truck-restaurant.json'
+import nonProfitCommunity from './non-profit-community.json'
+import freelanceTherapist from './freelance-therapist.json'
+import localEventsVenue from './local-events-venue.json'
 import type { MasterConfig } from '@/lib/schemas'
 import { validateSectionType } from '@/lib/schemas/section'
 
@@ -444,6 +450,42 @@ export const EXAMPLE_SITES: ExampleSite[] = [
     description: 'Computational soil microbiology lab at UiT (Tromsø) — clean white, IBM Plex Serif, data-stat callouts, 5 named publications with DOIs, named collaborators + grants. Academic-rigor voice, Lars persona.',
     theme: 'Professional',
     config: researchLab as unknown as MasterConfig,
+  },
+  // P116 / FINAL-POLISH / B1 — 5 NEW non-SaaS demos (corpus skew correction).
+  // Each demo deliberately occupies a non-SaaS / non-portfolio / non-tech
+  // quadrant: boutique wedding planning (Asheville), neighborhood food truck
+  // (East Austin), 501(c)(3) non-profit (Oakland), independent therapist
+  // (Portland), and small live-music venue (Pittsburgh). Each cites a
+  // storytelling preset and ships real named entities + real locations.
+  {
+    name: 'Hazel & Birch · Wedding Planning',
+    description: 'Boutique Asheville wedding planner (Hazel Linwood + Sam Cordell) — soft editorial, Fraunces serif, sage + cream palette, real named couples in testimonials. Theron-Miller hard-twist voice, eight weddings a year.',
+    theme: 'Elegant',
+    config: weddingPlanner as unknown as MasterConfig,
+  },
+  {
+    name: "Tio's Tortillería · Food Truck",
+    description: 'East Austin food truck (Beto + Adriana Reyna) — bold tactile theme, warm reds + yellows + paper, six tacos with real prices, hand-pressed tortillas using grandmother Esperanza\'s 1971 cast-iron press. Founder-direct voice.',
+    theme: 'Wellness',
+    config: foodTruckRestaurant as unknown as MasterConfig,
+  },
+  {
+    name: 'Bayview Books for Kids · Oakland Non-Profit',
+    description: '501(c)(3) Oakland non-profit putting books into Title-I third graders\' hands — 12,400 books to 47 schools since 2019. Real impact numbers, named volunteer + foundation testimonials, all-volunteer board. Investigative-deep-dive voice.',
+    theme: 'Professional',
+    config: nonProfitCommunity as unknown as MasterConfig,
+  },
+  {
+    name: 'Maren Ahoyade, LMFT · Therapy Practice',
+    description: 'Independent Portland therapist (Buckman, SE) — calm dusty rose + warm gray palette, Lora serif, EMDR + IFS + Gottman trained, 22-client practice. Trust signals (license #T1538, modalities, years), anonymized client testimonials. Founder-direct voice.',
+    theme: 'Elegant',
+    config: freelanceTherapist as unknown as MasterConfig,
+  },
+  {
+    name: 'The Lampshade Lounge · Live Music Venue',
+    description: '90-cap Pittsburgh Bloomfield concert room (Pris Karimov + Theo Marsh) — electric blue + neon yellow on near-black, Space Grotesk display, 6 upcoming shows with real-feeling band names + dates + cover prices. Dry-humor narrator voice, since 2017.',
+    theme: 'Creative',
+    config: localEventsVenue as unknown as MasterConfig,
   },
 ]
 

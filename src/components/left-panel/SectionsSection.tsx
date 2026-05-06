@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import {
   Star, Grid3X3, ArrowRight, Eye, EyeOff, ChevronUp, ChevronDown, Copy, Trash2,
   DollarSign, MessageSquare, HelpCircle, Zap, Layout, Navigation, ChevronRight,
-  GripVertical, ImageIcon, Minus, FileText, Award, Users, Plus, X, Files,
+  GripVertical, ImageIcon, Minus, FileText, Award, Users, Plus, X, Files, Shuffle,
   type LucideIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/cn'
@@ -12,6 +12,7 @@ import { useConfigStore } from '@/store/configStore'
 import { applyDraftLabel } from '@/lib/draftRename'
 import { QuickAddPicker } from './QuickAddPicker'
 import type { SectionType } from '@/lib/schemas/section'
+import { isSwappable, swapCandidates, defaultComponentsFor, SWAP_LABEL, type SwappableType } from '@/lib/sectionTypeSwap'
 
 // DRAFT-mode narrowed surface: hero + blog (article-as-blog-minimal) + footer.
 // See plans/implementation/mvp-plan/01-phase-15-polish-kitchen-sink.md §1.1.
@@ -80,6 +81,7 @@ export function SectionsSection() {
   const removeSection = useConfigStore((s) => s.removeSection)
   const duplicateSection = useConfigStore((s) => s.duplicateSection)
   const reorderSections = useConfigStore((s) => s.reorderSections)
+  const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
   const pages = useConfigStore((s) => s.config.pages)
   const activePage = useConfigStore((s) => s.activePage)
   const setActivePage = useConfigStore((s) => s.setActivePage)
@@ -98,6 +100,9 @@ export function SectionsSection() {
   const [showAddPage, setShowAddPage] = useState(false)
   const [newPageTitle, setNewPageTitle] = useState('')
   const [confirmDeletePageId, setConfirmDeletePageId] = useState<string | null>(null)
+  // P116 / B3 — F2: section-type swap dropdown state (id = open row, null = closed) + toast.
+  const [typeSwapOpenId, setTypeSwapOpenId] = useState<string | null>(null)
+  const [swapToast, setSwapToast] = useState<string | null>(null)
   // Per-row collapse state (P47 A1). KISS — local Set, NOT persisted.
   const [collapsedIds, setCollapsedIds] = useState<Set<string>>(new Set())
   const collapseInitRef = useRef(false)
@@ -169,6 +174,16 @@ export function SectionsSection() {
   const handleDuplicate = (sectionId: string) => {
     duplicateSection(sectionId)
     setLocalOrder(null)
+  }
+
+  // P116 / B3 — F2: swap section.type to compatible new type, reset components+content
+  // to defaults; preserves id+enabled+order (setSectionConfig untouches those fields).
+  const handleTypeSwap = (sectionId: string, fromType: SectionType, toType: SwappableType) => {
+    if (fromType === toType) { setTypeSwapOpenId(null); return }
+    setSectionConfig(sectionId, { type: toType, content: {}, components: defaultComponentsFor(toType) })
+    setTypeSwapOpenId(null)
+    setSwapToast(`Section changed to ${SWAP_LABEL[toType]}`)
+    window.setTimeout(() => setSwapToast(null), 2200)
   }
 
   const handleDrop = (e: React.DragEvent, targetIndex: number) => {
@@ -341,6 +356,38 @@ export function SectionsSection() {
             >
               <Copy size={14} />
             </button>
+            {/* P116 / B3 — F2: Change-type dropdown (text/quotes/numbers/image only). */}
+            {isSwappable(section.type as SectionType) && (
+              <div className="relative">
+                <button
+                  type="button"
+                  title="Change this section's type."
+                  aria-label={`Change type for ${name}`}
+                  data-testid="section-type-swap-trigger"
+                  aria-haspopup="menu"
+                  aria-expanded={typeSwapOpenId === section.id}
+                  onClick={(e) => { e.stopPropagation(); setTypeSwapOpenId(typeSwapOpenId === section.id ? null : section.id) }}
+                  className="p-1 rounded text-hb-text-muted hover:bg-hb-surface-hover active:bg-hb-surface-hover focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)]"
+                >
+                  <Shuffle size={14} />
+                </button>
+                {typeSwapOpenId === section.id && (
+                  <div role="menu" data-testid="section-type-swap-menu" className="absolute right-0 top-full mt-1 z-20 min-w-[140px] rounded-md border border-hb-border bg-hb-surface shadow-lg py-1">
+                    <div className="px-2 py-1 text-[10px] uppercase tracking-wider text-hb-text-muted">Change type</div>
+                    {swapCandidates(section.type as SectionType).map((candidate) => (
+                      <button
+                        key={candidate}
+                        type="button"
+                        role="menuitem"
+                        data-testid={`section-type-swap-option-${candidate}`}
+                        onClick={(e) => { e.stopPropagation(); handleTypeSwap(section.id, section.type as SectionType, candidate) }}
+                        className="block w-full px-2 py-1.5 text-left text-sm text-hb-text-primary hover:bg-hb-surface-hover focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)]"
+                      >{SWAP_LABEL[candidate]}</button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
             <button
               type="button"
               title={confirmDeleteId === section.id ? 'Click again to confirm delete.' : 'Delete this section. Click twice to confirm.'}
@@ -625,6 +672,14 @@ export function SectionsSection() {
           </div>
         )}
       </div>
+
+      {/* P116 / B3 — F2: section-type swap confirmation toast. */}
+      {swapToast && (
+        <div role="status" aria-live="polite" data-testid="section-type-swap-toast"
+          className="fixed bottom-4 left-1/2 -translate-x-1/2 z-30 px-3 py-1.5 rounded-md bg-hb-accent text-white text-xs shadow-lg">
+          {swapToast}
+        </div>
+      )}
     </div>
   )
 }

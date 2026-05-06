@@ -1,6 +1,6 @@
 {
   "site": {
-    "title": "Alex Chen \u2014 Full Stack Developer",
+    "title": "Alex Chen — Full Stack Developer",
     "description": "Full stack developer specializing in TypeScript, React, and distributed systems",
     "author": "Alex Chen",
     "email": "alex@alexchen.dev",
@@ -13,7 +13,12 @@
     "tone": "technical",
     "brandName": "Alex Chen",
     "tagline": "Full-stack engineer. TypeScript. Distributed systems. 8 years of pager rotations.",
-    "voiceAttributes": ["technical", "terse", "no-fluff", "production-grounded"]
+    "voiceAttributes": [
+      "technical",
+      "terse",
+      "no-fluff",
+      "production-grounded"
+    ]
   },
   "theme": {
     "preset": "minimalist",
@@ -95,7 +100,7 @@
       "layout": {
         "display": "flex",
         "direction": "column",
-        "align": "flex-start",
+        "align": "start",
         "gap": "24px",
         "padding": "80px 24px",
         "maxWidth": "1200px"
@@ -194,7 +199,7 @@
           "enabled": true,
           "order": 8,
           "props": {
-            "text": "Ex-Stripe \u00b7 Ex-Vercel \u00b7 OSS contributor",
+            "text": "Ex-Stripe · Ex-Vercel · OSS contributor",
             "show": true
           }
         }
@@ -461,7 +466,7 @@
           "enabled": true,
           "order": 4,
           "props": {
-            "text": "\u00a9 2026 Alex Chen. Built with TypeScript and good intentions."
+            "text": "© 2026 Alex Chen. Built with TypeScript and good intentions."
           }
         }
       ],

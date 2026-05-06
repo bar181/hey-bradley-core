@@ -1,0 +1,203 @@
+{
+  "_storytellingPreset": "investigative-deep-dive",
+  "_note": "P116/B1 — non-profit Bayview Books for Kids in Oakland. Investigative-deep-dive preset adapted for mission-org: lead with the gap (Title-I library closures), follow the thread, refuse easy answers. Real impact numbers, real partner schools, real volunteer testimonials. Mission-first / evidence-based / community-rooted voice.",
+  "site": {
+    "title": "Bayview Books for Kids · Oakland",
+    "description": "An Oakland-based non-profit putting books into the hands of kids in Title-I schools across Alameda County. Since 2019 we've distributed 12,400 books to 47 schools.",
+    "author": "Constance Olivera",
+    "email": "hello@bayviewbooks.org",
+    "domain": "bayviewbooks.org",
+    "project": "bayview-books",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "consumer",
+    "tone": "warm",
+    "brandName": "Bayview Books for Kids",
+    "tagline": "A book in the hand of every Title-I third grader in Alameda County.",
+    "voiceAttributes": ["mission-first", "evidence-based", "warm", "community-rooted"],
+    "storytellingPreset": "investigative-deep-dive"
+  },
+  "theme": {
+    "preset": "professional",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#fdfbf6",
+      "bgSecondary": "#ffffff",
+      "textPrimary": "#1a3553",
+      "textSecondary": "#456081",
+      "accentPrimary": "#1a3553",
+      "accentSecondary": "#d49a3a"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#1a3553",
+      "bgSecondary": "#243f60",
+      "textPrimary": "#fdfbf6",
+      "textSecondary": "#b9c8db",
+      "accentPrimary": "#e8b558",
+      "accentSecondary": "#fdfbf6"
+    },
+    "typography": {
+      "fontFamily": "Source Sans Pro",
+      "headingFamily": "Source Sans Pro",
+      "headingWeight": 700,
+      "baseSize": "17px",
+      "lineHeight": 1.7
+    },
+    "spacing": { "sectionPadding": "96px", "containerMaxWidth": "1140px", "componentGap": "28px" },
+    "borderRadius": "6px"
+  },
+  "sections": [
+    {
+      "type": "menu", "id": "navbar-01", "enabled": true, "order": -1, "variant": "simple",
+      "layout": { "display": "flex", "padding": "20px 32px", "gap": "28px", "maxWidth": "1140px" },
+      "style": { "background": "#fdfbf6", "color": "#1a3553" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Bayview Books" } },
+        { "id": "nav-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "Mission", "url": "#mission" } },
+        { "id": "nav-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "Impact", "url": "#impact" } },
+        { "id": "nav-3", "type": "link", "enabled": true, "order": 3, "props": { "text": "Volunteers", "url": "#volunteers" } },
+        { "id": "nav-4", "type": "link", "enabled": true, "order": 4, "props": { "text": "Board", "url": "#board" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 5, "props": { "text": "Donate", "url": "#donate" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero", "id": "hero-01", "enabled": true, "order": 0, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "24px", "padding": "128px 32px 96px", "maxWidth": "980px" },
+      "style": { "background": "#fdfbf6", "color": "#1a3553" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0,
+          "props": { "text": "501(c)(3) · EIN 84-3327411 · Founded 2019 · Oakland, CA", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "12,400 books delivered to 47 Title-I schools in Alameda County since September 2019.", "level": 1, "size": "60px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "Forty-three percent of the third graders we served last fall did not have a single age-appropriate book at home. Not a low number. Not a high number. The number. We exist to change that one classroom at a time, with one program, in partnership with the schools who already know what their students need." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "Donate to the next 1,000 books", "url": "#donate", "style": "filled", "size": "lg", "background": "#1a3553", "color": "#fdfbf6" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4,
+          "props": { "text": "Volunteer with us", "url": "#volunteers", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "numbers", "id": "impact-01", "enabled": true, "order": 1, "variant": "grid",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "96px 32px", "maxWidth": "1180px" },
+      "style": { "background": "#1a3553", "color": "#fdfbf6" },
+      "components": [
+        { "id": "n-1", "type": "stat", "enabled": true, "order": 0,
+          "props": { "value": "12,400", "label": "books distributed since 2019", "subtext": "Counted on delivery, not estimated." } },
+        { "id": "n-2", "type": "stat", "enabled": true, "order": 1,
+          "props": { "value": "47", "label": "Title-I partner schools", "subtext": "Across Oakland, San Leandro, Hayward." } },
+        { "id": "n-3", "type": "stat", "enabled": true, "order": 2,
+          "props": { "value": "$8.40", "label": "average cost per book delivered", "subtext": "Including freight, sorting, and our part-time program coordinator." } },
+        { "id": "n-4", "type": "stat", "enabled": true, "order": 3,
+          "props": { "value": "1,847", "label": "third graders served in 2024-2025", "subtext": "Each kid receives 3 books a year through the program." } }
+      ],
+      "content": { "heading": "What we've done · in real numbers", "subheading": "Audited annually by Mathieu & Quinn LLC. Most recent 990 available on request." }
+    },
+    {
+      "type": "text", "id": "mission-01", "enabled": true, "order": 2, "variant": "long-form",
+      "layout": { "display": "flex", "direction": "column", "gap": "20px", "padding": "96px 32px", "maxWidth": "780px" },
+      "style": { "background": "#fdfbf6", "color": "#1a3553" },
+      "components": [
+        { "id": "miss-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Why this work, why now, why this way.", "level": 2, "size": "40px", "weight": 700 } },
+        { "id": "miss-p1", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "In 2018 the Oakland Unified School District closed five elementary school libraries inside a single budget cycle. The closures hit Title-I schools first. The district's own data showed third-grade reading-level gaps grew six percentage points in two years across the affected schools. We started Bayview Books for Kids in the fall of 2019 to address one specific piece of that picture: kids could no longer take books home." } },
+        { "id": "miss-p2", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "We do not run reading programs. We do not duplicate work. We partner with teachers and librarians who already know which kids need what — they tell us what to bring, we bring it. Our partner schools include Acorn Woodland, Bridges Academy, EnCompass, Esperanza, Fred T. Korematsu Discovery, Greenleaf, Manzanita Community, Markham, and Sankofa Academy. Every book is age-appropriate. Every book is theirs to keep." } },
+        { "id": "miss-p3", "type": "text", "enabled": true, "order": 3,
+          "props": { "text": "The single most common question we get from new donors is whether digital readers would be cheaper. We have run that math three times. They are not, once you account for charging, theft, and the fact that 67 percent of our families said in a 2023 survey that they want their child to own a physical book. We are not anti-tech. We are pro-the-thing-the-families-asked-for." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "quotes", "id": "voices-01", "enabled": true, "order": 3, "variant": "two-up",
+      "layout": { "display": "grid", "columns": 2, "gap": "32px", "padding": "96px 32px", "maxWidth": "1140px" },
+      "style": { "background": "#ffffff", "color": "#1a3553" },
+      "components": [
+        { "id": "v-1", "type": "testimonial", "enabled": true, "order": 0,
+          "props": { "quote": "I have been a third-grade teacher at Acorn Woodland for fourteen years. Bayview Books has been the most reliable partner I have ever worked with. They show up the week they say. Every box is curated. My students recognize their names on the shelf.", "author": "Jacqueline Mendez-Cole", "role": "3rd Grade Teacher · Acorn Woodland Elementary · Oakland", "rating": 5 } },
+        { "id": "v-2", "type": "testimonial", "enabled": true, "order": 1,
+          "props": { "quote": "I have volunteered with Bayview every Saturday morning since November 2022. We sort, we label, we pack. It is the calmest two hours of my week. I am 71 and I have learned the names of 140 fourth graders by way of their reading lists.", "author": "Hank Bremerton", "role": "Volunteer · Saturday sort team · since 2022", "rating": 5 } },
+        { "id": "v-3", "type": "testimonial", "enabled": true, "order": 2,
+          "props": { "quote": "We met with Constance and her board in December 2023 to talk about a $40,000 grant. She walked into the meeting with a 14-page spending plan and a printout of every book delivery for the prior school year. That is what changed my mind, not the pitch.", "author": "Renata Olivierre", "role": "Program Officer · East Bay Community Foundation", "rating": 5 } },
+        { "id": "v-4", "type": "testimonial", "enabled": true, "order": 3,
+          "props": { "quote": "My daughter Adriana brought home Brown Girl Dreaming in February. She finished it in a week and asked for the next Jacqueline Woodson book. We did not have library cards. Now we do. I do not know who you are exactly but thank you.", "author": "Yesenia Torres", "role": "Parent · Sankofa Academy family · East Oakland", "rating": 5 } }
+      ],
+      "content": { "heading": "Voices from the work", "subheading": "Permission given for use; full names and affiliations on request." }
+    },
+    {
+      "type": "team", "id": "board-01", "enabled": true, "order": 4, "variant": "grid",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "96px 32px", "maxWidth": "1180px" },
+      "style": { "background": "#fdfbf6", "color": "#1a3553" },
+      "components": [
+        { "id": "b-1", "type": "team-member", "enabled": true, "order": 0,
+          "props": { "name": "Constance Olivera", "role": "Executive Director & Founder",
+            "bio": "Former OUSD reading specialist (2007-2019). Started Bayview Books in 2019 with $4,000 of her own money and a Honda Odyssey full of donated books. Lives in West Oakland." } },
+        { "id": "b-2", "type": "team-member", "enabled": true, "order": 1,
+          "props": { "name": "Dr. Henry Okonkwo", "role": "Board Chair",
+            "bio": "Pediatrician at La Clínica de la Raza · twenty-two years in East Oakland. Joined the board in 2020. Has read every children's book Bayview has stocked since." } },
+        { "id": "b-3", "type": "team-member", "enabled": true, "order": 2,
+          "props": { "name": "Marisha Patel", "role": "Treasurer",
+            "bio": "CFO at Common Good Cooperative. Built our financial controls in 2021 and is responsible for our consistent A-rating on Charity Navigator since 2022." } },
+        { "id": "b-4", "type": "team-member", "enabled": true, "order": 3,
+          "props": { "name": "Reverend Tom Easley", "role": "Community Liaison",
+            "bio": "Pastor at First Congregational Oakland. Connects us into the network of Title-I families our partner schools serve. Started the Saturday sort program." } }
+      ],
+      "content": { "heading": "The board · all volunteer", "subheading": "Four members. No paid board seats. Annual conflict-of-interest review on file." }
+    },
+    {
+      "type": "action", "id": "donate-01", "enabled": true, "order": 5, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "24px", "padding": "112px 32px", "maxWidth": "780px" },
+      "style": { "background": "#1a3553", "color": "#fdfbf6" },
+      "components": [
+        { "id": "d-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "$8.40 buys one book. $84 buys ten. $840 buys a classroom set.", "level": 2, "size": "44px", "weight": 700 } },
+        { "id": "d-text", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "We are tax-deductible under EIN 84-3327411. Every donation goes through a Plaid-secured ACH or card processor. Recurring monthly donors get a hand-written quarterly note from a kid in the program (with the kid's permission and the parent's signature)." } },
+        { "id": "d-cta", "type": "button", "enabled": true, "order": 2,
+          "props": { "text": "Donate now", "url": "#donate-form", "style": "filled", "size": "lg", "background": "#d49a3a", "color": "#1a3553" } },
+        { "id": "d-secondary", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "Volunteer Saturday mornings", "url": "#volunteer-form", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "contact-form", "id": "contact-01", "enabled": true, "order": 6, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "20px", "padding": "96px 32px", "maxWidth": "780px" },
+      "style": { "background": "#fdfbf6", "color": "#1a3553" },
+      "components": [
+        { "id": "form-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Email Constance directly.", "level": 2, "size": "40px", "weight": 700 } },
+        { "id": "form-blurb", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "Foundation contacts, school principals, and prospective volunteers — please use this form. We respond within three business days, or sooner if you mention urgency. Press inquiries: please include outlet and deadline." } },
+        { "id": "form-name", "type": "input", "enabled": true, "order": 2,
+          "props": { "label": "Your name", "placeholder": "First and last", "type": "text", "required": true } },
+        { "id": "form-email", "type": "input", "enabled": true, "order": 3,
+          "props": { "label": "Email", "placeholder": "you@org.com", "type": "email", "required": true } },
+        { "id": "form-org", "type": "input", "enabled": true, "order": 4,
+          "props": { "label": "Organization", "placeholder": "School · Foundation · Press · Personal", "type": "text", "required": false } },
+        { "id": "form-topic", "type": "input", "enabled": true, "order": 5,
+          "props": { "label": "About what?", "placeholder": "Volunteering · Donating · Partnership · Press", "type": "text", "required": true } },
+        { "id": "form-msg", "type": "input", "enabled": true, "order": 6,
+          "props": { "label": "Message", "placeholder": "A few sentences — be specific. Constance reads every one.", "type": "textarea", "required": true } },
+        { "id": "form-submit", "type": "button", "enabled": true, "order": 7,
+          "props": { "text": "Send", "url": "#submit", "style": "filled", "size": "lg", "background": "#1a3553", "color": "#fdfbf6" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer", "id": "footer-01", "enabled": true, "order": 7, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "48px 32px", "gap": "12px", "maxWidth": "1140px" },
+      "style": { "background": "#1a3553", "color": "#fdfbf6" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Bayview Books for Kids" } },
+        { "id": "tagline", "type": "text", "enabled": true, "order": 1, "props": { "text": "501(c)(3) · EIN 84-3327411 · 2034 Telegraph Avenue · Oakland, CA 94612 · A-rated on Charity Navigator since 2022" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 2, "props": { "text": "© 2026 Bayview Books for Kids · Audited 990 available on request · hello@bayviewbooks.org" } }
+      ],
+      "content": {}
+    }
+  ]
+}

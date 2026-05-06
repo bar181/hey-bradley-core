@@ -1,0 +1,207 @@
+{
+  "_storytellingPreset": "theron-miller-hard-twist",
+  "_note": "P116/B1 — boutique wedding planner in Asheville NC. Theron-Miller hard-twist preset: opens with a specific moment (a couple at the trail-end overlook), pivots to the planner's worldview, lands earned. Soft editorial / Fraunces serif / cream + sage palette / photo-forward. Real named couples in testimonials.",
+  "site": {
+    "title": "Hazel & Birch · Wedding Planning",
+    "description": "Boutique wedding planning and design for couples getting married in Asheville and the wider Blue Ridge. We take eight weddings a year. We are usually full a year out.",
+    "author": "Hazel Linwood",
+    "email": "hello@hazelandbirch.co",
+    "domain": "hazelandbirch.co",
+    "project": "hazel-and-birch",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "consumer",
+    "tone": "warm",
+    "brandName": "Hazel & Birch",
+    "tagline": "A wedding that feels like the two of you, not a venue brochure.",
+    "voiceAttributes": ["warm", "specific", "photo-forward", "emotional"],
+    "storytellingPreset": "theron-miller-hard-twist"
+  },
+  "theme": {
+    "preset": "elegant",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#f6f1e7",
+      "bgSecondary": "#ffffff",
+      "textPrimary": "#2c2a25",
+      "textSecondary": "#5a5448",
+      "accentPrimary": "#7a8b6a",
+      "accentSecondary": "#b08a3e"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#2c2a25",
+      "bgSecondary": "#3a3731",
+      "textPrimary": "#f6f1e7",
+      "textSecondary": "#cfc6b1",
+      "accentPrimary": "#a3b594",
+      "accentSecondary": "#d8b673"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Fraunces",
+      "headingWeight": 500,
+      "baseSize": "17px",
+      "lineHeight": 1.7
+    },
+    "spacing": { "sectionPadding": "112px", "containerMaxWidth": "1100px", "componentGap": "32px" },
+    "borderRadius": "4px"
+  },
+  "sections": [
+    {
+      "type": "menu", "id": "navbar-01", "enabled": true, "order": -1, "variant": "simple",
+      "layout": { "display": "flex", "padding": "24px 32px", "gap": "32px", "maxWidth": "1100px" },
+      "style": { "background": "#f6f1e7", "color": "#2c2a25" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Hazel & Birch" } },
+        { "id": "nav-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "Approach", "url": "#approach" } },
+        { "id": "nav-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "Weddings", "url": "#weddings" } },
+        { "id": "nav-3", "type": "link", "enabled": true, "order": 3, "props": { "text": "Couples", "url": "#couples" } },
+        { "id": "nav-4", "type": "link", "enabled": true, "order": 4, "props": { "text": "Investment", "url": "#investment" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 5, "props": { "text": "Inquire", "url": "#contact" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero", "id": "hero-01", "enabled": true, "order": 0, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "28px", "padding": "144px 32px 112px", "maxWidth": "980px" },
+      "style": { "background": "#f6f1e7", "color": "#2c2a25", "fontFamily": "Fraunces" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0,
+          "props": { "text": "Asheville · Blue Ridge · Eight weddings a year", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "Maya kicked off her shoes at the overlook before the vows. We let her.", "level": 1, "size": "64px", "weight": 500 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "We plan and design weddings in Asheville and the surrounding Blue Ridge — venues you've heard of, dirt roads you haven't, and the in-between. Eight couples a year, every one of them designed around the moment that's actually theirs. Not the moment a venue brochure thinks should be theirs." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "See recent weddings", "url": "#weddings", "style": "filled", "size": "lg", "background": "#7a8b6a", "color": "#f6f1e7" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4,
+          "props": { "text": "Inquire for 2026 / 2027", "url": "#contact", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text", "id": "approach-01", "enabled": true, "order": 1, "variant": "long-form",
+      "layout": { "display": "flex", "direction": "column", "gap": "20px", "padding": "96px 32px", "maxWidth": "780px" },
+      "style": { "background": "#f6f1e7", "color": "#2c2a25" },
+      "components": [
+        { "id": "approach-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "What this is, with no Pinterest board promises.", "level": 2, "size": "40px", "weight": 500 } },
+        { "id": "approach-p1", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "I'm Hazel Linwood. I started Hazel & Birch in 2018 after seven years at a larger Asheville planning firm where I was responsible, mostly, for keeping the timeline alive. We were good at that. We were less good at noticing the couple in the room. Birch is my partner Sam Cordell, who runs design and floral. We are two people. We do not subcontract." } },
+        { "id": "approach-p2", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "We take eight weddings a year. The reason is selfish — we want to know your dog's name, where you got engaged, and which of your parents is going to cry first. By month four we usually do. We work with venues from the Omni Grove Park Inn down to a hand-built cabin in Madison County that fits forty-two guests if everyone is friendly. We design the day around what's true about you, then we run the day so you don't have to think about it." } },
+        { "id": "approach-p3", "type": "text", "enabled": true, "order": 3,
+          "props": { "text": "We do not do same-day install. We do not do thirty-six-hour buildouts. We do not promise a wedding that will go viral. We promise a wedding that the two of you will recognize when you walk into it, and a planner whose phone you will still have the day after." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "gallery", "id": "weddings-01", "enabled": true, "order": 2, "variant": "image-grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "24px", "padding": "96px 32px", "maxWidth": "1200px" },
+      "style": { "background": "#ffffff", "color": "#2c2a25" },
+      "components": [
+        { "id": "g-1", "type": "gallery-tile", "enabled": true, "order": 0,
+          "props": { "image": "https://images.example.com/hazelandbirch/maya-jordan-overlook.jpg", "alt": "A bride in a cream slip dress, barefoot at a Blue Ridge overlook at golden hour", "title": "Maya & Jordan", "caption": "October 2025 · Craggy Pinnacle overlook · 38 guests" } },
+        { "id": "g-2", "type": "gallery-tile", "enabled": true, "order": 1,
+          "props": { "image": "https://images.example.com/hazelandbirch/elena-pat-cabin.jpg", "alt": "A long farm table inside a Madison County cabin, lit by candles and small ferns", "title": "Elena & Pat", "caption": "September 2025 · A cabin near Hot Springs · 42 guests" } },
+        { "id": "g-3", "type": "gallery-tile", "enabled": true, "order": 2,
+          "props": { "image": "https://images.example.com/hazelandbirch/serena-amani-grove.jpg", "alt": "A ballroom at the Grove Park Inn with sage and dusty rose floral installations", "title": "Serena & Amani", "caption": "May 2025 · Omni Grove Park Inn · 180 guests" } },
+        { "id": "g-4", "type": "gallery-tile", "enabled": true, "order": 3,
+          "props": { "image": "https://images.example.com/hazelandbirch/cole-talia-river.jpg", "alt": "An outdoor ceremony arch overlooking the French Broad River at dusk", "title": "Cole & Talia", "caption": "June 2025 · French Broad River House · 96 guests" } },
+        { "id": "g-5", "type": "gallery-tile", "enabled": true, "order": 4,
+          "props": { "image": "https://images.example.com/hazelandbirch/junie-rafe-orchard.jpg", "alt": "A small ceremony in an apple orchard, two grooms in linen suits", "title": "Junie & Rafe", "caption": "August 2025 · Hickory Nut Orchard · 28 guests" } },
+        { "id": "g-6", "type": "gallery-tile", "enabled": true, "order": 5,
+          "props": { "image": "https://images.example.com/hazelandbirch/aishlin-kobe-tent.jpg", "alt": "A clear-tent reception lit by string lights at a private mountain home", "title": "Aishlin & Kobe", "caption": "November 2025 · A private home in Black Mountain · 64 guests" } }
+      ],
+      "content": { "heading": "Six weddings from 2025", "subheading": "A small selection. The rest live with the couples who lived them." }
+    },
+    {
+      "type": "quotes", "id": "couples-01", "enabled": true, "order": 3, "variant": "two-up",
+      "layout": { "display": "grid", "columns": 2, "gap": "32px", "padding": "112px 32px", "maxWidth": "1140px" },
+      "style": { "background": "#f6f1e7", "color": "#2c2a25" },
+      "components": [
+        { "id": "q-1", "type": "testimonial", "enabled": true, "order": 0,
+          "props": { "quote": "Hazel asked us, on call number two, what our dog Beans does when we both come home at the same time. She put that in the ceremony — not the dog, the feeling. I cried at my own rehearsal. My mother is still bringing it up.", "author": "Maya & Jordan Whitaker", "role": "Married October 11, 2025 · Craggy Pinnacle", "rating": 5 } },
+        { "id": "q-2", "type": "testimonial", "enabled": true, "order": 1,
+          "props": { "quote": "We had a guest list of 42 and a budget that scared us. Hazel and Sam never once made us feel small. They built a day inside our actual numbers and the cabin is now a real place we go back to in our heads.", "author": "Elena & Pat Mendez-Riley", "role": "Married September 6, 2025 · Madison County", "rating": 5 } },
+        { "id": "q-3", "type": "testimonial", "enabled": true, "order": 2,
+          "props": { "quote": "Our wedding had 180 people, three hotel blocks, and one mother-of-the-bride who is a force of nature. Hazel ran point on all of it without ever making me feel handled. I have her contact still pinned. I just text her about lasagna now.", "author": "Serena & Amani Okonkwo-Reyes", "role": "Married May 24, 2025 · Omni Grove Park Inn", "rating": 5 } },
+        { "id": "q-4", "type": "testimonial", "enabled": true, "order": 3,
+          "props": { "quote": "I am a wedding photographer. I have shot eighty-something weddings. Hazel & Birch is the only planning team I have ever called the next day to thank, then called the next month to ask if they were taking referrals. They are.", "author": "Tessa Brand", "role": "Photographer · Brand & Branch Studio · Asheville", "rating": 5 } }
+      ],
+      "content": { "heading": "What the couples actually said", "subheading": "All four are happy to take a phone call from a couple who's deciding. Names available on request." }
+    },
+    {
+      "type": "pricing", "id": "investment-01", "enabled": true, "order": 4, "variant": "tiers",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "112px 32px", "maxWidth": "1180px" },
+      "style": { "background": "#2c2a25", "color": "#f6f1e7" },
+      "components": [
+        { "id": "tier-1", "type": "pricing-tier", "enabled": true, "order": 0,
+          "props": {
+            "name": "Month-of management",
+            "price": "$6,400",
+            "billing": "starts six weeks out",
+            "features": "Final timeline build · Vendor confirmations and day-of point of contact · Rehearsal direction · 12 hours of day-of coverage with Hazel · Sam available remotely · Best for couples who've planned the bones themselves",
+            "cta": "Inquire",
+            "ctaUrl": "#contact"
+          } },
+        { "id": "tier-2", "type": "pricing-tier", "enabled": true, "order": 1,
+          "props": {
+            "name": "Full design & planning",
+            "price": "$22,500",
+            "billing": "twelve to fourteen month engagement",
+            "features": "Eight in-person meetings · Venue scout if needed · Full design — paper goods, floral by Sam, lighting plan, layout · Vendor curation and contracts · Two-day buildout and run-of-show · Most of our 2026 calendar lives here",
+            "cta": "Inquire",
+            "ctaUrl": "#contact",
+            "featured": true
+          } },
+        { "id": "tier-3", "type": "pricing-tier", "enabled": true, "order": 2,
+          "props": {
+            "name": "Elopement / micro-wedding",
+            "price": "$4,800",
+            "billing": "up to 24 guests",
+            "features": "Half-day ceremony plus dinner of fewer than 24 · One-page design — no overbuilt installs · Hazel onsite from morning to dessert · Couples who want to be married, not produced",
+            "cta": "Inquire",
+            "ctaUrl": "#contact"
+          } }
+      ],
+      "content": { "heading": "Investment", "subheading": "These are starting numbers. Real numbers come from a real conversation about your day." }
+    },
+    {
+      "type": "contact-form", "id": "contact-01", "enabled": true, "order": 5, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "20px", "padding": "112px 32px", "maxWidth": "780px" },
+      "style": { "background": "#f6f1e7", "color": "#2c2a25" },
+      "components": [
+        { "id": "form-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Tell us about the two of you.", "level": 2, "size": "44px", "weight": 500 } },
+        { "id": "form-blurb", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "We respond to every inquiry inside three days, usually from the same email address. If we're booked we'll say so plainly and offer two planners we trust." } },
+        { "id": "form-name", "type": "input", "enabled": true, "order": 2,
+          "props": { "label": "Your names", "placeholder": "Both of you, in your order", "type": "text", "required": true } },
+        { "id": "form-email", "type": "input", "enabled": true, "order": 3,
+          "props": { "label": "Email", "placeholder": "where we should reply", "type": "email", "required": true } },
+        { "id": "form-date", "type": "input", "enabled": true, "order": 4,
+          "props": { "label": "Date or season", "placeholder": "October 2026 · or 'we're flexible'", "type": "text", "required": false } },
+        { "id": "form-guests", "type": "input", "enabled": true, "order": 5,
+          "props": { "label": "Approximate guest count", "placeholder": "A real-feeling number", "type": "text", "required": false } },
+        { "id": "form-msg", "type": "input", "enabled": true, "order": 6,
+          "props": { "label": "Tell us a little", "placeholder": "How you got engaged. What you're hoping for. What you're afraid of. We read all of it.", "type": "textarea", "required": true } },
+        { "id": "form-submit", "type": "button", "enabled": true, "order": 7,
+          "props": { "text": "Send to Hazel", "url": "#submit", "style": "filled", "size": "lg", "background": "#7a8b6a", "color": "#f6f1e7" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer", "id": "footer-01", "enabled": true, "order": 6, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "48px 32px", "gap": "12px", "maxWidth": "1100px" },
+      "style": { "background": "#2c2a25", "color": "#f6f1e7" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Hazel & Birch · Wedding planning & design" } },
+        { "id": "tagline", "type": "text", "enabled": true, "order": 1, "props": { "text": "Asheville, North Carolina · Eight weddings a year · 2026 nearly full · 2027 open" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 2, "props": { "text": "© 2026 Hazel & Birch · hello@hazelandbirch.co · NC license #BMP-2018-2241" } }
+      ],
+      "content": {}
+    }
+  ]
+}

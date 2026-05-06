@@ -10,7 +10,7 @@
     "spec": "aisp-1.2",
     "purpose": "marketing",
     "audience": "consumer",
-    "tone": "trustworthy",
+    "tone": "warm",
     "brandName": "Lakeside Family Health",
     "tagline": "Family medicine that listens",
     "voiceAttributes": ["warm", "professional", "trustworthy"]

@@ -10,8 +10,11 @@ import { Badge } from '@/components/ui/badge'
 import { LightboxModal } from '@/components/ui/LightboxModal'
 import { ImageFallback } from '@/components/ui/ImageFallback'
 import { useImageError } from '@/hooks/useImageError'
+import { InlineEditable, useHeroInlineCommit } from '@/components/shared/InlineEditable'
 
 export function HeroSplit({ section }: { section: Section }) {
+  // P116 / B3 — F1 inline edit on hero headline + subhead.
+  const { commitHeadline, commitSubhead } = useHeroInlineCommit(section)
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const sectionRef = useRef<HTMLElement>(null)
@@ -73,16 +76,24 @@ export function HeroSplit({ section }: { section: Section }) {
             </Badge>
           )}
 
-          <h1
+          <InlineEditable
+            as="h1"
+            value={hero.heading.text}
+            onCommit={commitHeadline}
+            ariaLabel="Edit hero headline"
+            testid="hero-inline-headline"
             className="text-4xl md:text-5xl font-bold tracking-tight leading-[1.15] text-inherit"
             style={{ fontWeight: hero.heading.weight }}
-          >
-            {hero.heading.text}
-          </h1>
+          />
 
-          <p className="text-lg leading-relaxed max-w-lg text-theme-muted">
-            {hero.subheading}
-          </p>
+          <InlineEditable
+            as="p"
+            value={hero.subheading}
+            onCommit={commitSubhead}
+            ariaLabel="Edit hero subhead"
+            testid="hero-inline-subhead"
+            className="text-lg leading-relaxed max-w-lg text-theme-muted"
+          />
 
           {(hero.cta.show !== false || hero.secondaryCta) && (
             <div className="flex items-center gap-3">

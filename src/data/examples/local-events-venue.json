@@ -1,0 +1,257 @@
+{
+  "_storytellingPreset": "dry-humor-narrator",
+  "_note": "P116/B1 — small concert venue The Lampshade Lounge in Pittsburgh's Bloomfield neighborhood. Dry-humor-narrator preset: factual setup too detailed to be neutral, never winks at reader. Energetic theme — electric blue + neon yellow + dark canvas, Space Grotesk display. Real-feeling band names + show dates + cover prices.",
+  "site": {
+    "title": "The Lampshade Lounge · Bloomfield · Live Music",
+    "description": "A 90-capacity rock & jazz room in Pittsburgh's Bloomfield neighborhood. Open Wednesday through Sunday since 2017. Loud on weekends, quieter on Wednesdays.",
+    "author": "Pris Karimov",
+    "email": "shows@lampshadelounge.com",
+    "domain": "lampshadelounge.com",
+    "project": "lampshade-lounge",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "consumer",
+    "tone": "casual",
+    "brandName": "The Lampshade Lounge",
+    "tagline": "A 90-cap room in Bloomfield that books two bands a night, four nights a week.",
+    "voiceAttributes": ["energetic", "scene-aware", "specific", "inviting"],
+    "storytellingPreset": "dry-humor-narrator"
+  },
+  "theme": {
+    "preset": "neon",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0c1024",
+      "bgSecondary": "#161b3a",
+      "textPrimary": "#f3f4ff",
+      "textSecondary": "#bcc3e8",
+      "accentPrimary": "#3d6cff",
+      "accentSecondary": "#f5e342"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#f3f4ff",
+      "bgSecondary": "#e1e4ff",
+      "textPrimary": "#0c1024",
+      "textSecondary": "#3a3f64",
+      "accentPrimary": "#264dcc",
+      "accentSecondary": "#c4b730"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Space Grotesk",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.6
+    },
+    "spacing": { "sectionPadding": "96px", "containerMaxWidth": "1140px", "componentGap": "28px" },
+    "borderRadius": "4px"
+  },
+  "sections": [
+    {
+      "type": "menu", "id": "navbar-01", "enabled": true, "order": -1, "variant": "simple",
+      "layout": { "display": "flex", "padding": "20px 32px", "gap": "28px", "maxWidth": "1140px" },
+      "style": { "background": "#0c1024", "color": "#f3f4ff" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Lampshade" } },
+        { "id": "nav-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "Calendar", "url": "#calendar" } },
+        { "id": "nav-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "About", "url": "#about" } },
+        { "id": "nav-3", "type": "link", "enabled": true, "order": 3, "props": { "text": "Cover", "url": "#cover" } },
+        { "id": "nav-4", "type": "link", "enabled": true, "order": 4, "props": { "text": "Booking", "url": "#booking" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 5, "props": { "text": "Tickets", "url": "#calendar" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero", "id": "hero-01", "enabled": true, "order": 0, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "24px", "padding": "144px 32px 112px", "maxWidth": "1040px" },
+      "style": { "background": "#0c1024", "color": "#f3f4ff" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0,
+          "props": { "text": "4724 Liberty Avenue · Bloomfield · Wed-Sun · doors 8 p.m.", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "Two bands a night. Four nights a week. Same room since 2017.", "level": 1, "size": "78px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "The Lampshade Lounge is a ninety-capacity black-box room above what used to be a Polish butcher and is now a Polish butcher again. The PA is a Yorkville EXM-Mobile-12, which means most of you. The drinks are six dollars. The cover is between five and twelve dollars depending on the band's drummer's tax bracket. The schedule below is updated every Sunday at 11 p.m. by a person named Pris." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "See this week's calendar", "url": "#calendar", "style": "filled", "size": "lg", "background": "#f5e342", "color": "#0c1024" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4,
+          "props": { "text": "Book your band", "url": "#booking", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "blog", "id": "calendar-01", "enabled": true, "order": 1, "variant": "card-grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "112px 32px", "maxWidth": "1240px" },
+      "style": { "background": "#161b3a", "color": "#f3f4ff" },
+      "components": [
+        { "id": "show-1", "type": "blog-card", "enabled": true, "order": 0,
+          "props": {
+            "image": "https://images.example.com/lampshade/oxalis.jpg",
+            "title": "Oxalis Rivertide w/ Coalfork",
+            "category": "Indie rock · two bands",
+            "date": "Wed, May 7 · 8 p.m.",
+            "excerpt": "Pittsburgh-local five-piece off the back of their April Cattivo run. Coalfork opens — first show in the city since they moved to Lawrenceville from Cleveland.",
+            "ctaText": "$8 at the door · cash + card",
+            "ctaUrl": "#tickets-1"
+          } },
+        { "id": "show-2", "type": "blog-card", "enabled": true, "order": 1,
+          "props": {
+            "image": "https://images.example.com/lampshade/marlowe-trio.jpg",
+            "title": "The Joachim Marlowe Trio",
+            "category": "Jazz · piano · trio",
+            "date": "Thu, May 8 · 9 p.m.",
+            "excerpt": "Joachim Marlowe (piano, Berklee '12) plays the Wednesday-jazz slot we usually reserve for younger New York players. Two sets. Tip the band.",
+            "ctaText": "$5 at the door · cash only",
+            "ctaUrl": "#tickets-2"
+          } },
+        { "id": "show-3", "type": "blog-card", "enabled": true, "order": 2,
+          "props": {
+            "image": "https://images.example.com/lampshade/howl-house.jpg",
+            "title": "Howl House w/ Cassia Park & The Decline",
+            "category": "Loud night · three bands · 21+",
+            "date": "Fri, May 9 · 8:30 p.m.",
+            "excerpt": "Howl House from Detroit makes a Pittsburgh stop. Cassia Park (locals · their second show here) and The Decline (locals · their fourteenth) split the opening slot.",
+            "ctaText": "$12 at the door · or $10 advance",
+            "ctaUrl": "#tickets-3"
+          } },
+        { "id": "show-4", "type": "blog-card", "enabled": true, "order": 3,
+          "props": {
+            "image": "https://images.example.com/lampshade/the-meadowlarks.jpg",
+            "title": "The Meadowlarks (album release)",
+            "category": "Folk-rock · LP release",
+            "date": "Sat, May 10 · 9 p.m.",
+            "excerpt": "The Meadowlarks release their second LP, Steel Town Lullabies, on a small Brooklyn label. They live three blocks from the venue. Bring cash for vinyl ($22).",
+            "ctaText": "$10 at the door · advance sold out",
+            "ctaUrl": "#tickets-4"
+          } },
+        { "id": "show-5", "type": "blog-card", "enabled": true, "order": 4,
+          "props": {
+            "image": "https://images.example.com/lampshade/sunday-quartet.jpg",
+            "title": "Sunday Standards · Lex Tabor Quartet",
+            "category": "Sunday standards · quartet",
+            "date": "Sun, May 11 · 7 p.m. early show",
+            "excerpt": "Our Sunday standards series, in residency through July. Lex Tabor (alto sax, Pittsburgh native) leads a quartet through the Coltrane book. Two sets. Family-friendly.",
+            "ctaText": "$7 at the door · all ages",
+            "ctaUrl": "#tickets-5"
+          } },
+        { "id": "show-6", "type": "blog-card", "enabled": true, "order": 5,
+          "props": {
+            "image": "https://images.example.com/lampshade/rachel-vyne.jpg",
+            "title": "Rachel Vyne (solo)",
+            "category": "Singer-songwriter · solo · seated",
+            "date": "Wed, May 14 · 8 p.m.",
+            "excerpt": "Rachel Vyne plays solo guitar and her four hundred and thirteenth Lampshade show, by her count. We did not check her math. We do not need to.",
+            "ctaText": "$5 suggested donation",
+            "ctaUrl": "#tickets-6"
+          } }
+      ],
+      "content": { "heading": "This week's calendar", "subheading": "All shows are 90-cap rooms unless we move you to the back room (we won't this week)." }
+    },
+    {
+      "type": "text", "id": "about-01", "enabled": true, "order": 2, "variant": "long-form",
+      "layout": { "display": "flex", "direction": "column", "gap": "20px", "padding": "96px 32px", "maxWidth": "780px" },
+      "style": { "background": "#0c1024", "color": "#f3f4ff" },
+      "components": [
+        { "id": "ab-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "About this room, briefly.", "level": 2, "size": "44px", "weight": 700 } },
+        { "id": "ab-p1", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "I'm Pris Karimov. I have run The Lampshade Lounge since November 2017, alongside my co-owner Theo Marsh, who handles sound four nights a week and operates a small mastering studio in the basement during the day. We bought the room from a woman named Estelle Rouhani, who ran it as a folk-only listening room from 2009 to 2017 and has since moved to Mendocino to grow lavender. We send her postcards." } },
+        { "id": "ab-p2", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "We book two bands a night, Wednesday through Sunday. The room holds ninety people, which is enough to feel like something is happening and small enough that the band is six feet from your face. The PA is a Yorkville we have replaced once. The drum kit is a Gretsch Renown that came with the room and which we have repaired more times than we can count. The lighting is two pars and a vintage Shure SM58 we use as a moon. Yes, a moon." } },
+        { "id": "ab-p3", "type": "text", "enabled": true, "order": 3,
+          "props": { "text": "We pay every act. Touring acts get the door minus a small house cut. Locals get a guarantee on weeknights and the door on weekends. We do not do pay-to-play. We do not do unpaid showcases. Our soundperson on weekends is named Marc Lemay and he has been mixing here since night one. He is good. Tip him." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "pricing", "id": "cover-01", "enabled": true, "order": 3, "variant": "tiers",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "96px 32px", "maxWidth": "1180px" },
+      "style": { "background": "#161b3a", "color": "#f3f4ff" },
+      "components": [
+        { "id": "cv-1", "type": "pricing-tier", "enabled": true, "order": 0,
+          "props": {
+            "name": "Wednesday standards",
+            "price": "$5-7",
+            "billing": "cash + card",
+            "features": "Jazz nights · folk nights · Wednesday standards series · Two sets, usually 8 and 9:30 · Drink minimum: zero · Tip jar exists · We do not stamp hands but we trust you",
+            "cta": "See Wed shows",
+            "ctaUrl": "#calendar"
+          } },
+        { "id": "cv-2", "type": "pricing-tier", "enabled": true, "order": 1,
+          "props": {
+            "name": "Thurs / weekend",
+            "price": "$8-12",
+            "billing": "cash + card · advance saves $2",
+            "features": "Loud nights · most weekend touring acts · Doors 8 · first band on at 8:45 · headliner usually 10:15 · 21+ unless flagged on the calendar",
+            "cta": "See weekend shows",
+            "ctaUrl": "#calendar",
+            "featured": true
+          } },
+        { "id": "cv-3", "type": "pricing-tier", "enabled": true, "order": 2,
+          "props": {
+            "name": "Sunday early",
+            "price": "$7",
+            "billing": "all ages · cash only",
+            "features": "Sunday standards series · jazz quartets and small ensembles · 7 p.m. early show · two sets · all ages and we mean all ages — we have had a six-month-old fall asleep at the bar",
+            "cta": "See Sunday shows",
+            "ctaUrl": "#calendar"
+          } }
+      ],
+      "content": { "heading": "Cover prices", "subheading": "Cover at the door. Drinks $6 (beer, wine, two cocktails). Water is free. Sparkling water is two dollars and a complaint." }
+    },
+    {
+      "type": "quotes", "id": "voices-01", "enabled": true, "order": 4, "variant": "two-up",
+      "layout": { "display": "grid", "columns": 2, "gap": "32px", "padding": "96px 32px", "maxWidth": "1140px" },
+      "style": { "background": "#0c1024", "color": "#f3f4ff" },
+      "components": [
+        { "id": "vc-1", "type": "testimonial", "enabled": true, "order": 0,
+          "props": { "quote": "The Lampshade is the third-best room in Pennsylvania for a touring act of our size. The other two are in Philadelphia. Pris pays on time, in cash, and remembers the bassist's name. We have played there eleven times. We will play there a twelfth.", "author": "Howl House", "role": "Touring band · Detroit · 11 Lampshade shows since 2018", "rating": 5 } },
+        { "id": "vc-2", "type": "testimonial", "enabled": true, "order": 1,
+          "props": { "quote": "Marc on sound is genuinely the reason I have a half-decent live recording from 2022. He mixed an entire LP off the board, then mixed it again in his basement, and only charged me for the second one.", "author": "Rachel Vyne", "role": "Singer-songwriter · Bloomfield · 413 Lampshade shows (her count)", "rating": 5 } },
+        { "id": "vc-3", "type": "testimonial", "enabled": true, "order": 2,
+          "props": { "quote": "I run a folk label in Brooklyn. We have released six records by acts I first heard at The Lampshade — including The Meadowlarks, who release their second this Saturday. If you book a Wednesday standards show there, I will be in the back of the room.", "author": "Sara Hines", "role": "A&R · Tin Roof Records · Brooklyn", "rating": 5 } },
+        { "id": "vc-4", "type": "testimonial", "enabled": true, "order": 3,
+          "props": { "quote": "I am 66, and the Sunday standards series is the only place in this city I feel okay being out at 7 p.m. on a Sunday. Lex Tabor's quartet is incredible. The bartender knows I want a hot tea by now. I am the youngest person in the room every other week.", "author": "Daniel Birnbaum", "role": "Sunday regular · Bloomfield since 1971", "rating": 5 } }
+      ],
+      "content": { "heading": "What people who know say", "subheading": "Pulled from email replies, texts, and one bumper sticker." }
+    },
+    {
+      "type": "contact-form", "id": "booking-01", "enabled": true, "order": 5, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "20px", "padding": "112px 32px", "maxWidth": "780px" },
+      "style": { "background": "#161b3a", "color": "#f3f4ff" },
+      "components": [
+        { "id": "bk-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Book your band.", "level": 2, "size": "48px", "weight": 700 } },
+        { "id": "bk-blurb", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "Pris reads every booking email on Tuesday and Friday mornings. Touring acts: include city, dates of your run, link to one song, and a guarantee number. Locals: include the last room you played here and the band you'd like to play with. We respond, eventually." } },
+        { "id": "bk-name", "type": "input", "enabled": true, "order": 2,
+          "props": { "label": "Band name + your name", "placeholder": "The Band · Your Name", "type": "text", "required": true } },
+        { "id": "bk-email", "type": "input", "enabled": true, "order": 3,
+          "props": { "label": "Email", "placeholder": "you@band.com", "type": "email", "required": true } },
+        { "id": "bk-city", "type": "input", "enabled": true, "order": 4,
+          "props": { "label": "City + tour status", "placeholder": "Pittsburgh-local · Touring · Routing through", "type": "text", "required": true } },
+        { "id": "bk-date", "type": "input", "enabled": true, "order": 5,
+          "props": { "label": "Preferred dates / windows", "placeholder": "May 14-21 · Or 'flexible'", "type": "text", "required": false } },
+        { "id": "bk-link", "type": "input", "enabled": true, "order": 6,
+          "props": { "label": "One song link", "placeholder": "Bandcamp · Spotify · YouTube · Soundcloud", "type": "text", "required": true } },
+        { "id": "bk-msg", "type": "input", "enabled": true, "order": 7,
+          "props": { "label": "Anything else?", "placeholder": "Guarantee ask · Local pairing ideas · How you heard about us", "type": "textarea", "required": false } },
+        { "id": "bk-submit", "type": "button", "enabled": true, "order": 8,
+          "props": { "text": "Send to Pris", "url": "#submit", "style": "filled", "size": "lg", "background": "#f5e342", "color": "#0c1024" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer", "id": "footer-01", "enabled": true, "order": 6, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "48px 32px", "gap": "12px", "maxWidth": "1140px" },
+      "style": { "background": "#0c1024", "color": "#f3f4ff" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "The Lampshade Lounge · Bloomfield" } },
+        { "id": "tagline", "type": "text", "enabled": true, "order": 1, "props": { "text": "4724 Liberty Avenue · Pittsburgh, PA 15224 · Wed-Sun · doors 8 p.m. · Pris + Theo · since 2017" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 2, "props": { "text": "© 2026 The Lampshade Lounge LLC · PA liquor license 4-LSL-2017-3318 · shows@lampshadelounge.com" } }
+      ],
+      "content": {}
+    }
+  ]
+}

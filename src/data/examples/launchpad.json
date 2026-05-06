@@ -9,7 +9,7 @@
     "version": "1.0.0-RC1",
     "spec": "aisp-1.2",
     "purpose": "saas",
-    "audience": "ml-platform-team",
+    "audience": "enterprise",
     "tone": "technical",
     "brandName": "LaunchPad AI",
     "tagline": "Deploy AI agents in production — orchestrate, observe, replay",

@@ -8,12 +8,16 @@
     "project": "renata-vela-speaker",
     "version": "1.0.0-RC1",
     "spec": "aisp-1.2",
-    "purpose": "speaker",
-    "audience": "executive",
-    "tone": "authoritative",
+    "purpose": "portfolio",
+    "audience": "business",
+    "tone": "formal",
     "brandName": "Dr. Renata Vela",
     "tagline": "Keynotes that make the room lean forward",
-    "voiceAttributes": ["authoritative", "warm", "earned"]
+    "voiceAttributes": [
+      "authoritative",
+      "warm",
+      "earned"
+    ]
   },
   "theme": {
     "preset": "professional",
@@ -95,7 +99,7 @@
       "layout": {
         "display": "flex",
         "direction": "column",
-        "align": "flex-start",
+        "align": "start",
         "gap": "24px",
         "padding": "80px 24px",
         "maxWidth": "1100px"

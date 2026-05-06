@@ -8,12 +8,16 @@
     "project": "sloane-park-daily-stack",
     "version": "1.0.0-RC1",
     "spec": "aisp-1.2",
-    "purpose": "creator",
+    "purpose": "marketing",
     "audience": "developer",
-    "tone": "energetic",
+    "tone": "playful",
     "brandName": "Daily Stack",
     "tagline": "5-minute dev videos that ship working code",
-    "voiceAttributes": ["concise", "energetic", "no-fluff"]
+    "voiceAttributes": [
+      "concise",
+      "energetic",
+      "no-fluff"
+    ]
   },
   "theme": {
     "preset": "neon",
@@ -95,7 +99,7 @@
       "layout": {
         "display": "flex",
         "direction": "column",
-        "align": "flex-start",
+        "align": "start",
         "gap": "24px",
         "padding": "80px 24px",
         "maxWidth": "1100px"

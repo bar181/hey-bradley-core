@@ -1,0 +1,245 @@
+{
+  "_storytellingPreset": "founder-direct",
+  "_note": "P116/B1 — indie food truck Tio's Tortillería in East Austin. Founder-direct preset: first-person specific numbers, restrained-not-bro, named grandmother. Bold tactile theme — warm reds + yellows + paper. Real menu items with real prices. Direct, neighborhood-proud voice.",
+  "site": {
+    "title": "Tio's Tortillería · East Austin Food Truck",
+    "description": "A two-person tortilla and taco truck on Cesar Chavez and Pedernales. We make the tortillas. We make the salsa. That is most of the work.",
+    "author": "Beto Reyna",
+    "email": "hola@tiostortilleria.com",
+    "domain": "tiostortilleria.com",
+    "project": "tios-tortilleria",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "consumer",
+    "tone": "casual",
+    "brandName": "Tio's Tortillería",
+    "tagline": "Hand-pressed tortillas. Six tacos. East Austin since 2022.",
+    "voiceAttributes": ["direct", "specific", "neighborhood-proud", "tactile"],
+    "storytellingPreset": "founder-direct"
+  },
+  "theme": {
+    "preset": "warm-paper",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#f5e8c8",
+      "bgSecondary": "#fff7e0",
+      "textPrimary": "#2a1408",
+      "textSecondary": "#6a3d20",
+      "accentPrimary": "#c93a1f",
+      "accentSecondary": "#e8a93a"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#2a1408",
+      "bgSecondary": "#3d1f10",
+      "textPrimary": "#f5e8c8",
+      "textSecondary": "#d8b884",
+      "accentPrimary": "#e85a3a",
+      "accentSecondary": "#f0c258"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Fraunces",
+      "headingWeight": 800,
+      "baseSize": "17px",
+      "lineHeight": 1.6
+    },
+    "spacing": { "sectionPadding": "96px", "containerMaxWidth": "1080px", "componentGap": "24px" },
+    "borderRadius": "6px"
+  },
+  "sections": [
+    {
+      "type": "menu", "id": "navbar-01", "enabled": true, "order": -1, "variant": "simple",
+      "layout": { "display": "flex", "padding": "20px 28px", "gap": "28px", "maxWidth": "1080px" },
+      "style": { "background": "#f5e8c8", "color": "#2a1408" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Tio's" } },
+        { "id": "nav-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "Where we are", "url": "#location" } },
+        { "id": "nav-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "Menu", "url": "#menu" } },
+        { "id": "nav-3", "type": "link", "enabled": true, "order": 3, "props": { "text": "Story", "url": "#story" } },
+        { "id": "nav-4", "type": "link", "enabled": true, "order": 4, "props": { "text": "Catering", "url": "#catering" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero", "id": "hero-01", "enabled": true, "order": 0, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "24px", "padding": "128px 28px 96px", "maxWidth": "1000px" },
+      "style": { "background": "#f5e8c8", "color": "#2a1408" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0,
+          "props": { "text": "1820 E Cesar Chavez · Wed-Sun · 11a-9p (or until tortillas run out)", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "Six tacos. Six salsas. Tortillas pressed three feet from where you're standing.", "level": 1, "size": "70px", "weight": 800 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "We opened in March 2022 with $14,000, a 1996 Chevy step-van, and a tortilla press that used to belong to my grandmother Esperanza in Matamoros. Three years later we are still on the same corner of East Cesar Chavez and Pedernales. Same press. Same six tacos. Different number of customers." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "See the menu", "url": "#menu", "style": "filled", "size": "lg", "background": "#c93a1f", "color": "#fff7e0" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4,
+          "props": { "text": "Catering inquiries", "url": "#catering", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text", "id": "story-01", "enabled": true, "order": 1, "variant": "long-form",
+      "layout": { "display": "flex", "direction": "column", "gap": "20px", "padding": "96px 28px", "maxWidth": "780px" },
+      "style": { "background": "#fff7e0", "color": "#2a1408" },
+      "components": [
+        { "id": "story-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "How this started, briefly.", "level": 2, "size": "40px", "weight": 800 } },
+        { "id": "story-p1", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "I'm Beto Reyna. My wife Adriana and I run the truck — that is the whole staff. I'm the cook. She's the front of house, the books, and the reason the truck got painted properly the second time. We grew up in Brownsville, moved to Austin in 2014, and lived for eight years on the wrong side of the river before this corner opened up." } },
+        { "id": "story-p2", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "My grandmother Esperanza ran a tortilla shop in Matamoros from 1971 to 2003. I worked there summers between ages eleven and seventeen. She made everything by hand and never once measured a thing. When she passed in 2019 she left me her cast-iron tortilla press, which is the same one we use here. The masa is hers. The salsas are mostly mine. The barbacoa is hers and Adriana's together." } },
+        { "id": "story-p3", "type": "text", "enabled": true, "order": 3,
+          "props": { "text": "We are not the cheapest taco truck in East Austin. We are also not the fanciest. We make about 320 tortillas on a weekday and 700 on a Saturday and when the masa runs out, we close. We do not use a third-party app. We do not deliver. We are a truck. We are right here." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "pricing", "id": "menu-01", "enabled": true, "order": 2, "variant": "tiers",
+      "layout": { "display": "grid", "columns": 3, "gap": "24px", "padding": "96px 28px", "maxWidth": "1180px" },
+      "style": { "background": "#f5e8c8", "color": "#2a1408" },
+      "components": [
+        { "id": "menu-1", "type": "pricing-tier", "enabled": true, "order": 0,
+          "props": {
+            "name": "Barbacoa",
+            "price": "$4.75",
+            "billing": "per taco",
+            "features": "Slow-cooked beef cheek with our chile guajillo · Fresh corn tortilla pressed to order · Diced white onion + cilantro · Salsa verde de tomatillo on the side · Adriana's recipe",
+            "cta": "Order at the truck",
+            "ctaUrl": "#location"
+          } },
+        { "id": "menu-2", "type": "pricing-tier", "enabled": true, "order": 1,
+          "props": {
+            "name": "Carnitas",
+            "price": "$4.50",
+            "billing": "per taco",
+            "features": "Pork shoulder confit'd in lard with orange + bay · Fresh corn tortilla · Pickled red onion + lime · Salsa de chile de árbol · Vegetarian option swaps in mushroom carnitas, same price",
+            "cta": "Order at the truck",
+            "ctaUrl": "#location",
+            "featured": true
+          } },
+        { "id": "menu-3", "type": "pricing-tier", "enabled": true, "order": 2,
+          "props": {
+            "name": "Pescado",
+            "price": "$5.25",
+            "billing": "per taco",
+            "features": "Crispy gulf snapper from Quality Seafood Market · Fresh corn tortilla · Cabbage slaw with lime crema · Salsa macha with peanuts · Best Friday and Saturday when the snapper comes in",
+            "cta": "Order at the truck",
+            "ctaUrl": "#location"
+          } },
+        { "id": "menu-4", "type": "pricing-tier", "enabled": true, "order": 3,
+          "props": {
+            "name": "Hongos",
+            "price": "$4.25",
+            "billing": "per taco · vegetarian",
+            "features": "Maitake + oyster mushrooms from Texas Mushrooms (Fredericksburg) · Charred on the plancha with garlic + epazote · Fresh corn tortilla · Salsa verde · Vegan if you skip the queso fresco",
+            "cta": "Order at the truck",
+            "ctaUrl": "#location"
+          } },
+        { "id": "menu-5", "type": "pricing-tier", "enabled": true, "order": 4,
+          "props": {
+            "name": "Pollo asado",
+            "price": "$4.50",
+            "billing": "per taco",
+            "features": "Marinated dark-meat chicken from Smith & Smith poultry · Grilled over mesquite · Fresh corn tortilla · Avocado-tomatillo · Cilantro-lime rice on the side",
+            "cta": "Order at the truck",
+            "ctaUrl": "#location"
+          } },
+        { "id": "menu-6", "type": "pricing-tier", "enabled": true, "order": 5,
+          "props": {
+            "name": "Tortilla, plain",
+            "price": "$1.25",
+            "billing": "each · we're not joking",
+            "features": "Just a tortilla, pressed and griddled while you wait · Take six home for $7 · Best with butter and salt · You will eat one before you get home · We have lost the math on these",
+            "cta": "Order at the truck",
+            "ctaUrl": "#location"
+          } }
+      ],
+      "content": { "heading": "The menu, all of it", "subheading": "Six tacos. One tortilla. We sell out almost every Saturday by 7:30. Sundays we make 200 fewer because Adriana wants a normal Sunday." }
+    },
+    {
+      "type": "gallery", "id": "gallery-01", "enabled": true, "order": 3, "variant": "image-grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "20px", "padding": "96px 28px", "maxWidth": "1180px" },
+      "style": { "background": "#fff7e0", "color": "#2a1408" },
+      "components": [
+        { "id": "img-1", "type": "gallery-tile", "enabled": true, "order": 0,
+          "props": { "image": "https://images.example.com/tios/truck-front.jpg", "alt": "The Tio's truck on East Cesar Chavez at golden hour, three customers in line", "title": "1820 E Cesar Chavez", "caption": "The truck on a Thursday at 6:14 p.m." } },
+        { "id": "img-2", "type": "gallery-tile", "enabled": true, "order": 1,
+          "props": { "image": "https://images.example.com/tios/barbacoa-taco.jpg", "alt": "A barbacoa taco on a paper-lined tray with salsa verde", "title": "Barbacoa, plated", "caption": "Adriana's recipe · Tomatillo salsa on the side" } },
+        { "id": "img-3", "type": "gallery-tile", "enabled": true, "order": 2,
+          "props": { "image": "https://images.example.com/tios/tortilla-press.jpg", "alt": "Beto pressing a tortilla on a cast-iron press", "title": "Esperanza's press", "caption": "Made in Matamoros, 1971 · Still working" } },
+        { "id": "img-4", "type": "gallery-tile", "enabled": true, "order": 3,
+          "props": { "image": "https://images.example.com/tios/menu-board.jpg", "alt": "A hand-painted menu board on the side of the truck", "title": "The board", "caption": "Painted by our friend Lupita Ortiz, twice now" } },
+        { "id": "img-5", "type": "gallery-tile", "enabled": true, "order": 4,
+          "props": { "image": "https://images.example.com/tios/saturday-line.jpg", "alt": "A long line of customers wrapped down Pedernales", "title": "Saturday at 1:08 p.m.", "caption": "We have eight more Saturdays in 2026" } },
+        { "id": "img-6", "type": "gallery-tile", "enabled": true, "order": 5,
+          "props": { "image": "https://images.example.com/tios/salsa-prep.jpg", "alt": "Six small bowls of salsa lined up on a steel prep counter", "title": "Six salsas", "caption": "Verde · Roja · Macha · Árbol · Avocado-tomatillo · Habanero (request only)" } }
+      ],
+      "content": { "heading": "The truck, the food, the line", "subheading": "All photos taken by our neighbor Wendy, who works at Counter Cafe and shoots on a Pentax K1000." }
+    },
+    {
+      "type": "quotes", "id": "regulars-01", "enabled": true, "order": 4, "variant": "two-up",
+      "layout": { "display": "grid", "columns": 2, "gap": "32px", "padding": "96px 28px", "maxWidth": "1080px" },
+      "style": { "background": "#f5e8c8", "color": "#2a1408" },
+      "components": [
+        { "id": "r-1", "type": "testimonial", "enabled": true, "order": 0,
+          "props": { "quote": "I work at the auto shop on Lott Avenue. I eat at Tio's three days a week. The carnitas is correct. The barbacoa is correct. Beto knows my order. That's the whole review.", "author": "Hector Pena", "role": "Mechanic · East Austin · since 2009", "rating": 5 } },
+        { "id": "r-2", "type": "testimonial", "enabled": true, "order": 1,
+          "props": { "quote": "I grew up in Reynosa. I have been hunting for a tortilla in Texas that tastes like the one my abuela made for fourteen years. Tio's is the closest I have come. I do not know who Esperanza was. I am grateful for her.", "author": "Marisol Cantu", "role": "Architect · East Austin (5 blocks away)", "rating": 5 } },
+        { "id": "r-3", "type": "testimonial", "enabled": true, "order": 2,
+          "props": { "quote": "We catered our wedding through Tio's in October 2024. 84 guests. They brought the truck. Beto pressed tortillas for three hours. My uncle from Monterrey cried at the salsa. Hire them. Just hire them.", "author": "Wendy & James Calloway", "role": "Married October 12, 2024 · East Austin", "rating": 5 } },
+        { "id": "r-4", "type": "testimonial", "enabled": true, "order": 3,
+          "props": { "quote": "I'm vegetarian. The hongos taco is the only taco in this city I would say is genuinely good and not just polite-good. I have brought four people here. They all came back without me.", "author": "Theo Granger", "role": "Software engineer · Holly neighborhood", "rating": 5 } }
+      ],
+      "content": { "heading": "Regulars", "subheading": "Pulled from texts and one Google review we did not pay for." }
+    },
+    {
+      "type": "action", "id": "catering-01", "enabled": true, "order": 5, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "24px", "padding": "112px 28px", "maxWidth": "780px" },
+      "style": { "background": "#c93a1f", "color": "#fff7e0" },
+      "components": [
+        { "id": "cat-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "We cater. Sometimes.", "level": 2, "size": "48px", "weight": 800 } },
+        { "id": "cat-text", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "If you want the truck, we can bring the truck. We do roughly twelve catering events a year and they are usually weddings or birthdays. Minimum 60 guests. We need at least eight weeks notice and a power source within forty feet of where we park. $24 per guest, all in." } },
+        { "id": "cat-cta", "type": "button", "enabled": true, "order": 2,
+          "props": { "text": "Email Adriana", "url": "mailto:hola@tiostortilleria.com", "style": "filled", "size": "lg", "background": "#fff7e0", "color": "#c93a1f" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "contact-form", "id": "contact-01", "enabled": true, "order": 6, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "20px", "padding": "96px 28px", "maxWidth": "720px" },
+      "style": { "background": "#fff7e0", "color": "#2a1408" },
+      "components": [
+        { "id": "form-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Send a message.", "level": 2, "size": "40px", "weight": 800 } },
+        { "id": "form-blurb", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "Adriana checks email after 10 p.m. when the truck closes. Catering inquiries should include a date, headcount, and a phone number. We always reply." } },
+        { "id": "form-name", "type": "input", "enabled": true, "order": 2,
+          "props": { "label": "Your name", "placeholder": "Name", "type": "text", "required": true } },
+        { "id": "form-email", "type": "input", "enabled": true, "order": 3,
+          "props": { "label": "Email", "placeholder": "you@somewhere.com", "type": "email", "required": true } },
+        { "id": "form-topic", "type": "input", "enabled": true, "order": 4,
+          "props": { "label": "About what?", "placeholder": "Catering · Truck schedule · Saying hi", "type": "text", "required": true } },
+        { "id": "form-msg", "type": "input", "enabled": true, "order": 5,
+          "props": { "label": "Message", "placeholder": "Be as specific as you can. Adriana likes specifics.", "type": "textarea", "required": true } },
+        { "id": "form-submit", "type": "button", "enabled": true, "order": 6,
+          "props": { "text": "Send", "url": "#submit", "style": "filled", "size": "lg", "background": "#c93a1f", "color": "#fff7e0" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer", "id": "footer-01", "enabled": true, "order": 7, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "44px 28px", "gap": "12px", "maxWidth": "1080px" },
+      "style": { "background": "#2a1408", "color": "#f5e8c8" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Tio's Tortillería · East Austin since 2022" } },
+        { "id": "tagline", "type": "text", "enabled": true, "order": 1, "props": { "text": "1820 E Cesar Chavez · corner of Pedernales · Wed-Sun 11a-9p · cash + card · no app · no delivery" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 2, "props": { "text": "© 2026 Tio's Tortillería · Beto + Adriana Reyna · TX permit MFV-2022-1108" } }
+      ],
+      "content": {}
+    }
+  ]
+}

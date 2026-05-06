@@ -8,9 +8,9 @@
     "project": "hey-bradley-capstone",
     "version": "1.0.0-RC1",
     "spec": "aisp-1.2",
-    "purpose": "research",
+    "purpose": "marketing",
     "audience": "enterprise",
-    "tone": "authoritative",
+    "tone": "formal",
     "brandName": "Hey Bradley",
     "tagline": "The telephone game is over.",
     "voiceAttributes": ["authoritative", "research-driven", "narrative"]

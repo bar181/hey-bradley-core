@@ -8,7 +8,7 @@
     "project": "rolldown",
     "version": "1.0.0-RC1",
     "spec": "aisp-1.2",
-    "purpose": "product",
+    "purpose": "saas",
     "audience": "developer",
     "tone": "technical",
     "brandName": "rolldown",

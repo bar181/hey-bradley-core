@@ -9,12 +9,15 @@ import { Badge } from '@/components/ui/badge'
 import { LightboxModal } from '@/components/ui/LightboxModal'
 import { ImageFallback } from '@/components/ui/ImageFallback'
 import { useImageError } from '@/hooks/useImageError'
+import { InlineEditable, useHeroInlineCommit } from '@/components/shared/InlineEditable'
 
 interface HeroCenteredProps {
   section: Section
 }
 
 export function HeroCentered({ section }: HeroCenteredProps) {
+  // P116 / B3 — F1 inline edit on hero headline + subhead.
+  const { commitHeadline, commitSubhead } = useHeroInlineCommit(section)
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const sectionRef = useRef<HTMLElement>(null)
@@ -93,20 +96,28 @@ export function HeroCentered({ section }: HeroCenteredProps) {
         )}
 
         {/* Heading */}
-        <h1
+        <InlineEditable
+          as="h1"
+          value={hero.heading.text}
+          onCommit={commitHeadline}
+          ariaLabel="Edit hero headline"
+          testid="hero-inline-headline"
           className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1] text-inherit"
           style={{
             fontSize: hero.heading.size,
             fontWeight: hero.heading.weight,
           }}
-        >
-          {hero.heading.text}
-        </h1>
+        />
 
         {/* Subheading */}
-        <p className="text-lg md:text-xl max-w-xl leading-relaxed text-theme-muted">
-          {hero.subheading}
-        </p>
+        <InlineEditable
+          as="p"
+          value={hero.subheading}
+          onCommit={commitSubhead}
+          ariaLabel="Edit hero subhead"
+          testid="hero-inline-subhead"
+          className="text-lg md:text-xl max-w-xl leading-relaxed text-theme-muted"
+        />
 
         {/* CTA buttons */}
         {(hero.cta.show !== false || hero.secondaryCta) && (

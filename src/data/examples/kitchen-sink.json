@@ -8,9 +8,9 @@
     "project": "kitchen-sink",
     "version": "1.0.0-RC1",
     "spec": "aisp-1.2",
-    "purpose": "showcase",
-    "audience": "designer",
-    "tone": "neutral-demo",
+    "purpose": "marketing",
+    "audience": "business",
+    "tone": "casual",
     "brandName": "Hey Bradley",
     "tagline": "Every section type, on a single page",
     "voiceAttributes": ["demo", "exhaustive", "technical"]

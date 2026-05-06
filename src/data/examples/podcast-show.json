@@ -8,9 +8,9 @@
     "project": "build-mode-podcast",
     "version": "1.0.0-RC1",
     "spec": "aisp-1.2",
-    "purpose": "podcast",
+    "purpose": "blog",
     "audience": "developer",
-    "tone": "conversational",
+    "tone": "casual",
     "brandName": "Build Mode",
     "tagline": "The podcast about agentic engineering",
     "voiceAttributes": ["conversational", "inside-baseball", "candid"]

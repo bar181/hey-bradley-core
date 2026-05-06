@@ -8,12 +8,16 @@
     "project": "theo-yamada-academic",
     "version": "1.0.0-RC1",
     "spec": "aisp-1.2",
-    "purpose": "academic",
-    "audience": "researcher",
-    "tone": "rigorous",
+    "purpose": "portfolio",
+    "audience": "business",
+    "tone": "formal",
     "brandName": "Theo Yamada Lab",
     "tagline": "Readable ML research, weekend-implementable",
-    "voiceAttributes": ["rigorous", "plainspoken", "engineering-first"]
+    "voiceAttributes": [
+      "rigorous",
+      "plainspoken",
+      "engineering-first"
+    ]
   },
   "theme": {
     "preset": "minimalist",
@@ -95,7 +99,7 @@
       "layout": {
         "display": "flex",
         "direction": "column",
-        "align": "flex-start",
+        "align": "start",
         "gap": "24px",
         "padding": "80px 24px",
         "maxWidth": "1000px"

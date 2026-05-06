@@ -11,9 +11,9 @@
     "purpose": "marketing",
     "audience": "consumer",
     "tone": "casual",
-    "brandName": "Blank Canvas",
-    "tagline": "A clean scaffold · point Bradley at any vertical · the same hero reshapes itself",
-    "voiceAttributes": ["neutral", "open", "starter", "vertical-agnostic"]
+    "brandName": "Blank Canvas · Hey Bradley scaffold",
+    "tagline": "Three sections · zero assumptions · point Bradley at any vertical and watch this hero reshape itself",
+    "voiceAttributes": ["neutral", "open", "starter", "vertical-agnostic", "demonstrative"]
   },
   "theme": {
     "preset": "minimalist",
