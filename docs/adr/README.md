@@ -1,6 +1,6 @@
 # Architecture Decision Records (ADR) Index
 
-**Last updated:** 2026-05-06 (P112 / GAP-CLOSURE) · **Total files on disk:** 130 · **Highest-ID:** ADR-139
+**Last updated:** 2026-05-06 (P113 / QUALITY-PUSH) · **Total files on disk:** 132 · **Highest-ID:** ADR-141
 
 This directory contains the Architecture Decision Records for the Hey Bradley project. Each ADR captures one architectural decision, its context, and its consequences in immutable form.
 
@@ -198,11 +198,12 @@ Each ADR uses a consistent shape: a `# ADR-NNN: Title` first-line heading, a `St
 - ADR-136 — Test Runtime Shift (Mobile Viewports + Behavioral Helper Coverage + p76 Audit Correction) (P108)
 - ADR-137 — ADR Ledger Truth-Up + Section-Enum Drift Regression Guard (P109)
 
-### Post-RC hardening (P110-P112)
+### Post-RC hardening (P110-P113)
 
 - ADR-138 — Export Completeness Standard + ADR Enforcement Architecture (P110 / ADR-EXPORT)
 - ADR-139 — Dogfood Gates + DDD/ADR Output Priority (P111 / DOGFOOD-GATES)
 - ADR-140 — Gap Closure Stopgaps (AISP Score TS Heuristic + ADR README CI Drift Guard + GitHub Actions Gates) (P112 / GAP-CLOSURE)
+- ADR-141 — Quality Push (AISP Density + Storytelling Library + Opinionated Personas + Voice Extraction) (P113 / QUALITY-PUSH)
 
 ---
 
@@ -217,7 +218,7 @@ The following ADR numbers have NO files on disk by design. The historical record
 | Pre-P15 JSON-architecture pivot | **034, 035, 036, 037** | Drafted during P14 marketing-review pivot. Re-scoped into ADR-031 (JSON Data Architecture) and ADR-029 (Pre-LLM MVP Architecture, Stage 2). 034-037 drafts were superseded before acceptance. |
 | Reserved for future phases | **123, 124, 125** | Numbering gap left explicitly during the P97-P100 methodology arc; reserved for future ADR allocation. Do NOT re-use. |
 
-**Policy:** New ADRs MUST continue at **ADR-141+**. Do NOT re-use any of the missing numbers above.
+**Policy:** New ADRs MUST continue at **ADR-142+**. Do NOT re-use any of the missing numbers above.
 
 ---
 
@@ -264,4 +265,4 @@ Three ADR numbers have two files on disk: a P21-era Proposed stub and a later Ac
 
 ---
 
-**Last updated:** 2026-05-06 (P112 / GAP-CLOSURE / Agent A4 — counter 128 → 130, ADR-138 + ADR-139 + ADR-140 rows appended in new "Post-RC hardening (P110-P112)" bucket).
+**Last updated:** 2026-05-06 (P113 / QUALITY-PUSH / Agent A5 — counter 130 → 132, ADR-141 row appended; bucket renamed "Post-RC hardening (P110-P113)").

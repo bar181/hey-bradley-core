@@ -152,6 +152,30 @@ P110-P111 additions). Use `/adr-new "decision title"` to scaffold one.
 Cite predecessors in the cross-refs section. Keep under 120 LOC. Status:
 Proposed → Accepted via review.
 
+## Storytelling presets (P113)
+
+Hey Bradley ships an 8-archetype storytelling preset library at
+`src/data/storytelling/` that consuming developers can reference when
+generating spec content (blog posts, about pages, marketing copy, etc.). Each
+preset exposes `voiceAttributes` + `openingPattern` + `bodyPattern` +
+`closePattern` + a ~50-word `samplePassage` written in voice.
+
+The 8 archetypes:
+
+1. **don-miller-storybrand** — reader-as-hero; problem → guide → plan → call → stakes
+2. **theron-miller-hard-twist** — sensory anecdote → unexpected pivot → earned observation
+3. **founder-direct** — restrained-not-bro first-person; specific numbers
+4. **academic-rigor** — claim → evidence → counterargument → cited sources
+5. **dry-humor-narrator** — over-precise specifics; never winks at reader
+6. **beers-and-pizza-casual** — long paragraphs; real talk to a friend
+7. **investigative-deep-dive** — lead with the question; follow the thread
+8. **contrarian-tech** — name consensus; disagree with specifics
+
+Lookup helpers: `getPresetByName(id)` and `getPresetForVoice(voiceAttributes[])`
+(picks the preset whose attributes overlap most with caller's). See
+`docs/adr/ADR-141-quality-push-density-personality-personas.md` for the full
+decision record.
+
 ## Common terms
 
 - **AISP** — AI Symbolic Protocol; the spec language with 512 symbols
