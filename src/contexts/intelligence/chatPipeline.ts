@@ -21,6 +21,7 @@ import { parseChatCommand, parseMultiPartCommand } from '@/lib/cannedChat'
 import { isUnmeasurableGoal } from '@/contexts/intelligence/aisp/intentAtom'
 import { hasContradiction } from '@/contexts/intelligence/aisp/decompAtom'
 import { cleanTranscript } from '@/contexts/intelligence/stt/transcriptCleanup'
+import { extractVoice } from '@/contexts/intelligence/voiceExtraction'
 import { getActivePage, prefixPatchPaths } from '@/contexts/intelligence/pageIterator'
 import type { PageScope } from '@/contexts/intelligence/pageIterator'
 import { activeSession } from '@/contexts/persistence/repositories/sessions'
@@ -409,6 +410,31 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     const isUnmeasurable = isUnmeasurableGoal(effectiveText)
     const isContradiction = hasContradiction(effectiveText)
     emit(logCtx, 'intent_classification', { intent: aisp, source: aispSource, isUnmeasurable, isContradiction })
+    // P113 / A4 — Voice extraction for chat-mode initial-site prompts.
+    // Fires when: source==='chat' (listen handles its own voice via cleanTranscript +
+    // INTENT_ATOM disfluency-free transcript) AND verb is 'add' or target is absent
+    // (whole-site / vague prompts) AND current site.voiceAttributes is empty AND the
+    // extractor reports confidence > 0.5. Patch lands BEFORE downstream paths so
+    // template-matcher/decomp/LLM see the populated site context. Closes the
+    // chat-built (7.0) vs listen-built (9.5) blog quality gap surfaced by the
+    // P113 website-eval audit.
+    if (opts.source === 'chat') {
+      const isInitialSite = aisp.verb === 'add' || !aisp.target
+      const targetType = aisp.target?.type
+      const targetEligible = !targetType || targetType === 'hero' || targetType === 'text'
+      const currentVoice = (config.site as { voiceAttributes?: string[] }).voiceAttributes ?? []
+      if (isInitialSite && targetEligible && currentVoice.length === 0) {
+        const voice = extractVoice(effectiveText)
+        if (voice.confidence > 0.5 && voice.voiceAttributes.length > 0) {
+          try {
+            const voicePatch: JSONPatch[] = [{ op: 'replace', path: '/site/voiceAttributes', value: voice.voiceAttributes }]
+            useConfigStore.getState().applyPatches(voicePatch)
+          } catch (e) {
+            if (import.meta.env.DEV) console.warn('[chatPipeline] voice extraction apply threw', e)
+          }
+        }
+      }
+    }
     // P82 / OC-CLEANUP (A3) — page-aware INTENT override. When the classified
     // intent carries an explicit pageId (cross-page reference like "on page 2"
     // or "the contact page"), override `scope` so all downstream apply paths
