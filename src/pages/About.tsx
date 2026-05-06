@@ -199,6 +199,11 @@ export function About() {
         <div className="max-w-5xl mx-auto px-6 text-center">
           <p className="text-sm text-[var(--hb-ink-muted)] mb-2">Built in the open &mdash; MIT licensed</p>
           <p className="text-sm text-[var(--hb-ink-muted)]">Bradley Ross</p>
+          <p className="text-sm text-[var(--hb-ink-muted)] mt-4">
+            <Link to="/contact" className="hover:text-[var(--hb-warm)] transition-colors">
+              Work with us &rarr;
+            </Link>
+          </p>
         </div>
       </footer>
     </main>
