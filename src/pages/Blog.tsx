@@ -3,16 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Clock, Share2, Check } from 'lucide-react'
 import { MarketingNav } from '@/components/MarketingNav'
 import { listBlogPosts, listBlogTags } from '@/lib/blogPosts'
-import { HEADLINE_STATS } from '@/data/progress-eval'
-
-// Stats banner numbers are wired to HEADLINE_STATS (canonical source on the
-// Progress page). Defense ~10 days out; copy here is intentionally simple.
-const STATS = [
-  { label: 'days', value: String(HEADLINE_STATS.codingDays) },
-  { label: 'sprints', value: String(HEADLINE_STATS.sprintsSealed) },
-  { label: 'ADRs', value: String(HEADLINE_STATS.adrsAccepted) },
-  { label: 'tests', value: String(HEADLINE_STATS.testsGreen) },
-]
+import { useReveal } from '@/hooks/useReveal'
 
 function formatDate(iso: string): string {
   // YYYY-MM-DD -> "Apr 29, 2026". Render in en-US to keep deterministic
@@ -33,6 +24,7 @@ export function Blog() {
   const allTags = listBlogTags()
   const [activeTag, setActiveTag] = useState<string | null>(null)
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null)
+  const gridReveal = useReveal<HTMLElement>()
 
   const posts = useMemo(
     () => activeTag ? allPosts.filter((p) => p.tags.includes(activeTag)) : allPosts,
@@ -73,23 +65,9 @@ export function Blog() {
           Building Hey Bradley in public.
         </h1>
         <p className="text-base md:text-xl text-[#6b5e4f] leading-relaxed max-w-2xl">
-          Field notes from a Harvard ALM capstone. Velocity, AISP, the spec
-          layer, and the parts of the build that the rest of the AI-builder
-          industry is leaving on the table.
+          Field notes from the build. The spec layer, the hand-off, and the
+          parts of the AI-builder story the industry is leaving on the table.
         </p>
-      </section>
-
-      {/* Stats banner */}
-      <section className="max-w-4xl mx-auto px-4 md:px-6 pb-12 md:pb-16">
-        <div className="bg-white border border-[#e8772e]/20 rounded-2xl px-4 md:px-6 py-5 flex flex-wrap items-center justify-around gap-4">
-          {STATS.map((s, i) => (
-            <div key={s.label} className="flex items-center gap-3">
-              <span className="text-3xl font-bold text-[#A51C30]">{s.value}</span>
-              <span className="text-sm text-[#6b5e4f] uppercase tracking-wider">{s.label}</span>
-              {i < STATS.length - 1 && <span className="hidden sm:inline text-[#e8772e]/30 ml-3">·</span>}
-            </div>
-          ))}
-        </div>
       </section>
 
       {/* Tag filter */}
@@ -130,7 +108,10 @@ export function Blog() {
       )}
 
       {/* Post grid */}
-      <section className="max-w-5xl mx-auto px-4 md:px-6 pb-16 md:pb-24">
+      <section
+        ref={gridReveal.ref}
+        className={`max-w-5xl mx-auto px-4 md:px-6 pb-16 md:pb-24 transition-all duration-700 ${gridReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {posts.map((post) => (
             <Link
@@ -188,15 +169,13 @@ export function Blog() {
       <footer className="py-12 border-t border-[#e8772e]/20 bg-[#f1ece4]">
         <div className="max-w-5xl mx-auto px-6 text-center">
           <p className="text-sm text-[#6b5e4f] mb-2">
-            Harvard ALM Capstone &mdash; Digital Media Design &mdash; May 2026
+            Built in the open &mdash; MIT licensed
           </p>
-          <p className="text-sm text-[#6b5e4f]">
-            Bradley Ross &mdash; Creator of AISP
-          </p>
+          <p className="text-sm text-[#6b5e4f]">Bradley Ross</p>
           <div className="mt-4 flex items-center justify-center gap-6 text-sm text-[#6b5e4f]">
             <Link to="/" className="hover:text-[#e8772e] transition-colors">Home</Link>
             <Link to="/about" className="hover:text-[#e8772e] transition-colors">About</Link>
-            <Link to="/aisp" className="hover:text-[#e8772e] transition-colors">AISP</Link>
+            <Link to="/research" className="hover:text-[#e8772e] transition-colors">Research</Link>
             <a
               href="/blog/feed.xml"
               data-testid="blog-rss-link"

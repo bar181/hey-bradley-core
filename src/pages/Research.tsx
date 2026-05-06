@@ -1,8 +1,15 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { MarketingNav } from '@/components/MarketingNav'
+import { useReveal } from '@/hooks/useReveal'
 
 export function Research() {
+  const act1Reveal = useReveal<HTMLElement>()
+  const act2Reveal = useReveal<HTMLElement>()
+  const act3Reveal = useReveal<HTMLElement>()
+  const landscapeReveal = useReveal<HTMLElement>()
+  const possibleReveal = useReveal<HTMLElement>()
+
   return (
     <main className="min-h-screen bg-[#faf8f5] text-[#2d1f12]">
       <MarketingNav />
@@ -18,7 +25,20 @@ export function Research() {
           <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a]/60 via-[#1a1a1a]/80 to-[#1a1a1a]" />
         </div>
         <div className="relative max-w-3xl mx-auto px-6 py-24">
-          <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-4 font-medium">Capstone research</p>
+          <a
+            href="https://github.com/bar181/aisp-open-core"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-[#6b5e4f] hover:text-[#e8772e] transition-colors mb-6 group"
+            title="The public repo where upcoming developments are sketched before they ship"
+          >
+            <span className="opacity-70 group-hover:opacity-100 transition-opacity">&rarr;</span>
+            Read what&rsquo;s coming next
+            <span className="text-xs text-[#6b5e4f]/60 group-hover:text-[#6b5e4f] transition-colors">
+              bar181/aisp-open-core
+            </span>
+          </a>
+          <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-4 font-medium">Research</p>
           <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
             The most expensive game of telephone in history.
           </h1>
@@ -28,7 +48,7 @@ export function Research() {
             what changes when the telephone game ends.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Link to="/onboarding" className="inline-flex items-center gap-2 px-6 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg">
+            <Link to="/new-project" className="inline-flex items-center gap-2 px-6 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg">
               Try the open source version <ArrowRight className="w-4 h-4" />
             </Link>
             <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors">
@@ -42,7 +62,10 @@ export function Research() {
       <article className="max-w-3xl mx-auto px-6">
 
         {/* Act I */}
-        <section className="py-16 border-t border-white/5">
+        <section
+          ref={act1Reveal.ref}
+          className={`py-16 border-t border-white/5 transition-all duration-700 ${act1Reveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+        >
           <p className="text-sm font-semibold text-red-400 uppercase tracking-widest mb-6">Act I &mdash; The Problem Nobody Fixed</p>
           <p className="text-lg text-[#2d1f12] leading-relaxed mb-6">
             A nurse imagines a better patient intake form. A bakery owner sees the website she
@@ -103,7 +126,10 @@ export function Research() {
         </section>
 
         {/* Act II */}
-        <section className="py-16 border-t border-white/5">
+        <section
+          ref={act2Reveal.ref}
+          className={`py-16 border-t border-white/5 transition-all duration-700 ${act2Reveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+        >
           <p className="text-sm font-semibold text-purple-400 uppercase tracking-widest mb-6">Act II &mdash; The Insight</p>
           <h2 className="text-3xl font-bold mb-8">The whiteboard was always<br />the most important tool.</h2>
 
@@ -174,7 +200,10 @@ export function Research() {
         </section>
 
         {/* Act III */}
-        <section className="py-16 border-t border-white/5">
+        <section
+          ref={act3Reveal.ref}
+          className={`py-16 border-t border-white/5 transition-all duration-700 ${act3Reveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+        >
           <p className="text-sm font-semibold text-emerald-400 uppercase tracking-widest mb-6">Act III &mdash; The Same Day, Different Ending</p>
           <h2 className="text-3xl font-bold mb-8">What happens when the<br />telephone game ends.</h2>
 
@@ -211,7 +240,10 @@ export function Research() {
         </section>
 
         {/* The Landscape */}
-        <section className="py-16 border-t border-white/5">
+        <section
+          ref={landscapeReveal.ref}
+          className={`py-16 border-t border-white/5 transition-all duration-700 ${landscapeReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+        >
           <p className="text-sm font-semibold text-amber-400 uppercase tracking-widest mb-6">The Landscape</p>
           <h2 className="text-3xl font-bold mb-8">What people use today&mdash;and<br />where intent goes to die.</h2>
 
@@ -260,7 +292,10 @@ export function Research() {
         </section>
 
         {/* What Becomes Possible */}
-        <section className="py-16 border-t border-white/5">
+        <section
+          ref={possibleReveal.ref}
+          className={`py-16 border-t border-white/5 transition-all duration-700 ${possibleReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+        >
           <p className="text-sm font-semibold text-cyan-400 uppercase tracking-widest mb-6">What Becomes Possible</p>
           <h2 className="text-3xl font-bold mb-8">When everyone can build,<br />everything changes.</h2>
 
@@ -294,7 +329,7 @@ export function Research() {
           <h2 className="text-3xl font-bold mb-4">See the research in action.</h2>
           <p className="text-[#6b5e4f] mb-8">Try the builder and experience what spec-driven development feels like.</p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <Link to="/onboarding" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold bg-[#e8772e] text-white hover:bg-[#c45f1c] transition-colors shadow-lg text-lg">
+            <Link to="/new-project" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold bg-[#e8772e] text-white hover:bg-[#c45f1c] transition-colors shadow-lg text-lg">
               Try the open source version <ArrowRight className="w-5 h-5" />
             </Link>
             <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold border border-[#e8772e]/30 text-[#2d1f12] hover:bg-[#f1ece4] transition-colors text-lg">
@@ -307,8 +342,13 @@ export function Research() {
       {/* Footer */}
       <footer className="py-12 border-t border-[#e8772e]/20 bg-[#faf8f5]">
         <div className="max-w-5xl mx-auto px-6 text-center">
-          <p className="text-sm text-[#6b5e4f] mb-2">Harvard ALM Capstone &mdash; Digital Media Design &mdash; May 2026</p>
-          <p className="text-sm text-[#6b5e4f]">Bradley Ross &mdash; Creator of AISP</p>
+          <p className="text-sm text-[#6b5e4f] mb-2">Built in the open &mdash; MIT licensed</p>
+          <p className="text-sm text-[#6b5e4f]">Bradley Ross</p>
+          <div className="mt-4 flex items-center justify-center gap-6 text-sm text-[#6b5e4f]">
+            <Link to="/aisp" className="hover:text-[#e8772e] transition-colors">AISP</Link>
+            <Link to="/open-core" className="hover:text-[#e8772e] transition-colors">Open Core</Link>
+            <Link to="/how-i-built-this" className="hover:text-[#e8772e] transition-colors">How it&rsquo;s built</Link>
+          </div>
         </div>
       </footer>
     </main>
