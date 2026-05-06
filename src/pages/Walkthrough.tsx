@@ -99,7 +99,8 @@ export default function Walkthrough() {
                 <span className="w-2.5 h-2.5 rounded-full bg-yellow-300" />
                 <span className="w-2.5 h-2.5 rounded-full bg-green-300" />
               </div>
-              <div className="p-12 text-left min-h-[160px] flex items-center">
+              <div className="p-8 md:p-10 text-left min-h-[160px] flex flex-col items-start justify-center gap-3">
+                <span className="text-sm text-[var(--hb-ink-muted)] opacity-60">what would you like to build?</span>
                 <span className="wt-caret text-2xl text-[var(--hb-ink-muted)]">|</span>
               </div>
             </div>

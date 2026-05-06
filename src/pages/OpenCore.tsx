@@ -13,23 +13,23 @@ export function OpenCore() {
   const reposReveal = useReveal<HTMLElement>()
 
   return (
-    <main className="min-h-screen bg-[#faf8f5] text-[#2d1f12]">
+    <main className="min-h-screen bg-[var(--hb-paper)] text-[var(--hb-ink)]">
       <MarketingNav />
 
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#A51C30]/10 via-transparent to-[#A51C30]/5" />
         <div className="relative max-w-3xl mx-auto px-4 md:px-6 py-16 md:py-24">
-          <p className="text-sm text-[#6b5e4f] mb-3">
-            <Link to="/" className="hover:text-[#e8772e] transition-colors">
+          <p className="text-sm text-[var(--hb-ink-muted)] mb-3">
+            <Link to="/" className="hover:text-[var(--hb-warm)] transition-colors">
               For everyone else, start here &rarr;
             </Link>
           </p>
-          <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-4 font-medium">Open core &middot; MIT License</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-[var(--hb-warm)] mb-4 font-medium">Open core &middot; MIT License</p>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
             The 55% problem<br />nobody&apos;s solving.
           </h1>
-          <p className="text-base md:text-xl text-[#6b5e4f] leading-relaxed mb-8 max-w-2xl">
+          <p className="text-base md:text-xl text-[var(--hb-ink-muted)] leading-relaxed mb-8 max-w-2xl">
             AI made coding 3x faster. But coding was never the bottleneck.
             The real cost is everything that happens <em>before</em> the first line of code&mdash;the
             meetings, the specs, the &ldquo;that&rsquo;s not what I meant.&rdquo;
@@ -38,7 +38,7 @@ export function OpenCore() {
           <div className="flex flex-col md:flex-row md:flex-wrap gap-3">
             <Link
               to="/new-project"
-              className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-6 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
+              className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-6 py-3 bg-[var(--hb-warm)] text-white font-semibold rounded-xl hover:bg-[var(--hb-warm-hover)] transition-colors shadow-lg"
             >
               Try the open source version
               <ArrowRight className="w-4 h-4" />
@@ -47,7 +47,7 @@ export function OpenCore() {
               href="https://github.com/bar181/aisp-open-core"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-6 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors"
+              className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-6 py-3 border border-[var(--hb-warm)]/30 text-[var(--hb-ink)] font-semibold rounded-xl hover:bg-[var(--hb-paper-soft)] transition-colors"
             >
               Explore AISP
               <ArrowRight className="w-4 h-4" />
@@ -63,11 +63,11 @@ export function OpenCore() {
       >
         <p className="text-xs uppercase tracking-[0.2em] text-red-400 font-medium mb-4">The bottleneck nobody talks about</p>
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">AI solved the wrong half of the problem.</h2>
-        <div className="space-y-4 text-[#6b5e4f] leading-relaxed max-w-3xl">
+        <div className="space-y-4 text-[var(--hb-ink-muted)] leading-relaxed max-w-3xl">
           <p>
             The last three years of AI investment compressed the &ldquo;writing code&rdquo; portion of software
             development from roughly 35% to about 15% of total effort. Genuine progress. But it created
-            a new reality: <strong className="text-[#2d1f12]">the concept-to-spec portion expanded to 55% of total effort.</strong>
+            a new reality: <strong className="text-[var(--hb-ink)]">the concept-to-spec portion expanded to 55% of total effort.</strong>
           </p>
           <p>
             Companies adopting agentic workflows discovered this quickly. The agents can code. They
@@ -85,15 +85,15 @@ export function OpenCore() {
         <div className="mt-10 grid md:grid-cols-3 gap-4">
           <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6 text-center">
             <div className="text-4xl font-bold text-red-400">55%</div>
-            <div className="text-sm text-[#6b5e4f] mt-2">of engineering effort is pre-code:<br />specs, architecture, alignment</div>
+            <div className="text-sm text-[var(--hb-ink-muted)] mt-2">of engineering effort is pre-code:<br />specs, architecture, alignment</div>
           </div>
           <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6 text-center">
             <div className="text-4xl font-bold text-red-400">40&ndash;65%</div>
-            <div className="text-sm text-[#6b5e4f] mt-2">of intent is lost in each<br />stakeholder-to-builder handoff</div>
+            <div className="text-sm text-[var(--hb-ink-muted)] mt-2">of intent is lost in each<br />stakeholder-to-builder handoff</div>
           </div>
           <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-6 text-center">
             <div className="text-4xl font-bold text-emerald-400">&lt;2%</div>
-            <div className="text-sm text-[#6b5e4f] mt-2">ambiguity in AISP Crystal Atoms&mdash;<br />what Hey Bradley generates</div>
+            <div className="text-sm text-[var(--hb-ink-muted)] mt-2">ambiguity in AISP Crystal Atoms&mdash;<br />what Hey Bradley generates</div>
           </div>
         </div>
       </section>
@@ -104,9 +104,9 @@ export function OpenCore() {
         className={`border-t border-white/5 transition-all duration-700 ${modelReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
       >
         <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-20">
-          <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] font-medium mb-4">The model</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-[var(--hb-warm)] font-medium mb-4">The model</p>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">What &ldquo;open core&rdquo; means here.</h2>
-          <div className="space-y-4 text-[#6b5e4f] leading-relaxed max-w-3xl">
+          <div className="space-y-4 text-[var(--hb-ink-muted)] leading-relaxed max-w-3xl">
             <p>
               Open core is a development model: one codebase, one product, with a natural boundary.
               Everything that runs in your browser ships free under MIT. The visual builder, themes,
@@ -140,11 +140,11 @@ export function OpenCore() {
         <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-20">
           <p className="text-xs uppercase tracking-[0.2em] text-purple-400 font-medium mb-4">The methodology</p>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">Spec-first development for<br />teams that don&rsquo;t write code.</h2>
-          <div className="space-y-4 text-[#6b5e4f] leading-relaxed max-w-3xl mb-12">
+          <div className="space-y-4 text-[var(--hb-ink-muted)] leading-relaxed max-w-3xl mb-12">
             <p>
               The shift has already happened. Developers at companies adopting agentic processes are
               no longer the bottleneck&mdash;they have tools for coding. The new bottleneck is
-              <strong className="text-[#2d1f12]"> going from idea to development</strong>. The frustration
+              <strong className="text-[var(--hb-ink)]"> going from idea to development</strong>. The frustration
               is the same everywhere: &ldquo;I know exactly what I want, but I can&rsquo;t get it out
               of my head and into a form the AI can execute.&rdquo;
             </p>
@@ -161,16 +161,16 @@ export function OpenCore() {
           </div>
 
           {/* The landscape — soft framing */}
-          <div className="bg-white/[0.03] border border-[#e8772e]/20 rounded-2xl p-8">
+          <div className="bg-white/[0.03] border border-[var(--hb-warm)]/20 rounded-2xl p-8">
             <h3 className="text-lg font-semibold mb-4 text-center">Where Hey Bradley fits</h3>
-            <p className="text-[#6b5e4f] leading-relaxed text-center max-w-2xl mx-auto mb-4">
+            <p className="text-[var(--hb-ink-muted)] leading-relaxed text-center max-w-2xl mx-auto mb-4">
               AI builders, AI dev tools, and AI agents all serve the same spec.
               Hey Bradley produces it once, in a format every tool can read.
             </p>
             <p className="text-center">
               <Link
                 to="/blog/why-we-built-this-the-honest-version"
-                className="text-sm text-[#e8772e] font-medium hover:underline"
+                className="text-sm text-[var(--hb-warm)] font-medium hover:underline"
               >
                 Read the comparison &rarr;
               </Link>
@@ -187,7 +187,7 @@ export function OpenCore() {
         <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-20">
           <p className="text-xs uppercase tracking-[0.2em] text-amber-400 font-medium mb-4">The protocol</p>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">AISP: why near-zero ambiguity<br />makes this possible.</h2>
-          <div className="space-y-4 text-[#6b5e4f] leading-relaxed max-w-3xl mb-10">
+          <div className="space-y-4 text-[var(--hb-ink-muted)] leading-relaxed max-w-3xl mb-10">
             <p>
               The AI Symbolic Protocol (AISP) is a math-first neural symbolic language with 512 symbols
               that all AI and LLM architectures understand natively&mdash;without instructions. It was
@@ -208,24 +208,24 @@ export function OpenCore() {
           </div>
 
           {/* Crystal Atom example */}
-          <div className="bg-[#131825] border border-[#e8772e]/20 rounded-2xl p-6 font-mono text-sm leading-[2.2] overflow-x-auto text-[#6b5e4f]">
+          <div className="bg-[#131825] border border-[var(--hb-warm)]/20 rounded-2xl p-6 font-mono text-sm leading-[2.2] overflow-x-auto text-[var(--hb-ink-muted)]">
             <span className="text-[#8a7a6d]">{'// Crystal Atom — five formal components. Nothing left to interpret.'}</span><br />
-            <span className="text-[#e8772e] font-bold">{'⟦'}</span><br />
+            <span className="text-[var(--hb-warm)] font-bold">{'⟦'}</span><br />
             {'  '}<span className="text-amber-400">&Omega;</span>{' := { Patient intake form with progress bar and confirmation }'}<br />
             {'  '}<span className="text-amber-400">&Sigma;</span>{' := { Form:{sections:[Demographics, History, Medications, Confirm]} }'}<br />
             {'  '}<span className="text-amber-400">&Gamma;</span>{' := { R1: reuse existing PatientAuth from src/auth/'}<br />
             {'         R2: validate against existing patient_records schema }'}<br />
             {'  '}<span className="text-amber-400">&Lambda;</span>{' := { route:="/intake/new", db:=patients, api:=POST /api/v2/intake }'}<br />
             {'  '}<span className="text-amber-400">&Epsilon;</span>{' := { V1: VERIFY 4 sections render, V2: progress bar advances per step }'}<br />
-            <span className="text-[#e8772e] font-bold">{'⟧'}</span>
+            <span className="text-[var(--hb-warm)] font-bold">{'⟧'}</span>
           </div>
-          <p className="text-xs text-[#6b5e4f] mt-3 text-center">
+          <p className="text-xs text-[var(--hb-ink-muted)] mt-3 text-center">
             AISP is open source.{' '}
             <a
               href="https://github.com/bar181/aisp-open-core"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#e8772e] hover:underline"
+              className="text-[var(--hb-warm)] hover:underline"
             >
               Explore the protocol &rarr;
             </a>
@@ -241,7 +241,7 @@ export function OpenCore() {
         <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-20">
           <p className="text-xs uppercase tracking-[0.2em] text-cyan-400 font-medium mb-4">How it&apos;s built</p>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">Agentic engineering,<br />from architecture to ship.</h2>
-          <div className="space-y-4 text-[#6b5e4f] leading-relaxed max-w-3xl mb-10">
+          <div className="space-y-4 text-[var(--hb-ink-muted)] leading-relaxed max-w-3xl mb-10">
             <p>
               Hey Bradley is itself built using the methodology it teaches. The whole codebase was
               developed through agentic workflows&mdash;multi-agent swarms coordinating across
@@ -257,39 +257,39 @@ export function OpenCore() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-white/[0.03] border border-[#e8772e]/20 rounded-xl p-5">
+            <div className="bg-white/[0.03] border border-[var(--hb-warm)]/20 rounded-xl p-5">
               <div className="text-base font-semibold text-cyan-400">Honest scope</div>
-              <div className="text-xs text-[#6b5e4f] mt-1">Ship what we said we&rsquo;d ship</div>
+              <div className="text-xs text-[var(--hb-ink-muted)] mt-1">Ship what we said we&rsquo;d ship</div>
             </div>
-            <div className="bg-white/[0.03] border border-[#e8772e]/20 rounded-xl p-5">
+            <div className="bg-white/[0.03] border border-[var(--hb-warm)]/20 rounded-xl p-5">
               <div className="text-base font-semibold text-cyan-400">Documented decisions</div>
-              <div className="text-xs text-[#6b5e4f] mt-1">Every choice on the record</div>
+              <div className="text-xs text-[var(--hb-ink-muted)] mt-1">Every choice on the record</div>
             </div>
-            <div className="bg-white/[0.03] border border-[#e8772e]/20 rounded-xl p-5">
+            <div className="bg-white/[0.03] border border-[var(--hb-warm)]/20 rounded-xl p-5">
               <div className="text-base font-semibold text-cyan-400">Tested before sealed</div>
-              <div className="text-xs text-[#6b5e4f] mt-1">Green tests, every phase</div>
+              <div className="text-xs text-[var(--hb-ink-muted)] mt-1">Green tests, every phase</div>
             </div>
-            <div className="bg-white/[0.03] border border-[#e8772e]/20 rounded-xl p-5">
+            <div className="bg-white/[0.03] border border-[var(--hb-warm)]/20 rounded-xl p-5">
               <div className="text-base font-semibold text-cyan-400">Public ledger</div>
-              <div className="text-xs text-[#6b5e4f] mt-1">Built in the open</div>
+              <div className="text-xs text-[var(--hb-ink-muted)] mt-1">Built in the open</div>
             </div>
           </div>
 
           {/* For builders */}
-          <h3 className="mt-12 mb-4 text-lg font-semibold text-[#2d1f12]">For builders, here&rsquo;s what&rsquo;s inside</h3>
-          <ul className="grid md:grid-cols-2 gap-x-6 gap-y-2 text-sm text-[#6b5e4f] leading-relaxed">
-            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>5-mode personality system (professional / fun / geek / teacher / coach)</span></li>
-            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>AISP atom trace visible on every reply</span></li>
-            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>Latency badge &mdash; speed shown on every patch</span></li>
-            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>Premium opinionated templates</span></li>
-            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>Mobile-native 3-tab nav with hamburger drawer</span></li>
-            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>Conversation Log &mdash; every prompt + reply in EXPERT mode</span></li>
-            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>Three-mode product (Whiteboard / Planning / Agentics)</span></li>
-            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>8 Crystal Atoms (PATCH + INTENT + SELECTION + CONTENT + ASSUMPTIONS + DECOMP + PROCESS + DDD + AGENT)</span></li>
-            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>SpecWorkbench + Export Claude Code markdown bundle</span></li>
-            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>Multi-page MVP + page-aware chat pipeline</span></li>
-            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>TDD scaffold + KISS reviewer + Seal Panel</span></li>
-            <li className="flex gap-2"><span className="text-[#e8772e]">&#10003;</span><span>Comprehensive interaction logging + schema guards</span></li>
+          <h3 className="mt-12 mb-4 text-lg font-semibold text-[var(--hb-ink)]">For builders, here&rsquo;s what&rsquo;s inside</h3>
+          <ul className="grid md:grid-cols-2 gap-x-6 gap-y-2 text-sm text-[var(--hb-ink-muted)] leading-relaxed">
+            <li className="flex gap-2"><span className="text-[var(--hb-warm)]">&#10003;</span><span>5-mode personality system (professional / fun / geek / teacher / coach)</span></li>
+            <li className="flex gap-2"><span className="text-[var(--hb-warm)]">&#10003;</span><span>AISP atom trace visible on every reply</span></li>
+            <li className="flex gap-2"><span className="text-[var(--hb-warm)]">&#10003;</span><span>Latency badge &mdash; speed shown on every patch</span></li>
+            <li className="flex gap-2"><span className="text-[var(--hb-warm)]">&#10003;</span><span>Premium opinionated templates</span></li>
+            <li className="flex gap-2"><span className="text-[var(--hb-warm)]">&#10003;</span><span>Mobile-native 3-tab nav with hamburger drawer</span></li>
+            <li className="flex gap-2"><span className="text-[var(--hb-warm)]">&#10003;</span><span>Conversation Log &mdash; every prompt + reply in EXPERT mode</span></li>
+            <li className="flex gap-2"><span className="text-[var(--hb-warm)]">&#10003;</span><span>Three-mode product (Whiteboard / Planning / Agentics)</span></li>
+            <li className="flex gap-2"><span className="text-[var(--hb-warm)]">&#10003;</span><span>8 Crystal Atoms (PATCH + INTENT + SELECTION + CONTENT + ASSUMPTIONS + DECOMP + PROCESS + DDD + AGENT)</span></li>
+            <li className="flex gap-2"><span className="text-[var(--hb-warm)]">&#10003;</span><span>SpecWorkbench + Export Claude Code markdown bundle</span></li>
+            <li className="flex gap-2"><span className="text-[var(--hb-warm)]">&#10003;</span><span>Multi-page MVP + page-aware chat pipeline</span></li>
+            <li className="flex gap-2"><span className="text-[var(--hb-warm)]">&#10003;</span><span>TDD scaffold + KISS reviewer + Seal Panel</span></li>
+            <li className="flex gap-2"><span className="text-[var(--hb-warm)]">&#10003;</span><span>Comprehensive interaction logging + schema guards</span></li>
           </ul>
         </div>
       </section>
@@ -307,15 +307,15 @@ export function OpenCore() {
               href="https://github.com/bar181/hey-bradley-core"
               target="_blank"
               rel="noopener noreferrer"
-              className="group bg-white/[0.03] border border-[#e8772e]/20 rounded-2xl p-8 hover:border-[#e8772e]/40 transition-colors no-underline"
+              className="group bg-white/[0.03] border border-[var(--hb-warm)]/20 rounded-2xl p-8 hover:border-[var(--hb-warm)]/40 transition-colors no-underline"
             >
-              <h3 className="text-lg font-semibold mb-2 text-[#2d1f12]">Hey Bradley</h3>
-              <p className="text-sm text-[#6b5e4f] mb-1">The reference implementation</p>
-              <p className="text-sm text-[#6b5e4f] leading-relaxed mb-4">
+              <h3 className="text-lg font-semibold mb-2 text-[var(--hb-ink)]">Hey Bradley</h3>
+              <p className="text-sm text-[var(--hb-ink-muted)] mb-1">The reference implementation</p>
+              <p className="text-sm text-[var(--hb-ink-muted)] leading-relaxed mb-4">
                 Visual builder that generates AISP specs from human interactions. React + TypeScript + Tailwind.
                 Themes, examples, a deep media library, spec generators, and image effects &mdash; all open source.
               </p>
-              <span className="inline-flex items-center gap-1 text-sm text-[#e8772e] font-medium group-hover:underline">
+              <span className="inline-flex items-center gap-1 text-sm text-[var(--hb-warm)] font-medium group-hover:underline">
                 github.com/bar181/hey-bradley-core <ArrowRight className="w-3.5 h-3.5" />
               </span>
             </a>
@@ -323,11 +323,11 @@ export function OpenCore() {
               href="https://github.com/bar181/aisp-open-core"
               target="_blank"
               rel="noopener noreferrer"
-              className="group bg-white/[0.03] border border-[#e8772e]/20 rounded-2xl p-8 hover:border-purple-500/40 transition-colors no-underline"
+              className="group bg-white/[0.03] border border-[var(--hb-warm)]/20 rounded-2xl p-8 hover:border-purple-500/40 transition-colors no-underline"
             >
-              <h3 className="text-lg font-semibold mb-2 text-[#2d1f12]">AISP Open Core</h3>
-              <p className="text-sm text-[#6b5e4f] mb-1">The specification protocol</p>
-              <p className="text-sm text-[#6b5e4f] leading-relaxed mb-4">
+              <h3 className="text-lg font-semibold mb-2 text-[var(--hb-ink)]">AISP Open Core</h3>
+              <p className="text-sm text-[var(--hb-ink-muted)] mb-1">The specification protocol</p>
+              <p className="text-sm text-[var(--hb-ink-muted)] leading-relaxed mb-4">
                 Crystal Atom notation, the symbol set, tier assessment, validation tools, and the formal
                 ambiguity measurement methodology. The language that makes near-zero ambiguity possible.
               </p>
@@ -342,9 +342,9 @@ export function OpenCore() {
       {/* About Bradley */}
       <section className="border-t border-white/5">
         <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-20">
-          <p className="text-xs uppercase tracking-[0.2em] text-[#6b5e4f] font-medium mb-4">About the research</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-[var(--hb-ink-muted)] font-medium mb-4">About the research</p>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">Built by Bradley Ross.</h2>
-          <div className="space-y-4 text-[#6b5e4f] leading-relaxed max-w-3xl">
+          <div className="space-y-4 text-[var(--hb-ink-muted)] leading-relaxed max-w-3xl">
             <p>
               Hey Bradley is a research project built to demonstrate that the concept-to-spec gap
               is the defining bottleneck of modern software development&mdash;and that it&rsquo;s
@@ -363,15 +363,15 @@ export function OpenCore() {
             </p>
           </div>
           <div className="flex flex-wrap gap-3 mt-8">
-            <Link to="/about" className="inline-flex items-center gap-2 text-sm text-[#6b5e4f] hover:text-[#2d1f12] transition-colors">
+            <Link to="/about" className="inline-flex items-center gap-2 text-sm text-[var(--hb-ink-muted)] hover:text-[var(--hb-ink)] transition-colors">
               <BookOpen className="w-4 h-4" /> About Hey Bradley
             </Link>
             <span className="text-neutral-700">|</span>
-            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-[#6b5e4f] hover:text-[#2d1f12] transition-colors">
+            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-[var(--hb-ink-muted)] hover:text-[var(--hb-ink)] transition-colors">
               <Code className="w-4 h-4" /> AISP Research
             </a>
             <span className="text-neutral-700">|</span>
-            <Link to="/how-i-built-this" className="inline-flex items-center gap-2 text-sm text-[#6b5e4f] hover:text-[#2d1f12] transition-colors">
+            <Link to="/how-i-built-this" className="inline-flex items-center gap-2 text-sm text-[var(--hb-ink-muted)] hover:text-[var(--hb-ink)] transition-colors">
               <Cpu className="w-4 h-4" /> How It Was Built
             </Link>
           </div>
@@ -382,14 +382,14 @@ export function OpenCore() {
       <section className="border-t border-white/5">
         <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-20 text-center">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">The telephone game is over.</h2>
-          <p className="text-[#6b5e4f] max-w-xl mx-auto mb-8 leading-relaxed">
+          <p className="text-[var(--hb-ink-muted)] max-w-xl mx-auto mb-8 leading-relaxed">
             Describe what you see. Watch it appear. Specs generated automatically.
             Any AI builds it. What you approved is what ships.
           </p>
           <div className="flex flex-col md:flex-row md:flex-wrap items-stretch md:items-center justify-center gap-4">
             <Link
               to="/new-project"
-              className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-8 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg"
+              className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-8 py-3 bg-[var(--hb-warm)] text-white font-semibold rounded-xl hover:bg-[var(--hb-warm-hover)] transition-colors shadow-lg"
             >
               Try the open source version <ArrowRight className="w-4 h-4" />
             </Link>
@@ -397,7 +397,7 @@ export function OpenCore() {
               href="https://github.com/bar181/aisp-open-core"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-8 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors"
+              className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-8 py-3 border border-[var(--hb-warm)]/30 text-[var(--hb-ink)] font-semibold rounded-xl hover:bg-[var(--hb-paper-soft)] transition-colors"
             >
               Explore AISP <ArrowRight className="w-4 h-4" />
             </a>
@@ -408,7 +408,7 @@ export function OpenCore() {
       <OpenCoreVsCommercial />
 
       {/* Footer */}
-      <footer className="border-t border-[#e8772e]/20 py-8 text-center text-sm text-[#8a7a6d]">
+      <footer className="border-t border-[var(--hb-warm)]/20 py-8 text-center text-sm text-[#8a7a6d]">
         <p>Built in the open &mdash; MIT licensed</p>
         <p className="mt-1">Bradley Ross &mdash; bar181@yahoo.com</p>
       </footer>

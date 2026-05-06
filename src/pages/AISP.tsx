@@ -195,6 +195,11 @@ export function AISP() {
                     <div className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400" style={{ width: '2%' }} />
                   </div>
                 </div>
+                {/* P119 / ADR-148 — compounding math; academic-citation exemption to ADR-146 D2 */}
+                <p className="text-xs text-[#6b5e4f] leading-relaxed pt-3 border-t border-[#e8772e]/20 mt-2">
+                  Across five handoffs: industry baselines compound to ~8% intent preservation. AISP holds it above 90%.{' '}
+                  <em>Capstone research, Harvard ALM 2026.</em>
+                </p>
               </div>
             </div>
 

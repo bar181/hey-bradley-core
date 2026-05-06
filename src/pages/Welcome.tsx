@@ -40,11 +40,11 @@ const HERO_KEYFRAMES = `
   white-space: nowrap;
   overflow: hidden;
   border-right: 2px solid var(--hb-warm);
-  animation: hb-hero-type 2.4s steps(34, end) forwards, hb-hero-caret 0.7s step-end infinite;
+  animation: hb-hero-type 1.6s steps(34, end) forwards, hb-hero-caret 0.7s step-end infinite;
 }
 .hb-hero-morph {
   opacity: 0;
-  animation: hb-hero-morph 1.2s ease-out 2.2s forwards;
+  animation: hb-hero-morph 1.2s ease-out 1.2s forwards;
 }
 .hb-doc-1 { animation: hb-doc-fly-1 1.4s ease-out 0.4s forwards; opacity: 0; }
 .hb-doc-2 { animation: hb-doc-fly-2 1.4s ease-out 0.6s forwards; opacity: 0; }

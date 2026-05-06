@@ -73,6 +73,32 @@ body {
     --hb-status-sealed: #22c55e;   /* Green — sealed phase pill */
     --hb-status-deferred: #f59e0b; /* Amber — deferred / carry-forward pill */
   }
+  /* P119 — Dark-mode overrides for marketing tokens.
+     Activated when `.dark` class lands on `<html>` or `<body>`.
+     Light-mode parchment palette flips to dark surfaces; warm orange (--hb-warm)
+     stays consistent across modes — brand-locked accent. */
+  .dark {
+    --hb-paper: #1a1a1a;
+    --hb-paper-soft: #242424;
+    --hb-paper-tile: #2c2c2c;
+    --hb-paper-rgb: 26 26 26;
+    --hb-paper-soft-rgb: 36 36 36;
+
+    --hb-ink: #f3f3f1;
+    --hb-ink-muted: #a8a39a;
+
+    /* --hb-warm and --hb-warm-hover stay light-mode values — brand accent locks across modes */
+
+    --hb-mkt-text: #f3f3f1;
+    --hb-mkt-text-secondary: #c4beb6;
+    --hb-mkt-text-muted: #a8a39a;
+    --hb-mkt-text-faint: #7a756d;
+    --hb-mkt-border: #3a3a3a;
+    --hb-mkt-chip-bg: #2c2c2c;
+    --hb-mkt-thumb-from: #242424;
+    --hb-mkt-thumb-to: #1a1a1a;
+    --hb-mkt-thumb-icon: #5a554d;
+  }
   .light-chrome {
     /* Hey Bradley Chrome — Light Mode (Harvard HMS Brand)
        Primary: Crimson #A51C30, Black #1E1E1E
