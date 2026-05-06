@@ -1,315 +1,272 @@
 import { Link } from "react-router-dom"
-import { ArrowRight, Mic, MessageSquare, SlidersHorizontal } from "lucide-react"
+import { ArrowRight, Mic, MessageSquare, SlidersHorizontal, Code2, FileText } from "lucide-react"
 import { MarketingNav } from "@/components/MarketingNav"
-import { listBlogPosts } from "@/lib/blogPosts"
-import { useProjectStore } from "@/store/projectStore"
+import { useReveal } from "@/hooks/useReveal"
 
-// P114 / A1 fix #3 — relative-time helper for the recent-projects card.
-// Pure / no deps; mirrors Onboarding.tsx::formatTimeAgo but kept local so
-// Welcome stays free of cross-page imports.
-function relTime(iso: string): string {
-  const seconds = Math.floor((Date.now() - new Date(iso).getTime()) / 1000)
-  if (seconds < 60) return 'just now'
-  const minutes = Math.floor(seconds / 60)
-  if (minutes < 60) return `${minutes}m ago`
-  const hours = Math.floor(minutes / 60)
-  if (hours < 24) return `${hours}h ago`
-  const days = Math.floor(hours / 24)
-  if (days === 1) return 'yesterday'
-  if (days < 7) return `${days}d ago`
-  return new Date(iso).toLocaleDateString()
+// P118 / F1 — Apple-style 5-section scroll story.
+// Reframes from engineer-first ("Messy ideas → enterprise specs, instantly.")
+// to user-first ("Describe it. See it."). No numbers, no competitor names,
+// no jargon. Pure CSS animation, scoped class names, prefers-reduced-motion
+// honored on every animated surface.
+
+const HERO_KEYFRAMES = `
+@keyframes hb-hero-type {
+  0% { width: 0; }
+  60% { width: 100%; }
+  100% { width: 100%; }
 }
+@keyframes hb-hero-caret {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@keyframes hb-hero-morph {
+  0%, 55% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes hb-doc-fly-1 {
+  0%, 30% { opacity: 0; transform: translate(0, 0) rotate(-4deg); }
+  100% { opacity: 1; transform: translate(36px, -22px) rotate(-4deg); }
+}
+@keyframes hb-doc-fly-2 {
+  0%, 30% { opacity: 0; transform: translate(0, 0) rotate(3deg); }
+  100% { opacity: 1; transform: translate(48px, 4px) rotate(3deg); }
+}
+@keyframes hb-doc-fly-3 {
+  0%, 30% { opacity: 0; transform: translate(0, 0) rotate(-2deg); }
+  100% { opacity: 1; transform: translate(28px, 28px) rotate(-2deg); }
+}
+.hb-hero-typing {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid var(--hb-warm);
+  animation: hb-hero-type 2.4s steps(34, end) forwards, hb-hero-caret 0.7s step-end infinite;
+}
+.hb-hero-morph {
+  opacity: 0;
+  animation: hb-hero-morph 1.2s ease-out 2.2s forwards;
+}
+.hb-doc-1 { animation: hb-doc-fly-1 1.4s ease-out 0.4s forwards; opacity: 0; }
+.hb-doc-2 { animation: hb-doc-fly-2 1.4s ease-out 0.6s forwards; opacity: 0; }
+.hb-doc-3 { animation: hb-doc-fly-3 1.4s ease-out 0.8s forwards; opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .hb-hero-typing { animation: none; width: 100%; border-right: 0; }
+  .hb-hero-morph { animation: none; opacity: 1; }
+  .hb-doc-1, .hb-doc-2, .hb-doc-3 { animation: none; opacity: 1; }
+}
+`
 
-const MODES = [
-  {
-    icon: SlidersHorizontal,
-    title: "Builder",
-    desc: "Drag-and-drop sections. Tune CSS. Edit JSON directly. The classic site-builder surface, with everything visible.",
-    cta: "Open Builder",
-    href: "/new-project",
-  },
-  {
-    icon: MessageSquare,
-    title: "Chat",
-    desc: "Type what you want. Hey Bradley updates the JSON, the preview, and the spec all at once. Five LLM providers; bring your own key.",
-    cta: "Try Chat",
-    href: "/new-project",
-  },
-  {
-    icon: Mic,
-    title: "Listen",
-    desc: "Push to talk. Describe a change in your own words. Web Speech API transcribes; the same chat pipeline applies it.",
-    cta: "Try Listen",
-    href: "/new-project",
-  },
+const WAYS = [
+  { icon: Mic, title: "Speak", desc: "Describe it out loud." },
+  { icon: MessageSquare, title: "Type", desc: "Write a sentence or two." },
+  { icon: SlidersHorizontal, title: "Adjust", desc: "Tweak what you see." },
 ]
 
 export function Welcome() {
-  const recentPosts = listBlogPosts().slice(0, 3)
-  // P114 / A1 fix #3 — top-5 most-recent projects for "Continue your work"
-  // card. Hidden entirely when empty so first-time visitors see no card.
-  // ProjectMeta from projectStore is shape {slug,name,savedAt,sectionCount,theme}.
-  const recentProjects = useProjectStore((s) => s.projects).slice(0, 5)
+  const s2 = useReveal<HTMLElement>()
+  const s3 = useReveal<HTMLElement>()
+  const s4 = useReveal<HTMLElement>()
+  const s5 = useReveal<HTMLElement>()
+
   return (
     <main className="min-h-screen bg-[var(--hb-paper)] text-[var(--hb-ink)]">
+      <style>{HERO_KEYFRAMES}</style>
       <MarketingNav />
 
-      {/* Hero — spec workbench framing (entry-signal repositioning) */}
-      <section className="max-w-3xl mx-auto px-6 py-24">
-        <p className="text-xs uppercase tracking-[0.2em] text-[var(--hb-warm)] mb-4 font-medium">
-          Spec workbench &middot; AISP-powered &middot; Harvard ALM Capstone
-        </p>
-        <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
-          Messy ideas → enterprise specs, instantly.
-        </h1>
-        <p className="text-xl text-[var(--hb-ink-muted)] leading-relaxed mb-6">
-          Hey Bradley turns the conversation you're already having &mdash; about what
-          you're building, why, and how &mdash; into a formal spec your AI coding tool
-          can execute without guessing.
-        </p>
-        <p className="text-sm text-[var(--hb-ink-muted)] leading-relaxed mb-8 font-mono">
-          <span className="text-[var(--hb-warm)] font-semibold">AISP trace:</span>{" "}
-          INTENT &rarr; ASSUMPTIONS &rarr; DECOMP &rarr; SELECTION &rarr; CONTENT &rarr; PATCH &rarr; PROCESS &rarr; DDD &rarr; AGENT &rarr; spec.
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <Link
-            to="/new-project"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--hb-warm)] text-white font-semibold rounded-xl hover:bg-[var(--hb-warm-hover)] transition-colors shadow-lg"
-          >
-            Start with your idea
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-          <Link
-            to="/aisp"
-            className="inline-flex items-center gap-2 px-6 py-3 border border-[rgb(var(--hb-warm-rgb)/0.3)] text-[var(--hb-ink)] font-semibold rounded-xl hover:bg-[var(--hb-paper-soft)] transition-colors"
-          >
-            Explore AISP
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-          <a
-            href="https://github.com/bar181/aisp-open-core"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 text-[var(--hb-ink-muted)] font-semibold rounded-xl hover:bg-[var(--hb-paper-soft)] transition-colors"
-          >
-            Read the AISP spec
-          </a>
-        </div>
-      </section>
-
-      {/* Social proof bar */}
-      <section className="border-y border-[rgb(var(--hb-warm-rgb)/0.15)] bg-[rgb(var(--hb-paper-soft-rgb)/0.4)]">
-        <div className="max-w-5xl mx-auto px-6 py-5 flex flex-wrap gap-x-8 gap-y-2 text-sm text-[var(--hb-ink-muted)] justify-center items-center">
-          <span><strong className="text-[var(--hb-ink)]">~1582+</strong> tests passing</span>
-          <span><strong className="text-[var(--hb-ink)]">132</strong> ADRs Accepted</span>
-          <span><strong className="text-[var(--hb-ink)]">56</strong> examples</span>
-          <span><strong className="text-[var(--hb-ink)]">12</strong> blog posts</span>
-          <span>composite <strong className="text-[var(--hb-ink)]">86.7/100</strong> (vs Lovable 80)</span>
-        </div>
-      </section>
-
-      {/* P114 / A1 fix #3 — Continue your work (recent projects).
-          Rendered only when projects.length > 0; first-time visitors see no
-          empty state. Each card links to /builder?project=<slug> per fix #2.
-          Token-compliant — uses var(--hb-*) tokens, zero hex literals. */}
-      {recentProjects.length > 0 && (
-        <section
-          data-testid="welcome-recent-projects"
-          className="max-w-5xl mx-auto px-6 py-10"
-        >
-          <p className="text-xs uppercase tracking-[0.2em] text-[var(--hb-warm)] mb-3 font-medium">
-            Continue your work
-          </p>
-          <h2 className="text-2xl font-bold mb-6">Pick up where you left off</h2>
-          <div className="grid md:grid-cols-3 gap-4">
-            {recentProjects.map((p) => (
+      {/* Section 1 — Hero */}
+      <section className="max-w-6xl mx-auto px-6 py-20 lg:py-28">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div>
+            <h1 className="text-5xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-6">
+              Describe it. See it.
+            </h1>
+            <p className="text-xl text-[var(--hb-ink-muted)] leading-relaxed mb-8">
+              The website builder that finally works the way you talk.
+            </p>
+            <div className="flex flex-wrap gap-3">
               <Link
-                key={p.slug}
-                to={`/builder?project=${p.slug}`}
-                className="block p-5 rounded-xl border border-[rgb(var(--hb-warm-rgb)/0.2)] bg-white hover:border-[rgb(var(--hb-warm-rgb)/0.5)] hover:shadow-md transition-all"
-                data-testid={`welcome-recent-project-${p.slug}`}
+                to="/new-project"
+                className="inline-flex items-center gap-2 px-6 py-3 min-h-[44px] bg-[var(--hb-warm)] text-white font-semibold rounded-xl hover:bg-[var(--hb-warm-hover)] transition-colors shadow-lg"
               >
-                <h3 className="font-semibold text-base mb-1 text-[var(--hb-ink)] truncate">{p.name}</h3>
-                <p className="text-xs text-[var(--hb-ink-muted)]">
-                  <span className="capitalize">{p.theme}</span> &middot; {p.sectionCount} sections
-                </p>
-                <p className="text-xs text-[var(--hb-ink-muted)] mt-1">{relTime(p.savedAt)}</p>
-                <span className="text-sm text-[var(--hb-warm)] font-medium mt-3 inline-flex items-center gap-1">
-                  Open <ArrowRight className="w-3.5 h-3.5" />
-                </span>
+                Start describing
+                <ArrowRight className="w-4 h-4" />
               </Link>
-            ))}
+              <a
+                href="#how-it-works"
+                className="inline-flex items-center gap-2 px-6 py-3 min-h-[44px] border border-[rgb(var(--hb-warm-rgb)/0.3)] text-[var(--hb-ink)] font-semibold rounded-xl hover:bg-[var(--hb-paper-soft)] transition-colors"
+              >
+                See how it works
+              </a>
+            </div>
           </div>
-        </section>
-      )}
 
-      {/* The Story (Don Miller blog-style) */}
-      <article className="max-w-3xl mx-auto px-6 pb-16">
-        <h2 className="text-3xl font-bold mb-4">The 55% problem</h2>
-        <p className="text-[var(--hb-ink-muted)] leading-relaxed mb-4">
-          AI made coding three times faster. But coding was never the bottleneck.
-          The real cost is everything that happens <em>before</em> the first line
-          of code &mdash; the meetings, the specs, the &ldquo;that&rsquo;s not what I meant.&rdquo;
-        </p>
-        <p className="text-[var(--hb-ink-muted)] leading-relaxed mb-4">
-          Industry research finds <strong className="text-[var(--hb-ink)]">40&ndash;65% of implementation intent</strong> is
-          lost in each stakeholder-to-builder handoff. Faster AI just plays the
-          telephone game at higher speed.
-        </p>
-        <p className="text-[var(--hb-ink-muted)] leading-relaxed">
-          Hey Bradley is built for that 55%. Tell it what you want. The site
-          appears. The spec appears next to it &mdash; in plain English and in AISP,
-          a math-first format LLMs understand natively. Hand the spec to your AI
-          coding tool. Get a real product.
-        </p>
-      </article>
+          {/* Animated hero demo: typed sentence morphs into a stylized hero block */}
+          <div
+            className="relative bg-white rounded-2xl border border-[rgb(var(--hb-warm-rgb)/0.2)] p-6 shadow-sm overflow-hidden"
+            aria-hidden="true"
+          >
+            <div className="text-sm text-[var(--hb-ink-muted)] mb-5 font-mono">
+              <span className="hb-hero-typing">a website for our coffee shop</span>
+            </div>
+            <div className="hb-hero-morph">
+              <div className="rounded-xl bg-[var(--hb-paper-soft)] p-5 border border-[rgb(var(--hb-warm-rgb)/0.15)]">
+                <div className="h-3 w-2/3 rounded bg-[var(--hb-ink)] opacity-80 mb-3" />
+                <div className="h-2 w-full rounded bg-[var(--hb-ink-muted)] opacity-40 mb-2" />
+                <div className="h-2 w-5/6 rounded bg-[var(--hb-ink-muted)] opacity-40 mb-5" />
+                <div className="inline-block h-8 w-28 rounded-lg bg-[var(--hb-warm)]" />
+              </div>
+              <div className="grid grid-cols-3 gap-3 mt-3">
+                <div className="h-16 rounded-lg bg-[var(--hb-paper-soft)] border border-[rgb(var(--hb-warm-rgb)/0.12)]" />
+                <div className="h-16 rounded-lg bg-[var(--hb-paper-soft)] border border-[rgb(var(--hb-warm-rgb)/0.12)]" />
+                <div className="h-16 rounded-lg bg-[var(--hb-paper-soft)] border border-[rgb(var(--hb-warm-rgb)/0.12)]" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      {/* Building in public — links to Progress + Blog */}
+      {/* Section 2 — It works the way you talk */}
       <section
-        data-testid="welcome-build-snapshot-section"
-        className="max-w-3xl mx-auto px-6 pb-16"
+        id="how-it-works"
+        ref={s2.ref}
+        className={`max-w-5xl mx-auto px-6 py-20 transition-all duration-700 ${
+          s2.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        }`}
       >
-        <p className="text-xs uppercase tracking-[0.2em] text-[var(--hb-warm)] mb-3 font-medium">
-          Building in public
-        </p>
-        <h2 className="text-3xl font-bold mb-3">Built in 2 days. Ready in 10.</h2>
-        <p className="text-[var(--hb-ink-muted)] leading-relaxed mb-6">
-          An open-core capstone shipped at sprint pace &mdash; ~103 phases sealed
-          (P11&ndash;P113), 132 ADRs Accepted, ~1582+ PURE-UNIT tests GREEN, and a
-          composite score of 86.7/100 (vs Lovable 80). Every decision is in the open.
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <Link
-            to="/progress"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--hb-warm)] text-white font-semibold rounded-xl hover:bg-[var(--hb-warm-hover)] transition-colors"
-          >
-            See the build snapshot <ArrowRight className="w-4 h-4" />
-          </Link>
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 px-5 py-2.5 border border-[rgb(var(--hb-warm-rgb)/0.3)] text-[var(--hb-ink)] font-semibold rounded-xl hover:bg-[var(--hb-paper-soft)] transition-colors"
-          >
-            Read the journal
-          </Link>
-        </div>
-      </section>
-
-      {/* Three Modes — C11: vertical snap-list carousel on <sm (max-width: 639px,
-          Tailwind's closest match to the historical <600px target from P22). */}
-      <section className="max-w-4xl mx-auto px-6 pb-16">
-        <h2 className="text-3xl font-bold mb-6">Three ways in</h2>
-        <div className="grid md:grid-cols-3 gap-4 max-sm:grid-cols-1 max-sm:snap-y max-sm:snap-mandatory max-sm:overflow-y-auto max-sm:max-h-[80vh] max-sm:gap-3">
-          {MODES.map((m) => (
-            <Link
-              key={m.title}
-              to={m.href}
-              className="bg-white border border-[rgb(var(--hb-warm-rgb)/0.2)] rounded-2xl p-6 hover:border-[rgb(var(--hb-warm-rgb)/0.6)] hover:shadow-md transition-all group max-sm:snap-center max-sm:min-h-[60vh] max-sm:flex max-sm:flex-col max-sm:justify-center"
-            >
-              <m.icon className="w-7 h-7 text-[var(--hb-warm)] mb-4" />
-              <h3 className="text-xl font-semibold mb-2">{m.title}</h3>
-              <p className="text-sm text-[var(--hb-ink-muted)] leading-relaxed mb-4">{m.desc}</p>
-              <span className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--hb-warm)] group-hover:gap-2 transition-all">
-                {m.cta} <ArrowRight className="w-4 h-4" />
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* What You Get (blog-style summary) */}
-      <article className="max-w-3xl mx-auto px-6 pb-16">
-        <h2 className="text-3xl font-bold mb-4">What you get</h2>
-        <p className="text-[var(--hb-ink-muted)] leading-relaxed mb-4">
-          A live React preview of your site, updated as you talk or type. A
-          single JSON file behind everything &mdash; portable, exportable, AI-
-          readable. An AISP Crystal Atom spec with under 2% ambiguity, side-by-
-          side with a human-readable version your team can review.
-        </p>
-        <p className="text-[var(--hb-ink-muted)] leading-relaxed">
-          21 themes. 51 example sites. 18 section types. 300 images. Export the
-          whole project as a <code className="text-sm bg-[var(--hb-paper-soft)] px-2 py-0.5 rounded">.heybradley</code> zip.
-          Import it later. Hand it to your AI coding system. Or paste the AISP
-          spec into your prompt and let the agent build production code.
-        </p>
-      </article>
-
-      {/* Open Core vs Commercial (single sentence) */}
-      <article className="max-w-3xl mx-auto px-6 pb-20">
-        <h2 className="text-3xl font-bold mb-4">Open core vs commercial</h2>
-        <p className="text-[var(--hb-ink-muted)] leading-relaxed">
-          What you see here is the <strong className="text-[var(--hb-ink)]">open core</strong> &mdash; MIT-licensed,
-          single-page sites, BYOK, local storage, no backend. The commercial
-          version (separate repo, post-MVP) adds Supabase auth, hosted demo
-          without BYOK, multi-page sites, complex apps, and the agentic support
-          system. This page is the open core. <Link to="/open-core" className="text-[var(--hb-warm)] underline">Read the differences here.</Link>
-        </p>
-      </article>
-
-      {/* Blog preview — Don Miller hook "The spec layer explained" */}
-      <section className="max-w-5xl mx-auto px-6 py-20">
-        <p className="text-xs uppercase tracking-[0.2em] text-[var(--hb-warm)] mb-3 font-medium">
-          The blog
-        </p>
-        <h2 className="text-3xl lg:text-4xl font-bold tracking-tight mb-2">
-          The spec layer explained
+        <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">
+          It works the way you talk.
         </h2>
-        <p className="text-[var(--hb-ink-muted)] mb-10 max-w-2xl">
-          Field notes from the build. Velocity, AISP, and the parts of agentic
-          engineering the rest of the AI-builder industry leaves on the table.
+        <p className="text-lg text-[var(--hb-ink-muted)] leading-relaxed mb-10 max-w-2xl">
+          Speak it. Type it. Drag it. Whatever feels right today.
         </p>
-        <div className="grid md:grid-cols-3 gap-6">
-          {recentPosts.map((post) => (
+        <div className="grid sm:grid-cols-3 gap-4">
+          {WAYS.map((w) => (
             <Link
-              key={post.slug}
-              to={`/blog/${post.slug}`}
-              className="block p-6 rounded-xl border border-[rgb(var(--hb-warm-rgb)/0.15)] bg-white hover:border-[rgb(var(--hb-warm-rgb)/0.4)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)]"
+              key={w.title}
+              to="/new-project"
+              className="group block p-5 min-h-[44px] rounded-2xl bg-white border border-[rgb(var(--hb-warm-rgb)/0.15)] hover:border-[rgb(var(--hb-warm-rgb)/0.5)] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-warm)] transition-transform duration-200 hover:scale-[1.02]"
             >
-              <h3 className="font-semibold text-lg mb-2 text-[var(--hb-ink)] leading-snug">{post.title}</h3>
-              <p className="text-sm text-[var(--hb-ink-muted)] mb-3 leading-relaxed">{post.excerpt}</p>
-              <span className="text-sm text-[var(--hb-warm)] font-medium inline-flex items-center gap-1">
-                Read more <ArrowRight className="w-3.5 h-3.5" />
-              </span>
+              <w.icon className="w-7 h-7 text-[var(--hb-warm)] mb-3" />
+              <h3 className="text-lg font-semibold mb-1">{w.title}</h3>
+              <p className="text-sm text-[var(--hb-ink-muted)] leading-relaxed">{w.desc}</p>
             </Link>
           ))}
         </div>
       </section>
 
-      {/* Closing CTA */}
-      <section className="max-w-3xl mx-auto px-6 pb-24 text-center">
-        <div className="flex flex-wrap items-center justify-center gap-3">
-          <Link
-            to="/new-project"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--hb-warm)] text-white font-semibold rounded-xl hover:bg-[var(--hb-warm-hover)] transition-colors shadow-lg text-lg"
-          >
-            Try the open source version
-            <ArrowRight className="w-5 h-5" />
-          </Link>
-          <a
-            href="https://github.com/bar181/hey-bradley-core"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-4 border border-[rgb(var(--hb-warm-rgb)/0.3)] text-[var(--hb-ink)] font-semibold rounded-xl hover:bg-[var(--hb-paper-soft)] transition-colors text-lg"
-          >
-            Open core on GitHub
-          </a>
-        </div>
-        <p className="text-sm text-[var(--hb-ink-muted)] mt-4">
-          No account required. No key required for Simulated mode.
-        </p>
-      </section>
+      {/* Section 3 — Take it anywhere */}
+      <section
+        ref={s3.ref}
+        className={`max-w-5xl mx-auto px-6 py-20 transition-all duration-700 ${
+          s3.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        }`}
+      >
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-5">
+              Take it anywhere.
+            </h2>
+            <p className="text-lg text-[var(--hb-ink-muted)] leading-relaxed mb-4">
+              When you&rsquo;re ready, hand the export to your developer &mdash; or to your AI
+              coding assistant. They get the spec they wish every project came with.
+            </p>
+            <p className="text-lg text-[var(--hb-ink-muted)] leading-relaxed mb-6">
+              No clarifying calls. No re-explaining what you meant. Just a website
+              that does what you asked for, the first time.
+            </p>
+            <Link
+              to="/blog/the-handoff-that-changes-everything"
+              className="inline-flex items-center gap-1 text-[var(--hb-warm)] font-medium hover:gap-2 transition-all"
+            >
+              Read how the handoff works <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
 
-      {/* Footer */}
-      <footer className="py-12 border-t border-[rgb(var(--hb-warm-rgb)/0.2)] bg-[var(--hb-paper-soft)]">
-        <div className="max-w-5xl mx-auto px-6 text-center">
-          <p className="text-sm text-[var(--hb-ink-muted)] mb-2">Harvard ALM Capstone &mdash; Digital Media Design &mdash; May 2026</p>
-          <p className="text-sm text-[var(--hb-ink-muted)]">Bradley Ross &mdash; Creator of AISP &mdash; bar181@yahoo.com</p>
-          <div className="mt-4 flex items-center justify-center gap-6 text-sm text-[var(--hb-ink-muted)]">
-            <a href="https://github.com/bar181/hey-bradley-core" className="hover:text-[var(--hb-warm)] transition-colors" target="_blank" rel="noopener noreferrer">Open core repo</a>
-            <a href="https://github.com/bar181/aisp-open-core" className="hover:text-[var(--hb-warm)] transition-colors" target="_blank" rel="noopener noreferrer">AISP open core</a>
-            <Link to="/about" className="hover:text-[var(--hb-warm)] transition-colors">About</Link>
+          {/* Animated card: document with file-shapes flying out */}
+          <div
+            className="relative bg-white rounded-2xl border border-[rgb(var(--hb-warm-rgb)/0.2)] p-8 shadow-sm min-h-[260px] flex items-center justify-center"
+            aria-hidden="true"
+          >
+            <div className="relative">
+              <FileText className="w-20 h-20 text-[var(--hb-warm)]" strokeWidth={1.4} />
+              <div className="hb-doc-1 absolute top-2 left-10 w-12 h-14 rounded-md bg-[var(--hb-paper-soft)] border border-[rgb(var(--hb-warm-rgb)/0.25)] shadow-sm" />
+              <div className="hb-doc-2 absolute top-6 left-12 w-10 h-12 rounded-md bg-[var(--hb-paper-soft)] border border-[rgb(var(--hb-warm-rgb)/0.25)] shadow-sm" />
+              <div className="hb-doc-3 absolute top-10 left-8 w-11 h-13 rounded-md bg-[var(--hb-paper-soft)] border border-[rgb(var(--hb-warm-rgb)/0.25)] shadow-sm" />
+            </div>
           </div>
         </div>
-      </footer>
+      </section>
+
+      {/* Section 4 — Open core. Yours to keep. (Easter-egg surface) */}
+      <section
+        ref={s4.ref}
+        className={`max-w-5xl mx-auto px-6 py-20 transition-all duration-700 ${
+          s4.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        }`}
+      >
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-5">
+              Open core. Yours to keep.
+            </h2>
+            <p className="text-lg text-[var(--hb-ink-muted)] leading-relaxed mb-3">
+              Built in the open. Free to try.
+            </p>
+            <p className="text-lg text-[var(--hb-ink-muted)] leading-relaxed mb-3">
+              Bring your own API key, or don&rsquo;t bring one yet.
+            </p>
+            <p className="text-lg text-[var(--hb-ink-muted)] leading-relaxed mb-6">
+              Take your work with you whenever you want &mdash; your site, your spec,
+              your call.
+            </p>
+            <a
+              href="https://github.com/bar181/aisp-open-core"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-[var(--hb-ink-muted)] hover:text-[var(--hb-warm)] transition-colors inline-flex items-center gap-1"
+            >
+              Read what&rsquo;s coming next <ArrowRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-[rgb(var(--hb-warm-rgb)/0.2)] p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex items-center gap-3 mb-4">
+              <Code2 className="w-7 h-7 text-[var(--hb-ink)]" />
+              <span className="font-mono text-sm text-[var(--hb-ink-muted)]">
+                bar181/aisp-open-core
+              </span>
+            </div>
+            <div className="rounded-lg bg-[var(--hb-paper-soft)] p-4 font-mono text-xs text-[var(--hb-ink-muted)] leading-relaxed">
+              <div className="mb-1"><span className="text-[var(--hb-warm)]">$</span> git clone</div>
+              <div className="opacity-70">&nbsp;&nbsp;the spec your AI</div>
+              <div className="opacity-70">&nbsp;&nbsp;wishes every</div>
+              <div className="opacity-70">&nbsp;&nbsp;project came with.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 5 — Closing CTA + Trust ribbon */}
+      <section
+        ref={s5.ref}
+        className={`max-w-3xl mx-auto px-6 py-24 text-center transition-all duration-700 ${
+          s5.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        }`}
+      >
+        <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-8 leading-tight">
+          From your idea to a real site, in your words.
+        </h2>
+        <Link
+          to="/new-project"
+          className="inline-flex items-center gap-2 px-8 py-4 min-h-[44px] bg-[var(--hb-warm)] text-white font-semibold rounded-xl hover:bg-[var(--hb-warm-hover)] transition-colors shadow-lg text-lg"
+        >
+          Start describing
+          <ArrowRight className="w-5 h-5" />
+        </Link>
+        <p className="text-xs text-[var(--hb-ink-muted)] mt-8 tracking-wide">
+          Open source &middot; MIT licensed &middot; Built at Harvard
+        </p>
+      </section>
     </main>
   )
 }

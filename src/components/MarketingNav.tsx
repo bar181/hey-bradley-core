@@ -2,11 +2,9 @@ import { Link, useLocation } from 'react-router-dom'
 
 const NAV_LINKS = [
   { to: '/about', label: 'About' },
-  { to: '/aisp', label: 'AISP' },
-  { to: '/byok', label: 'BYOK' },
+  { to: '/blog', label: 'Blog' },
+  { to: '/research', label: 'Research' },
   { to: '/open-core', label: 'Open Core' },
-  { to: '/demo/listen', label: 'Listen demo' },
-  { to: '/demo/chat', label: 'Chat demo' },
   { to: '/docs', label: 'Docs' },
 ]
 
