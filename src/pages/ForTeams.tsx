@@ -35,6 +35,7 @@ const VALUE_PROPS = [
 
 export function ForTeams() {
   const s2 = useReveal<HTMLElement>()
+  const sRealtime = useReveal<HTMLElement>()
   const s3 = useReveal<HTMLElement>()
   const s4 = useReveal<HTMLElement>()
 
@@ -91,6 +92,24 @@ export function ForTeams() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* P120.5 — Real time, not rebuild (architecture as plain English) */}
+      <section
+        ref={sRealtime.ref}
+        className={`max-w-3xl mx-auto px-6 py-20 transition-all duration-700 ${
+          sRealtime.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        }`}
+      >
+        <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+          Real time, not rebuild.
+        </h2>
+        <p className="text-lg text-[var(--hb-ink-muted)] leading-relaxed">
+          Other AI builders regenerate the whole site on every change. Hey
+          Bradley patches what changed. Your edits arrive while you&rsquo;re
+          still talking &mdash; seconds, not minutes. The architecture
+          isn&rsquo;t a feature; it&rsquo;s the reason this works.
+        </p>
       </section>
 
       {/* Section 3 — Honest about what's shipped */}

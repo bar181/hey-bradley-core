@@ -10,6 +10,7 @@ export function Research() {
   const mathReveal = useReveal<HTMLElement>()
   const landscapeReveal = useReveal<HTMLElement>()
   const possibleReveal = useReveal<HTMLElement>()
+  const realtimeReveal = useReveal<HTMLElement>()
 
   return (
     <main className="min-h-screen bg-[var(--hb-paper)] text-[var(--hb-ink)]">
@@ -42,6 +43,26 @@ export function Research() {
               <p className="text-xs text-[var(--hb-ink-muted)] mt-1">What ships free, MIT-licensed, yours to keep.</p>
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* P120.5 — Real time, not rebuild (architecture as plain English) */}
+      <section
+        ref={realtimeReveal.ref}
+        className={`bg-[var(--hb-paper)] border-b border-[var(--hb-warm)]/15 transition-all duration-700 ${
+          realtimeReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        }`}
+      >
+        <div className="max-w-3xl mx-auto px-6 py-12">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-[var(--hb-ink)]">
+            Real time, not rebuild.
+          </h2>
+          <p className="text-lg text-[var(--hb-ink-muted)] leading-relaxed">
+            Other AI builders regenerate the whole site on every change. Hey
+            Bradley patches what changed. Your edits arrive while you&rsquo;re
+            still talking &mdash; seconds, not minutes. The architecture
+            isn&rsquo;t a feature; it&rsquo;s the reason this works.
+          </p>
         </div>
       </section>
 

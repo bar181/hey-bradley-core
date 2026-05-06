@@ -62,3 +62,13 @@ P120 ships 7-link primary nav, 2 NEW pages (`/for-teams` + `/contact`), 1 blog 3
 - KISS no-new-deps denylist (1)
 
 Plus the legacy P71 spec updated to use the new `blog-category-filter` / `blog-category-all` testids (rationale documented inline citing ADR-149 / P120/A4).
+
+## P120.5 Under-the-hood addendum
+
+A small follow-up after the post-seal walkthrough (no new ADR — calibrates ADR-149):
+
+- **Nav rename**: "For developers" → "Under the hood" in `MarketingNav.tsx`. Route unchanged (`/research`). Apple-tone, broader audience signal, pairs with the existing Geek-mode Easter-egg footer link on `/research`.
+- **"Real time, not rebuild" section** added on `/research` (after Start-here strip) and `/for-teams` (between Section 2 and Section 3) with verbatim plain-English copy explaining the patch-vs-rebuild architecture without competitor names or numbers (per ADR-146 D2).
+- **+4 tests** at `tests/p120.5-under-the-hood.spec.ts` (rename + Research section + ForTeams section + EOP addendum).
+- **P120.2 test updated** to assert the new "Under the hood" label literal.
+- **Code delta** ≤80 LOC across 3 source files; full retrospective at `plans/implementation/phase-120.5/retrospective.md`.

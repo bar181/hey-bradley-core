@@ -41,10 +41,10 @@ test.describe('P120.1 — ADR-149 file shape', () => {
   })
 })
 
-test.describe('P120.2 — MarketingNav has "For developers" → /research', () => {
+test.describe('P120.2 — MarketingNav has "Under the hood" → /research (P120.5 rename)', () => {
   test('label literal + /research target both present', () => {
     const t = readFileSync(NAV, 'utf8')
-    expect(t).toContain('For developers')
+    expect(t).toContain('Under the hood')
     expect(t).toContain("'/research'")
   })
 })

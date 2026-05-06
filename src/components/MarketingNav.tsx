@@ -1,15 +1,15 @@
 import { Link, useLocation } from 'react-router-dom'
 
 // P120 / A5 — audience routing (per ADR-149).
-// Adds "For developers" → /research (engineer-track home) and "For teams" →
-// /for-teams (Cursor/Claude-Code product teams audience). Position: between
-// Research and Open Core, so the natural read-order (consumer → engineer →
-// teams → open core → docs) flows top-down across the audience-segment ladder.
+// P120.5 — "For developers" → "Under the hood" rename. Apple-tone; broader than
+// "developers" (engineering managers, technical founders, agentic-flow users
+// all read it cleanly); pairs naturally with the Geek-mode footer Easter egg.
+// Route unchanged — still /research (engineer-track home).
 const NAV_LINKS = [
   { to: '/about', label: 'About' },
   { to: '/blog', label: 'Blog' },
   { to: '/research', label: 'Research' },
-  { to: '/research', label: 'For developers' },
+  { to: '/research', label: 'Under the hood' },
   { to: '/for-teams', label: 'For teams' },
   { to: '/open-core', label: 'Open Core' },
   { to: '/docs', label: 'Docs' },
