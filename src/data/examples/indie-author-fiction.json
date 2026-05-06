@@ -1,0 +1,193 @@
+{
+  "_storytellingPreset": "theron-miller-hard-twist",
+  "_note": "P113/A3 — indie fiction author with 3 published novels. Theron Miller hard-twist preset: specific opening anecdote → unexpected pivot → earned observation.",
+  "site": {
+    "title": "Mira Chen — Fiction",
+    "description": "Three novels and a stubborn opinion about second-person narration. Author site for Mira Chen — Knife Light (2021), The Eighth Note (2023), and What Lan Knew (2025). Working on the next one.",
+    "author": "Mira Chen",
+    "email": "mira@mirachenwrites.com",
+    "domain": "mirachenwrites.com",
+    "project": "mira-chen-fiction",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "portfolio",
+    "audience": "consumer",
+    "tone": "warm",
+    "brandName": "Mira Chen",
+    "tagline": "Fiction. Three novels. One stubborn opinion.",
+    "voiceAttributes": ["specific", "unexpected", "earned", "literary"]
+  },
+  "theme": {
+    "preset": "ivory-bookshelf",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#f8f4ec",
+      "bgSecondary": "#ede5d3",
+      "textPrimary": "#1c1812",
+      "textSecondary": "#5a4f3e",
+      "accentPrimary": "#7d2a3a",
+      "accentSecondary": "#3a3528"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#1c1812",
+      "bgSecondary": "#2a241b",
+      "textPrimary": "#f8f4ec",
+      "textSecondary": "#d4c8ad",
+      "accentPrimary": "#c75868",
+      "accentSecondary": "#f0e5c8"
+    },
+    "typography": {
+      "fontFamily": "Source Serif Pro",
+      "headingFamily": "Cormorant Garamond",
+      "headingWeight": 600,
+      "baseSize": "18px",
+      "lineHeight": 1.7
+    },
+    "spacing": { "sectionPadding": "96px", "containerMaxWidth": "820px", "componentGap": "28px" },
+    "borderRadius": "2px"
+  },
+  "sections": [
+    {
+      "type": "menu", "id": "navbar-01", "enabled": true, "order": -1, "variant": "simple",
+      "layout": { "display": "flex", "padding": "20px 28px", "gap": "28px", "maxWidth": "820px" },
+      "style": { "background": "#f8f4ec", "color": "#1c1812" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Mira Chen" } },
+        { "id": "nav-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "Books", "url": "#books" } },
+        { "id": "nav-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "About", "url": "#about" } },
+        { "id": "nav-3", "type": "link", "enabled": true, "order": 3, "props": { "text": "Notebook", "url": "#notebook" } },
+        { "id": "nav-4", "type": "link", "enabled": true, "order": 4, "props": { "text": "Events", "url": "#events" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero", "id": "hero-01", "enabled": true, "order": 0, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "28px", "padding": "144px 28px 96px", "maxWidth": "740px" },
+      "style": { "background": "#f8f4ec", "color": "#1c1812" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0,
+          "props": { "text": "What Lan Knew · Out March 4, 2025 · Riverhead Books", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "On the night her sister died, Lan Petrescu was at a wedding she had not been invited to, eating a piece of cake she had not paid for, and the woman beside her was crying about the bride.", "level": 1, "size": "48px", "weight": 600 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "That is the opening line of my third novel. The cake is white-almond. The wedding is in Bucharest, in 1996, in the basement of a mid-century hotel that does not exist anymore. The woman crying about the bride is not the bride's mother. The woman crying about the bride did not know there was going to be a bride at all when she walked in. None of these are the things the book is about. The thing the book is about is what Lan does the next morning, when she finally answers her phone." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "Read the first chapter", "url": "#chapter-1", "style": "filled", "size": "lg", "background": "#7d2a3a", "color": "#f8f4ec" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4,
+          "props": { "text": "Buy the book", "url": "#buy", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "gallery", "id": "books-01", "enabled": true, "order": 1, "variant": "tile-grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "40px", "padding": "96px 28px", "maxWidth": "1140px" },
+      "style": { "background": "#ede5d3", "color": "#1c1812" },
+      "components": [
+        { "id": "b-1", "type": "gallery-tile", "enabled": true, "order": 0,
+          "props": { "image": "https://images.example.com/mira/what-lan-knew.jpg", "alt": "What Lan Knew, novel cover, deep crimson with white type", "title": "What Lan Knew · 2025", "caption": "Riverhead Books · 312 pages · A NYT Notable Book of the Year" } },
+        { "id": "b-2", "type": "gallery-tile", "enabled": true, "order": 1,
+          "props": { "image": "https://images.example.com/mira/eighth-note.jpg", "alt": "The Eighth Note, novel cover, ivory with a single black brushstroke", "title": "The Eighth Note · 2023", "caption": "Riverhead Books · 264 pages · Long-listed for the Booker Prize" } },
+        { "id": "b-3", "type": "gallery-tile", "enabled": true, "order": 2,
+          "props": { "image": "https://images.example.com/mira/knife-light.jpg", "alt": "Knife Light, novel cover, midnight blue with copper foil type", "title": "Knife Light · 2021", "caption": "Riverhead Books · 248 pages · Debut · PEN/Hemingway Award winner" } }
+      ],
+      "content": { "heading": "Three novels. One a year for a year, then three years apart, then two.", "subheading": "I do not write fast. I write again." }
+    },
+    {
+      "type": "text", "id": "about-01", "enabled": true, "order": 2, "variant": "long-form",
+      "layout": { "display": "flex", "direction": "column", "gap": "24px", "padding": "96px 28px", "maxWidth": "740px" },
+      "style": { "background": "#f8f4ec", "color": "#1c1812" },
+      "components": [
+        { "id": "about-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "About the writer.", "level": 2, "size": "44px", "weight": 600 } },
+        { "id": "about-p1", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "When I was 24 I worked the overnight shift at a 24-hour diner in Astoria, Queens, called the Gold Star. The cook was a man named Octavio who had been a literature professor in Bucharest before 1989 and who, on slow nights, would write the first sentences of imaginary novels on the backs of order tickets and slide them under the heat lamp for me to read. He never wrote a second sentence. He said the second sentence was where the writers gave up." } },
+        { "id": "about-p2", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "I did not understand him. I did not start writing fiction for another six years. When I did, I spent the first novel — Knife Light — trying to write a book that would have looked good to Octavio on a heat lamp. I had it in my head that every chapter needed an opening line he would not have crumpled. The book sold well enough. The PEN/Hemingway people were very kind. But the second novel was the one that taught me Octavio was wrong. The second sentence is not where writers give up. The second sentence is where writers begin." } },
+        { "id": "about-p3", "type": "text", "enabled": true, "order": 3,
+          "props": { "text": "I think about him still. He died in 2018, before the second novel came out. I dedicated The Eighth Note to him in a single line at the front of the book that no one outside my family understood. It says: For O., who only wrote the openings. The thing the dedication does not say is that his last opening was about a woman at a wedding she had not been invited to, eating a piece of cake she had not paid for. I have been writing that book for seven years. It is finally out. He cannot read it." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "quotes", "id": "reviews-01", "enabled": true, "order": 3, "variant": "two-up",
+      "layout": { "display": "grid", "columns": 2, "gap": "32px", "padding": "96px 28px", "maxWidth": "1140px" },
+      "style": { "background": "#ede5d3", "color": "#1c1812" },
+      "components": [
+        { "id": "rv-1", "type": "testimonial", "enabled": true, "order": 0,
+          "props": { "quote": "The most assured American novel of the year. Chen writes the way Bucharest in 1996 actually felt — the basement weddings, the rotary phones, the cake. A masterpiece.", "author": "Parul Sehgal", "role": "The New Yorker · review of What Lan Knew", "rating": 5 } },
+        { "id": "rv-2", "type": "testimonial", "enabled": true, "order": 1,
+          "props": { "quote": "What Lan Knew is the book Mira Chen has been quietly preparing us for in two prior novels. The opening line will be taught.", "author": "Dwight Garner", "role": "The New York Times Book Review · 2025", "rating": 5 } },
+        { "id": "rv-3", "type": "testimonial", "enabled": true, "order": 2,
+          "props": { "quote": "The Eighth Note refuses every easy move. I read it on a flight to São Paulo and finished it in the airport hotel before I unpacked. The dedication is one of the great dedications.", "author": "Min Jin Lee", "role": "Author of Pachinko · in praise of The Eighth Note", "rating": 5 } },
+        { "id": "rv-4", "type": "testimonial", "enabled": true, "order": 3,
+          "props": { "quote": "The reason I keep coming back to Chen is that she does not waste a paragraph. Her openings are famous. Her endings should be too. What Lan Knew has the best ending I have read in five years.", "author": "Lauren Groff", "role": "Author of Matrix · 2025", "rating": 5 } }
+      ],
+      "content": { "heading": "Reviews and notes.", "subheading": "A few from this year's book. Older reviews are in the press kit." }
+    },
+    {
+      "type": "blog", "id": "notebook-01", "enabled": true, "order": 4, "variant": "list",
+      "layout": { "display": "flex", "direction": "column", "gap": "32px", "padding": "96px 28px", "maxWidth": "740px" },
+      "style": { "background": "#f8f4ec", "color": "#1c1812" },
+      "components": [
+        { "id": "n-1", "type": "blog-post", "enabled": true, "order": 0,
+          "props": {
+            "title": "On second-person narration, and why I will not be using it again.",
+            "date": "April 2, 2026",
+            "readTime": "12 min read",
+            "tags": "craft, point-of-view",
+            "excerpt": "I wrote the second chapter of Knife Light in second person. Three readers wrote me letters about it. Two were thoughtful. One was furious. The furious one was right."
+          } },
+        { "id": "n-2", "type": "blog-post", "enabled": true, "order": 1,
+          "props": {
+            "title": "What I learned writing the same scene 14 times.",
+            "date": "March 10, 2026",
+            "readTime": "8 min read",
+            "tags": "process, drafting",
+            "excerpt": "The opening of What Lan Knew exists in 14 versions on my hard drive. Octavio would have crumpled 13 of them. I made him stand at my shoulder for the 14th."
+          } },
+        { "id": "n-3", "type": "blog-post", "enabled": true, "order": 2,
+          "props": {
+            "title": "On dedications no one outside the family understands.",
+            "date": "February 20, 2026",
+            "readTime": "5 min read",
+            "tags": "books, memoir",
+            "excerpt": "The Eighth Note is dedicated 'For O., who only wrote the openings.' I have been asked about it 200 times. This is the only place I will explain it."
+          } }
+      ],
+      "content": { "heading": "Notebook.", "subheading": "Occasional pieces about craft, dedications, and the writers who taught me that openings are not the hard part." }
+    },
+    {
+      "type": "contact-form", "id": "contact-01", "enabled": true, "order": 5, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "20px", "padding": "96px 28px", "maxWidth": "720px" },
+      "style": { "background": "#1c1812", "color": "#f8f4ec" },
+      "components": [
+        { "id": "form-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Write to Mira.", "level": 2, "size": "40px", "weight": 600 } },
+        { "id": "form-blurb", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "For events, classroom adoptions, interviews, and reader letters. I read everything. I respond when I can. Reader letters land first." } },
+        { "id": "form-name", "type": "input", "enabled": true, "order": 2,
+          "props": { "label": "Your name", "placeholder": "First and last", "type": "text", "required": true } },
+        { "id": "form-email", "type": "input", "enabled": true, "order": 3,
+          "props": { "label": "Email", "placeholder": "you@somewhere.com", "type": "email", "required": true } },
+        { "id": "form-topic", "type": "input", "enabled": true, "order": 4,
+          "props": { "label": "Topic", "placeholder": "Reader letter · Event · Classroom adoption · Interview · Other", "type": "text", "required": true } },
+        { "id": "form-msg", "type": "input", "enabled": true, "order": 5,
+          "props": { "label": "Your message", "placeholder": "Specifics get specifics back. Reader letters do not need a question.", "type": "textarea", "required": true } },
+        { "id": "form-submit", "type": "button", "enabled": true, "order": 6,
+          "props": { "text": "Send to Mira", "url": "#submit", "style": "filled", "size": "lg", "background": "#7d2a3a", "color": "#f8f4ec" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer", "id": "footer-01", "enabled": true, "order": 6, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "48px 28px", "gap": "12px", "maxWidth": "820px" },
+      "style": { "background": "#1c1812", "color": "#f8f4ec" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Mira Chen · Fiction" } },
+        { "id": "tagline", "type": "text", "enabled": true, "order": 1, "props": { "text": "Three novels. Riverhead Books. New York City." } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 2, "props": { "text": "© 2026 Mira Chen · mirachenwrites.com · Represented by Lara Goodwyn at Goodwyn Literary" } }
+      ],
+      "content": {}
+    }
+  ]
+}

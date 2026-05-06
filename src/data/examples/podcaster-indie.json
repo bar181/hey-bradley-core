@@ -1,0 +1,203 @@
+{
+  "_storytellingPreset": "dry-humor-narrator",
+  "_note": "P113/A3 — indie podcaster shipping season 4. Dry-humor-narrator preset. Specific over-precise voice (e.g. 'Episode 47 is 38 minutes long. We promised 30. We're sorry but not.').",
+  "site": {
+    "title": "Cassette Season Four",
+    "description": "A small podcast about overlooked physical formats. Season four is about cassette tapes. Probably the last season. Probably.",
+    "author": "Reed Sokolski",
+    "email": "reed@cassettepod.fm",
+    "domain": "cassettepod.fm",
+    "project": "cassette-season-four",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "consumer",
+    "tone": "casual",
+    "brandName": "Cassette",
+    "tagline": "A podcast about cassettes. We are sorry but not.",
+    "voiceAttributes": ["dry", "specific", "over-precise", "self-aware"]
+  },
+  "theme": {
+    "preset": "warm-paper",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#efe8d8",
+      "bgSecondary": "#e2d6b8",
+      "textPrimary": "#1f1a14",
+      "textSecondary": "#574a36",
+      "accentPrimary": "#b03a2e",
+      "accentSecondary": "#c9a44a"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#1f1a14",
+      "bgSecondary": "#2c2519",
+      "textPrimary": "#efe8d8",
+      "textSecondary": "#c9b890",
+      "accentPrimary": "#e07a5f",
+      "accentSecondary": "#e3c878"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Fraunces",
+      "headingWeight": 600,
+      "baseSize": "17px",
+      "lineHeight": 1.7
+    },
+    "spacing": { "sectionPadding": "80px", "containerMaxWidth": "880px", "componentGap": "24px" },
+    "borderRadius": "4px"
+  },
+  "sections": [
+    {
+      "type": "menu", "id": "navbar-01", "enabled": true, "order": -1, "variant": "simple",
+      "layout": { "display": "flex", "padding": "20px 28px", "gap": "24px", "maxWidth": "880px" },
+      "style": { "background": "#efe8d8", "color": "#1f1a14" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Cassette" } },
+        { "id": "nav-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "Episodes", "url": "#episodes" } },
+        { "id": "nav-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "About", "url": "#about" } },
+        { "id": "nav-3", "type": "link", "enabled": true, "order": 3, "props": { "text": "Sponsor", "url": "#sponsor" } },
+        { "id": "nav-4", "type": "link", "enabled": true, "order": 4, "props": { "text": "Contact", "url": "#contact" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero", "id": "hero-01", "enabled": true, "order": 0, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "20px", "padding": "112px 28px 96px", "maxWidth": "780px" },
+      "style": { "background": "#efe8d8", "color": "#1f1a14" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0,
+          "props": { "text": "Season 4 · 12 episodes · Tuesdays at 6:03 a.m. EST", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "A podcast about cassette tapes. The last format you remember holding.", "level": 1, "size": "60px", "weight": 600 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "Episode 47 is 38 minutes long. We promised 30. We are sorry but not. Each season we pick a physical format that almost made it and find the people who built their lives around it. Vinyl was season one. MiniDisc was season two. CompactFlash was season three, which a normal person would not consider a physical format, but we are not normal. Cassettes are season four. We have 11 more episodes after this one. We will probably stop after that. Probably." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "Listen to Episode 47", "url": "#latest", "style": "filled", "size": "lg", "background": "#b03a2e", "color": "#efe8d8" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4,
+          "props": { "text": "Subscribe in Apple / Spotify / RSS", "url": "#subscribe", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text", "id": "about-01", "enabled": true, "order": 1, "variant": "long-form",
+      "layout": { "display": "flex", "direction": "column", "gap": "20px", "padding": "72px 28px", "maxWidth": "720px" },
+      "style": { "background": "#efe8d8", "color": "#1f1a14" },
+      "components": [
+        { "id": "about-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "What this is, with unnecessary precision.", "level": 2, "size": "32px", "weight": 600 } },
+        { "id": "about-p1", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "Cassette is a podcast hosted by Reed Sokolski, a 41-year-old who works in inventory management at a regional grocery chain in Cleveland. He is not a journalist. He owns 312 cassette tapes, mostly inherited from his uncle Theo, who worked in radio between 1978 and 2009. Reed records every episode in his basement on a Shure SM7B he bought used in 2019 for $279. The audio quality is fine. It is not great." } },
+        { "id": "about-p2", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "Each episode follows a strict format because Reed gets uncomfortable with improvisation. There is a 4-minute cold open about a specific tape, a 22-minute interview with somebody who has a real relationship to the format (a duplication-plant supervisor, a Walkman engineer, the woman who runs the last tape store in Pittsburgh), and a 10-minute closing essay. Sometimes Reed runs over by 8 minutes. He blames it on the interview. He is usually lying." } },
+        { "id": "about-p3", "type": "text", "enabled": true, "order": 3,
+          "props": { "text": "There is no Patreon. There is one sponsor per episode. The sponsor is read for 47 seconds in the middle of the show. If you do not like that, you can fast forward, which is a feature cassettes did not have, and which we will discuss in episode 51." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "gallery", "id": "episodes-01", "enabled": true, "order": 2, "variant": "tile-grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "28px", "padding": "96px 28px", "maxWidth": "1080px" },
+      "style": { "background": "#e2d6b8", "color": "#1f1a14" },
+      "components": [
+        { "id": "ep-47", "type": "gallery-tile", "enabled": true, "order": 0,
+          "props": { "image": "https://images.example.com/cassette/ep47.jpg", "alt": "Episode 47 cover — a TDK SA-90 sitting on a kitchen table", "title": "Ep 47 · The TDK SA-90 was the only thing my uncle saved from the 1989 fire", "caption": "38 min · Released April 28 · Interview with Theo Sokolski (in archive)" } },
+        { "id": "ep-46", "type": "gallery-tile", "enabled": true, "order": 1,
+          "props": { "image": "https://images.example.com/cassette/ep46.jpg", "alt": "Episode 46 cover — a Maxell XLII-S in a clear case", "title": "Ep 46 · Maxell did not invent chrome dioxide, but they did kill it.", "caption": "31 min · Released April 21 · With Dr. Hannelore Brandt, retired BASF chemist" } },
+        { "id": "ep-45", "type": "gallery-tile", "enabled": true, "order": 2,
+          "props": { "image": "https://images.example.com/cassette/ep45.jpg", "alt": "Episode 45 cover — a Sony Walkman WM-DD9 from above", "title": "Ep 45 · The Sony WM-DD9 cost $450 in 1989 and exactly four people loved it.", "caption": "44 min · Released April 14 · With one of the four (Marina Yates, San Diego)" } },
+        { "id": "ep-44", "type": "gallery-tile", "enabled": true, "order": 3,
+          "props": { "image": "https://images.example.com/cassette/ep44.jpg", "alt": "Episode 44 cover — a worn pair of headphones", "title": "Ep 44 · The mixtape was a love letter that you could overhear yourself making.", "caption": "29 min · Released April 7 · Standalone essay episode" } },
+        { "id": "ep-43", "type": "gallery-tile", "enabled": true, "order": 4,
+          "props": { "image": "https://images.example.com/cassette/ep43.jpg", "alt": "Episode 43 cover — a 4-track Tascam Portastudio", "title": "Ep 43 · Bruce Springsteen recorded Nebraska on a $499 tape machine and we know which one.", "caption": "52 min · Released March 31 · Long episode, no sponsor, sorry" } },
+        { "id": "ep-42", "type": "gallery-tile", "enabled": true, "order": 5,
+          "props": { "image": "https://images.example.com/cassette/ep42.jpg", "alt": "Episode 42 cover — Sue Pasternak in her Pittsburgh tape shop", "title": "Ep 42 · Sue Pasternak runs the last tape shop in Pittsburgh and it is fine.", "caption": "33 min · Released March 24 · Recorded on-site in Squirrel Hill" } }
+      ],
+      "content": { "heading": "Recent episodes", "subheading": "Six of the 47 we have published since January 2022. The other 41 are in the archive, which is sortable by tape brand, host mood, and episode length." }
+    },
+    {
+      "type": "quotes", "id": "listener-quotes-01", "enabled": true, "order": 3, "variant": "two-up",
+      "layout": { "display": "grid", "columns": 2, "gap": "32px", "padding": "96px 28px", "maxWidth": "1080px" },
+      "style": { "background": "#efe8d8", "color": "#1f1a14" },
+      "components": [
+        { "id": "lq-1", "type": "testimonial", "enabled": true, "order": 0,
+          "props": { "quote": "I listen to Cassette while I do my laundry on Tuesday mornings. The interview with Hannelore Brandt about chrome dioxide tape made me cry, which I did not see coming, but I am 53 and that is allowed.", "author": "Daria Knox", "role": "Listener since Season 1 · Portland, OR", "rating": 5 } },
+        { "id": "lq-2", "type": "testimonial", "enabled": true, "order": 1,
+          "props": { "quote": "Reed says 'we are not normal' once per episode and I have started waiting for it like a bird call. The show is more researched than it has any right to be. Episode 43 has 22 footnotes. I read all of them.", "author": "Marcus Hyde", "role": "Listener since Season 2 · audio-engineer, Brooklyn", "rating": 5 } },
+        { "id": "lq-3", "type": "testimonial", "enabled": true, "order": 2,
+          "props": { "quote": "I am the woman who runs the last tape shop in Pittsburgh. Reed came in for episode 42 with a list of 31 questions. He asked 6 of them. The other 25 were better than mine would have been.", "author": "Sue Pasternak", "role": "Owner · Replay Cassettes, Squirrel Hill", "rating": 5 } },
+        { "id": "lq-4", "type": "testimonial", "enabled": true, "order": 3,
+          "props": { "quote": "I work at the duplication plant in Springfield, Missouri. We make about 4,000 cassettes a week, mostly for indie labels. Cassette the podcast is the only piece of media that has ever gotten our work right. We listen on the line.", "author": "Vince Marrero", "role": "Floor supervisor · Mid-State Duplication", "rating": 5 } }
+      ],
+      "content": { "heading": "What listeners say", "subheading": "Pulled from email replies, with permission, edited only for length." }
+    },
+    {
+      "type": "pricing", "id": "sponsor-01", "enabled": true, "order": 4, "variant": "tiers",
+      "layout": { "display": "grid", "columns": 3, "gap": "28px", "padding": "96px 28px", "maxWidth": "1100px" },
+      "style": { "background": "#1f1a14", "color": "#efe8d8" },
+      "components": [
+        { "id": "tier-1", "type": "pricing-tier", "enabled": true, "order": 0,
+          "props": {
+            "name": "Single episode",
+            "price": "$1,200",
+            "billing": "one-time",
+            "features": "47-second mid-roll · Read by Reed · Specific to your product · Audience approx 8,400 per episode · No host endorsement script — we write our own",
+            "cta": "Email sponsor@cassettepod.fm",
+            "ctaUrl": "#sponsor-contact"
+          } },
+        { "id": "tier-2", "type": "pricing-tier", "enabled": true, "order": 1,
+          "props": {
+            "name": "Three-episode arc",
+            "price": "$3,000",
+            "billing": "$1,000 per episode",
+            "features": "Three consecutive Tuesdays · Reed mentions you actually liked the show on episode 3 · Audience grows ~6% per arc · We will not run a competitor in those weeks",
+            "cta": "Email sponsor@cassettepod.fm",
+            "ctaUrl": "#sponsor-contact",
+            "featured": true
+          } },
+        { "id": "tier-3", "type": "pricing-tier", "enabled": true, "order": 2,
+          "props": {
+            "name": "Whole season",
+            "price": "$10,800",
+            "billing": "12 episodes flat",
+            "features": "Title sponsor on every episode of season 5 (if there is one) · Logo on the website (one logo, that is the limit) · No exclusivity beyond your own category · Approx 100k cumulative listens per season",
+            "cta": "Email sponsor@cassettepod.fm",
+            "ctaUrl": "#sponsor-contact"
+          } }
+      ],
+      "content": { "heading": "Sponsor the show.", "subheading": "We do not work with brands we cannot use. We have turned down 9 sponsorships in the last year. We are bad at sales. You will get a fair read." }
+    },
+    {
+      "type": "contact-form", "id": "contact-01", "enabled": true, "order": 5, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "20px", "padding": "96px 28px", "maxWidth": "720px" },
+      "style": { "background": "#efe8d8", "color": "#1f1a14" },
+      "components": [
+        { "id": "form-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Email Reed.", "level": 2, "size": "44px", "weight": 600 } },
+        { "id": "form-blurb", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "He reads everything. He answers most things, eventually, sometimes from his phone in the grocery store parking lot. Episode tips and corrections especially welcome." } },
+        { "id": "form-name", "type": "input", "enabled": true, "order": 2,
+          "props": { "label": "Your name", "placeholder": "First and last", "type": "text", "required": true } },
+        { "id": "form-email", "type": "input", "enabled": true, "order": 3,
+          "props": { "label": "Email", "placeholder": "you@somewhere.com", "type": "email", "required": true } },
+        { "id": "form-topic", "type": "input", "enabled": true, "order": 4,
+          "props": { "label": "Topic", "placeholder": "Episode tip · Correction · Sponsor inquiry · Just saying hi", "type": "text", "required": true } },
+        { "id": "form-msg", "type": "input", "enabled": true, "order": 5,
+          "props": { "label": "Message", "placeholder": "Be specific. Reed appreciates specifics.", "type": "textarea", "required": true } },
+        { "id": "form-submit", "type": "button", "enabled": true, "order": 6,
+          "props": { "text": "Send to Reed", "url": "#submit", "style": "filled", "size": "lg", "background": "#b03a2e", "color": "#efe8d8" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer", "id": "footer-01", "enabled": true, "order": 6, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "40px 28px", "gap": "12px", "maxWidth": "880px" },
+      "style": { "background": "#1f1a14", "color": "#efe8d8" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Cassette · A podcast" } },
+        { "id": "tagline", "type": "text", "enabled": true, "order": 1, "props": { "text": "47 episodes since January 2022. 11 to go this season. Probably." } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 2, "props": { "text": "© 2026 Reed Sokolski · Cleveland, Ohio · cassettepod.fm" } }
+      ],
+      "content": {}
+    }
+  ]
+}
