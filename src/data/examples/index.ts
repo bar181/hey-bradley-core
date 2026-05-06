@@ -56,6 +56,12 @@ import greenlaneStartup from './greenlane-startup.json'
 import quattroStudio from './quattro-studio.json'
 import mrsAlbrightTutoring from './mrs-albright-tutoring.json'
 import bordoSpec from './bordo-spec.json'
+// P113 / QUALITY-PUSH / A3 — 5 opinionated storytelling-voice example sites
+import podcasterIndie from './podcaster-indie.json'
+import courseCreatorTech from './course-creator-tech.json'
+import contrarianBlog from './contrarian-blog.json'
+import indieAuthorFiction from './indie-author-fiction.json'
+import researchNewsletter from './research-newsletter.json'
 import type { MasterConfig } from '@/lib/schemas'
 import { validateSectionType } from '@/lib/schemas/section'
 
@@ -379,6 +385,38 @@ export const EXAMPLE_SITES: ExampleSite[] = [
     description: 'Agentic-engineering spec showcase. PROCESS_ATOM + DDD + AGENT atoms wired into a 6-prompt Planning-mode build. Includes TDD scaffold + KISS verdict + Seal panel + Claude Code bundle export.',
     theme: 'Tech Business',
     config: bordoSpec as unknown as MasterConfig,
+  },
+  // P113 / QUALITY-PUSH / A3 — 5 opinionated storytelling-voice example sites.
+  // Each cites one of the 8 storytelling presets shipped by sibling A2.
+  {
+    name: 'Cassette · Season Four',
+    description: 'Indie podcaster shipping season 4 — dry-humor narrator voice, over-precise specifics. Listener pull-quotes, sponsor tiers, episode tiles.',
+    theme: 'Personal',
+    config: podcasterIndie as unknown as MasterConfig,
+  },
+  {
+    name: 'Concrete · Production Rust Course',
+    description: 'Founder-direct tech-course creator running 8-week cohorts — confident, restrained-not-bro voice. Cites cohort dates and named students.',
+    theme: 'Tech Business',
+    config: courseCreatorTech as unknown as MasterConfig,
+  },
+  {
+    name: 'The Slower Path · Opinion Blog',
+    description: 'Contrarian-tech opinion blogger — sharp, controversial-adjacent takes about software. Archive of takes, reader replies, no Patreon.',
+    theme: 'Personal',
+    config: contrarianBlog as unknown as MasterConfig,
+  },
+  {
+    name: 'Mira Chen · Fiction',
+    description: 'Indie literary fiction author with 3 novels — Theron-Miller hard-twist voice. Specific opening anecdote pivots into the whole approach.',
+    theme: 'Elegant',
+    config: indieAuthorFiction as unknown as MasterConfig,
+  },
+  {
+    name: 'Receipts · AI Policy Newsletter',
+    description: 'Academic-rigor research newsletter on AI policy — claim + evidence + counterargument + sources. Free + paid tiers, named subscriber testimonials.',
+    theme: 'Professional',
+    config: researchNewsletter as unknown as MasterConfig,
   },
 ]
 
