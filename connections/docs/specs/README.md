@@ -27,22 +27,27 @@ spec-as-you-talk loop in action.
 ## What you're looking at
 
 The `connections/docs/specs/aisp/` folder contains **18 AISP Crystal Atom
-specs** — the connections layer that makes Hey Bradley callable from outside
-the web app:
+specs**. **14 of 18 are implemented as runnable code today** (5 SKILL files
+in `connections/skills/` + 5 MCP tool handlers in `connections/mcp/tools/`
++ 4 NPX commands in `connections/npx/`). The 4 Rust function specs are
+**blueprint-only** — implementation is deferred per ADR-C07 D7 (60-day
+upstream PR window with bar181/aisp-open-core; see also P112 / ADR-140 D1
+for the TS heuristic stopgap that backs `validate_aisp` until the WASM
+build lands).
 
-- **5 SKILL specs** — `/spec-init`, `/spec-export`, `/adr-new`, `/ddd-map`,
-  `/sprint-plan` (Claude Code plugin slash-commands)
-- **5 MCP tool specs** — `get_spec`, `get_claude_md`, `validate_aisp`,
-  `get_ddd`, `get_agent_scopes` (stdio + Streamable HTTP transports)
-- **4 NPX command specs** — `init`, `spec`, `export --claude-code`, `score`
-  (terminal-first surface)
-- **4 Rust function specs** — `build_crystal_atom`,
+- **5 SKILL specs (implemented)** — `/spec-init`, `/spec-export`, `/adr-new`,
+  `/ddd-map`, `/sprint-plan` (Claude Code plugin slash-commands)
+- **5 MCP tool specs (implemented)** — `get_spec`, `get_claude_md`,
+  `validate_aisp`, `get_ddd`, `get_agent_scopes` (stdio + Streamable HTTP)
+- **4 NPX command specs (implemented)** — `init`, `spec`, `export --claude-code`,
+  `score` (terminal-first surface)
+- **4 Rust function specs (blueprint-only; deferred)** — `build_crystal_atom`,
   `extract_ddd_contexts`, `format_claude_md`, `ambig_diff` (WASM-bundled
-  primitives per ADR-C07)
+  primitives per ADR-C07; pending Wave 4 upstream PR window)
 
 Each spec is a single AISP file (~60-80 lines) declaring its Σ contract +
 Γ rules + Λ logistics + Ε verifications. They are the source of truth for
-the connections-layer implementation that lands in Phase-3.
+the connections-layer implementation.
 
 ## Reading order (for first-time readers)
 

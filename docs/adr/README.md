@@ -1,10 +1,10 @@
 # Architecture Decision Records (ADR) Index
 
-**Last updated:** 2026-05-04 (P109 / ADR-LEDGER-TRUTH-UP + FINAL-CLEANUP) · **Total files on disk:** 128 · **Highest-ID:** ADR-137
+**Last updated:** 2026-05-06 (P112 / GAP-CLOSURE) · **Total files on disk:** 130 · **Highest-ID:** ADR-139
 
 This directory contains the Architecture Decision Records for the Hey Bradley project. Each ADR captures one architectural decision, its context, and its consequences in immutable form.
 
-> **Truth-up note:** Prior to P109 this README claimed 38 ADRs through ADR-048 (last touched 2026-04-27 / post-P19). Disk reality at P108 seal was 127 files through ADR-136 across 60+ phases. P109 / ADR-LEDGER-TRUTH-UP rebuilds the ledger to disk reality; the P109 closer added ADR-137 same-sprint (128 files / ADR-137 highest-ID). Source-of-truth for every entry below is the actual ADR file's first heading.
+> **Truth-up note:** Prior to P109 this README claimed 38 ADRs through ADR-048 (last touched 2026-04-27 / post-P19). Disk reality at P108 seal was 127 files through ADR-136 across 60+ phases. P109 / ADR-LEDGER-TRUTH-UP rebuilds the ledger to disk reality; the P109 closer added ADR-137 same-sprint. P110 / ADR-EXPORT added ADR-138; P111 / DOGFOOD-GATES added ADR-139 (130 files / ADR-139 highest-ID). Source-of-truth for every entry below is the actual ADR file's first heading.
 
 ---
 
@@ -198,6 +198,12 @@ Each ADR uses a consistent shape: a `# ADR-NNN: Title` first-line heading, a `St
 - ADR-136 — Test Runtime Shift (Mobile Viewports + Behavioral Helper Coverage + p76 Audit Correction) (P108)
 - ADR-137 — ADR Ledger Truth-Up + Section-Enum Drift Regression Guard (P109)
 
+### Post-RC hardening (P110-P112)
+
+- ADR-138 — Export Completeness Standard + ADR Enforcement Architecture (P110 / ADR-EXPORT)
+- ADR-139 — Dogfood Gates + DDD/ADR Output Priority (P111 / DOGFOOD-GATES)
+- ADR-140 — Gap Closure Stopgaps (AISP Score TS Heuristic + ADR README CI Drift Guard + GitHub Actions Gates) (P112 / GAP-CLOSURE)
+
 ---
 
 ## Documented ID gaps
@@ -211,7 +217,7 @@ The following ADR numbers have NO files on disk by design. The historical record
 | Pre-P15 JSON-architecture pivot | **034, 035, 036, 037** | Drafted during P14 marketing-review pivot. Re-scoped into ADR-031 (JSON Data Architecture) and ADR-029 (Pre-LLM MVP Architecture, Stage 2). 034-037 drafts were superseded before acceptance. |
 | Reserved for future phases | **123, 124, 125** | Numbering gap left explicitly during the P97-P100 methodology arc; reserved for future ADR allocation. Do NOT re-use. |
 
-**Policy:** New ADRs MUST continue at **ADR-137+**. Do NOT re-use any of the missing numbers above.
+**Policy:** New ADRs MUST continue at **ADR-141+**. Do NOT re-use any of the missing numbers above.
 
 ---
 
@@ -240,7 +246,7 @@ Three ADR numbers have two files on disk: a P21-era Proposed stub and a later Ac
 
 ## How to add a new ADR
 
-1. **Filename:** `ADR-NNN-kebab-case-title.md` where `NNN` is the next free number (currently ≥ 137).
+1. **Filename:** `ADR-NNN-kebab-case-title.md` where `NNN` is the next free number (currently ≥ 141).
 2. **First line:** `# ADR-NNN: Title` (or `# ADR-NNN — Title` per recent style; exact-case match to filename).
 3. **Status field:** `Proposed` → `Accepted` → optionally `Superseded by ADR-XXX`. Never delete an ADR file once committed; mark it `Superseded` and link forward.
 4. **Cross-references:** When a new ADR builds on or supersedes an existing one, link both directions (the older ADR gets a `Superseded by` line; the new ADR cites prior ADRs in its Context block).
@@ -258,4 +264,4 @@ Three ADR numbers have two files on disk: a P21-era Proposed stub and a later Ac
 
 ---
 
-**Last updated:** 2026-05-04 (P109 / ADR-LEDGER-TRUTH-UP / Wave 1 / Agent A12 + FINAL-CLEANUP / Agent A3 — counter fix 127→128 + ADR-137 row appended).
+**Last updated:** 2026-05-06 (P112 / GAP-CLOSURE / Agent A4 — counter 128 → 130, ADR-138 + ADR-139 + ADR-140 rows appended in new "Post-RC hardening (P110-P112)" bucket).
