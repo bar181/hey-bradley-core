@@ -86,34 +86,95 @@ The audit confirms the visitor journey today is **engineer → engineer → engi
 
 ### Wave 2 — Three parallel disjoint-scope fix agents
 
-#### F1 — Welcome.tsx reframe (THE primary surface)
-**Owns:** `src/pages/Welcome.tsx` (full rewrite of hero + 4-row table + below-fold sections)
-- New H1: **"Describe it. See it."**
-- New H2 (1 sentence, plain English): "The website builder that finally works the way you talk."
-- Below H2: insert the **owner's 4-row comparison table** verbatim (WordPress / Wix / Lovable / Hey Bradley)
-- Below table: 1 sentence: "For grandma. For the founder. For the agent that ships."
-- Existing 3-mode card grid (Builder / Chat / Listen) stays — they're already user-language
-- Below the cards: NEW honest-promise band: "describe it · see it · take it anywhere"
-- Below promise: NEW "for the agentic engineer" small-link card → `/research` (lower-priority position, single line, not a hero)
-- Footer ribbon: keep ONE trust marker (Harvard ALM tag or test count) in 12px text
-- Recent blog posts card stays
-- Recent projects card stays
-- Token-compliant per ADR-087/091; mobile-first per ADR-090; ≤44px touch targets
-- Cap: full file ≤320 LOC (current 315; surgical net delta)
+#### F1 — Welcome.tsx reframe (THE primary surface) — Apple-style scroll story
+**Owns:** `src/pages/Welcome.tsx` (full rewrite); 1 NEW shared hook `src/hooks/useReveal.ts` (≤40 LOC; intersection-observer fade-in; no new deps)
 
-#### F2 — Two NEW blog posts
-**Owns:** `src/pages/blog/posts/describe-it-see-it.md` + `src/pages/blog/posts/the-json-that-changes-everything.md`
-- Post 1: `describe-it-see-it.md` — narrative for the universal audience. Stories, not specs. Open with "Grandma's tutoring business" or similar relatable story. ~700-1000 words. Per-paragraph storytelling; no jargon for first 60% of post. Last 40% can introduce CLAUDE.md handoff for readers who want to dig deeper.
-- Post 2: `the-json-that-changes-everything.md` — the technical insight. JSON-patch as architectural moat. 10-100× cost advantage. Spec IS the JSON. CLAUDE.md is just a wrapper. ~1000-1400 words. **Aimed at the agentic-engineer + indie-dev audience.** Cite real LLM cost arithmetic. Diagram the patch-vs-rebuild loop.
-- Both posts use existing blog frontmatter shape (read 2 existing posts to mirror exactly)
-- Each post must include `voice: ` attribute consistent with founder-direct or theron-miller-hard-twist storytelling preset (per ADR-141)
+Apple-style 5-section scroll story. Story-first; no numbers; no competitor names; no jargon in first 100 words. **Each section is one idea, lots of whitespace, one image or animated element.**
 
-#### F3 — Public-page polish (About + OpenCore + Blog index card-treatment)
-**Owns:** `src/pages/About.tsx` + `src/pages/OpenCore.tsx` + `src/pages/Blog.tsx`
-- About.tsx: keep "Meet Bradley" H1; keep narrative; **demote** the capstone scoreboard from a hero callout to a small footer card; add a 2-sentence "what this product is" paragraph above the capstone narrative ("Hey Bradley is a website builder for everyone who's been failed by Wix / WordPress / Lovable. It's also the cleanest way to hand a website spec to Claude Code or any AI dev tool."); update P109 reference to current ADR/test count (post-P117: 136 ADRs, ~1659+ tests)
-- OpenCore.tsx: keep "55% problem" frame as the *second-tier* positioning (still strong for dev audience); add a small "for non-developers, start here →" link at top pointing to `/`
-- Blog.tsx: ensure the 2 new posts surface in the listing; verify the existing post grouping still works
-- Cap: ≤80 LOC delta total across the 3 files
+**Section 1 — Hero (above fold)**
+- H1: **Describe it. See it.**
+- H2 (one sentence, plain English): "The website builder that finally works the way you talk."
+- Primary CTA: "Start describing →" (links `/new-project`)
+- Secondary CTA: "See how it works" (anchor scroll to Section 2)
+- Visual: large animated SVG/CSS demo (no library) — typing animation of a sentence morphing into a styled hero section. Pure CSS keyframes + delayed render via the new `useReveal` hook. Falls back to static image if reduced-motion preferred.
+- ZERO trust eyebrow on the hero — clean. Trust band moves to footer.
+
+**Section 2 — "It works the way you talk."**
+- Single sentence headline.
+- One supporting sentence: "Speak it. Type it. Drag it. Whatever feels right today."
+- Visual: 3 small icon-glyphs (mic / chat / drag) with subtle hover-scale; clicking each opens the relevant mode.
+- This replaces the current 3-mode card grid (which is fine but reads like a feature list, not a story).
+
+**Section 3 — "Take it anywhere."**
+- Headline: "Take it anywhere."
+- Story (3-4 sentences, no jargon, no numbers): introduces the export-to-AI-coding-tool handoff as a *story*. "When you're ready, hand the export to your developer — or to your AI coding assistant. They get the spec they wish every project came with. No clarifying calls. No re-explaining what you meant."
+- Visual: animated card showing a JSON-shaped object morphing into a folder of files (CSS keyframes).
+- Small link: "Read how the handoff works →" links to blog post 1.
+
+**Section 4 — "Open core. Yours to keep."**
+- Headline: "Open core. Yours to keep."
+- Story (4 sentences): explains MIT / BYOK / no lock-in in user words. "Built in the open. Free to try. Bring your own API key. Take your work with you whenever you want."
+- Visual: GitHub mark + `bar181/aisp-open-core` link (Easter egg — nod to upcoming developments without explaining them).
+- Small link: "What's an Easter egg here? →" → links to a tiny `/easter-eggs` page (or repurposes `/research` as the home for the engineer-track + Easter eggs).
+
+**Section 5 — Closing CTA + Trust ribbon**
+- Single H2: "From your idea to a real site, in your words."
+- One large CTA button: "Start describing →"
+- Below: thin trust ribbon (12px, muted, single line): "Open source · MIT licensed · Built at Harvard"
+- No numbers. No counts. No phase ledger. The work proves itself by being there.
+
+**Removed from Welcome.tsx (moved out):**
+- ❌ The 4-row competitor comparison table → moved to blog post 1
+- ❌ "Spec workbench · AISP-powered · Harvard ALM Capstone" eyebrow
+- ❌ "Messy ideas → enterprise specs, instantly." H1
+- ❌ The AISP atom trace mono-font line
+- ❌ Recent blog posts card (demoted; visible via `/blog`)
+- ❌ Recent projects card (visible via `/builder` post-login)
+- ❌ Test counts / ADR counts / phase numbers — anywhere
+
+**Caps:**
+- Welcome.tsx total ≤280 LOC (currently 315; the rewrite is leaner because we strip more than we add)
+- useReveal hook ≤40 LOC; intersection-observer + reduced-motion respect
+- Token compliance per ADR-087/091; mobile-first per ADR-090; ≤44px touch targets per ADR-112
+- All animation is CSS keyframes + native intersection-observer JS — **NO** framer-motion, gsap, lottie, animejs, react-spring (KISS denylist per ADR-144 D5)
+
+#### F2 — Three NEW blog posts (story-first; carry the comparison + numbers + technical depth)
+**Owns:** `src/pages/blog/posts/describe-it-see-it.md` + `src/pages/blog/posts/why-we-built-this-the-honest-version.md` + `src/pages/blog/posts/the-handoff-that-changes-everything.md`
+
+**Post 1 — `describe-it-see-it.md`** (universal narrative; the home-page visitor's blog jump)
+- Open with a relatable story (boutique business owner / parent organizing a fundraiser / freelancer with a portfolio they keep meaning to refresh)
+- Walk the story through the product: they describe → they see → they iterate → they ship
+- ~800-1100 words; zero jargon for the first 70% of the post
+- Voice: founder-direct preset (per ADR-141)
+- The 4-row comparison table (WordPress / Wix / Lovable / Hey Bradley) lives HERE as a small mid-post artifact, not on the home page
+
+**Post 2 — `why-we-built-this-the-honest-version.md`** (the "why now" story)
+- The story behind the build — what was broken about every existing tool, what it felt like to use them, why the team started over
+- Names competitors honestly but generously; names the universal pain point
+- ~900-1200 words
+- Voice: theron-miller-hard-twist preset
+- This is where the "55% problem" / "everyone Wix lost" / "everyone Lovable frustrated" lines go — out of the way of the home page but findable in the blog
+
+**Post 3 — `the-handoff-that-changes-everything.md`** (engineer-facing; the technical moat)
+- The architectural insight: JSON-patch diffs vs rebuilds; spec IS the JSON; CLAUDE.md is the wrapper
+- Cost arithmetic with rounded plain-English framing — "tens to hundreds of times cheaper per change" rather than literal numeric multipliers
+- ~1100-1500 words
+- Voice: founder-direct, more technical register
+- Aimed at agentic engineers, indie devs, anyone evaluating the handoff seriously
+- Links from `/research` (or new `/for-developers`) page
+
+All 3 posts:
+- Mirror existing blog frontmatter shape (read 2 existing posts to confirm)
+- Include `voice:` attribute citing the storytelling preset
+- Do not include phase numbers / ADR counts / test counts inside body copy
+
+#### F3 — Public-page polish + animation rollout to siblings
+**Owns:** `src/pages/About.tsx` + `src/pages/OpenCore.tsx` + `src/pages/Blog.tsx` + `src/pages/Research.tsx`
+- **About.tsx**: keep "Meet Bradley" H1; story stays. **Strip the capstone scoreboard entirely** (the work proves itself; numbers leak academic framing into a consumer surface). Add a 2-sentence "what this is" paragraph above the journey: *"Hey Bradley is a website builder that works the way you talk. It's also the cleanest way to hand a finished website spec to your developer — or to your AI coding assistant."* Apply the `useReveal` hook to section transitions for the same fade-in story rhythm as Welcome.
+- **OpenCore.tsx**: keep "55% problem" framing — but only as the *engineer-track* hero, not the consumer hero. Add a small soft-link at the top: "**For everyone else, start here →** /". Strip phase numbers from the body. Apply `useReveal`.
+- **Blog.tsx**: ensure the 3 new posts (post 1 first; post 2 second; post 3 third by `published` date) surface at top of the index. Subtle fade-in on card scroll.
+- **Research.tsx**: confirm or repurpose as the agentic-engineer track entry. Add an Easter-egg ribbon linking to `https://github.com/bar181/aisp-open-core` ("**Read what's coming next →**") with a hover-reveal description: this is where upcoming developments are sketched in public.
+- Cap: ≤120 LOC delta total across the 4 files
 
 ### Wave 3 — Closer
 - ADR-146 (Simple Messaging + Product-Market Fit Standard) ≤120 LOC
@@ -122,31 +183,60 @@ The audit confirms the visitor journey today is **engineer → engineer → engi
 - CLAUDE.md sync (P118 entry; Blog count 12 → 14; ADR ledger 136 → 137; positioning anchor change)
 - `docs/adr/README.md` counter bump 136 → 137
 
+## Core values to surface (Apple-style — story not list)
+
+The owner's message names "Describe it. See it." as the headline. Beneath that, four core values must shine through the public surface (one per Welcome.tsx scroll section, deepened in the blog):
+
+1. **It works the way you talk** — speech, chat, drag — meet the user where they are
+2. **Take it anywhere** — the export-to-AI-coding-tool handoff IS the deployment story
+3. **Open core. Yours to keep.** — MIT, BYOK, no lock-in, work travels with you
+4. **Built in the open** — public repo, public ledger, public Easter eggs at `bar181/aisp-open-core` (where upcoming developments live before they ship)
+
+These are the values, in the visitor's language. No phase numbers. No counts. No tribe-naming. The visitor is the hero.
+
+## Visual & motion direction (Apple-pattern; KISS-compliant)
+
+- **Whitespace dominates.** Each scroll section breathes. ≥120px vertical rhythm between sections on desktop, ≥80px on mobile.
+- **One idea per section.** Each section says one thing and says it cleanly.
+- **CSS animation only.** ADR-144 D5 KISS denylist still bars framer-motion, gsap, lottie, animejs, react-spring. We use CSS keyframes + intersection-observer fade-in (NEW `useReveal` hook ≤40 LOC) + native View Transitions where supported.
+- **Image > paragraph.** Where text is doing too much work, replace it with a small illustration / SVG / animated CSS demo. The visual should reduce, not augment, the copy.
+- **Reduced-motion respect.** Every animated element gates on `prefers-reduced-motion: reduce` and falls back to static.
+- **Video deferred this sprint.** A real product-demo video is owner-recorded; provision a `<video>` slot in the Section 1 visual that's commented-out until owner uploads. Don't ship placeholder content.
+- **Easter eggs allowed and named.** A subtle nod (link / hover-reveal / footer line) toward upcoming-but-unshipped features at `bar181/aisp-open-core`. The visitor who pokes around finds the next thing being built. The visitor who doesn't poke around isn't confused.
+
 ## Hard rules
 
-1. NO new dependencies
+1. **NO new dependencies** (animation included — CSS + native JS only; ADR-144 D5 KISS denylist enforced)
 2. ADR-146 ≤120 LOC
-3. Welcome.tsx total ≤320 LOC after rewrite
-4. Each new blog post 700-1400 words; existing frontmatter shape preserved
-5. Token compliance per ADR-087/091
-6. Mobile-first per ADR-090 + 44px touch targets
-7. Both tsc strict configs CLEAN
-8. EOP triplet at phase root
-9. **NO market-size figures on any public page** (About is allowed one paragraph with cited footnote)
-10. **NO Crystal-Atom / AISP / CLAUDE.md / DDD jargon in the first 100 words of Welcome.tsx** — those words live in the resources tier exclusively for Wave 2's F1
-11. **The phrase "agentic engineer" appears at most ONCE in any public-page hero** — and only via a small link to a separate page
+3. Welcome.tsx total ≤280 LOC after rewrite
+4. Each new blog post 800-1500 words; existing blog frontmatter shape preserved; voice attribute cites a Decision-2-of-ADR-141 storytelling preset
+5. Token compliance per ADR-087/091; mobile-first per ADR-090 + 44px touch targets per ADR-112
+6. Both tsc strict configs CLEAN
+7. EOP triplet at phase root
+8. **NO numbers on any public page.** No test counts, no ADR counts, no phase numbers, no market-size figures, no percentage claims, no LLM-cost multipliers. Numbers belong in the blog body where they can be sourced and contextualized.
+9. **NO competitor names on any public page.** WordPress / Wix / Lovable / Bolt / Replit etc. live in blog posts. The home page does not name who failed the visitor before.
+10. **NO Crystal-Atom / AISP / CLAUDE.md / DDD / JSON-patch jargon in any Welcome.tsx body copy.** Jargon lives in `/blog`, `/research`, `/aisp`, `/docs` — not on the consumer surface.
+11. **The phrase "agentic engineer" never appears on Welcome.tsx.** It's allowed in `/research` and in blog post 3, where the audience self-selects.
+12. **Reduced-motion respected on every animated element** (CSS `@media (prefers-reduced-motion)` or JS gate via `matchMedia`). Animation is decoration, never load-bearing.
+13. **Easter-egg link to `bar181/aisp-open-core` is allowed and encouraged** in Section 4 ("Built in the open") and on Research — that's the "what's coming" surface.
 
 ## Acceptance gates
 
 - 1 audit doc landed (`docs/audit/p118-public-pages-inventory.md`)
-- Welcome.tsx reframed with new H1 + 4-row table + honest-promise band
-- 2 new blog posts at `src/pages/blog/posts/{describe-it-see-it,the-json-that-changes-everything}.md`
-- About.tsx + OpenCore.tsx + Blog.tsx polished per F3
+- Welcome.tsx reframed as 5-section Apple-style scroll story; H1 = "Describe it. See it."; zero numbers; zero competitor names
+- 3 new blog posts at `src/pages/blog/posts/{describe-it-see-it,why-we-built-this-the-honest-version,the-handoff-that-changes-everything}.md`
+- About.tsx scoreboard stripped + 2-sentence intro + useReveal applied
+- OpenCore.tsx soft-link to `/` for non-developers + numbers stripped + useReveal applied
+- Blog.tsx surfaces the 3 new posts at the top of the index
+- Research.tsx confirms or becomes the agentic-engineer track + `bar181/aisp-open-core` Easter-egg ribbon
+- NEW `src/hooks/useReveal.ts` (≤40 LOC; intersection-observer + reduced-motion gate)
 - ADR-146 Accepted
 - ≥10 P118 tests GREEN
 - Cumulative regression preserved (~1669+ at P118 anchor)
 - Both tsc strict configs CLEAN
-- CLAUDE.md + ADR README synced (137 ADRs · 14 blog posts)
+- CLAUDE.md + ADR README synced (137 ADRs · 15 blog posts)
+- Verified: zero `\d+` matches in Welcome.tsx body copy outside of `id`/`className`/coordinate-style attributes (sanity grep)
+- Verified: zero competitor-name string literals in Welcome.tsx (`WordPress|Wix|Lovable|Bolt|Replit|Squarespace|Webflow|Framer`)
 
 ## Carry-forward (out of scope this sprint, captured for honesty)
 
