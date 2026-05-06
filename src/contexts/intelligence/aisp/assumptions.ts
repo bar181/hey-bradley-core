@@ -84,6 +84,12 @@ const SECTION_CUES: Partial<Record<AllowedSectionType, readonly string[]>> = {
   quotes: ['testimonial', 'quote', 'review'],
   questions: ['faq', 'question', 'q&a'],
   team: ['team', 'about us', 'people'],
+  numbers: ['stat', 'stats', 'metric', 'metrics', 'number', 'numbers', 'kpi'],
+  image: ['image', 'photo', 'picture', 'screenshot', 'figure'],
+  divider: ['divider', 'spacer', 'break', 'separator', 'space'],
+  logos: ['logo', 'logos', 'client logos', 'trusted by', 'partners'],
+  'case-study': ['case study', 'case studies', 'success story', 'success stories', 'client story'],
+  'contact-form': ['contact form', 'contact us', 'get in touch', 'reach out', 'inquiry form'],
 }
 
 function inferVerb(textLower: string): IntentVerb {

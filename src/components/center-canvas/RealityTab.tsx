@@ -66,6 +66,8 @@ import { BlogCardGrid } from '@/templates/blog/BlogCardGrid'
 import { BlogListExcerpts } from '@/templates/blog/BlogListExcerpts'
 import { BlogFeaturedGrid } from '@/templates/blog/BlogFeaturedGrid'
 import { BlogMinimal } from '@/templates/blog/BlogMinimal'
+import { CaseStudyCards } from '@/templates/case-study/CaseStudyCards'
+import { ContactFormSimple } from '@/templates/contact-form/ContactFormSimple'
 import {
   Star,
   Grid3X3,
@@ -84,6 +86,8 @@ import {
   FileText,
   Award,
   Users,
+  Briefcase,
+  Mail,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -104,6 +108,8 @@ const DIVIDER_SECTION_TYPES: { type: SectionType; name: string; icon: LucideIcon
   { type: 'logos', name: 'Logo Cloud', icon: Award },
   { type: 'team', name: 'Team', icon: Users },
   { type: 'blog', name: 'Blog', icon: FileText },
+  { type: 'case-study', name: 'Case Study', icon: Briefcase },
+  { type: 'contact-form', name: 'Contact Form', icon: Mail },
 ]
 
 const SECTION_LABELS: Record<string, string> = {
@@ -123,6 +129,8 @@ const SECTION_LABELS: Record<string, string> = {
   logos: 'Logo Cloud',
   team: 'Team',
   blog: 'Blog',
+  'case-study': 'Case Study',
+  'contact-form': 'Contact Form',
 }
 
 function AddSectionDivider({ afterIndex }: { afterIndex: number }) {
@@ -615,6 +623,12 @@ function renderSection(section: ReturnType<typeof useConfigStore.getState>['conf
       default:
         return <BlogCardGrid section={section} />
     }
+  }
+  if (section.type === 'case-study') {
+    return <CaseStudyCards section={section} />
+  }
+  if (section.type === 'contact-form') {
+    return <ContactFormSimple section={section} />
   }
   return (
     <div

@@ -51,6 +51,11 @@ export function validateSectionType(t: string): ValidSectionType | null {
     cta: 'action',
     faq: 'questions',
     stats: 'numbers',
+    'case study': 'case-study',
+    'success story': 'case-study',
+    'contact form': 'contact-form',
+    'contact us': 'contact-form',
+    'get in touch': 'contact-form',
   }
   if (aliases[t]) {
     if (typeof console !== 'undefined') {
