@@ -10,7 +10,10 @@
     "spec": "aisp-1.2",
     "purpose": "marketing",
     "audience": "consumer",
-    "tone": "warm"
+    "tone": "warm",
+    "brandName": "Summit Realty Group",
+    "tagline": "Boutique brokerage. Big-Sky inventory. No bidding-war theater.",
+    "voiceAttributes": ["warm", "direct", "neighborhood-specific", "local-expert"]
   },
   "theme": {
     "preset": "professional",
@@ -108,7 +111,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "Top-Rated Agency Since 2015",
+            "text": "Bozeman, MT · 11 years · 480+ closings",
             "icon": "award",
             "variant": "pill"
           }
@@ -119,7 +122,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Find Your Dream Home With Experts Who Care",
+            "text": "We sell Bozeman like we live here. Because we do.",
             "level": 1,
             "size": "56px",
             "weight": 600
@@ -131,7 +134,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "Whether you're buying your first home, selling a cherished property, or searching for the perfect rental, Summit Realty Group makes every step feel effortless."
+            "text": "Three brokers. One shared MLS desk. We know which Westside cul-de-sac floods in spring runoff, which builders cut corners in 2018, and which seller will bring the asking price down 8% if you write a clean offer. We will tell you. Including when the answer is don't buy this one."
           }
         },
         {

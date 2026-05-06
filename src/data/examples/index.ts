@@ -62,6 +62,10 @@ import courseCreatorTech from './course-creator-tech.json'
 import contrarianBlog from './contrarian-blog.json'
 import indieAuthorFiction from './indie-author-fiction.json'
 import researchNewsletter from './research-newsletter.json'
+// P115 / VISUAL-QUALITY / A4 — 3 vastly different demo sites
+import editorialMagazine from './editorial-magazine.json'
+import indieGameStudio from './indie-game-studio.json'
+import researchLab from './research-lab.json'
 import type { MasterConfig } from '@/lib/schemas'
 import { validateSectionType } from '@/lib/schemas/section'
 
@@ -417,6 +421,29 @@ export const EXAMPLE_SITES: ExampleSite[] = [
     description: 'Academic-rigor research newsletter on AI policy — claim + evidence + counterargument + sources. Free + paid tiers, named subscriber testimonials.',
     theme: 'Professional',
     config: researchNewsletter as unknown as MasterConfig,
+  },
+  // P115 / VISUAL-QUALITY / A4 — 3 vastly different demo sites
+  // Each demo deliberately occupies a distinct visual + voice quadrant from the
+  // existing 56 templates: dark serif editorial, bright pixel-adjacent indie
+  // game, and clean institutional academic. Each cites a storytelling preset
+  // (theron-miller-hard-twist / founder-direct / academic-rigor).
+  {
+    name: 'The Long Cut · Editorial Magazine',
+    description: 'Slow-reporting editorial magazine — dark Fraunces serif, photo-essay, 2,500-word lead essay, six issues a year. Theron-Miller hard-twist voice, journalist audience.',
+    theme: 'Elegant',
+    config: editorialMagazine as unknown as MasterConfig,
+  },
+  {
+    name: 'Forklift Studios · Indie Game',
+    description: 'Three-person Porto game studio shipping Vault & Vine — bright neon-pink+mint on near-black, pixel-art screenshots, team-of-four-with-cat bios, Steam wishlist CTA. Founder-direct voice.',
+    theme: 'Creative',
+    config: indieGameStudio as unknown as MasterConfig,
+  },
+  {
+    name: 'Halvorsen Lab · Research Lab',
+    description: 'Computational soil microbiology lab at UiT (Tromsø) — clean white, IBM Plex Serif, data-stat callouts, 5 named publications with DOIs, named collaborators + grants. Academic-rigor voice, Lars persona.',
+    theme: 'Professional',
+    config: researchLab as unknown as MasterConfig,
   },
 ]
 

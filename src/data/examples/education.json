@@ -12,8 +12,8 @@
     "audience": "developer",
     "tone": "casual",
     "brandName": "CodeCraft Academy",
-    "tagline": "Learn to code with project-based courses",
-    "voiceAttributes": ["energetic", "modern", "approachable"]
+    "tagline": "12-week cohorts. Real production codebases. Senior engineers from Google, Meta, Stripe.",
+    "voiceAttributes": ["specific", "outcomes-driven", "approachable", "no-bootcamp-fluff"]
   },
   "theme": {
     "preset": "startup",

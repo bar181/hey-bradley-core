@@ -10,10 +10,10 @@
     "spec": "aisp-1.2",
     "purpose": "marketing",
     "audience": "consumer",
-    "tone": "empathetic",
+    "tone": "warm",
     "brandName": "Hartwell Therapy Group",
-    "tagline": "Therapy that meets you where you are",
-    "voiceAttributes": ["empathetic", "professional", "accessible"]
+    "tagline": "Portland group practice · 7 licensed therapists · sliding-scale + superbills",
+    "voiceAttributes": ["empathetic", "professional", "accessible", "neighborhood-specific"]
   },
   "theme": {
     "preset": "elegant",

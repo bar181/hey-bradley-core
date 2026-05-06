@@ -7,6 +7,8 @@ import { tokens } from '@/styles/design-tokens'
 
 import { Badge } from '@/components/ui/badge'
 import { LightboxModal } from '@/components/ui/LightboxModal'
+import { ImageFallback } from '@/components/ui/ImageFallback'
+import { useImageError } from '@/hooks/useImageError'
 
 interface HeroCenteredProps {
   section: Section
@@ -16,8 +18,8 @@ export function HeroCentered({ section }: HeroCenteredProps) {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const sectionRef = useRef<HTMLElement>(null)
+  const { errored, onError: onImgError } = useImageError()
   const effectClass = getImageEffectClass(section)
-  const isClickEnlarge = section.style?.imageEffect === 'click-enlarge'
   const hero = resolveHeroContent(section)
   const videoComp = section.components.find(c => c.id === 'heroVideo')
   const videoUrl = videoComp?.enabled ? (videoComp?.props?.url as string) || '' : ''
@@ -130,14 +132,19 @@ export function HeroCentered({ section }: HeroCenteredProps) {
 
         {/* Inline hero image (below content) */}
         {imageUrl && (
-          <div className={`mt-8 w-full max-w-4xl overflow-hidden rounded-xl ${effectClass}`}>
-            <img
-              src={imageUrl}
-              alt={imageAlt}
-              className={`w-full object-cover shadow-2xl max-h-[500px]${isClickEnlarge ? ' cursor-pointer' : ''}`}
-              onClick={isClickEnlarge ? () => setLightboxSrc(imageUrl) : undefined}
-              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
-            />
+          <div className={`group mt-8 w-full max-w-4xl overflow-hidden rounded-xl ${effectClass}`}>
+            {errored ? (
+              <div className="w-full h-[400px]"><ImageFallback label={imageAlt || 'Hero image'} /></div>
+            ) : (
+              <img
+                src={imageUrl}
+                alt={imageAlt}
+                loading="lazy"
+                className="w-full object-cover shadow-2xl max-h-[500px] transition-transform duration-200 ease-out hover:scale-105 cursor-pointer"
+                onClick={() => setLightboxSrc(imageUrl)}
+                onError={onImgError}
+              />
+            )}
           </div>
         )}
 

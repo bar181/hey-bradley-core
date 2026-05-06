@@ -224,7 +224,11 @@ export function SectionsSection() {
           }}
           onDrop={(e) => handleDrop(e, index)}
           className={cn(
-            'flex items-center gap-2 px-2 py-2 rounded-md cursor-pointer transition-all',
+            // P115 / A1 — `group` class scopes the drag-handle hover-reveal
+            // below; `transition-colors` (was `transition-all`) keeps row
+            // bg + border swaps fluid without dragging unrelated transform/
+            // opacity timings on every selection toggle.
+            'group flex items-center gap-2 px-2 py-2 rounded-md cursor-pointer transition-colors duration-150',
             isSelected
               ? 'bg-hb-accent/10 border-2 border-hb-accent'
               : 'border border-transparent hover:bg-hb-surface-hover',
@@ -247,7 +251,13 @@ export function SectionsSection() {
             <ChevronRight size={12} className={cn('transition-transform', !isCollapsed && 'rotate-90')} />
           </button>
 
-          {/* Drag handle (hidden when collapsed) */}
+          {/* Drag handle (hidden when collapsed)
+              P115 / A1 — fade in on row hover (Lovable canvas pattern):
+              `opacity-0 group-hover:opacity-100` parented by the row's
+              `group` class. Selected row keeps it visible because the
+              row carries `:hover` styles plus the active outline; we
+              also force-show when the row is the one being dragged so
+              the handle doesn't blink-out mid-drag. */}
           {!isCollapsed && (
             <Tooltip content="Drag to reorder" position="right">
               <div
@@ -260,7 +270,13 @@ export function SectionsSection() {
                   setDragId(null)
                   setDropTarget(null)
                 }}
-                className="cursor-grab active:cursor-grabbing p-0.5 text-hb-text-muted/40 hover:text-hb-text-muted active:text-hb-text-muted touch-none"
+                className={cn(
+                  'cursor-grab active:cursor-grabbing p-0.5 text-hb-text-muted/40 hover:text-hb-text-muted active:text-hb-text-muted touch-none',
+                  'transition-opacity duration-200',
+                  dragId === section.id || isSelected
+                    ? 'opacity-100'
+                    : 'opacity-0 group-hover:opacity-100 focus-visible:opacity-100'
+                )}
                 title="Drag to move this section up or down."
               >
                 <GripVertical size={14} />
@@ -327,15 +343,15 @@ export function SectionsSection() {
             </button>
             <button
               type="button"
-              title="Delete this section. Click twice to confirm."
+              title={confirmDeleteId === section.id ? 'Click again to confirm delete.' : 'Delete this section. Click twice to confirm.'}
               aria-label={
                 confirmDeleteId === section.id
-                  ? 'Click again to confirm delete'
-                  : 'Delete section'
+                  ? `Click again to confirm deleting ${name}`
+                  : `Delete ${name} section`
               }
               onClick={() => handleDelete(section.id)}
               className={cn(
-                'p-1 rounded hover:bg-hb-surface-hover active:bg-hb-surface-hover',
+                'p-1 rounded hover:bg-hb-surface-hover active:bg-hb-surface-hover transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)]',
                 confirmDeleteId === section.id
                   ? 'text-red-400 animate-pulse'
                   : 'text-hb-text-muted hover:text-red-400 active:text-red-400'
@@ -343,6 +359,19 @@ export function SectionsSection() {
             >
               <Trash2 size={14} />
             </button>
+            {/* P115 / A1 — inline confirm caption replaces the implicit
+                "wait for the icon to flash" pattern. Single-tap-to-confirm
+                surface: caption visible only while the 3-second window is
+                active; aria-live=polite for screen readers. */}
+            {confirmDeleteId === section.id && (
+              <span
+                aria-live="polite"
+                data-testid="section-delete-confirm-caption"
+                className="text-[10px] text-red-400 font-medium ml-1 transition-opacity duration-150"
+              >
+                Tap again to delete
+              </span>
+            )}
           </div>
         )}
       </div>

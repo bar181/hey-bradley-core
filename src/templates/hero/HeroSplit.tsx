@@ -8,13 +8,15 @@ import { tokens } from '@/styles/design-tokens'
 
 import { Badge } from '@/components/ui/badge'
 import { LightboxModal } from '@/components/ui/LightboxModal'
+import { ImageFallback } from '@/components/ui/ImageFallback'
+import { useImageError } from '@/hooks/useImageError'
 
 export function HeroSplit({ section }: { section: Section }) {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const sectionRef = useRef<HTMLElement>(null)
+  const { errored, onError: onImgError } = useImageError()
   const effectClass = getImageEffectClass(section)
-  const isClickEnlarge = section.style?.imageEffect === 'click-enlarge'
   const hero = resolveHeroContent(section)
   const imageComp = section.components.find((c) => c.id === 'heroImage')
   const imageUrl = imageComp?.enabled ? (imageComp?.props?.url as string) || '' : ''
@@ -112,14 +114,19 @@ export function HeroSplit({ section }: { section: Section }) {
 
         {/* Image column */}
         {imageUrl && (
-          <div className={cn('w-full md:w-1/2 overflow-hidden rounded-xl', imageOnLeft && 'order-1', effectClass)}>
-            <img
-              src={imageUrl}
-              alt={imageAlt}
-              className={`w-full object-cover shadow-2xl max-h-[500px]${isClickEnlarge ? ' cursor-pointer' : ''}`}
-              onClick={isClickEnlarge ? () => setLightboxSrc(imageUrl) : undefined}
-              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
-            />
+          <div className={cn('group w-full md:w-1/2 overflow-hidden rounded-xl', imageOnLeft && 'order-1', effectClass)}>
+            {errored ? (
+              <div className="w-full h-[400px]"><ImageFallback label={imageAlt || 'Hero image'} /></div>
+            ) : (
+              <img
+                src={imageUrl}
+                alt={imageAlt}
+                loading="lazy"
+                className="w-full object-cover shadow-2xl max-h-[500px] transition-transform duration-200 ease-out hover:scale-105 cursor-pointer"
+                onClick={() => setLightboxSrc(imageUrl)}
+                onError={onImgError}
+              />
+            )}
           </div>
         )}
       </div>

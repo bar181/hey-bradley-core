@@ -8,7 +8,7 @@ import { useUIStore } from '@/store/uiStore'
 import { resolveHeroContent } from '@/lib/schemas'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
 import {
-  Sun, Moon, ChevronDown, ChevronRight,
+  Sun, Moon, ChevronRight,
   Image as ImageIcon, PlayCircle, Monitor, LayoutDashboard,
   PanelRight, PanelLeft, MonitorPlay, ImageDown,
 } from 'lucide-react'
@@ -165,7 +165,7 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
         className={cn(
           'flex items-center justify-between w-full px-2 py-2 mb-1 rounded-md',
           'border border-hb-border/40 bg-hb-surface/40',
-          'hover:bg-hb-surface-hover transition-colors',
+          'hover:bg-hb-surface-hover transition-colors duration-200',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hb-accent'
         )}
       >
@@ -182,16 +182,21 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
             </span>
           )}
         </span>
-        {expanded ? (
-          <ChevronDown size={14} className="text-hb-text-muted" />
-        ) : (
-          <ChevronRight size={14} className="text-hb-text-muted" />
-        )}
+        {/* P115 / A1 — single chevron with rotate transition (was conditional
+            ChevronDown/ChevronRight pair). 200ms ease-out for fluid feel,
+            consistent with section-row chevron pattern in SectionsSection. */}
+        <ChevronRight
+          size={14}
+          className={cn(
+            'text-hb-text-muted transition-transform duration-200 ease-out',
+            expanded && 'rotate-90'
+          )}
+        />
       </button>
       {expanded && (
       <div
         id={`section-body-${sectionId}`}
-        className="divide-y divide-hb-border/30"
+        className="divide-y divide-hb-border/30 animate-in fade-in duration-200"
       >
       {/* ─── 1. DESIGN ─── */}
       <RightAccordion id="layout" label="Design">

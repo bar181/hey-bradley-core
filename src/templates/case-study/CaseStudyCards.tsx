@@ -24,10 +24,18 @@ interface CaseStudyCard {
   headline: string
   body: string
   outcomeMetric: string
+  metricLabel: string
+  problem: string
+  solution: string
   clientName: string
+  clientRole: string
   mediaUrl: string
 }
 
+// P115 / A2 — case-study cards now surface before/after structure
+// (problem → solution) + larger metric callout + client role attribution.
+// All new fields are optional and fall back to empty strings — every existing
+// example site renders byte-equivalent when only legacy headline/body/outcomeMetric are set.
 function parseCards(section: Section): CaseStudyCard[] {
   const items = section.components
     .filter((c) => c.type === 'case-study-card' && c.enabled)
@@ -38,7 +46,11 @@ function parseCards(section: Section): CaseStudyCard[] {
     headline: (item.props?.headline as string) || 'Outcome headline',
     body: (item.props?.body as string) || '',
     outcomeMetric: (item.props?.outcomeMetric as string) || '',
+    metricLabel: (item.props?.metricLabel as string) || '',
+    problem: (item.props?.problem as string) || '',
+    solution: (item.props?.solution as string) || '',
     clientName: (item.props?.clientName as string) || '',
+    clientRole: (item.props?.clientRole as string) || '',
     mediaUrl: (item.props?.mediaUrl as string) || '',
   }))
 }
@@ -112,23 +124,47 @@ export function CaseStudyCards({ section }: { section: Section }) {
             </div>
             <div className="p-5 space-y-3">
               {card.outcomeMetric && (
-                <span
-                  className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full"
-                  style={{ background: chipBg, color: section.style.color }}
-                >
-                  {card.outcomeMetric}
-                </span>
+                <div className="flex items-baseline gap-2">
+                  <span
+                    className="text-3xl md:text-4xl font-bold leading-none tracking-tight"
+                    style={{ color: section.style.color }}
+                  >
+                    {card.outcomeMetric}
+                  </span>
+                  {card.metricLabel && (
+                    <span className="text-xs uppercase tracking-wider opacity-60">
+                      {card.metricLabel}
+                    </span>
+                  )}
+                </div>
               )}
               <h3 className="text-lg font-bold leading-snug line-clamp-2">
                 {card.headline}
               </h3>
-              {card.body && (
-                <p className="text-sm opacity-70 line-clamp-3">{card.body}</p>
+              {card.problem && card.solution ? (
+                <div className="space-y-2 text-[14px] leading-[1.6]">
+                  <div>
+                    <span className="text-[10px] font-semibold uppercase tracking-wider opacity-60 block mb-0.5">Before</span>
+                    <p className="opacity-75 line-clamp-2">{card.problem}</p>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-semibold uppercase tracking-wider opacity-60 block mb-0.5">After</span>
+                    <p className="opacity-90 line-clamp-2">{card.solution}</p>
+                  </div>
+                </div>
+              ) : (
+                card.body && (
+                  <p className="text-[15px] leading-[1.6] opacity-70 line-clamp-3">{card.body}</p>
+                )
               )}
               {card.clientName && (
-                <div className="text-xs opacity-60 pt-1">
-                  <span className="uppercase tracking-wider">Client · </span>
-                  <span className="font-medium">{card.clientName}</span>
+                <div className="text-xs opacity-60 pt-1 border-t border-current/10 mt-3">
+                  <div className="pt-3">
+                    <span className="font-medium">{card.clientName}</span>
+                    {card.clientRole && (
+                      <span className="opacity-70"> · {card.clientRole}</span>
+                    )}
+                  </div>
                 </div>
               )}
             </div>

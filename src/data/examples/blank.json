@@ -12,8 +12,8 @@
     "audience": "consumer",
     "tone": "casual",
     "brandName": "Blank Canvas",
-    "tagline": "A clean slate, ready for any direction",
-    "voiceAttributes": ["neutral", "open", "starter"]
+    "tagline": "A clean scaffold · point Bradley at any vertical · the same hero reshapes itself",
+    "voiceAttributes": ["neutral", "open", "starter", "vertical-agnostic"]
   },
   "theme": {
     "preset": "minimalist",

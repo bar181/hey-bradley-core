@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { Section } from '@/lib/schemas'
 import { getStr, getImageEffectClass } from '@/lib/sectionContent'
 import { LightboxModal } from '@/components/ui/LightboxModal'
+import { ImageFallback } from '@/components/ui/ImageFallback'
 
 /* --------------------------------------------------------------------- */
 /*  GalleryMasonry — Pinterest-style mixed sizes (alternating tall/short) */
@@ -19,7 +20,6 @@ const DEFAULT_IMAGES = [
 export function GalleryMasonry({ section }: { section: Section }) {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
   const effectClass = getImageEffectClass(section)
-  const isClickEnlarge = section.style?.imageEffect === 'click-enlarge'
   const items = section.components
     .filter((c) => c.enabled)
     .sort((a, b) => a.order - b.order)
@@ -61,12 +61,21 @@ export function GalleryMasonry({ section }: { section: Section }) {
             <img
               src={img.url}
               alt={img.caption || 'Gallery image'}
-              className={`w-full object-cover transition-transform duration-300 group-hover:scale-105 ${
+              loading="lazy"
+              className={`w-full object-cover transition-transform duration-200 ease-out group-hover:scale-105 cursor-pointer ${
                 i % 3 === 0 ? 'aspect-[3/4]' : i % 3 === 1 ? 'aspect-square' : 'aspect-[4/3]'
-              }${isClickEnlarge ? ' cursor-pointer' : ''}`}
-              onClick={isClickEnlarge ? () => setLightboxSrc(img.url) : undefined}
-              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+              }`}
+              onClick={() => setLightboxSrc(img.url)}
+              onError={(e) => {
+                const el = e.target as HTMLImageElement
+                el.style.display = 'none'
+                const sibling = el.nextElementSibling as HTMLElement | null
+                if (sibling?.dataset.fallback === 'on') sibling.style.display = 'flex'
+              }}
             />
+            <div data-fallback="on" className="absolute inset-0" style={{ display: 'none' }}>
+              <ImageFallback label={img.caption || 'Image'} />
+            </div>
             {img.caption && (
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                 <p className="text-sm text-white">{img.caption}</p>

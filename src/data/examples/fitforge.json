@@ -12,8 +12,8 @@
     "audience": "consumer",
     "tone": "bold",
     "brandName": "FitForge Fitness",
-    "tagline": "Forge your best self",
-    "voiceAttributes": ["bold", "energetic", "motivating"]
+    "tagline": "60-minute strength + conditioning. East Austin. No mirrors, no influencers.",
+    "voiceAttributes": ["bold", "specific", "neighborhood-specific", "no-influencer-fluff"]
   },
   "theme": {
     "preset": "creative",
@@ -124,7 +124,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Forge Your Strongest Self",
+            "text": "Hard work, real coaches, no mirrors.",
             "level": 1,
             "size": "56px",
             "weight": 800
@@ -136,7 +136,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "High-intensity classes, expert trainers, and a community that pushes you further. Your transformation starts the moment you walk through the door."
+            "text": "FitForge is one converted-warehouse box on East 6th, three full-time coaches (all certified strength specialists, no Instagram-influencer marketing hires), and 60-minute classes that finish on time. We program strength + conditioning four days a week and run two coached lifts on Saturdays. No commission upsell. No before/after carousel. Walk in, work hard, leave."
           }
         },
         {

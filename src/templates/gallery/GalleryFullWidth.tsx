@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { Section } from '@/lib/schemas'
 import { getStr, getImageEffectClass } from '@/lib/sectionContent'
 import { LightboxModal } from '@/components/ui/LightboxModal'
+import { ImageFallback } from '@/components/ui/ImageFallback'
 
 /* --------------------------------------------------------------------- */
 /*  GalleryFullWidth — One large image per row, full width                */
@@ -19,7 +20,6 @@ const DEFAULT_IMAGES = [
 export function GalleryFullWidth({ section }: { section: Section }) {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
   const effectClass = getImageEffectClass(section)
-  const isClickEnlarge = section.style?.imageEffect === 'click-enlarge'
   const items = section.components
     .filter((c) => c.enabled)
     .sort((a, b) => a.order - b.order)
@@ -57,10 +57,19 @@ export function GalleryFullWidth({ section }: { section: Section }) {
             <img
               src={img.url}
               alt={img.caption || 'Gallery image'}
-              className={`w-full aspect-[21/9] object-cover transition-transform duration-500 group-hover:scale-[1.02]${isClickEnlarge ? ' cursor-pointer' : ''}`}
-              onClick={isClickEnlarge ? () => setLightboxSrc(img.url) : undefined}
-              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+              loading="lazy"
+              className="w-full aspect-[21/9] object-cover transition-transform duration-200 ease-out group-hover:scale-105 cursor-pointer"
+              onClick={() => setLightboxSrc(img.url)}
+              onError={(e) => {
+                const el = e.target as HTMLImageElement
+                el.style.display = 'none'
+                const sib = el.nextElementSibling as HTMLElement | null
+                if (sib?.dataset.fallback === 'on') sib.style.display = 'flex'
+              }}
             />
+            <div data-fallback="on" className="absolute inset-0 aspect-[21/9]" style={{ display: 'none' }}>
+              <ImageFallback label={img.caption || 'Image'} />
+            </div>
             {img.caption && (
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                 <p className="text-base text-white font-medium">{img.caption}</p>

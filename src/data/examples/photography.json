@@ -12,8 +12,8 @@
     "audience": "consumer",
     "tone": "warm",
     "brandName": "Sarah Chen Photography",
-    "tagline": "Capturing moments worth remembering",
-    "voiceAttributes": ["artistic", "dramatic", "personal"]
+    "tagline": "San Francisco Bay Area · weddings, portraits, editorial · booking 9 weddings a year",
+    "voiceAttributes": ["artistic", "dramatic", "personal", "boutique-deliberate"]
   },
   "theme": {
     "preset": "portfolio",

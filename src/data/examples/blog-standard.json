@@ -8,9 +8,9 @@
     "project": "stories-from-the-kitchen",
     "version": "1.0.0-RC1",
     "spec": "aisp-1.2",
-    "purpose": "Personal blog about baking",
-    "audience": "Home bakers",
-    "tone": "Warm, conversational",
+    "purpose": "blog",
+    "audience": "consumer",
+    "tone": "warm",
     "brandName": "Stories from the kitchen",
     "tagline": "Real recipes, real results.",
     "voiceAttributes": ["warm", "conversational", "honest"]
@@ -163,10 +163,107 @@
       "content": {}
     },
     {
+      "type": "text",
+      "id": "text-about-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "single",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "padding": "48px 24px",
+        "maxWidth": "680px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "#faf8f5",
+        "color": "#1f1a14"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Why I keep this blog",
+            "level": 2,
+            "size": "32px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "body",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Most baking blogs are pristine. Mine is not. I write here because I forget things — that the rye starter goes sluggish in winter, that 80% hydration is a lie at altitude, that my Dutch oven runs 12°F hotter than the dial says. If a recipe of mine works for you, it has been re-made at least six times in a small Brooklyn kitchen with a finicky oven. If it doesn't, send me a note and I'll tell you what probably went sideways."
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "16px",
+        "padding": "56px 24px",
+        "maxWidth": "680px"
+      },
+      "style": {
+        "background": "#f1ece4",
+        "color": "#1f1a14"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Sundays in your inbox",
+            "level": 2,
+            "size": "28px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "One recipe, one mistake I made, and one thing I'm trying next week. No ads, no recipe-card SEO theater. About 600 words, every Sunday morning."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Subscribe",
+            "url": "#subscribe",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
       "type": "footer",
       "id": "footer-01",
       "enabled": true,
-      "order": 2,
+      "order": 4,
       "variant": "minimal",
       "layout": {
         "display": "flex",

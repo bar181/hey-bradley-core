@@ -10,10 +10,10 @@
     "spec": "aisp-1.2",
     "purpose": "marketing",
     "audience": "consumer",
-    "tone": "tech-forward",
+    "tone": "casual",
     "brandName": "Caremeet",
-    "tagline": "Care that meets you where you are",
-    "voiceAttributes": ["accessible", "fast", "tech-forward"]
+    "tagline": "On-demand telehealth · all 50 states · 12-minute median response",
+    "voiceAttributes": ["accessible", "fast", "tech-forward", "no-jargon"]
   },
   "theme": {
     "preset": "saas",

@@ -12,8 +12,8 @@
     "audience": "consumer",
     "tone": "warm",
     "brandName": "The Corner Table",
-    "tagline": "Farm-to-table dining in the heart of downtown",
-    "voiceAttributes": ["warm", "inviting", "seasonal"]
+    "tagline": "24 seats. Asheville, NC. The menu changes when the farm trucks change.",
+    "voiceAttributes": ["warm", "neighborhood-specific", "seasonal", "deliberate"]
   },
   "theme": {
     "preset": "wellness",
@@ -124,7 +124,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Where Every Meal Tells a Story",
+            "text": "Twenty-four seats. One menu. Whatever Tuesday's farms sent us.",
             "level": 1,
             "size": "56px",
             "weight": 700
@@ -136,7 +136,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "Seasonal dishes crafted from locally sourced ingredients, paired with handpicked wines and craft cocktails in a warm, intimate setting downtown."
+            "text": "We are a 24-seat restaurant on Madison Avenue in Asheville. The menu is one prix-fixe page, written every Tuesday morning when our four farm partners drop off whatever the rain and the deer left them. Five courses, 110 dollars, BYOB welcome with a 25 dollar corkage. We do not take parties over six. Reservations open Sunday at 9 PM for the following week."
           }
         },
         {

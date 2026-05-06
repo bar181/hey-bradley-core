@@ -1,5 +1,6 @@
 import type { Section } from '@/lib/schemas'
 import { getStr } from '@/lib/sectionContent'
+import { ImageFallback } from '@/components/ui/ImageFallback'
 
 const DEFAULT_MEMBERS = [
   { id: 't1', name: 'Sarah Chen', role: 'CEO & Co-founder', imageUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&q=80', description: 'Former VP of Engineering at Scale AI. Stanford CS graduate.' },
@@ -55,13 +56,22 @@ export function TeamCards({ section }: { section: Section }) {
               background: `color-mix(in srgb, ${section.style.color} 3%, transparent)`,
               border: `1px solid color-mix(in srgb, ${section.style.color} 10%, transparent)`,
             }}>
-            <div className="w-32 h-32 rounded-full overflow-hidden mb-4 ring-2 ring-current/10">
+            <div className="group w-32 h-32 rounded-full overflow-hidden mb-4 ring-2 ring-current/10 relative">
               <img
                 src={member.imageUrl}
                 alt={member.name}
-                className="w-full h-full object-cover"
-                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-200 ease-out group-hover:scale-105"
+                onError={(e) => {
+                  const el = e.target as HTMLImageElement
+                  el.style.display = 'none'
+                  const sib = el.nextElementSibling as HTMLElement | null
+                  if (sib?.dataset.fallback === 'on') sib.style.display = 'flex'
+                }}
               />
+              <div data-fallback="on" className="absolute inset-0" style={{ display: 'none' }}>
+                <ImageFallback label={member.name || 'Member'} />
+              </div>
             </div>
             <h3 className="text-lg font-semibold">{member.name}</h3>
             <p className="text-sm opacity-60 mt-1">{member.role}</p>
