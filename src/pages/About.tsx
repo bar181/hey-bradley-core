@@ -35,6 +35,12 @@ export function About() {
             also the cleanest way to hand a finished website spec to your developer
             &mdash; or to your AI coding assistant.
           </p>
+          <p className="text-base text-[#6b5e4f] leading-relaxed text-center mt-6">
+            Want to see it in action?{' '}
+            <Link to="/walkthrough" className="text-[#e8772e] hover:underline font-medium">
+              Watch the walkthrough &rarr;
+            </Link>
+          </p>
         </div>
       </section>
 

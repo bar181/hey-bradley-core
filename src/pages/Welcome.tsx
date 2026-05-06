@@ -91,12 +91,12 @@ export function Welcome() {
                 Start describing
                 <ArrowRight className="w-4 h-4" />
               </Link>
-              <a
-                href="#how-it-works"
+              <Link
+                to="/walkthrough"
                 className="inline-flex items-center gap-2 px-6 py-3 min-h-[44px] border border-[rgb(var(--hb-warm-rgb)/0.3)] text-[var(--hb-ink)] font-semibold rounded-xl hover:bg-[var(--hb-paper-soft)] transition-colors"
               >
-                See how it works
-              </a>
+                Watch the walkthrough <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
           </div>
 

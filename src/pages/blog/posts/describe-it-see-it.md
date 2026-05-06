@@ -61,3 +61,5 @@ The site is up. She has it. She is not paying anyone $200 a month to host change
 This is what describe-it-see-it means. You speak. It builds. You iterate. It exports. The website is yours. The work that used to require a developer, a designer, and three rounds of "no, more like this" is now a conversation that takes the time it takes you to drink your tea.
 
 If you are technical and want to know what is happening under the hood — how the iteration stays clean, why the export works the way it does, what the developer on the receiving end actually gets — read [the handoff that changes everything](/blog/the-handoff-that-changes-everything) next.
+
+> Want to see it? [Watch the walkthrough →](/walkthrough)

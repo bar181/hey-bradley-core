@@ -35,6 +35,8 @@ const FullSiteSimulator = lazy(() => import('@/demos/FullSiteSimulator').then((m
 // P90 / AW-MODE-ARCH (A3) — Planning + Agentics route stubs (per ADR-088 + ADR-116).
 const Planning = lazy(() => import('@/pages/Planning').then((m) => ({ default: m.Planning })))
 const Agentics = lazy(() => import('@/pages/Agentics').then((m) => ({ default: m.Agentics })))
+// P118.5 / WALKTHROUGH (per ADR-147) — section-like story page at /walkthrough.
+const Walkthrough = lazy(() => import('@/pages/Walkthrough'))
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -87,6 +89,7 @@ initDB()
               <Route path="/demo/full-site" element={<FullSiteSimulator />} />
               <Route path="/planning" element={<Planning />} />
               <Route path="/agentics" element={<Agentics />} />
+              <Route path="/walkthrough" element={<Walkthrough />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
@@ -125,6 +128,7 @@ initDB()
               <Route path="/demo/full-site" element={<FullSiteSimulator />} />
               <Route path="/planning" element={<Planning />} />
               <Route path="/agentics" element={<Agentics />} />
+              <Route path="/walkthrough" element={<Walkthrough />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
