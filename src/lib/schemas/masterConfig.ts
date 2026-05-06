@@ -47,6 +47,8 @@ export const siteSchema = z.object({
   brandName: z.string().optional().default(''),
   tagline: z.string().optional().default(''),
   voiceAttributes: z.array(z.string()).optional().default([]),
+  // P114 / F2 — storytelling preset id (matched from voiceAttributes via getPresetForVoice).
+  storytellingPreset: z.string().optional(),
 })
 
 export type Site = z.infer<typeof siteSchema>

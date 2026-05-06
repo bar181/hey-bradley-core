@@ -197,20 +197,19 @@ export function GallerySectionSimple({ sectionId }: { sectionId: string }) {
                       />
                     </div>
                   )}
-                  {!isDraft && (
-                    <div className="space-y-1">
-                      <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Image</span>
-                      <ImagePicker
-                        value={imageUrl}
-                        onChange={(url) => updateProp(item.id, 'imageUrl', url)}
-                        onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
-                        currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
-                        label="Choose Image"
-                        mode="both"
-                        pickerMode="full"
-                      />
-                    </div>
-                  )}
+                  {/* P114 / F2 — picker visible in SIMPLE (library-only) + EXPERT (full). */}
+                  <div className="space-y-1">
+                    <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Image</span>
+                    <ImagePicker
+                      value={imageUrl}
+                      onChange={(url) => updateProp(item.id, 'imageUrl', url)}
+                      onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
+                      currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
+                      label="Choose Image"
+                      mode="both"
+                      pickerMode={isDraft ? 'library-only' : 'full'}
+                    />
+                  </div>
                   <div className="space-y-1">
                     <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Caption</span>
                     <input

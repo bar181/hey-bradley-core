@@ -22,6 +22,7 @@ import { isUnmeasurableGoal } from '@/contexts/intelligence/aisp/intentAtom'
 import { hasContradiction } from '@/contexts/intelligence/aisp/decompAtom'
 import { cleanTranscript } from '@/contexts/intelligence/stt/transcriptCleanup'
 import { extractVoice } from '@/contexts/intelligence/voiceExtraction'
+import { getPresetForVoice } from '@/data/storytelling'
 import { getActivePage, prefixPatchPaths } from '@/contexts/intelligence/pageIterator'
 import type { PageScope } from '@/contexts/intelligence/pageIterator'
 import { activeSession } from '@/contexts/persistence/repositories/sessions'
@@ -427,8 +428,15 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         const voice = extractVoice(effectiveText)
         if (voice.confidence > 0.5 && voice.voiceAttributes.length > 0) {
           try {
+            // P114 / F2 — also resolve a storytelling preset from the extracted
+            // voice attributes (closes G6: 8 presets shipped at P113 had zero
+            // production importers). When matched, patch site.storytellingPreset
+            // so downstream matcher/contentGenerator can consume it.
+            const matchedPreset = getPresetForVoice([...voice.voiceAttributes])
             const voicePatch: JSONPatch[] = [{ op: 'replace', path: '/site/voiceAttributes', value: voice.voiceAttributes }]
+            if (matchedPreset) voicePatch.push({ op: 'replace', path: '/site/storytellingPreset', value: matchedPreset.id })
             useConfigStore.getState().applyPatches(voicePatch)
+            if (matchedPreset) emit(logCtx, 'response_summary', { kind: 'preset-match', presetId: matchedPreset.id, voiceAttributes: voice.voiceAttributes })
           } catch (e) {
             if (import.meta.env.DEV) console.warn('[chatPipeline] voice extraction apply threw', e)
           }

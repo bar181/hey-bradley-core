@@ -2,6 +2,23 @@ import { Link } from "react-router-dom"
 import { ArrowRight, Mic, MessageSquare, SlidersHorizontal } from "lucide-react"
 import { MarketingNav } from "@/components/MarketingNav"
 import { listBlogPosts } from "@/lib/blogPosts"
+import { useProjectStore } from "@/store/projectStore"
+
+// P114 / A1 fix #3 — relative-time helper for the recent-projects card.
+// Pure / no deps; mirrors Onboarding.tsx::formatTimeAgo but kept local so
+// Welcome stays free of cross-page imports.
+function relTime(iso: string): string {
+  const seconds = Math.floor((Date.now() - new Date(iso).getTime()) / 1000)
+  if (seconds < 60) return 'just now'
+  const minutes = Math.floor(seconds / 60)
+  if (minutes < 60) return `${minutes}m ago`
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) return `${hours}h ago`
+  const days = Math.floor(hours / 24)
+  if (days === 1) return 'yesterday'
+  if (days < 7) return `${days}d ago`
+  return new Date(iso).toLocaleDateString()
+}
 
 const MODES = [
   {
@@ -29,6 +46,10 @@ const MODES = [
 
 export function Welcome() {
   const recentPosts = listBlogPosts().slice(0, 3)
+  // P114 / A1 fix #3 — top-5 most-recent projects for "Continue your work"
+  // card. Hidden entirely when empty so first-time visitors see no card.
+  // ProjectMeta from projectStore is shape {slug,name,savedAt,sectionCount,theme}.
+  const recentProjects = useProjectStore((s) => s.projects).slice(0, 5)
   return (
     <main className="min-h-screen bg-[var(--hb-paper)] text-[var(--hb-ink)]">
       <MarketingNav />
@@ -86,6 +107,41 @@ export function Welcome() {
           <span>composite <strong className="text-[var(--hb-ink)]">86.7/100</strong> (vs Lovable 80)</span>
         </div>
       </section>
+
+      {/* P114 / A1 fix #3 — Continue your work (recent projects).
+          Rendered only when projects.length > 0; first-time visitors see no
+          empty state. Each card links to /builder?project=<slug> per fix #2.
+          Token-compliant — uses var(--hb-*) tokens, zero hex literals. */}
+      {recentProjects.length > 0 && (
+        <section
+          data-testid="welcome-recent-projects"
+          className="max-w-5xl mx-auto px-6 py-10"
+        >
+          <p className="text-xs uppercase tracking-[0.2em] text-[var(--hb-warm)] mb-3 font-medium">
+            Continue your work
+          </p>
+          <h2 className="text-2xl font-bold mb-6">Pick up where you left off</h2>
+          <div className="grid md:grid-cols-3 gap-4">
+            {recentProjects.map((p) => (
+              <Link
+                key={p.slug}
+                to={`/builder?project=${p.slug}`}
+                className="block p-5 rounded-xl border border-[rgb(var(--hb-warm-rgb)/0.2)] bg-white hover:border-[rgb(var(--hb-warm-rgb)/0.5)] hover:shadow-md transition-all"
+                data-testid={`welcome-recent-project-${p.slug}`}
+              >
+                <h3 className="font-semibold text-base mb-1 text-[var(--hb-ink)] truncate">{p.name}</h3>
+                <p className="text-xs text-[var(--hb-ink-muted)]">
+                  <span className="capitalize">{p.theme}</span> &middot; {p.sectionCount} sections
+                </p>
+                <p className="text-xs text-[var(--hb-ink-muted)] mt-1">{relTime(p.savedAt)}</p>
+                <span className="text-sm text-[var(--hb-warm)] font-medium mt-3 inline-flex items-center gap-1">
+                  Open <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* The Story (Don Miller blog-style) */}
       <article className="max-w-3xl mx-auto px-6 pb-16">

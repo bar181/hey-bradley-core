@@ -417,6 +417,7 @@ export function Onboarding() {
   const projects = useProjectStore((s) => s.projects)
   const loadProject = useProjectStore((s) => s.loadProject)
   const deleteProject = useProjectStore((s) => s.deleteProject)
+  const saveProject = useProjectStore((s) => s.saveProject)
   const hasKey = useIntelligenceStore((s) => s.hasKey)
   const setPersonality = useIntelligenceStore((s) => s.setPersonality)
 
@@ -502,6 +503,12 @@ export function Onboarding() {
     // Persist to localStorage so useAutoSave doesn't overwrite on builder mount
     const config = useConfigStore.getState().config
     localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
+    // P114 / A1 fix #1 — also write to canonical projects table so autosave
+    // observes a non-null activeProject and Welcome's recent-projects card
+    // sees the new row. Slug derives from theme name via toSlug() inside the
+    // store; same-name re-pick overwrites prior row (acceptable for theme).
+    const themeName = `${slug.charAt(0).toUpperCase()}${slug.slice(1)} Site`
+    saveProject(themeName, config)
     navigate('/builder')
   }
 
@@ -509,6 +516,10 @@ export function Onboarding() {
     loadConfig(example.config)
     // Persist to localStorage so useAutoSave doesn't overwrite on builder mount
     localStorage.setItem(STORAGE_KEY, JSON.stringify(example.config))
+    // P114 / A1 fix #1 — write canonical row keyed by example.name. Repeated
+    // picks of the same example deterministically overwrite (closes G10 by
+    // giving the example a stable slug instead of stomping a singleton).
+    saveProject(example.name, example.config)
     const heroSection = example.config.sections.find((s) => s.type === 'hero' && s.enabled)
     if (heroSection) {
       setSelectedContext({ type: 'section', sectionId: heroSection.id })
@@ -536,6 +547,12 @@ export function Onboarding() {
     applyVibe('saas')
     const config = useConfigStore.getState().config
     localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
+    // P114 / A1 fix #1 — write canonical row with a date-stamped name so
+    // multiple "Start blank" picks accumulate as separate rows rather than
+    // stomping a singleton. Pad month/day for stable lexicographic sort.
+    const now = new Date()
+    const stamp = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+    saveProject(`Untitled ${stamp}`, config)
     navigate('/builder')
   }
 

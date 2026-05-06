@@ -115,17 +115,16 @@ export function ImageSectionSimple({ sectionId }: { sectionId: string }) {
                 />
               </div>
             )}
-            {!isDraft && (
-              <ImagePicker
-                value={imageUrl}
-                onChange={(url) => updateProp('imageUrl', url)}
-                onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
-                currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
-                label="Choose Image"
-                mode="both"
-                pickerMode="full"
-              />
-            )}
+            {/* P114 / F2 — picker visible in SIMPLE (library-only) + EXPERT (full). */}
+            <ImagePicker
+              value={imageUrl}
+              onChange={(url) => updateProp('imageUrl', url)}
+              onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
+              currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
+              label="Choose Image"
+              mode="both"
+              pickerMode={isDraft ? 'library-only' : 'full'}
+            />
           </div>
           <div className="space-y-1">
             <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Heading</span>

@@ -24,6 +24,11 @@ export function setupAutosave(): () => void {
     const { config } = useConfigStore.getState();
     try {
       upsertProject({ id: meta.slug, name: meta.name, config });
+      // P114 / A1 fix #4 — flip TopBar "Unsaved" → "Saved" once the row lands.
+      // Closes G8 (markSaved was a dead path with zero callers). Inside the
+      // try/catch so a failed upsert does NOT clear isDirty and mislead the
+      // user (fire-and-forget contract per ADR-126 D4 preserved).
+      useConfigStore.getState().markSaved();
     } catch (err) {
       if (import.meta.env.DEV) {
         // eslint-disable-next-line no-console

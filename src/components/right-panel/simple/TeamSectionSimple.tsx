@@ -213,20 +213,19 @@ export function TeamSectionSimple({ sectionId }: { sectionId: string }) {
                       className={cn(INPUT, 'text-xs')}
                     />
                   </div>
-                  {!isDraft && (
-                    <div className="space-y-1">
-                      <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Photo</span>
-                      <ImagePicker
-                        value={imageUrl}
-                        onChange={(url) => updateProp(item.id, 'imageUrl', url)}
-                        onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
-                        currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
-                        label="Choose Photo"
-                        mode="image"
-                        pickerMode="full"
-                      />
-                    </div>
-                  )}
+                  {/* P114 / F2 — picker visible in SIMPLE (library-only) + EXPERT (full). */}
+                  <div className="space-y-1">
+                    <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Photo</span>
+                    <ImagePicker
+                      value={imageUrl}
+                      onChange={(url) => updateProp(item.id, 'imageUrl', url)}
+                      onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
+                      currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
+                      label="Choose Photo"
+                      mode="image"
+                      pickerMode={isDraft ? 'library-only' : 'full'}
+                    />
+                  </div>
                   <div className="space-y-1">
                     <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Description</span>
                     <input
