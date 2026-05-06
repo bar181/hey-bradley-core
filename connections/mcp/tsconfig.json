@@ -4,7 +4,7 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "outDir": "./dist",
-    "rootDir": ".",
+    "rootDir": "../..",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -16,7 +16,8 @@
   },
   "include": [
     "index.ts",
-    "tools/**/*.ts"
+    "tools/**/*.ts",
+    "../../src/lib/aisp-score/**/*.ts"
   ],
   "exclude": [
     "dist",

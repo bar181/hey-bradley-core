@@ -93,6 +93,28 @@ bash scripts/run-gates.sh || exit 1
 
 Until this wire lands (sandbox-blocked at P110 / ADR-138 D3), run `npm run check:gates` (or `bash scripts/run-gates.sh`) manually before committing — or rely on CI to catch violations at PR time.
 
+## CI gates
+
+In addition to the local `npm run check:gates`, every pull request and push
+to `main` runs the same gates via GitHub Actions.
+
+Workflow file: `.github/workflows/gates.yml`
+
+Two parallel jobs:
+
+### Gates job
+- Secret scan (`scripts/check-secrets.sh`)
+- Architecture invariants (`npm run check:invariants` — 12 fitness functions)
+- ADR-lint (`npm run check:adr-lint` — 13 file → ADR rule mappings)
+
+### Build job
+- `npm run build` — Vite production build
+- Entry chunk size verification (≤800KB gzip per ADR-102)
+
+If either job fails, the PR is blocked until violations are addressed. This
+provides equivalent enforcement to a pre-commit hook without requiring
+`.husky/pre-commit` modification (sandbox-blocked at ADR-138 D3 / ADR-139 D3).
+
 ## Verification before pushing
 
 ```bash

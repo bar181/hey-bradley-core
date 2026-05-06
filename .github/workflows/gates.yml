@@ -1,0 +1,54 @@
+name: Gates
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run secret scan
+        run: bash scripts/check-secrets.sh
+
+      - name: Run architecture invariants
+        run: npm run check:invariants
+
+      - name: Run ADR-lint
+        run: npm run check:adr-lint
+
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+      - name: Verify entry chunk gzip cap (ADR-102)
+        run: |
+          ENTRY=$(find dist/assets -name "index-*.js" | head -1)
+          SIZE=$(gzip -c "$ENTRY" | wc -c)
+          echo "Entry chunk gzip: $SIZE bytes"
+          [ "$SIZE" -le 819200 ] || { echo "Entry chunk exceeds 800KB gzip cap"; exit 1; }

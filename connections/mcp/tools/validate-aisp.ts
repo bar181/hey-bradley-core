@@ -1,9 +1,14 @@
 // connections/mcp/tools/validate-aisp.ts
 // MCP tool: validate_aisp — score AISP Crystal Atom text (δ density + Ambig + tier).
 // Per ADR-C04 §D3 + mcp-validate-aisp.aisp.
-// v0.1.0 STUB — heuristic regex-based scoring; real WASM validator via aisp-core lands in Wave 4 (ADR-C07 D1).
+//
+// v0.2.0 — heuristic scoring extracted to shared `src/lib/aisp-score/`
+// per P112 / ADR-140 (G1 stopgap). Web app + this MCP tool + NPX `score`
+// all import the same `scoreAisp(text)` helper. Real WASM validator via
+// `aisp-core` Rust crate lands in Wave 4 (ADR-C07 D1).
 
 import { detectByokLeak, type ToolDef, type ToolMeta } from './types';
+import { scoreAisp, type AispTier } from '../../../src/lib/aisp-score/index';
 
 interface ValidateAispInput {
   aisp_text: string;
@@ -11,33 +16,19 @@ interface ValidateAispInput {
   _meta?: ToolMeta;
 }
 
-type Tier = 'Platinum' | 'Gold' | 'Silver' | 'Bronze' | 'Reject';
-
 interface ValidateAispOutput {
   density: number;
   ambig: number;
-  tier: Tier;
+  tier: AispTier;
   parse_total: number;
   parse_unique: number;
   errors: string[];
 }
 
-// Subset of Σ_512 symbols common in Crystal Atom bodies — heuristic only.
-// Real validator (ADR-C07) consults the canonical 512-symbol table.
-const SIGMA_HEURISTIC = /[⟦⟧⟨⟩∀∃∈∉∋∌≜≡≠≤≥⊆⊇⊂⊃∪∩→⇒⇔𝕊𝔹𝔸𝕋𝕄𝕊𝕀𝕆𝕌𝕍𝕎𝕏𝕐ℕℝℤℚℂΣΩΓΛΕΨδρθλΦΠ⊥⊤◊⊘⊰⊱·∘∧∨¬]/u;
-
-function classifyTier(density: number): Tier {
-  if (density >= 0.75) return 'Platinum';
-  if (density >= 0.6) return 'Gold';
-  if (density >= 0.4) return 'Silver';
-  if (density >= 0.2) return 'Bronze';
-  return 'Reject';
-}
-
 export const validateAisp: ToolDef<ValidateAispInput, ValidateAispOutput> = {
   name: 'validate_aisp',
   description:
-    'Score AISP Crystal Atom text — return δ density + Ambig + tier per `validate ≜ ⌈⌉ ∘ δ ∘ Γ? ∘ ∂` upstream. v0.1.0 STUB uses heuristic regex; WASM validator deferred (ADR-C07).',
+    'Score AISP Crystal Atom text — return δ density + Ambig + tier per `validate ≜ ⌈⌉ ∘ δ ∘ Γ? ∘ ∂` upstream. v0.2.0 heuristic stopgap (shared `src/lib/aisp-score/`); WASM validator deferred (ADR-C07 / ADR-140).',
   inputSchema: {
     type: 'object',
     properties: {
@@ -61,18 +52,8 @@ export const validateAisp: ToolDef<ValidateAispInput, ValidateAispOutput> = {
     if (detectByokLeak(input)) {
       return { isError: true, content: 'BYOK key shape detected in input — rejected per ADR-043' };
     }
-    const text = input?.aisp_text ?? '';
     // Soft-error contract per ADR-C04 §D3 — unparseable returns tier=Reject inside result, not -32602.
-    if (typeof text !== 'string' || text.length === 0) {
-      return { density: 0, ambig: 1, tier: 'Reject', parse_total: 0, parse_unique: 0, errors: ['EAispUnparseable: empty input'] };
-    }
-    const tokens = text.split(/\s+/).filter(Boolean);
-    const total = tokens.length;
-    const sigmaHits = tokens.filter((t) => SIGMA_HEURISTIC.test(t)).length;
-    const unique = new Set(tokens).size;
-    const density = total === 0 ? 0 : Math.min(1, sigmaHits / total);
-    const ambig = total === 0 ? 1 : Math.max(0, 1 - unique / total);
-    const tier = classifyTier(density);
-    return { density, ambig, tier, parse_total: total, parse_unique: unique, errors: [] };
+    const text = input?.aisp_text ?? '';
+    return scoreAisp(text);
   },
 };
