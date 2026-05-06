@@ -191,10 +191,17 @@ test.describe('P71.5 — Blog.tsx surfaces read time + share button', () => {
     const src = read(BLOG_TSX)
     expect(src).toContain('listBlogPosts')
   })
-  test('Blog.tsx exposes a tag-filter pill row', () => {
+  test('Blog.tsx exposes a category-filter pill row (P120/A4 supersedes legacy tag-filter per ADR-149)', () => {
+    // P120/A4 replaced the prior tag-filter UI (testid `blog-tag-filter` /
+    // `blog-tag-all`) with a 3-category filter (Story / Technical / For teams)
+    // surfaced via `?category=` URL param. The new testid is
+    // `blog-category-filter`; per-tab testids are emitted via template literal
+    // `blog-category-${tab.key}` (matched by regex below). P120's spec covers
+    // the new UI in detail; this assertion stays so legacy regression coverage
+    // doesn't silently lapse.
     const src = read(BLOG_TSX)
-    expect(src).toContain('blog-tag-filter')
-    expect(src).toContain('blog-tag-all')
+    expect(src).toContain('blog-category-filter')
+    expect(src).toMatch(/blog-category-\$\{[^}]+\}/)
   })
   test('Blog.tsx links to RSS feed at /blog/feed.xml', () => {
     const src = read(BLOG_TSX)

@@ -1,9 +1,16 @@
 import { Link, useLocation } from 'react-router-dom'
 
+// P120 / A5 — audience routing (per ADR-149).
+// Adds "For developers" → /research (engineer-track home) and "For teams" →
+// /for-teams (Cursor/Claude-Code product teams audience). Position: between
+// Research and Open Core, so the natural read-order (consumer → engineer →
+// teams → open core → docs) flows top-down across the audience-segment ladder.
 const NAV_LINKS = [
   { to: '/about', label: 'About' },
   { to: '/blog', label: 'Blog' },
   { to: '/research', label: 'Research' },
+  { to: '/research', label: 'For developers' },
+  { to: '/for-teams', label: 'For teams' },
   { to: '/open-core', label: 'Open Core' },
   { to: '/docs', label: 'Docs' },
 ]
@@ -20,7 +27,7 @@ export function MarketingNav() {
         <div className="flex items-center gap-6 text-sm font-medium">
           {NAV_LINKS.map((link) => (
             <Link
-              key={link.to}
+              key={`${link.to}|${link.label}`}
               to={link.to}
               className={`transition-colors ${
                 location.pathname === link.to

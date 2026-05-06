@@ -1,6 +1,6 @@
 import { StrictMode, Suspense, lazy, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { Welcome } from '@/pages/Welcome'
 import { Builder } from '@/pages/Builder'
 import { NotFound } from '@/pages/NotFound'
@@ -37,6 +37,9 @@ const Planning = lazy(() => import('@/pages/Planning').then((m) => ({ default: m
 const Agentics = lazy(() => import('@/pages/Agentics').then((m) => ({ default: m.Agentics })))
 // P118.5 / WALKTHROUGH (per ADR-147) — section-like story page at /walkthrough.
 const Walkthrough = lazy(() => import('@/pages/Walkthrough'))
+// P120 / AUDIENCE-ROUTING (per ADR-149) — /for-teams + /contact + /guides redirect.
+const ForTeams = lazy(() => import('@/pages/ForTeams').then((m) => ({ default: m.ForTeams })))
+const Contact = lazy(() => import('@/pages/Contact').then((m) => ({ default: m.Contact })))
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -90,6 +93,9 @@ initDB()
               <Route path="/planning" element={<Planning />} />
               <Route path="/agentics" element={<Agentics />} />
               <Route path="/walkthrough" element={<Walkthrough />} />
+              <Route path="/for-teams" element={<ForTeams />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/guides" element={<Navigate to="/blog?category=technical" replace />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
@@ -129,6 +135,9 @@ initDB()
               <Route path="/planning" element={<Planning />} />
               <Route path="/agentics" element={<Agentics />} />
               <Route path="/walkthrough" element={<Walkthrough />} />
+              <Route path="/for-teams" element={<ForTeams />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/guides" element={<Navigate to="/blog?category=technical" replace />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
