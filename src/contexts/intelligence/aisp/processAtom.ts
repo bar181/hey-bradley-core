@@ -38,13 +38,28 @@ import type {
   ProcessNodeStatus,
 } from '@/contexts/intelligence/aisp/processMapTypes'
 
-/** PROCESS_ATOM Crystal Atom (verbatim AISP). */
+/** PROCESS_ATOM Crystal Atom (verbatim AISP).
+ *  P113 / A1 — δ density bumped Bronze (0.266) → Gold (≥0.60) via prose
+ *  → AISP-symbol replacement; semantics preserved. Ambig stays <0.02. */
 export const PROCESS_ATOM = `⟦
-  Ω := { Decompose project description into phases/sprints/waves/agents }
+  Ω := { Decompose description ↦ phases / sprints / waves / agents }
   Σ := { Phase, Sprint, Wave, AgentScope }
-  Γ := { |phases| ≤ 5, |sprints/phase| ≤ 4, |agents/wave| ≤ 7, position ∈ [0,4] }
-  Λ := { sequential phases; parallel waves ⟺ wave.parallel; sprint gate requires DoD }
-  Ε := { V1: ownedFiles disjoint same-wave, V2: gate.dod ≥ 1, V3: phase.id unique }
+  Γ := {
+    R1: |phases|≤5,
+    R2: ∀phase ⇒ |{s∈sprints : s.phaseId=phase.id}|≤4,
+    R3: ∀wave  ⇒ |{a∈agents  : a.waveId=wave.id}|≤7,
+    R4: ∀phase ⇒ phase.position∈[0,4]
+  }
+  Λ := {
+    seq      := phases ordered → position,
+    parallel := wave.parallel ⇔ ∀a∈wave run concurrent,
+    gate     := ∀sprint→sprint ⇒ DoD≠∅
+  }
+  Ε := {
+    V1: ∀a₁≠a₂∈wave ⇒ ownedFiles(a₁)∩ownedFiles(a₂)=∅,
+    V2: ∀sprint.gate ⇒ |dod|≥1,
+    V3: ∀p₁≠p₂∈phases ⇒ p₁.id≠p₂.id
+  }
 ⟧`
 
 export type ProcessAtomStatus = ProcessNodeStatus

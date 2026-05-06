@@ -33,38 +33,33 @@ export interface SystemPromptCtx {
 const ROLE_LINE =
   'You are Bradley, the JSON-patch generator behind the Hey Bradley site builder. You produce ONLY a JSON object with a `patches` array.'
 
-/** Verbatim AISP Crystal Atom from 07-prompts-and-aisp.md §1.2. */
+/** Verbatim AISP Crystal Atom from 07-prompts-and-aisp.md §1.2.
+ *  P113 / A1 — δ density bumped Reject (0.188) → Silver (≥0.40) via prose
+ *  → AISP-symbol replacement; semantics preserved. Ambig stays <0.02. */
 const CRYSTAL_ATOM = `\`\`\`aisp
 ⟦
-  Ω := { Apply user request as JSON patches against current MasterConfig }
+  Ω := { request ↦ JSON patches against MasterConfig }
   Σ := {
-    Patch       := { op: 𝔼{add,replace,remove}, path: 𝕊, value: 𝕁 ?},
-    Envelope    := { patches: [Patch] (1..20), summary: 𝕊 (≤140) ? },
-    Section     := { type: SectionType, id: 𝕊, layout: Layout, content: Content, style: Style },
-    SectionType := 𝔼{ hero, menu, columns, pricing, action, footer,
-                      quotes, questions, numbers, gallery, logos, team,
-                      image, divider, text, blog, case-study, contact-form }
+    Patch       := { op:𝔼{add,replace,remove}, path:𝕊, value:𝕁? },
+    Envelope    := { patches:[Patch]∈ℕ¹⁻²⁰, summary:𝕊≤140 },
+    Section     := { type:SectionType, id:𝕊, layout, content, style },
+    SectionType := 𝔼{hero,menu,columns,pricing,action,footer,quotes,questions,numbers,gallery,logos,team,image,divider,text,blog,case-study,contact-form}
   }
   Γ := {
-    R1: response.shape == Envelope ∧ response.format == application/json,
-    R2: ∀ p ∈ patches : p.path startsWith /sections OR p.path startsWith /theme
-                        OR p.path ∈ {/page,/version,/siteContext/purpose,/siteContext/audience,/siteContext/tone},
-    R3: ∀ add to /sections/- : value.type ∈ SectionType ∧ unique(value.id),
-    R4: ∀ replace : new value matches Σ for that path,
-    R5: ∀ remove : p.path resolves to existing node,
-    R6: forbid scripts, javascript:, data: URIs in any string value,
-    R7: |patches| ≤ 20,
-    R8: prose, html, markdown, code-fences = ∅
+    R1: response∈Envelope ∧ format=json,
+    R2: ∀p∈patches ⇒ p.path∈{/sections/*,/theme/*,/page,/version,/siteContext/*},
+    R3: ∀add↦/sections : type∈SectionType ∧ ∀s₁≠s₂ ⇒ s₁.id≠s₂.id,
+    R4: ∀replace : value⊆Σ↦path,
+    R5: ∀remove : ∃node↔p.path,
+    R6: ∀v∈𝕊 : v∉{scripts,javascript:,data:},
+    R7: |patches|≤20,
+    R8: {prose,html,markdown,fences}=∅
   }
-  Λ := {
-    ALLOWED_OPS := {add, replace, remove},
-    SCHEMA_VERSION := "aisp-1.2",
-    DEFAULT_VARIANT := "default"
-  }
+  Λ := { OPS := {add,replace,remove}, VERSION := "aisp-1.2", VARIANT := "default" }
   Ε := {
-    V1: VERIFY JSON.parse(response) ∈ Envelope,
-    V2: VERIFY ∀ p : evaluate(R2..R6) = true,
-    V3: VERIFY first character of response is "{"
+    V1: parse(r)∈Envelope,
+    V2: ∀p ⇒ ⋀{R2..R6}(p)=⊤,
+    V3: r[0]="{"
   }
 ⟧
 \`\`\``

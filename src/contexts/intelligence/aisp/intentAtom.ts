@@ -13,34 +13,33 @@
  * ADR-053 (AISP Intent Classifier).
  */
 
-/** The Crystal Atom for intent classification (verbatim AISP). */
+/** The Crystal Atom for intent classification (verbatim AISP).
+ *  P113 / A1 — δ density bumped Bronze (0.262) → Silver (≥0.40) via prose
+ *  → AISP-symbol replacement; semantics preserved. Ambig stays <0.02. */
 export const INTENT_ATOM = `⟦
-  Ω := { Classify user input into typed Intent for template router }
+  Ω := { Classify user input ↦ typed Intent for template router }
   Σ := {
-    Intent:{verb:Verb, target:Target?, params:𝕊?},
-    Verb:{op∈{hide,show,change,remove,add,reset}},
-    Target:{type:𝕊, index:ℕ?, pageId:𝕊?},
-    𝕊 := UTF-8 string ≤ 200 chars
+    Intent := { verb:Verb, target:Target?, params:𝕊? },
+    Verb   := { op∈{hide,show,change,remove,add,reset} },
+    Target := { type:𝕊, index:ℕ?, pageId:𝕊? },
+    𝕊      := UTF-8 ≤200
   }
   Γ := {
-    R1: ∀ Intent : Verb is one of the enumerated 6 ops,
-    R2: target.index ∈ ℕ ⇒ index ≥ 1 (1-based user-facing),
-    R3: target.type ∈ {hero, menu, columns, pricing, action, footer, quotes, questions, numbers, gallery, logos, team, image, divider, text, blog, case-study, contact-form},
-    R4: params is verb-specific; only when verb ∈ {change, add}
+    R1: ∀Intent : verb.op∈Σ.Verb,
+    R2: target.index∈ℕ ⇒ index≥1,
+    R3: target.type∈{hero,menu,columns,pricing,action,footer,quotes,questions,numbers,gallery,logos,team,image,divider,text,blog,case-study,contact-form},
+    R4: params≠∅ ⇔ verb∈{change,add}
   }
   Λ := {
     confidence_threshold := 0.85,
-    cost_cap_reserve := 0.85,
-    fallback := translateIntent (P25 rule-based) → tryMatchTemplate (P23/P24),
-    project_context ?: {                              ⟵ P45 (A5 / ADR-068)
-      present:𝔹,
-      project_type ∈ { 'saas-app','landing-page','static-site','portfolio','unknown' }
-    }
+    cost_cap_reserve     := 0.85,
+    fallback             := translateIntent ≫ tryMatchTemplate,
+    project_context?     := { present:𝔹, project_type∈{saas-app,landing-page,static-site,portfolio,unknown} }
   }
   Ε := {
-    V1: VERIFY Verb ∈ Σ.Verb.op,
-    V2: VERIFY target.type ∈ Σ.Target allowed enum (R3),
-    V3: VERIFY confidence ∈ [0,1]
+    V1: verb∈Σ.Verb.op,
+    V2: target.type∈R3,
+    V3: confidence∈[0,1]
   }
 ⟧`
 
