@@ -11,6 +11,8 @@ import { HeroOverlay } from '@/templates/hero/HeroOverlay'
 import { HeroMinimal } from '@/templates/hero/HeroMinimal'
 import { NavbarSimple } from '@/templates/navbar/NavbarSimple'
 import { NavbarCentered } from '@/templates/navbar/NavbarCentered'
+import { NavbarSticky } from '@/templates/navbar/NavbarSticky'
+import { NavbarMegaMenu } from '@/templates/navbar/NavbarMegaMenu'
 import { ActionCentered } from '@/templates/action/ActionCentered'
 import { ActionSplit } from '@/templates/action/ActionSplit'
 import { ActionGradient } from '@/templates/action/ActionGradient'
@@ -26,6 +28,8 @@ import { ColumnsGlass } from '@/templates/columns/ColumnsGlass'
 import { PricingTiers } from '@/templates/pricing/PricingTiers'
 import { PricingToggle } from '@/templates/pricing/PricingToggle'
 import { PricingComparison } from '@/templates/pricing/PricingComparison'
+import { PricingCalculator } from '@/templates/pricing/PricingCalculator'
+import { PricingEnterprise } from '@/templates/pricing/PricingEnterprise'
 import { FooterSimple } from '@/templates/footer/FooterSimple'
 import { QuotesCards } from '@/templates/quotes/QuotesCards'
 import { QuotesSingle } from '@/templates/quotes/QuotesSingle'
@@ -62,6 +66,8 @@ import { LogosGrid } from '@/templates/logos/LogosGrid'
 import { TeamCards } from '@/templates/team/TeamCards'
 import { TeamGrid } from '@/templates/team/TeamGrid'
 import { TeamMinimal } from '@/templates/team/TeamMinimal'
+import { TeamHoverBio } from '@/templates/team/TeamHoverBio'
+import { TeamWithSocial } from '@/templates/team/TeamWithSocial'
 import { BlogCardGrid } from '@/templates/blog/BlogCardGrid'
 import { BlogListExcerpts } from '@/templates/blog/BlogListExcerpts'
 import { BlogFeaturedGrid } from '@/templates/blog/BlogFeaturedGrid'
@@ -436,6 +442,10 @@ function renderSection(section: ReturnType<typeof useConfigStore.getState>['conf
     switch (section.variant) {
       case 'centered':
         return <NavbarCentered section={section} />
+      case 'sticky':
+        return <NavbarSticky section={section} />
+      case 'mega-menu':
+        return <NavbarMegaMenu section={section} />
       case 'simple':
       default:
         return <NavbarSimple section={section} />
@@ -482,6 +492,10 @@ function renderSection(section: ReturnType<typeof useConfigStore.getState>['conf
         return <PricingToggle section={section} />
       case 'comparison':
         return <PricingComparison section={section} />
+      case 'calculator':
+        return <PricingCalculator section={section} />
+      case 'enterprise':
+        return <PricingEnterprise section={section} />
       default:
         return <PricingTiers section={section} />
     }
@@ -608,6 +622,10 @@ function renderSection(section: ReturnType<typeof useConfigStore.getState>['conf
         return <TeamGrid section={section} />
       case 'minimal':
         return <TeamMinimal section={section} />
+      case 'hover-bio':
+        return <TeamHoverBio section={section} />
+      case 'with-social':
+        return <TeamWithSocial section={section} />
       default:
         return <TeamCards section={section} />
     }
