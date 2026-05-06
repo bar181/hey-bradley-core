@@ -80,8 +80,14 @@ export function Welcome() {
             <h1 className="text-5xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-6">
               Describe it. See it.
             </h1>
-            <p className="text-xl text-[var(--hb-ink-muted)] leading-relaxed mb-8">
+            <p className="text-xl text-[var(--hb-ink-muted)] leading-relaxed mb-3">
               The website builder that finally works the way you talk.
+            </p>
+            <p className="text-sm text-[var(--hb-ink-muted)] mb-8">
+              Coming from another builder?{' '}
+              <Link to="/blog/describe-it-see-it" className="text-[var(--hb-warm)] hover:underline">
+                See how it compares &rarr;
+              </Link>
             </p>
             <div className="flex flex-wrap gap-3">
               <Link

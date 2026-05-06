@@ -1,9 +1,25 @@
 import { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { ArrowRight, Clock, Share2, Check } from 'lucide-react'
 import { MarketingNav } from '@/components/MarketingNav'
-import { listBlogPosts, listBlogTags } from '@/lib/blogPosts'
+import {
+  listBlogPosts,
+  categoryOf,
+  BLOG_CATEGORY_LABEL,
+  type BlogCategory,
+} from '@/lib/blogPosts'
 import { useReveal } from '@/hooks/useReveal'
+
+const CATEGORY_TABS: Array<{ key: BlogCategory | 'all'; label: string }> = [
+  { key: 'all', label: 'All' },
+  { key: 'story', label: 'Story' },
+  { key: 'technical', label: 'Technical' },
+  { key: 'for-teams', label: 'For teams' },
+]
+
+function isCategory(v: string | null): v is BlogCategory {
+  return v === 'story' || v === 'technical' || v === 'for-teams'
+}
 
 function formatDate(iso: string): string {
   // YYYY-MM-DD -> "Apr 29, 2026". Render in en-US to keep deterministic
@@ -21,14 +37,20 @@ function formatDate(iso: string): string {
 export function Blog() {
   // listBlogPosts() already sorts by date descending (ADR-097 cadence).
   const allPosts = listBlogPosts()
-  const allTags = listBlogTags()
-  const [activeTag, setActiveTag] = useState<string | null>(null)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const urlCategory = searchParams.get('category')
+  const activeCategory: BlogCategory | 'all' = isCategory(urlCategory) ? urlCategory : 'all'
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null)
   const gridReveal = useReveal<HTMLElement>()
 
+  const setCategory = (cat: BlogCategory | 'all') => {
+    if (cat === 'all') setSearchParams({}, { replace: true })
+    else setSearchParams({ category: cat }, { replace: true })
+  }
+
   const posts = useMemo(
-    () => activeTag ? allPosts.filter((p) => p.tags.includes(activeTag)) : allPosts,
-    [allPosts, activeTag],
+    () => activeCategory === 'all' ? allPosts : allPosts.filter((p) => categoryOf(p) === activeCategory),
+    [allPosts, activeCategory],
   )
 
   // Share = copy `${origin}/blog/${slug}` to clipboard. KISS — no library;
@@ -70,42 +92,35 @@ export function Blog() {
         </p>
       </section>
 
-      {/* Tag filter */}
-      {allTags.length > 0 && (
-        <section className="max-w-5xl mx-auto px-4 md:px-6 pb-6" data-testid="blog-tag-filter">
-          <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setActiveTag(null)}
-              data-testid="blog-tag-all"
-              className={
-                'text-xs px-3 py-1 rounded-full border transition-colors ' +
-                (activeTag === null
-                  ? 'bg-[#e8772e] border-[#e8772e] text-white'
-                  : 'bg-white border-[#e8772e]/30 text-[#6b5e4f] hover:border-[#e8772e]/60')
-              }
-            >
-              All
-            </button>
-            {allTags.map((tag) => (
+      {/* Category filter (P120/A4 — 3 categories: Story / Technical / For teams) */}
+      <section
+        className="max-w-5xl mx-auto px-4 md:px-6 pb-6"
+        data-testid="blog-category-filter"
+      >
+        <div className="flex flex-wrap items-center gap-2" role="tablist" aria-label="Filter posts by category">
+          {CATEGORY_TABS.map((tab) => {
+            const active = activeCategory === tab.key
+            return (
               <button
-                key={tag}
+                key={tab.key}
                 type="button"
-                onClick={() => setActiveTag(tag === activeTag ? null : tag)}
-                data-testid={`blog-tag-${tag}`}
+                role="tab"
+                aria-selected={active}
+                onClick={() => setCategory(tab.key)}
+                data-testid={`blog-category-${tab.key}`}
                 className={
-                  'text-xs px-3 py-1 rounded-full border transition-colors ' +
-                  (activeTag === tag
-                    ? 'bg-[#e8772e] border-[#e8772e] text-white'
-                    : 'bg-white border-[#e8772e]/30 text-[#6b5e4f] hover:border-[#e8772e]/60')
+                  'text-sm px-4 min-h-[44px] rounded-full border transition-colors ' +
+                  (active
+                    ? 'bg-[var(--hb-warm)] border-[var(--hb-warm)] text-white'
+                    : 'bg-white border-[rgb(var(--hb-warm-rgb)/0.3)] text-[var(--hb-ink-muted)] hover:text-[var(--hb-ink)] hover:border-[rgb(var(--hb-warm-rgb)/0.6)]')
                 }
               >
-                #{tag}
+                {tab.label}
               </button>
-            ))}
-          </div>
-        </section>
-      )}
+            )
+          })}
+        </div>
+      </section>
 
       {/* Post grid */}
       <section
@@ -131,6 +146,12 @@ export function Blog() {
                   {post.readingTimeMin} min read
                 </span>
               </div>
+              <p
+                className="text-xs uppercase tracking-wide text-[var(--hb-warm)] mb-2 font-medium"
+                data-testid={`blog-post-category-${post.slug}`}
+              >
+                {BLOG_CATEGORY_LABEL[categoryOf(post)]}
+              </p>
               <h2 className="text-xl md:text-2xl font-bold mb-2 leading-tight group-hover:text-[#A51C30] transition-colors">
                 {post.title}
               </h2>

@@ -183,6 +183,31 @@ const REGISTRY: BlogPostMeta[] = [
     readingTimeMin: 6,
     tags: ['open-core', 'strategy', 'tier-2', 'boundaries'],
   },
+  // P118 / SIMPLE-MESSAGING-AND-POSITIONING expansion (3 posts → 15 total)
+  {
+    slug: 'describe-it-see-it',
+    title: 'Describe It. See It. Done.',
+    subtitle: 'A therapist in Portland describes her practice into a chat box. By dinner she has a homepage worth sending.',
+    date: '2026-05-06',
+    readingTimeMin: 6,
+    tags: ['product', 'user-story', 'open-core'],
+  },
+  {
+    slug: 'why-we-built-this-the-honest-version',
+    title: 'Why We Built This: The Honest Version',
+    subtitle: 'I just wanted to change a phone number. It took me forty minutes. I was the engineer.',
+    date: '2026-05-06',
+    readingTimeMin: 7,
+    tags: ['origin', 'founders', 'product'],
+  },
+  {
+    slug: 'the-handoff-that-changes-everything',
+    title: 'The Handoff That Changes Everything',
+    subtitle: 'JSON-patches, not regenerations. The architectural difference shows up in iteration, cost, and the developer hand-off.',
+    date: '2026-05-06',
+    readingTimeMin: 7,
+    tags: ['architecture', 'agentic-engineering', 'spec-first'],
+  },
 ]
 
 function buildPost(meta: BlogPostMeta): BlogPost {
@@ -206,6 +231,36 @@ function buildPost(meta: BlogPostMeta): BlogPost {
 export function listBlogPosts(): BlogPost[] {
   // Sort by date descending (most recent first); ties preserve registry order.
   return REGISTRY.map(buildPost).sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0))
+}
+
+// P120/A4 — display category derivation (story | technical | for-teams).
+// Classifies posts intelligently from existing frontmatter tags so we don't
+// have to re-author every .md. Default = 'story' (most inclusive).
+export type BlogCategory = 'story' | 'technical' | 'for-teams'
+
+export const BLOG_CATEGORY_LABEL: Record<BlogCategory, string> = {
+  story: 'Story',
+  technical: 'Technical',
+  'for-teams': 'For teams',
+}
+
+const TECHNICAL_TAGS = new Set([
+  'engineering', 'architecture', 'handoff', 'aisp', 'crystal-atom',
+  'spec-first', 'agentic-engineering', 'multi-page', 'AISP', 'comparison',
+])
+const FOR_TEAMS_TAGS = new Set([
+  'process', 'swarm', 'team', 'discipline', 'velocity', 'meta', 'dogfooding',
+  'open-core', 'strategy', 'tier-2', 'boundaries',
+])
+
+export function categoryOf(post: { slug: string; tags: string[] }): BlogCategory {
+  // P118 lock — explicit overrides ensure post 1 + 2 = story, post 3 = technical.
+  if (post.slug === 'describe-it-see-it') return 'story'
+  if (post.slug === 'why-we-built-this-the-honest-version') return 'story'
+  if (post.slug === 'the-handoff-that-changes-everything') return 'technical'
+  for (const t of post.tags) if (TECHNICAL_TAGS.has(t)) return 'technical'
+  for (const t of post.tags) if (FOR_TEAMS_TAGS.has(t)) return 'for-teams'
+  return 'story'
 }
 
 export function listBlogTags(): string[] {
