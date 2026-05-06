@@ -15,6 +15,36 @@ export function Research() {
     <main className="min-h-screen bg-[var(--hb-paper)] text-[var(--hb-ink)]">
       <MarketingNav />
 
+      {/* P120/A1 — Start here entry strip (3 entry points, mobile-first) */}
+      <section className="bg-[var(--hb-paper-soft)] border-b border-[var(--hb-warm)]/15">
+        <div className="max-w-5xl mx-auto px-6 py-6">
+          <p className="text-xs uppercase tracking-[0.2em] text-[var(--hb-ink-muted)] mb-3 font-medium">Start here</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <Link
+              to="/aisp"
+              className="block min-h-[44px] rounded-xl border border-[var(--hb-warm)]/20 bg-[var(--hb-paper)] px-4 py-3 hover:border-[var(--hb-warm)] hover:shadow-sm transition-all group"
+            >
+              <p className="text-sm font-semibold text-[var(--hb-ink)] group-hover:text-[var(--hb-warm)] transition-colors">Read the AISP spec &rarr;</p>
+              <p className="text-xs text-[var(--hb-ink-muted)] mt-1">The symbolic protocol that keeps intent intact.</p>
+            </Link>
+            <Link
+              to="/blog/the-handoff-that-changes-everything"
+              className="block min-h-[44px] rounded-xl border border-[var(--hb-warm)]/20 bg-[var(--hb-paper)] px-4 py-3 hover:border-[var(--hb-warm)] hover:shadow-sm transition-all group"
+            >
+              <p className="text-sm font-semibold text-[var(--hb-ink)] group-hover:text-[var(--hb-warm)] transition-colors">See the technical deep dive &rarr;</p>
+              <p className="text-xs text-[var(--hb-ink-muted)] mt-1">How the JSON-patch handoff changes everything.</p>
+            </Link>
+            <Link
+              to="/open-core"
+              className="block min-h-[44px] rounded-xl border border-[var(--hb-warm)]/20 bg-[var(--hb-paper)] px-4 py-3 hover:border-[var(--hb-warm)] hover:shadow-sm transition-all group"
+            >
+              <p className="text-sm font-semibold text-[var(--hb-ink)] group-hover:text-[var(--hb-warm)] transition-colors">View open core &rarr;</p>
+              <p className="text-xs text-[var(--hb-ink-muted)] mt-1">What ships free, MIT-licensed, yours to keep.</p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Hero — blog-style with image */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
@@ -386,6 +416,12 @@ export function Research() {
             <Link to="/open-core" className="hover:text-[var(--hb-warm)] transition-colors">Open Core</Link>
             <Link to="/how-i-built-this" className="hover:text-[var(--hb-warm)] transition-colors">How it&rsquo;s built</Link>
           </div>
+          {/* P120/A1 — Geek mode Easter egg (quietly findable) */}
+          <p className="mt-6 text-xs text-[var(--hb-ink-muted)]/80">
+            <Link to="/aisp" className="hover:text-[var(--hb-warm)] transition-colors">
+              See what the engineers see &rarr;
+            </Link>
+          </p>
         </div>
       </footer>
     </main>
