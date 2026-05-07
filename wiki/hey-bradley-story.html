@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Bradley — The Whiteboard That Ships</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Satoshi:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#09090b;--surface:#131316;--surface2:#1a1a1f;--border:#27272a;
+--text:#fafafa;--muted:#a1a1aa;--dim:#52525b;
+--crimson:#dc2626;--crimson-glow:rgba(220,38,38,.12);
+--gold:#f59e0b;--emerald:#10b981;--emerald-glow:rgba(16,185,129,.1);
+--blue:#3b82f6;
+--serif:'Instrument Serif',Georgia,serif;
+--sans:'Satoshi',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden}
+.grain{position:fixed;inset:0;pointer-events:none;opacity:.03;z-index:9999;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+section{min-height:100vh;display:flex;align-items:center;position:relative;padding:6rem 2rem}
+.container{max-width:860px;margin:0 auto;width:100%}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.15s}.reveal-delay-2{transition-delay:.3s}.reveal-delay-3{transition-delay:.45s}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative}
+.hero::before{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(220,38,38,.07) 0%,transparent 70%);pointer-events:none}
+.hero-overline{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--crimson);margin-bottom:1.5rem;font-weight:500}
+.hero h1{font-family:var(--serif);font-size:clamp(2.8rem,7vw,5.2rem);line-height:1.08;font-weight:400;margin-bottom:1.5rem}
+.hero h1 em{font-style:italic;color:var(--crimson)}
+.hero-sub{font-size:clamp(1rem,2vw,1.2rem);color:var(--muted);max-width:560px;margin:0 auto 3rem;font-weight:300;line-height:1.85}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--dim);font-size:.72rem;letter-spacing:.15em;text-transform:uppercase}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--dim),transparent);animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:.3;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.3)}}
+.nar{padding:8rem 2rem}
+.nar-label{font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--crimson);margin-bottom:1rem;font-weight:500}
+.nar h2{font-family:var(--serif);font-size:clamp(2rem,4.5vw,3rem);line-height:1.15;margin-bottom:1.5rem;font-weight:400}
+.nar p{font-size:1.05rem;color:var(--muted);margin-bottom:1.5rem;max-width:720px;font-weight:300}
+.nar p strong{color:var(--text);font-weight:500}
+.timeline{position:relative;padding-left:3rem;margin:3rem 0}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--crimson),var(--emerald),transparent)}
+.tl-item{position:relative;margin-bottom:2.5rem;padding-left:1.5rem}
+.tl-item::before{content:'';position:absolute;left:-3.35rem;top:.5rem;width:10px;height:10px;border-radius:50%;border:2px solid var(--crimson);background:var(--bg)}
+.tl-item.done::before{background:var(--emerald);border-color:var(--emerald)}
+.tl-time{font-size:.78rem;font-weight:700;color:var(--gold);margin-bottom:.25rem}
+.tl-text{font-size:.95rem;color:var(--muted)}.tl-text strong{color:var(--text)}
+.stat-row{display:flex;gap:1.5rem;flex-wrap:wrap;margin:2.5rem 0}
+.stat-card{flex:1;min-width:140px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.25rem;text-align:center}
+.stat-val{font-family:var(--serif);font-size:2.2rem;color:var(--crimson);line-height:1}
+.stat-label{font-size:.72rem;color:var(--dim);margin-top:.5rem;text-transform:uppercase;letter-spacing:.08em}
+.quote-block{border-left:3px solid var(--crimson);padding:1.5rem 0 1.5rem 2rem;margin:2.5rem 0}
+.quote-block p{font-family:var(--serif);font-size:1.35rem;font-style:italic;color:var(--text);line-height:1.5;margin-bottom:.75rem}
+.quote-block cite{font-family:var(--sans);font-size:.78rem;color:var(--dim);font-style:normal;font-weight:500}
+.comp-table{width:100%;border-collapse:collapse;margin:2rem 0;font-size:.83rem}
+.comp-table th{text-align:left;padding:.7rem 1rem;border-bottom:1px solid var(--border);color:var(--dim);font-weight:500;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
+.comp-table td{padding:.7rem 1rem;border-bottom:1px solid var(--border);color:var(--muted);vertical-align:top}
+.comp-table tr:hover td{background:var(--surface)}
+.comp-table td:first-child{color:var(--text);font-weight:500}
+.val-high{color:var(--emerald)}.val-low{color:var(--crimson)}.val-none{color:var(--dim)}
+.persona-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem;margin:2.5rem 0}
+.persona{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;transition:border-color .3s,transform .3s}
+.persona:hover{border-color:var(--crimson);transform:translateY(-3px)}
+.persona-role{font-size:.68rem;color:var(--crimson);text-transform:uppercase;letter-spacing:.15em;margin-bottom:.75rem;font-weight:500}
+.persona h4{font-size:1rem;margin-bottom:.5rem;font-weight:500}
+.persona p{font-size:.83rem;color:var(--muted);line-height:1.6}
+.persona .feeling{margin-top:.75rem;font-size:.78rem;font-style:italic;color:var(--gold);border-top:1px solid var(--border);padding-top:.75rem}
+.cta-section{text-align:center;padding:8rem 2rem}
+.cta-section h2{font-family:var(--serif);font-size:clamp(2rem,5vw,3.2rem);margin-bottom:1rem}
+.cta-section p{color:var(--muted);font-size:1.05rem;margin-bottom:2.5rem;max-width:520px;margin-left:auto;margin-right:auto}
+.cta-btn{display:inline-block;padding:1rem 3rem;background:var(--crimson);color:#fff;text-decoration:none;border-radius:8px;font-weight:700;font-size:1rem;letter-spacing:.02em;transition:transform .2s,box-shadow .2s}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(220,38,38,.3)}
+.repo-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:2rem 0}
+.repo-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;transition:border-color .3s}
+.repo-card:hover{border-color:var(--crimson)}
+.repo-card h4{font-size:.95rem;margin-bottom:.35rem;font-weight:600}
+.repo-card p{font-size:.8rem;color:var(--muted);line-height:1.5;margin-bottom:.75rem}
+.repo-link{display:inline-flex;align-items:center;gap:.4rem;color:var(--crimson);text-decoration:none;font-size:.82rem;font-weight:500;transition:opacity .2s}
+.repo-link:hover{opacity:.8}
+.tier-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem;margin:2rem 0}
+.tier{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
+.tier.featured{border-color:var(--crimson);background:var(--crimson-glow)}
+.tier-name{font-size:.68rem;color:var(--crimson);text-transform:uppercase;letter-spacing:.15em;margin-bottom:.5rem;font-weight:500}
+.tier h4{font-size:1rem;margin-bottom:.75rem;font-weight:600}
+.tier-list{list-style:none;padding:0;font-size:.82rem;color:var(--muted)}
+.tier-list li{padding:.3rem 0;padding-left:1.1rem;position:relative}
+.tier-list li::before{content:'';position:absolute;left:0;top:.65rem;width:6px;height:6px;border-radius:50%;background:var(--emerald)}
+.demo-banner{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:2rem;text-align:center;margin:2.5rem 0}
+.demo-banner p{max-width:500px;margin:0 auto .75rem;text-align:center}
+.demo-link{display:inline-block;padding:.75rem 2rem;border:1px solid var(--crimson);color:var(--crimson);text-decoration:none;border-radius:8px;font-weight:600;font-size:.88rem;transition:background .2s,color .2s}
+.demo-link:hover{background:var(--crimson);color:#fff}
+.novel-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.25rem}
+.novel-label{font-size:.7rem;color:var(--gold);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5rem;font-weight:500}
+.novel-card h4{font-size:.95rem;margin-bottom:.5rem;font-weight:600}
+.novel-card p{font-size:.83rem;color:var(--muted);line-height:1.6;margin-bottom:0}
+footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--border);color:var(--dim);font-size:.78rem}
+footer a{color:var(--crimson);text-decoration:none}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.flow-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;text-align:center}
+@media(max-width:640px){section{padding:4rem 1.25rem}.nar{padding:5rem 1.25rem}.stat-row{flex-direction:column}.timeline{padding-left:2rem}.tl-item::before{left:-2.35rem}.two-col,.flow-grid,.repo-grid,.tier-grid{grid-template-columns:1fr !important}}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<!-- ════════ HERO ════════ -->
+<section class="hero">
+<div class="container">
+<div class="reveal">
+<div class="hero-overline">A story about what happens when everyone can build</div>
+<h1>At 10 AM she had an idea.<br>By lunch it was <em>in production.</em></h1>
+<p class="hero-sub">Not because the AI got smarter. Because for the first time, she could show exactly what she meant — and the specs were precise enough that any AI could build it on the first try.</p>
+</div>
+<div class="scroll-hint"><span>The story</span><div class="scroll-line"></div></div>
+</div>
+</section>
+
+<!-- ════════ ACT I — THE TELEPHONE GAME ════════ -->
+<section class="nar" id="telephone">
+<div class="container">
+<div class="reveal">
+<div class="nar-label">Act I — The problem nobody fixed</div>
+<h2>The most expensive game of<br>telephone in history</h2>
+</div>
+<div class="reveal reveal-delay-1">
+<p>Every piece of software ever built started the same way: <strong>a picture in someone's head.</strong></p>
+<p>A nurse imagines a better patient intake form. A bakery owner sees the website she wants. A founder has the dashboard that will change everything. The picture is vivid, specific, and completely trapped inside their skull.</p>
+<p>Then the telephone game begins.</p>
+<p>She describes it to someone who writes it down. The write-up goes to a designer who interprets it. The design goes to a developer who approximates it. Each handoff degrades the signal — industry research consistently finds that <strong>40-65% of implementation intent is lost</strong> in translation between stakeholders and builders.</p>
+<p>The result: three revision cycles. Six weeks of calendar time. A final product that nobody loves — because it's a copy of a copy of a copy of a sketch of a dream.</p>
+</div>
+<div class="reveal reveal-delay-2">
+<div class="quote-block">
+<p>"I described exactly what I wanted. What I got back looked nothing like it."</p>
+<cite>— Every person who ever commissioned software</cite>
+</div>
+</div>
+<div class="reveal reveal-delay-3">
+<p>This isn't a niche problem. There are 28.7 million developers worldwide, but behind each one, 3-5 other people are involved in deciding what gets built — product managers, designers, domain experts, stakeholders. That's <strong>over 100 million people</strong> playing the telephone game every day, in every organization that builds software.</p>
+<p>And every round of the game costs time, trust, and the original vision.</p>
+</div>
+</div>
+</section>
+
+<!-- ════════ ACT II — THE WHITEBOARD ════════ -->
+<section class="nar" id="whiteboard">
+<div class="container">
+<div class="reveal">
+<div class="nar-label">Act II — The insight</div>
+<h2>The whiteboard was always<br>the most important tool</h2>
+</div>
+<div class="reveal reveal-delay-1">
+<p>Not the IDE. Not the CI/CD pipeline. Not the database. <strong>The whiteboard.</strong></p>
+<p>The place where people stood around arguing about what to build. Sketching boxes and arrows. Pointing at a corner of the board and saying "imagine it looks like <em>this</em>." That's where every real decision happened. The technology just executed those decisions — often poorly, because the handoff was lossy.</p>
+<p>In the last three years, the technology industry invested billions in making the execution faster. AI coding tools — Cursor, Copilot, Lovable, Claude Code — compressed the "writing code" portion of development from 35% to about 15% of total effort. Genuine achievements.</p>
+<p>But nobody improved the whiteboard itself. Nobody built a tool for <strong>the moment of creation</strong> — the meeting where someone says "imagine it looks like this" and everyone needs to see the same thing.</p>
+</div>
+<div class="reveal reveal-delay-2">
+<p>The concept-to-spec portion of development — the meetings, the requirements, the architecture decisions, the design intent — <strong>expanded to 55% of total effort.</strong> It became the bottleneck. And it still runs on whiteboards, Google Docs, and hope.</p>
+<p>The AI revolution solved the wrong half of the problem. It made the telephone game faster — but it didn't fix the telephone game itself.</p>
+</div>
+</div>
+</section>
+
+<!-- ════════ ACT III — THE SAME DAY ════════ -->
+<section class="nar" id="sameday">
+<div class="container">
+<div class="reveal">
+<div class="nar-label">Act III — The same day, different ending</div>
+<h2>What happens when the<br>telephone game ends</h2>
+</div>
+<div class="reveal reveal-delay-1">
+<p>A nurse has been frustrated with the patient intake form for two years. Patients struggle with it. Staff waste time re-entering data. She knows exactly what it should look like — she's sketched it on napkins a dozen times.</p>
+<p>Today she opens <strong>Hey Bradley.</strong></p>
+</div>
+<div class="reveal reveal-delay-2">
+<div class="timeline">
+<div class="tl-item done"><div class="tl-time">10:00 AM</div><div class="tl-text">She says: <strong>"Patient intake form with a progress bar, clear sections for medical history, and a confirmation screen."</strong> The form takes shape on screen while she talks.</div></div>
+<div class="tl-item done"><div class="tl-time">10:03 AM</div><div class="tl-text">"Make the history section collapsible." <strong>Five seconds.</strong> "Add medication autocomplete." <strong>Five seconds.</strong> "Print button on the confirmation page." <strong>Five seconds.</strong> Her napkin sketch is alive.</div></div>
+<div class="tl-item done"><div class="tl-time">10:20 AM</div><div class="tl-text">Twenty minutes of adjustments. The form looks <strong>exactly</strong> like what she imagined. But underneath, something else happened: six enterprise specification documents were generated automatically. Every component, every interaction, every integration point — documented with under 2% ambiguity.</div></div>
+<div class="tl-item done"><div class="tl-time">10:25 AM</div><div class="tl-text">She sends the specs to IT. The specs reference the <strong>existing patient database and auth system.</strong> IT doesn't need to ask 400 clarifying questions. Everything the AI agent needs is already in the document.</div></div>
+<div class="tl-item done"><div class="tl-time">11:30 AM</div><div class="tl-text">IT pastes the specs into an AI coding tool. The form is built — and it <strong>integrates with the existing system</strong> because the specs understood what was already there. Tests pass.</div></div>
+<div class="tl-item done"><div class="tl-time">12:00 PM</div><div class="tl-text"><strong>Deployed.</strong> Patients use the new form that afternoon. No Jira ticket. No six-month backlog. No "that's not what I meant." She described what she saw in her head, and it became real.</div></div>
+</div>
+</div>
+<div class="reveal reveal-delay-3">
+<p>The nurse didn't learn to code. She didn't learn to write user stories. She didn't learn what "acceptance criteria" means. She described what she saw — and the system captured her intent with enough precision that the handoff was lossless.</p>
+<p><strong>The telephone game didn't happen.</strong> There was nothing to misinterpret.</p>
+</div>
+</div>
+</section>
+
+<!-- ════════ THE CORE INNOVATION — AISP ════════ -->
+<section class="nar" id="aisp">
+<div class="container">
+<div class="reveal">
+<div class="nar-label">The innovation</div>
+<h2>Why it works: a specification<br>language designed for zero ambiguity</h2>
+</div>
+<div class="reveal reveal-delay-1">
+<p>The reason the telephone game persists isn't that people are bad at communicating. It's that <strong>there's no language designed for this particular translation.</strong></p>
+<p>Human language is inherently ambiguous — "make it pop" means something different to every person in the room. Technical specifications (Jira tickets, Google Docs, even Figma annotations) are better, but still leave 40-65% of implementation decisions to interpretation.</p>
+<p>Hey Bradley introduces <strong>AISP — the AI-Interpretable Site Protocol</strong>. It's a formally typed specification notation called Crystal Atom that encodes every design and development decision with mathematical precision. Five components per element: the objective (what to build), the types (what shape it takes), the rules (what constraints apply), the bindings (what values to use), and the evidence (how to verify it works).</p>
+</div>
+<div class="reveal reveal-delay-2">
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:2rem;font-family:monospace;font-size:.82rem;line-height:2.1;overflow-x:auto;margin:2rem 0">
+<span style="color:var(--dim)">// Crystal Atom — five formal components. Nothing left to interpret.</span><br>
+<span style="color:var(--crimson);font-weight:700">⟦</span><br>
+&nbsp;&nbsp;<span style="color:var(--gold)">Ω</span> := { <span style="color:var(--muted)">Patient intake form with progress bar and confirmation</span> }<br>
+&nbsp;&nbsp;<span style="color:var(--gold)">Σ</span> := { <span style="color:var(--emerald)">Form</span>:{sections:[Demographics, History, Medications, Confirm]} }<br>
+&nbsp;&nbsp;<span style="color:var(--gold)">Γ</span> := { R1: <span style="color:var(--blue)">reuse</span> existing PatientAuth from src/auth/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R2: validate against existing patient_records schema }<br>
+&nbsp;&nbsp;<span style="color:var(--gold)">Λ</span> := { route:="/intake/new", db:=patients, api:=POST /api/v2/intake }<br>
+&nbsp;&nbsp;<span style="color:var(--gold)">Ε</span> := { V1: <span style="color:var(--emerald)">VERIFY</span> 4 sections render, V2: progress bar advances per step }<br>
+<span style="color:var(--crimson);font-weight:700">⟧</span>
+</div>
+</div>
+<div class="reveal reveal-delay-3">
+<p>Three things make AISP fundamentally different from traditional specs:</p>
+<p><strong>It understands what already exists.</strong> The <span style="color:var(--gold)">Γ</span> rules say "reuse existing PatientAuth from src/auth/" — the spec references components and APIs that are already in the codebase. The AI agent doesn't start from scratch. It integrates. The nurse's form connects to the hospital's existing system on the first try because the spec understood the system before writing a line of code.</p>
+<p><strong>It leaves nothing to interpretation.</strong> Traditional specs say "add a form." AISP says exactly which fields, which validation rules, which database table, which API endpoint, which route, and how to verify it works. There's no room for a developer to "interpret" — the specification IS the implementation plan.</p>
+<p><strong>It makes the coding agent interchangeable.</strong> When specs are this precise, the choice of AI coding tool doesn't matter. A frontier model and a free open-source model produce the same result from the same Crystal Atom. The premium isn't in the compiler — it's in the blueprint.</p>
+</div>
+<div class="reveal" style="margin-top:2rem">
+<div class="stat-row">
+<div class="stat-card"><div class="stat-val" style="text-decoration:line-through;color:var(--dim)">50%</div><div class="stat-label">Traditional spec<br>ambiguity</div></div>
+<div class="stat-card"><div class="stat-val" style="color:var(--emerald)">&lt;2%</div><div class="stat-label">AISP Crystal Atom<br>ambiguity</div></div>
+<div class="stat-card"><div class="stat-val" style="color:var(--gold)">1st try</div><div class="stat-label">Any AI builds it right<br>because there's nothing<br>to misinterpret</div></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ════════ HOW IT WORKS ════════ -->
+<section class="nar" id="how">
+<div class="container">
+<div class="reveal">
+<div class="nar-label">How it works</div>
+<h2>Idea → See it → Spec it → Ship it</h2>
+</div>
+<div class="reveal reveal-delay-1" style="margin:2.5rem 0">
+<div class="flow-grid">
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem 1rem">
+<div style="font-size:1.8rem;margin-bottom:.5rem">💭</div>
+<div style="font-size:.88rem;font-weight:700;margin-bottom:.35rem">Describe</div>
+<div style="font-size:.78rem;color:var(--muted)">Type, talk, or click. Three interaction modes. The picture in your head becomes visible in seconds.</div>
+</div>
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem 1rem">
+<div style="font-size:1.8rem;margin-bottom:.5rem">👁</div>
+<div style="font-size:.88rem;font-weight:700;margin-bottom:.35rem">See it live</div>
+<div style="font-size:.78rem;color:var(--muted)">A real prototype materializes. Five seconds per change. Iterate at the speed of conversation.</div>
+</div>
+<div style="background:var(--crimson-glow);border:1px solid rgba(220,38,38,.2);border-radius:12px;padding:1.5rem 1rem">
+<div style="font-size:1.8rem;margin-bottom:.5rem">📋</div>
+<div style="font-size:.88rem;font-weight:700;margin-bottom:.35rem;color:var(--crimson)">Specs generated</div>
+<div style="font-size:.78rem;color:var(--muted)">Six enterprise documents — AISP Crystal Atoms — created automatically. Under 2% ambiguity.</div>
+</div>
+<div style="background:var(--emerald-glow);border:1px solid rgba(16,185,129,.2);border-radius:12px;padding:1.5rem 1rem">
+<div style="font-size:1.8rem;margin-bottom:.5rem">🚀</div>
+<div style="font-size:.88rem;font-weight:700;margin-bottom:.35rem;color:var(--emerald)">Ship it</div>
+<div style="font-size:.78rem;color:var(--muted)">Paste specs into any AI coding tool. One command. Built, tested, deployed. What you approved is what ships.</div>
+</div>
+</div>
+</div>
+<div class="reveal reveal-delay-2">
+<p>The six specification documents — North Star, Architecture, Implementation Plan, Features, Human Spec, and AISP Spec — are generated live as the user builds. Change a headline, the specs update. Add a section, the implementation plan adds the build instructions. Switch themes, the architecture doc reflects the new palette. <strong>The specs are always in sync with the visual.</strong></p>
+<p>This means the prototype and the specification are never out of date. There's no gap between "what we designed" and "what we documented." They're the same artifact, viewed two different ways.</p>
+</div>
+</div>
+</section>
+
+<!-- ════════ NOT JUST THE NURSE ════════ -->
+<section class="nar" id="everyone">
+<div class="container">
+<div class="reveal">
+<div class="nar-label">Not just the nurse</div>
+<h2>Everyone who ever dreamed<br>about a product can build it</h2>
+</div>
+<div class="reveal reveal-delay-1">
+<div class="persona-grid">
+<div class="persona"><div class="persona-role">The bakery owner</div><h4>Her website exists before dinner</h4><p>"Warm colors, photos of my pastries, online ordering." Five minutes later she's looking at the website she imagined for three years. She tweaks the headline. Swaps a photo. Her grandson pastes the specs into an AI coding tool after school. Live by dinner.</p><div class="feeling">"I didn't need to explain it. I could just show it."</div></div>
+<div class="persona"><div class="persona-role">The accountant</div><h4>His dashboard ships same day</h4><p>Drowning in reconciliation spreadsheets for years. Describes the dashboard he wishes existed. Adjusts until it matches his mental model. Specs go to an AI agent. Deployed before he leaves the office. No ticket filed. No six-month wait.</p><div class="feeling">"I didn't ask permission. I just built it."</div></div>
+<div class="persona"><div class="persona-role">The startup team</div><h4>The meeting IS the sprint</h4><p>Five stakeholders on Zoom. Hey Bradley on screen-share. The prototype builds while they argue. When the call ends, the specs already exist. The engineer pastes them. One command. One PR. What would have been a two-week sprint finished before lunch.</p><div class="feeling">"The whiteboard finally builds what we drew."</div></div>
+<div class="persona"><div class="persona-role">The new client</div><h4>She sees her vision for the first time</h4><p>She's been trying to explain what she wants to three different agencies. Each one built something different. With Hey Bradley, she sees it take shape while she describes it. For the first time, the thing on screen matches the picture in her head.</p><div class="feeling">"That. That's exactly what I meant."</div></div>
+<div class="persona"><div class="persona-role">The enterprise team</div><h4>Fifteen teams, one specification language</h4><p>Every team uses AISP Crystal Atoms. Typed, versioned, auditable. When compliance asks "why was this built?" — the spec is the audit trail. When a developer leaves, the intent is preserved. The telephone game between teams is over.</p><div class="feeling">"Everyone is finally building the same thing."</div></div>
+<div class="persona"><div class="persona-role">The engineer</div><h4>One paste. One command. One ship.</h4><p>No more hours excavating context. No more re-prompting when the AI misinterprets. Specs reference existing components by name, APIs by endpoint. Any AI coding tool executes them accurately because there's nothing left to guess.</p><div class="feeling">"The specs are so precise the model doesn't matter."</div></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ════════ THE LANDSCAPE ════════ -->
+<section class="nar" id="compare">
+<div class="container">
+<div class="reveal">
+<div class="nar-label">The landscape</div>
+<h2>What people use today —<br>and where intent goes to die</h2>
+</div>
+<div class="reveal reveal-delay-1" style="overflow-x:auto">
+<table class="comp-table">
+<thead><tr><th>Tool</th><th>What it produces</th><th>Speed</th><th>Who can use it</th><th>Does intent survive?</th></tr></thead>
+<tbody>
+<tr><td>Whiteboard</td><td>A photograph nobody looks at again</td><td>Real-time</td><td>Everyone</td><td class="val-low">Dies after the meeting</td></tr>
+<tr><td>Google Docs</td><td>Requirements one person interpreted</td><td class="val-none">Days to write</td><td>Everyone</td><td class="val-low">Degrades 40-65% per handoff</td></tr>
+<tr><td>Figma</td><td>Mockups developers approximate</td><td>Hours per screen</td><td>Designers</td><td class="val-none">Partially — visual only, no logic</td></tr>
+<tr><td>Lovable</td><td>Throwaway prototypes</td><td>2-5 min/change</td><td>Everyone</td><td class="val-low">Output is rebuilt from scratch</td></tr>
+<tr><td>AI coding tools</td><td>Code from prompts</td><td>30-60 sec</td><td>Engineers</td><td class="val-none">Only as precise as the prompt</td></tr>
+<tr style="background:var(--crimson-glow)"><td style="color:var(--crimson)">Hey Bradley</td><td>Prototype + AISP specs</td><td class="val-high" style="font-weight:700">5 seconds</td><td style="font-weight:700">Everyone</td><td class="val-high" style="font-weight:700">Preserved at &lt;2% ambiguity</td></tr>
+</tbody>
+</table>
+</div>
+<div class="reveal reveal-delay-2">
+<p style="margin-top:2rem">The last column is the one that matters. Every existing tool either <strong>loses the original intent</strong> (whiteboard, Google Docs), requires specialized skills (Figma, coding tools), or produces output that's thrown away (Lovable). Hey Bradley is the first tool where the intent articulated in the meeting <strong>survives all the way to production</strong> with mathematical precision.</p>
+</div>
+</div>
+</section>
+
+<!-- ════════ WHAT CHANGES ════════ -->
+<section class="nar" id="changes">
+<div class="container">
+<div class="reveal">
+<div class="nar-label">What becomes possible</div>
+<h2>When everyone can build,<br>everything changes</h2>
+</div>
+<div class="reveal reveal-delay-1">
+<p><strong>Software stops being a department and becomes a capability.</strong> Marketing doesn't submit a ticket for a landing page — they build it during the planning meeting. Operations doesn't wait six months for a dashboard — they describe it and deploy it that afternoon. The nurse doesn't file a request. She builds the form herself.</p>
+<p><strong>Decisions happen with artifacts, not arguments.</strong> "I think the dashboard should show X" becomes "let me show you X" — five seconds later, everyone evaluates a concrete thing instead of debating an abstraction. Meetings produce working prototypes, not action items.</p>
+<p><strong>The cost of experimenting drops to near zero.</strong> When building takes two hours instead of two weeks, you don't need confidence a feature will work before you commit. Try it. Measure it. Keep it or kill it. Learn and move on.</p>
+</div>
+<div class="reveal reveal-delay-2">
+<div class="quote-block">
+<p>"The meeting IS the sprint. The whiteboard IS the specification. What you approved IS what ships."</p>
+<cite>— The thesis</cite>
+</div>
+</div>
+<div class="reveal reveal-delay-3">
+<p>The organizations that operate at this speed don't just build faster. They <strong>learn</strong> faster, respond faster, iterate faster. A competitor launches a feature on Tuesday — the response is deployed by Wednesday. Not a rush job. A properly spec'd, tested feature that integrates with the existing architecture.</p>
+<p>The speed of software becomes the speed of organizational thought. And for the first time, the people with the ideas — not just the people who write the code — get to participate directly in making those ideas real.</p>
+</div>
+</div>
+</section>
+
+<!-- ════════ ACADEMIC CONTRIBUTION ════════ -->
+<section class="nar" id="contribution">
+<div class="container">
+<div class="reveal">
+<div class="nar-label">The academic contribution</div>
+<h2>What's new here — and what<br>builds on prior work</h2>
+</div>
+<div class="reveal reveal-delay-1">
+<p>Spec-driven development is emerging as a recognized methodology. AWS built it into Kiro. GitHub released Spec Kit. The thesis is converging across the industry: as code generation accelerates, the bottleneck shifts to intent articulation. This capstone builds on that foundation — and contributes three things that didn't exist before.</p>
+</div>
+<div class="reveal reveal-delay-2">
+<div class="novel-card">
+<div class="novel-label">Novel contribution 1</div>
+<h4>A formal ambiguity measurement methodology for software specifications</h4>
+<p>Prior work in SDD (Spec Kit, Kiro, BMAD) uses natural-language or YAML-based specs without a formal measure of how much interpretation they leave to the implementer. AISP introduces a <strong>typed, 5-component Crystal Atom notation</strong> (Ω objective, Σ types, Γ rules, Λ bindings, Ε evidence) that enables ambiguity to be measured quantitatively. Each component constrains a different dimension of implementation freedom. The result: specification ambiguity drops from the industry baseline of 40-65% to <strong>under 2%</strong>, measured by the percentage of implementation decisions left unspecified.</p>
+</div>
+<div class="novel-card">
+<div class="novel-label">Novel contribution 2</div>
+<h4>Visual intent capture that generates formal specifications</h4>
+<p>Existing SDD tools require developers to <strong>write specs manually</strong> — a skill barrier that excludes the 100 million non-developer stakeholders who determine what gets built. Hey Bradley inverts this: non-technical users interact visually (click, type, or speak), and AISP Crystal Atoms are generated <strong>automatically</strong> from their interactions. The specification is a byproduct of the design process, not a separate authoring task. No prior tool generates formally typed specs from visual builder interactions.</p>
+</div>
+<div class="novel-card">
+<div class="novel-label">Novel contribution 3</div>
+<h4>Brownfield-aware specification that references existing codebases</h4>
+<p>Prior spec formats describe greenfield intent — "build a form." AISP's Γ rules encode <strong>integration constraints</strong>: "reuse PatientAuth from src/auth/, validate against the existing patient_records schema, call POST /api/v2/intake." The spec understands what already exists and instructs the AI agent to integrate, not replace. This is the critical gap for enterprise adoption, where 95% of development modifies existing systems.</p>
+</div>
+</div>
+<div class="reveal reveal-delay-3">
+<p>The capstone claim, stated precisely: <strong>AISP Crystal Atom notation is a formally typed specification language that (a) reduces measurable ambiguity to under 2%, (b) can be generated automatically from visual interactions by non-technical users, and (c) encodes brownfield integration constraints that reference existing codebases.</strong> Prior work in spec-driven development achieves none of these three properties simultaneously.</p>
+</div>
+</div>
+</section>
+
+<!-- ════════ SEE IT WORKING ════════ -->
+<section class="nar" id="demo">
+<div class="container">
+<div class="reveal">
+<div class="nar-label">See it working</div>
+<h2>Don't take the story's word for it</h2>
+</div>
+<div class="reveal reveal-delay-1">
+<div class="demo-banner">
+<p style="font-size:1.05rem;color:var(--text);font-weight:500;margin-bottom:.5rem">Hey Bradley is live.</p>
+<p style="font-size:.88rem">Pick a theme. Edit a headline. Watch the specs generate in real-time. Load an example and see a complete marketing site materialize in 10 seconds.</p>
+<a href="https://hey-bradley.vercel.app" class="demo-link" target="_blank" rel="noopener">Try the live demo →</a>
+</div>
+</div>
+<div class="reveal reveal-delay-2">
+<p>The demo includes eight example websites — from a bakery to a SaaS startup to a photography portfolio to a "kitchen sink" that demonstrates every section type and image effect. Each generates all six specification documents. Copy the Build Plan, paste it into Claude Code, and watch the reproduction. That's the thesis in action.</p>
+<p>The full codebase — 62 template variants, 20 section types, 6 spec generators, 54 Playwright tests, 23 architecture decision records — is open source.</p>
+</div>
+</div>
+</section>
+
+<!-- ════════ OPEN CORE ════════ -->
+<section class="nar" id="open">
+<div class="container">
+<div class="reveal">
+<div class="nar-label">Open source, open standard</div>
+<h2>Two open projects.<br>One commercial future.</h2>
+</div>
+<div class="reveal reveal-delay-1">
+<p>Both the specification language and the builder are open source. This is intentional — AISP's value increases with adoption, and adoption requires openness. The commercial opportunity builds on top of the open standard, not behind a paywall around it.</p>
+<div class="repo-grid">
+<div class="repo-card">
+<h4>AISP 5.1 — The Specification Language</h4>
+<p>Crystal Atom notation, Σ_512 symbol set, tier assessment (Bronze → Platinum), validation tools, and the formal ambiguity measurement methodology. Open standard. MIT license. Anyone can generate, parse, or validate AISP specs.</p>
+<a href="https://github.com/bar181/aisp" class="repo-link" target="_blank" rel="noopener">→ github.com/bar181/aisp</a>
+</div>
+<div class="repo-card">
+<h4>Hey Bradley — The Reference Implementation</h4>
+<p>Visual builder that generates AISP specs from human interactions. React + TypeScript + Tailwind. 62 templates, 6 spec generators, 8 examples, 208-image library. Open source. MIT license.</p>
+<a href="https://github.com/bar181/hey-bradley-core" class="repo-link" target="_blank" rel="noopener">→ github.com/bar181/hey-bradley-core</a>
+</div>
+</div>
+</div>
+<div class="reveal reveal-delay-2">
+<h3 style="font-family:var(--serif);font-size:1.4rem;margin-bottom:1rem;margin-top:2rem">What's open. What's commercial.</h3>
+<div class="tier-grid">
+<div class="tier">
+<div class="tier-name">Open source — free forever</div>
+<h4>Community</h4>
+<ul class="tier-list">
+<li>AISP spec language and validator</li>
+<li>Hey Bradley builder (self-hosted)</li>
+<li>All 62 template variants</li>
+<li>6 spec generators</li>
+<li>208-image curated library</li>
+<li>Full Playwright test suite</li>
+<li>Community support</li>
+</ul>
+</div>
+<div class="tier featured">
+<div class="tier-name">Commercial — coming 2026</div>
+<h4>Pro</h4>
+<ul class="tier-list">
+<li>Everything in Community</li>
+<li>AI-powered chat and voice (LLM integration)</li>
+<li>Brownfield codebase analysis (connect your repo)</li>
+<li>Custom brand assets and guidelines</li>
+<li>Image upload and management</li>
+<li>Priority AISP validation and scoring</li>
+<li>Hosted version with cloud persistence</li>
+</ul>
+</div>
+<div class="tier">
+<div class="tier-name">Enterprise — by arrangement</div>
+<h4>Team</h4>
+<ul class="tier-list">
+<li>Everything in Pro</li>
+<li>Multi-user collaboration</li>
+<li>AISP spec versioning and audit trail</li>
+<li>SSO and role-based access</li>
+<li>Custom AISP templates per org</li>
+<li>CI/CD integration for spec validation</li>
+<li>Dedicated support</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="reveal reveal-delay-3">
+<p>The open-core model follows the pattern established by GitLab, Supabase, and PostHog: the core tool is free and open, the commercial version adds collaboration, AI integration, and enterprise features. AISP remains open regardless — the standard must be community-owned to achieve adoption.</p>
+</div>
+</div>
+</section>
+
+<!-- ════════ CONTEXT ════════ -->
+<section class="nar" id="context">
+<div class="container">
+<div class="reveal">
+<div class="nar-label">The landscape</div>
+<h2>Why now — and why<br>this window matters</h2>
+</div>
+<div class="reveal reveal-delay-1">
+<p>The global software market reached $824 billion in 2025, with 28.7 million developers and over 100 million people involved in software decisions. Nearly half of all projects experience cost overruns from requirement misalignment. The telephone game, measured at industrial scale.</p>
+<p>Spec-driven development is being standardized <strong>right now</strong> — in 2026. AWS, GitHub, JetBrains, and Cursor are all building SDD workflows into their products. The question isn't whether specs become the primary artifact in software development. The question is <strong>which specification format becomes the standard.</strong></p>
+<p>AISP Crystal Atom is positioned to be that standard — not because it's the most popular (it's not yet), but because it's the most precise. Formal typing, measurable ambiguity, brownfield awareness, and visual generation set it apart from natural-language specs that leave room for the same interpretation gaps that caused the telephone game in the first place.</p>
+</div>
+<div class="reveal reveal-delay-2">
+<div class="quote-block">
+<p>"We are moving from an era where code is the source of truth to one where intent is the source of truth."</p>
+<cite>— The emerging consensus in spec-driven development</cite>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ════════ CTA ════════ -->
+<section class="cta-section">
+<div class="container">
+<div class="reveal">
+<h2 style="font-family:var(--serif)">The telephone game is over.</h2>
+<p>Describe what you see. Watch it appear.<br>Specs generated automatically. Any AI builds it.<br>What you approved is what ships.</p>
+<div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem">
+<a href="https://hey-bradley.vercel.app" class="cta-btn" target="_blank" rel="noopener">Try the live demo →</a>
+<a href="https://github.com/bar181/hey-bradley-core" class="demo-link" style="padding:1rem 2rem;font-size:1rem" target="_blank" rel="noopener">View source on GitHub →</a>
+</div>
+<p style="font-size:.83rem;color:var(--dim)">Harvard ALM Capstone — Digital Media Design — May 2026</p>
+<p style="font-size:.83rem;color:var(--dim)">Bradley Ross — Creator of AISP 5.1 Crystal Atom Notation</p>
+<p style="margin-top:1.5rem;font-size:.78rem;color:var(--dim)">AISP is an open standard. Hey Bradley is open source. The commercial version with AI integration is coming in 2026.</p>
+</div>
+</div>
+</section>
+
+<footer>
+<div class="container">
+<p><a href="https://github.com/bar181">Bradley Ross</a> &middot; <a href="https://github.com/bar181/hey-bradley-core">Hey Bradley (open source)</a> &middot; <a href="https://github.com/bar181/aisp">AISP 5.1 (open standard)</a></p>
+<p style="margin-top:.5rem">The whiteboard that writes your specs. Harvard ALM Capstone, May 2026.</p>
+</div>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('visible')})},{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

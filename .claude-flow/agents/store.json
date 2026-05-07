@@ -1,0 +1,201 @@
+{
+  "agents": {
+    "p15-lead": {
+      "agentId": "p15-lead",
+      "agentType": "lead",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "opus"
+      },
+      "createdAt": "2026-04-07T15:52:25.149Z",
+      "domain": "orchestration",
+      "model": "opus",
+      "modelRoutedBy": "explicit"
+    },
+    "p15-test-investigator": {
+      "agentId": "p15-test-investigator",
+      "agentType": "tester",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "sonnet"
+      },
+      "createdAt": "2026-04-07T15:52:27.370Z",
+      "domain": "testing",
+      "model": "sonnet",
+      "modelRoutedBy": "explicit"
+    },
+    "p15-tooltip-builder": {
+      "agentId": "p15-tooltip-builder",
+      "agentType": "coder",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "sonnet"
+      },
+      "createdAt": "2026-04-07T15:52:29.584Z",
+      "domain": "frontend",
+      "model": "sonnet",
+      "modelRoutedBy": "explicit"
+    },
+    "p15-keyboard-shortcuts": {
+      "agentId": "p15-keyboard-shortcuts",
+      "agentType": "coder",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "sonnet"
+      },
+      "createdAt": "2026-04-07T15:52:31.936Z",
+      "domain": "frontend",
+      "model": "sonnet",
+      "modelRoutedBy": "explicit"
+    },
+    "p15-error-states": {
+      "agentId": "p15-error-states",
+      "agentType": "coder",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "sonnet"
+      },
+      "createdAt": "2026-04-07T15:52:34.004Z",
+      "domain": "frontend",
+      "model": "sonnet",
+      "modelRoutedBy": "explicit"
+    },
+    "p15-marketing-storybrand": {
+      "agentId": "p15-marketing-storybrand",
+      "agentType": "coder",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "sonnet"
+      },
+      "createdAt": "2026-04-07T15:52:35.935Z",
+      "domain": "frontend",
+      "model": "sonnet",
+      "modelRoutedBy": "explicit"
+    },
+    "p15-aisp-page": {
+      "agentId": "p15-aisp-page",
+      "agentType": "coder",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "sonnet"
+      },
+      "createdAt": "2026-04-07T15:52:37.288Z",
+      "domain": "frontend",
+      "model": "sonnet",
+      "modelRoutedBy": "explicit"
+    },
+    "p15-research-page": {
+      "agentId": "p15-research-page",
+      "agentType": "coder",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "sonnet"
+      },
+      "createdAt": "2026-04-07T15:52:39.103Z",
+      "domain": "frontend",
+      "model": "sonnet",
+      "modelRoutedBy": "explicit"
+    },
+    "p15-sticky-nav": {
+      "agentId": "p15-sticky-nav",
+      "agentType": "coder",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "sonnet"
+      },
+      "createdAt": "2026-04-07T15:52:40.836Z",
+      "domain": "frontend",
+      "model": "sonnet",
+      "modelRoutedBy": "explicit"
+    },
+    "p15-code-quality": {
+      "agentId": "p15-code-quality",
+      "agentType": "reviewer",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "sonnet"
+      },
+      "createdAt": "2026-04-07T15:52:43.064Z",
+      "domain": "quality",
+      "model": "sonnet",
+      "modelRoutedBy": "explicit"
+    },
+    "p15-aisp-validator": {
+      "agentId": "p15-aisp-validator",
+      "agentType": "researcher",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "sonnet"
+      },
+      "createdAt": "2026-04-07T15:52:45.394Z",
+      "domain": "aisp",
+      "model": "sonnet",
+      "modelRoutedBy": "explicit"
+    },
+    "p15-submodule-analyst": {
+      "agentId": "p15-submodule-analyst",
+      "agentType": "researcher",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "sonnet"
+      },
+      "createdAt": "2026-04-07T15:52:47.710Z",
+      "domain": "architecture",
+      "model": "sonnet",
+      "modelRoutedBy": "explicit"
+    },
+    "p15-quality-gate": {
+      "agentId": "p15-quality-gate",
+      "agentType": "tester",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "sonnet"
+      },
+      "createdAt": "2026-04-07T15:52:49.918Z",
+      "domain": "quality",
+      "model": "sonnet",
+      "modelRoutedBy": "explicit"
+    },
+    "p15-docs-writer": {
+      "agentId": "p15-docs-writer",
+      "agentType": "planner",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "sonnet"
+      },
+      "createdAt": "2026-04-07T15:52:52.149Z",
+      "domain": "documentation",
+      "model": "sonnet",
+      "modelRoutedBy": "explicit"
+    }
+  },
+  "version": "3.0.0"
+}
