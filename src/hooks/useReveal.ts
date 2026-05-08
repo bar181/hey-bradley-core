@@ -7,6 +7,11 @@ import { useEffect, useRef, useState } from 'react'
  *
  * Respects `prefers-reduced-motion: reduce` — when set, isVisible starts
  * `true` so no transition runs.
+ *
+ * P123.5 — defensive fallback: if IntersectionObserver hasn't fired within
+ * 1000ms (slow connection, headless browser, prerender, fullPage screencaps),
+ * force isVisible=true so below-fold content renders. The IO callback is
+ * idempotent — if it fires first, the timeout setIsVisible(true) is harmless.
  */
 export function useReveal<T extends HTMLElement = HTMLDivElement>(
   options: IntersectionObserverInit = { threshold: 0.15, rootMargin: '0px 0px -10% 0px' },
@@ -30,7 +35,12 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>(
       })
     }, options)
     io.observe(el)
-    return () => io.disconnect()
+    // Defensive fallback — ensure section eventually renders even if IO never fires.
+    const fallback = window.setTimeout(() => setIsVisible(true), 1000)
+    return () => {
+      io.disconnect()
+      window.clearTimeout(fallback)
+    }
   }, [reduced, options])
 
   return { ref, isVisible }

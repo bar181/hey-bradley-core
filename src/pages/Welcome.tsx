@@ -126,6 +126,10 @@ export function Welcome() {
           s2.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
+        <span
+          className="inline-block w-12 h-1 rounded-full bg-[var(--hb-accent)] mb-4"
+          aria-hidden="true"
+        />
         <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">
           It works the way you talk.
         </h2>
@@ -156,6 +160,10 @@ export function Welcome() {
       >
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
+            <span
+              className="inline-block w-12 h-1 rounded-full bg-[var(--hb-accent)] mb-4"
+              aria-hidden="true"
+            />
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-5">
               Take it anywhere.
             </h2>
@@ -198,6 +206,10 @@ export function Welcome() {
       >
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
+            <span
+              className="inline-block w-12 h-1 rounded-full bg-[var(--hb-accent)] mb-4"
+              aria-hidden="true"
+            />
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-5">
               Open core. Yours to keep.
             </h2>
@@ -261,6 +273,35 @@ export function Welcome() {
           Open source &middot; MIT licensed &middot; ALM &middot; Harvard University
         </p>
       </section>
+
+      {/* P123.5 — minimal footer (carry-forward from P122 §4-A-4).
+          Links open in same tab for nav routes; GitHub opens external.
+          Tokens-only; brand-locked Crimson via var(--hb-accent). */}
+      <footer
+        className="border-t border-[var(--hb-border)] bg-[var(--hb-surface)] mt-8"
+        role="contentinfo"
+      >
+        <div className="max-w-5xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[var(--hb-text-muted)]">
+          <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2" aria-label="Footer">
+            <Link to="/blog" className="hover:text-[var(--hb-accent)] transition-colors">Blog</Link>
+            <Link to="/open-core" className="hover:text-[var(--hb-accent)] transition-colors">Open Core</Link>
+            <a
+              href="https://github.com/bar181/hey-bradley-core"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[var(--hb-accent)] transition-colors"
+            >
+              GitHub
+            </a>
+            <Link to="/aisp" className="hover:text-[var(--hb-accent)] transition-colors">
+              Built with AISP
+            </Link>
+          </nav>
+          <div className="text-[var(--hb-text-muted)]/80">
+            Harvard ALM 2026
+          </div>
+        </div>
+      </footer>
     </main>
   )
 }
