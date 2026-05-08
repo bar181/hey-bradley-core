@@ -66,12 +66,16 @@ export class GeminiAdapter implements LLMAdapter {
       // Best-effort: race the SDK promise against the abort event so OUR side
       // resolves promptly on timeout. The SDK fetch may continue in background
       // (fire-and-forget); that's the residual leak documented in C20 GOAP.
+      // Gemini 2.5 Flash silently spends "thinking tokens" against
+      // maxOutputTokens; thinkingBudget: 0 disables it for JSON-shaped
+      // calls. 4096 cap covers the largest observed atom (~1158 out tokens).
       const sdkPromise = this.client.models.generateContent({
         model: this.modelId,
         contents: req.userPrompt,
         config: {
           systemInstruction: req.systemPrompt,
-          maxOutputTokens: 1024,
+          maxOutputTokens: 4096,
+          thinkingConfig: { thinkingBudget: 0 },
         },
       });
       const r = req.signal
