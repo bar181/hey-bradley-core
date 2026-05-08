@@ -190,10 +190,12 @@ npx @claude-flow/cli@latest daemon start
 
 | Item | Value |
 |---|---|
-| **Branch** | `swarm/p120.5-under-the-hood` (355 commits ahead of `main`) |
-| **Last sealed** | P120.5 / UNDER-THE-HOOD (nav rename + "Real time, not rebuild" section; calibration to ADR-149, no new ADR) |
-| **Active** | **P121 / HITL Pre-Merge Gate** — code-side green, human review surfaced UX gaps; see `plans/hitl/phase-121/` |
-| **Next** | **P122 / UX-OVERHAUL** — urgent UI/design lift from current ~40/100 to 70+ floor (90+ goal); see `plans/hitl/phase-122/preflight.md` |
+| **Main** | `0d44a17b0` — v2.0.0-RC1 merged to `main` 2026-05-08 (PR #1, no-squash, 359 commits preserved) |
+| **Tag** | `v2.0.0-RC1` (points at prep commit `0818e42b6`) |
+| **Last sealed** | **P121 / HITL Pre-Merge Gate** — see `plans/hitl/phase-121/retrospective.md` |
+| **Active** | **P122 / UX-OVERHAUL** — staged 40 → 50/100 UI lift; nav locked, Hey Bradley dark/crimson default template, ListenPreview component, builder critical fixes; see `plans/hitl/phase-122/preflight.md` |
+| **Next** | **P123** — UI continuation 50 → 65/100 (panel proportions, resizable panels, public below-fold) |
+| **Then** | **P124** — Gemini demo mode (`/api/demo-chat`, server-side key, IP rate limit, dollar cap; owner provides key at start) |
 | **Capstone** | Harvard ALM defense complete — 10/10, May 2026 |
 
 ---

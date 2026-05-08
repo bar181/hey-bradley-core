@@ -84,6 +84,20 @@ The DoD is *"Browser works · CI/CD tests green · Site loads on Codespaces · V
 
 ---
 
+## 2026-05-08 — Merge sequence executed
+
+- **Prep commit `0818e42b6`** — CLAUDE.md simplification (327→231 lines) + plans/flywheel-index.md + plans/hitl/phase-121/{session-log,retrospective}.md + plans/hitl/phase-122/{preflight,session-log}.md + post-P120.5 visual tail (MarketingNav, Welcome, About, Blog, OpenCore, BlogPost, center-canvas tabs, blogPosts lib, main.tsx routing, db.ts WASM init, predev script, 2 new blog posts, HeroOrb, headshot asset). Submodule pointer drift reset. Runtime files (.swarm/*, .claude-flow/system/metrics.json) reset to HEAD before staging.
+- **Tag `v2.0.0-RC1`** created and pushed.
+- **PR #1** opened against `main` with no-squash directive. 356 commits ahead of main at PR open.
+- **Merge of `origin/main`** required — main had 1 commit (`2984accf5 Add wiki guides...`) with 13 runtime/screenshot conflicts. Resolved by taking HEAD where present (.swarm/*, .claude-flow/swarm/swarm-state.json, tests/screenshots/*.png) and accepting main's adds where HEAD had deleted (phase-3/ui-ux-audit-report.md restored, playwright-report/index.html restored). Merge commit `f7a0e97f7` pushed.
+- **CI fix #1 `be978c2f5`** — first CI run failed: `npm ci` reported `Missing: @emnapi/core@1.10.0 + @emnapi/runtime@1.10.0 from lock file`. Root cause: local Node 24 + npm 11 writes optional platform-specific @napi-rs transitive deps not present in the original committed lockfile. Regenerated lockfile via `rm -rf node_modules package-lock.json && npm install --package-lock-only --ignore-scripts`. 1494-line lockfile diff. Local build still green (Vite 6.80s).
+- **CI fix #2 `e3f27df89`** — second CI run still failed identically. Hypothesis: Node 20 + npm 10 (CI default) resolves transitive deps differently than my Node 24 / npm 11. Bumped CI to `node-version: '22'` in `.github/workflows/gates.yml` (closes CF-P121-1 from this retrospective ahead of P122 schedule).
+- **CI fix #3 `70ee45d57`** — third CI run still failed identically on Node 22. The lockfile mismatch is not just Node 20 vs 22 — it's that platform-specific @emnapi entries written by Node 24's npm aren't accepted by Node 22's `npm ci` strictness. Switched both jobs from `npm ci` to `npm install --no-audit --no-fund`. New CF-P122-A tracks the proper fix (regenerate lockfile under matching Node version, then revert to `npm ci`).
+- **CI gate green** — gates 1m0s, build 35s, Vercel preview ✅ Ready, Vercel Preview Comments ✅. PR comment confirms preview URL.
+- **PR #1 merged** with `gh pr merge 1 --merge` (no-squash) → main HEAD now `0d44a17b0`. All 359 commits preserved in history (356 original + 3 CI fixes).
+- Vercel production auto-deploy on push to `main` fires; URL captured in retrospective §8 once green.
+- P121 retrospective §8 (Merge close-out) appended with full sequence + new carry-forward.
+
 ## Open log: append below as work continues
 
 <!-- Add entries with date stamps as P121 closes out and P122 starts. Format: ## YYYY-MM-DD — short title -->

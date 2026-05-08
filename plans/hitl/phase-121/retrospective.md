@@ -84,3 +84,53 @@
 | Process discipline | **Mixed** | Logged + retrospected, but missed cumulative walkthrough — corrected for next gate |
 
 P121 closes once the merge sequence completes. The unchecked items in §2 are owner-only — they do not block phase rollover.
+
+---
+
+## 8. Merge close-out — 2026-05-08
+
+### Sequence executed
+
+| Step | Result | Commit / link |
+|---|---|---|
+| Working-tree prep commit | `0818e42b6` (P121 / HITL pre-merge) | CLAUDE.md simplification + EOP triplets + flywheel index + post-P120.5 visual tail |
+| Tag `v2.0.0-RC1` | created + pushed | points at `0818e42b6` |
+| Branch push | done | `swarm/p120.5-under-the-hood` |
+| PR opened | [PR #1](https://github.com/bar181/hey-bradley-core/pull/1) | base: `main`, head: `swarm/p120.5-under-the-hood`, no-squash, 356 commits preserved |
+| Merge of `origin/main` (1-commit divergence) | `f7a0e97f7` | conflicts: 13 runtime/screenshot/historical-doc files; resolved by taking HEAD where present, accepting main's version where HEAD had deleted |
+| CI fix #1: lockfile regen for `@emnapi` transitive deps | `be978c2f5` | Node 24 / npm 11 wrote optional platform deps not in original lockfile |
+| CI fix #2: pin Node 22 in `.github/workflows/gates.yml` | `e3f27df89` | closes CF-P121-1 ahead of P122 schedule |
+| CI fix #3: switch CI to `npm install` (from `npm ci`) | `70ee45d57` | bridges Node 24-local vs Node 22-CI lockfile-resolution mismatch; tighter `npm ci` returns when lockfile is regenerated under matching Node version (new CF-P122-A) |
+| CI gate green | PASS | gates 1m0s · build 35s · Vercel preview ✅ Ready · Vercel Preview Comments ✅ |
+| **PR #1 merged** | `0d44a17b0` | merge commit on `main`, all 359 commits preserved (3 CI-fix commits added on top of original 356) |
+
+### What this means for the live site
+
+- `main` is now at `0d44a17b0`.
+- Vercel auto-deploys on push to `main` — production deployment URL captured below once green.
+- The two preview deployments during PR review (`AfnTShjbfTxPtsHEGZSp6qCWCK4E` + `5FM16vqCk3XJzq1w7TGWhxeevaoT`) confirm Vercel pipeline is healthy.
+- v2.0.0-RC1 tag points at the prep commit on the branch tip; the actual `main` HEAD is the merge commit. Tag stays as the RC marker; if a v2.0.0 (release) tag is wanted later, it can re-anchor at the merge commit.
+
+### Carry-forwards added during merge
+
+| ID | Item | Lands in |
+|---|---|---|
+| **CF-P122-A** | Regenerate `package-lock.json` under Node 22 + commit, then revert CI to `npm ci` for tighter sync enforcement | P122 W5 (engineering hygiene) |
+
+### What the merge unblocks
+
+- P122 can branch off `main` cleanly.
+- Vercel preview URLs work for owner share-tests during P122 development (per-PR preview = per-feature visual review).
+- v2.0.0-RC1 tag is the snapshot reviewers can reference.
+- HITL phase folder pattern (`plans/hitl/phase-N/preflight + session-log + retrospective`) is now established and demonstrated end-to-end.
+
+### Final scoring at close
+
+| Lens | Score | Note |
+|---|---|---|
+| Code / CI gate | **PASS** | gates ✅ build ✅ Vercel ✅ |
+| Visual UX (cumulative) | **~40/100** | Unchanged at close — by design; P122 owns the lift |
+| Process discipline | **PASS** | EOP triplet present, merge-conflict resolution logged, CI-fix iteration documented per-commit |
+| Merge integrity | **PASS** | 359 commits preserved (no squash, per owner directive) |
+
+P121 SEALED at `0d44a17b0`. P122 active.
