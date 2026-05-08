@@ -144,3 +144,6 @@ playwright-report/
 public/sqljs/sql-wasm.wasm
 
 public/sqljs/sql-wasm-browser.wasm
+
+# Claude-flow runtime metrics (ephemeral, not project state)
+.claude-flow/system/metrics.json

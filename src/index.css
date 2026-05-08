@@ -42,15 +42,15 @@ body {
     --hb-paper-tile: #f0ede8;      /* Tile parchment — onboarding example tile bg */
     --hb-ink: #2d1f12;             /* Dark espresso — marketing primary text (alias of listen-fg) */
     --hb-ink-muted: #6b5e4f;       /* Warm taupe — marketing secondary text (alias of listen-accent) */
-    --hb-warm: #e8772e;            /* Warm orange — marketing accent */
-    --hb-warm-hover: #c45f1c;      /* Warm orange deep — marketing accent hover */
+    --hb-warm: #A51C30;            /* Harvard crimson — marketing accent (was warm orange) */
+    --hb-warm-hover: #8C1515;      /* Dark crimson — marketing accent hover */
     /* P102 — Marketing crimson deep (mode-independent; Onboarding hover) */
     --hb-crimson-deep: #8c1515;    /* Dark crimson — primary CTA hover on marketing pages */
     /* P102 — RGB channel form of marketing accents for Tailwind opacity arbitrary
        values — `bg-[rgb(var(--hb-warm-rgb)/0.15)]` works because the channels are
        space-separated; `bg-[var(--hb-warm)]/15` fails silently because Tailwind
        cannot statically extract RGB from a hex-valued var. */
-    --hb-warm-rgb: 232 119 46;     /* #e8772e channels */
+    --hb-warm-rgb: 165 28 48;      /* #A51C30 channels (crimson) */
     --hb-accent-rgb: 165 28 48;    /* #A51C30 channels */
     --hb-paper-soft-rgb: 241 236 228; /* #f1ece4 channels (footer/hover bg overlay) */
     --hb-paper-rgb: 250 248 245;   /* #faf8f5 channels (page bg overlay) */
@@ -127,6 +127,36 @@ body {
   .light-chrome textarea:focus,
   .light-chrome select:focus {
     border-color: var(--hb-accent);
+  }
+
+  /* P121.5 — Hero orb keyframes (extracted from ListenTab.tsx inline styles).
+     Global so HeroOrb.tsx + ListenOrb.tsx can both reference them. */
+  @keyframes orb-pulse {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    25% { opacity: 0.75; transform: scale(1.06); }
+    50% { opacity: 1; transform: scale(1.15); }
+    75% { opacity: 0.85; transform: scale(1.08); }
+  }
+  @keyframes orb-breathe {
+    0%, 100% { opacity: 0.4; transform: scale(1) rotate(0deg); }
+    50% { opacity: 0.8; transform: scale(1.1) rotate(3deg); }
+  }
+
+  /* P121.5 — Light mode for marketing pages.
+     Activated by .hb-light on <html> via MarketingNav theme toggle.
+     Marketing pages use `.dark` wrapper which takes precedence when both exist,
+     so .hb-light only needs to override the `.dark` marketing vars. */
+  .hb-light .dark {
+    --hb-bg: #FAFAF8;
+    --hb-surface: #FFFFFF;
+    --hb-surface-hover: #F5F3F0;
+    --hb-border: #E5E1DC;
+    --hb-text-primary: #1A1A1A;
+    --hb-text-secondary: #4B5563;
+    --hb-text-muted: #9CA3AF;
+    --hb-accent: #A51C30;
+    --hb-accent-hover: #8B1729;
+    --hb-nav-bg: #A51C30;
   }
 
   /* Reduced motion: disable animations */

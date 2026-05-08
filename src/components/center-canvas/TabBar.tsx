@@ -1,77 +1,90 @@
 import { useEffect } from 'react'
 import { cn } from '../../lib/cn'
 import { useUIStore, type ActiveTab } from '../../store/uiStore'
-import { FileText } from 'lucide-react'
 import { Tooltip } from '../ui/Tooltip'
 
-// DRAFT mode shows only Reality + Data (read-only). EXPERT shows all.
-// See plans/implementation/mvp-plan/01-phase-15-polish-kitchen-sink.md §1.1.
-// P55 Sprint L (A2) — Blueprints (XAI_DOCS) promoted to FIRST EXPERT position
-// (right after the universal Preview tab). The spec is the moat made legible.
-const TABS: { key: ActiveTab; label: string; expert?: boolean; tip: string; title: string }[] = [
-  { key: 'REALITY', label: 'Preview', tip: 'Live site preview', title: 'See your live page.' },
-  { key: 'XAI_DOCS', label: 'Blueprints', expert: true, tip: 'Generated specifications', title: 'View the generated specs and plans for your site.' },
-  { key: 'RESOURCES', label: 'Resources', expert: true, tip: 'Templates, AISP guide, media library', title: 'Browse templates, images, and helper guides.' },
-  { key: 'DATA', label: 'Data', tip: 'Raw JSON configuration', title: 'View the JSON behind your page.' },
-  { key: 'WORKFLOW', label: 'Pipeline', expert: true, tip: 'Build workflow visualization', title: 'Watch the build steps for your site.' },
-  { key: 'CONVERSATION_LOG', label: 'Log', expert: true, tip: 'Conversation log (chat + LLM audit)', title: 'See every prompt + reply with provider + personality.' },
+// P121.5 — Simplified to two primary tabs: Preview + Agentics.
+// EXPERT mode unlocks Data/Log as utility tabs in a secondary row.
+const PRIMARY_TABS: { key: ActiveTab; label: string; tip: string }[] = [
+  { key: 'REALITY', label: 'Preview', tip: 'Live site preview' },
+  { key: 'XAI_DOCS', label: 'Agentics', tip: 'Specs, blueprints, and build tools' },
+]
+
+const UTILITY_TABS: { key: ActiveTab; label: string; tip: string }[] = [
+  { key: 'DATA', label: 'Data', tip: 'Raw JSON configuration' },
+  { key: 'CONVERSATION_LOG', label: 'Log', tip: 'Conversation log' },
 ]
 
 export function TabBar() {
   const activeTab = useUIStore((s) => s.activeTab)
   const setActiveTab = useUIStore((s) => s.setActiveTab)
   const rightPanelTab = useUIStore((s) => s.rightPanelTab)
-  // P55 Sprint L (A2) — accent dot when spec changed since last view.
   const specHasUnseenUpdate = useUIStore((s) => s.specHasUnseenUpdate)
   const isExpert = rightPanelTab === 'EXPERT'
 
-  const visibleTabs = TABS.filter((tab) => !tab.expert || isExpert)
-
-  // Active-tab fallback: if the current tab is hidden in DRAFT, snap to Reality.
+  // Fallback: if current tab not visible, snap to Preview
   useEffect(() => {
-    if (!visibleTabs.some((t) => t.key === activeTab)) {
+    const allVisible = [...PRIMARY_TABS, ...(isExpert ? UTILITY_TABS : [])]
+    if (!allVisible.some((t) => t.key === activeTab)) {
       setActiveTab('REALITY')
     }
-  }, [isExpert, activeTab, setActiveTab, visibleTabs])
+  }, [isExpert, activeTab, setActiveTab])
 
   return (
-    <div role="tablist" aria-label="Canvas tabs" className="flex flex-row gap-0 border-b border-hb-border bg-hb-bg items-center">
-      {visibleTabs.map((tab) => {
-        const isSpecs = tab.key === 'XAI_DOCS'
-        const isActive = activeTab === tab.key
-
-        return (
-          <Tooltip key={tab.key} content={tab.tip} position="bottom">
-            <button
-              role="tab"
-              aria-selected={isActive}
-              onClick={() => setActiveTab(tab.key)}
-              className={cn(
-                'px-4 py-2.5 text-xs font-medium cursor-pointer transition-colors inline-flex items-center gap-1.5 focus-visible:ring-2 focus-visible:ring-hb-accent rounded-t',
-                isActive
-                  ? 'text-hb-accent border-b-2 border-hb-accent -mb-px'
-                  : isSpecs
-                    ? 'text-hb-accent/70 hover:text-hb-accent'
+    <div className="border-b border-hb-border bg-hb-bg">
+      <div role="tablist" aria-label="Canvas tabs" className="flex items-center">
+        {/* Primary tabs — always visible */}
+        {PRIMARY_TABS.map((tab) => {
+          const isActive = activeTab === tab.key
+          const isAgentics = tab.key === 'XAI_DOCS'
+          return (
+            <Tooltip key={tab.key} content={tab.tip} position="bottom">
+              <button
+                role="tab"
+                aria-selected={isActive}
+                onClick={() => setActiveTab(tab.key)}
+                className={cn(
+                  'px-5 py-3 text-sm font-semibold cursor-pointer transition-colors inline-flex items-center gap-1.5 focus-visible:ring-2 focus-visible:ring-hb-accent',
+                  isActive
+                    ? 'text-hb-accent border-b-2 border-hb-accent -mb-px'
                     : 'text-hb-text-muted hover:text-hb-text-secondary'
-              )}
-              title={tab.title}
-            >
-              {isSpecs && <FileText size={12} />}
-              {tab.label}
-              {isSpecs && !isActive && specHasUnseenUpdate && (
-                <span
-                  data-testid="spec-unseen-indicator"
-                  aria-label="Spec updated"
-                  className="ml-1 inline-block w-1.5 h-1.5 rounded-full bg-hb-accent"
-                />
-              )}
-              {isSpecs && !isActive && !specHasUnseenUpdate && (
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-hb-accent/60" />
-              )}
-            </button>
-          </Tooltip>
-        )
-      })}
+                )}
+              >
+                {tab.label}
+                {isAgentics && !isActive && specHasUnseenUpdate && (
+                  <span data-testid="spec-unseen-indicator" aria-label="Spec updated"
+                    className="ml-1 inline-block w-2 h-2 rounded-full bg-hb-accent" />
+                )}
+              </button>
+            </Tooltip>
+          )
+        })}
+
+        {/* Spacer */}
+        <div className="flex-1" />
+
+        {/* Utility tabs — EXPERT only, smaller, right-aligned */}
+        {isExpert && UTILITY_TABS.map((tab) => {
+          const isActive = activeTab === tab.key
+          return (
+            <Tooltip key={tab.key} content={tab.tip} position="bottom">
+              <button
+                role="tab"
+                aria-selected={isActive}
+                onClick={() => setActiveTab(tab.key)}
+                className={cn(
+                  'px-3 py-3 text-xs font-medium cursor-pointer transition-colors focus-visible:ring-2 focus-visible:ring-hb-accent',
+                  isActive
+                    ? 'text-hb-accent border-b-2 border-hb-accent -mb-px'
+                    : 'text-hb-text-muted hover:text-hb-text-secondary'
+                )}
+              >
+                {tab.label}
+              </button>
+            </Tooltip>
+          )
+        })}
+      </div>
     </div>
   )
 }

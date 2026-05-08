@@ -18,9 +18,11 @@ import './index.css'
 // EAGER (kept as static imports above): /, /builder, /* (NotFound) — preserves
 // LCP on the landing surface and avoids a Suspense flash on the primary tool.
 const Onboarding = lazy(() => import('@/pages/Onboarding').then((m) => ({ default: m.Onboarding })))
-const About = lazy(() => import('@/pages/About').then((m) => ({ default: m.About })))
+// About page now redirects to /capstone (P121.5)
+// const About = lazy(() => import('@/pages/About').then((m) => ({ default: m.About })))
 const AISP = lazy(() => import('@/pages/AISP').then((m) => ({ default: m.AISP })))
-const Research = lazy(() => import('@/pages/Research').then((m) => ({ default: m.Research })))
+// Research and ForTeams pages now redirect to blog posts (P121.5)
+// const Research = lazy(() => import('@/pages/Research').then((m) => ({ default: m.Research })))
 const OpenCore = lazy(() => import('@/pages/OpenCore').then((m) => ({ default: m.OpenCore })))
 const HowIBuiltThis = lazy(() => import('@/pages/HowIBuiltThis').then((m) => ({ default: m.HowIBuiltThis })))
 const Docs = lazy(() => import('@/pages/Docs').then((m) => ({ default: m.Docs })))
@@ -38,7 +40,7 @@ const Agentics = lazy(() => import('@/pages/Agentics').then((m) => ({ default: m
 // P118.5 / WALKTHROUGH (per ADR-147) — section-like story page at /walkthrough.
 const Walkthrough = lazy(() => import('@/pages/Walkthrough'))
 // P120 / AUDIENCE-ROUTING (per ADR-149) — /for-teams + /contact + /guides redirect.
-const ForTeams = lazy(() => import('@/pages/ForTeams').then((m) => ({ default: m.ForTeams })))
+// const ForTeams = lazy(() => import('@/pages/ForTeams').then((m) => ({ default: m.ForTeams })))
 const Contact = lazy(() => import('@/pages/Contact').then((m) => ({ default: m.Contact })))
 
 function ScrollToTop() {
@@ -76,10 +78,12 @@ initDB()
               <Route path="/" element={<Welcome />} />
               <Route path="/new-project" element={<Onboarding />} />
               <Route path="/builder" element={<Builder />} />
-              <Route path="/about" element={<About />} />
+              <Route path="/capstone" element={<OpenCore />} />
+              <Route path="/open-core" element={<Navigate to="/capstone" replace />} />
+              <Route path="/about" element={<Navigate to="/capstone" replace />} />
               <Route path="/aisp" element={<AISP />} />
-              <Route path="/research" element={<Research />} />
-              <Route path="/open-core" element={<OpenCore />} />
+              <Route path="/research" element={<Navigate to="/blog/research-the-telephone-game" replace />} />
+              {/* /open-core redirects to /capstone via route above */}
               <Route path="/how-i-built-this" element={<HowIBuiltThis />} />
               <Route path="/docs" element={<Docs />} />
               <Route path="/byok" element={<BYOK />} />
@@ -93,7 +97,7 @@ initDB()
               <Route path="/planning" element={<Planning />} />
               <Route path="/agentics" element={<Agentics />} />
               <Route path="/walkthrough" element={<Walkthrough />} />
-              <Route path="/for-teams" element={<ForTeams />} />
+              <Route path="/for-teams" element={<Navigate to="/blog/teams-spec-handoff-for-product-teams" replace />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/guides" element={<Navigate to="/blog?category=technical" replace />} />
               <Route path="*" element={<NotFound />} />
@@ -104,9 +108,6 @@ initDB()
     )
   })
   .catch((err: unknown) => {
-    // P19 Fix-Pass 2 (F14): render the existing app surface AND a persistent
-    // dismissable banner so the user is told that local persistence is broken.
-    // The rest of the app keeps working in-memory; refresh = retry.
     if (import.meta.env.DEV) console.warn('[persistence] initDB failed; rendering app without local DB', err)
     root.render(
       <StrictMode>
@@ -118,10 +119,12 @@ initDB()
               <Route path="/" element={<Welcome />} />
               <Route path="/new-project" element={<Onboarding />} />
               <Route path="/builder" element={<Builder />} />
-              <Route path="/about" element={<About />} />
+              <Route path="/capstone" element={<OpenCore />} />
+              <Route path="/open-core" element={<Navigate to="/capstone" replace />} />
+              <Route path="/about" element={<Navigate to="/capstone" replace />} />
               <Route path="/aisp" element={<AISP />} />
-              <Route path="/research" element={<Research />} />
-              <Route path="/open-core" element={<OpenCore />} />
+              <Route path="/research" element={<Navigate to="/blog/research-the-telephone-game" replace />} />
+              {/* /open-core redirects to /capstone via route above */}
               <Route path="/how-i-built-this" element={<HowIBuiltThis />} />
               <Route path="/docs" element={<Docs />} />
               <Route path="/byok" element={<BYOK />} />
@@ -135,7 +138,7 @@ initDB()
               <Route path="/planning" element={<Planning />} />
               <Route path="/agentics" element={<Agentics />} />
               <Route path="/walkthrough" element={<Walkthrough />} />
-              <Route path="/for-teams" element={<ForTeams />} />
+              <Route path="/for-teams" element={<Navigate to="/blog/teams-spec-handoff-for-product-teams" replace />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/guides" element={<Navigate to="/blog?category=technical" replace />} />
               <Route path="*" element={<NotFound />} />

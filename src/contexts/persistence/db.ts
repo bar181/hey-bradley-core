@@ -18,7 +18,6 @@ import { pruneOldLogs, pruneOldEditHistory } from './repositories/comprehensiveL
 const DEFAULT_RETENTION_MS = 30 * 24 * 60 * 60 * 1000;
 
 const IDB_KEY = 'hb-db';
-const WASM_DIR = '/sqljs';
 const LOCK_NAME = 'hb-db-write';
 const CHANNEL_NAME = 'hb-db';
 const INVALIDATE_MSG = 'hb-db-invalidate';
@@ -74,7 +73,7 @@ export async function initDB(): Promise<Database> {
     //   prod ESM:  { default: initSqlJs }
     //   dev CJS:   { default: { default: initSqlJs } }
     //   plain:     initSqlJs (callable namespace)
-    type InitFn = (cfg?: { locateFile?: (file: string) => string }) => Promise<SqlJsStatic>;
+    type InitFn = (cfg?: { locateFile?: (file: string) => string; wasmBinary?: ArrayBuffer }) => Promise<SqlJsStatic>;
     const sqljsModule = (await import('sql.js')) as unknown as { default?: InitFn | { default?: InitFn } };
     const fromDefault = sqljsModule.default;
     const initSqlJs: InitFn = typeof fromDefault === 'function'
@@ -82,7 +81,13 @@ export async function initDB(): Promise<Database> {
       : (typeof (fromDefault as { default?: InitFn } | undefined)?.default === 'function'
           ? (fromDefault as { default: InitFn }).default
           : (sqljsModule as unknown as InitFn));
-    SQL = await initSqlJs({ locateFile: (file: string) => `${WASM_DIR}/${file}` });
+    // Fetch WASM with credentials so Codespaces proxy auth cookies are sent.
+    // Without this, the proxy returns an HTML auth page instead of the binary.
+    const wasmUrl = new URL('/sqljs/sql-wasm.wasm', window.location.origin).href;
+    const wasmResponse = await fetch(wasmUrl, { credentials: 'same-origin' });
+    if (!wasmResponse.ok) throw new Error(`WASM fetch failed: ${wasmResponse.status}`);
+    const wasmBinary = await wasmResponse.arrayBuffer();
+    SQL = await initSqlJs({ wasmBinary });
 
     const buf = await idbGet<ArrayBuffer | Uint8Array>(IDB_KEY);
     const db: Database = buf

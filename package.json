@@ -12,6 +12,7 @@
   },
   "type": "module",
   "scripts": {
+    "predev": "node scripts/copy-sqljs-wasm.mjs",
     "dev": "vite",
     "prebuild": "node scripts/copy-sqljs-wasm.mjs",
     "build": "tsc -b && vite build",

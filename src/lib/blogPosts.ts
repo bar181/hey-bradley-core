@@ -208,6 +208,23 @@ const REGISTRY: BlogPostMeta[] = [
     readingTimeMin: 7,
     tags: ['architecture', 'agentic-engineering', 'spec-first'],
   },
+  // P121.5 — content migrations (research + for-teams → blog)
+  {
+    slug: 'research-the-telephone-game',
+    title: 'The Most Expensive Game of Telephone in History',
+    subtitle: 'Harvard ALM capstone research measuring intent loss across the software development chain — and the protocol that stops it.',
+    date: '2026-05-07',
+    readingTimeMin: 12,
+    tags: ['research', 'aisp', 'capstone', 'spec-first'],
+  },
+  {
+    slug: 'teams-spec-handoff-for-product-teams',
+    title: 'Your Team Re-Explains the Project Every Session',
+    subtitle: 'A persistent spec your AI coding assistant reads once. The next session picks up where the last one ended.',
+    date: '2026-05-07',
+    readingTimeMin: 5,
+    tags: ['teams', 'process', 'spec-first'],
+  },
 ]
 
 function buildPost(meta: BlogPostMeta): BlogPost {
@@ -233,33 +250,41 @@ export function listBlogPosts(): BlogPost[] {
   return REGISTRY.map(buildPost).sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0))
 }
 
-// P120/A4 — display category derivation (story | technical | for-teams).
-// Classifies posts intelligently from existing frontmatter tags so we don't
-// have to re-author every .md. Default = 'story' (most inclusive).
-export type BlogCategory = 'story' | 'technical' | 'for-teams'
+// P121.5 — display category derivation. Five categories: story, technical,
+// teams, research, aisp. Classifies from tags with explicit slug overrides.
+export type BlogCategory = 'story' | 'technical' | 'teams' | 'research' | 'aisp'
 
 export const BLOG_CATEGORY_LABEL: Record<BlogCategory, string> = {
   story: 'Story',
   technical: 'Technical',
-  'for-teams': 'For teams',
+  teams: 'Teams',
+  research: 'Research',
+  aisp: 'AISP',
 }
 
 const TECHNICAL_TAGS = new Set([
-  'engineering', 'architecture', 'handoff', 'aisp', 'crystal-atom',
-  'spec-first', 'agentic-engineering', 'multi-page', 'AISP', 'comparison',
+  'engineering', 'architecture', 'handoff', 'crystal-atom',
+  'spec-first', 'agentic-engineering', 'multi-page', 'comparison',
 ])
-const FOR_TEAMS_TAGS = new Set([
+const TEAMS_TAGS = new Set([
   'process', 'swarm', 'team', 'discipline', 'velocity', 'meta', 'dogfooding',
   'open-core', 'strategy', 'tier-2', 'boundaries',
 ])
+const RESEARCH_TAGS = new Set(['research', 'capstone'])
+const AISP_TAGS = new Set(['aisp', 'AISP'])
 
 export function categoryOf(post: { slug: string; tags: string[] }): BlogCategory {
-  // P118 lock — explicit overrides ensure post 1 + 2 = story, post 3 = technical.
+  // Explicit slug overrides
   if (post.slug === 'describe-it-see-it') return 'story'
   if (post.slug === 'why-we-built-this-the-honest-version') return 'story'
   if (post.slug === 'the-handoff-that-changes-everything') return 'technical'
+  if (post.slug === 'research-the-telephone-game') return 'research'
+  if (post.slug === 'teams-spec-handoff-for-product-teams') return 'teams'
+  // Tag-based derivation — order matters: more specific first
+  for (const t of post.tags) if (RESEARCH_TAGS.has(t)) return 'research'
+  for (const t of post.tags) if (AISP_TAGS.has(t)) return 'aisp'
   for (const t of post.tags) if (TECHNICAL_TAGS.has(t)) return 'technical'
-  for (const t of post.tags) if (FOR_TEAMS_TAGS.has(t)) return 'for-teams'
+  for (const t of post.tags) if (TEAMS_TAGS.has(t)) return 'teams'
   return 'story'
 }
 

@@ -1,0 +1,131 @@
+# P122 / UX-OVERHAUL — Preflight
+
+> **Mission:** First lift in a 3-phase staged climb. P122 takes cumulative public-site + builder visual quality from ~40/100 to **≥50/100**. P123 lifts to ≥65. P124 (LLM API key) requires the UX floor in place first.
+>
+> **Why staged:** Owner re-scoped after the human-2.md review on 2026-05-08. A single 40 → 70+ shot risks scope creep and a leaky UX surface where some pages move while others lag. Two 50/65 milestones with retrospectives between them keep regression risk low.
+>
+> **Branch:** `swarm/p122-ux-overhaul` (cut from `main` after P121 merges).
+
+---
+
+## 1. Owner decisions — LOCKED (from `human-2.md`, 2026-05-08)
+
+| # | Question | Locked answer |
+|---|---|---|
+| 1 | Default template | Hey Bradley site — dark theme, crimson accents, professional |
+| 2 | Landing preview card | Listen-mode-style preview (less prominent, scaled-down, opacity ~0.85) |
+| 3 | Nav + messaging | **Do not touch** — nav is fine, hero copy stays |
+| 4 | Builder UI scope | Critical fixes only; target 50/100 |
+| 5 | Gemini API key | Phase 124 — not this phase |
+
+**Do-not-touch list (P122):** `MarketingNav.tsx`, `Welcome.tsx` hero copy, AISP Crystal Atom view, Listen mode core UI, `BlogPost.tsx`, `About.tsx`, `Docs.tsx`, builder logic, LLM adapter code, `src/lib/blogPosts.ts`.
+
+---
+
+## 2. Scoring rubric (anchored to external benchmarks)
+
+| Score | Anchor | Meaning |
+|---|---|---|
+| **40/100** | Where Hey Bradley is today (P121 review) | Below amateur Wix; broken-skeleton card, generic-SaaS default template, scrollbars leak, toolbar clips |
+| **50/100** | **P122 minimum gate** (must hit to close) | Default template is Hey Bradley-branded, landing preview reads as listen-mode mockup not skeleton, builder critical UI bugs gone |
+| **60/100** | A simple Wix site a non-tech person built in an hour | Floor for sharing externally — readable, no broken UI, hero + footer + 3 sections |
+| **65/100** | **P123 target** | Builder panel proportions correct, resizable panels, public site below-fold lands |
+| **80/100** | Pro-built Wix public page | Confident typography, intentional whitespace, every empty/loading/error state designed |
+| **90+/100** | Show HN-ready | Stripe / Linear / Vercel marketing parity |
+
+A surface scores the *minimum* of its weakest dimension (visual / functional / responsive / a11y).
+
+## 3. DoD (every box must check to seal P122)
+
+- [ ] Build passes: `npm run build` zero errors.
+- [ ] Dev server: no console errors (React DevTools info message excluded).
+- [ ] Default template: Hey Bradley dark/crimson site renders on first load (replaces "Welcome to Your Website").
+- [ ] Template picker: 4 cards visible and selectable (Hey Bradley pre-selected, Kitchen Sink, Portfolio, swarm-pick).
+- [ ] Landing preview: `<ListenPreview />` component, no skeleton.
+- [ ] Left panel: zero horizontal scrollbar at 1200px wide.
+- [ ] Chat toolbar: SHARE SPEC + EXPORT + SIMULATED MODE + PROFESSIONAL all visible at 1280px.
+- [ ] Agentics grid: 7 cards fill cleanly, no orphan cell.
+- [ ] "+ Add Section" button replaces "More Sections" label.
+- [ ] CI: Node 22 pinned in `.github/workflows/gates.yml` (closes CF-P121-1).
+- [ ] WASM: dev server initialises sql.js without console errors (closes CF-P121 follow-up).
+- [ ] Honest self-assessment: ≥50/100 OR document the gap with a re-score and lowest-surface call-out.
+- [ ] EOP triplet: `preflight.md` (this file) · `session-log.md` · `retrospective.md`.
+
+## 4. Scope (in)
+
+### A — Audit (Wave 1, no code changes)
+
+1. Inventory shadcn primitives present in `src/components/ui/`.
+2. Grep `src/components/` for inline `style={{`, `overflow-x`, scrollbar refs.
+3. Identify where the "Welcome to Your Website" default template lives.
+4. Identify onboarding / template-selection rendering surface.
+
+### B — Default template + onboarding (Wave 2)
+
+5. Replace default template config with Hey Bradley dark/crimson site:
+   - Section 1 hero: "Describe it. See it." subhead "Your voice is the whiteboard." + crimson gradient orb (no stock photo).
+   - Section 2 features: 3 dark cards (🎙 Listen mode · ⚡ Real-time · 📄 Export spec).
+   - Section 3 stats: 92% / <2% / 0.8s.
+   - Section 4 CTA band: "Ready to build?" + "Try the builder".
+6. Add 4-card 2×2 template picker (Hey Bradley default-selected · Kitchen Sink · Portfolio · swarm-pick).
+   - Swarm-pick rationale documented in session-log.
+
+### C — Landing page preview (Wave 3)
+
+7. New `src/components/marketing/ListenPreview.tsx` — 30/70 split, pulsing crimson orb + waveform (left), mini-browser-chrome with stylised hero (right). Max 640px width, opacity 0.85, dark card.
+8. Replace skeleton card in `Welcome.tsx` with `<ListenPreview />`.
+
+### D — Builder critical UI (Wave 4)
+
+9. Left-panel horizontal scroll: `overflow-x: hidden` + `min-w-0` on flex children + wrap content in shadcn `<ScrollArea type="vertical">`.
+10. Chat toolbar clipping: shadcn `<ScrollArea>` horizontal on the toolbar row OR `flex-wrap`.
+11. Agentics card grid orphan: swarm picks A (`auto-fill minmax(200px, 1fr)`) or B (add 8th "Export Bundle" card wired to existing export action).
+12. "More Sections" → shadcn `<Button variant="outline" size="sm">+ Add Section</Button>`.
+
+### E — Engineering hygiene (Wave 5, P121 carry-forwards)
+
+13. Pin Node 22 in `.github/workflows/gates.yml` (`node-version: '22'`).
+14. sql.js WASM at `public/sql-wasm.wasm`; update `db.ts` `initSqlJs({ locateFile: () => '/sql-wasm.wasm' })`; ensure not in `.gitignore`.
+
+## 5. Scope (out — explicitly)
+
+- Resizable panels (`ResizablePanelGroup`) → P123.
+- Loading-state / error-state / toast harness → P123 once visible surfaces are sealed.
+- `/api/demo-chat` Gemini edge function → **P124** (owner provides key).
+- `npm audit fix` → owner-action post-merge from P121.
+- Submodule pointer refresh → owner-action post-merge from P121.
+- Public site footer / below-fold stats and steps → P123 (already declared in P122 preflight v1, dropped after owner re-scope).
+- Anything outside the surfaces named in §4.
+
+## 6. Wave plan
+
+| Wave | Agents | Disjoint scope | Output |
+|---|---|---|---|
+| **W1** | A1 audit (read-only) | scan-only | `docs/audit/p122-ui-baseline.md` + scoring per §2 |
+| **W2** | A2 default template + picker | template configs + onboarding render | Hey Bradley template live + 4-card picker |
+| **W3** | A3 landing preview | new `ListenPreview.tsx` + `Welcome.tsx` swap | skeleton replaced |
+| **W4** | A4 builder critical UI | left panel + chat toolbar + agentics grid + add-section button | 4 fixes ship |
+| **W5** | A5 engineering hygiene | `.github/workflows/gates.yml` + `public/sql-wasm.wasm` + `db.ts` | CI + WASM clean |
+| **W6** | Closer | ADR (if architectural) + `tests/p122-ui-overhaul.spec.ts` + EOP triplet + CLAUDE.md §12 update | seal |
+
+W1 must complete before W2-W5 dispatch (the audit's findings drive shadcn-component + file-location decisions). W2-W5 fan out in parallel disjoint scopes.
+
+## 7. Risks + known unknowns
+
+| Risk | Mitigation |
+|---|---|
+| Template picker becomes the single largest UX add — could blow the LOC budget | Owner-cap each template JSON ≤ 200 LOC; picker component ≤ 180 LOC |
+| `<ListenPreview />` mock could feel cheap if the orb / waveform animation is wrong | Reuse the existing keyframes from real `MobileListenFullscreen.tsx`; do not invent new animation curves |
+| 50/100 self-score is subjective | Re-score uses 3 personas (Grandma / Framer / Capstone) per `feedback_quality_bar.md`; floor = lowest persona must hit 50 |
+| Node 22 pin could surface unrelated CI breaks | Land in W5 last; if it breaks anything, revert that single line — do not block the phase |
+
+## 8. Success exit
+
+When DoD §3 is all-true:
+- Re-score ≥ 50 across all touched surfaces (lowest persona).
+- Update `CLAUDE.md` §12 pointer (P122 sealed, P123 active).
+- Move CF-P121-1 (Node 22 pin) and the WASM cleanup to **CLOSED** in `plans/master-backlog.md`.
+- Tag candidate: `v2.0.1` (patch — no new ADR-class architectural change).
+- File P123 preflight on close, capturing the next 50 → 65 lift.
+
+If 40 ≤ score < 50 at seal attempt, do NOT seal. File `phase-122-fix-pass-1`, pick the lowest-scoring surface, ship a tight ≤100 LOC fix, re-score. Maximum 2 fix-passes before escalating to owner re-scope.

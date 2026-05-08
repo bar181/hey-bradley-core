@@ -4,7 +4,7 @@ import remarkGfm from 'remark-gfm'
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore } from '@/store/uiStore'
 import { cn } from '../../lib/cn'
-import { Copy, Download, Check, Compass, Layers, ListChecks, CheckSquare, FileText, Code, Braces } from 'lucide-react'
+import { Copy, Download, Check, Compass, Layers, ListChecks, CheckSquare, FileText, Code, Braces, ChevronDown, X } from 'lucide-react'
 import {
   generateNorthStar,
   generateSADD,
@@ -15,23 +15,23 @@ import {
 } from '@/lib/specGenerators'
 
 // ---------------------------------------------------------------------------
-// Tab definitions
+// Card definitions
 // ---------------------------------------------------------------------------
 
-const SPEC_TABS = [
-  { id: 'north-star', label: 'North Star', icon: Compass, generator: generateNorthStar, ext: 'md', format: 'markdown' as const },
-  { id: 'architecture', label: 'Architecture', icon: Layers, generator: generateSADD, ext: 'md', format: 'markdown' as const },
-  { id: 'build-plan', label: 'Build Plan', icon: ListChecks, generator: generateBuildPlan, ext: 'md', format: 'markdown' as const },
-  { id: 'features', label: 'Features', icon: CheckSquare, generator: generateFeatures, ext: 'md', format: 'markdown' as const },
-  { id: 'human', label: 'Specifications', icon: FileText, generator: generateHumanSpec, ext: 'md', format: 'markdown' as const },
-  { id: 'aisp', label: 'AISP', icon: Code, generator: generateAISPSpec, ext: 'aisp', format: 'aisp' as const },
-  { id: 'json', label: 'JSON', icon: Braces, generator: null, ext: 'json', format: 'json' as const },
+const CARDS = [
+  { id: 'north-star', label: 'North Star', desc: 'Vision and goals', icon: Compass, generator: generateNorthStar, ext: 'md', format: 'markdown' as const, color: 'text-blue-400' },
+  { id: 'build-plan', label: 'Build Plan', desc: 'Step-by-step implementation', icon: ListChecks, generator: generateBuildPlan, ext: 'md', format: 'markdown' as const, color: 'text-emerald-400' },
+  { id: 'aisp', label: 'AISP Crystal Atom', desc: 'Machine-parseable spec (<2% ambiguity)', icon: Code, generator: generateAISPSpec, ext: 'aisp', format: 'aisp' as const, color: 'text-amber-400' },
+  { id: 'architecture', label: 'Architecture', desc: 'Technical structure', icon: Layers, generator: generateSADD, ext: 'md', format: 'markdown' as const, color: 'text-purple-400' },
+  { id: 'features', label: 'Features', desc: 'Capability checklist', icon: CheckSquare, generator: generateFeatures, ext: 'md', format: 'markdown' as const, color: 'text-cyan-400' },
+  { id: 'human', label: 'Specifications', desc: 'Human-readable spec', icon: FileText, generator: generateHumanSpec, ext: 'md', format: 'markdown' as const, color: 'text-rose-400' },
+  { id: 'json', label: 'JSON Config', desc: 'Raw configuration data', icon: Braces, generator: null, ext: 'json', format: 'json' as const, color: 'text-gray-400' },
 ] as const
 
-type TabId = typeof SPEC_TABS[number]['id']
+type CardId = typeof CARDS[number]['id']
 
 // ---------------------------------------------------------------------------
-// AISP Syntax Highlighting (from AISPTab)
+// AISP Syntax Highlighting
 // ---------------------------------------------------------------------------
 
 function AISPHighlighted({ text }: { text: string }) {
@@ -85,25 +85,19 @@ function AISPHighlighted({ text }: { text: string }) {
 }
 
 // ---------------------------------------------------------------------------
-// Component
+// Component — Card layout
 // ---------------------------------------------------------------------------
 
 export function XAIDocsTab() {
-  // P55 Sprint L (A2) — Specifications (the human-readable AISP rendering)
-  // is the moat made legible. Default the sub-tab to it on first mount.
-  const [activeTab, setActiveTab] = useState<TabId>('human')
+  const [expandedCard, setExpandedCard] = useState<CardId | null>(null)
   const [copied, setCopied] = useState(false)
   const config = useConfigStore((s) => s.config)
   const hasSections = config.sections.some((s) => s.enabled)
 
-  // P78 / OC-11 — per-page spec scope. Multi-page only; single-page mode hides
-  // the dropdown and falls through to the existing whole-config render path.
   const activePageId = useUIStore((s) => s.activePageId)
   const isMultiPage = !!(config.pages && config.pages.length > 1)
   const [pageScope, setPageScope] = useState<string | null>(activePageId)
   useEffect(() => { if (activePageId) setPageScope(activePageId) }, [activePageId])
-
-  const currentTab = SPEC_TABS.find((t) => t.id === activeTab) ?? SPEC_TABS[0]
 
   const scopedConfig = useMemo(() => {
     if (!isMultiPage || !config.pages) return config
@@ -112,14 +106,14 @@ export function XAIDocsTab() {
     return page ? { ...config, sections: page.sections } : config
   }, [config, isMultiPage, pageScope, activePageId])
 
-  const specText = useMemo(
-    () => {
-      if (currentTab.format === 'json') return JSON.stringify(scopedConfig, null, 2)
-      if (currentTab.generator) return currentTab.generator(scopedConfig)
-      return ''
-    },
-    [scopedConfig, currentTab],
-  )
+  const currentCard = CARDS.find((c) => c.id === expandedCard)
+
+  const specText = useMemo(() => {
+    if (!currentCard) return ''
+    if (currentCard.format === 'json') return JSON.stringify(scopedConfig, null, 2)
+    if (currentCard.generator) return currentCard.generator(scopedConfig)
+    return ''
+  }, [scopedConfig, currentCard])
 
   const handleCopy = useCallback(async () => {
     await navigator.clipboard.writeText(specText)
@@ -128,133 +122,114 @@ export function XAIDocsTab() {
   }, [specText])
 
   const handleDownload = useCallback(() => {
-    const mimeType = currentTab.format === 'json' ? 'application/json' : currentTab.format === 'aisp' ? 'text/plain' : 'text/markdown'
+    if (!currentCard) return
+    const mimeType = currentCard.format === 'json' ? 'application/json' : currentCard.format === 'aisp' ? 'text/plain' : 'text/markdown'
     const blob = new Blob([specText], { type: mimeType })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `${activeTab}.${currentTab.ext}`
+    a.download = `${expandedCard}.${currentCard.ext}`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
-  }, [specText, activeTab, currentTab.ext, currentTab.format])
+  }, [specText, expandedCard, currentCard])
 
+  // Empty state
+  if (!hasSections) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <p className="text-sm text-hb-text-muted font-medium">Add sections to generate specs.</p>
+          <p className="text-xs text-hb-text-muted/60 mt-1.5">Your specs will appear here as you build.</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Expanded view — single card content
+  if (expandedCard && currentCard) {
+    return (
+      <div className="space-y-3">
+        {/* Header with back button */}
+        <div className="flex items-center justify-between">
+          <button
+            onClick={() => setExpandedCard(null)}
+            className="inline-flex items-center gap-2 text-sm text-hb-text-muted hover:text-hb-text-primary transition-colors"
+          >
+            <X className="w-4 h-4" /> Back to cards
+          </button>
+          <div className="flex items-center gap-2">
+            {isMultiPage && config.pages && (
+              <select
+                data-testid="spec-page-scope"
+                value={pageScope ?? activePageId ?? config.pages[0]?.id ?? ''}
+                onChange={(e) => setPageScope(e.target.value)}
+                className="rounded-md bg-hb-surface border border-hb-border px-2 py-1 text-xs text-hb-text-secondary"
+              >
+                {config.pages.map((p) => (
+                  <option key={p.id} value={p.id}>{p.title}</option>
+                ))}
+              </select>
+            )}
+            <button onClick={handleCopy} className="flex items-center gap-1.5 rounded-md bg-hb-surface px-3 py-1.5 text-xs font-medium text-hb-text-secondary hover:text-hb-text-primary transition-colors">
+              {copied ? <Check className="h-3.5 w-3.5 text-hb-success" /> : <Copy className="h-3.5 w-3.5" />}
+              {copied ? 'Copied' : 'Copy'}
+            </button>
+            <button onClick={handleDownload} className="flex items-center gap-1.5 rounded-md bg-hb-surface px-3 py-1.5 text-xs font-medium text-hb-text-secondary hover:text-hb-text-primary transition-colors">
+              <Download className="h-3.5 w-3.5" /> .{currentCard.ext}
+            </button>
+          </div>
+        </div>
+
+        {/* Card title */}
+        <div className="flex items-center gap-2">
+          <currentCard.icon className={cn('w-5 h-5', currentCard.color)} />
+          <h3 className="text-lg font-semibold">{currentCard.label}</h3>
+        </div>
+
+        {/* Content */}
+        <div className="rounded-lg bg-hb-surface p-5 max-h-[calc(100vh-16rem)] overflow-y-auto">
+          {currentCard.format === 'aisp' ? (
+            <pre className="whitespace-pre-wrap text-sm leading-relaxed font-mono text-hb-text-secondary">
+              <AISPHighlighted text={specText} />
+            </pre>
+          ) : currentCard.format === 'json' ? (
+            <pre className="whitespace-pre-wrap text-sm leading-relaxed font-mono text-hb-text-secondary">
+              {specText}
+            </pre>
+          ) : (
+            <div className="prose prose-invert dark:prose-invert max-w-none hb-spec-prose">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{specText}</ReactMarkdown>
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  // Card grid
   return (
-    <div className="space-y-3">
-      {/* Tab bar — scrollable on small screens */}
-      <div className="flex items-center gap-1 overflow-x-auto pb-1 scrollbar-thin">
-        {SPEC_TABS.map((tab) => {
-          const Icon = tab.icon
-          const isActive = tab.id === activeTab
+    <div className="space-y-4">
+      <p className="text-xs text-hb-text-muted">Click a card to view and export the generated spec.</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {CARDS.map((card) => {
+          const Icon = card.icon
           return (
             <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={cn(
-                'flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors cursor-pointer',
-                isActive
-                  ? 'bg-hb-accent text-white'
-                  : 'text-hb-text-muted hover:text-hb-text-secondary hover:bg-hb-surface',
-              )}
+              key={card.id}
+              onClick={() => setExpandedCard(card.id)}
+              className="group text-left p-5 rounded-xl bg-hb-surface border border-hb-border hover:border-hb-accent/40 hover:shadow-lg transition-all cursor-pointer"
             >
-              <Icon className="h-3.5 w-3.5" />
-              {tab.label}
+              <div className="flex items-center justify-between mb-3">
+                <Icon className={cn('w-6 h-6', card.color)} />
+                <ChevronDown className="w-4 h-4 text-hb-text-muted group-hover:text-hb-accent transition-colors -rotate-90" />
+              </div>
+              <h3 className="text-sm font-semibold mb-1 group-hover:text-hb-accent transition-colors">{card.label}</h3>
+              <p className="text-xs text-hb-text-muted leading-relaxed">{card.desc}</p>
             </button>
           )
         })}
-      </div>
-
-      {/* P78 / OC-11 — per-page scope dropdown (multi-page only) */}
-      {isMultiPage && config.pages && (
-        <div className="flex items-center gap-2">
-          <label className="text-xs text-hb-text-muted" htmlFor="spec-page-scope">Page</label>
-          <select
-            id="spec-page-scope"
-            data-testid="spec-page-scope"
-            value={pageScope ?? activePageId ?? config.pages[0]?.id ?? ''}
-            onChange={(e) => setPageScope(e.target.value)}
-            className="rounded-md bg-hb-surface border border-hb-border px-2 py-1 text-xs text-hb-text-secondary focus-visible:ring-2 focus-visible:ring-hb-accent"
-          >
-            {config.pages.map((p) => (
-              <option key={p.id} value={p.id}>{p.title}</option>
-            ))}
-          </select>
-        </div>
-      )}
-
-      {/* Action buttons */}
-      <div className="flex items-center justify-between">
-        <span className="text-xs text-hb-text-muted">
-          {currentTab.format === 'aisp' ? 'AISP 5.1 Crystal Atom' : currentTab.format === 'json' ? 'JSON Config' : 'Markdown'}
-        </span>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handleCopy}
-            className="flex items-center gap-1.5 rounded-md bg-hb-surface px-3 py-1.5 text-xs font-medium text-hb-text-secondary hover:text-hb-text-primary transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-hb-accent"
-            title="Copy to clipboard"
-            aria-label="Copy spec to clipboard"
-          >
-            {copied ? <Check className="h-3.5 w-3.5 text-hb-success" /> : <Copy className="h-3.5 w-3.5" />}
-            {copied ? 'Copied' : 'Copy'}
-          </button>
-          <button
-            onClick={handleDownload}
-            className="flex items-center gap-1.5 rounded-md bg-hb-surface px-3 py-1.5 text-xs font-medium text-hb-text-secondary hover:text-hb-text-primary transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-hb-accent"
-            title={`Download as .${currentTab.ext}`}
-            aria-label={`Download spec as .${currentTab.ext}`}
-          >
-            <Download className="h-3.5 w-3.5" />
-            .{currentTab.ext}
-          </button>
-        </div>
-      </div>
-
-      {/* How to use this spec */}
-      {activeTab === 'build-plan' && (
-        <div className="rounded-lg border border-hb-accent/20 bg-hb-accent/5 px-4 py-3 flex items-start gap-3">
-          <span className="text-hb-accent text-lg mt-0.5">→</span>
-          <div className="text-xs text-hb-text-secondary leading-relaxed">
-            <span className="font-semibold text-hb-text-primary">How to use:</span>{' '}
-            Copy this Build Plan → open Claude Code → paste as your prompt with{' '}
-            <span className="font-mono text-hb-accent">"Build this in React + Tailwind"</span>{' '}
-            → your site is ready in minutes. The spec includes exact colors, fonts, copy, and component structure for 90%+ reproduction.
-          </div>
-        </div>
-      )}
-      {/* AISP info banner */}
-      {activeTab === 'aisp' && (
-        <div className="rounded-lg border border-hb-accent/20 bg-hb-accent/5 px-4 py-3 flex items-start gap-3">
-          <span className="text-hb-accent text-lg mt-0.5">{'\u2192'}</span>
-          <div className="text-xs text-hb-text-secondary leading-relaxed">
-            <span className="font-semibold text-hb-text-primary">AISP Crystal Atom:</span>{' '}
-            Machine-parseable spec with {'<'}2% ambiguity. Paste into Claude Code for precise reproduction.{' '}
-            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="text-hb-accent hover:underline">Learn more</a>
-          </div>
-        </div>
-      )}
-      {/* Empty state */}
-      {!hasSections && (
-        <div className="rounded-lg border border-hb-border bg-hb-surface/50 p-8 text-center">
-          <p className="text-sm text-hb-text-muted font-medium">Add some sections to generate specifications.</p>
-          <p className="text-xs text-hb-text-muted/60 mt-1.5">Your specs will appear here as you build your site.</p>
-        </div>
-      )}
-      {/* Spec content */}
-      <div className="rounded-lg bg-hb-surface p-5 max-h-[calc(100vh-16rem)] overflow-y-auto">
-        {currentTab.format === 'aisp' ? (
-          <pre className="whitespace-pre-wrap text-sm leading-relaxed font-mono text-hb-text-secondary">
-            <AISPHighlighted text={specText} />
-          </pre>
-        ) : currentTab.format === 'json' ? (
-          <pre className="whitespace-pre-wrap text-sm leading-relaxed font-mono text-hb-text-secondary">
-            {specText}
-          </pre>
-        ) : (
-          <div className="prose prose-invert dark:prose-invert max-w-none hb-spec-prose">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{specText}</ReactMarkdown>
-          </div>
-        )}
       </div>
     </div>
   )
@@ -262,4 +237,3 @@ export function XAIDocsTab() {
 
 // Re-export for TopBar copy button compatibility
 export { generateAISPSpec } from '@/lib/specGenerators'
-
