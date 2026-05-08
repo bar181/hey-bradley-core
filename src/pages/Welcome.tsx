@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom"
 import { ArrowRight, Mic, MessageSquare, SlidersHorizontal, Code2, FileText } from "lucide-react"
 import { MarketingNav } from "@/components/MarketingNav"
-import { HeroOrb } from "@/components/marketing/HeroOrb"
-import { ListenPreview } from "@/components/marketing/ListenPreview"
+import { CinematicDemo } from "@/components/marketing/CinematicDemo"
+import { StatsSection } from "@/components/marketing/StatsSection"
+import { AISPSection } from "@/components/marketing/AISPSection"
 import { useReveal } from "@/hooks/useReveal"
 import { Button } from "@/components/ui/button"
 
@@ -69,35 +70,32 @@ export function Welcome() {
   const s5 = useReveal<HTMLElement>()
 
   return (
-    <main className="dark min-h-screen bg-[var(--hb-bg)] text-[var(--hb-text-primary)]">
+    <main className="dark marketing-overhaul min-h-screen bg-[var(--hb-bg)] text-[var(--hb-text-primary)]">
       <style>{HERO_KEYFRAMES}</style>
       <MarketingNav />
 
-      {/* Section 1 — Hero with orb */}
-      <section className="relative overflow-hidden min-h-[85vh] flex items-center justify-center">
-        <HeroOrb size={600} opacity={45} />
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.05] mb-6" style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}>
-            Describe it. See it.
+      {/* P125 / W3 + W9 — Hero rebuild on Harvard depth.
+          Cormorant Garamond headline with italic-crimson "See it.";
+          radial crimson orb + grid overlay via .marketing-hero-bg;
+          eyebrow with HARVARD ALM. The "Coming from another builder?"
+          line was removed (W9 — it diluted the hero). */}
+      <section className="marketing-hero-bg marketing-grain relative overflow-hidden min-h-[92vh] flex items-center justify-center pt-20 pb-16">
+        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+          <div className="marketing-eyebrow mb-7">
+            Harvard Extension School · ALM · May 2026
+          </div>
+          <h1 className="marketing-h1 mb-6">
+            Describe it. <em>See it.</em>
           </h1>
-          <p className="text-xl md:text-2xl text-[var(--hb-text-secondary)] leading-relaxed mb-3 max-w-2xl mx-auto">
-            The website builder that finally works the way you talk.
+          <p className="marketing-body max-w-xl mx-auto mb-10">
+            Your voice is the whiteboard. Hey Bradley turns any idea into a
+            visual site and a formal spec — while you&rsquo;re still talking.
           </p>
-          <p className="text-sm text-[var(--hb-text-muted)] mb-8">
-            Coming from another builder?{' '}
-            <Link to="/blog/describe-it-see-it" className="text-[var(--hb-accent)] hover:underline">
-              See how it compares &rarr;
-            </Link>
-          </p>
-          {/* P122 / W8 — primary + secondary CTAs upgraded to shadcn Button.
-              Brand color stays var(--hb-accent) via className override; outline
-              variant inherits real focus-visible ring + hover-scale from the
-              primitive (see src/components/ui/button.tsx). */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
+          <div className="flex flex-wrap justify-center gap-3 mb-16">
             <Button
               size="lg"
               render={<Link to="/new-project" />}
-              className="min-h-[44px] gap-2 rounded-xl px-6 py-3 text-base font-semibold shadow-lg bg-[var(--hb-accent)] text-white hover:bg-[var(--hb-accent-hover)]"
+              className="min-h-[44px] gap-2 rounded-full px-8 py-4 text-base font-semibold shadow-lg bg-[var(--hb-accent)] text-white hover:bg-[var(--hb-accent-hover)]"
             >
               Start describing
               <ArrowRight className="w-4 h-4" />
@@ -106,46 +104,62 @@ export function Welcome() {
               variant="outline"
               size="lg"
               render={<Link to="/walkthrough" />}
-              className="min-h-[44px] gap-2 rounded-xl px-6 py-3 text-base font-semibold border-white/20 bg-transparent text-white hover:bg-white/10"
+              className="min-h-[44px] gap-2 rounded-full px-8 py-4 text-base font-semibold border-white/15 bg-transparent text-[var(--hb-text-primary)] hover:border-[var(--hb-accent)] hover:bg-transparent"
             >
               Watch the walkthrough
               <ArrowRight className="w-4 h-4" />
             </Button>
           </div>
 
-          {/* Listen-mode preview mockup (W3) */}
-          <ListenPreview />
+          {/* P125 / W4 — cinematic demo (replaces ListenPreview). */}
+          <CinematicDemo />
         </div>
       </section>
 
-      {/* Section 2 — It works the way you talk */}
+      {/* P125 / W5 — Stats section (capstone v8 slide 8). */}
+      <StatsSection />
+
+      {/* Section 2 — It works the way you talk (P125 / W7 redesign) */}
       <section
         id="how-it-works"
         ref={s2.ref}
-        className={`max-w-5xl mx-auto px-6 py-20 transition-all duration-700 ${
+        className={`max-w-5xl mx-auto px-6 py-24 transition-all duration-700 ${
           s2.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
-        <span
-          className="inline-block w-12 h-1 rounded-full bg-[var(--hb-accent)] mb-4"
-          aria-hidden="true"
-        />
-        <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">
-          It works the way you talk.
+        <div className="marketing-eyebrow mb-5">Three ways in</div>
+        <h2 className="marketing-h2 mb-4 max-w-2xl">
+          It works the way <em>you talk.</em>
         </h2>
-        <p className="text-lg text-[var(--hb-text-secondary)] leading-relaxed mb-10 max-w-2xl">
+        <p className="marketing-body max-w-2xl mb-12">
           Speak it. Type it. Drag it. Whatever feels right today.
         </p>
-        <div className="grid sm:grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-3 gap-5">
           {WAYS.map((w) => (
             <Link
               key={w.title}
               to="/new-project"
-              className="group block p-5 min-h-[44px] rounded-2xl bg-[var(--hb-surface)] border border-[var(--hb-border)] hover:border-[var(--hb-accent)]/50 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] transition-transform duration-200 hover:scale-[1.02]"
+              className="marketing-feature-card group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)]"
             >
-              <w.icon className="w-7 h-7 text-[var(--hb-accent)] mb-3" />
-              <h3 className="text-lg font-semibold mb-1">{w.title}</h3>
-              <p className="text-sm text-[var(--hb-text-secondary)] leading-relaxed">{w.desc}</p>
+              <w.icon
+                className="w-7 h-7 mb-5"
+                style={{ color: "var(--hb-blue)" }}
+              />
+              <h3
+                className="mb-2"
+                style={{
+                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontWeight: 400,
+                  fontSize: "26px",
+                  lineHeight: 1.1,
+                  color: "var(--hb-text-primary)",
+                }}
+              >
+                {w.title}
+              </h3>
+              <p className="text-[14px] leading-relaxed text-[var(--hb-text-secondary)]">
+                {w.desc}
+              </p>
             </Link>
           ))}
         </div>
@@ -196,6 +210,9 @@ export function Welcome() {
           </div>
         </div>
       </section>
+
+      {/* P125 / W6 — AISP marketing section (capstone v8 slides 6+7). */}
+      <AISPSection />
 
       {/* Section 4 — Open core */}
       <section
