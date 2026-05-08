@@ -106,10 +106,10 @@ P121 closes once the merge sequence completes. The unchecked items in §2 are ow
 
 ### What this means for the live site
 
-- `main` is now at `0d44a17b0`.
-- Vercel auto-deploys on push to `main` — production deployment URL captured below once green.
-- The two preview deployments during PR review (`AfnTShjbfTxPtsHEGZSp6qCWCK4E` + `5FM16vqCk3XJzq1w7TGWhxeevaoT`) confirm Vercel pipeline is healthy.
-- v2.0.0-RC1 tag points at the prep commit on the branch tip; the actual `main` HEAD is the merge commit. Tag stays as the RC marker; if a v2.0.0 (release) tag is wanted later, it can re-anchor at the merge commit.
+- `main` is now at `0d44a17b0`. A docs-only follow-up commit `6d7e2fd92` (this retrospective + CLAUDE.md §12 pointer) lands on top — Vercel auto-deploys both.
+- **Vercel Production deploy on merge SHA `0d44a17b` confirmed: state `success`, URL https://hey-bradley-core-g97d0benk-bar181s-projects.vercel.app, fired at 2026-05-08T16:48:50Z (~2.3 min after merge).** The CI/CD auto-deploy pipeline is verified end-to-end.
+- The 5 preview deployments during PR review (`0818e42b` → `f7a0e97f` → `be978c2f` → `e3f27df8` → `70ee45d5`) all returned ✅ Ready, confirming the Vercel pipeline tolerated each fix iteration.
+- v2.0.0-RC1 tag points at the prep commit `0818e42b6` on the branch tip; the `main` HEAD is the merge commit `0d44a17b0`. Tag stays as the RC marker; if a v2.0.0 (release) tag is wanted later, it can re-anchor at the merge commit or a later main HEAD.
 
 ### Carry-forwards added during merge
 
