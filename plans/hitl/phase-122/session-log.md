@@ -16,6 +16,18 @@
 - Dispatch is **gated on P121 merge to main** — do not start Wave 1 from `swarm/p120.5-under-the-hood` (already 355 commits ahead).
 - 5 owner Qs in preflight §7; resolve before Wave 1 dispatches.
 
+## 2026-05-08 — Workflow shift to feature-branch + LLM/Agentics scope expansion
+
+- Owner direction: stop pushing to `main` for P122+. Cut new branch `swarm/p122-ux-overhaul` from `main` at `5b3d52398`; keep local-only until P122 work is ready for PR review.
+- P121 sealed. Retrospective and session-log finalized; merge sequence + Vercel production deploy + `vercel.json` SPA hotfix all recorded.
+- **P122 scope expanded** beyond the original UX-only lift:
+  - **LLM live wiring** — Gemini API key now available locally (`.env` populated; `.env.example` updated with `GEMINI_API_KEY` + `GEMINI_KEY_NAME` + `GEMINI_PROJECT_NAME` + `GEMINI_PROJECT_NUMBER` placeholders).
+  - **Agentics LLM log view** — fetch `log_events` filtered by `project_id`, display JSON with redaction holding.
+  - **Agentics DB view** — fetch any `project_id`-indexed table, display JSON.
+  - This was originally P124 scope; collapsed forward into P122 per owner direction since the key is on hand.
+- P124 scope reset to "open / reassess at P122 close".
+- Preflight §4-G added with 5 new items (21–25); DoD updated with 3 new boxes; Wave plan extended W6 → W7 → W8.
+
 ## 2026-05-08 — Owner production smoke test → 4 bugs surfaced + 1 hotfix shipped
 
 Owner ran a quick smoke test against the freshly-deployed live site at `https://hey-bradley-core.vercel.app/` and reported:

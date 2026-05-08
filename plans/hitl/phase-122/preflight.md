@@ -1,10 +1,10 @@
 # P122 / UX-OVERHAUL — Preflight
 
-> **Mission:** First lift in a 3-phase staged climb. P122 takes cumulative public-site + builder visual quality from ~40/100 to **≥50/100**. P123 lifts to ≥65. P124 (LLM API key) requires the UX floor in place first.
+> **Mission:** First lift in a 3-phase staged climb. P122 takes cumulative public-site + builder visual quality from ~40/100 to **≥50/100** AND brings live LLM (Gemini BYOK) online with Agentics observability surfaces (LLM log + DB view). P123 lifts to ≥65. P124 was originally scoped as LLM-key — owner moved that into P122 since the key is available locally now.
 >
-> **Why staged:** Owner re-scoped after the human-2.md review on 2026-05-08. A single 40 → 70+ shot risks scope creep and a leaky UX surface where some pages move while others lag. Two 50/65 milestones with retrospectives between them keep regression risk low.
+> **Why staged:** Owner re-scoped after `human-2.md` (May 8). A single 40 → 70+ shot risks scope creep and a leaky UX surface where some pages move while others lag. Two 50/65 milestones with retrospectives between them keep regression risk low.
 >
-> **Branch:** `swarm/p122-ux-overhaul` (cut from `main` after P121 merges).
+> **Branch:** `swarm/p122-ux-overhaul` (cut from `main` at `5b3d52398` on 2026-05-08, **local-only — do not push without owner sign-off**). Workflow shifted from direct-to-main pushes (used during the P121 merge week) back to feature-branch + PR-review for all P122+ changes. Hotfixes can still go direct to main but should be the exception, not the rule.
 
 ---
 
@@ -51,6 +51,9 @@ A surface scores the *minimum* of its weakest dimension (visual / functional / r
 - [x] **404 on deep links** — `vercel.json` SPA rewrite shipped (commit `54d0a1d9f`).
 - [ ] **Add Page in Builder works** — `addPage` action wires correctly from button to store; new page renders in the page list.
 - [ ] **Hero photo switch preserves image URL** — switching layouts in the hero editor does not silently mutate `imageUrl`.
+- [ ] **Gemini BYOK end-to-end smoke** — local `.env` key successfully drives chat → JSON-Patch → preview update; cost cap respected; no key leakage in `log_events`.
+- [ ] **Agentics → LLM Log view** — button fetches `log_events` filtered by `project_id`, renders JSON, redaction holds.
+- [ ] **Agentics → Database view** — button fetches selectable table filtered by `project_id`, renders JSON.
 - [ ] Honest self-assessment: ≥50/100 OR document the gap with a re-score and lowest-surface call-out.
 - [ ] EOP triplet: `preflight.md` (this file) · `session-log.md` · `retrospective.md`.
 
@@ -91,7 +94,21 @@ A surface scores the *minimum* of its weakest dimension (visual / functional / r
 14. sql.js WASM at `public/sql-wasm.wasm`; update `db.ts` `initSqlJs({ locateFile: () => '/sql-wasm.wasm' })`; ensure not in `.gitignore`.
 15. **CF-P122-A** — regenerate `package-lock.json` under Node 22 + commit, then revert CI from `npm install` back to `npm ci` (currently `npm install --no-audit --no-fund` per `e3f27df89` + `70ee45d57`).
 
-### F — Production bug fixes (Wave 6, owner-reported from live site 2026-05-08)
+### G — LLM live wiring + Agentics observability (Wave 6, NEW per owner direction 2026-05-08)
+
+> **Owner direction:** Gemini key is available locally now (see `.env.example` for the env-var names; the actual key lives in the gitignored `.env`). P122 ships the wiring + the observability surfaces that make BYOK testing safe.
+
+21. **Gemini API key wiring (local)** — confirm `geminiAdapter.ts` reads `VITE_LLM_API_KEY` (or per-provider `GEMINI_API_KEY` if the adapter supports both). Verify a chat-mode submit with the key set successfully calls Gemini and returns a JSON-Patch through the pipeline. Do not commit `.env`. The 4 NEW `.env.example` entries (`GEMINI_API_KEY`, `GEMINI_KEY_NAME`, `GEMINI_PROJECT_NAME`, `GEMINI_PROJECT_NUMBER`) document what's expected.
+
+22. **Agentics → LLM Log view** — NEW button + display in the Agentics surface (probably inside `SpecWorkbench.tsx` or a new `LLMLogPanel.tsx` next to it). Click → query `log_events` table where `project_id = activeProjectId` (uses existing `idx_log_events_project` index from migration 005) → render JSON list. Show event_type + request_id + created_at + redacted payload. Reuse `comprehensiveLogs.ts` repo (already exposes `getEventsForRequest` + similar). No new schema. The Agentics mode is already AISP-prominent per ADR-110, so this fits the surface intent.
+
+23. **Agentics → Database view** — NEW button + display in the same area. Click → list all tables that have a `project_id` column (`projects` · `sessions` · `llm_logs` · `log_events` · `edit_history` · `messages` · `user_templates`) → user picks a table → fetch rows where `project_id = activeProjectId` → render JSON output. Simple read-only fetch, no edit. Reuse the existing `db.ts` connection. Add a "Copy JSON" button so owner can paste into bug reports.
+
+24. **BYOK trust boundary preserved** — both new views MUST redact key shapes per ADR-043 + ADR-114 D3. The `comprehensiveLogs.ts` write path already calls `redactKeyShapes`; the read path inherits redacted data automatically. Do NOT introduce a fresh code path that bypasses redaction. Re-verify with a `tests/p122-agentics-views.spec.ts` assertion that grep'd output contains zero `sk-` / `AIza` shapes.
+
+25. **Cost cap visible during BYOK testing** — confirm `CostPill` from ADR-049 surfaces in the Agentics layout too (currently in shell footer only). Owner needs to see live cap consumption while running BYOK smoke tests, not switch to chat mode to peek.
+
+### F — Production bug fixes (Wave 7, owner-reported from live site 2026-05-08)
 
 16. **404 on deep links** — `https://hey-bradley-core.vercel.app/builder` (and every non-root URL) returned 404 because no SPA fallback was configured. **CLOSED via hotfix `54d0a1d9f` (NEW `vercel.json` with `{ "source": "/(.*)", "destination": "/index.html" }`)** pushed direct to main 2026-05-08; Vercel auto-redeploy fires.
 17. **"Add page" doesn't work in Builder** — owner reported the add-page action is unresponsive. Fix: trace `addPage` action in `uiStore` / `configStore`; verify the wired button calls it; verify the new-page section list renders. Likely scope: `src/components/left-panel/PageSelector.tsx` or `src/store/configStore.ts`.
@@ -118,7 +135,9 @@ A surface scores the *minimum* of its weakest dimension (visual / functional / r
 | **W3** | A3 landing preview | new `ListenPreview.tsx` + `Welcome.tsx` swap | skeleton replaced |
 | **W4** | A4 builder critical UI | left panel + chat toolbar + agentics grid + add-section button | 4 fixes ship |
 | **W5** | A5 engineering hygiene | `.github/workflows/gates.yml` + `public/sql-wasm.wasm` + `db.ts` | CI + WASM clean |
-| **W6** | Closer | ADR (if architectural) + `tests/p122-ui-overhaul.spec.ts` + EOP triplet + CLAUDE.md §12 update | seal |
+| **W6** | A6 LLM + Agentics observability | `geminiAdapter` verify + `LLMLogPanel.tsx` + `DBPanel.tsx` in Agentics + redaction tests | live LLM + 2 obs views |
+| **W7** | A7 production bug fixes | `addPage` action wire + hero layout-switch image preservation + tone of default template re-confirm | 3 bugs closed (404 already done as hotfix) |
+| **W8** | Closer | ADR (if architectural) + `tests/p122-ui-overhaul.spec.ts` + `tests/p122-agentics-views.spec.ts` + EOP triplet + CLAUDE.md §12 update | seal |
 
 W1 must complete before W2-W5 dispatch (the audit's findings drive shadcn-component + file-location decisions). W2-W5 fan out in parallel disjoint scopes.
 
