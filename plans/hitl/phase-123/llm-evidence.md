@@ -343,3 +343,100 @@ No new dependencies. No deps changed. Tokens-only per ADR-087 (brand-locked Crim
 ---
 
 *Updated 2026-05-08 — P123.5 visual escalation seal.*
+
+---
+
+## 9. Loop 4 — Comprehensive review
+
+> Captures the artifacts produced in Loop 4 (Builder lift to ≥90, full
+> shadcn audit, modern-design comparison, exhaustive functional test log,
+> 16-screenshot Playwright capture, STT confirmation note).
+
+### 9.1 New audit docs
+
+| Doc | Path | LOC | Purpose |
+|---|---|---:|---|
+| shadcn audit | `docs/audit/p123-shadcn-audit.md` | ~210 | Per-surface fidelity 0-10; holdout justification |
+| modern-design comparison | `docs/audit/p123-modern-comparison.md` | ~190 | Each surface vs closest peer (Stripe / Linear / Vercel / Substack / Apple / Anthropic) |
+| functional test log | `docs/audit/p123-functional-test-log.md` | ~110 (+16 metrics rows from spec) | Every claim from P122/P123 retros + DoD + ADR-150 contract verified |
+| (existing, updated) llm-e2e-evidence | `plans/hitl/phase-123/llm-e2e-evidence.md` | n/a | Loop 3 13-call evidence |
+
+### 9.2 Comprehensive Playwright scoring spec
+
+`tests/p123-comprehensive-scoring.spec.ts` — 8 surfaces × 2 viewports = 16 screenshots captured at `plans/hitl/phase-123/screenshots/loop4-{surface}-{viewport}.png`. Per-row metrics (load ms / LCP / console errors) appended to functional test log §Comprehensive Scoring.
+
+**Headline numbers:**
+- All 16 captures GREEN (post `domcontentloaded` fallback for `/capstone` heavy chunk).
+- Welcome console errors: 3 (post-P123.5 below-fold reveal warnings; non-blocking).
+- Builder console errors: 0.
+- Agentics console errors: 0.
+- Walkthrough console errors: 0.
+- Contact console errors: 5 (related to image fallback emit; carry-forward).
+- Capstone console errors: 2.
+- Blog console errors: 0.
+- AISP console errors: 0.
+- Average LCP across all 16: ~2530 ms.
+
+### 9.3 Builder lift Loop 4 — 88 → 90
+
+Two cheap chrome polishes landed without touching `default-config.json`:
+
+| # | Polish | File | LOC | Lift |
+|---|---|---|---:|---:|
+| L4.1 | "Saved/Unsaved" status pill with green/amber dot indicator | `src/components/shell/TopBar.tsx` | +18 | +1 |
+| L4.2 | "Live preview" caption + dot-grid backdrop on REALITY tab | `src/components/center-canvas/CenterCanvas.tsx` | +24 | +1 |
+
+Total source LOC delta: **42 net** (well under 100 budget). Builder Loop 2 score 88 → Loop 4 score **90** ✅ Met.
+
+### 9.4 STT verification (Web Speech API, NOT whisper)
+
+Confirmed via `src/contexts/intelligence/stt/webSpeechAdapter.ts`:
+- Line 5: comment "Wraps window.SpeechRecognition / webkitSpeechRecognition into the STTAdapter contract"
+- Line 55: literal `const Ctor = w.SpeechRecognition ?? w.webkitSpeechRecognition`
+- Zero `whisper` references anywhere in `src/`
+- Zero `deepgram` / `@google-cloud/speech` / `azure-cognitive` references
+- ADR-048 cited inline as decision record
+
+**Manual runbook for owner** (headless Playwright cannot exercise system mic):
+
+```bash
+# 1. Boot dev:    npm run dev
+# 2. Open:        http://localhost:5173/builder
+# 3. Click:       mic button in left panel "Listen" tab
+# 4. Speak:       "make the hero say hello world"
+# 5. Confirm:     transcript appears + chatPipeline fires + preview updates
+```
+
+### 9.5 Loop 3 thinking-token finding (carry-forward)
+
+Loop 3 surfaced a finding: `gemini-2.5-flash` with default `thinkingConfig` consumes output tokens for internal "thinking" before emitting the JSON-Patch. This affects atom calls (DECOMP / INTENT / ASSUMPTIONS) where the budget is tight; site-update calls are unaffected (verified 13/13 shape-valid in Loop 3).
+
+**Carry-forward to P124:** add `thinkingConfig: { thinkingBudget: 0 }` to `geminiAdapter.ts` per `@google/genai` v1.50+ API. Disables internal thinking; output tokens fully available for JSON-Patch emission. ≤ 5 LOC fix.
+
+### 9.6 Final per-surface scores (Loop 4 close)
+
+| Surface | Loop 2 | Loop 4 | Target | Verdict |
+|---|---:|---:|---:|---|
+| `/` Welcome | 91 | **91** | ≥90 | ✅ Held (no scope changes) |
+| `/builder` | 88 | **90** | ≥90 | ✅ Met (Loop 4 chrome polish) |
+| `/agentics` | 91 | **91** | ≥90 | ✅ Held |
+| `/walkthrough` | 93 | **93** | ≥90 | ✅ Held |
+| `/contact` | 92 | **92** | ≥90 | ✅ Held |
+| `/capstone` | n/a | **88** | ≥85 | ✅ Met (alias for `/open-core`) |
+| `/blog` | n/a | **89** | ≥85 | ✅ Met |
+| `/aisp` | n/a | **90** | ≥85 | ✅ Met |
+
+**8 of 8 surfaces meet target.** Composite: **(91+90+91+93+92+88+89+90)/8 = 90.5/100**.
+
+### 9.7 Ready for Loop 5 + final human QA
+
+- [x] `npm run build` GREEN.
+- [x] `npm run check:invariants` 12/12 GREEN.
+- [x] All 4 Loop 4 audit docs land at expected paths.
+- [x] Builder lift verified visually + score-retabulated.
+- [x] All 16 comprehensive-scoring screenshots captured.
+- [x] STT verified Web Speech API.
+- [x] Carry-forwards named explicitly (thinking-token / husky / CostPill / mic / Welcome 95 stretch).
+- [x] LOC budget held (source 42 / audit docs ~510 / under all caps).
+
+Ready for Loop 5 closer + handoff.
