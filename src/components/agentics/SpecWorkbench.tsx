@@ -252,10 +252,11 @@ export function SpecWorkbench({ phases, activePhaseId, activeSprintId, onSprintE
     return (
       <div
         data-testid="spec-workbench-empty"
-        className="flex items-center justify-center min-h-[200px] p-8 rounded-md border border-dashed border-[var(--hb-border)] bg-[var(--hb-surface)]"
+        className="flex flex-col items-center justify-center min-h-[200px] p-8 rounded-md border border-dashed border-[var(--hb-border)] bg-[var(--hb-surface)] text-center"
       >
-        {/* P122 / W8 — plainer language for new visitors. */}
-        <p className="text-sm text-[var(--hb-text-muted)] italic">Pick a phase on the left to see how it was built</p>
+        {/* P122 / W8 + P123 / W3 — plain language + clearer next-step. */}
+        <p className="text-sm font-medium text-[var(--hb-text-secondary)] mb-1">No phase selected.</p>
+        <p className="text-xs text-[var(--hb-text-muted)]">Pick a phase from the map or the list on the left to see its spec, sprints, and ADRs.</p>
       </div>
     )
   }

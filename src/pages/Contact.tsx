@@ -8,21 +8,43 @@ export function Contact() {
     <main className="min-h-screen bg-[var(--hb-paper)] text-[var(--hb-ink)]">
       <MarketingNav />
 
-      {/* Hero — P122 / W8 jargon strip: drop "AISP" reference for new visitors. */}
+      {/* P123 / W4: warm accent bar above hero ties the page to the brand
+          accent and provides visual separation from nav. */}
+      <div className="h-1 bg-[var(--hb-warm)]" aria-hidden="true" />
+
+      {/* Hero — P122 / W8 jargon strip locked the copy ("Got a question?
+          Reach out." + "Pick the channel that fits."). P123 / W4 adds
+          Bradley's headshot beside the copy block — visitor-confidence lift,
+          no copy change. */}
       <section className="py-16 md:py-24">
-        <div className="max-w-3xl mx-auto px-4 md:px-6 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-            Got a question? Reach out.
-          </h1>
-          <p className="text-xl text-[var(--hb-ink-muted)]">Pick the channel that fits.</p>
+        <div className="max-w-5xl mx-auto px-4 md:px-6">
+          <div className="grid md:grid-cols-[200px_1fr] gap-8 md:gap-10 items-center">
+            <div className="mx-auto md:mx-0">
+              <img
+                src="/images/bradley-headshot.jpeg"
+                alt="Bradley Ross, creator of Hey Bradley"
+                width="200"
+                height="200"
+                loading="lazy"
+                className="w-40 h-40 md:w-[200px] md:h-[200px] rounded-full object-cover border-2 border-[var(--hb-warm)]/40 shadow-md"
+              />
+            </div>
+            <div className="text-center md:text-left">
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+                Got a question? Reach out.
+              </h1>
+              <p className="text-xl text-[var(--hb-ink-muted)]">Pick the channel that fits.</p>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Four items — P122 / W8: card CTAs promoted to shadcn Button (link variant)
-          so they read as actions, not body copy. */}
+      {/* Four items — P122 / W8: card CTAs promoted to shadcn Button (link variant).
+          P123 / W4: card border opacity 20% → 40% + shadow-sm for visual weight;
+          4th card now has a CTA so the close doesn't feel passive. */}
       <section className="pb-12 md:pb-20">
         <div className="max-w-5xl mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-6">
-          <div className="bg-white border border-[var(--hb-warm)]/20 rounded-2xl p-6">
+          <div className="bg-white border border-[var(--hb-warm)]/40 rounded-2xl p-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Briefcase className="w-5 h-5 text-[var(--hb-warm)]" />
               <h2 className="font-semibold">Bradley Ross</h2>
@@ -38,7 +60,7 @@ export function Contact() {
             </Button>
           </div>
 
-          <div className="bg-white border border-[var(--hb-warm)]/20 rounded-2xl p-6">
+          <div className="bg-white border border-[var(--hb-warm)]/40 rounded-2xl p-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Code2 className="w-5 h-5 text-[var(--hb-warm)]" />
               <h2 className="font-semibold">See the code on GitHub.</h2>
@@ -65,7 +87,7 @@ export function Contact() {
             <a href="https://github.com/bar181" target="_blank" rel="noopener noreferrer" className="text-xs text-[var(--hb-ink-muted)] hover:text-[var(--hb-ink)]">github.com/bar181 &rarr;</a>
           </div>
 
-          <div className="bg-white border border-[var(--hb-warm)]/20 rounded-2xl p-6">
+          <div className="bg-white border border-[var(--hb-warm)]/40 rounded-2xl p-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <GraduationCap className="w-5 h-5 text-[var(--hb-warm)]" />
               <h2 className="font-semibold">Capstone defense &mdash; May 2026</h2>
@@ -81,12 +103,20 @@ export function Contact() {
             </Button>
           </div>
 
-          <div className="bg-white border border-[var(--hb-warm)]/20 rounded-2xl p-6">
+          <div className="bg-white border border-[var(--hb-warm)]/40 rounded-2xl p-6 shadow-sm">
             <div className="flex items-center gap-3 mb-3">
               <Users className="w-5 h-5 text-[var(--hb-warm)]" />
               <h2 className="font-semibold">Agentics Foundation</h2>
             </div>
-            <p className="text-sm text-[var(--hb-ink-muted)]">Working group on AI-driven engineering. Beta program in flight.</p>
+            <p className="text-sm text-[var(--hb-ink-muted)] mb-3">Working group on AI-driven engineering. Beta program in flight.</p>
+            <Button
+              variant="link"
+              size="sm"
+              render={<a href="https://agenticsfoundation.org" target="_blank" rel="noopener noreferrer" />}
+              className="px-0 h-auto py-1 text-[var(--hb-warm)] hover:no-underline hover:text-[var(--hb-warm-hover)]"
+            >
+              agenticsfoundation.org &rarr;
+            </Button>
           </div>
         </div>
       </section>

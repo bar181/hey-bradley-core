@@ -123,17 +123,21 @@ export function Agentics() {
       data-testid="agentics-mode-stub"
       className="min-h-screen bg-[var(--hb-bg)] text-[var(--hb-text-primary)]"
     >
-      <header className="border-b border-[var(--hb-border)] px-4 md:px-8 py-4 flex items-center justify-between gap-3 flex-wrap">
-        <div className="flex items-center gap-3 flex-wrap">
-          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-mono uppercase tracking-wider bg-[var(--hb-accent)]/10 text-[var(--hb-accent)]">
+      <header className="border-b border-[var(--hb-border)] px-4 md:px-8 py-4 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3 min-w-0 flex-wrap">
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-mono uppercase tracking-wider bg-[var(--hb-accent)]/10 text-[var(--hb-accent)] flex-shrink-0">
             Agentics · P95
           </span>
           <span className="text-sm text-[var(--hb-text-secondary)] hidden md:inline">
             Building with AISP
           </span>
         </div>
-        <div className="flex items-center gap-3">
-          {/* P122 / W6 — live cap consumption visible during BYOK smoke testing. */}
+        {/*
+          P123 / W3 — keep CostPill always visible so BYOK cap consumption is
+          legible even on narrow viewports. Sub-flex carries `flex-shrink-0`
+          + `whitespace-nowrap` so the pill never drops below the title.
+        */}
+        <div className="flex items-center gap-3 flex-shrink-0 whitespace-nowrap">
           <CostPill />
           <Link
             to="/"
@@ -263,15 +267,42 @@ export function Agentics() {
                 />
               </div>
               {/*
-                P122 / W6 — observability surfaces. Both panels are read-only
-                and inherit BYOK redaction from the write-time `redactKeyShapes`
-                call sites in `comprehensiveLogs.ts` + `llmLogs.ts` per
-                ADR-043 + ADR-114 D3.
+                P122 / W6 + P123 / W3 — Observability section: groups the
+                LLMLogPanel + DBPanel under one semantic heading so the two
+                panels read as a cohesive observability suite, not isolated
+                widgets. Both panels are read-only and inherit BYOK redaction
+                from write-time `redactKeyShapes` call sites in
+                `comprehensiveLogs.ts` + `llmLogs.ts` per ADR-043 + ADR-114 D3.
               */}
-              <div className="mt-4 flex flex-col gap-4">
-                <LLMLogPanel projectId={activeProjectId} />
-                <DBPanel projectId={activeProjectId} />
-              </div>
+              <section
+                data-testid="agentics-observability"
+                aria-labelledby="agentics-observability-heading"
+                className="mt-6"
+              >
+                <header className="mb-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <h3
+                      id="agentics-observability-heading"
+                      className="text-xs font-mono uppercase tracking-wider text-[var(--hb-text-muted)]"
+                    >
+                      Observability
+                    </h3>
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--hb-text-muted)]">
+                      BYOK · redacted
+                    </span>
+                  </div>
+                  {/* P123 fix-pass U4 — plain-English subtitle so non-engineer
+                      visitors know what these panels show before they read
+                      LLM-Log / Database column headers. */}
+                  <p className="mt-1 text-xs text-[var(--hb-text-muted)]">
+                    Recent LLM activity and project data — for transparency.
+                  </p>
+                </header>
+                <div className="flex flex-col gap-4">
+                  <LLMLogPanel projectId={activeProjectId} />
+                  <DBPanel projectId={activeProjectId} />
+                </div>
+              </section>
             </>
           ) : (
             <div className="text-sm text-[var(--hb-text-muted)]">

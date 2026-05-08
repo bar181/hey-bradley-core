@@ -32,9 +32,14 @@ export function SimpleTab() {
         <div className="w-12 h-12 rounded-full bg-hb-accent/10 flex items-center justify-center mb-4">
           <Palette size={24} className="text-hb-accent" />
         </div>
-        <h3 className="text-sm font-semibold text-hb-text-primary mb-1">Welcome to the Editor</h3>
-        <p className="text-xs text-hb-text-muted max-w-[200px]">
-          Click any section on the left or in the preview to start editing.
+        <h3 className="text-sm font-semibold text-hb-text-primary mb-1.5">Pick something to edit</h3>
+        {/* P123/W2 — old copy was too generic ("Click any section..."). New
+            copy names the three real entry points: a section, the theme, or
+            the site context — matches the left-panel surface verbatim. */}
+        <p className="text-xs text-hb-text-muted max-w-[220px] leading-relaxed">
+          Click a <span className="font-medium text-hb-text-secondary">section</span>,{' '}
+          <span className="font-medium text-hb-text-secondary">Theme</span>, or{' '}
+          <span className="font-medium text-hb-text-secondary">Site Settings</span> in the left panel to start.
         </p>
       </div>
     )

@@ -366,12 +366,18 @@ export function RealityTab() {
     return (
       <div ref={containerRef} className="min-h-full flex items-center justify-center p-8">
         {isMultiPage && <MultiPageNav />}
-        <div className="text-center">
+        {/* P123/W2 — actionable empty state. The old copy ("Start by adding
+            sections...") was directionally right but generic. New copy gives
+            two concrete next steps. */}
+        <div className="text-center max-w-sm">
           <div className="w-16 h-16 rounded-full bg-hb-accent/10 flex items-center justify-center mx-auto mb-4">
             <Layout size={28} className="text-hb-accent" />
           </div>
-          <p className="text-lg text-hb-text-muted font-medium">Your site preview will appear here.</p>
-          <p className="text-sm text-hb-text-muted/60 mt-2">Start by adding sections from the left panel.</p>
+          <p className="text-lg text-hb-text-primary font-semibold">Your site preview lives here.</p>
+          <p className="text-sm text-hb-text-muted mt-2 leading-relaxed">
+            Click <span className="font-medium text-hb-text-secondary">+ Add Section</span> in the left panel,
+            or pick a starter from the <span className="font-medium text-hb-text-secondary">Examples</span> tab.
+          </p>
         </div>
       </div>
     )

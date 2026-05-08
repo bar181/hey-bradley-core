@@ -166,14 +166,17 @@ export async function auditedComplete(
     const initialStatus: LLMLogStatus = decision === 'cost_cap' ? 'cost_cap' : 'ok';
     try {
       const promptHash = await hashPrompt(req.systemPrompt, req.userPrompt);
+      // P123 fix-pass S1 — redact BYOK key shapes at write boundary per ADR-043
+      // + ADR-114 D3. DBPanel renders these columns directly to the DOM, so
+      // unredacted writes here would leak through the dev-tool surface.
       const row = recordLLMLog({
         request_id: requestId,
         parent_request_id: null,
         session_id, project_id,
         provider: adapter.name(), model: adapter.model(),
         prompt_hash: promptHash,
-        system_prompt: req.systemPrompt,
-        user_prompt: req.userPrompt,
+        system_prompt: redactKeyShapes(req.systemPrompt),
+        user_prompt: redactKeyShapes(req.userPrompt),
         response_raw: null,
         patch_count: 0,
         input_tokens: null, output_tokens: null,
@@ -251,7 +254,8 @@ export async function auditedComplete(
       if (logId !== null) {
         try {
           updateLLMLog(logId, {
-            response_raw: JSON.stringify(res.json),
+            // P123 fix-pass S1 — redact BYOK key shapes per ADR-043 + ADR-114 D3.
+            response_raw: redactKeyShapes(JSON.stringify(res.json)),
             output_tokens: res.tokens.out,
             cost_usd: res.cost_usd,
             latency_ms: Date.now() - startedAt,

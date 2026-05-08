@@ -18,7 +18,7 @@
  * `.env` is missing or the user hasn't sent a prompt yet.
  */
 import { useEffect, useState } from 'react'
-import { RefreshCw } from 'lucide-react'
+import { Activity, RefreshCw } from 'lucide-react'
 import { getDB } from '@/contexts/persistence/db'
 import type { LLMLogRow } from '@/contexts/persistence/repositories/llmLogs'
 
@@ -128,6 +128,11 @@ export function LLMLogPanel({ projectId, limit = 100 }: LLMLogPanelProps) {
     >
       <header className="flex items-center justify-between gap-2 px-3 py-2 border-b border-[var(--hb-border)]">
         <div className="flex items-center gap-2">
+          <Activity
+            size={14}
+            aria-hidden="true"
+            className="text-[var(--hb-accent)]"
+          />
           <h3 className="text-sm font-semibold text-[var(--hb-text-primary)]">
             LLM Log
           </h3>
@@ -162,8 +167,9 @@ export function LLMLogPanel({ projectId, limit = 100 }: LLMLogPanelProps) {
           data-testid="llm-log-panel-empty"
           className="px-3 py-6 text-xs text-[var(--hb-text-muted)] italic"
         >
-          No LLM activity yet. Submit a chat-mode prompt with a BYOK key set in{' '}
-          <code className="font-mono">.env</code> to see calls here.
+          No LLM calls yet. Send a prompt in chat mode with a BYOK key set in{' '}
+          <code className="font-mono">.env</code> and the call appears here with
+          tokens, latency, and cost.
         </div>
       ) : (
         <div className="overflow-auto max-h-[400px]">

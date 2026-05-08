@@ -192,11 +192,11 @@ npx @claude-flow/cli@latest daemon start
 |---|---|
 | **Main** | `5b3d52398` — v2.0.0-RC1 merged to `main` 2026-05-08 + 4 follow-up commits (P121 close-out, Vercel URL, `vercel.json` SPA hotfix, P122 bug log) |
 | **Tag** | `v2.0.0-RC1` (points at prep commit `0818e42b6`) |
-| **Active branch** | `swarm/p122-ux-overhaul` (P122 seal commit local-only; P123 cuts a fresh branch off this seal once owner approves) |
-| **Last sealed** | **P122 / UX-OVERHAUL + LLM-LIVE** ✅ — see `plans/hitl/phase-122/retrospective.md` (4 of 8 surfaces met target; public-only composite 60/100; 3 below-floor surfaces handed to P123) |
-| **Active phase** | **P123 / UI-CONTINUATION + LLM-SMOKE** — Contact 58 → 65 + Builder 55 → 65 + Agentics 60 → 70 + live Gemini chat + listen smokes per ADR-150; see `plans/hitl/phase-123/preflight.md` |
-| **Next** | **P124** — open scope (reassess at P123 close) |
-| **Then** | TBD post-P123 retrospective |
+| **Active branch** | `swarm/p122-ux-overhaul` (P122 + P123 seals local-only; P124 cuts a fresh branch off the P123 seal once owner approves) |
+| **Last sealed** | **P123 / UX-CONTINUATION + LLM-LIVE** ✅ — see `plans/hitl/phase-123/retrospective.md` (Agentics 70 + Contact 65 met; Builder 63 (2 below target); Welcome held ~62-65; live Gemini smoke $0.000163; MoE 4-reviewer all-green post-fix-pass) |
+| **Active phase** | **P124 / VERCEL DEMO MODE + CARRY-FORWARDS** — `/api/demo-chat` server-side Gemini route + IP rate limit + dollar cap + close 6 P123 carry-forwards (Onboarding 1079 LOC, ADR-150 D4/D6 vocab + ordering, Builder default polish, W11 persona audit, DBPanel re-audit); see `plans/hitl/phase-124/preflight.md` |
+| **Next** | **P125** — open scope (reassess at P124 close) |
+| **Then** | TBD post-P124 retrospective |
 | **Capstone** | Harvard ALM defense complete — 10/10, May 2026 |
 
 ---

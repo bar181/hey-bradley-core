@@ -482,7 +482,9 @@ export function SectionsSection() {
         )
 
   return (
-    <div className="flex flex-col gap-1">
+    // P123/W2 — outer gap-1 → gap-1.5 for breathing between Pages strip,
+    // Add Page button, section list, and quick-add picker.
+    <div className="flex flex-col gap-1.5">
       {/* Page selector (multi-page mode) */}
       {isMultiPage && pages && (
         <div className="mb-2 rounded-lg border border-hb-border bg-hb-surface/50 p-1.5">
@@ -596,7 +598,8 @@ export function SectionsSection() {
         tabIndex={0}
         onKeyDown={handleListKeyDown}
         aria-orientation="vertical"
-        className="flex flex-col gap-1 outline-none"
+        // P123/W2 — gap-1 → gap-1.5 for visual breathing between section rows.
+        className="flex flex-col gap-1.5 outline-none"
       >
         {enabledSections.map((section, index) => renderSectionRow(section, index))}
       </div>

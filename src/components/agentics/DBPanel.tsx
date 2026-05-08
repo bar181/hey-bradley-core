@@ -57,6 +57,35 @@ const MAX_ROWS = 200
 const FOCUS =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] focus-visible:ring-offset-2'
 
+/**
+ * P123 / W3 — KISS-only JSON syntax highlighter.
+ * Escapes HTML-unsafe chars first, then regex-replaces tokens with `<span>`
+ * wrappers. Keys = orange-ish (warm), strings = emerald, numbers = sky,
+ * booleans/null = purple. Uses Tailwind utility classes — no external dep.
+ * Output passed via `dangerouslySetInnerHTML`; input is `JSON.stringify(rows)`
+ * so the only attacker-controlled content is what already lives in the DB
+ * which we control + redact at write time per ADR-043 + ADR-114 D3.
+ */
+function escapeHtml(s: string): string {
+  return s.replace(/[&<>]/g, (c) =>
+    c === '&' ? '&amp;' : c === '<' ? '&lt;' : '&gt;',
+  )
+}
+function highlightJson(json: string): string {
+  const escaped = escapeHtml(json)
+  // Order matters — keys must match before plain strings.
+  return escaped.replace(
+    /("(?:\\.|[^"\\])*")(\s*:)|("(?:\\.|[^"\\])*")|\b(true|false|null)\b|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/g,
+    (m, key, colon, str, bool, num) => {
+      if (key) return `<span class="text-[var(--hb-warm)]">${key}</span>${colon}`
+      if (str) return `<span class="text-emerald-400">${str}</span>`
+      if (bool) return `<span class="text-purple-400">${bool}</span>`
+      if (num) return `<span class="text-sky-400">${num}</span>`
+      return m
+    },
+  )
+}
+
 function fetchRows(
   table: TableSpec,
   projectId: string | null | undefined,
@@ -231,16 +260,15 @@ export function DBPanel({ projectId }: DBPanelProps) {
           className="px-3 py-6 text-xs text-[var(--hb-text-muted)] italic"
         >
           {table.scope === 'project_id' || table.scope === 'id'
-            ? `No rows in ${table.name} for this project. Pick another table or load a project first.`
-            : `No rows in ${table.name}.`}
+            ? `No data in ${table.name} for this project yet. Create a project in the builder, or pick another table from the dropdown above.`
+            : `No data in ${table.name} yet.`}
         </div>
       ) : (
         <pre
           data-testid="db-panel-json"
           className="overflow-auto max-h-[400px] p-3 text-[11px] font-mono text-[var(--hb-text-secondary)] whitespace-pre-wrap break-all"
-        >
-          {json}
-        </pre>
+          dangerouslySetInnerHTML={{ __html: highlightJson(json) }}
+        />
       )}
     </section>
   )

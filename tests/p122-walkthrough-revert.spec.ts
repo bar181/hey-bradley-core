@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { existsSync, readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { resolve, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 /**
  * P122 / W9 — Walkthrough revert to the original 3-pane design.
@@ -15,9 +16,13 @@ import { resolve } from 'node:path'
  *
  * Cross-refs: ADR-144 D5 (KISS denylist), ADR-087 (token discipline),
  * `plans/hitl/phase-122/preflight.md` §4-I items 31-34.
+ *
+ * P123 fix-pass — CF-P122-W9-1 ESM `__dirname` defect: replace with
+ * `fileURLToPath(import.meta.url)` so the spec runs under Playwright's ESM loader.
  */
 
-const REPO_ROOT = resolve(__dirname, '..')
+const __filename = fileURLToPath(import.meta.url)
+const REPO_ROOT = resolve(dirname(__filename), '..')
 const WALKTHROUGH = resolve(REPO_ROOT, 'src/pages/Walkthrough.tsx')
 const SOURCE_DOC = resolve(REPO_ROOT, 'plans/hitl/phase-122/walkthrough-revert-source.md')
 const INDEX_CSS = resolve(REPO_ROOT, 'src/index.css')

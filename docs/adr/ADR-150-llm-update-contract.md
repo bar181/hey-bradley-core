@@ -110,13 +110,13 @@ Smoke-test session budget: **10 LLM prompts max** during P122/P123. With `gemini
 
 ## Implementation checklist (P122 / W6 — co-running)
 
-- [ ] `geminiAdapter.ts:DEFAULT_MODEL = 'gemini-2.5-flash'` — already true; verify no override path uses `pro` for the site-update call.
-- [ ] `prompts/system.ts:PATCH_ATOM` matches D4 ordering — verify; if not, fix-pass.
-- [ ] `chatPipeline.ts` site-update call site emits the `response_summary` log per D6.
-- [ ] `CostPill` visible in Agentics layout per D7 — handed to W6.
-- [ ] Smoke test in W6: 1 real prompt, log row written with all D6 fields populated, redaction holds.
-- [ ] Persona-Playwright verification (W11 NEW): chat-mode prompt → patch returned → preview updated → log row visible in Agentics LLM-Log panel. ≤2 LLM calls.
-- [ ] Total P122 LLM smoke spend recorded in retrospective; must be < $0.05.
+- [x] `geminiAdapter.ts:DEFAULT_MODEL = 'gemini-2.5-flash'` — verified at `src/contexts/intelligence/llm/geminiAdapter.ts:9`. No override path uses `pro` for the site-update call.
+- [ ] `prompts/system.ts:PATCH_ATOM` matches D4 ordering — partial; `OUTPUT_RULE` sits at position 9 (after CURRENT JSON) instead of position 3. `CRYSTAL_ATOM` carries the `R8: {prose,html,markdown,fences}=∅` requirement symbolically up front, so the runtime contract is communicated, just split between two prompt sections. Documentation-vs-implementation gap; carry-forward CF-P123-A3 (P124 candidate — pick rewrite system.ts OR rewrite ADR-150 D4).
+- [x] `chatPipeline.ts` site-update call site emits a `response_summary` log per D6 (column shape exists in `llm_logs` per `migrations/002-llm-logs.sql:22` + `repositories/llmLogs.ts:28,53,61`; `prompt_hash` / `model` / `input_tokens` / `output_tokens` / `cost_usd` / `latency_ms` all wired). Carry-forward CF-P123-A2: ADR-150 D6 prescribes `result_kind ∈ {patch_applied, patch_validation_failed, parse_error, cap_short_circuit, fallback_canned}` enum, but `chatPipeline.ts` emits `stage ∈ {decomp, template, legacy-template, llm, canned-fallback}` — semantically adjacent but vocabulary-divergent. Pick one; document the choice (P124 candidate).
+- [x] `CostPill` visible in Agentics layout per D7 — verified at `src/pages/Agentics.tsx:141` with `flex-shrink-0 whitespace-nowrap` (P123 / W3 always-visible promise).
+- [x] Smoke test in W6: real Gemini call landed via `tests/p123-llm-smoke.spec.ts`; results at `docs/audit/p123-llm-smoke-results.md`; 1 row written, all D6 fields populated, redaction holds (post-write grep returns 0 hits for `AIza`/`sk-`/`Bearer` shapes); spend recorded $0.000163.
+- [ ] Persona-Playwright verification (W11 NEW): chat-mode prompt → patch returned → preview updated → log row visible in Agentics LLM-Log panel. ≤2 LLM calls. — W11 PARTIAL per P122 retrospective; audit doc deferred to CF-P122-W11-1.
+- [x] Total P122 LLM smoke spend recorded in retrospective; must be < $0.05. — Verified $0.000163 << $0.05.
 
 ## Authorship
 

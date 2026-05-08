@@ -1,6 +1,6 @@
 # Architecture Decision Records (ADR) Index
 
-**Last updated:** 2026-05-07 (P120 / AUDIENCE-ROUTING) · **Total files on disk:** 140 · **Highest-ID:** ADR-149
+**Last updated:** 2026-05-08 (P122 / W6 + P123 / W6.5) · **Total files on disk:** 141 · **Highest-ID:** ADR-150
 
 This directory contains the Architecture Decision Records for the Hey Bradley project. Each ADR captures one architectural decision, its context, and its consequences in immutable form.
 
@@ -198,7 +198,7 @@ Each ADR uses a consistent shape: a `# ADR-NNN: Title` first-line heading, a `St
 - ADR-136 — Test Runtime Shift (Mobile Viewports + Behavioral Helper Coverage + p76 Audit Correction) (P108)
 - ADR-137 — ADR Ledger Truth-Up + Section-Enum Drift Regression Guard (P109)
 
-### Post-RC hardening (P110-P120)
+### Post-RC hardening (P110-P123)
 
 - ADR-138 — Export Completeness Standard + ADR Enforcement Architecture (P110 / ADR-EXPORT)
 - ADR-139 — Dogfood Gates + DDD/ADR Output Priority (P111 / DOGFOOD-GATES)
@@ -212,6 +212,7 @@ Each ADR uses a consistent shape: a `# ADR-NNN: Title` first-line heading, a `St
 - ADR-147 — Walkthrough Story Page (P118.5 / WALKTHROUGH)
 - ADR-148 — Site Polish + Light/Dark Mode + Research Citation Standard (P119 / SITE-POLISH)
 - ADR-149 — Audience Routing Standard (P120 / AUDIENCE-ROUTING)
+- ADR-150 — LLM Update Contract (Site-Update Adapter + Logging + CostPill) (P122 / W6)
 
 ---
 
@@ -226,7 +227,7 @@ The following ADR numbers have NO files on disk by design. The historical record
 | Pre-P15 JSON-architecture pivot | **034, 035, 036, 037** | Drafted during P14 marketing-review pivot. Re-scoped into ADR-031 (JSON Data Architecture) and ADR-029 (Pre-LLM MVP Architecture, Stage 2). 034-037 drafts were superseded before acceptance. |
 | Reserved for future phases | **123, 124, 125** | Numbering gap left explicitly during the P97-P100 methodology arc; reserved for future ADR allocation. Do NOT re-use. |
 
-**Policy:** New ADRs MUST continue at **ADR-150+**. Do NOT re-use any of the missing numbers above.
+**Policy:** New ADRs MUST continue at **ADR-151+**. Do NOT re-use any of the missing numbers above.
 
 ---
 
@@ -255,7 +256,7 @@ Three ADR numbers have two files on disk: a P21-era Proposed stub and a later Ac
 
 ## How to add a new ADR
 
-1. **Filename:** `ADR-NNN-kebab-case-title.md` where `NNN` is the next free number (currently ≥ 148).
+1. **Filename:** `ADR-NNN-kebab-case-title.md` where `NNN` is the next free number (currently ≥ 151).
 2. **First line:** `# ADR-NNN: Title` (or `# ADR-NNN — Title` per recent style; exact-case match to filename).
 3. **Status field:** `Proposed` → `Accepted` → optionally `Superseded by ADR-XXX`. Never delete an ADR file once committed; mark it `Superseded` and link forward.
 4. **Cross-references:** When a new ADR builds on or supersedes an existing one, link both directions (the older ADR gets a `Superseded by` line; the new ADR cites prior ADRs in its Context block).
@@ -273,4 +274,4 @@ Three ADR numbers have two files on disk: a P21-era Proposed stub and a later Ac
 
 ---
 
-**Last updated:** 2026-05-07 (P120 / AUDIENCE-ROUTING / single-agent closer — counter 139 → 140, ADR-149 row appended; bucket renamed "Post-RC hardening (P110-P120)"; policy line ADR-149+ → ADR-150+).
+**Last updated:** 2026-05-08 (P122 / W6 — counter 140 → 141, ADR-150 row appended; bucket renamed "Post-RC hardening (P110-P123)"; policy line ADR-150+ → ADR-151+; truth-up landed in P123 / W6.5 fix-pass).
