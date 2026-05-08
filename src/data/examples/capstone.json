@@ -8,9 +8,9 @@
     "project": "hey-bradley-capstone",
     "version": "1.0.0-RC1",
     "spec": "aisp-1.2",
-    "purpose": "research",
+    "purpose": "marketing",
     "audience": "enterprise",
-    "tone": "authoritative",
+    "tone": "formal",
     "brandName": "Hey Bradley",
     "tagline": "The telephone game is over.",
     "voiceAttributes": ["authoritative", "research-driven", "narrative"]
@@ -97,14 +97,12 @@
         "direction": "column",
         "align": "center",
         "gap": "24px",
-        "padding": "100px 24px",
+        "padding": "80px 24px",
         "maxWidth": "1100px"
       },
       "style": {
         "background": "#1a1a1a",
-        "color": "#fafafa",
-        "fontFamily": "Inter",
-        "borderRadius": "0px"
+        "color": "#fafafa"
       },
       "components": [
         {

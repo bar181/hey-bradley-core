@@ -1,0 +1,64 @@
+# Crystal Atom: RUST_EXTRACT_DDD_CONTEXTS
+# Date: 2026-05-04 · Phase: Connections P3 (Spec)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Bronze/Silver (δ ≥ 0.30); rules-based (no LLM enrichment)
+# Exposure: Rust → WASM (per ADR-C07 D1 = Option C)
+
+⟦
+  Ω := { Plain prose → bounded contexts + relationships via rule-based heuristics; no network, no LLM; LLM enrichment stays in TS DDD_ATOM per ADR-119 }
+  Σ := {
+    Input:{
+      prose: &str
+    },
+    Output: DomainModel,
+    DomainModel:{
+      contexts: Vec<BoundedContext>,
+      relationships: Vec<Relationship>
+    },
+    BoundedContext:{
+      id:String,
+      name:String,
+      description:String,
+      tokens:Vec<String>
+    },
+    Relationship:{
+      from:String,
+      to:String,
+      kind:RelationshipKind,
+      rationale:String
+    },
+    RelationshipKind: 𝔼{partnership, customer-supplier, conformist, anti-corruption-layer},
+    Errors:{
+      EProseEmpty,
+      ENoContextsDetected,
+      EUnknownRelKind{kind:𝕊}
+    }
+  }
+  Γ := {
+    R1: |contexts| ≤ 8 per ADR-119 DDD_ATOM Γ R1,
+    R2: ∀ rel ∈ relationships : rel.kind ∈ RelationshipKind enum (4 values verbatim),
+    R3: rules-based heuristics only — NO network call, NO LLM dispatch,
+    R4: ∀ rel : rel.from ∈ contexts.id ∧ rel.to ∈ contexts.id (no dangling refs),
+    R5: |prose| ≥ 1 char (else EProseEmpty)
+  }
+  Λ := {
+    purity := pure_function (no I/O, no clock, no network),
+    determinism := same_prose ⇒ same_DomainModel,
+    tier_target := Bronze | Silver (δ ≥ 0.30),
+    wasm_export := extract_ddd_contexts,
+    enrichment_path := LLM enrichment lives in TS DDD_ATOM (out of scope here)
+  }
+  Ε := {
+    V1: VERIFY ∀ rel ∈ output.relationships : rel.from ∈ {c.id | c ∈ output.contexts} ∧ rel.to ∈ {c.id | c ∈ output.contexts},
+    V2: VERIFY ∀ rel : rel.kind verified against 4-value enum,
+    V3: VERIFY |output.contexts| ≤ 8,
+    V4: VERIFY no network/file/clock side-effects (purity audit),
+    V5: VERIFY context.id values are unique (no duplicates)
+  }
+⟧
+
+# Cross-refs:
+# - ADR-C07 §D1 (WASM export = Option C; this is one of 4 enhanced functions)
+# - ADR-119 (DDD_ATOM Σ/Γ/Λ/Ε contract; |contexts| ≤ 8; 4 relationship kinds)
+# - ADR-134 (atom→view fix: pure module — no React/store imports)
+# - ADR-122 (markdown bundle output format — output of this atom feeds DomainModelSVG)

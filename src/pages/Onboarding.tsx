@@ -1,12 +1,35 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useConfigStore } from '@/store/configStore'
 import { useProjectStore } from '@/store/projectStore'
 import { useUIStore } from '@/store/uiStore'
+import { useIntelligenceStore } from '@/store/intelligenceStore'
 import { THEME_REGISTRY } from '@/data/themes/index'
 import { EXAMPLE_SITES } from '@/data/examples'
+// Sprint J P50 (A5) — first-run personality step. Reuses A4's picker; the
+// import target lands when A4 seals. If the file is missing at tsc time the
+// build will surface a clear missing-module error pointing at A4 deliverable.
+import { PersonalityPicker } from '@/components/settings/PersonalityPicker'
+import { kvGet, kvSet, getPersonalityId } from '@/contexts/persistence/repositories/kv'
+// P66 / Polish Sprint (A4) — mode-selector first-run step (per ADR-088).
+// Renders ahead of personality picker for users who haven't picked a mode yet.
+import { ModeSelectorCard, type ModeId } from '@/components/onboarding/ModeSelectorCard'
 
 const STORAGE_KEY = 'hey-bradley-project'
+const LLM_BANNER_DISMISSED_KEY = 'hb-onboarding-llm-banner-dismissed'
+const ONBOARDING_PERSONALITY_ASKED_KEY = 'onboarding_personality_asked'
+// P66 / Polish Sprint (A4) — per-session dismissal for the mode-aware
+// suggested-prompt hint banner (one banner key per mode so each mode can be
+// dismissed independently without nuking the others).
+const MODE_HINT_DISMISSED_KEY_PREFIX = 'hb-onboarding-mode-hint-dismissed-'
+
+/** Suggested-prompt hint copy per mode. Shown above the project picker
+ *  once the user has selected a mode and lands on a fresh project state. */
+const MODE_HINT_COPY: Record<ModeId, string> = {
+  whiteboard: "Try: 'create a landing page for a coffee roaster'",
+  planning: "Planning mode is live — open /planning to map a project.",
+  agentics: "Agentics mode is live — open /agentics for the spec workbench.",
+}
 
 /** Map example names to preview screenshot filenames */
 const EXAMPLE_PREVIEW_SLUGS: Record<string, string> = {
@@ -82,26 +105,26 @@ function ProjectCard({
   const ago = formatTimeAgo(date)
 
   return (
-    <div className="group relative rounded-xl border border-[#e5e1dc] bg-white overflow-hidden transition-all hover:shadow-lg hover:border-[#A51C30]/30 hover:-translate-y-0.5">
+    <div className="group relative rounded-xl border border-[var(--hb-mkt-border)] bg-white overflow-hidden transition-all hover:shadow-lg hover:border-[rgb(var(--hb-accent-rgb)/0.3)] hover:-translate-y-0.5">
       {/* Thumbnail strip */}
-      <div className="h-20 bg-gradient-to-br from-[#faf8f5] to-[#f0ede8] flex items-center justify-center">
-        <div className="text-[#A51C30]/20 font-mono text-3xl font-bold">{name.charAt(0).toUpperCase()}</div>
+      <div className="h-20 bg-gradient-to-br from-[var(--hb-paper)] to-[var(--hb-paper-tile)] flex items-center justify-center">
+        <div className="text-[rgb(var(--hb-accent-rgb)/0.2)] font-mono text-3xl font-bold">{name.charAt(0).toUpperCase()}</div>
       </div>
       <div className="px-3.5 py-3">
-        <div className="text-sm font-semibold text-[#1a1a1a] truncate">{name}</div>
-        <div className="flex items-center gap-1.5 mt-1 text-[11px] text-[#9ca3af]">
+        <div className="text-sm font-semibold text-[var(--hb-mkt-text)] truncate">{name}</div>
+        <div className="flex items-center gap-1.5 mt-1 text-[11px] text-[var(--hb-mkt-text-faint)]">
           <span>{sectionCount} sections</span>
           <span>&middot;</span>
           <span className="capitalize">{theme}</span>
         </div>
-        <div className="text-[10px] text-[#9ca3af] mt-1">{ago}</div>
+        <div className="text-[10px] text-[var(--hb-mkt-text-faint)] mt-1">{ago}</div>
       </div>
       {/* Hover overlay */}
       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
         <button
           type="button"
           onClick={onOpen}
-          className="px-4 py-1.5 rounded-lg bg-[#A51C30] text-white text-xs font-medium shadow-md hover:bg-[#8c1515] transition-colors"
+          className="px-4 py-1.5 rounded-lg bg-[var(--hb-accent)] text-white text-xs font-medium shadow-md hover:bg-[var(--hb-crimson-deep)] transition-colors"
         >
           Open
         </button>
@@ -110,7 +133,7 @@ function ProjectCard({
       <button
         type="button"
         onClick={(e) => { e.stopPropagation(); onDelete() }}
-        className="absolute top-2 right-2 w-6 h-6 rounded-full bg-white/80 text-[#9ca3af] hover:text-[#f87171] hover:bg-white flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-all"
+        className="absolute top-2 right-2 w-6 h-6 rounded-full bg-white/80 text-[var(--hb-mkt-text-faint)] hover:text-[var(--hb-mkt-danger)] hover:bg-white flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-all"
         title="Delete project"
       >
         &times;
@@ -131,6 +154,7 @@ function ExampleCard({
   palette,
   sectionCount,
   onSelect,
+  referenceTag,
 }: {
   name: string
   slug: string
@@ -139,6 +163,7 @@ function ExampleCard({
   palette: { bg: string; accent: string; text: string }
   sectionCount: number
   onSelect: () => void
+  referenceTag?: boolean
 }) {
   const [imgFailed, setImgFailed] = useState(false)
 
@@ -146,10 +171,10 @@ function ExampleCard({
     <button
       type="button"
       onClick={onSelect}
-      className="group rounded-xl border border-[#e5e1dc] bg-white overflow-hidden transition-all hover:shadow-lg hover:border-[#A51C30]/30 hover:-translate-y-0.5 text-left"
+      className="group rounded-xl border border-[var(--hb-mkt-border)] bg-white overflow-hidden transition-all hover:shadow-lg hover:border-[rgb(var(--hb-accent-rgb)/0.3)] hover:-translate-y-0.5 text-left"
     >
       {/* Preview screenshot or palette fallback */}
-      <div className="relative overflow-hidden bg-[#f0ede8] aspect-[16/10]">
+      <div className="relative overflow-hidden bg-[var(--hb-paper-tile)] aspect-[16/10]">
         {!imgFailed ? (
           <img
             src={`/previews/example-${slug}.png`}
@@ -194,8 +219,15 @@ function ExampleCard({
         </div>
       </div>
       <div className="px-3.5 py-3">
-        <div className="text-sm font-semibold text-[#1a1a1a] group-hover:text-[#A51C30] transition-colors truncate">{name}</div>
-        <div className="text-xs text-[#6b7280] mt-0.5 line-clamp-2">{description}</div>
+        <div className="flex items-center gap-1.5">
+          <div className="text-sm font-semibold text-[var(--hb-mkt-text)] group-hover:text-[var(--hb-accent)] transition-colors truncate">{name}</div>
+          {referenceTag && (
+            <span className="text-[9px] font-medium px-1.5 py-0.5 rounded-full bg-[var(--hb-mkt-chip-bg)] text-[var(--hb-mkt-text-muted)] uppercase tracking-wider flex-shrink-0">
+              Reference
+            </span>
+          )}
+        </div>
+        <div className="text-xs text-[var(--hb-mkt-text-muted)] mt-0.5 line-clamp-2">{description}</div>
       </div>
     </button>
   )
@@ -220,10 +252,10 @@ function ThemeCard({ theme, onSelect }: { theme: ThemeJSON; onSelect: () => void
     <button
       type="button"
       onClick={onSelect}
-      className="group rounded-xl border border-[#e5e1dc] bg-white overflow-hidden transition-all hover:shadow-lg hover:border-[#A51C30]/30 hover:-translate-y-0.5 text-left"
+      className="group rounded-xl border border-[var(--hb-mkt-border)] bg-white overflow-hidden transition-all hover:shadow-lg hover:border-[rgb(var(--hb-accent-rgb)/0.3)] hover:-translate-y-0.5 text-left"
     >
       {/* Preview screenshot */}
-      <div className="relative overflow-hidden bg-[#f0ede8]">
+      <div className="relative overflow-hidden bg-[var(--hb-paper-tile)]">
         <img
           src={`/previews/theme-${meta.slug}.png`}
           alt={`${meta.name} theme preview`}
@@ -239,8 +271,8 @@ function ThemeCard({ theme, onSelect }: { theme: ThemeJSON; onSelect: () => void
         </div>
       </div>
       <div className="px-3.5 py-2.5">
-        <div className="text-sm font-medium text-[#1a1a1a] group-hover:text-[#A51C30] transition-colors">{meta.name}</div>
-        <div className="text-[11px] text-[#9ca3af] mt-0.5">{meta.mood}</div>
+        <div className="text-sm font-medium text-[var(--hb-mkt-text)] group-hover:text-[var(--hb-accent)] transition-colors">{meta.name}</div>
+        <div className="text-[11px] text-[var(--hb-mkt-text-faint)] mt-0.5">{meta.mood}</div>
       </div>
     </button>
   )
@@ -264,19 +296,19 @@ function FutureCapabilityCard({
   return (
     <div className={`rounded-xl border px-4 py-3.5 transition-all ${
       available
-        ? 'border-[#A51C30]/20 bg-white hover:shadow-md cursor-pointer'
-        : 'border-dashed border-[#e5e1dc] bg-[#faf8f5]/50 opacity-60'
+        ? 'border-[rgb(var(--hb-accent-rgb)/0.2)] bg-white hover:shadow-md cursor-pointer'
+        : 'border-dashed border-[var(--hb-mkt-border)] bg-[rgb(var(--hb-paper-rgb)/0.5)] opacity-60'
     }`}>
       <div className="flex items-start gap-3">
         <span className="text-lg flex-shrink-0 mt-0.5">{icon}</span>
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <span className={`text-sm font-medium ${available ? 'text-[#1a1a1a]' : 'text-[#6b7280]'}`}>{title}</span>
+            <span className={`text-sm font-medium ${available ? 'text-[var(--hb-mkt-text)]' : 'text-[var(--hb-mkt-text-muted)]'}`}>{title}</span>
             {!available && (
-              <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-[#f3f4f6] text-[#9ca3af] uppercase tracking-wider">Coming Soon</span>
+              <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-[var(--hb-mkt-chip-bg)] text-[var(--hb-mkt-text-faint)] uppercase tracking-wider">Coming Soon</span>
             )}
           </div>
-          <p className="text-xs text-[#9ca3af] mt-0.5">{description}</p>
+          <p className="text-xs text-[var(--hb-mkt-text-faint)] mt-0.5">{description}</p>
         </div>
       </div>
     </div>
@@ -296,11 +328,11 @@ function CollapsibleCapabilities() {
         onClick={() => setOpen(!open)}
         className="flex items-center gap-2 w-full px-1 group"
       >
-        <h3 className="text-xs font-semibold text-[#9ca3af] uppercase tracking-wider group-hover:text-[#6b7280] transition-colors">
+        <h3 className="text-xs font-semibold text-[var(--hb-mkt-text-faint)] uppercase tracking-wider group-hover:text-[var(--hb-mkt-text-muted)] transition-colors">
           Project Capabilities
         </h3>
         <svg
-          className={`w-3.5 h-3.5 text-[#9ca3af] transition-transform ${open ? 'rotate-180' : ''}`}
+          className={`w-3.5 h-3.5 text-[var(--hb-mkt-text-faint)] transition-transform ${open ? 'rotate-180' : ''}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -308,7 +340,7 @@ function CollapsibleCapabilities() {
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
-        <div className="flex-1 h-px bg-[#e5e1dc]" />
+        <div className="flex-1 h-px bg-[var(--hb-mkt-border)]" />
       </button>
       {open && (
         <div className="space-y-2 mt-3">
@@ -385,14 +417,98 @@ export function Onboarding() {
   const projects = useProjectStore((s) => s.projects)
   const loadProject = useProjectStore((s) => s.loadProject)
   const deleteProject = useProjectStore((s) => s.deleteProject)
+  const saveProject = useProjectStore((s) => s.saveProject)
+  const hasKey = useIntelligenceStore((s) => s.hasKey)
+  const setPersonality = useIntelligenceStore((s) => s.setPersonality)
+
+  // P66 / Polish Sprint (A4) — mode-selector first-run step. Reads the
+  // persisted mode (kv['ui_app_mode']) via the store; null = first run, render
+  // the 3-card selector ahead of personality. Returning users with a saved
+  // mode skip this step entirely.
+  const appMode = useUIStore((s) => s.appMode)
+  const setAppMode = useUIStore((s) => s.setAppMode)
+
+  // Sprint J P50 (A5) — first-run personality step. Fires only when the user
+  // hasn't been asked yet (kv['onboarding_personality_asked'] !== '1') AND no
+  // explicit personality has been persisted. The default 'professional' on
+  // a fresh KV is treated as "not yet asked" per the brief.
+  const [personalityAsked, setPersonalityAsked] = useState<boolean>(true)
+  useEffect(() => {
+    try {
+      const asked = kvGet(ONBOARDING_PERSONALITY_ASKED_KEY) === '1'
+      const persisted = getPersonalityId()
+      setPersonalityAsked(asked || persisted !== null)
+    } catch {
+      // KV not ready (pre-init); skip the step rather than block onboarding.
+      setPersonalityAsked(true)
+    }
+  }, [])
+  const markPersonalityAsked = () => {
+    try { kvSet(ONBOARDING_PERSONALITY_ASKED_KEY, '1') } catch { /* swallow */ }
+    setPersonalityAsked(true)
+  }
+  const handleSkipPersonality = () => {
+    setPersonality('professional')
+    markPersonalityAsked()
+  }
   const hasSavedProject = typeof window !== 'undefined' && !!localStorage.getItem(STORAGE_KEY)
   const [activeTab, setActiveTab] = useState<'projects' | 'examples'>( projects.length > 0 ? 'projects' : 'examples')
+  const [showMoreExamples, setShowMoreExamples] = useState(false)
+  const [bannerDismissed, setBannerDismissed] = useState<boolean>(true)
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    setBannerDismissed(localStorage.getItem(LLM_BANNER_DISMISSED_KEY) === '1')
+  }, [])
+  const dismissBanner = () => {
+    if (typeof window !== 'undefined') localStorage.setItem(LLM_BANNER_DISMISSED_KEY, '1')
+    setBannerDismissed(true)
+  }
+  const showLLMBanner = !hasKey && !bannerDismissed
+
+  // P66 / Polish Sprint (A4) — mode-aware suggested-prompt hint banner.
+  // Shown once per mode (per-session, dismissable). Whiteboard renders a live
+  // suggestion; Planning / Agentics render a "ships in v2" placeholder
+  // (defensive — the ModeSelectorCard disables those buttons, but if a future
+  // change exposes them we still render a coherent message rather than blank).
+  const [modeHintDismissed, setModeHintDismissed] = useState<boolean>(true)
+  useEffect(() => {
+    if (typeof window === 'undefined' || !appMode) return
+    const key = `${MODE_HINT_DISMISSED_KEY_PREFIX}${appMode}`
+    setModeHintDismissed(localStorage.getItem(key) === '1')
+  }, [appMode])
+  const dismissModeHint = () => {
+    if (typeof window !== 'undefined' && appMode) {
+      localStorage.setItem(`${MODE_HINT_DISMISSED_KEY_PREFIX}${appMode}`, '1')
+    }
+    setModeHintDismissed(true)
+  }
+  const showModeHint = !!appMode && !modeHintDismissed && !hasSavedProject
+
+  // Default 4 starter examples (Phase 15 DoD #11): blog → bakery → SaaS → kitchen-sink (reference)
+  const DEFAULT_EXAMPLE_NAMES = [
+    'Stories from the kitchen',     // blog-standard — canonical novice end-to-end demo
+    'Sweet Spot Bakery',            // bakery
+    'CloudSync Enterprise',         // enterprise-saas — cleanest SaaS in the catalog
+    'Kitchen Sink Demo',            // kitchen-sink — developer-facing reference
+  ] as const
+  const defaultExamples = DEFAULT_EXAMPLE_NAMES
+    .map((n) => EXAMPLE_SITES.find((e) => e.name === n))
+    .filter((e): e is typeof EXAMPLE_SITES[number] => !!e)
+  const moreExamples = EXAMPLE_SITES.filter(
+    (e) => !DEFAULT_EXAMPLE_NAMES.includes(e.name as typeof DEFAULT_EXAMPLE_NAMES[number])
+  )
 
   const handleThemeSelect = (slug: string) => {
     applyVibe(slug)
     // Persist to localStorage so useAutoSave doesn't overwrite on builder mount
     const config = useConfigStore.getState().config
     localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
+    // P114 / A1 fix #1 — also write to canonical projects table so autosave
+    // observes a non-null activeProject and Welcome's recent-projects card
+    // sees the new row. Slug derives from theme name via toSlug() inside the
+    // store; same-name re-pick overwrites prior row (acceptable for theme).
+    const themeName = `${slug.charAt(0).toUpperCase()}${slug.slice(1)} Site`
+    saveProject(themeName, config)
     navigate('/builder')
   }
 
@@ -400,6 +516,10 @@ export function Onboarding() {
     loadConfig(example.config)
     // Persist to localStorage so useAutoSave doesn't overwrite on builder mount
     localStorage.setItem(STORAGE_KEY, JSON.stringify(example.config))
+    // P114 / A1 fix #1 — write canonical row keyed by example.name. Repeated
+    // picks of the same example deterministically overwrite (closes G10 by
+    // giving the example a stable slug instead of stomping a singleton).
+    saveProject(example.name, example.config)
     const heroSection = example.config.sections.find((s) => s.type === 'hero' && s.enabled)
     if (heroSection) {
       setSelectedContext({ type: 'section', sectionId: heroSection.id })
@@ -427,25 +547,91 @@ export function Onboarding() {
     applyVibe('saas')
     const config = useConfigStore.getState().config
     localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
+    // P114 / A1 fix #1 — write canonical row with a date-stamped name so
+    // multiple "Start blank" picks accumulate as separate rows rather than
+    // stomping a singleton. Pad month/day for stable lexicographic sort.
+    const now = new Date()
+    const stamp = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+    saveProject(`Untitled ${stamp}`, config)
     navigate('/builder')
   }
 
+  // P66 / Polish Sprint (A4) — mode-selector first-run step (per ADR-088).
+  // Renders the 3-card ModeSelectorCard ahead of the personality picker on a
+  // brand-new user (no appMode persisted AND no saved project). Returning
+  // users with a saved project skip this entirely (they implicitly chose
+  // Whiteboard pre-OC-2; the marketing site framing pre-dates ModeArch).
+  if (appMode === null && !hasSavedProject) {
+    return (
+      <ModeSelectorCard
+        hasProject={false}
+        onSelectMode={(mode) => {
+          // Persist mode → triggers re-render. Next render falls through to
+          // either personality picker (if not asked) or the project picker.
+          setAppMode(mode)
+          // P90 / AW-MODE-ARCH (A3) — Planning + Agentics route to their stubs;
+          // Whiteboard falls through to the existing personality / project picker
+          // chain so the v1 onboarding flow is byte-equivalent for that mode.
+          if (mode === 'planning') navigate('/planning')
+          else if (mode === 'agentics') navigate('/agentics')
+        }}
+      />
+    )
+  }
+
+  if (!personalityAsked) {
+    return (
+      <div
+        className="min-h-screen bg-[var(--hb-paper)] flex items-center justify-center px-6 py-10"
+        data-testid="onboarding-personality-step"
+      >
+        <div className="w-full max-w-xl bg-white rounded-2xl border border-[var(--hb-mkt-border)] shadow-sm px-6 py-7">
+          <h1 className="text-xl sm:text-2xl font-bold text-[var(--hb-mkt-text)] tracking-tight text-center">
+            How would you like me to talk to you?
+          </h1>
+          <p className="text-sm text-[var(--hb-mkt-text-muted)] mt-2 text-center">
+            Pick a voice for Bradley. You can change this anytime in Settings.
+          </p>
+          <div className="mt-5">
+            <PersonalityPicker />
+          </div>
+          <div className="mt-6 flex items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={handleSkipPersonality}
+              className="px-4 py-2 rounded-lg text-sm font-medium text-[var(--hb-mkt-text-muted)] hover:text-[var(--hb-accent)] transition-colors"
+            >
+              Skip — keep it professional
+            </button>
+            <button
+              type="button"
+              onClick={markPersonalityAsked}
+              className="px-5 py-2 rounded-lg bg-[var(--hb-accent)] text-white text-sm font-medium hover:bg-[var(--hb-crimson-deep)] transition-colors shadow-sm"
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="min-h-screen bg-[#faf8f5]">
+    <div className="min-h-screen bg-[var(--hb-paper)]">
       {/* Top Bar */}
-      <header className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-[#e5e1dc]">
+      <header className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-[var(--hb-mkt-border)]">
         <div className="max-w-[1400px] mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-[#A51C30] flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-[var(--hb-accent)] flex items-center justify-center">
               <span className="text-white text-xs font-bold">HB</span>
             </div>
-            <span className="font-semibold text-[#1a1a1a] text-sm tracking-tight">Hey Bradley</span>
+            <span className="font-semibold text-[var(--hb-mkt-text)] text-sm tracking-tight">Hey Bradley</span>
           </div>
           <div className="flex items-center gap-3">
             {hasSavedProject && (
               <button
                 onClick={handleContinue}
-                className="text-xs text-[#6b7280] hover:text-[#A51C30] transition-colors font-medium"
+                className="text-xs text-[var(--hb-mkt-text-muted)] hover:text-[var(--hb-accent)] transition-colors font-medium"
               >
                 Continue editing &rarr;
               </button>
@@ -455,17 +641,51 @@ export function Onboarding() {
       </header>
 
       <div className="max-w-[1400px] mx-auto px-6 py-8">
+        {showLLMBanner && (
+          <div className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-[var(--hb-mkt-border)] bg-[var(--hb-paper)] px-4 py-2.5 text-xs text-[var(--hb-mkt-text-muted)]">
+            <span>Using simulated responses — add an API key in Settings to enable real AI.</span>
+            <button
+              type="button"
+              onClick={dismissBanner}
+              className="text-[var(--hb-mkt-text-faint)] hover:text-[var(--hb-accent)] transition-colors px-2"
+              aria-label="Dismiss"
+            >
+              &times;
+            </button>
+          </div>
+        )}
+        {showModeHint && appMode && (
+          <div
+            className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-[rgb(var(--hb-accent-rgb)/0.2)] bg-white px-4 py-2.5 text-xs text-[var(--hb-mkt-text-secondary)]"
+            data-testid={`onboarding-mode-hint-${appMode}`}
+          >
+            <span>
+              <span className="font-medium text-[var(--hb-accent)] uppercase tracking-wider text-[10px] mr-2">
+                {appMode}
+              </span>
+              {MODE_HINT_COPY[appMode]}
+            </span>
+            <button
+              type="button"
+              onClick={dismissModeHint}
+              className="text-[var(--hb-mkt-text-faint)] hover:text-[var(--hb-accent)] transition-colors px-2"
+              aria-label="Dismiss"
+            >
+              &times;
+            </button>
+          </div>
+        )}
         {/* Hero */}
         <div className="text-center mb-10">
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#1a1a1a] tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[var(--hb-mkt-text)] tracking-tight">
             What will you build today?
           </h1>
-          <p className="text-sm text-[#6b7280] mt-2 max-w-md mx-auto">
+          <p className="text-sm text-[var(--hb-mkt-text-muted)] mt-2 max-w-md mx-auto">
             Start from a theme, load an example, or open a saved project.
           </p>
           <button
             onClick={handleStartNew}
-            className="mt-5 inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#A51C30] text-white text-sm font-medium hover:bg-[#8c1515] transition-colors shadow-sm"
+            className="mt-5 inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[var(--hb-accent)] text-white text-sm font-medium hover:bg-[var(--hb-crimson-deep)] transition-colors shadow-sm"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -475,34 +695,34 @@ export function Onboarding() {
         </div>
 
         {/* Getting Started 1-2-3 */}
-        <div className="mb-8 bg-white rounded-2xl border border-[#e5e1dc] shadow-sm px-5 py-4">
-          <h3 className="text-xs font-semibold text-[#9ca3af] uppercase tracking-wider mb-3">Getting Started</h3>
+        <div className="mb-8 bg-white rounded-2xl border border-[var(--hb-mkt-border)] shadow-sm px-5 py-4">
+          <h3 className="text-xs font-semibold text-[var(--hb-mkt-text-faint)] uppercase tracking-wider mb-3">Getting Started</h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-lg bg-[#A51C30]/10 flex items-center justify-center flex-shrink-0">
-                <span className="text-[#A51C30] text-sm font-bold">1</span>
+              <div className="w-8 h-8 rounded-lg bg-[rgb(var(--hb-accent-rgb)/0.1)] flex items-center justify-center flex-shrink-0">
+                <span className="text-[var(--hb-accent)] text-sm font-bold">1</span>
               </div>
               <div>
-                <div className="text-xs font-medium text-[#1a1a1a]">Pick a theme or example</div>
-                <div className="text-[11px] text-[#9ca3af] mt-0.5">Choose a visual starting point</div>
+                <div className="text-xs font-medium text-[var(--hb-mkt-text)]">Pick a theme or example</div>
+                <div className="text-[11px] text-[var(--hb-mkt-text-faint)] mt-0.5">Choose a visual starting point</div>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-lg bg-[#A51C30]/10 flex items-center justify-center flex-shrink-0">
-                <span className="text-[#A51C30] text-sm font-bold">2</span>
+              <div className="w-8 h-8 rounded-lg bg-[rgb(var(--hb-accent-rgb)/0.1)] flex items-center justify-center flex-shrink-0">
+                <span className="text-[var(--hb-accent)] text-sm font-bold">2</span>
               </div>
               <div>
-                <div className="text-xs font-medium text-[#1a1a1a]">Customize sections</div>
-                <div className="text-[11px] text-[#9ca3af] mt-0.5">Edit content, images, and colors</div>
+                <div className="text-xs font-medium text-[var(--hb-mkt-text)]">Customize sections</div>
+                <div className="text-[11px] text-[var(--hb-mkt-text-faint)] mt-0.5">Edit content, images, and colors</div>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-lg bg-[#A51C30]/10 flex items-center justify-center flex-shrink-0">
-                <span className="text-[#A51C30] text-sm font-bold">3</span>
+              <div className="w-8 h-8 rounded-lg bg-[rgb(var(--hb-accent-rgb)/0.1)] flex items-center justify-center flex-shrink-0">
+                <span className="text-[var(--hb-accent)] text-sm font-bold">3</span>
               </div>
               <div>
-                <div className="text-xs font-medium text-[#1a1a1a]">Get your build plan</div>
-                <div className="text-[11px] text-[#9ca3af] mt-0.5">Export professional website blueprints</div>
+                <div className="text-xs font-medium text-[var(--hb-mkt-text)]">Get your build plan</div>
+                <div className="text-[11px] text-[var(--hb-mkt-text-faint)] mt-0.5">Export professional website blueprints</div>
               </div>
             </div>
           </div>
@@ -513,41 +733,41 @@ export function Onboarding() {
 
           {/* ===== LEFT PANEL: Projects & Examples ===== */}
           <div className="lg:col-span-5">
-            <div className="bg-white rounded-2xl border border-[#e5e1dc] shadow-sm overflow-hidden">
+            <div className="bg-white rounded-2xl border border-[var(--hb-mkt-border)] shadow-sm overflow-hidden">
               {/* Tabs */}
-              <div className="flex border-b border-[#e5e1dc]">
+              <div className="flex border-b border-[var(--hb-mkt-border)]">
                 <button
                   onClick={() => setActiveTab('projects')}
                   className={`flex-1 px-4 py-3 text-sm font-medium transition-colors relative ${
                     activeTab === 'projects'
-                      ? 'text-[#A51C30]'
-                      : 'text-[#9ca3af] hover:text-[#6b7280]'
+                      ? 'text-[var(--hb-accent)]'
+                      : 'text-[var(--hb-mkt-text-faint)] hover:text-[var(--hb-mkt-text-muted)]'
                   }`}
                 >
                   Your Projects
                   {projects.length > 0 && (
-                    <span className="ml-1.5 text-[10px] bg-[#A51C30]/10 text-[#A51C30] px-1.5 py-0.5 rounded-full font-medium">
+                    <span className="ml-1.5 text-[10px] bg-[rgb(var(--hb-accent-rgb)/0.1)] text-[var(--hb-accent)] px-1.5 py-0.5 rounded-full font-medium">
                       {projects.length}
                     </span>
                   )}
                   {activeTab === 'projects' && (
-                    <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-[#A51C30] rounded-full" />
+                    <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-[var(--hb-accent)] rounded-full" />
                   )}
                 </button>
                 <button
                   onClick={() => setActiveTab('examples')}
                   className={`flex-1 px-4 py-3 text-sm font-medium transition-colors relative ${
                     activeTab === 'examples'
-                      ? 'text-[#A51C30]'
-                      : 'text-[#9ca3af] hover:text-[#6b7280]'
+                      ? 'text-[var(--hb-accent)]'
+                      : 'text-[var(--hb-mkt-text-faint)] hover:text-[var(--hb-mkt-text-muted)]'
                   }`}
                 >
                   Examples
-                  <span className="ml-1.5 text-[10px] bg-[#f3f4f6] text-[#9ca3af] px-1.5 py-0.5 rounded-full font-medium">
+                  <span className="ml-1.5 text-[10px] bg-[var(--hb-mkt-chip-bg)] text-[var(--hb-mkt-text-faint)] px-1.5 py-0.5 rounded-full font-medium">
                     {EXAMPLE_SITES.length}
                   </span>
                   {activeTab === 'examples' && (
-                    <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-[#A51C30] rounded-full" />
+                    <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-[var(--hb-accent)] rounded-full" />
                   )}
                 </button>
               </div>
@@ -571,37 +791,82 @@ export function Onboarding() {
                     </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center py-12 text-center">
-                      <div className="w-16 h-16 rounded-2xl bg-[#faf8f5] flex items-center justify-center mb-4">
-                        <svg className="w-7 h-7 text-[#d1cbc3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <div className="w-16 h-16 rounded-2xl bg-[var(--hb-paper)] flex items-center justify-center mb-4">
+                        <svg className="w-7 h-7 text-[var(--hb-mkt-thumb-icon)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
                         </svg>
                       </div>
-                      <h3 className="text-sm font-medium text-[#4b5563]">No saved projects yet</h3>
-                      <p className="text-xs text-[#9ca3af] mt-1 max-w-[200px]">
+                      <h3 className="text-sm font-medium text-[var(--hb-mkt-text-secondary)]">No saved projects yet</h3>
+                      <p className="text-xs text-[var(--hb-mkt-text-faint)] mt-1 max-w-[200px]">
                         Start building and save your work to see it here.
                       </p>
                       <button
                         onClick={() => setActiveTab('examples')}
-                        className="mt-4 text-xs text-[#A51C30] font-medium hover:underline"
+                        className="mt-4 text-xs text-[var(--hb-accent)] font-medium hover:underline"
                       >
                         Browse examples instead &rarr;
                       </button>
                     </div>
                   )
                 ) : (
-                  <div className="grid grid-cols-2 gap-3">
-                    {EXAMPLE_SITES.map((example) => (
-                      <ExampleCard
-                        key={example.name}
-                        name={example.name}
-                        slug={EXAMPLE_PREVIEW_SLUGS[example.name] || 'blank'}
-                        description={example.description}
-                        theme={example.theme}
-                        palette={getExamplePalette(example.config as { theme?: { palette?: { bgPrimary?: string; accentPrimary?: string; textPrimary?: string } } })}
-                        sectionCount={example.config.sections?.length ?? 0}
-                        onSelect={() => handleExampleSelect(example)}
-                      />
-                    ))}
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-3">
+                      {defaultExamples.map((example) => (
+                        <ExampleCard
+                          key={example.name}
+                          name={example.name}
+                          slug={EXAMPLE_PREVIEW_SLUGS[example.name] || 'blank'}
+                          description={example.description}
+                          theme={example.theme}
+                          palette={getExamplePalette(example.config as { theme?: { palette?: { bgPrimary?: string; accentPrimary?: string; textPrimary?: string } } })}
+                          sectionCount={example.config.sections?.length ?? 0}
+                          onSelect={() => handleExampleSelect(example)}
+                          referenceTag={example.name === 'Kitchen Sink Demo'}
+                        />
+                      ))}
+                    </div>
+                    {moreExamples.length > 0 && (
+                      <div>
+                        <button
+                          type="button"
+                          onClick={() => setShowMoreExamples((v) => !v)}
+                          className="flex items-center gap-2 w-full px-1 group"
+                        >
+                          <h3 className="text-xs font-semibold text-[var(--hb-mkt-text-faint)] uppercase tracking-wider group-hover:text-[var(--hb-mkt-text-muted)] transition-colors">
+                            {showMoreExamples ? 'Hide' : 'More examples'}
+                            <span className="ml-1.5 text-[10px] bg-[var(--hb-mkt-chip-bg)] text-[var(--hb-mkt-text-faint)] px-1.5 py-0.5 rounded-full font-medium normal-case tracking-normal">
+                              {moreExamples.length}
+                            </span>
+                          </h3>
+                          <svg
+                            className={`w-3.5 h-3.5 text-[var(--hb-mkt-text-faint)] transition-transform ${showMoreExamples ? 'rotate-180' : ''}`}
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                          </svg>
+                          <div className="flex-1 h-px bg-[var(--hb-mkt-border)]" />
+                        </button>
+                        {showMoreExamples && (
+                          <div className="grid grid-cols-2 gap-3 mt-3">
+                            {moreExamples.map((example) => (
+                              <ExampleCard
+                                key={example.name}
+                                name={example.name}
+                                slug={EXAMPLE_PREVIEW_SLUGS[example.name] || 'blank'}
+                                description={example.description}
+                                theme={example.theme}
+                                palette={getExamplePalette(example.config as { theme?: { palette?: { bgPrimary?: string; accentPrimary?: string; textPrimary?: string } } })}
+                                sectionCount={example.config.sections?.length ?? 0}
+                                onSelect={() => handleExampleSelect(example)}
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -613,13 +878,13 @@ export function Onboarding() {
 
           {/* ===== RIGHT PANEL: Themes ===== */}
           <div className="lg:col-span-7">
-            <div className="bg-white rounded-2xl border border-[#e5e1dc] shadow-sm overflow-hidden">
-              <div className="px-5 py-4 border-b border-[#e5e1dc] flex items-center justify-between">
+            <div className="bg-white rounded-2xl border border-[var(--hb-mkt-border)] shadow-sm overflow-hidden">
+              <div className="px-5 py-4 border-b border-[var(--hb-mkt-border)] flex items-center justify-between">
                 <div>
-                  <h2 className="text-sm font-semibold text-[#1a1a1a]">Choose a Theme</h2>
-                  <p className="text-xs text-[#9ca3af] mt-0.5">Pick a visual style as your starting point</p>
+                  <h2 className="text-sm font-semibold text-[var(--hb-mkt-text)]">Choose a Theme</h2>
+                  <p className="text-xs text-[var(--hb-mkt-text-faint)] mt-0.5">Pick a visual style as your starting point</p>
                 </div>
-                <span className="text-[10px] font-medium text-[#9ca3af] bg-[#f3f4f6] px-2 py-1 rounded-full">
+                <span className="text-[10px] font-medium text-[var(--hb-mkt-text-faint)] bg-[var(--hb-mkt-chip-bg)] px-2 py-1 rounded-full">
                   {(THEME_REGISTRY as unknown as ThemeJSON[]).length} themes
                 </span>
               </div>

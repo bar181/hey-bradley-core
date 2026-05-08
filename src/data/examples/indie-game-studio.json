@@ -1,0 +1,205 @@
+{
+  "_storytellingPreset": "founder-direct",
+  "_note": "P115/A4 — indie game studio. Bold pixel-adjacent aesthetic, bright accent on near-black, screenshot gallery, team bios with personality, gameplay features, wishlist CTA. Cites founder-direct preset adapted for game-dev voice (specific numbers, no hype, restrained-not-bro).",
+  "site": {
+    "title": "Forklift Studios · Makers of Vault & Vine",
+    "description": "Three-person indie game studio in Porto. Working on Vault & Vine, a roguelike heist sim about robbing a haunted greenhouse. Nine months from Steam early access. No publisher.",
+    "author": "Forklift Studios",
+    "email": "hello@forklift.games",
+    "domain": "forklift.games",
+    "project": "forklift-studios",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "consumer",
+    "tone": "playful",
+    "brandName": "Forklift Studios",
+    "tagline": "Makers of Vault & Vine — a roguelike heist sim about a haunted greenhouse.",
+    "voiceAttributes": ["confident", "direct", "playful", "specific"],
+    "storytellingPreset": "founder-direct"
+  },
+  "theme": {
+    "preset": "neon-pixel",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0c0a14",
+      "bgSecondary": "#13101e",
+      "textPrimary": "#f4f0ff",
+      "textSecondary": "#9a91b8",
+      "accentPrimary": "#ff5da2",
+      "accentSecondary": "#3affc7"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#fff7e6",
+      "bgSecondary": "#ffeac4",
+      "textPrimary": "#0c0a14",
+      "textSecondary": "#3a3050",
+      "accentPrimary": "#c8367a",
+      "accentSecondary": "#0a8f6b"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Press Start 2P",
+      "headingWeight": 400,
+      "baseSize": "16px",
+      "lineHeight": 1.65
+    },
+    "spacing": { "sectionPadding": "88px", "containerMaxWidth": "1200px", "componentGap": "28px" },
+    "borderRadius": "0px"
+  },
+  "sections": [
+    {
+      "type": "menu", "id": "navbar-01", "enabled": true, "order": -1, "variant": "simple",
+      "layout": { "display": "flex", "padding": "20px 32px", "gap": "28px", "maxWidth": "1200px" },
+      "style": { "background": "#0c0a14", "color": "#f4f0ff" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "▲ FORKLIFT" } },
+        { "id": "nav-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "Vault & Vine", "url": "#game" } },
+        { "id": "nav-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "Screenshots", "url": "#screens" } },
+        { "id": "nav-3", "type": "link", "enabled": true, "order": 3, "props": { "text": "The Team", "url": "#team" } },
+        { "id": "nav-4", "type": "link", "enabled": true, "order": 4, "props": { "text": "Devlog", "url": "#devlog" } },
+        { "id": "nav-cta", "type": "button", "enabled": true, "order": 5, "props": { "text": "Wishlist on Steam", "url": "#wishlist", "style": "filled", "background": "#3affc7", "color": "#0c0a14" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero", "id": "hero-01", "enabled": true, "order": 0, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "28px", "padding": "120px 32px 80px", "maxWidth": "1100px" },
+      "style": { "background": "linear-gradient(135deg, #0c0a14 0%, #1f0d2e 60%, #0c0a14 100%)", "color": "#f4f0ff" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0,
+          "props": { "text": "▶ EARLY ACCESS · Q1 2027 · STEAM · WINDOWS / MAC / LINUX", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "ROB A HAUNTED GREENHOUSE.", "level": 1, "size": "72px", "weight": 400 } },
+        { "id": "subhead", "type": "heading", "enabled": true, "order": 2,
+          "props": { "text": "Survive the orchids. Steal the seed.", "level": 2, "size": "32px", "weight": 400 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 3,
+          "props": { "text": "Vault & Vine is a roguelike heist sim about three burglars, one impossibly valuable plant, and a Victorian glasshouse that does not want them to leave. Plan the route. Pick the locks. Pacify the carnivorous philodendron. Get out before the orchids wake up. Then start the next run, because they will." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 4,
+          "props": { "text": "▶ Wishlist on Steam", "url": "#wishlist", "style": "filled", "size": "lg", "background": "#3affc7", "color": "#0c0a14" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 5,
+          "props": { "text": "Watch the trailer", "url": "#trailer", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "gallery", "id": "screens-01", "enabled": true, "order": 1, "variant": "grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "16px", "padding": "80px 32px", "maxWidth": "1280px" },
+      "style": { "background": "#13101e", "color": "#f4f0ff" },
+      "components": [
+        { "id": "ss-1", "type": "image", "enabled": true, "order": 0,
+          "props": { "url": "https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?w=720", "alt": "Pixel-art screenshot: the East Wing entry, 02:14 a.m., pollen drifting through the gas lamps.", "caption": "EAST WING ENTRY · 02:14" } },
+        { "id": "ss-2", "type": "image", "enabled": true, "order": 1,
+          "props": { "url": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=720", "alt": "Pixel-art screenshot: the Orchid Atrium, full bloom, three NPC orchids tracking the player.", "caption": "ORCHID ATRIUM · full bloom" } },
+        { "id": "ss-3", "type": "image", "enabled": true, "order": 2,
+          "props": { "url": "https://images.unsplash.com/photo-1545569310-31fa50e9606b?w=720", "alt": "Pixel-art screenshot: the Vault Door, lockpick mini-game in progress, three-tumbler puzzle.", "caption": "VAULT DOOR · pick in progress" } },
+        { "id": "ss-4", "type": "image", "enabled": true, "order": 3,
+          "props": { "url": "https://images.unsplash.com/photo-1551845728-6820a30c64e1?w=720", "alt": "Pixel-art screenshot: the Carnivorous Philodendron boss, low-light combat encounter.", "caption": "PHILODENDRON · boss fight" } },
+        { "id": "ss-5", "type": "image", "enabled": true, "order": 4,
+          "props": { "url": "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=720", "alt": "Pixel-art screenshot: the Conservatory Roof escape route, pollen storm rolling in.", "caption": "ROOFTOP EGRESS · pollen storm" } },
+        { "id": "ss-6", "type": "image", "enabled": true, "order": 5,
+          "props": { "url": "https://images.unsplash.com/photo-1493882552576-fce827c6161e?w=720", "alt": "Pixel-art screenshot: the post-run loot screen, three burglars, one prized seed.", "caption": "LOOT SCREEN · seed secured" } }
+      ],
+      "content": { "heading": "▶ SCREENSHOTS", "subheading": "Six frames from the current build. Pixel-art at 360p, upscaled to 1080p with a custom CRT shader. Yes you can turn the shader off." }
+    },
+    {
+      "type": "columns", "id": "features-01", "enabled": true, "order": 2, "variant": "grid",
+      "layout": { "display": "grid", "columns": 2, "gap": "32px", "padding": "96px 32px", "maxWidth": "1200px" },
+      "style": { "background": "#0c0a14", "color": "#f4f0ff" },
+      "components": [
+        { "id": "f-1", "type": "feature-card", "enabled": true, "order": 0,
+          "props": { "icon": "⛓", "title": "PROCEDURAL HEIST PLANNING", "description": "Every greenhouse layout is generated fresh. Forty-three room types, eleven trap categories, and a vine-growth simulation that means the route you scouted on run twelve is gone by run thirteen. Plan in chalk, not in stone." } },
+        { "id": "f-2", "type": "feature-card", "enabled": true, "order": 1,
+          "props": { "icon": "🌱", "title": "BOTANICAL ENEMY AI", "description": "Twenty-eight plant species, each with its own pollen radius, pacification verb, and grudge state. The orchids remember which burglar pruned them last run. Some plants can be bribed. Most cannot." } },
+        { "id": "f-3", "type": "feature-card", "enabled": true, "order": 2,
+          "props": { "icon": "🔓", "title": "FIVE LOCKPICK MINI-GAMES", "description": "Tumbler, magnetic, Victorian-mortice, biological-keyed, and the dread Goldsmith's puzzle. Each has its own rhythm. The biological-keyed locks open faster if you've eaten the right pollen. We are not joking." } },
+        { "id": "f-4", "type": "feature-card", "enabled": true, "order": 3,
+          "props": { "icon": "👥", "title": "THREE PLAYABLE BURGLARS", "description": "Pim, the lockpick. Yusra, the climber. Old Man Halvorsen, who used to own the greenhouse and has Opinions. Each has 14 unlockable perks, three signature tools, and one canonical regret." } },
+        { "id": "f-5", "type": "feature-card", "enabled": true, "order": 4,
+          "props": { "icon": "🌿", "title": "MORALITY-AGNOSTIC ENDINGS", "description": "Eleven possible endings. The greenhouse does not forgive you, but it might let you leave. The seed is the seed regardless. Two of the endings are not in any guide on the internet, because we have not shipped yet." } },
+        { "id": "f-6", "type": "feature-card", "enabled": true, "order": 5,
+          "props": { "icon": "🎵", "title": "ORIGINAL SOUNDTRACK · 41 TRACKS", "description": "Composed by Inês Ramalho on a 1976 Korg PS-3300 we found at a flea market in Matosinhos. Adaptive — the orchid section gets weirder when they wake up. Soundtrack ships free with the game." } }
+      ],
+      "content": { "heading": "▶ WHAT'S IN THE GAME", "subheading": "Six pillars. Each one playable in the current build. Each one will be sharpened in early access. None of them are placeholder." }
+    },
+    {
+      "type": "team", "id": "team-01", "enabled": true, "order": 3, "variant": "grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "96px 32px", "maxWidth": "1200px" },
+      "style": { "background": "#13101e", "color": "#f4f0ff" },
+      "components": [
+        { "id": "tm-1", "type": "team-member", "enabled": true, "order": 0,
+          "props": {
+            "name": "Inês Ramalho",
+            "role": "Composer · audio · pollen-sound design",
+            "bio": "Trained at Conservatório de Música do Porto. Owns four synthesizers older than she is. The orchid theme has been rewritten eleven times. She says it is now correct. We believe her.",
+            "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400",
+            "links": "Bandcamp · ines-ramalho.com"
+          } },
+        { "id": "tm-2", "type": "team-member", "enabled": true, "order": 1,
+          "props": {
+            "name": "Diogo Salgueiro",
+            "role": "Engineer · gameplay · procedural systems",
+            "bio": "Wrote the vine-growth simulation in three weekends, then spent eight months making it look like it grows in real-time. Will argue with you about deterministic seed-based RNG until your beer is warm.",
+            "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400",
+            "links": "GitHub @diogo-s · Mastodon"
+          } },
+        { "id": "tm-3", "type": "team-member", "enabled": true, "order": 2,
+          "props": {
+            "name": "Mariana Costa",
+            "role": "Art · pixel-craft · narrative",
+            "bio": "Pixel-art at 16x16 sprites with a 32-color palette per scene. Drew Old Man Halvorsen from a photograph of her grandfather. The orchids are not based on anyone in particular. Probably.",
+            "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400",
+            "links": "Cohost @mariana-c · pixeljoint"
+          } },
+        { "id": "tm-4", "type": "team-member", "enabled": true, "order": 3,
+          "props": {
+            "name": "Fluffy",
+            "role": "Quality assurance · morale · senior cat",
+            "bio": "Joined the studio in February 2024 as a six-week-old tabby found behind the bakery downstairs. Has stepped on the keyboard during exactly two production builds. Both shipped.",
+            "image": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400",
+            "links": "@fluffyqa on the studio Discord"
+          } }
+      ],
+      "content": { "heading": "▶ WHO MAKES THIS", "subheading": "Three humans, one cat, one shared kitchen in Porto. We have known each other for eight years. We do not have a publisher and are not looking for one." }
+    },
+    {
+      "type": "quotes", "id": "press-01", "enabled": true, "order": 4, "variant": "two-up",
+      "layout": { "display": "grid", "columns": 2, "gap": "32px", "padding": "80px 32px", "maxWidth": "1100px" },
+      "style": { "background": "#0c0a14", "color": "#f4f0ff" },
+      "components": [
+        { "id": "p-1", "type": "testimonial", "enabled": true, "order": 0,
+          "props": { "quote": "Played the demo at LudoNarraCon and immediately rebooked my flight to stay another day so I could play it again. The orchid sequence in particular is doing something genuinely new with environmental enemy AI.", "author": "Astrid Mehlhase", "role": "Senior Editor · Rock Paper Shotgun · LudoNarraCon 2025 coverage", "rating": 5 } },
+        { "id": "p-2", "type": "testimonial", "enabled": true, "order": 1,
+          "props": { "quote": "Vault & Vine is one of three indie titles I'm watching for 2027. The vibe is Hades-meets-Thief with a botanical-horror twist, but the hook is the procedural greenhouse — every run scouts a layout you've never seen.", "author": "Jordan Akamine", "role": "Host · Crit Hit Show · ep. 142", "rating": 5 } }
+      ],
+      "content": { "heading": "▶ PRESS HAS PLAYED IT", "subheading": "Demo build · LudoNarraCon March 2026 · DreamHack Lisbon June 2026" }
+    },
+    {
+      "type": "action", "id": "wishlist-01", "enabled": true, "order": 5, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "112px 32px", "gap": "24px", "maxWidth": "900px" },
+      "style": { "background": "linear-gradient(135deg, #ff5da2 0%, #3affc7 100%)", "color": "#0c0a14" },
+      "components": [
+        { "id": "heading", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "▶ WISHLIST. THAT'S THE WHOLE ASK.", "level": 2, "size": "44px", "weight": 400 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "We don't have a marketing budget. We have three people, one cat, and a Steam page. If you wishlist Vault & Vine before launch, the Steam algorithm shows it to seven other people who might wishlist it. That math is the whole strategy. Thank you in advance — sincerely, all four of us." } },
+        { "id": "button-1", "type": "button", "enabled": true, "order": 2,
+          "props": { "text": "▶ Wishlist on Steam — it takes nine seconds", "url": "#wishlist", "style": "filled", "size": "lg", "background": "#0c0a14", "color": "#3affc7" } },
+        { "id": "button-2", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "Join the Discord (1,847 members)", "url": "#discord", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer", "id": "footer-01", "enabled": true, "order": 6, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "48px 32px", "gap": "12px", "maxWidth": "1100px" },
+      "style": { "background": "#0c0a14", "color": "#9a91b8" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "▲ FORKLIFT STUDIOS · PORTO · EST. 2022" } },
+        { "id": "tagline", "type": "text", "enabled": true, "order": 1, "props": { "text": "Three humans, one cat. Working on Vault & Vine — out Q1 2027 on Steam. No publisher. No NFTs. No crunch — we tried it once in 2023 and now we don't." } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 2, "props": { "text": "© 2026 Forklift Studios Lda · Rua de Cedofeita 312, 4050-184 Porto, Portugal · NIF 516 442 891" } }
+      ],
+      "content": {}
+    }
+  ]
+}

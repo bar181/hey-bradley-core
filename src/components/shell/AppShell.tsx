@@ -3,6 +3,7 @@ import { TopBar } from './TopBar'
 import { StatusBar } from './StatusBar'
 import { PanelLayout } from './PanelLayout'
 import { ShortcutHelp } from '@/components/ui/ShortcutHelp'
+import { SettingsDrawer } from '@/components/settings/SettingsDrawer'
 import { useConfigStore } from '@/store/configStore'
 import { useUIStore } from '@/store/uiStore'
 import { useAutoSave } from '@/lib/persistence'
@@ -52,13 +53,14 @@ export function AppShell() {
   const isPreviewMode = useUIStore((s) => s.isPreviewMode)
 
   return (
-    <div className="h-screen flex flex-col bg-hb-bg">
+    <div data-testid="appshell-mode-whiteboard" className="h-screen flex flex-col bg-hb-bg">
       {!isPreviewMode && <TopBar />}
       <main className="flex-1 overflow-hidden">
         <PanelLayout />
       </main>
       {!isPreviewMode && <StatusBar />}
       <ShortcutHelp open={helpOpen} onClose={closeHelp} />
+      <SettingsDrawer />
     </div>
   )
 }

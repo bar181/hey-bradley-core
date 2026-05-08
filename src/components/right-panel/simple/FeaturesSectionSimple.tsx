@@ -1,12 +1,14 @@
-import { useCallback } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { cn } from '@/lib/cn'
 import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
+import { useUIStore } from '@/store/uiStore'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
 import {
   Plus, Trash2, LayoutGrid, ImageIcon, Sparkles,
   AlignLeft, Hash, Rows3, Palette, GlassWater,
+  ChevronDown, ChevronRight,
 } from 'lucide-react'
 import { SectionHeadingEditor } from './SectionHeadingEditor'
 
@@ -56,7 +58,14 @@ function Field({
 export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
   const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
+  const selectedContext = useUIStore((s) => s.selectedContext)
   const section = config.sections.find((s) => s.id === sectionId)
+  const addButtonRef = useRef<HTMLButtonElement | null>(null)
+  const cardRefs = useRef<Map<string, HTMLDivElement | null>>(new Map())
+  // P67 / Wave 2 / A2 — collapse-by-default; auto-expand the active section.
+  const isActive =
+    selectedContext?.type === 'section' && selectedContext.sectionId === sectionId
+  const [expanded, setExpanded] = useState<boolean>(isActive)
 
   if (!section) return null
 
@@ -125,16 +134,52 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
   const removeFeature = useCallback(
     (componentId: string) => {
       if (featureCards.length <= MIN_CARDS) return
+      const removedIdx = featureCards.findIndex((c) => c.id === componentId)
+      const nextFocusId =
+        featureCards[removedIdx + 1]?.id ?? featureCards[removedIdx - 1]?.id ?? null
       const updated = section.components
         .filter((c) => c.id !== componentId)
         .map((c, i) => (c.type === 'feature-card' ? { ...c, order: i } : c))
       setSectionConfig(sectionId, { components: updated })
+      // Focus management: move focus to neighbour card or the Add button.
+      // Defer until after re-render so the DOM has settled.
+      requestAnimationFrame(() => {
+        const target = (nextFocusId && cardRefs.current.get(nextFocusId)) || addButtonRef.current
+        if (target) {
+          const focusable = target.querySelector<HTMLElement>('input, textarea, select, button')
+          ;(focusable ?? target).focus()
+        }
+      })
     },
     [sectionId, section, featureCards, setSectionConfig],
   )
 
   return (
-    <div className="divide-y divide-hb-border/30">
+    <div data-section-id={sectionId} className="transition-all duration-200 ease-out">
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        aria-expanded={expanded}
+        aria-controls={`section-body-${sectionId}`}
+        data-testid="section-editor-collapse-toggle"
+        className={cn(
+          'flex items-center justify-between w-full px-2 py-2 mb-1 rounded-md',
+          'border border-hb-border/40 bg-hb-surface/40',
+          'hover:bg-hb-surface-hover transition-colors',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hb-accent'
+        )}
+      >
+        <span className="flex items-center gap-1.5">
+          <span className="text-[10px] uppercase tracking-wider text-hb-text-muted font-medium">Section</span>
+          <span className="text-xs font-semibold text-hb-text-primary capitalize">{section.type}</span>
+          {isActive && (
+            <span className="text-[9px] uppercase tracking-wider text-hb-accent font-medium">· active</span>
+          )}
+        </span>
+        {expanded ? <ChevronDown size={14} className="text-hb-text-muted" /> : <ChevronRight size={14} className="text-hb-text-muted" />}
+      </button>
+      {expanded && (
+      <div id={`section-body-${sectionId}`} className="divide-y divide-hb-border/30">
       <SectionHeadingEditor sectionId={sectionId} />
       {/* ─── 1. LAYOUT ─── */}
       <RightAccordion id={`${sectionId}-layout`} label="Style">
@@ -144,6 +189,8 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
               key={v}
               type="button"
               onClick={() => applyLayout(FEATURES_LAYOUTS.find((l) => l.v === v)!)}
+              aria-pressed={currentVariant === v}
+              aria-label={`Style: ${label}`}
               className={cn(
                 'flex flex-col items-center justify-center gap-1.5 h-16 rounded-lg transition-all',
                 currentVariant === v
@@ -169,6 +216,8 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
             return (
               <div
                 key={card.id}
+                ref={(el) => { cardRefs.current.set(card.id, el) }}
+                data-card-id={card.id}
                 className="rounded-lg border border-hb-border/40 bg-hb-surface/40 p-2.5 space-y-2"
               >
                 {/* Card header: number + toggle + remove */}
@@ -177,6 +226,7 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
                     Card {idx + 1}
                   </span>
                   <Switch
+                    aria-label={`Toggle card ${idx + 1}`}
                     checked={card.enabled}
                     onCheckedChange={(v) => handleToggle(card.id, v)}
                     className="scale-[0.6] shrink-0"
@@ -185,6 +235,7 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
                     <button
                       type="button"
                       onClick={() => removeFeature(card.id)}
+                      aria-label={`Remove card ${idx + 1}`}
                       className="text-hb-text-muted hover:text-red-400 transition-colors p-0.5"
                       title="Remove card"
                     >
@@ -241,8 +292,10 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
           {/* Add Feature button */}
           {featureCards.length < MAX_CARDS && (
             <button
+              ref={addButtonRef}
               type="button"
               onClick={addFeature}
+              aria-label="Add another feature card"
               className={cn(
                 'flex items-center justify-center gap-1.5 w-full py-2 rounded-md text-xs font-medium',
                 'border border-dashed border-hb-border text-hb-text-muted',
@@ -255,6 +308,8 @@ export function FeaturesSectionSimple({ sectionId }: { sectionId: string }) {
           )}
         </div>
       </RightAccordion>
+      </div>
+      )}
     </div>
   )
 }

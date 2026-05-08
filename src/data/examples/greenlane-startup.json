@@ -1,0 +1,183 @@
+{
+  "site": {
+    "title": "GreenLane",
+    "description": "Automated compliance reporting for clean-energy startups. Built so founders can ship product instead of paperwork.",
+    "author": "Marcus Reyes",
+    "email": "marcus@greenlane.io",
+    "domain": "greenlane.io",
+    "project": "greenlane-startup",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "saas",
+    "audience": "business",
+    "tone": "formal",
+    "brandName": "GreenLane",
+    "tagline": "Get your compliance hours back. Build the company.",
+    "voiceAttributes": ["confident", "direct", "understated"]
+  },
+  "theme": {
+    "preset": "saas",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#f4f3ee",
+      "textPrimary": "#0f1f17",
+      "textSecondary": "#5a6660",
+      "accentPrimary": "#1f5d3a",
+      "accentSecondary": "#a8946a"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#0f1f17",
+      "bgSecondary": "#16291f",
+      "textPrimary": "#f4f3ee",
+      "textSecondary": "#cfd6d1",
+      "accentPrimary": "#7fb38a",
+      "accentSecondary": "#a8946a"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Inter",
+      "headingWeight": 600,
+      "baseSize": "17px",
+      "lineHeight": 1.65
+    },
+    "spacing": {
+      "sectionPadding": "112px",
+      "containerMaxWidth": "1140px",
+      "componentGap": "32px"
+    },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": { "display": "flex", "gap": "28px", "padding": "20px 32px" },
+      "style": { "background": "#ffffff", "color": "#0f1f17" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "GreenLane" } },
+        { "id": "nav-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "How it works", "url": "#how-it-works" } },
+        { "id": "nav-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "Pricing", "url": "#pricing" } },
+        { "id": "nav-3", "type": "link", "enabled": true, "order": 3, "props": { "text": "Team", "url": "#team" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 4, "props": { "text": "Book a demo", "url": "#cta", "style": "filled", "background": "#1f5d3a", "color": "#ffffff" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "28px", "padding": "144px 32px 96px", "maxWidth": "1080px" },
+      "style": { "background": "#ffffff", "color": "#0f1f17", "fontFamily": "Inter" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "Compliance reporting · automated · for clean-energy startups", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "You're a clean-energy founder. You're spending 40 hours a week on compliance reports instead of building product.", "level": 1, "size": "60px", "weight": 600 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "GreenLane connects to your existing systems, generates regulator-ready reports automatically, and gives you back the four-day work-week your investors thought you already had. The first report runs in under an hour. The next thousand run themselves." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "Book a 20-minute demo", "url": "#cta", "style": "filled", "size": "lg", "background": "#1f5d3a", "color": "#ffffff" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4, "props": { "text": "See how it works", "url": "#how-it-works", "style": "outline", "size": "lg" } },
+        { "id": "trustBadges", "type": "trust", "enabled": true, "order": 5, "props": { "text": "Used by founders at 80+ clean-energy startups · SOC 2 Type II · Built on the same tools your auditors already use", "show": true } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text",
+      "id": "problem-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "two-column",
+      "layout": { "display": "grid", "columns": 2, "gap": "64px", "padding": "112px 32px", "maxWidth": "1100px" },
+      "style": { "background": "#f4f3ee", "color": "#0f1f17" },
+      "components": [
+        { "id": "problem-eyebrow", "type": "text", "enabled": true, "order": 0, "props": { "text": "The problem we built this for" } },
+        { "id": "problem-heading", "type": "heading", "enabled": true, "order": 1, "props": { "text": "You did not start a clean-energy company to write reports.", "level": 2, "size": "44px", "weight": 600 } },
+        { "id": "problem-body-1", "type": "text", "enabled": true, "order": 2, "props": { "text": "If you are running a clean-energy startup right now, you already know the math. There are 17 active reporting frameworks. Three of them changed last quarter. Your customers are asking for one. Your auditor wants another. Your largest investor's ESG team has invented a third." } },
+        { "id": "problem-body-2", "type": "text", "enabled": true, "order": 3, "props": { "text": "So instead of shipping product, you and your operations lead spend two weeks every quarter pulling numbers from seven systems into a spreadsheet that nobody trusts, that the regulator cannot read, and that becomes obsolete the moment the next framework lands. The work is real. The work is critical. The work is also, by every measure that matters to your runway, a tax." } },
+        { "id": "problem-body-3", "type": "text", "enabled": true, "order": 4, "props": { "text": "We built GreenLane because we did this work for two years inside a clean-energy company and it nearly killed the company. The product you are about to read about is the one we wish we had had on day one." } }
+      ],
+      "content": { "heading": "The problem", "subheading": "Compliance is not a feature. It is a tax on focus." }
+    },
+    {
+      "type": "columns",
+      "id": "how-it-works-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "value-props",
+      "layout": { "display": "grid", "columns": 3, "gap": "40px", "padding": "112px 32px", "maxWidth": "1180px" },
+      "style": { "background": "#ffffff", "color": "#0f1f17" },
+      "components": [
+        { "id": "step-1", "type": "feature-card", "enabled": true, "order": 0, "props": { "icon": "plug", "title": "1. Connect", "description": "Connect your data sources in under twenty minutes — utility meters, SCADA exports, accounting, payroll, the lot. We use the same read-only credentials your auditor already has. Nothing leaves your perimeter without your sign-off." } },
+        { "id": "step-2", "type": "feature-card", "enabled": true, "order": 1, "props": { "icon": "zap", "title": "2. Automate", "description": "GreenLane maps your data once, against the seven frameworks that actually matter for your stage and sector, and keeps the mapping current as the rules change. The next quarter's report is mostly written by the time the quarter ends." } },
+        { "id": "step-3", "type": "feature-card", "enabled": true, "order": 2, "props": { "icon": "send", "title": "3. Ship", "description": "Review what we drafted. Make the three or four edits only a human should make. Export the regulator-ready PDF, the auditor-ready ledger, and the investor-ready summary. File. Get back to building." } }
+      ],
+      "content": { "heading": "How GreenLane works", "subheading": "Three steps. Once. The fourth one is your weekend." }
+    },
+    {
+      "type": "pricing",
+      "id": "pricing-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "default",
+      "layout": { "display": "flex", "gap": "28px", "padding": "112px 32px", "maxWidth": "1180px" },
+      "style": { "background": "#f4f3ee", "color": "#0f1f17" },
+      "components": [
+        { "id": "tier-starter", "type": "pricing-tier", "enabled": true, "order": 0, "props": { "name": "Starter", "price": "$299", "period": "month", "description": "For seed-stage teams running one or two frameworks.", "features": "Up to 2 reporting frameworks,Quarterly report generation,5 connected data sources,Email support within one business day,Audit-ready exports", "ctaText": "Start with Starter", "ctaUrl": "#cta", "highlighted": false } },
+        { "id": "tier-growth", "type": "pricing-tier", "enabled": true, "order": 1, "props": { "name": "Growth", "price": "$999", "period": "month", "description": "For Series A teams with auditors and an ESG investor.", "features": "Up to 7 reporting frameworks,Monthly report generation,Unlimited connected data sources,Slack + email support same business day,Auditor and investor portals,Quarterly framework-update review", "ctaText": "Start with Growth", "ctaUrl": "#cta", "highlighted": true } },
+        { "id": "tier-enterprise", "type": "pricing-tier", "enabled": true, "order": 2, "props": { "name": "Enterprise", "price": "Contact us", "period": "", "description": "For Series B and later, multi-entity, or international.", "features": "Everything in Growth,Multi-entity consolidation,Custom framework support,Dedicated compliance lead (Diego),SSO, SCIM, audit log,Quarterly review with our team", "ctaText": "Talk to Marcus", "ctaUrl": "#cta", "highlighted": false } }
+      ],
+      "content": { "heading": "Pricing that earns its keep in the first quarter.", "subheading": "Pay monthly. Cancel anytime. The first report you don't write yourself usually pays for the year." }
+    },
+    {
+      "type": "team",
+      "id": "team-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "40px", "padding": "112px 32px", "maxWidth": "1140px" },
+      "style": { "background": "#ffffff", "color": "#0f1f17" },
+      "components": [
+        { "id": "member-marcus", "type": "team-member", "enabled": true, "order": 0, "props": { "name": "Marcus Reyes", "role": "CEO & Co-founder", "bio": "Spent four years running operations at a Series B solar startup. Wrote the compliance report by hand once. Decided that was enough for one career. Started GreenLane to make sure no other founder has to do it twice." } },
+        { "id": "member-priya", "type": "team-member", "enabled": true, "order": 1, "props": { "name": "Priya Anand", "role": "CTO & Co-founder", "bio": "Eleven years building data-pipeline infrastructure, six of them at companies your auditors have heard of. Owns the connectors. Believes, on the record, that schemas are a form of writing." } },
+        { "id": "member-diego", "type": "team-member", "enabled": true, "order": 2, "props": { "name": "Diego Marín", "role": "Head of Compliance", "bio": "Former senior auditor at one of the Big Four. Read every clean-energy framework before we hired him and a few that have not been published yet. The one who decides what GreenLane will and will not say to a regulator." } }
+      ],
+      "content": { "heading": "Three founders. One mandate.", "subheading": "We have done this work the hard way. We are building so you do not have to." }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "default",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "128px 32px", "gap": "24px" },
+      "style": { "background": "#1f5d3a", "color": "#ffffff" },
+      "components": [
+        { "id": "cta-heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "See your compliance hours go to 4. Book a 20-minute demo.", "level": 2, "size": "44px", "weight": 600 } },
+        { "id": "cta-subtitle", "type": "text", "enabled": true, "order": 1, "props": { "text": "We will spend ten minutes on your current process and ten minutes showing you the report it would have generated this morning. If we are not the right fit, we will tell you within those twenty minutes." } },
+        { "id": "cta-button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Book a 20-minute demo", "url": "#book", "style": "filled", "size": "lg", "background": "#a8946a", "color": "#0f1f17" } },
+        { "id": "cta-fineprint", "type": "text", "enabled": true, "order": 3, "props": { "text": "Or email marcus@greenlane.io. Two-business-day reply, always from a founder." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 6,
+      "variant": "multi-column",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "64px 32px" },
+      "style": { "background": "#0f1f17", "color": "#f4f3ee" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "GreenLane", "tagline": "Get your compliance hours back. Build the company." } },
+        { "id": "col-1", "type": "footer-column", "enabled": true, "order": 1, "props": { "heading": "Product", "links": "How it works,Pricing,Frameworks,Security,Changelog" } },
+        { "id": "col-2", "type": "footer-column", "enabled": true, "order": 2, "props": { "heading": "Company", "links": "Team,Customers,Careers,Contact" } },
+        { "id": "col-3", "type": "footer-column", "enabled": true, "order": 3, "props": { "heading": "Trust", "links": "SOC 2,Privacy,Terms,DPA,Subprocessors" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 4, "props": { "text": "© 2026 GreenLane, Inc. Built by founders who have written the report by hand." } }
+      ],
+      "content": {}
+    }
+  ]
+}

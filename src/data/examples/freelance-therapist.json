@@ -1,0 +1,224 @@
+{
+  "_storytellingPreset": "founder-direct",
+  "_note": "P116/B1 — independent therapist Maren Ahoyade LMFT in Portland Buckman neighborhood. Founder-direct preset adapted for solo-practitioner: first-person, restrained-not-bro, specific modalities. Calm professional theme — dusty rose + warm gray + cream. Trust signals (license, modalities, years). Plain anonymized client testimonials.",
+  "site": {
+    "title": "Maren Ahoyade, LMFT · Portland Therapy Practice",
+    "description": "Independent therapy practice in southeast Portland. EMDR-trained, IFS-informed, eleven years of clinical practice. Adults and couples, in-person and telehealth.",
+    "author": "Maren Ahoyade",
+    "email": "maren@ahoyadetherapy.com",
+    "domain": "ahoyadetherapy.com",
+    "project": "ahoyade-therapy",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "consumer",
+    "tone": "warm",
+    "brandName": "Maren Ahoyade, LMFT",
+    "tagline": "Therapy that takes the slow road. By design.",
+    "voiceAttributes": ["warm", "professional", "trust-signaling", "specific-modality"],
+    "storytellingPreset": "founder-direct"
+  },
+  "theme": {
+    "preset": "elegant",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#f8f1ea",
+      "bgSecondary": "#ffffff",
+      "textPrimary": "#3a2e2c",
+      "textSecondary": "#6a5b58",
+      "accentPrimary": "#a86b6a",
+      "accentSecondary": "#8a7e75"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#3a2e2c",
+      "bgSecondary": "#4a3c39",
+      "textPrimary": "#f8f1ea",
+      "textSecondary": "#cdbcb7",
+      "accentPrimary": "#c98989",
+      "accentSecondary": "#b3a59a"
+    },
+    "typography": {
+      "fontFamily": "Lora",
+      "headingFamily": "Lora",
+      "headingWeight": 600,
+      "baseSize": "18px",
+      "lineHeight": 1.7
+    },
+    "spacing": { "sectionPadding": "96px", "containerMaxWidth": "880px", "componentGap": "24px" },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "menu", "id": "navbar-01", "enabled": true, "order": -1, "variant": "simple",
+      "layout": { "display": "flex", "padding": "20px 28px", "gap": "28px", "maxWidth": "1080px" },
+      "style": { "background": "#f8f1ea", "color": "#3a2e2c" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Maren Ahoyade · LMFT" } },
+        { "id": "nav-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "About", "url": "#about" } },
+        { "id": "nav-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "Approach", "url": "#approach" } },
+        { "id": "nav-3", "type": "link", "enabled": true, "order": 3, "props": { "text": "Fees", "url": "#fees" } },
+        { "id": "nav-4", "type": "link", "enabled": true, "order": 4, "props": { "text": "FAQs", "url": "#faqs" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 5, "props": { "text": "Book a consultation", "url": "#contact" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero", "id": "hero-01", "enabled": true, "order": 0, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "24px", "padding": "112px 28px 96px", "maxWidth": "820px" },
+      "style": { "background": "#f8f1ea", "color": "#3a2e2c" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0,
+          "props": { "text": "LMFT, Oregon · License #T1538 · 11 years in practice · Buckman neighborhood, SE Portland", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "Therapy that takes the slow road. By design.", "level": 1, "size": "52px", "weight": 600 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "I'm Maren Ahoyade. I've been a Licensed Marriage and Family Therapist in Oregon since 2014. My practice is small on purpose — twenty-two clients on the calendar, no more — and the work I do is mostly with adults processing trauma and couples in long-term relationships. We meet weekly for fifty minutes. We do not rush." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "Book a free 20-minute consultation", "url": "#contact", "style": "filled", "size": "lg", "background": "#a86b6a", "color": "#f8f1ea" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4,
+          "props": { "text": "Read about my approach", "url": "#approach", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text", "id": "about-01", "enabled": true, "order": 1, "variant": "long-form",
+      "layout": { "display": "flex", "direction": "column", "gap": "20px", "padding": "96px 28px", "maxWidth": "780px" },
+      "style": { "background": "#ffffff", "color": "#3a2e2c" },
+      "components": [
+        { "id": "about-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "About me, with the credentials in plain order.", "level": 2, "size": "36px", "weight": 600 } },
+        { "id": "about-p1", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "I earned my MA in Marriage and Family Therapy from Lewis & Clark Graduate School of Education in 2013, and I've been licensed in Oregon (LMFT #T1538) since November 2014. Before private practice I spent four years on staff at Trillium Family Services in northeast Portland, primarily with adolescents and young adults processing complex trauma." } },
+        { "id": "about-p2", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "I am EMDR-trained (Level 2, EMDRIA-approved, 2017), Internal Family Systems–informed (Level 1, 2019, with ongoing consultation under Dr. Annette Holcomb), and I incorporate cognitive-behavioral structure when the work calls for it. I am not a one-modality practitioner. I do not believe trauma yields to a single tool. The session shape we develop is yours, not mine." } },
+        { "id": "about-p3", "type": "text", "enabled": true, "order": 3,
+          "props": { "text": "I am a queer, mixed-race therapist (Yoruba and Norwegian heritage) and my practice is welcoming to LGBTQ+, BIPOC, and trauma-survivor clients in particular — though anyone who feels we might be a good fit is welcome to reach out. I do not work with active addiction, eating disorders that require medical monitoring, or active suicidal crisis — I will refer you with care to colleagues who specialize there." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns", "id": "approach-01", "enabled": true, "order": 2, "variant": "three-column",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "96px 28px", "maxWidth": "1140px" },
+      "style": { "background": "#f8f1ea", "color": "#3a2e2c" },
+      "components": [
+        { "id": "col-1", "type": "feature", "enabled": true, "order": 0,
+          "props": { "icon": "spiral", "title": "EMDR for trauma", "description": "Eye Movement Desensitization and Reprocessing. Effective when there is a discrete event or series of events the body is still holding. We do not do EMDR until we have built a foundation — usually six to eight sessions of preparation work first." } },
+        { "id": "col-2", "type": "feature", "enabled": true, "order": 1,
+          "props": { "icon": "leaf", "title": "Internal Family Systems", "description": "IFS treats the psyche as a system of parts — protective parts, exiled parts, and a core Self. Useful when you find yourself reacting in ways you don't endorse and can't explain. Meaningful for trauma, perfectionism, and inner-critic patterns." } },
+        { "id": "col-3", "type": "feature", "enabled": true, "order": 2,
+          "props": { "icon": "balance", "title": "Couples · Gottman-informed", "description": "For couples I draw heavily on the Gottman Method (Level 1, 2018) — research-backed, structured, and oriented around the actual mechanics of how partners hurt each other and find their way back. We do not coach communication skills; we untangle patterns." } }
+      ],
+      "content": { "heading": "How I work", "subheading": "Three modalities I'm trained in. The session moves between them as the work asks." }
+    },
+    {
+      "type": "pricing", "id": "fees-01", "enabled": true, "order": 3, "variant": "tiers",
+      "layout": { "display": "grid", "columns": 3, "gap": "28px", "padding": "96px 28px", "maxWidth": "1140px" },
+      "style": { "background": "#3a2e2c", "color": "#f8f1ea" },
+      "components": [
+        { "id": "fee-1", "type": "pricing-tier", "enabled": true, "order": 0,
+          "props": {
+            "name": "Individual session",
+            "price": "$185",
+            "billing": "50 minutes · weekly",
+            "features": "In-person at the Buckman office or HIPAA-compliant telehealth · Out-of-network with most major insurers — I provide a superbill · Sliding-scale: 4 of my 22 client slots are reserved at $130 / $95 / $65 (means-tested)",
+            "cta": "Book a consultation",
+            "ctaUrl": "#contact"
+          } },
+        { "id": "fee-2", "type": "pricing-tier", "enabled": true, "order": 1,
+          "props": {
+            "name": "Couples session",
+            "price": "$235",
+            "billing": "75 minutes · weekly or biweekly",
+            "features": "In-person preferred, telehealth available · Initial intake is 90 minutes ($265) · Out-of-network · I work with couples in committed long-term relationships including non-monogamous structures · No fault-finding · Goals set in session three",
+            "cta": "Book a consultation",
+            "ctaUrl": "#contact",
+            "featured": true
+          } },
+        { "id": "fee-3", "type": "pricing-tier", "enabled": true, "order": 2,
+          "props": {
+            "name": "Free consultation",
+            "price": "$0",
+            "billing": "20 minutes · phone or video",
+            "features": "Before we book a first session you and I have a 20-minute call · Goal: figure out if we're a fit and if not, refer you well · No pressure to book · I refer about half of consultations to colleagues who'd be a closer match",
+            "cta": "Book the call",
+            "ctaUrl": "#contact"
+          } }
+      ],
+      "content": { "heading": "Fees", "subheading": "I am out-of-network with insurance. I provide monthly superbills my clients can submit for reimbursement. Cards on file via Stripe." }
+    },
+    {
+      "type": "quotes", "id": "testimonials-01", "enabled": true, "order": 4, "variant": "two-up",
+      "layout": { "display": "grid", "columns": 2, "gap": "32px", "padding": "96px 28px", "maxWidth": "1140px" },
+      "style": { "background": "#f8f1ea", "color": "#3a2e2c" },
+      "components": [
+        { "id": "tn-1", "type": "testimonial", "enabled": true, "order": 0,
+          "props": { "quote": "I came to Maren after a difficult three years and four therapists who didn't quite work. The first thing she did was tell me she wasn't sure she was the right fit either, and would I be open to a real conversation about it. That was the moment I knew. We've worked together for two years now.", "author": "T. M.", "role": "Client · two years in practice with Maren · Portland", "rating": 5 } },
+        { "id": "tn-2", "type": "testimonial", "enabled": true, "order": 1,
+          "props": { "quote": "My partner and I started couples work with Maren in early 2024 after eight years together and a year of nearly breaking up. The Gottman framework she uses is structured but not stiff. She names patterns directly and never takes sides. We are still together. We are also genuinely doing better.", "author": "K. & D. R.", "role": "Couple · 12 months · Portland", "rating": 5 } },
+        { "id": "tn-3", "type": "testimonial", "enabled": true, "order": 2,
+          "props": { "quote": "I'm a primary care physician at OHSU. I have referred fourteen patients to Maren over the last four years. The feedback I get back from them is consistent: she is patient, she is genuinely warm, and she does the work the work asks for. Not glamorous. Just useful.", "author": "Dr. Janet Lufkin", "role": "Primary Care Physician · OHSU · referring colleague since 2021", "rating": 5 } },
+        { "id": "tn-4", "type": "testimonial", "enabled": true, "order": 3,
+          "props": { "quote": "EMDR was something I'd been told to try by three different friends and dreaded for two years. Maren took six full sessions before we even started — building safety, building tools, building the relationship. When we finally did the work, I cried. I'm so grateful she didn't rush.", "author": "S. P.", "role": "Client · EMDR-focused work · Portland", "rating": 5 } }
+      ],
+      "content": { "heading": "What clients have said", "subheading": "Quoted with consent. Initials only, per ethical guidelines." }
+    },
+    {
+      "type": "questions", "id": "faqs-01", "enabled": true, "order": 5, "variant": "list",
+      "layout": { "display": "flex", "direction": "column", "gap": "20px", "padding": "96px 28px", "maxWidth": "780px" },
+      "style": { "background": "#ffffff", "color": "#3a2e2c" },
+      "components": [
+        { "id": "q-1", "type": "qa", "enabled": true, "order": 0,
+          "props": { "question": "Do you take insurance?",
+            "answer": "I am out-of-network with all major insurers. I provide a monthly superbill you can submit for partial reimbursement. Most of my clients are reimbursed 30-60% of session cost. I do not handle insurance billing directly so I can keep the practice small." } },
+        { "id": "q-2", "type": "qa", "enabled": true, "order": 1,
+          "props": { "question": "How long do clients usually work with you?",
+            "answer": "It varies. The shortest meaningful work I've done is six months (a discrete EMDR-focused trauma piece). The average is around 18 months. The longest is six years (couples work, on and off through life transitions)." } },
+        { "id": "q-3", "type": "qa", "enabled": true, "order": 2,
+          "props": { "question": "Are you accepting new clients?",
+            "answer": "Sometimes. I keep a maximum of 22 weekly clients. As of January 2026 I have a waitlist of about three months for individual work and one month for couples. The free 20-minute consultation is available immediately." } },
+        { "id": "q-4", "type": "qa", "enabled": true, "order": 3,
+          "props": { "question": "What if you're not the right fit?",
+            "answer": "I refer roughly half of consultation calls to colleagues. I keep a referral list of trusted Portland-area therapists with open availability across modalities, identities, and price points. I will help you land somewhere good, even if that's not with me." } },
+        { "id": "q-5", "type": "qa", "enabled": true, "order": 4,
+          "props": { "question": "What is your cancellation policy?",
+            "answer": "24 hours notice for full credit. Late cancellations and no-shows are charged the full session fee — you may use the time for a phone or video session in the same week if you prefer. Three or more late cancellations in a quarter and we'll talk about whether the timing is right." } }
+      ],
+      "content": { "heading": "Honest answers to the common questions", "subheading": "If your question isn't here, please ask on the consultation call." }
+    },
+    {
+      "type": "contact-form", "id": "contact-01", "enabled": true, "order": 6, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "20px", "padding": "112px 28px", "maxWidth": "780px" },
+      "style": { "background": "#f8f1ea", "color": "#3a2e2c" },
+      "components": [
+        { "id": "form-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Book the consultation.", "level": 2, "size": "40px", "weight": 600 } },
+        { "id": "form-blurb", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "This form goes directly to my secure inbox (HIPAA-compliant via Hushmail). I respond within two business days. Please do not include sensitive clinical detail in the form — we save that for the call." } },
+        { "id": "form-name", "type": "input", "enabled": true, "order": 2,
+          "props": { "label": "Your name", "placeholder": "First and last", "type": "text", "required": true } },
+        { "id": "form-email", "type": "input", "enabled": true, "order": 3,
+          "props": { "label": "Email", "placeholder": "you@somewhere.com", "type": "email", "required": true } },
+        { "id": "form-phone", "type": "input", "enabled": true, "order": 4,
+          "props": { "label": "Phone (optional)", "placeholder": "If you'd prefer a call back", "type": "text", "required": false } },
+        { "id": "form-fit", "type": "input", "enabled": true, "order": 5,
+          "props": { "label": "Individual or couples?", "placeholder": "Individual · Couples · Not sure yet", "type": "text", "required": true } },
+        { "id": "form-msg", "type": "input", "enabled": true, "order": 6,
+          "props": { "label": "What brought you here?", "placeholder": "A few sentences are plenty. Specifics help me know who to refer to if I'm not the right fit.", "type": "textarea", "required": true } },
+        { "id": "form-submit", "type": "button", "enabled": true, "order": 7,
+          "props": { "text": "Send to Maren", "url": "#submit", "style": "filled", "size": "lg", "background": "#a86b6a", "color": "#f8f1ea" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer", "id": "footer-01", "enabled": true, "order": 7, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "44px 28px", "gap": "12px", "maxWidth": "880px" },
+      "style": { "background": "#3a2e2c", "color": "#f8f1ea" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Maren Ahoyade, LMFT · Independent therapy practice" } },
+        { "id": "tagline", "type": "text", "enabled": true, "order": 1, "props": { "text": "1018 SE Belmont Suite 304 · Portland, OR 97214 · License #T1538 (Oregon) · maren@ahoyadetherapy.com" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 2, "props": { "text": "© 2026 Ahoyade Therapy LLC · Forms HIPAA-compliant via Hushmail · This site does not provide crisis services — if you are in crisis call or text 988" } }
+      ],
+      "content": {}
+    }
+  ]
+}

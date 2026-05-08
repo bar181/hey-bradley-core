@@ -39,6 +39,9 @@ const SECTION_TYPES = [
   { type: 'image', description: 'Full-width or contained image section' },
   { type: 'divider', description: 'Visual separator between sections' },
   { type: 'text', description: 'Rich text or markdown content block' },
+  { type: 'blog', description: 'Blog index or article listing with excerpts' },
+  { type: 'case-study', description: 'Case study layout with problem, solution, and results' },
+  { type: 'contact-form', description: 'Contact form with input fields and submit action' },
 ]
 
 // ---------------------------------------------------------------------------

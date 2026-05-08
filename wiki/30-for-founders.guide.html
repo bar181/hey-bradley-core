@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Bradley — How It Wins for Founders — Hey Bradley Wiki</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #fdfaf3;
+    --surface: #ffffff;
+    --surface-2: #f6f0e3;
+    --border: #e3d9c4;
+    --text: #2d1f12;
+    --text-muted: #6b5e4f;
+    --accent: #e8772e;
+    --accent-soft: rgba(232, 119, 46, 0.12);
+    --accent-strong: #b8551a;
+    --green: #2f8c4d;
+    --amber: #c08a16;
+    --red: #b54245;
+    --indigo: #4f46e5;
+    --radius: 12px;
+  }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  a { color: var(--accent-strong); text-decoration: none; font-weight: 600; }
+  a:hover { text-decoration: underline; }
+
+  .container { max-width: 880px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    padding: 80px 0 48px;
+    text-align: center;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, var(--accent-soft) 0%, rgba(255, 230, 200, 0.25) 40%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-size: 2.85rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--text) 30%, var(--accent) 80%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+  }
+  .hero .subtitle {
+    margin-top: 14px;
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    position: relative;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .badges {
+    display: flex; justify-content: center; flex-wrap: wrap;
+    gap: 8px; margin-top: 24px; position: relative;
+  }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 14px; border-radius: 20px;
+    font-size: 0.78rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.04em; border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .badge.exec { border-color: var(--accent); color: var(--accent-strong); }
+  .badge.metric { border-color: var(--green); color: var(--green); }
+  .badge.market { border-color: var(--indigo); color: var(--indigo); }
+
+  .key-takeaway {
+    background: linear-gradient(135deg, var(--accent-soft), rgba(255, 230, 200, 0.4));
+    border: 1px solid rgba(232, 119, 46, 0.3);
+    border-radius: var(--radius);
+    padding: 22px 26px;
+    margin-top: 28px;
+    text-align: left;
+    position: relative;
+  }
+  .key-takeaway h3 {
+    font-size: 0.78rem; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--accent-strong);
+    margin-bottom: 8px;
+  }
+  .key-takeaway p { font-size: 1rem; color: var(--text); line-height: 1.65; }
+
+  /* Section cards */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    margin-top: 24px;
+    box-shadow: 0 2px 14px rgba(45, 31, 18, 0.04);
+  }
+  .section h2 {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 1.45rem; font-weight: 700;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+  }
+  .section h2 .icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+  }
+  .section p { font-size: 1.02rem; color: var(--text); margin-bottom: 12px; }
+  .section p:last-child { margin-bottom: 0; }
+  .section strong { color: var(--accent-strong); }
+
+  /* Don Miller story article */
+  .article-wrap {
+    margin-top: 12px;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--text);
+  }
+  .article-wrap p { margin-bottom: 1.1rem; }
+  .article-wrap p:first-child::first-letter {
+    font-size: 3.4rem;
+    float: left;
+    line-height: 0.82;
+    padding-right: 8px;
+    padding-top: 4px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .article-wrap blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 10px 18px;
+    margin: 1.2rem 0;
+    font-style: italic;
+    font-size: 0.96rem;
+    color: var(--text-muted);
+    background: var(--surface-2);
+    border-radius: 6px;
+  }
+
+  /* Stat grid */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .stat {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 16px;
+    text-align: center;
+  }
+  .stat .num {
+    font-size: 2rem; font-weight: 800;
+    color: var(--accent-strong);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .stat .label {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* Compare grid */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .compare-col {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+  .compare-col.traditional { border-color: rgba(181, 66, 69, 0.3); }
+  .compare-col.novel { border-color: var(--accent); background: var(--accent-soft); }
+  .compare-col h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+  }
+  .compare-col.traditional h3 { color: var(--red); }
+  .compare-col.novel h3 { color: var(--accent-strong); }
+  .compare-col ul { list-style: none; }
+  .compare-col li { padding: 6px 0; font-size: 0.95rem; }
+  .compare-col li::before { content: '→ '; color: var(--text-muted); }
+
+  /* Callout */
+  .callout {
+    margin-top: 16px;
+    background: var(--surface-2);
+    border-left: 4px solid var(--accent);
+    border-radius: 6px;
+    padding: 14px 18px;
+    font-size: 0.96rem;
+  }
+
+  /* Story timeline */
+  .timeline {
+    list-style: none;
+    counter-reset: step;
+    margin-top: 18px;
+  }
+  .timeline li {
+    counter-increment: step;
+    position: relative;
+    padding: 14px 16px 14px 64px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  .timeline li::before {
+    content: counter(step);
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .timeline strong { color: var(--accent-strong); }
+
+  /* CTA */
+  .cta {
+    margin-top: 32px;
+    background: linear-gradient(135deg, var(--text) 0%, #4a3a28 100%);
+    color: white;
+    border-radius: var(--radius);
+    padding: 36px 32px;
+    text-align: center;
+  }
+  .cta h2 {
+    font-size: 1.7rem;
+    margin-bottom: 10px;
+    color: white;
+  }
+  .cta p { color: rgba(255, 255, 255, 0.85); margin-bottom: 20px; font-size: 1.02rem; }
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: white !important;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .cta-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(232, 119, 46, 0.4);
+    text-decoration: none;
+  }
+  .cta .footnote {
+    margin-top: 14px;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 2.05rem; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .container { padding: 0 16px 60px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="hero">
+    <h1>The 30-Second Specification.</h1>
+    <p class="subtitle">How Hey Bradley turns "I want a website" into enterprise-grade specs your team can ship — without the weeks of meetings.</p>
+
+    <div class="badges">
+      <span class="badge exec">For Founders & CEOs</span>
+      <span class="badge metric">$0 to MVP</span>
+      <span class="badge market">~70% market coverage</span>
+    </div>
+
+    <div class="key-takeaway">
+      <h3>Why this matters to your bottom line</h3>
+      <p>The average startup burns <strong>4–8 weeks</strong> getting from "I want a marketing site" to "live in production." Hey Bradley collapses that to <strong>under 30 seconds for the spec</strong> and <strong>under 24 hours for the production build</strong> — because the spec it produces is precise enough that an AI agent like Claude Code can build the site directly. No designer-developer handoff. No meeting cycles. No ambiguity.</p>
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════════════════════════════
+       THE STORY (Don Miller frame)
+       ════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <h2><span class="icon" style="background:var(--accent-soft);">📖</span> The Story Every Founder Knows</h2>
+    <div class="article-wrap">
+      <p>You have a vision. Maybe it's a landing page for a new product. Maybe it's an investor-facing site before your Series A. Maybe it's a recruiting page that doesn't make engineers cringe. You can <em>see</em> it in your head — clean hero, three benefits, social proof, a single call-to-action. You could describe it in five sentences over coffee.</p>
+      <p>So you call your designer. Two weeks later you have wireframes. The wireframes are wrong because you forgot to mention the brand voice. Three more weeks pass. You have a Figma file. Your developer says it'll take another four weeks because the spec leaves twelve things ambiguous. By the time the site goes live, your launch window has closed and your CMO is asking why a static page took two months and forty-three thousand dollars.</p>
+      <blockquote>"It feels like every time I want to ship a website, I have to translate my idea through three people who each lose 20% of it."</blockquote>
+      <p>Here's the part nobody says out loud: <strong>most marketing sites are 70% solved problems</strong>. Hero, blog, pricing, testimonials, FAQ, footer. Same fifteen sections, recombined. The "design" isn't the bottleneck. The <em>specification</em> is — that messy translation from "what you mean" to "what an engineer can build."</p>
+      <p>Hey Bradley fixes the bottleneck. You describe what you want — by typing or by talking — and it produces two things at once: a live preview you can watch update in real time, AND a JSON specification document so precise that Claude Code (or any modern AI dev agent) can build the production site directly from it. No designer-developer game of telephone. No 12-page brief that still has gaps.</p>
+      <p>The trick is something called <strong>AISP</strong> — a math-first symbolic protocol that gives the AI a near-zero ambiguity input. Where a normal natural-language brief leaves an LLM guessing 30% of the time, an AISP spec leaves it guessing under 2%. Your "voice" gets compressed into a structure that doesn't lose meaning.</p>
+      <p>The result: the same idea, the same five-sentence pitch, takes <em>30 seconds</em> instead of <em>two months</em>. You walk away with a working preview, a spec your dev team can ship, and an AI build-out path that costs less than the catered lunch from your last design review.</p>
+    </div>
+  </div>
+
+  <!-- The Numbers -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(47,140,77,0.15);">📊</span> The Numbers</h2>
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="num">~30s</div>
+        <div class="label">to first preview</div>
+      </div>
+      <div class="stat">
+        <div class="num">&lt;2%</div>
+        <div class="label">spec ambiguity</div>
+      </div>
+      <div class="stat">
+        <div class="num">~70%</div>
+        <div class="label">marketing-site coverage</div>
+      </div>
+      <div class="stat">
+        <div class="num">$0</div>
+        <div class="label">to first MVP build</div>
+      </div>
+    </div>
+    <div class="callout">
+      <strong>Cost discipline built in.</strong> Hey Bradley enforces a per-call cost cap on every LLM operation. Templates short-circuit the LLM entirely (≥ 0.8 confidence → $0 cost). When the LLM is needed, the cheapest fast model from the user's chosen provider is selected automatically. <strong>You get OpenAI / Anthropic / Google quality at the cost of a coffee per hundred edits.</strong>
+    </div>
+  </div>
+
+  <!-- Traditional vs Hey Bradley -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(232,119,46,0.15);">⚖️</span> Old Way vs Hey Bradley</h2>
+    <div class="compare-grid">
+      <div class="compare-col traditional">
+        <h3>Traditional Marketing-Site Build</h3>
+        <ul>
+          <li>4–8 weeks from idea to launch</li>
+          <li>$15K–$60K for a 5-page site</li>
+          <li>Three handoffs (PM → designer → dev)</li>
+          <li>Brief ambiguity costs days of rework</li>
+          <li>One source of truth: nobody's</li>
+        </ul>
+      </div>
+      <div class="compare-col novel">
+        <h3>Hey Bradley</h3>
+        <ul>
+          <li>30 seconds to first preview</li>
+          <li>~$0 to spec; AI agent builds production</li>
+          <li>Zero handoffs — spec → AI dev agent</li>
+          <li>&lt;2% ambiguity via AISP protocol</li>
+          <li>Single source of truth: the JSON spec</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- The 5-Step Founder Walkthrough -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(79,70,229,0.15);">🎯</span> What Your Day Looks Like</h2>
+    <ol class="timeline">
+      <li><strong>Open Hey Bradley</strong> on your laptop. Pick a vibe ("Professional", "Warm", "Bold"). The preview snaps to that style instantly.</li>
+      <li><strong>Talk or type</strong> what you want. "Build me a SaaS landing page with pricing and testimonials." The site assembles in front of you.</li>
+      <li><strong>Iterate by saying it differently.</strong> "Make the hero more bold." "Hide the blog section." "Change the headline to 'Stop guessing, start shipping.'" Each change applies in seconds.</li>
+      <li><strong>Bradley shows his work.</strong> A small panel under each reply shows what he heard, what he assumed, and which template he used. If he's unsure, he gives you 3 buttons to pick the closest match — no silent guessing.</li>
+      <li><strong>Export</strong> the JSON specification + preview. Hand it to your AI build agent (Claude Code, Cursor, etc). Your production site is live by tomorrow morning.</li>
+    </ol>
+  </div>
+
+  <!-- Honest Trade-offs -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(192,138,22,0.15);">🎯</span> What This Is Not</h2>
+    <p>We're honest about scope. Hey Bradley covers <strong>marketing sites</strong> — landing pages, agency portfolios, SaaS pages, founder/personal sites, capstone-grade research sites. It is <em>intentionally</em> NOT:</p>
+    <ul style="margin: 12px 0 12px 20px; line-height: 1.95;">
+      <li>An e-commerce platform (Shopify wins this)</li>
+      <li>A blog CMS (WordPress / Ghost win this)</li>
+      <li>A web app builder (Bubble / Retool win this)</li>
+      <li>A replacement for your designer if you need bespoke brand systems</li>
+    </ul>
+    <p>It feeds your AI dev agent. It doesn't replace your business strategy. <strong>It collapses the spec-to-code timeline from weeks to a coffee break.</strong></p>
+  </div>
+
+  <!-- The capstone provenance -->
+  <div class="section">
+    <h2><span class="icon" style="background:rgba(232,119,46,0.15);">🎓</span> Where This Came From</h2>
+    <p>Hey Bradley is the open-core MVP for a Harvard ALM Digital Media Design capstone (May 2026) by <a href="https://www.linkedin.com/in/bradaross/">Brad Ross</a>. The thesis: specification-driven development with AI agents can produce enterprise-quality output if the input ambiguity is sub-2%. Five generations of Crystal Atom symbolic protocols (PATCH, INTENT, SELECTION, CONTENT, ASSUMPTIONS) prove it.</p>
+    <p>The project ships under the Apache license. The same architectural patterns Bradley uses inside Hey Bradley — Crystal Atom protocols, multi-agent intent routing, Σ-restricted output validation — are <strong>simplified versions of the production agentic systems he builds for Fortune-class clients</strong>. If you're a founder thinking "this could collapse our internal tooling timelines too," that's the conversation worth having directly.</p>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <h2>Want to talk shop?</h2>
+    <p>If you're a founder, CTO, or product leader who saw this and thought "this is what we need for our internal tools / customer-facing landing flows / spec-to-code pipeline," reach out directly. The advanced version is what powers production systems for high-stakes use cases.</p>
+    <a class="cta-button" href="https://www.linkedin.com/in/bradaross/" target="_blank" rel="noopener">
+      Connect with Brad Ross on LinkedIn →
+    </a>
+    <p class="footnote">Hey Bradley is open-core. The advanced agentic systems are not. Brad responds to LinkedIn DMs personally — typically within 24 hours.</p>
+  </div>
+
+</div>
+</body>
+</html>

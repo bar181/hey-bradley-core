@@ -1,0 +1,513 @@
+{
+  "site": {
+    "title": "Pulse API · realtime events for any backend",
+    "description": "REST is yesterday's API. WebSockets are tomorrow's. Pulse is now. A spec-first realtime event platform with pub/sub, presence, and replayable history — backed by an AISP-compatible OpenAPI 4 schema that round-trips from prose to production.",
+    "author": "Pulse API team",
+    "email": "developers@pulse-api.dev",
+    "domain": "pulse-api.dev",
+    "project": "pulse-api",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "saas",
+    "audience": "developer",
+    "tone": "technical",
+    "brandName": "Pulse API",
+    "tagline": "realtime events for any backend",
+    "voiceAttributes": ["technical", "dense", "confident", "no-fluff"]
+  },
+  "theme": {
+    "preset": "saas",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#1a0e2e",
+      "bgSecondary": "#251640",
+      "textPrimary": "#f0e8ff",
+      "textSecondary": "#b8a8d4",
+      "accentPrimary": "#22d3ee",
+      "accentSecondary": "#06b6d4"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#faf7ff",
+      "bgSecondary": "#ede4f9",
+      "textPrimary": "#1a0e2e",
+      "textSecondary": "#5a4373",
+      "accentPrimary": "#0891b2",
+      "accentSecondary": "#06b6d4"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "JetBrains Mono",
+      "headingWeight": 600,
+      "baseSize": "16px",
+      "lineHeight": 1.6
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#1a0e2e",
+        "color": "#f0e8ff"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Pulse API"
+          }
+        },
+        {
+          "id": "reference",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "API Reference",
+            "url": "#reference"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Get API Key",
+            "url": "#signup"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "#1a0e2e",
+        "color": "#f0e8ff"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "v1.0.0-RC1 · 99.99% uptime · 7 regions",
+            "icon": "activity",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "REST is yesterday. WebSockets are tomorrow. Pulse is now.",
+            "level": 1,
+            "size": "52px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "A realtime event platform you can drop into any backend in 12 lines of code. `pulse.subscribe('events.created', handler)` and you're live. Pub/sub, presence, and replayable message history — across seven regions, with sub-80ms p50 fanout, 1k req/s on the free tier (10k on Pro, custom on Enterprise), and a single typed SDK in eight languages. The full surface is described by an AISP-compatible OpenAPI 4 schema. No Kafka brokers to manage. No Redis cluster to patch. No 47-service event bus to triage."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Read the API Reference",
+            "url": "#reference",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Get a Free API Key",
+            "url": "#signup",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "text": "Powering realtime at Linear, Cal.com, Replicate, and 1,400 production apps · SOC 2 Type II · GDPR compliant",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "capabilities-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "glass",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#251640",
+        "color": "#f0e8ff"
+      },
+      "components": [
+        {
+          "id": "c-1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "broadcast",
+            "title": "Pub / Sub",
+            "description": "`pulse.publish('orders.*', payload)` — wildcard channels, per-subscriber filters, ordered delivery, exactly-once semantics behind a feature flag. Fan-out tested to 1.2M concurrent subscribers per channel; rate-limited at 10k publishes/s/channel on Pro. We have the load-test logs and we'll show you."
+          }
+        },
+        {
+          "id": "c-2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "users",
+            "title": "Presence",
+            "description": "`channel.presence.subscribe(callback)` — track who's online per channel with typed metadata. Heartbeats are managed for you; clients drop cleanly on network failure within 4 seconds (configurable 2-30s). Build cursors, typing indicators, and live dashboards without inventing them again."
+          }
+        },
+        {
+          "id": "c-3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "history",
+            "title": "Replayable history",
+            "description": "`channel.history({ since: messageId })` — every channel has 7 days of replayable history out of the box (30 days on Pro, configurable on Enterprise), paginated by message ID or timestamp. Late-joiners catch up automatically. Disconnects don't lose state. Audit trails are built-in, not bolted on."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Three capabilities, one API surface",
+        "subheading": "What every realtime feature in your backlog actually needs"
+      }
+    },
+    {
+      "type": "text",
+      "id": "why-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "single",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "padding": "64px 24px",
+        "maxWidth": "800px"
+      },
+      "style": {
+        "background": "#1a0e2e",
+        "color": "#f0e8ff"
+      },
+      "components": [
+        {
+          "id": "body",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "body": "The realtime layer is where backends go to die. You start with a WebSocket, add a heartbeat, then a reconnect handler, then a message queue, then a Redis pub/sub, then a presence tracker, then a sticky-session load balancer, then a Kafka topic for replay. Six months later, three engineers are full-time on it and your p99 latency is whatever the last on-call wants it to be. Pulse replaces all of that with one HTTP+WebSocket API and a typed SDK (`@pulse/client`, `pulse-go`, `pulse-py`, `pulse-rb`, plus four more) that handles reconnects, ordering, and replay automatically. The full surface is described by an AISP-compatible OpenAPI 4 schema, round-tripping prose → code → generated docs with under 2% ambiguity. Paste a customer's bug report into our docs site and the navigator jumps straight to the endpoint. Seven regions with anycast routing, three layers of edge caching, and a 99.99% uptime SLA (4.32 minutes/month max downtime) backed by a public status page that doesn't lie. Rate limits: 1k req/s on free, 10k on Pro, custom on Enterprise. Ten dollars a month covers a million events. Free tier covers your hackathon. The pricing page has no asterisks."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Why Pulse",
+        "subheading": "The realtime layer, finally as boring as a database"
+      }
+    },
+    {
+      "type": "numbers",
+      "id": "stats-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "counters",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#251640",
+        "color": "#f0e8ff"
+      },
+      "components": [
+        {
+          "id": "n-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "4.2B",
+            "label": "Events / day",
+            "description": "Aggregate across the network, April 2026"
+          }
+        },
+        {
+          "id": "n-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "1,400",
+            "label": "Customer apps",
+            "description": "From hackathon projects to public companies"
+          }
+        },
+        {
+          "id": "n-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "7",
+            "label": "Regions live",
+            "description": "us-east, us-west, eu-west, eu-north, ap-south, ap-northeast, sa-east"
+          }
+        }
+      ],
+      "content": {
+        "heading": "By the numbers",
+        "subheading": "Public metrics; updated weekly at /status"
+      }
+    },
+    {
+      "type": "blog",
+      "id": "docs-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "card-grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#1a0e2e",
+        "color": "#f0e8ff"
+      },
+      "components": [
+        {
+          "id": "d-1",
+          "type": "blog-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "title": "Quickstart · publish your first event in 12 lines",
+            "excerpt": "Three SDK calls, one API key, one channel. We walk you through publish, subscribe, and presence in under five minutes. Curl-only path included for the no-SDK crowd.",
+            "date": "2026-04-25",
+            "author": "Pulse Docs"
+          }
+        },
+        {
+          "id": "d-2",
+          "type": "blog-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "title": "Migrating from Pusher to Pulse",
+            "excerpt": "API mapping table, behavioral diffs, and a codemod that handles the 80% case. Drop-in for channels and presence; manual review for custom auth hooks. Average migration: 90 minutes for a mid-sized app.",
+            "date": "2026-04-12",
+            "author": "Pulse Engineering"
+          }
+        },
+        {
+          "id": "d-3",
+          "type": "blog-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "title": "Designing your channel topology",
+            "excerpt": "How to slice channels for cursors, typing indicators, presence, and broadcast without ending up with a million-channel bill. Five patterns, three anti-patterns, real customer architectures.",
+            "date": "2026-03-30",
+            "author": "Aisha Bello"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Docs and migration guides",
+        "subheading": "Written by the engineers who maintain the runtime"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "gradient",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%)",
+        "color": "#1a0e2e"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Read the API Reference",
+            "level": 2,
+            "size": "36px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Every endpoint, every parameter, every response shape — typed, versioned, and example-rich. Free tier covers a million events per month. No credit card. No upgrade nags. Get an API key and ship in under ten minutes."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Open the Reference",
+            "url": "#reference",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 6,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#1a0e2e",
+        "color": "#f0e8ff"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Pulse API"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Developers",
+            "links": "API Reference,Quickstart,SDKs,Status"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Product",
+            "links": "Pricing,Customers,Changelog,Roadmap"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Company",
+            "links": "About,Security,Privacy,Contact"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "© 2026 Pulse API, Inc. SOC 2 Type II · GDPR · status.pulse-api.dev"
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

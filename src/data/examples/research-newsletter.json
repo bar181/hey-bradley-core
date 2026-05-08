@@ -1,0 +1,218 @@
+{
+  "_storytellingPreset": "academic-rigor",
+  "_note": "P113/A3 — academic-rigor research newsletter (independent AI policy analysis). Academic-rigor preset: claim + evidence + counterargument + sources. Cite real-feeling sources.",
+  "site": {
+    "title": "Receipts · Independent AI Policy Analysis",
+    "description": "A weekly research newsletter on AI policy, written by Dr. Hadiya Okonkwo, formerly senior policy fellow at the Brookings Institution and visiting scholar at the Berkman Klein Center. Every claim cited. Every counterargument named. Sources public.",
+    "author": "Dr. Hadiya Okonkwo",
+    "email": "hadiya@receipts-ai.org",
+    "domain": "receipts-ai.org",
+    "project": "receipts-newsletter",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "blog",
+    "audience": "enterprise",
+    "tone": "formal",
+    "brandName": "Receipts",
+    "tagline": "Every claim cited. Every counterargument named.",
+    "voiceAttributes": ["precise", "evidence-based", "thorough", "fair"]
+  },
+  "theme": {
+    "preset": "ivory-academic",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#fbf8f1",
+      "bgSecondary": "#f0ebdf",
+      "textPrimary": "#11151c",
+      "textSecondary": "#445064",
+      "accentPrimary": "#1f3a68",
+      "accentSecondary": "#9c2a2a"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#11151c",
+      "bgSecondary": "#1c2230",
+      "textPrimary": "#fbf8f1",
+      "textSecondary": "#b8c0cc",
+      "accentPrimary": "#86a8d8",
+      "accentSecondary": "#e07a7a"
+    },
+    "typography": {
+      "fontFamily": "Source Serif Pro",
+      "headingFamily": "Source Serif Pro",
+      "headingWeight": 700,
+      "baseSize": "18px",
+      "lineHeight": 1.7
+    },
+    "spacing": { "sectionPadding": "96px", "containerMaxWidth": "880px", "componentGap": "28px" },
+    "borderRadius": "2px"
+  },
+  "sections": [
+    {
+      "type": "menu", "id": "navbar-01", "enabled": true, "order": -1, "variant": "simple",
+      "layout": { "display": "flex", "padding": "20px 28px", "gap": "28px", "maxWidth": "880px" },
+      "style": { "background": "#fbf8f1", "color": "#11151c" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Receipts" } },
+        { "id": "nav-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "Latest Issue", "url": "#latest" } },
+        { "id": "nav-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "Archive", "url": "#archive" } },
+        { "id": "nav-3", "type": "link", "enabled": true, "order": 3, "props": { "text": "Methodology", "url": "#methodology" } },
+        { "id": "nav-4", "type": "link", "enabled": true, "order": 4, "props": { "text": "Subscribe", "url": "#subscribe" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero", "id": "hero-01", "enabled": true, "order": 0, "variant": "left-aligned",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "24px", "padding": "128px 28px 88px", "maxWidth": "780px" },
+      "style": { "background": "#fbf8f1", "color": "#11151c" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0,
+          "props": { "text": "Issue 47 · Published Monday, May 4, 2026 · 4,200 words · 38 sources", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "The U.S. AI Executive Order is the most consequential AI policy document since GDPR — and the public-facing summary is misleading on three of its eight major provisions.", "level": 1, "size": "52px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "Receipts is an independent weekly research newsletter on AI policy. Each issue takes one current policy event, traces it back to its primary sources, names the strongest counterargument, and publishes the methodology. No anonymous quotes. No vibes-based analysis. The thesis above is the lead claim of Issue 47, and you can read the full reasoning, including the four places I think the administration was right and the three I think they overstated, below." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "Read Issue 47", "url": "#issue-47", "style": "filled", "size": "lg", "background": "#1f3a68", "color": "#fbf8f1" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4,
+          "props": { "text": "Subscribe (free or paid)", "url": "#subscribe", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text", "id": "latest-issue-01", "enabled": true, "order": 1, "variant": "long-form",
+      "layout": { "display": "flex", "direction": "column", "gap": "28px", "padding": "96px 28px", "maxWidth": "780px" },
+      "style": { "background": "#fbf8f1", "color": "#11151c" },
+      "components": [
+        { "id": "li-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Issue 47 · Lead claim and reasoning.", "level": 2, "size": "40px", "weight": 700 } },
+        { "id": "li-claim", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "Claim", "level": 3, "size": "24px", "weight": 700 } },
+        { "id": "li-claim-body", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "The 2026 amendment to E.O. 14110 expands compute-threshold reporting from 10²⁶ FLOP to 10²⁵ FLOP, brings an estimated 47 additional U.S. companies under disclosure (per BIS estimates filed February 8, 2026), and introduces a new pre-deployment evaluation requirement for any model trained above 5 × 10²⁵ FLOP. The administration's public summary characterizes this as a 'clarification.' On three of the eight major provisions, that characterization is incorrect." } },
+        { "id": "li-evidence", "type": "heading", "enabled": true, "order": 3,
+          "props": { "text": "Evidence", "level": 3, "size": "24px", "weight": 700 } },
+        { "id": "li-evidence-body", "type": "text", "enabled": true, "order": 4,
+          "props": { "text": "The original E.O. 14110 (October 30, 2023) defined the compute threshold by reference to NIST SP 800-221, Section 4.2 — text that requires reporting at 10²⁶ FLOP. The 2026 amendment redefines the threshold by reference to a footnote in the BIS February rule (FR Doc. 2026-02184), which sets it at 10²⁵ FLOP without using the word 'amend.' The same amendment introduces 32 CFR §2002.4(b)(7), a new pre-deployment evaluation, on which BIS's own RIA estimates compliance cost at $14 million annually across the affected firms. None of the three changes are in the public summary's enumerated list. (Sources: White House Fact Sheet, May 1, 2026; BIS RIA Table 4; FR Doc. 2026-02184 §IV.C.)" } },
+        { "id": "li-counter", "type": "heading", "enabled": true, "order": 5,
+          "props": { "text": "Strongest counterargument", "level": 3, "size": "24px", "weight": 700 } },
+        { "id": "li-counter-body", "type": "text", "enabled": true, "order": 6,
+          "props": { "text": "The administration's position, articulated by NSC Senior Director Caroline Tate in her May 2 press briefing, is that the threshold change tracks empirical model-training data — specifically, that the median frontier-model training run has dropped below 10²⁶ FLOP since 2024 (citing Epoch AI tracker data) and that the new threshold simply restores parity with the 2023 intent. This is a fair argument and the strongest one available. It does not, however, address the introduction of 32 CFR §2002.4(b)(7) as a new requirement, which the public summary calls 'clarifying' but which adds an evaluation step that did not exist in the 2023 order. On that specific point, the characterization remains incorrect." } },
+        { "id": "li-sources", "type": "heading", "enabled": true, "order": 7,
+          "props": { "text": "Full source list (this issue)", "level": 3, "size": "24px", "weight": 700 } },
+        { "id": "li-sources-body", "type": "text", "enabled": true, "order": 8,
+          "props": { "text": "1. Executive Order 14110 (October 30, 2023). 2. White House Fact Sheet (May 1, 2026). 3. BIS Final Rule, FR Doc. 2026-02184 (February 8, 2026). 4. BIS Regulatory Impact Analysis, Table 4 (filed concurrently). 5. NIST SP 800-221, Section 4.2 (current). 6. NSC press briefing transcript (May 2, 2026, transcript via FedScoop). 7. Epoch AI training-compute tracker (accessed May 3, 2026). 8. Stanford CRFM frontier-model report (Q1 2026). … 38 total sources, full list at receipts-ai.org/issue-47/sources." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "pricing", "id": "tiers-01", "enabled": true, "order": 2, "variant": "tiers",
+      "layout": { "display": "grid", "columns": 2, "gap": "32px", "padding": "96px 28px", "maxWidth": "1000px" },
+      "style": { "background": "#f0ebdf", "color": "#11151c" },
+      "components": [
+        { "id": "t-1", "type": "pricing-tier", "enabled": true, "order": 0,
+          "props": {
+            "name": "Free",
+            "price": "$0",
+            "billing": "always",
+            "features": "One issue per week · Lead claim + summary + 1 chart · Public source list · Two-week archive · Email-only delivery",
+            "cta": "Subscribe free",
+            "ctaUrl": "#subscribe-free"
+          } },
+        { "id": "t-2", "type": "pricing-tier", "enabled": true, "order": 1,
+          "props": {
+            "name": "Receipts Annotated",
+            "price": "$120",
+            "billing": "per year · or $12 per month",
+            "features": "Everything in Free · Plus full reasoning + 30+ sources per issue · Hyperlinked footnotes · Full archive of 47 issues · Searchable by source / law / agency · Quarterly PDF compilation · Direct reply line to Hadiya · Discounts for academics, journalists, and federal employees on request",
+            "cta": "Start a paid subscription",
+            "ctaUrl": "#subscribe-paid",
+            "featured": true
+          } }
+      ],
+      "content": { "heading": "Two ways to subscribe.", "subheading": "Free covers the headline analysis. Paid is for people who want every footnote." }
+    },
+    {
+      "type": "quotes", "id": "subscribers-01", "enabled": true, "order": 3, "variant": "two-up",
+      "layout": { "display": "grid", "columns": 2, "gap": "32px", "padding": "96px 28px", "maxWidth": "1080px" },
+      "style": { "background": "#fbf8f1", "color": "#11151c" },
+      "components": [
+        { "id": "sub-1", "type": "testimonial", "enabled": true, "order": 0,
+          "props": { "quote": "Receipts is the only AI policy newsletter I read end-to-end. Hadiya cites the actual rules and quotes the actual transcripts. I have used Issue 38 in three congressional staff briefings.", "author": "Dr. Vivek Ramamurthy", "role": "Subscriber · Senior Counsel · House Energy & Commerce Committee", "rating": 5 } },
+        { "id": "sub-2", "type": "testimonial", "enabled": true, "order": 1,
+          "props": { "quote": "I subscribed because Receipts treats the strongest counterargument like a co-author rather than a strawman. Issue 41 named the case against my own published view more carefully than I had — that was the issue that made me upgrade.", "author": "Dr. Wenjie Li", "role": "Subscriber · Associate Professor · Stanford HAI", "rating": 5 } },
+        { "id": "sub-3", "type": "testimonial", "enabled": true, "order": 2,
+          "props": { "quote": "I read four AI policy newsletters. Receipts is the only one I trust to fact-check the others. The annotated edition is worth the $120 for the source list alone.", "author": "Maren Hofstetter", "role": "Subscriber · Tech Policy Reporter · Bloomberg", "rating": 5 } },
+        { "id": "sub-4", "type": "testimonial", "enabled": true, "order": 3,
+          "props": { "quote": "Hadiya replied to my critical email with a 1,800-word response and three corrections to my own argument. I have been on the receiving end of policy commentary for 22 years. That has not happened to me before.", "author": "Hon. James Brennan (ret.)", "role": "Subscriber · Former Commissioner · FTC", "rating": 5 } }
+      ],
+      "content": { "heading": "What subscribers say.", "subheading": "Pulled from email replies, with permission." }
+    },
+    {
+      "type": "blog", "id": "archive-01", "enabled": true, "order": 4, "variant": "list",
+      "layout": { "display": "flex", "direction": "column", "gap": "32px", "padding": "96px 28px", "maxWidth": "780px" },
+      "style": { "background": "#fbf8f1", "color": "#11151c" },
+      "components": [
+        { "id": "iss-46", "type": "blog-post", "enabled": true, "order": 0,
+          "props": {
+            "title": "Issue 46 · The EU AI Act enforcement timeline is on track. The capacity to enforce it is not.",
+            "date": "April 28, 2026",
+            "readTime": "16 min read · 32 sources",
+            "tags": "EU AI Act, enforcement, capacity",
+            "excerpt": "Article 70 of the EU AI Act came into binding force on April 2, 2026. The European AI Office has 24 staff. The AI Act assigns it 31 distinct supervisory functions. The arithmetic, against the strongest counterargument from DG CONNECT, is the subject of this issue."
+          } },
+        { "id": "iss-45", "type": "blog-post", "enabled": true, "order": 1,
+          "props": {
+            "title": "Issue 45 · The UK AI Safety Institute's 2026 evaluations report is more useful than its critics think — and less binding than its supporters claim.",
+            "date": "April 21, 2026",
+            "readTime": "14 min read · 28 sources",
+            "tags": "UK AISI, evaluations, governance",
+            "excerpt": "The 2026 evaluations report from the UK AI Safety Institute, published April 14, ran 187 pages and identified 4 model-class capabilities of regulatory concern. This issue traces every capability claim back to its underlying eval and names which 2 of the 4 the strongest critics have already rebutted in print."
+          } },
+        { "id": "iss-44", "type": "blog-post", "enabled": true, "order": 2,
+          "props": {
+            "title": "Issue 44 · California SB-1047 redux: what the Newsom signing memo actually committed the state to.",
+            "date": "April 14, 2026",
+            "readTime": "12 min read · 24 sources",
+            "tags": "California, state policy, SB-1047",
+            "excerpt": "Governor Newsom's January 2026 reversal on SB-1047-style legislation contains six commitments. Two are self-executing. Three depend on appropriations not yet introduced in the Assembly. One is, on a careful reading, contingent on a specific federal action that has not occurred. This issue separates the four categories with the underlying memo language."
+          } }
+      ],
+      "content": { "heading": "Recent issues.", "subheading": "Three of 47. The full archive — searchable by source, statute, and agency — is available to paid subscribers." }
+    },
+    {
+      "type": "contact-form", "id": "contact-01", "enabled": true, "order": 5, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "20px", "padding": "96px 28px", "maxWidth": "780px" },
+      "style": { "background": "#11151c", "color": "#fbf8f1" },
+      "components": [
+        { "id": "form-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Reply, correct, or commission.", "level": 2, "size": "40px", "weight": 700 } },
+        { "id": "form-blurb", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "Receipts publishes corrections at the top of every subsequent issue. If you can name a fact I got wrong, with the source, I will correct it within the week and credit you by name unless you ask otherwise. For commissioned policy briefs, see the methodology page first." } },
+        { "id": "form-name", "type": "input", "enabled": true, "order": 2,
+          "props": { "label": "Your name", "placeholder": "First and last", "type": "text", "required": true } },
+        { "id": "form-email", "type": "input", "enabled": true, "order": 3,
+          "props": { "label": "Email", "placeholder": "you@yourorg.org", "type": "email", "required": true } },
+        { "id": "form-affil", "type": "input", "enabled": true, "order": 4,
+          "props": { "label": "Affiliation (optional)", "placeholder": "Org or independent", "type": "text", "required": false } },
+        { "id": "form-topic", "type": "input", "enabled": true, "order": 5,
+          "props": { "label": "Topic", "placeholder": "Correction · Reader question · Commission · Other", "type": "text", "required": true } },
+        { "id": "form-msg", "type": "input", "enabled": true, "order": 6,
+          "props": { "label": "Message", "placeholder": "For corrections, please cite the issue number and paragraph.", "type": "textarea", "required": true } },
+        { "id": "form-submit", "type": "button", "enabled": true, "order": 7,
+          "props": { "text": "Send to Hadiya", "url": "#submit", "style": "filled", "size": "lg", "background": "#1f3a68", "color": "#fbf8f1" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer", "id": "footer-01", "enabled": true, "order": 6, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "48px 28px", "gap": "12px", "maxWidth": "880px" },
+      "style": { "background": "#11151c", "color": "#fbf8f1" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Receipts · Independent AI Policy Analysis" } },
+        { "id": "tagline", "type": "text", "enabled": true, "order": 1, "props": { "text": "47 issues since June 2025 · Free + paid tiers · No advertising · Corrections at the top of every issue" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 2, "props": { "text": "© 2026 Dr. Hadiya Okonkwo · receipts-ai.org · Washington, D.C." } }
+      ],
+      "content": {}
+    }
+  ]
+}

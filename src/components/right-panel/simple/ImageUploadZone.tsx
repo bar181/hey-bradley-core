@@ -84,8 +84,9 @@ export function ImageUploadZone({ onConfirm }: ImageUploadZoneProps) {
             <button
               type="button"
               onClick={handleCancel}
-              className="p-1.5 rounded-md text-hb-text-muted hover:bg-hb-surface-hover hover:text-hb-text-primary transition-colors"
+              className="p-1.5 rounded-md text-hb-text-muted hover:bg-hb-surface-hover hover:text-hb-text-primary transition-colors focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)]"
               title="Cancel"
+              aria-label="Cancel image upload"
             >
               <X size={14} />
             </button>

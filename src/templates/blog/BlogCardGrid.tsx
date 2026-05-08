@@ -11,24 +11,33 @@ interface BlogArticle {
   excerpt: string
   author: string
   date: string
+  readTime: string
+  category: string
   tags: string[]
   featuredImage: string
 }
 
+// P115 / A2 — surface readTime + category alongside legacy author/date/tags
+// (Substack/Medium SOTA: card metadata is the third pillar after image+headline)
 function parseArticles(section: Section): BlogArticle[] {
   const items = section.components
     .filter((c) => c.type === 'blog-article' && c.enabled)
     .sort((a, b) => a.order - b.order)
 
-  return items.map((item) => ({
-    id: item.id,
-    title: (item.props?.title as string) || 'Untitled',
-    excerpt: (item.props?.excerpt as string) || '',
-    author: (item.props?.author as string) || '',
-    date: (item.props?.date as string) || '',
-    tags: ((item.props?.tags as string) || '').split(',').map((t) => t.trim()).filter(Boolean),
-    featuredImage: (item.props?.featuredImage as string) || '',
-  }))
+  return items.map((item) => {
+    const tags = ((item.props?.tags as string) || '').split(',').map((t) => t.trim()).filter(Boolean)
+    return {
+      id: item.id,
+      title: (item.props?.title as string) || 'Untitled',
+      excerpt: (item.props?.excerpt as string) || '',
+      author: (item.props?.author as string) || '',
+      date: (item.props?.date as string) || '',
+      readTime: (item.props?.readTime as string) || '',
+      category: (item.props?.category as string) || tags[0] || '',
+      tags,
+      featuredImage: (item.props?.featuredImage as string) || '',
+    }
+  })
 }
 
 export function BlogCardGrid({ section }: { section: Section }) {
@@ -54,6 +63,11 @@ export function BlogCardGrid({ section }: { section: Section }) {
         </div>
       )}
 
+      {articles.length === 0 ? (
+        <div className="mx-auto max-w-3xl text-center py-12 opacity-60">
+          <p className="text-base">No posts yet — your first article will appear here.</p>
+        </div>
+      ) : (
       <div className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {articles.map((article, idx) => (
           <article
@@ -72,14 +86,24 @@ export function BlogCardGrid({ section }: { section: Section }) {
               </div>
             )}
             <div className="p-5 space-y-3">
+              {article.category && (
+                <span
+                  className="inline-block text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full"
+                  style={{ background: section.style.color ? `color-mix(in srgb, ${section.style.color} 14%, transparent)` : 'rgba(99,102,241,0.14)' }}
+                >
+                  {article.category}
+                </span>
+              )}
               <h3 className="text-lg font-bold leading-snug line-clamp-2">{article.title}</h3>
               {article.excerpt && (
-                <p className="text-sm opacity-70 line-clamp-2">{article.excerpt}</p>
+                <p className="text-[15px] leading-[1.6] opacity-70 line-clamp-2">{article.excerpt}</p>
               )}
               <div className="flex items-center gap-2 text-xs opacity-60">
                 {article.author && <span>{article.author}</span>}
                 {article.author && showDates && article.date && <span>·</span>}
                 {showDates && article.date && <span>{article.date}</span>}
+                {(article.author || (showDates && article.date)) && article.readTime && <span>·</span>}
+                {article.readTime && <span>{article.readTime}</span>}
               </div>
               {showTags && article.tags.length > 0 && (
                 <div className="flex flex-wrap gap-1.5">
@@ -98,6 +122,7 @@ export function BlogCardGrid({ section }: { section: Section }) {
           </article>
         ))}
       </div>
+      )}
     </section>
   )
 }

@@ -1,0 +1,211 @@
+{
+  "_storytellingPreset": "theron-miller-hard-twist",
+  "_note": "P115/A4 — editorial magazine longform. Dark serif aesthetic, journalist audience. Cites theron-miller-hard-twist preset (specific anecdote → unexpected pivot → earned observation).",
+  "site": {
+    "title": "The Long Cut · A Magazine of Slow Reporting",
+    "description": "An editorial magazine of long-form essays, reported pieces, and photo-essays. Edited by Hannah Reisman from a brownstone in Crown Heights. Six essays a year. No more, no less.",
+    "author": "Hannah Reisman",
+    "email": "hannah@thelongcut.press",
+    "domain": "thelongcut.press",
+    "project": "the-long-cut",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "blog",
+    "audience": "consumer",
+    "tone": "formal",
+    "brandName": "The Long Cut",
+    "tagline": "Slow reporting for readers who finish things.",
+    "voiceAttributes": ["specific", "unexpected", "earned", "literary"],
+    "storytellingPreset": "theron-miller-hard-twist"
+  },
+  "theme": {
+    "preset": "midnight-editorial",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0e0d12",
+      "bgSecondary": "#181620",
+      "textPrimary": "#f1ecdf",
+      "textSecondary": "#a59b85",
+      "accentPrimary": "#d4a259",
+      "accentSecondary": "#c2543a"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#f7f1e3",
+      "bgSecondary": "#ebe2cd",
+      "textPrimary": "#0e0d12",
+      "textSecondary": "#3d3829",
+      "accentPrimary": "#8a5a14",
+      "accentSecondary": "#a4321e"
+    },
+    "typography": {
+      "fontFamily": "Source Serif Pro",
+      "headingFamily": "Fraunces",
+      "headingWeight": 600,
+      "baseSize": "18px",
+      "lineHeight": 1.75
+    },
+    "spacing": { "sectionPadding": "112px", "containerMaxWidth": "780px", "componentGap": "32px" },
+    "borderRadius": "2px"
+  },
+  "sections": [
+    {
+      "type": "menu", "id": "navbar-01", "enabled": true, "order": -1, "variant": "simple",
+      "layout": { "display": "flex", "padding": "24px 32px", "gap": "32px", "maxWidth": "1100px" },
+      "style": { "background": "#0e0d12", "color": "#f1ecdf" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "The Long Cut" } },
+        { "id": "nav-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "Issue 12", "url": "#issue-12" } },
+        { "id": "nav-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "Archive", "url": "#archive" } },
+        { "id": "nav-3", "type": "link", "enabled": true, "order": 3, "props": { "text": "Photo essays", "url": "#photo" } },
+        { "id": "nav-4", "type": "link", "enabled": true, "order": 4, "props": { "text": "Subscribe", "url": "#subscribe" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero", "id": "hero-01", "enabled": true, "order": 0, "variant": "left-aligned",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "32px", "padding": "144px 32px 96px", "maxWidth": "880px" },
+      "style": { "background": "#0e0d12", "color": "#f1ecdf" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0,
+          "props": { "text": "Issue 12 · Spring 2026 · The lead essay · 24 minute read", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "The last fire lookout in the Cascades is a 71-year-old librarian who climbs the tower every May with a paperback of Annie Dillard.", "level": 1, "size": "64px", "weight": 500 } },
+        { "id": "byline", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "By Hannah Reisman · Photographs by Sebastián Quiroga · Reported in Pinckney Butte, Washington, July 2025 — March 2026" } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 3,
+          "props": { "text": "I drove four hours from Seattle to spend a weekend with Marjorie Strand. I expected a nostalgia piece — the last of a vanishing trade, the analog ghost in the satellite age, all the usual moves. What I got instead was an argument with my own profession. This is the long version, the one I could not file at the magazines that paid for the trip." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 4,
+          "props": { "text": "Begin reading", "url": "#essay-body", "style": "filled", "size": "lg", "background": "#d4a259", "color": "#0e0d12" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 5,
+          "props": { "text": "Subscribe — $48 a year, six issues", "url": "#subscribe", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text", "id": "essay-body", "enabled": true, "order": 1, "variant": "long-form",
+      "layout": { "display": "flex", "direction": "column", "gap": "32px", "padding": "96px 32px", "maxWidth": "720px" },
+      "style": { "background": "#0e0d12", "color": "#f1ecdf" },
+      "components": [
+        { "id": "subhead-1", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "I.  The drive in", "level": 2, "size": "36px", "weight": 600 } },
+        { "id": "para-1", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "The Forest Service road to Pinckney Butte is graded gravel for the first eleven miles and then it isn't. After mile twelve the road narrows to a single switchback cut into the south face of the ridge, and the Subaru I had rented in Seattle began to make the small grinding noise that a car makes when it has begun to dislike its driver. Marjorie Strand had warned me, by letter — she does not own a phone, which is a sentence I have written four times now and which never stops sounding like an affectation but isn't — that the last two miles are 'a bit much for a sedan.' She was being polite. The road is a bit much for the Subaru's warranty. I parked at a turnout the locals call the Last Pull and walked the final mile uphill, past the burn scar of the 2017 Norse Peak fire, past two fence-posts of pre-Forest-Service vintage, past a hawk on a stump that did not move when I passed. The lookout tower came into view at twenty-three minutes past noon. Marjorie was already on the catwalk, holding binoculars in her left hand and a copy of Pilgrim at Tinker Creek in her right. The first thing she said to me, in lieu of a hello, was: 'You're early. The wind is wrong. Come up.'" } },
+        { "id": "subhead-2", "type": "heading", "enabled": true, "order": 2,
+          "props": { "text": "II.  What the tower is for", "level": 2, "size": "36px", "weight": 600 } },
+        { "id": "para-2", "type": "text", "enabled": true, "order": 3,
+          "props": { "text": "Pinckney Butte Lookout is one of fourteen staffed fire towers remaining in the Pacific Northwest. In 1953 there were 859. The tower is a fourteen-by-fourteen plank cabin balanced on a thirty-six-foot wooden frame, with windows on all four sides and a single Osborne Fire Finder bolted to a circular wooden table at the dead center of the room. The Osborne is a 1934 device, a brass alidade riding on an azimuth ring, and it is still — eighty-eight years after it left the Wm. F. Meyer & Sons shop in St. Paul — the most accurate way to triangulate a column of smoke from a fixed point. Marjorie can put a smoke within three hundred meters of its true location in under four minutes. The state-contracted satellite system the Forest Service trialed in 2022 took, on average, eleven minutes and forty-one seconds to do the same thing, and it missed the small ground fires entirely until they had been burning for ninety minutes or more. This is, depending on whom you ask, either a charming piece of trivia or the entire reason the program still exists." } },
+        { "id": "subhead-3", "type": "heading", "enabled": true, "order": 4,
+          "props": { "text": "III.  The pivot I did not see coming", "level": 2, "size": "36px", "weight": 600 } },
+        { "id": "para-3", "type": "text", "enabled": true, "order": 5,
+          "props": { "text": "I had come to write about the lookout as a thing being lost. That was the assignment, and the assignment is what I tell my agent and what my agent tells the editors who pay the kill fees. Three days into the visit I realized I had it backwards. Marjorie is not the vanishing thing. The thing she does is vanishing because the thing she does is incompatible with how the rest of us have decided to look at the world. She watches a single ridge for ninety-three days a year. Most of those days nothing happens. She reads. She writes letters in pencil on Forest Service letterhead. She knows which two thunderheads, of the dozen that pass over the Glacier Peak Wilderness in any given afternoon, will drop a strike worth reporting. She knows it because she has watched the same valley for thirty-one summers, the way her mother watched the same valley for nineteen, the way my own profession used to watch a single beat for a decade before deciding the beat had run dry. She is not vanishing. We are. The lookout is a small functioning artifact of a kind of attention we have collectively elected to abandon, and the surprise of the trip — the thing I was unprepared for, journalistically and personally — was how completely she did not need my pity for it." } },
+        { "id": "subhead-4", "type": "heading", "enabled": true, "order": 6,
+          "props": { "text": "IV.  What she said about the satellites", "level": 2, "size": "36px", "weight": 600 } },
+        { "id": "para-4", "type": "text", "enabled": true, "order": 7,
+          "props": { "text": "I asked her, on the second night, what she thought about the trial program. She poured a small bourbon into a metal cup, looked out the southwest window, and said: 'They're fine for what they're fine for.' The pause was deliberate. Then: 'They miss the slow ones. The ones that come up in the duff and creep for a week before they take a tree. By the time the satellite calls them in, they're already running. A person sees the slow ones because a person watches the same place for long enough to notice it has changed.' She said this without inflection, which is a thing I am still trying to render on the page. It was not a complaint. It was not a defense of her job. It was a sentence about what kind of attention can see what kind of fact, and the sentence carried no warmth toward the satellite or toward herself. It was the most professional thing anyone has said to me about journalism in fifteen years, and she was talking about smoke." } },
+        { "id": "subhead-5", "type": "heading", "enabled": true, "order": 8,
+          "props": { "text": "V.  Walking out", "level": 2, "size": "36px", "weight": 600 } },
+        { "id": "para-5", "type": "text", "enabled": true, "order": 9,
+          "props": { "text": "I left on Sunday afternoon. The walk back to the car was forty minutes, downhill, in the kind of mid-July light the Cascades will sometimes give you for free if you have made the trip on the right week. Marjorie waved once from the catwalk and then turned back to her ridge. I drove home the long way, through Stevens Pass, and got back to Brooklyn three days later. The piece I had been hired to write — the elegy, the vanishing-trade thing, the Marjorie-as-relic angle — I never filed. I sent the editor a polite note and a kill-fee invoice. This essay is what I wrote instead, six months later, after I had stopped feeling embarrassed about the original assignment. Marjorie does not know it exists. The next time I see her, in May, I will hand her a copy in person, on the catwalk, and she will read it that night with the bourbon and tell me, gently, where I got it wrong. I am looking forward to that." } }
+      ],
+      "content": {
+        "heading": "The lead essay",
+        "subheading": "Issue 12 · The Long Cut"
+      }
+    },
+    {
+      "type": "quotes", "id": "pull-quote-01", "enabled": true, "order": 2, "variant": "single",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "96px 32px", "maxWidth": "780px", "gap": "20px" },
+      "style": { "background": "#181620", "color": "#d4a259" },
+      "components": [
+        { "id": "pq-1", "type": "pull-quote", "enabled": true, "order": 0,
+          "props": { "quote": "She is not vanishing. We are. The lookout is a small functioning artifact of a kind of attention we have collectively elected to abandon.", "attribution": "From Section III · the pivot I did not see coming", "size": "lg" } }
+      ],
+      "content": { "heading": "Pulled from the essay", "subheading": "" }
+    },
+    {
+      "type": "quotes", "id": "pull-quote-02", "enabled": true, "order": 3, "variant": "single",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "96px 32px", "maxWidth": "780px", "gap": "20px" },
+      "style": { "background": "#0e0d12", "color": "#c2543a" },
+      "components": [
+        { "id": "pq-2", "type": "pull-quote", "enabled": true, "order": 0,
+          "props": { "quote": "A person sees the slow ones because a person watches the same place for long enough to notice it has changed.", "attribution": "Marjorie Strand · Pinckney Butte Lookout · second evening", "size": "lg" } }
+      ],
+      "content": { "heading": "From the second night", "subheading": "" }
+    },
+    {
+      "type": "gallery", "id": "photo-essay-01", "enabled": true, "order": 4, "variant": "grid",
+      "layout": { "display": "grid", "columns": 2, "gap": "24px", "padding": "112px 32px", "maxWidth": "1100px" },
+      "style": { "background": "#0e0d12", "color": "#f1ecdf" },
+      "components": [
+        { "id": "img-1", "type": "image", "enabled": true, "order": 0,
+          "props": { "url": "https://images.unsplash.com/photo-1499591934245-40b55745b905?w=900", "alt": "The lookout tower at dawn, southwest face, with the Glacier Peak ridge in the middle distance.", "caption": "Pinckney Butte Lookout · 5:47 a.m. · July 18, 2025." } },
+        { "id": "img-2", "type": "image", "enabled": true, "order": 1,
+          "props": { "url": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=900", "alt": "The Osborne Fire Finder on its circular wooden table, the brass alidade catching the late afternoon light.", "caption": "The Osborne, 1934 · last calibrated April 2024." } },
+        { "id": "img-3", "type": "image", "enabled": true, "order": 2,
+          "props": { "url": "https://images.unsplash.com/photo-1444723121867-7a241cacace9?w=900", "alt": "Marjorie's hand on the alidade, taking a bearing on a column of smoke five ridges out.", "caption": "A controlled burn at the Suiattle Wilderness boundary, observed at 14:22." } },
+        { "id": "img-4", "type": "image", "enabled": true, "order": 3,
+          "props": { "url": "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=900", "alt": "Storm front passing over the south ridge, the kind of two-hour weather Marjorie watches for strikes.", "caption": "Late July thunderhead · the slow kind, she said." } }
+      ],
+      "content": { "heading": "Photographs by Sebastián Quiroga", "subheading": "Four frames from the seventy-eight he sent me. The full set, in print, ships with the issue." }
+    },
+    {
+      "type": "blog", "id": "archive-01", "enabled": true, "order": 5, "variant": "list",
+      "layout": { "display": "flex", "direction": "column", "gap": "40px", "padding": "112px 32px", "maxWidth": "780px" },
+      "style": { "background": "#181620", "color": "#f1ecdf" },
+      "components": [
+        { "id": "iss-11", "type": "blog-post", "enabled": true, "order": 0,
+          "props": {
+            "title": "Issue 11 · A small museum of weather, kept by a man in Hokkaido who has not missed a daily reading since 1971.",
+            "date": "Winter 2025 · December 14",
+            "readTime": "19 minute read · 4 photographs",
+            "tags": "Reported · Japan · Long-form",
+            "excerpt": "Tatsuo Yamazaki has logged the temperature, barometric pressure, and cloud cover at 6:00 a.m. and 6:00 p.m. every day for fifty-three years. The university that owns the data does not know what to do with it. He says that's fine."
+          } },
+        { "id": "iss-10", "type": "blog-post", "enabled": true, "order": 1,
+          "props": {
+            "title": "Issue 10 · The Brooklyn ferry captain who stopped reading the news on his bridge after thirty-one years and what came back instead.",
+            "date": "Autumn 2025 · September 29",
+            "readTime": "16 minute read · 3 photographs",
+            "tags": "Essay · New York · Memoir",
+            "excerpt": "He calls it a small private experiment. The bridge of the Andrew J. Barberi is, on a foggy Tuesday in October, an excellent place from which to be wrong about the world."
+          } },
+        { "id": "iss-09", "type": "blog-post", "enabled": true, "order": 2,
+          "props": {
+            "title": "Issue 9 · An oral history of the last hot-metal Linotype shop in the upper Midwest.",
+            "date": "Summer 2025 · July 8",
+            "readTime": "27 minute read · 6 photographs · 4 transcripts",
+            "tags": "Oral history · Print · Wisconsin",
+            "excerpt": "Three operators, one casting machine, and a 1948 lead-pot they keep at 535 degrees Fahrenheit. The orders still come in, mostly from poets."
+          } }
+      ],
+      "content": { "heading": "Recent issues", "subheading": "Three of twelve. The full archive is included with a paid subscription, plus the print edition, mailed in June and December." }
+    },
+    {
+      "type": "action", "id": "subscribe-01", "enabled": true, "order": 6, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "112px 32px", "gap": "24px", "maxWidth": "780px" },
+      "style": { "background": "linear-gradient(180deg, #0e0d12 0%, #181620 100%)", "color": "#f1ecdf" },
+      "components": [
+        { "id": "heading", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Six essays a year. Mailed in print. Forty-eight dollars.", "level": 2, "size": "44px", "weight": 600 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "The Long Cut publishes one issue every two months — three to five reported pieces, one photo essay, and a single 8,000-to-15,000-word lead. The print edition is letterpress-cover, perfect-bound, and arrives in your mailbox the week of publication. The digital archive is included with the subscription. There are no advertising, no sponsored placements, and no email tracking pixels of any kind. There is, however, a small handwritten note in every first-issue mailing." } },
+        { "id": "email-input", "type": "input", "enabled": true, "order": 2,
+          "props": { "placeholder": "your@email.com", "type": "email", "name": "subscribe" } },
+        { "id": "button", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "Subscribe — $48 / year", "url": "#subscribe", "style": "filled", "size": "lg", "background": "#d4a259", "color": "#0e0d12" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer", "id": "footer-01", "enabled": true, "order": 7, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "56px 32px", "gap": "16px", "maxWidth": "880px" },
+      "style": { "background": "#0e0d12", "color": "#a59b85" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "The Long Cut · A Magazine of Slow Reporting" } },
+        { "id": "tagline", "type": "text", "enabled": true, "order": 1, "props": { "text": "Twelve issues since June 2022 · Edited from a brownstone in Crown Heights · Printed in Verona · Mailed worldwide" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 2, "props": { "text": "© 2026 Hannah Reisman · thelongcut.press · ISSN 2769-4127" } }
+      ],
+      "content": {}
+    }
+  ]
+}

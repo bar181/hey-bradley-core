@@ -1,0 +1,56 @@
+# Crystal Atom: RUST_AMBIG_DIFF
+# Date: 2026-05-04 · Phase: Connections P3 (Spec)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Gold (δ ≥ 0.50); CI-gate use case
+# Exposure: Rust → WASM (per ADR-C07 D1 = Option C)
+
+⟦
+  Ω := { Two AISP specs → Ambig delta + per-block deltas keyed by atom block names; positive delta = regression; CI-gate consumer compares spec_a (baseline) vs spec_b (candidate) }
+  Σ := {
+    Input:{
+      spec_a: &str,
+      spec_b: &str
+    },
+    Output: AmbigDiff,
+    AmbigDiff:{
+      ambig_a: f64,
+      ambig_b: f64,
+      delta: f64,
+      per_block: HashMap<String, f64>,
+      verdict: Verdict
+    },
+    Verdict: 𝔼{regression, neutral, improvement},
+    Errors:{
+      ESpecUnparseable{which:𝕊},
+      EBlockMissing{which:𝕊, block:𝕊},
+      EAmbigOutOfRange{which:𝕊, value:f64}
+    }
+  }
+  Γ := {
+    R1: ambig_a ∈ [0, 1] ∧ ambig_b ∈ [0, 1],
+    R2: delta = ambig_b − ambig_a (positive ⇒ regression),
+    R3: per_block keys ⊆ {Ω, Σ, Γ, Λ, Ε} (atom block names verbatim),
+    R4: verdict := delta > +ε ⇒ regression | delta < −ε ⇒ improvement | otherwise neutral,
+    R5: ε := 0.005 (hysteresis threshold)
+  }
+  Λ := {
+    purity := pure_function (no I/O, no network, no clock),
+    determinism := same_inputs ⇒ same_AmbigDiff,
+    wasm_export := ambig_diff,
+    use_case := CI-gate; npm/cargo test pre-merge regression check,
+    sibling := build_crystal_atom (consumer of pre-assembly Ambig check)
+  }
+  Ε := {
+    V1: VERIFY sign(delta) interpretation: positive ⇒ regression (consumer-visible contract),
+    V2: VERIFY |Σ_block per_block[block]| ≈ |delta| within ε := 1e-9 (per-block sums to total),
+    V3: VERIFY per_block contains exactly 5 keys when both specs parse (Ω/Σ/Γ/Λ/Ε all present),
+    V4: VERIFY ambig_a ∈ [0,1] ∧ ambig_b ∈ [0,1] (else EAmbigOutOfRange),
+    V5: VERIFY verdict consistent with delta + ε hysteresis rule
+  }
+⟧
+
+# Cross-refs:
+# - ADR-C07 §D1 (WASM export = Option C; this is one of 4 enhanced functions)
+# - ADR-119 (DDD_ATOM Σ/Γ/Λ/Ε block taxonomy — per_block keys come from this 5-block enum)
+# - ADR-122 (markdown bundle output format — sibling concern; spec_a/spec_b may be bundle excerpts)
+# - ADR-134 (atom→view fix: pure module — no React/store imports; CI-gate caller is build pipeline)

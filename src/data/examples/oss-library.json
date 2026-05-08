@@ -1,0 +1,510 @@
+{
+  "site": {
+    "title": "ConfigMesh · typed config for distributed services",
+    "description": "End config drift and env-var hell. ConfigMesh is a typed configuration runtime with schema validation, hot-reload across services, and AISP-compatible spec output that round-trips from human prose to runtime config with under 2% ambiguity.",
+    "author": "ConfigMesh maintainers",
+    "email": "hello@configmesh.dev",
+    "domain": "configmesh.dev",
+    "project": "configmesh",
+    "version": "2.4.0",
+    "spec": "aisp-1.2",
+    "purpose": "saas",
+    "audience": "developer",
+    "tone": "technical",
+    "brandName": "ConfigMesh",
+    "tagline": "typed config for distributed services",
+    "voiceAttributes": ["technical", "dense", "problem-first", "no-fluff"]
+  },
+  "theme": {
+    "preset": "saas",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0e1726",
+      "bgSecondary": "#172033",
+      "textPrimary": "#f4f1ea",
+      "textSecondary": "#a8b1c4",
+      "accentPrimary": "#fbbf24",
+      "accentSecondary": "#f59e0b"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#f4f1ea",
+      "bgSecondary": "#e6e2d8",
+      "textPrimary": "#0e1726",
+      "textSecondary": "#3d4a63",
+      "accentPrimary": "#d97706",
+      "accentSecondary": "#f59e0b"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "JetBrains Mono",
+      "headingWeight": 600,
+      "baseSize": "16px",
+      "lineHeight": 1.65
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "6px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#0e1726",
+        "color": "#f4f1ea"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "ConfigMesh"
+          }
+        },
+        {
+          "id": "docs",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Docs",
+            "url": "#docs"
+          }
+        },
+        {
+          "id": "github",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Star on GitHub",
+            "url": "https://github.com/configmesh/configmesh"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "#0e1726",
+        "color": "#f4f1ea"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "v2.4.0 · 18k stars · Apache 2.0",
+            "icon": "package",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Config drift is a runtime bug. Stop shipping it.",
+            "level": 1,
+            "size": "52px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Your staging YAML diverged from prod three sprints ago. Service A reads SECRET_KEY, Service B reads SECRET, and the new hire just deployed with an empty string. ConfigMesh replaces this mess with typed schemas, runtime validation, and hot-reload across every service in your fleet — from a single source of truth that fails fast at boot, not at 3 AM."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Read the Docs",
+            "url": "#docs",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Star on GitHub",
+            "url": "#github",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "text": "Adopted at Stripe, Notion, Datadog · TC39 stage-3 schema spec · 47 production deployments at scale",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text",
+      "id": "why-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "single",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "padding": "64px 24px",
+        "maxWidth": "800px"
+      },
+      "style": {
+        "background": "#172033",
+        "color": "#f4f1ea"
+      },
+      "components": [
+        {
+          "id": "body",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "body": "ConfigMesh treats configuration the way every other engineering discipline treats its inputs: as typed, validated, version-controlled artifacts that fail at the boundary, not in production. You declare a schema once. Every service in your mesh reads that schema. Mismatches surface at boot — not in a Sentry alert at 3 AM after a customer churned. The runtime emits an AISP-compatible spec on every reload, so your config layer is round-trippable from human prose to deployed state with under 2% ambiguity. That's the same spec discipline Hey Bradley applies to its build pipelines, and it's why our users stop having config-drift incidents within two weeks of adoption. The migration from process.env to ConfigMesh in a 30-service monorepo takes a senior engineer about four hours. We've watched it happen at three Fortune-500 companies. The thing they all say afterward: 'I can't believe we lived without this.'"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Why ConfigMesh",
+        "subheading": "A typed contract for the most ignored layer of your stack"
+      }
+    },
+    {
+      "type": "columns",
+      "id": "features-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "glass",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#0e1726",
+        "color": "#f4f1ea"
+      },
+      "components": [
+        {
+          "id": "f-1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "shield",
+            "title": "Typed schemas",
+            "description": "Declare your config in TypeScript, JSON Schema, or Zod. The runtime enforces types at process boot and refuses to start if a required key is missing or malformed. No more 'undefined is not a function' from a missing env var."
+          }
+        },
+        {
+          "id": "f-2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "refresh",
+            "title": "Hot-reload across services",
+            "description": "Change a feature flag in the control plane; every connected service receives the typed update within 200ms. No restart. No connection churn. Atomic per-service via copy-on-write snapshots."
+          }
+        },
+        {
+          "id": "f-3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "git-branch",
+            "title": "Audit-grade history",
+            "description": "Every config change is a content-addressed commit. Diff against any prior state, attribute to an actor, replay in staging. SOC 2 evidence trail without a separate tool."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Three primitives, zero surprises",
+        "subheading": "Typed at the boundary, enforced at runtime, audited end-to-end"
+      }
+    },
+    {
+      "type": "numbers",
+      "id": "stats-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "counters",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#172033",
+        "color": "#f4f1ea"
+      },
+      "components": [
+        {
+          "id": "n-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "8.2M",
+            "label": "Weekly downloads",
+            "description": "npm + crates.io combined"
+          }
+        },
+        {
+          "id": "n-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "342",
+            "label": "Contributors",
+            "description": "Across 19 countries; 14 maintainers"
+          }
+        },
+        {
+          "id": "n-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "v2.4.0",
+            "label": "Stable since 2025",
+            "description": "Semver-strict; 22 minor releases in 2026"
+          }
+        }
+      ],
+      "content": {
+        "heading": "By the numbers",
+        "subheading": "An OSS project people actually depend on"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "card-grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#0e1726",
+        "color": "#f4f1ea"
+      },
+      "components": [
+        {
+          "id": "q-1",
+          "type": "quote-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "We migrated a 47-service mesh in one afternoon. Config-drift incidents went from 8 per quarter to zero in two months. That metric alone justified the rewrite.",
+            "author": "Devon Park",
+            "role": "Staff Engineer, Subline"
+          }
+        },
+        {
+          "id": "q-2",
+          "type": "quote-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "ConfigMesh is the first config tool that didn't make me write a wrapper around it. The TypeScript types are correct on the first try. I trust the schema more than my own code.",
+            "author": "Mira Solberg",
+            "role": "Principal Engineer, Hyperion AI"
+          }
+        },
+        {
+          "id": "q-3",
+          "type": "quote-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "The audit log alone is worth the install. We replaced a $40k/yr secrets-management vendor with ConfigMesh + a vault primitive. Same SOC 2 evidence, ten times the dev velocity.",
+            "author": "Aisha Bello",
+            "role": "Tech Lead, Northwind"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Real teams, real receipts",
+        "subheading": "Three of the 47 production deployments we know about"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "gradient",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)",
+        "color": "#0e1726"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Read the docs · Star on GitHub",
+            "level": 2,
+            "size": "36px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Quickstart in five minutes. Migration guide for env-var, dotenv, and consul users. Apache 2.0 license. No paid tier — the maintainers are sponsored by GitHub, Vercel, and three of the companies above."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Read the Docs",
+            "url": "#docs",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 6,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#0e1726",
+        "color": "#f4f1ea"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "ConfigMesh"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Project",
+            "links": "Docs,Quickstart,Migration,Changelog"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Community",
+            "links": "GitHub,Discord,RFCs,Sponsors"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Resources",
+            "links": "Schema Spec,Adopters,Security,License"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "© 2026 ConfigMesh contributors. Apache 2.0 license."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

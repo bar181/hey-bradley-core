@@ -1,13 +1,14 @@
-import { useCallback } from 'react'
+import { useCallback, useId, useState } from 'react'
 import { cn } from '@/lib/cn'
 import { Tooltip } from '@/components/ui/Tooltip'
 import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
+import { useUIStore } from '@/store/uiStore'
 import { resolveHeroContent } from '@/lib/schemas'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
 import {
-  Sun, Moon,
+  Sun, Moon, ChevronRight,
   Image as ImageIcon, PlayCircle, Monitor, LayoutDashboard,
   PanelRight, PanelLeft, MonitorPlay, ImageDown,
 } from 'lucide-react'
@@ -37,7 +38,29 @@ const DEFAULT_VIDEO = 'https://videos.pexels.com/video-files/3129671/3129671-uhd
 export function SectionSimple({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
   const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
+  const selectedContext = useUIStore((s) => s.selectedContext)
   const section = config.sections.find((s) => s.id === sectionId)
+  const titleId = useId()
+  const descId = useId()
+  const eyebrowId = useId()
+  const ctaId = useId()
+  const ctaSecId = useId()
+  const trustId = useId()
+
+  // P66 / Polish Sprint / A5 — collapse-by-default pattern.
+  //
+  // Editor body collapses by default; the section that is the currently
+  // selected one (selectedContext.sectionId === sectionId) auto-expands
+  // on mount. Pattern reference for the rest of the section editors —
+  // applying the same wrapper across {Features,CTA,Pricing,...}SectionSimple
+  // is a follow-up sprint task (out of A5 scope per the brief; see P66
+  // session log for the carry-forward list).
+  //
+  // State is local-only (no kv) per the brief; reset on remount when the
+  // user navigates between sections.
+  const isActive =
+    selectedContext?.type === 'section' && selectedContext.sectionId === sectionId
+  const [expanded, setExpanded] = useState<boolean>(isActive)
 
   if (!section) return null
 
@@ -127,7 +150,54 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
     : ''
 
   return (
-    <div className="divide-y divide-hb-border/30">
+    <div data-section-id={sectionId} className="transition-all duration-200 ease-out">
+      {/* P66 / A5 — Collapse-by-default outer header. Tap to toggle.
+          Active section auto-expands via initial state.
+          P67 / Wave 2 / A2 — collapse-animation `transition-all duration-200`
+          on the outer wrapper for smooth height transition (was A4 scope;
+          consolidated into A2 sweep per preflight). */}
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        aria-expanded={expanded}
+        aria-controls={`section-body-${sectionId}`}
+        data-testid="section-editor-collapse-toggle"
+        className={cn(
+          'flex items-center justify-between w-full px-2 py-2 mb-1 rounded-md',
+          'border border-hb-border/40 bg-hb-surface/40',
+          'hover:bg-hb-surface-hover transition-colors duration-200',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hb-accent'
+        )}
+      >
+        <span className="flex items-center gap-1.5">
+          <span className="text-[10px] uppercase tracking-wider text-hb-text-muted font-medium">
+            Section
+          </span>
+          <span className="text-xs font-semibold text-hb-text-primary capitalize">
+            {section.type}
+          </span>
+          {isActive && (
+            <span className="text-[9px] uppercase tracking-wider text-hb-accent font-medium">
+              · active
+            </span>
+          )}
+        </span>
+        {/* P115 / A1 — single chevron with rotate transition (was conditional
+            ChevronDown/ChevronRight pair). 200ms ease-out for fluid feel,
+            consistent with section-row chevron pattern in SectionsSection. */}
+        <ChevronRight
+          size={14}
+          className={cn(
+            'text-hb-text-muted transition-transform duration-200 ease-out',
+            expanded && 'rotate-90'
+          )}
+        />
+      </button>
+      {expanded && (
+      <div
+        id={`section-body-${sectionId}`}
+        className="divide-y divide-hb-border/30 animate-in fade-in duration-200"
+      >
       {/* ─── 1. DESIGN ─── */}
       <RightAccordion id="layout" label="Design">
         <div className="grid grid-cols-2 gap-2">
@@ -138,6 +208,8 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
                 <button
                   type="button"
                   onClick={() => applyHeroLayout(layout)}
+                  aria-pressed={currentLayoutId === layout.id}
+                  aria-label={`Layout: ${layout.label}`}
                   className={cn(
                     'flex flex-col items-center justify-center gap-1.5 h-16 rounded-lg transition-all w-full',
                     currentLayoutId === layout.id
@@ -161,50 +233,47 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
         <div className="space-y-2.5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-hb-text-primary">Tag Line</span>
-            <Switch checked={getEnabled('eyebrow')} onCheckedChange={(v) => handleToggle('eyebrow', v)} className="scale-[0.7]" />
+            <Switch aria-label="Toggle Tag Line" checked={getEnabled('eyebrow')} onCheckedChange={(v) => handleToggle('eyebrow', v)} className="scale-[0.7]" />
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-hb-text-primary">Main Button</span>
-            <Switch checked={getEnabled('primaryCta')} onCheckedChange={(v) => handleToggle('primaryCta', v)} className="scale-[0.7]" />
+            <Switch aria-label="Toggle Main Button" checked={getEnabled('primaryCta')} onCheckedChange={(v) => handleToggle('primaryCta', v)} className="scale-[0.7]" />
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-hb-text-primary">Extra Button</span>
-            <Switch checked={getEnabled('secondaryCta')} onCheckedChange={(v) => handleToggle('secondaryCta', v)} className="scale-[0.7]" />
+            <Switch aria-label="Toggle Extra Button" checked={getEnabled('secondaryCta')} onCheckedChange={(v) => handleToggle('secondaryCta', v)} className="scale-[0.7]" />
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-hb-text-primary">Social Proof</span>
-            <Switch checked={getEnabled('trustBadges')} onCheckedChange={(v) => handleToggle('trustBadges', v)} className="scale-[0.7]" />
+            <Switch aria-label="Toggle Social Proof" checked={getEnabled('trustBadges')} onCheckedChange={(v) => handleToggle('trustBadges', v)} className="scale-[0.7]" />
           </div>
         </div>
       </RightAccordion>
 
       {/* ─── 3. MEDIA ─── */}
+      {/*
+        DRAFT scope (narrowed MVP): the ImagePicker is exposed ONLY for the
+        hero `backgroundImage` slot. Other media states (heroImage / heroVideo)
+        still render their preview but no picker control. EXPERT mode is
+        unaffected — it uses its own editors elsewhere.
+      */}
       <RightAccordion id="media" label="Media">
         <div className="space-y-3">
-          {activeMediaId && activeMediaId !== 'heroVideo' && (
-            <>
-              {activeMediaUrl && (
-                <div className="w-full h-20 rounded-md overflow-hidden border border-hb-border/30">
-                  <img src={activeMediaUrl} alt="Current media" className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
-                </div>
+          {activeMediaId && activeMediaUrl && (
+            <div className="w-full h-20 rounded-md overflow-hidden border border-hb-border/30">
+              {activeMediaId === 'heroVideo' ? (
+                <video src={activeMediaUrl} className="w-full h-full object-cover" muted />
+              ) : (
+                <img src={activeMediaUrl} alt="Current media" loading="lazy" width={320} height={80} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
               )}
-              <ImagePicker
-                value={activeMediaUrl}
-                onChange={(url) => updateUrl(activeMediaId, url)}
-                onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
-                currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
-                label="Choose a Photo"
-              />
-            </>
+            </div>
           )}
-          {activeMediaId === 'heroVideo' && (
+          {activeMediaId === 'backgroundImage' && (
             <ImagePicker
               value={activeMediaUrl}
               onChange={(url) => updateUrl(activeMediaId, url)}
-              onEffectChange={(effect) => setSectionConfig(sectionId, { style: { imageEffect: effect } })}
-              currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
-              label="Choose a Video"
-              mode="video"
+              label="Choose a Photo"
+              pickerMode="library-only"
             />
           )}
           {!activeMediaId && (
@@ -217,33 +286,33 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
       <RightAccordion id="content" label="Content" defaultOpen>
         <div className="space-y-2.5">
           <div className="space-y-1">
-            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Title</span>
-            <textarea data-testid="hero-headline-input" value={hero.heading?.text ?? ''} onChange={(e) => updateCopy('headline', e.target.value)} rows={2} className={cn(INPUT, 'resize-none leading-snug')} />
+            <label htmlFor={titleId} className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Title</label>
+            <textarea id={titleId} data-testid="hero-headline-input" value={hero.heading?.text ?? ''} onChange={(e) => updateCopy('headline', e.target.value)} rows={2} className={cn(INPUT, 'resize-none leading-snug')} />
           </div>
 
           <div className="space-y-1">
-            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Description</span>
-            <textarea data-testid="hero-subtitle-input" value={hero.subheading ?? ''} onChange={(e) => updateCopy('subtitle', e.target.value)} rows={3} className={cn(INPUT, 'resize-none leading-snug')} />
+            <label htmlFor={descId} className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Description</label>
+            <textarea id={descId} data-testid="hero-subtitle-input" value={hero.subheading ?? ''} onChange={(e) => updateCopy('subtitle', e.target.value)} rows={3} className={cn(INPUT, 'resize-none leading-snug')} />
           </div>
 
           <div className="space-y-1">
-            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Tag Line</span>
-            <input data-testid="hero-badge-input" type="text" value={hero.badge?.text ?? ''} onChange={(e) => updateCopy('eyebrow', e.target.value)} placeholder="e.g. New Release" className={INPUT} />
+            <label htmlFor={eyebrowId} className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Tag Line</label>
+            <input id={eyebrowId} data-testid="hero-badge-input" type="text" value={hero.badge?.text ?? ''} onChange={(e) => updateCopy('eyebrow', e.target.value)} placeholder="e.g. New Release" className={INPUT} />
           </div>
 
           <div className="space-y-1">
-            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Main Button</span>
-            <input data-testid="hero-primary-cta-input" type="text" value={hero.cta?.text ?? ''} onChange={(e) => updateCopy('primaryCta', e.target.value)} placeholder="e.g. Get Started" className={INPUT} />
+            <label htmlFor={ctaId} className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Main Button</label>
+            <input id={ctaId} data-testid="hero-primary-cta-input" type="text" value={hero.cta?.text ?? ''} onChange={(e) => updateCopy('primaryCta', e.target.value)} placeholder="e.g. Get Started" className={INPUT} />
           </div>
 
           <div className="space-y-1">
-            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Extra Button</span>
-            <input data-testid="hero-secondary-cta-input" type="text" value={hero.secondaryCta?.text ?? ''} onChange={(e) => updateCopy('secondaryCta', e.target.value)} placeholder="e.g. Learn More" className={INPUT} />
+            <label htmlFor={ctaSecId} className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Extra Button</label>
+            <input id={ctaSecId} data-testid="hero-secondary-cta-input" type="text" value={hero.secondaryCta?.text ?? ''} onChange={(e) => updateCopy('secondaryCta', e.target.value)} placeholder="e.g. Learn More" className={INPUT} />
           </div>
 
           <div className="space-y-1">
-            <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Social Proof</span>
-            <input data-testid="hero-trust-input" type="text" value={hero.trustBadges?.text ?? ''} onChange={(e) => updateCopy('trustBadges', e.target.value)} placeholder="e.g. Trusted by 500+ teams" className={INPUT} />
+            <label htmlFor={trustId} className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Social Proof</label>
+            <input id={trustId} data-testid="hero-trust-input" type="text" value={hero.trustBadges?.text ?? ''} onChange={(e) => updateCopy('trustBadges', e.target.value)} placeholder="e.g. Trusted by 500+ teams" className={INPUT} />
           </div>
         </div>
       </RightAccordion>
@@ -252,10 +321,12 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
       <RightAccordion id="visuals" label="Visuals">
         <div>
           <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Mode</span>
-          <div className="flex gap-1.5 mt-1">
+          <div className="flex gap-1.5 mt-1" role="group" aria-label="Color mode">
             <button
               type="button"
               onClick={() => { if (config.theme.mode !== 'light') useConfigStore.getState().toggleMode() }}
+              aria-pressed={config.theme.mode === 'light'}
+              aria-label="Light mode"
               className={cn(
                 'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-medium border transition-all',
                 config.theme.mode === 'light'
@@ -268,6 +339,8 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
             <button
               type="button"
               onClick={() => { if (config.theme.mode !== 'dark') useConfigStore.getState().toggleMode() }}
+              aria-pressed={config.theme.mode === 'dark'}
+              aria-label="Dark mode"
               className={cn(
                 'flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs font-medium border transition-all',
                 config.theme.mode === 'dark'
@@ -280,6 +353,8 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
           </div>
         </div>
       </RightAccordion>
+      </div>
+      )}
     </div>
   )
 }

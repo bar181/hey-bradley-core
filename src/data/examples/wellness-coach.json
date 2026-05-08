@@ -1,0 +1,479 @@
+{
+  "site": {
+    "title": "Aria Mendez · Wellness Coach",
+    "description": "Holistic wellness coaching for ambitious women navigating burnout, hormones, and high-output careers. Whole-person care — not another diet plan.",
+    "author": "Aria Mendez",
+    "email": "hello@ariamendez.co",
+    "domain": "ariamendez.co",
+    "project": "aria-mendez-wellness",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "consumer",
+    "tone": "warm",
+    "brandName": "Aria Mendez",
+    "tagline": "Whole-person wellness for ambitious women",
+    "voiceAttributes": ["aspirational", "personal", "calming"]
+  },
+  "theme": {
+    "preset": "wellness",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#e8efe5",
+      "bgSecondary": "#f4eee0",
+      "textPrimary": "#2d3a2a",
+      "textSecondary": "#5a6a55",
+      "accentPrimary": "#6b8e6b",
+      "accentSecondary": "#c4a47c"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#2d3a2a",
+      "bgSecondary": "#3a4837",
+      "textPrimary": "#f4eee0",
+      "textSecondary": "#c8d2c2",
+      "accentPrimary": "#9bb89b",
+      "accentSecondary": "#d4ba93"
+    },
+    "typography": {
+      "fontFamily": "Fraunces",
+      "headingFamily": "Fraunces",
+      "headingWeight": 400,
+      "baseSize": "16px",
+      "lineHeight": 1.8
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1100px",
+      "componentGap": "28px"
+    },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#e8efe5",
+        "color": "#2d3a2a"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Aria Mendez"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Book Discovery Call",
+            "url": "#discovery"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "overlay",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1100px"
+      },
+      "style": {
+        "background": "linear-gradient(160deg, #e8efe5 0%, #f4eee0 100%)",
+        "color": "#2d3a2a"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Now booking the spring 2026 cohort",
+            "icon": "leaf",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "You don't need another diet. You need a way back to yourself.",
+            "level": 1,
+            "size": "52px",
+            "weight": 400
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "I work with ambitious women in their thirties and forties who are running on fumes — careers humming, energy crashing. We rebuild your foundation through sleep, nutrition, hormone literacy, and nervous-system care. No protocols. No shame. Just the work, paced for the life you actually have."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Book a Discovery Call",
+            "url": "#discovery",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Read the Approach",
+            "url": "#approach",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "text": "Certified IIN Health Coach · NBHWC Board Certified · 8 years coaching",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "programs-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "feature-grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#f4eee0",
+        "color": "#2d3a2a"
+      },
+      "components": [
+        {
+          "id": "p-1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "sun",
+            "title": "Reset · 6 Weeks",
+            "description": "Single-area focus — usually sleep, energy, or stress. Six biweekly sessions, a personalized starting protocol, and Voxer access between calls. $1,200."
+          }
+        },
+        {
+          "id": "p-2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "compass",
+            "title": "Rebuild · 3 Months",
+            "description": "The flagship engagement. Twelve sessions, full nutrition + hormone + nervous-system work, lab review with your physician, and weekly check-ins. $3,600."
+          }
+        },
+        {
+          "id": "p-3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "infinity",
+            "title": "Sustain · 6 Months",
+            "description": "For founders and executives who need ongoing partnership. Twenty-four sessions, quarterly strategy reviews, and 7-day-a-week messaging support. $6,800."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Three ways to work together",
+        "subheading": "Choose the depth that matches the season you're in"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#e8efe5",
+        "color": "#2d3a2a"
+      },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "Aria is the first person who didn't try to optimize me. She helped me figure out what was actually mine to carry — and what wasn't. I sleep through the night now. That alone changed everything.",
+            "author": "Jenna R.",
+            "role": "VP of Marketing · Rebuild client",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "I came in burned out and convinced I needed a new diet. We barely talked about food for the first month. We talked about my nervous system. Six months later my labs are different and so am I.",
+            "author": "Priya S.",
+            "role": "Founder · Sustain client",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "Hormone literacy was the missing piece. Aria explained perimenopause in a way no doctor had — and built a plan that respected my actual schedule, not a fantasy one.",
+            "author": "Lauren M.",
+            "role": "Reset client",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "Words from clients",
+        "subheading": "What changes when the foundation is rebuilt"
+      }
+    },
+    {
+      "type": "blog",
+      "id": "blog-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "card-grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#f4eee0",
+        "color": "#2d3a2a"
+      },
+      "components": [
+        {
+          "id": "article-1",
+          "type": "blog-article",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "title": "The Burnout Cycle Has Three Stages — And Most People Get the First One Wrong",
+            "excerpt": "Fatigue isn't the first signal. Irritability is. Here's how to recognize the actual onramp into burnout before you've already merged.",
+            "author": "Aria Mendez",
+            "date": "2026-04-22",
+            "tags": "burnout, nervous-system, awareness"
+          }
+        },
+        {
+          "id": "article-2",
+          "type": "blog-article",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "title": "Why I Stopped Recommending Cold Plunges to Most of My Clients",
+            "excerpt": "Cold exposure works for some bodies and wrecks others. The deciding factor isn't willpower — it's where you are in your stress cycle.",
+            "author": "Aria Mendez",
+            "date": "2026-04-08",
+            "tags": "stress, recovery, nuance"
+          }
+        },
+        {
+          "id": "article-3",
+          "type": "blog-article",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "title": "Perimenopause Starts a Decade Earlier Than You Were Told",
+            "excerpt": "If you're in your mid-thirties and something feels off, it's not in your head. Here's the hormone literacy your annual physical didn't cover.",
+            "author": "Aria Mendez",
+            "date": "2026-03-19",
+            "tags": "hormones, perimenopause, education"
+          }
+        }
+      ],
+      "content": {
+        "heading": "From the journal",
+        "subheading": "Long-form thinking on wellness, hormones, and the work of slowing down",
+        "showDates": true,
+        "showTags": true
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #6b8e6b 0%, #c4a47c 100%)",
+        "color": "#f4eee0"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Curious if we'd work well together?",
+            "level": 2,
+            "size": "36px",
+            "weight": 400
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "The discovery call is thirty minutes, free, and explicitly not a sales pitch. We'll talk about what's been going on, whether coaching is the right tool right now, and where to go if it isn't."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Book a Discovery Call",
+            "url": "#discovery",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#2d3a2a",
+        "color": "#f4eee0"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Aria Mendez · Wellness Coach"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Work With Me",
+            "links": "Reset,Rebuild,Sustain,Discovery Call"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Read",
+            "links": "Journal,Newsletter,Approach,FAQ"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Connect",
+            "links": "Instagram,Substack,Email,Press"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "© 2026 Aria Mendez Coaching, LLC. Not medical advice."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

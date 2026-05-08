@@ -1,6 +1,6 @@
 {
   "site": {
-    "title": "Alex Chen \u2014 Full Stack Developer",
+    "title": "Alex Chen — Full Stack Developer",
     "description": "Full stack developer specializing in TypeScript, React, and distributed systems",
     "author": "Alex Chen",
     "email": "alex@alexchen.dev",
@@ -10,7 +10,15 @@
     "spec": "aisp-1.2",
     "purpose": "portfolio",
     "audience": "developer",
-    "tone": "technical"
+    "tone": "technical",
+    "brandName": "Alex Chen",
+    "tagline": "Full-stack engineer. TypeScript. Distributed systems. 8 years of pager rotations.",
+    "voiceAttributes": [
+      "technical",
+      "terse",
+      "no-fluff",
+      "production-grounded"
+    ]
   },
   "theme": {
     "preset": "minimalist",
@@ -92,7 +100,7 @@
       "layout": {
         "display": "flex",
         "direction": "column",
-        "align": "flex-start",
+        "align": "start",
         "gap": "24px",
         "padding": "80px 24px",
         "maxWidth": "1200px"
@@ -110,7 +118,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "Open to opportunities",
+            "text": "Available Q3 2026 · Berlin / remote-EU",
             "icon": "terminal",
             "variant": "pill"
           }
@@ -133,7 +141,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "Full stack engineer with 8 years shipping production TypeScript. I build fast, accessible, well-tested apps with React, Node, and Postgres. Currently interested in real-time systems and developer tooling."
+            "text": "Eight years shipping production TypeScript at scale (Datadog, Vercel, two seed-stage startups). Comfortable in the boring middle: Postgres replication lag, Node memory leaks, the React render that re-fires 14 times per keystroke. Currently interested in real-time CRDT systems, build tooling, and the kind of dev tools you can hand to a junior on day three."
           }
         },
         {
@@ -191,7 +199,7 @@
           "enabled": true,
           "order": 8,
           "props": {
-            "text": "Ex-Stripe \u00b7 Ex-Vercel \u00b7 OSS contributor",
+            "text": "Ex-Stripe · Ex-Vercel · OSS contributor",
             "show": true
           }
         }
@@ -458,7 +466,7 @@
           "enabled": true,
           "order": 4,
           "props": {
-            "text": "\u00a9 2026 Alex Chen. Built with TypeScript and good intentions."
+            "text": "© 2026 Alex Chen. Built with TypeScript and good intentions."
           }
         }
       ],

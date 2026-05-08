@@ -1,0 +1,452 @@
+[
+  {
+    "id": "P81-mp-001",
+    "input": "change page 2 hero",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": { "type": "hero", "pageId": "page-2" },
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-mp-002",
+    "input": "rewrite the hero on page 2",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": { "type": "hero", "pageId": "page-2" },
+    "expectedRoute": "content",
+    "persona": "builder",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-mp-003",
+    "input": "hide the gallery on page 3",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "hide",
+    "expectedTarget": { "type": "gallery", "pageId": "page-3" },
+    "expectedRoute": "design",
+    "persona": "builder",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-mp-004",
+    "input": "add a pricing section to page 2",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "add",
+    "expectedTarget": { "type": "pricing", "pageId": "page-2" },
+    "expectedRoute": "design",
+    "persona": "builder",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-mp-005",
+    "input": "add a contact form to the about page",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "add",
+    "expectedTarget": { "type": "contact-form", "pageId": "about" },
+    "expectedRoute": "design",
+    "persona": "novice",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-mp-006",
+    "input": "remove the testimonials on page 3",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "remove",
+    "expectedTarget": { "type": "testimonials", "pageId": "page-3" },
+    "expectedRoute": "design",
+    "persona": "builder",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-mp-007",
+    "input": "change the CTA on the pricing page",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": { "type": "cta", "pageId": "pricing" },
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-mp-008",
+    "input": "rename page 2 to about",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "rename",
+    "expectedTarget": { "type": "page", "pageId": "page-2" },
+    "expectedRoute": "structure",
+    "persona": "builder",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-009",
+    "input": "rename page 3 to contact",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "rename",
+    "expectedTarget": { "type": "page", "pageId": "page-3" },
+    "expectedRoute": "structure",
+    "persona": "builder",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-010",
+    "input": "rename the home page to landing",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "rename",
+    "expectedTarget": { "type": "page", "pageId": "home" },
+    "expectedRoute": "structure",
+    "persona": "builder",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-011",
+    "input": "add a pricing page",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": { "type": "page", "pageId": "pricing" },
+    "expectedRoute": "structure",
+    "persona": "novice",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-012",
+    "input": "add a contact page",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": { "type": "page", "pageId": "contact" },
+    "expectedRoute": "structure",
+    "persona": "novice",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-013",
+    "input": "add an about page",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": { "type": "page", "pageId": "about" },
+    "expectedRoute": "structure",
+    "persona": "novice",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-014",
+    "input": "add a careers page",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "add",
+    "expectedTarget": { "type": "page", "pageId": "careers" },
+    "expectedRoute": "structure",
+    "persona": "builder",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-015",
+    "input": "delete the contact page",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": { "type": "page", "pageId": "contact" },
+    "expectedRoute": "structure",
+    "persona": "builder",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-016",
+    "input": "delete page 3",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": { "type": "page", "pageId": "page-3" },
+    "expectedRoute": "structure",
+    "persona": "builder",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-017",
+    "input": "remove the about page",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": { "type": "page", "pageId": "about" },
+    "expectedRoute": "structure",
+    "persona": "builder",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-018",
+    "input": "switch to home page",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "navigate",
+    "expectedTarget": { "type": "page", "pageId": "home" },
+    "expectedRoute": "structure",
+    "persona": "novice",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-019",
+    "input": "switch to page 2",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "navigate",
+    "expectedTarget": { "type": "page", "pageId": "page-2" },
+    "expectedRoute": "structure",
+    "persona": "novice",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-020",
+    "input": "go to the pricing page",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "navigate",
+    "expectedTarget": { "type": "page", "pageId": "pricing" },
+    "expectedRoute": "structure",
+    "persona": "novice",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-021",
+    "input": "open the about page",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "navigate",
+    "expectedTarget": { "type": "page", "pageId": "about" },
+    "expectedRoute": "structure",
+    "persona": "novice",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-022",
+    "input": "show page 3",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "navigate",
+    "expectedTarget": { "type": "page", "pageId": "page-3" },
+    "expectedRoute": "structure",
+    "persona": "novice",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-023",
+    "input": "duplicate page 2",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "duplicate",
+    "expectedTarget": { "type": "page", "pageId": "page-2" },
+    "expectedRoute": "structure",
+    "persona": "builder",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-mp-024",
+    "input": "clone the home page as a new landing variant",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "duplicate",
+    "expectedTarget": { "type": "page", "pageId": "home" },
+    "expectedRoute": "structure",
+    "persona": "framer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-mp-025",
+    "input": "reorder pages so contact comes before about",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "move",
+    "expectedTarget": { "type": "page", "pageId": "contact" },
+    "expectedRoute": "structure",
+    "persona": "builder",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-mp-026",
+    "input": "move page 3 to the second slot",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "move",
+    "expectedTarget": { "type": "page", "pageId": "page-3" },
+    "expectedRoute": "structure",
+    "persona": "builder",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-mp-027",
+    "input": "make page 2 the active page",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "navigate",
+    "expectedTarget": { "type": "page", "pageId": "page-2" },
+    "expectedRoute": "structure",
+    "persona": "builder",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-028",
+    "input": "rewrite the headline on page 2 to something punchier",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": { "type": "hero", "pageId": "page-2" },
+    "expectedRoute": "content",
+    "persona": "framer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-mp-029",
+    "input": "change the footer on every page",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": { "type": "footer", "pageId": "all" },
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-mp-030",
+    "input": "apply the dark theme to page 2 only",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": { "type": "theme", "pageId": "page-2" },
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-mp-031",
+    "input": "add a hero to the contact page",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "add",
+    "expectedTarget": { "type": "hero", "pageId": "contact" },
+    "expectedRoute": "design",
+    "persona": "builder",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-mp-032",
+    "input": "remove the pricing section on the home page",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "remove",
+    "expectedTarget": { "type": "pricing", "pageId": "home" },
+    "expectedRoute": "design",
+    "persona": "builder",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-mp-033",
+    "input": "add a case study to the about page",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "add",
+    "expectedTarget": { "type": "case-study", "pageId": "about" },
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-mp-034",
+    "input": "add an ROI section to the pricing page",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "add",
+    "expectedTarget": { "type": "stats", "pageId": "pricing" },
+    "expectedRoute": "design",
+    "persona": "agentic-engineer",
+    "difficulty": "medium"
+  },
+  {
+    "id": "P81-mp-035",
+    "input": "rewrite the CTA on every page to be more urgent",
+    "expectedAtom": "CONTENT",
+    "expectedVerb": "change",
+    "expectedTarget": { "type": "cta", "pageId": "all" },
+    "expectedRoute": "content",
+    "persona": "framer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-mp-036",
+    "input": "set page 2 as the default landing page",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": { "type": "page", "pageId": "page-2" },
+    "expectedRoute": "structure",
+    "persona": "builder",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-mp-037",
+    "input": "add a testimonials section to page 2 above the footer",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "add",
+    "expectedTarget": { "type": "testimonials", "pageId": "page-2" },
+    "expectedRoute": "design",
+    "persona": "framer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-mp-038",
+    "input": "duplicate the hero from page 1 to page 2",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "duplicate",
+    "expectedTarget": { "type": "hero", "pageId": "page-2" },
+    "expectedRoute": "structure",
+    "persona": "framer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-mp-039",
+    "input": "make the hero on page 3 use the dark feminine theme",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": { "type": "hero", "pageId": "page-3" },
+    "expectedRoute": "multi",
+    "persona": "framer",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-mp-040",
+    "input": "rename page 2 to pricing and add a pricing tiers section",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": { "type": "page", "pageId": "page-2" },
+    "expectedRoute": "multi",
+    "persona": "builder",
+    "difficulty": "hard"
+  },
+  {
+    "id": "P81-mp-041",
+    "input": "page 2: rewrite hero. page 3: hide gallery. page 4: add contact form",
+    "expectedAtom": "DECOMP",
+    "expectedVerb": "decompose",
+    "expectedTarget": null,
+    "expectedRoute": "multi",
+    "persona": "builder",
+    "difficulty": "edge"
+  },
+  {
+    "id": "P81-mp-042",
+    "input": "delete page 2",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "remove",
+    "expectedTarget": { "type": "page", "pageId": "page-2" },
+    "expectedRoute": "structure",
+    "persona": "builder",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-043",
+    "input": "rename page 4 to careers",
+    "expectedAtom": "PATCH",
+    "expectedVerb": "rename",
+    "expectedTarget": { "type": "page", "pageId": "page-4" },
+    "expectedRoute": "structure",
+    "persona": "builder",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-044",
+    "input": "show me the about page",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "navigate",
+    "expectedTarget": { "type": "page", "pageId": "about" },
+    "expectedRoute": "structure",
+    "persona": "novice",
+    "difficulty": "easy"
+  },
+  {
+    "id": "P81-mp-045",
+    "input": "rewrite the hero on the active page",
+    "expectedAtom": "INTENT",
+    "expectedVerb": "change",
+    "expectedTarget": { "type": "hero", "pageId": "active" },
+    "expectedRoute": "content",
+    "persona": "builder",
+    "difficulty": "medium"
+  }
+]

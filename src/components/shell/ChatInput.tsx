@@ -1,46 +1,92 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { SendHorizontal, Lightbulb, X } from 'lucide-react'
-import { cn } from '@/lib/cn'
-import { parseChatCommand, parseMultiPartCommand, SIMULATED_REQUIREMENTS } from '@/lib/cannedChat'
+import { parseChatCommand, parseMultiPartCommand } from '@/lib/cannedChat'
 import type { SimulatedRequirement, MultiChatResult } from '@/lib/cannedChat'
 import { useConfigStore } from '@/store/configStore'
+import { useIntelligenceStore } from '@/store/intelligenceStore'
+import { useUIStore } from '@/store/uiStore'
 import { EXAMPLE_SITES } from '@/data/examples'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { ChatExplainer } from '@/components/shell/ChatExplainer'
+import { TemplateBrowsePicker } from '@/components/shell/TemplateBrowsePicker'
+import { ClarificationPanel } from '@/components/shell/ClarificationPanel'
+// P67 / Polish Wave 2 / A1 — extracted sub-components (orchestrator refactor).
+import { ChatInputBar } from '@/components/shell/ChatInputBar'
+import { ChatInputQuickActions } from '@/components/shell/ChatInputQuickActions'
+import { ChatInputPersonalityPopover } from '@/components/shell/ChatInputPersonalityPopover'
+// P67c / A3 — extracted message-thread component (orchestrator decomposition).
+import { ChatThread } from '@/components/shell/ChatThread'
+// Sprint J P52 (A8) — Share Spec viral-share button (clipboard data URL).
+import { ShareSpecButton } from '@/components/shell/ShareSpecButton'
+// Sprint N P57 Wave 2 (N1) — Static HTML exporter (self-contained download).
+import { ExportStaticHtmlButton } from '@/components/shell/ExportStaticHtmlButton'
 import type { SectionType } from '@/lib/schemas'
-
-/* ── Chat examples for the dialog ── */
-const CHAT_EXAMPLE_CATEGORIES = [
-  {
-    title: 'Site Templates',
-    items: [
-      'Build me a bakery website',
-      'Create a SaaS landing page',
-      'Build a Harvard capstone research site',
-    ],
-  },
-  {
-    title: 'Common Updates',
-    items: [
-      'Add a pricing section',
-      'Add testimonials',
-      'Change to dark mode',
-    ],
-  },
-  {
-    title: 'Style Changes',
-    items: [
-      'Make it professional',
-      'Target developers',
-      'Make it casual',
-    ],
-  },
-] as const
+import { submit as submitChatPipeline, mapChatError } from '@/contexts/intelligence/chatPipeline'
+import { dispatchCommand } from '@/contexts/intelligence/commands/dispatchCommand'
+import {
+  generateAssumptionsLLM,
+  recordAcceptedAssumption,
+  shouldRequestAssumptions,
+  parseCommand,
+  type Assumption,
+  type ClassifiedIntent,
+  type LLMAssumptionsResult,
+} from '@/contexts/intelligence/aisp'
+// Sprint J P50 (A2) type + P51 (A4) profile lookup for the active chip.
+// P67 / Polish Wave 2 / A1 — PERSONALITY_IDS no longer needed here; the inline
+// mini-picker now lives in ChatInputPersonalityPopover.
+import { PERSONALITY_PROFILES, type PersonalityId } from '@/contexts/intelligence/personality/personalityEngine'
 
 export interface ChatMessage {
   id: number
   role: 'user' | 'bradley'
   text: string
+  /**
+   * P19 Fix-Pass 2 (F12): tag the surface that sourced this message. ChatInput
+   * messages default to 'chat'; listen-mode currently renders its reply in a
+   * banner inside ListenTab, but if a future flow merges streams this lets
+   * each bubble be tagged at render time.
+   */
+  source?: 'chat' | 'listen'
+  /**
+   * P34 Sprint E P1 (Sprint D UI closure A1) — AISP trace for the
+   * "How I understood this" panel; only set on bradley replies.
+   */
+  aisp?: { intent: ClassifiedIntent | null; source: 'rules' | 'llm' | 'fallthrough' } | null
+  /** P34 — original user text that produced this reply (for the panel). */
+  userText?: string
+  /** P34 — id of the matched template (template-router path). */
+  templateId?: string | null
+  /** P35 — assumptions surfaced for this turn (when low confidence fired). */
+  assumptions?: readonly Assumption[]
+  /** P35 — which path produced the assumptions (LLM vs rules vs none). */
+  assumptionsSource?: 'llm' | 'rules' | 'empty'
+  /** P35 — applied patch count + summary, surfaced in the EXPERT trace pane. */
+  patches?: number
+  pipelineSummary?: string
+  /**
+   * P46 fix-pass (R1 F4) — route classification for this turn. Lets the
+   * SIMPLE AISP panel surface "voice loaded but unused this turn" when brand
+   * context is active and the route was design-only.
+   */
+  aispRoute?: 'content' | 'design' | 'ambiguous' | null
+  /**
+   * P48 Sprint I Wave 2 (A5) — actionable next-step suggestions surfaced
+   * after a successful patch lands. Max 3 entries. Rendered as a small
+   * "next steps" block under the bradley message.
+   */
+  improvements?: readonly string[]
+  /** Sprint J P50 (A2) — personality-rendered secondary voice layer.
+   *  Rendered as a small italic block UNDER the typewriter primary text. */
+  personalityMessage?: string | null
+  personalityId?: PersonalityId | null
+  // Sprint K P54 (A1) — latency for the badge; A2 mounts the renderer.
+  latencyMs?: number | null
+  latencyBreakdown?: { classify?: number; select?: number; patch?: number; apply?: number } | null
+  /** P85 / OC-19 (A2) — template matcher confidence chip (Recommendation 1). */
+  matcherConfidence?: { name: string; confidence: number }
+  /** P85 / OC-19 (A2) — decomp todos for inline list render (Recommendation 2). */
+  decompTodos?: Array<{ verb: string; target?: string; status: 'applied' | 'deferred' | 'skipped' }>
+  /** P85 / OC-19 (A2) — pipeline error kind for EXPERT-mode AISP code chip (Recommendation 3). */
+  errorKind?: import('@/lib/mapChatError').ChatErrorKind | null
 }
 
 const MAX_MESSAGES = 20
@@ -56,10 +102,61 @@ export function ChatInput() {
   const [typingFull, setTypingFull] = useState('')
   const demoActive = false
   const [showExamplesDialog, setShowExamplesDialog] = useState(false)
+  // P34 Sprint E P1 (A1) — pending AISP metadata for the next bradley message.
+  // Captured from chatPipeline.submit and attached when the typewriter commits.
+  const pendingAispRef = useRef<{
+    aisp: ChatMessage['aisp']
+    userText: string
+    templateId: string | null
+    assumptions?: readonly Assumption[]
+    assumptionsSource?: 'llm' | 'rules' | 'empty'
+    patches?: number
+    pipelineSummary?: string
+    aispRoute?: ChatMessage['aispRoute']
+    improvements?: readonly string[]
+    // Sprint J P50 (A2) — carry personality output through to typewriter commit.
+    personalityMessage?: string | null
+    personalityId?: PersonalityId | null
+    latencyMs?: number | null
+    latencyBreakdown?: ChatMessage['latencyBreakdown']
+    // P85 / OC-19 (A2) — dual-view fields plumbed from chatPipeline result.
+    matcherConfidence?: ChatMessage['matcherConfidence']
+    decompTodos?: ChatMessage['decompTodos']
+    errorKind?: ChatMessage['errorKind']
+  } | null>(null)
+  // P34 Sprint E P1 (A2) — /browse picker visibility.
+  const [showBrowsePicker, setShowBrowsePicker] = useState(false)
+  // P34 Sprint E P1 (A4) — pending clarification (low-confidence assumption set).
+  // P35 — `source` tracks LLM vs rule-based vs empty for the EXPERT debug pane.
+  const [clarification, setClarification] = useState<{
+    originalText: string
+    assumptions: Assumption[]
+    source: 'llm' | 'rules' | 'empty'
+  } | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const nextId = useRef(0)
   const multiStepTimerRef = useRef<ReturnType<typeof setTimeout>[]>([])
+  const isDraft = useUIStore((s) => s.rightPanelTab) === 'SIMPLE'
+  // P18 Step 3 (A7): subscribe so the input/button reflect the global mutex
+  // even if a sibling component (Listen panel, settings drawer test) is also
+  // driving an LLM call.
+  const inFlight = useIntelligenceStore((s) => s.inFlight)
+  const isBusy = isProcessing || inFlight
+
+  // P19 Fix-Pass 2 (F13): show a "simulated mode" pill in the chat header
+  // when the active adapter is FixtureAdapter ('simulated') or AgentProxyAdapter
+  // ('mock') so users know they're not hitting a real LLM. ADR-046 declares
+  // adapter.name() as the canonical provider id.
+  const adapter = useIntelligenceStore((s) => s.adapter)
+  const adapterName = adapter?.name?.() ?? null
+  const isSimulated = adapterName === 'simulated' || adapterName === 'mock'
+  // Sprint J P51 (A4) — active-personality chip beside the simulated pill.
+  // P67 / Polish Wave 2 / A1 — the popover (open state, outside-click handler,
+  // setPersonality wiring) now lives inside ChatInputPersonalityPopover. We
+  // keep `personalityProfile` here only to gate the wrapper visibility.
+  const personalityId = useIntelligenceStore((s) => s.personalityId)
+  const personalityProfile = personalityId ? PERSONALITY_PROFILES[personalityId] : null
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -71,7 +168,33 @@ export function ChatInput() {
     if (typingText.length >= typingFull.length) {
       // Done typing — add to messages
       const id = nextId.current++
-      setMessages((prev) => [...prev.slice(-MAX_MESSAGES + 1), { id, role: 'bradley', text: typingFull + ' \u2713' }])
+      // P34 (A1) \u2014 attach pending AISP metadata captured at submit time, then clear.
+      const pending = pendingAispRef.current
+      pendingAispRef.current = null
+      setMessages((prev) => [
+        ...prev.slice(-MAX_MESSAGES + 1),
+        {
+          id,
+          role: 'bradley',
+          text: typingFull + ' \u2713',
+          aisp: pending?.aisp ?? null,
+          userText: pending?.userText,
+          templateId: pending?.templateId ?? null,
+          assumptions: pending?.assumptions,
+          assumptionsSource: pending?.assumptionsSource,
+          patches: pending?.patches,
+          pipelineSummary: pending?.pipelineSummary,
+          aispRoute: pending?.aispRoute ?? null,
+          improvements: pending?.improvements,
+          personalityMessage: pending?.personalityMessage ?? null,
+          personalityId: pending?.personalityId ?? null,
+          latencyMs: pending?.latencyMs ?? null, latencyBreakdown: pending?.latencyBreakdown ?? null,
+          // P85 / OC-19 (A2) — attach dual-view fields to the bradley message.
+          matcherConfidence: pending?.matcherConfidence,
+          decompTodos: pending?.decompTodos,
+          errorKind: pending?.errorKind ?? null,
+        },
+      ])
       setTypingText('')
       setTypingFull('')
       setIsProcessing(false)
@@ -90,6 +213,18 @@ export function ChatInput() {
       multiStepTimerRef.current.forEach(clearTimeout)
     }
   }, [])
+
+  // P36 Sprint F P1 (A2) — Consume any pending transcript prefill from the
+  // ListenTab "Edit" review action. R1 F1 fix-pass — subscribe to the store
+  // field so the consume fires whenever a prefill is set, not only at first
+  // mount. Resilient to ChatInput staying mounted across tab toggles.
+  const pendingPrefill = useUIStore((s) => s.pendingChatPrefill)
+  useEffect(() => {
+    if (!pendingPrefill) return
+    setInput(pendingPrefill)
+    useUIStore.getState().setPendingChatPrefill(null)
+    setTimeout(() => inputRef.current?.focus(), 0)
+  }, [pendingPrefill])
 
   const addUserMessage = (text: string) => {
     const id = nextId.current++
@@ -205,33 +340,215 @@ export function ChatInput() {
     [executeAction]
   )
 
+  const runCannedFallback = useCallback((text: string) => {
+    const multiResult = parseMultiPartCommand(text)
+    if (multiResult) {
+      executeMultiPart(multiResult)
+      return
+    }
+    const result = parseChatCommand(text)
+    if (result.action) {
+      executeAction(result.action)
+      setTypingText('')
+      setTypingFull(result.response)
+      return
+    }
+    // P18 Step 3 (A7): hardened fallback — when neither the LLM pipeline nor
+    // the canned parser produces an action, hand the user 3-5 concrete
+    // examples instead of a generic "try X" hint. KISS: literal string list
+    // surfaced through the existing typewriter; no new UI primitive.
+    setTypingText('')
+    setTypingFull(
+      "Hmm, I didn't catch that. Try one of: " +
+      "Make the hero say 'Bake Joy Daily' · " +
+      'Change to dark mode · ' +
+      'Add a pricing section · ' +
+      'Build me a bakery website · ' +
+      'Make it professional'
+    )
+  }, [executeMultiPart, executeAction])
+
+  /**
+   * P19 Step 2 (A4): the LLM-pipeline body has been extracted to
+   * `src/contexts/intelligence/chatPipeline.ts` so the listen-mode final
+   * transcript can drive the same JSON-patch flow. ChatInput keeps the canned
+   * fallback executor (it owns the action executor + multi-step typewriter
+   * stagger) and only calls `submit({ source: 'chat', ... })` for the LLM
+   * path. When the pipeline applied patches we drive the typewriter with the
+   * returned summary; otherwise we hand off to runCannedFallback as before.
+   */
+  const runLLMPipeline = useCallback(async (text: string): Promise<boolean> => {
+    // FIX 1: re-thread last-6 chat history into the pipeline. The strict-move
+    // to chatPipeline.ts silently dropped this in P19; restore it so Bradley
+    // sees prior turns. Listen surface intentionally omits this.
+    const history = messages.slice(-6).map((m) => ({ role: m.role, text: m.text }))
+    const result = await submitChatPipeline({ source: 'chat', text, history })
+    // P34 (A1) — capture AISP trace for the next bradley message.
+    // P35 — also include patch count + summary for the EXPERT trace pane.
+    pendingAispRef.current = {
+      aisp: result.aisp ?? null,
+      userText: text,
+      templateId: result.templateId ?? null,
+      patches: result.appliedPatchCount,
+      pipelineSummary: result.summary,
+      aispRoute: result.aispRoute ?? null,
+      improvements: result.improvements,
+      personalityMessage: result.personalityMessage ?? null,
+      personalityId: result.personalityId ?? null,
+      latencyMs: result.latencyMs ?? null, latencyBreakdown: result.latencyBreakdown ?? null,
+      // P85 / OC-19 (A2) — plumb dual-view fields through to the bradley message.
+      matcherConfidence: result.matcherConfidence,
+      decompTodos: result.decompTodos,
+      errorKind: result.errorKind ?? null,
+    }
+    if (result.ok && !result.fellBackToCanned && result.appliedPatchCount > 0) {
+      setTypingText('')
+      setTypingFull(result.summary)
+      return true
+    }
+    // P34 (A4) — when no patches applied AND AISP had low confidence,
+    // surface a 3-button clarification instead of falling through silently.
+    // Caller still gets `false` so it skips the LLM-success path; we set
+    // typingFull to a one-liner that introduces the clarification panel.
+    // R2 F1 fix-pass — `!result.ok` guards against firing the clarification
+    // panel over a successful canned-fallback reply. Canned matches must win.
+    // P35 — LLM-first assumption generation (ASSUMPTIONS_ATOM); falls back
+    // to rule-based stub on any failure.
+    if (
+      !result.ok &&
+      !result.appliedPatchCount &&
+      result.aisp &&
+      shouldRequestAssumptions(result.aisp.intent)
+    ) {
+      const llmResult: LLMAssumptionsResult = await generateAssumptionsLLM({
+        text,
+        intent: result.aisp.intent,
+      })
+      if (llmResult.assumptions.length > 0) {
+        // R1 F4 fix-pass — mutually exclusive with /browse; close picker.
+        setShowBrowsePicker(false)
+        setClarification({
+          originalText: text,
+          assumptions: llmResult.assumptions,
+          source: llmResult.source,
+        })
+        // P35 — attach assumptions to the pending message so the EXPERT
+        // trace pane can render them.
+        if (pendingAispRef.current) {
+          pendingAispRef.current.assumptions = llmResult.assumptions
+          pendingAispRef.current.assumptionsSource = llmResult.source
+        }
+        setTypingText('')
+        setTypingFull("I'm not 100% sure I caught that — pick the closest match below ↓")
+        return true
+      }
+      // P37 R1 L3 fix — when shouldRequestAssumptions fired but the LLM
+      // returned 0 candidates, surface a friendly nudge instead of falling
+      // through silently into "didn't catch that" canned text.
+      if (pendingAispRef.current) {
+        pendingAispRef.current.assumptions = llmResult.assumptions
+        pendingAispRef.current.assumptionsSource = llmResult.source
+      }
+      setTypingText('')
+      // P37 R1 L3 fix-pass — "/browse" literal was leaking dev syntax to
+      // Grandma. Replace with the friendly affordance call-out; the empty-
+      // state hint already documents the slash form for power users.
+      setTypingFull(
+        "Hmm — I'm a little unsure about that one. Try a different phrasing, or tap the **browse templates** affordance below to pick a starting point.",
+      )
+      return true
+    }
+    // P19 Fix-Pass 2 (F2): surface kind-specific error copy when the LLM
+    // call failed for an INFRASTRUCTURE reason (cost cap hit, timeout, rate
+    // limit, missing API key). For 'validation_failed' (fixture miss / bad
+    // LLM response) we keep the canned-fallback hint — those failures are
+    // semantically identical to "I didn't catch that" and we shouldn't claim
+    // "the change wasn't safe" when no patch was attempted. `result.ok` is
+    // true when canned matched. When canned matched but errorKind is set,
+    // prefer the canned reply.
+    const surfaceableKinds = new Set(['cost_cap', 'timeout', 'precondition_failed', 'rate_limit'])
+    if (result.errorKind && surfaceableKinds.has(result.errorKind) && !result.ok) {
+      setTypingText('')
+      setTypingFull(mapChatError(result.errorKind))
+      return true
+    }
+    return false
+  }, [messages])
+
   const handleSend = () => {
     const text = input.trim()
     if (!text || isProcessing) return
+    // P37 Sprint F P2 (A1) — Command-trigger gate. Runs BEFORE the LLM
+    // pipeline so first-class commands (slash + voice phrasings) always
+    // win over fuzzy intent classification. ADR-066.
+    //
+    // Preserves P34 (A2) behaviour: `/browse` and `/templates` open the
+    // TemplateBrowsePicker without entering chat history. Other kinds
+    // (generate/design/content) prefill the input with a canonical form
+    // so the existing template-router + chat pipeline handle dispatch
+    // without any new patch-application code paths (KISS).
+    // P38 Sprint F end-of-sprint R4 F1 fix-pass — single dispatchCommand
+    // helper shared with useListenPipeline; eliminates the drift that let
+    // template-help land on chat but not voice (R2 F2). Behavior preserved.
+    const cmd = parseCommand(text)
+    if (cmd) {
+      const directive = dispatchCommand(cmd)
+      switch (directive.kind) {
+        case 'open-browse-picker': {
+          // R1 F4 fix-pass parity — mutually exclusive with clarification.
+          setClarification(null)
+          setShowBrowsePicker(true)
+          setInput('')
+          return
+        }
+        case 'prefill-and-focus': {
+          setShowBrowsePicker(false)
+          setInput(directive.text)
+          inputRef.current?.focus()
+          return
+        }
+        case 'help-reply': {
+          // P37 R1 F1 — bare `/template` (no name) surfaces a hint typewriter.
+          setInput('')
+          setIsProcessing(true)
+          setTypingText('')
+          setTypingFull(directive.markdown)
+          return
+        }
+        case 'fallthrough':
+          // Slash-only passthroughs (hide/show) — fall through to the canned
+          // /LLM path by NOT returning. The canned parser handles those.
+          break
+      }
+    }
+    // FIX 10: the chat-side inFlight pre-check is removed. The mutex now lives
+    // inside auditedComplete (rate_limit error returned for re-entrancy from
+    // any surface — chat, listen, settings test). isProcessing still gates
+    // double-clicks of THIS input, and inFlight (subscribed above) drives the
+    // grayed-out UI when a sibling surface drives a call.
 
     addUserMessage(text)
     setInput('')
     setIsProcessing(true)
 
     setTimeout(() => {
-      // Try multi-part parsing first
-      const multiResult = parseMultiPartCommand(text)
-      if (multiResult) {
-        executeMultiPart(multiResult)
-        return
-      }
-
-      // Fall back to single command
-      const result = parseChatCommand(text)
-      if (result.action) executeAction(result.action)
-      // Start typewriter
-      setTypingText('')
-      setTypingFull(result.response)
+      // Primary: full LLM pipeline against the active adapter (FixtureAdapter
+      // in DEV). On any failure (parse / validate / apply / no-fixture-match)
+      // fall back silently to the canned chat command parser. auditedComplete
+      // owns the inFlight mutex; we no longer touch it from here.
+      void runLLMPipeline(text)
+        .then((ok) => {
+          if (!ok) runCannedFallback(text)
+        })
+        .catch(() => runCannedFallback(text))
     }, 400)
   }
 
   const handleSimulatedRequirement = (req: SimulatedRequirement) => {
     if (isProcessing || demoActive) return
+    // FIX 10: cross-surface mutex centralised in auditedComplete; this path
+    // does not call into auditedComplete (canned multi-step) so we just
+    // gate on local processing state.
 
     addUserMessage(req.name)
     setIsProcessing(true)
@@ -245,15 +562,29 @@ export function ChatInput() {
     }, 400)
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      handleSend()
-    }
-  }
+  // P67 / Polish Wave 2 / A1 — Enter-key handling moved into ChatInputBar; the
+  // orchestrator's local handleKeyDown is no longer needed.
 
   return (
     <div className="flex flex-col h-full">
+      {/* P19 Fix-Pass 2 (F13): simulated-mode header pill so users know they
+          aren't hitting a real LLM. Pinned above the messages area. */}
+      <div className="px-4 py-1.5 border-b border-hb-border/40 flex items-center gap-1.5">
+        {/* Sprint J P52 (A8) — desktop-only Share Spec; mobile mount via A10 (P53). */}
+        <span className="hidden md:inline-flex"><ShareSpecButton /></span>
+        <span className="hidden md:inline-flex"><ExportStaticHtmlButton /></span>
+        {(isSimulated || personalityProfile) && (<>
+          {isSimulated && (
+            <span
+              data-testid="chat-simulated-pill"
+              className="inline-block px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-hb-surface text-hb-text-muted border border-hb-border/40 transition-colors duration-200"
+            >
+              simulated mode
+            </span>
+          )}
+          {personalityProfile && <ChatInputPersonalityPopover />}
+        </>)}
+      </div>
       {/* Chat messages — closed captioning style */}
       <div
         className="flex-1 overflow-y-auto px-4 py-3 space-y-1"
@@ -266,19 +597,7 @@ export function ChatInput() {
             </div>
           </div>
         )}
-        {messages.map((msg) => (
-          <div
-            key={msg.id}
-            className={cn(
-              'py-1',
-              msg.role === 'user' ? 'text-sm text-hb-text-muted' : 'text-sm text-hb-text-primary'
-            )}
-            data-testid={msg.role === 'user' ? 'chat-msg-user' : 'chat-msg-bradley'}
-          >
-            {msg.role === 'user' && <span className="font-semibold text-hb-text-secondary">you: </span>}
-            {msg.text}
-          </div>
-        ))}
+        <ChatThread messages={messages} />
         {/* Typewriter in progress */}
         {typingFull && (
           <div className="py-1 text-sm text-hb-text-primary" data-testid="chat-msg-bradley">
@@ -289,143 +608,131 @@ export function ChatInput() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Hint — when empty and focused */}
-      {isFocused && !input && messages.length === 0 && (
-        <div className="px-4 py-1.5 text-xs text-hb-text-muted border-t border-hb-border/50">
-          try: <span className="text-hb-text-secondary">"dark mode"</span> · <span className="text-hb-text-secondary">"add pricing"</span> · <span className="text-hb-text-secondary">"build a SaaS page with pricing and testimonials"</span>
-        </div>
-      )}
-
-      {/* Try an Example button */}
-      <div className="px-3 py-1.5 border-t border-hb-border/50">
-        <Button
-          variant="ghost"
-          onClick={() => setShowExamplesDialog(true)}
-          disabled={isProcessing || demoActive}
-          className="w-full flex items-center justify-center gap-2 h-auto py-2 text-xs text-hb-text-muted hover:text-hb-accent hover:bg-hb-accent/5 transition-colors disabled:opacity-40"
-          data-testid="try-example-btn"
-        >
-          <Lightbulb size={14} />
-          Try an Example
-        </Button>
-      </div>
-
-      {/* Examples dialog */}
-      {showExamplesDialog && (
+      {/* P34 (A2) — TemplateBrowsePicker: opens via `/browse` slash command.
+          R1 F4 fix-pass — mutually exclusive with ClarificationPanel; never
+          render together. R1 F3 fix-pass — Escape dismisses (onKeyDown). */}
+      {showBrowsePicker && !clarification && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
-          onClick={() => setShowExamplesDialog(false)}
-          onKeyDown={(e) => { if (e.key === 'Escape') setShowExamplesDialog(false) }}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Chat examples"
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') {
+              e.preventDefault()
+              setShowBrowsePicker(false)
+              inputRef.current?.focus()
+            }
+          }}
         >
-          <div
-            className="bg-hb-bg border border-hb-border rounded-xl shadow-2xl w-full max-w-md mx-4 max-h-[80vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between px-4 py-3 border-b border-hb-border">
-              <h2 className="text-sm font-semibold text-hb-text-primary">Try an Example</h2>
-              <button
-                type="button"
-                onClick={() => setShowExamplesDialog(false)}
-                className="text-hb-text-muted hover:text-hb-text-primary transition-colors"
-                aria-label="Close dialog"
-              >
-                <X size={16} />
-              </button>
-            </div>
-            <div className="p-4 space-y-4">
-              {CHAT_EXAMPLE_CATEGORIES.map((cat) => (
-                <div key={cat.title}>
-                  <p className="text-xs text-hb-text-muted uppercase tracking-wider font-medium mb-2">{cat.title}</p>
-                  <div className="space-y-1.5">
-                    {cat.items.map((item) => (
-                      <button
-                        key={item}
-                        type="button"
-                        onClick={() => {
-                          setShowExamplesDialog(false)
-                          setInput(item)
-                          // Auto-send after a brief tick so input is set
-                          setTimeout(() => {
-                            addUserMessage(item)
-                            setIsProcessing(true)
-                            setTimeout(() => {
-                              const multiResult = parseMultiPartCommand(item)
-                              if (multiResult) {
-                                executeMultiPart(multiResult)
-                                return
-                              }
-                              const result = parseChatCommand(item)
-                              if (result.action) executeAction(result.action)
-                              setTypingText('')
-                              setTypingFull(result.response)
-                            }, 400)
-                          }, 50)
-                        }}
-                        className="w-full text-left px-3 py-2 rounded-lg text-sm text-hb-text-primary bg-hb-surface hover:bg-hb-surface-hover hover:text-hb-accent border border-hb-border/50 hover:border-hb-accent/30 transition-all"
-                      >
-                        {item}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))}
-
-              {/* Simulated requirements in dialog */}
-              <div>
-                <p className="text-xs text-hb-text-muted uppercase tracking-wider font-medium mb-2">Multi-step Presets</p>
-                <div className="space-y-1.5">
-                  {SIMULATED_REQUIREMENTS.map((req) => (
-                    <button
-                      key={req.name}
-                      type="button"
-                      onClick={() => {
-                        setShowExamplesDialog(false)
-                        handleSimulatedRequirement(req)
-                      }}
-                      className="w-full text-left px-3 py-2 rounded-lg border border-hb-accent/20 bg-hb-surface hover:bg-hb-accent/5 hover:border-hb-accent/40 transition-all"
-                      data-testid={`sim-req-${req.name.toLowerCase().replace(/\s+/g, '-')}`}
-                    >
-                      <span className="text-sm font-medium text-hb-accent">{req.name}</span>
-                      <span className="block text-hb-text-muted text-[10px] leading-tight mt-0.5">{req.description}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+          <TemplateBrowsePicker
+            onPick={(example) => {
+              setInput(example)
+              setShowBrowsePicker(false)
+              inputRef.current?.focus()
+            }}
+            onClose={() => setShowBrowsePicker(false)}
+          />
         </div>
       )}
 
-      {/* Input bar — no mic button */}
-      <div className="flex items-center gap-2 px-3 py-2 border-t border-hb-border bg-hb-surface">
-        <Input
-          ref={inputRef}
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          placeholder="Tell Bradley what to build..."
-          aria-label="Tell Bradley what to build"
-          data-testid="chat-input"
-          disabled={isProcessing}
-          className="flex-1 h-auto bg-transparent border-none outline-none ring-0 text-sm text-hb-text-primary placeholder:text-hb-text-muted disabled:opacity-50 focus-visible:border-none focus-visible:ring-0"
-        />
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-label="Send message"
-          onClick={handleSend}
-          disabled={isProcessing || !input.trim()}
-          className="flex items-center justify-center w-8 h-8 rounded-full text-hb-accent hover:bg-hb-accent/10 transition-colors disabled:opacity-30"
+      {/* P34 (A4) — ClarificationPanel: rendered when chatPipeline returns
+          a low-confidence intent. Click an option to re-run the pipeline
+          with the chosen rephrasing locked.
+          R1 F3 fix-pass — Escape dismisses; R1 L5 — aria-live for SR users. */}
+      {clarification && (
+        <div
+          className="px-4 py-2 border-t border-hb-border/50"
+          role="region"
+          aria-live="polite"
+          aria-label="Clarification needed"
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') {
+              e.preventDefault()
+              setClarification(null)
+              inputRef.current?.focus()
+            }
+          }}
         >
-          <SendHorizontal size={16} />
-        </Button>
-      </div>
+          <ClarificationPanel
+            originalText={clarification.originalText}
+            assumptions={clarification.assumptions}
+            onAccept={(a) => {
+              recordAcceptedAssumption({
+                originalText: clarification.originalText,
+                acceptedRephrasing: a.rephrasing,
+                confidence: a.confidence,
+                acceptedAt: Date.now(),
+              })
+              setClarification(null)
+              // Re-feed the canonical rephrasing so the existing pipeline
+              // can hit a deterministic template path. AddUserMessage so the
+              // user sees what was confirmed.
+              addUserMessage(a.rephrasing)
+              setIsProcessing(true)
+              setTimeout(() => {
+                void runLLMPipeline(a.rephrasing)
+                  .then((ok) => {
+                    if (!ok) runCannedFallback(a.rephrasing)
+                  })
+                  .catch(() => runCannedFallback(a.rephrasing))
+              }, 200)
+            }}
+            onReject={() => {
+              setClarification(null)
+              inputRef.current?.focus()
+            }}
+          />
+        </div>
+      )}
+
+      {/* P67 / Polish Wave 2 / A1 — extracted ChatInputQuickActions hosts the
+          empty-state hint, persistent /browse link, thinking pulse, Try-an-
+          Example button, and the Examples dialog (incl. SIMULATED_REQUIREMENTS
+          presets). Orchestrator owns dialog visibility + dispatch handlers. */}
+      <ChatInputQuickActions
+        showEmptyHint={isFocused && !input && messages.length === 0 && !showBrowsePicker}
+        showBrowseLink={!showBrowsePicker && !clarification && messages.length > 0}
+        showThinking={isBusy}
+        disableExamples={isBusy || demoActive}
+        examplesOpen={showExamplesDialog}
+        onOpenExamples={() => setShowExamplesDialog(true)}
+        onCloseExamples={() => setShowExamplesDialog(false)}
+        onOpenBrowse={() => setShowBrowsePicker(true)}
+        onPickExample={(item) => {
+          setShowExamplesDialog(false)
+          setInput(item)
+          // Auto-send after a brief tick so input is set.
+          // FIX 10: auditedComplete owns the inFlight mutex now; we just
+          // drive the typewriter UI state here.
+          setTimeout(() => {
+            addUserMessage(item)
+            setIsProcessing(true)
+            setTimeout(() => {
+              void runLLMPipeline(item)
+                .then((ok) => { if (!ok) runCannedFallback(item) })
+                .catch(() => runCannedFallback(item))
+            }, 400)
+          }, 50)
+        }}
+        onPickSimulatedRequirement={(req) => {
+          setShowExamplesDialog(false)
+          handleSimulatedRequirement(req)
+        }}
+      />
+
+      {/* DRAFT-only "How it works" explainer */}
+      {isDraft && <ChatExplainer />}
+
+      {/* P67 / Polish Wave 2 / A1 — extracted ChatInputBar owns the input row
+          chrome (text field + send button + busy/disabled dim). Enter-key
+          submit + placeholder + aria-busy live inside the sub-component;
+          orchestrator just passes value/handlers. */}
+      <ChatInputBar
+        ref={inputRef}
+        value={input}
+        onChange={setInput}
+        onSend={handleSend}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        isBusy={isBusy}
+      />
     </div>
   )
 }

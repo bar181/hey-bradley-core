@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
-import { Atom, BookOpen, BarChart3, ExternalLink, ArrowRight } from 'lucide-react'
+import { BookOpen, BarChart3, ExternalLink, ArrowRight } from 'lucide-react'
 import { MarketingNav } from '@/components/MarketingNav'
+import { AISPDualView } from '@/components/marketing/AISPDualView'
 
 const COMPONENTS = [
   { symbol: 'Ω', name: 'Objective', color: 'text-purple-400', bg: 'bg-purple-500/10 border-purple-500/20', desc: 'The high-level goal in natural language. What the stakeholder actually wants, expressed once and preserved throughout the pipeline.' },
@@ -21,39 +22,38 @@ const COMPARISONS = [
 
 export function AISP() {
   return (
-    <main className="min-h-screen bg-[#1a1a1a] text-white">
+    <main className="min-h-screen bg-[#faf8f5] text-[#2d1f12]">
       <MarketingNav />
 
       {/* Hero */}
-      <section className="py-24 relative overflow-hidden">
+      <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-indigo-900/20" />
-        <div className="relative max-w-5xl mx-auto px-6 text-center">
-          <span className="inline-flex items-center gap-2 bg-purple-500/10 text-purple-400 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
-            <Atom className="w-4 h-4" />
-            Open Standard &middot; MIT License
-          </span>
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">
+        <div className="relative max-w-3xl mx-auto px-4 md:px-6 py-16 md:py-24">
+          <p className="text-xs uppercase tracking-[0.2em] text-[#e8772e] mb-4 font-medium">
+            AISP open core &middot; MIT License
+          </p>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
             AI Symbolic Protocol
           </h1>
-          <p className="text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed mb-8">
+          <p className="text-base md:text-xl text-[#6b5e4f] leading-relaxed mb-8 max-w-2xl">
             A math-first neural symbolic language with 512 symbols that all AI and
             LLM understand natively. The goal: near-zero ambiguity between what you
             specify and what gets built.
           </p>
-          <div className="flex gap-4 justify-center">
-            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-purple-600 text-white hover:bg-purple-500 transition-colors">
-              <ExternalLink className="w-4 h-4" /> View on GitHub
-            </a>
-            <Link to="/new-project" className="px-6 py-3 rounded-xl font-semibold border border-white/30 text-white hover:bg-white/10 transition-colors">
-              Try in Builder
+          <div className="flex flex-col md:flex-row md:flex-wrap gap-3">
+            <Link to="/onboarding" className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-6 py-3 bg-[#e8772e] text-white font-semibold rounded-xl hover:bg-[#c45f1c] transition-colors shadow-lg">
+              Try the open source version <ArrowRight className="w-4 h-4" />
             </Link>
+            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 w-full md:w-auto min-h-[44px] px-6 py-3 border border-[#e8772e]/30 text-[#2d1f12] font-semibold rounded-xl hover:bg-[#f1ece4] transition-colors">
+              View on GitHub <ExternalLink className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </section>
 
       {/* What is AISP */}
-      <section className="py-20 bg-[#242424]">
-        <div className="max-w-5xl mx-auto px-6">
+      <section className="py-12 md:py-20 bg-[#f1ece4]">
+        <div className="max-w-5xl mx-auto px-4 md:px-6">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
               <BookOpen className="w-5 h-5 text-purple-400" />
@@ -61,9 +61,9 @@ export function AISP() {
             <h2 className="text-3xl font-bold">What is AISP?</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+            <div className="bg-white border border-[#e8772e]/20 rounded-2xl p-8">
               <h3 className="text-lg font-semibold mb-3">The Problem It Solves</h3>
-              <p className="text-neutral-400 leading-relaxed">
+              <p className="text-[#6b5e4f] leading-relaxed">
                 Traditional software specifications are written in natural language —
                 prose that degrades every time it changes hands. A stakeholder describes
                 their vision, a PM interprets it, a designer approximates it, and a
@@ -72,10 +72,10 @@ export function AISP() {
                 can still read.
               </p>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+            <div className="bg-white border border-[#e8772e]/20 rounded-2xl p-8">
               <h3 className="text-lg font-semibold mb-3">How It Works</h3>
-              <p className="text-neutral-400 leading-relaxed">
-                Every specification is a <strong className="text-white">Crystal Atom</strong> — a
+              <p className="text-[#6b5e4f] leading-relaxed">
+                Every specification is a <strong className="text-[#2d1f12]">Crystal Atom</strong> — a
                 self-contained unit with five typed components. Atoms compose into
                 molecules (pages) and organisms (full applications). The 512 symbols
                 in the Sigma set (&#931;&#8325;&#8321;&#8322;) provide mathematical
@@ -88,16 +88,16 @@ export function AISP() {
       </section>
 
       {/* The 5 Components */}
-      <section className="py-20 bg-[#1a1a1a]">
-        <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-3xl font-bold mb-4">The Five Crystal Atom Components</h2>
-          <p className="text-neutral-400 mb-12 max-w-2xl">Each atom encodes the complete specification in five formal components. Nothing is left to interpret.</p>
-          <div className="grid md:grid-cols-5 gap-4">
+      <section className="py-12 md:py-20 bg-[#faf8f5]">
+        <div className="max-w-5xl mx-auto px-4 md:px-6">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">The Five Crystal Atom Components</h2>
+          <p className="text-[#6b5e4f] mb-12 max-w-2xl">Each atom encodes the complete specification in five formal components. Nothing is left to interpret.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
             {COMPONENTS.map((c) => (
               <div key={c.symbol} className={`rounded-2xl border p-6 ${c.bg}`}>
                 <span className={`text-4xl font-bold ${c.color} block mb-3`}>{c.symbol}</span>
-                <h3 className="text-lg font-semibold text-white mb-2">{c.name}</h3>
-                <p className="text-sm text-neutral-400 leading-relaxed">{c.desc}</p>
+                <h3 className="text-lg font-semibold text-[#2d1f12] mb-2">{c.name}</h3>
+                <p className="text-sm text-[#6b5e4f] leading-relaxed">{c.desc}</p>
               </div>
             ))}
           </div>
@@ -105,27 +105,27 @@ export function AISP() {
       </section>
 
       {/* Sigma 512 */}
-      <section className="py-20 bg-[#242424]">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+      <section className="py-12 md:py-20 bg-[#f1ece4]">
+        <div className="max-w-5xl mx-auto px-4 md:px-6">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold mb-4">The Sigma-512 Symbol Set</h2>
-              <p className="text-neutral-400 leading-relaxed mb-6">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">The Sigma-512 Symbol Set</h2>
+              <p className="text-[#6b5e4f] leading-relaxed mb-6">
                 AISP uses a curated library of 512 mathematical and logical symbols
                 that all major LLMs understand natively — no fine-tuning, no special
                 prompting. These symbols provide precise, unambiguous operators for
                 defining relationships, constraints, types, and validation rules.
               </p>
-              <p className="text-neutral-400 leading-relaxed">
+              <p className="text-[#6b5e4f] leading-relaxed">
                 The set covers: assignment operators, type constructors, logical
                 quantifiers, set operations, temporal markers, verification assertions,
                 and composition operators. Every symbol was tested against GPT-4,
                 Claude, Gemini, and Llama to confirm native comprehension.
               </p>
             </div>
-            <div className="bg-[#1a1d27] border border-white/10 rounded-2xl p-8 font-mono text-sm">
-              <p className="text-neutral-500 mb-4">// Sample symbols from Sigma-512</p>
-              <div className="space-y-2 text-neutral-300">
+            <div className="bg-[#1a1d27] border border-[#e8772e]/20 rounded-2xl p-8 font-mono text-sm">
+              <p className="text-[#6b5e4f] mb-4">// Sample symbols from Sigma-512</p>
+              <div className="space-y-2 text-[#2d1f12]">
                 <p><span className="text-purple-400">:=</span> &nbsp;Assignment (define as)</p>
                 <p><span className="text-indigo-400">&#8658;</span> &nbsp;Implies (if-then)</p>
                 <p><span className="text-emerald-400">&#8704;</span> &nbsp;Universal quantifier (for all)</p>
@@ -140,15 +140,15 @@ export function AISP() {
       </section>
 
       {/* Ambiguity Comparison */}
-      <section className="py-20 bg-[#1a1a1a]">
-        <div className="max-w-5xl mx-auto px-6">
+      <section className="py-12 md:py-20 bg-[#faf8f5]">
+        <div className="max-w-5xl mx-auto px-4 md:px-6">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
               <BarChart3 className="w-5 h-5 text-emerald-400" />
             </div>
             <h2 className="text-3xl font-bold">How It Achieves &lt;2% Ambiguity</h2>
           </div>
-          <p className="text-neutral-400 mb-12 max-w-2xl">
+          <p className="text-[#6b5e4f] mb-12 max-w-2xl">
             Ambiguity is measured formally: the ratio of symbols requiring
             interpretation to total symbols in the spec. Traditional prose specs
             average 40-65%. AISP Crystal Atoms target under 2%.
@@ -156,63 +156,68 @@ export function AISP() {
 
           {/* Visual bar chart */}
           <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+            <div className="bg-white border border-[#e8772e]/20 rounded-2xl p-8">
               <h3 className="text-lg font-semibold mb-6">Ambiguity Comparison</h3>
               <div className="space-y-6">
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="text-neutral-400">Traditional Specs</span>
+                    <span className="text-[#6b5e4f]">Traditional Specs</span>
                     <span className="text-red-400 font-semibold">~50%</span>
                   </div>
-                  <div className="h-4 rounded-full bg-white/5 overflow-hidden">
+                  <div className="h-4 rounded-full bg-white overflow-hidden">
                     <div className="h-full rounded-full bg-gradient-to-r from-red-500 to-red-400" style={{ width: '50%' }} />
                   </div>
                 </div>
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="text-neutral-400">Google Docs PRD</span>
+                    <span className="text-[#6b5e4f]">Google Docs PRD</span>
                     <span className="text-orange-400 font-semibold">~40%</span>
                   </div>
-                  <div className="h-4 rounded-full bg-white/5 overflow-hidden">
+                  <div className="h-4 rounded-full bg-white overflow-hidden">
                     <div className="h-full rounded-full bg-gradient-to-r from-orange-500 to-orange-400" style={{ width: '40%' }} />
                   </div>
                 </div>
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="text-neutral-400">AI Prompt</span>
+                    <span className="text-[#6b5e4f]">AI Prompt</span>
                     <span className="text-amber-400 font-semibold">~30%</span>
                   </div>
-                  <div className="h-4 rounded-full bg-white/5 overflow-hidden">
+                  <div className="h-4 rounded-full bg-white overflow-hidden">
                     <div className="h-full rounded-full bg-gradient-to-r from-amber-500 to-amber-400" style={{ width: '30%' }} />
                   </div>
                 </div>
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="text-neutral-400">AISP Crystal Atom</span>
+                    <span className="text-[#6b5e4f]">AISP Crystal Atom</span>
                     <span className="text-emerald-400 font-semibold">&lt;2%</span>
                   </div>
-                  <div className="h-4 rounded-full bg-white/5 overflow-hidden">
+                  <div className="h-4 rounded-full bg-white overflow-hidden">
                     <div className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400" style={{ width: '2%' }} />
                   </div>
                 </div>
+                {/* P119 / ADR-148 — compounding math; academic-citation exemption to ADR-146 D2 */}
+                <p className="text-xs text-[#6b5e4f] leading-relaxed pt-3 border-t border-[#e8772e]/20 mt-2">
+                  Across five handoffs: industry baselines compound to ~8% intent preservation. AISP holds it above 90%.{' '}
+                  <em>Capstone research, Harvard ALM 2026.</em>
+                </p>
               </div>
             </div>
 
             {/* Comparison table */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 overflow-x-auto">
+            <div className="bg-white border border-[#e8772e]/20 rounded-2xl p-8 overflow-x-auto">
               <h3 className="text-lg font-semibold mb-6">Feature Comparison</h3>
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-white/10">
-                    <th className="text-left text-neutral-400 pb-3 font-medium">Attribute</th>
-                    <th className="text-center text-neutral-400 pb-3 font-medium">Traditional</th>
+                  <tr className="border-b border-[#e8772e]/20">
+                    <th className="text-left text-[#6b5e4f] pb-3 font-medium">Attribute</th>
+                    <th className="text-center text-[#6b5e4f] pb-3 font-medium">Traditional</th>
                     <th className="text-center text-emerald-400 pb-3 font-medium">AISP</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   {COMPARISONS.map((row) => (
                     <tr key={row.label}>
-                      <td className="py-3 text-neutral-300">{row.label}</td>
+                      <td className="py-3 text-[#2d1f12]">{row.label}</td>
                       <td className="py-3 text-center text-red-400">{row.traditional}</td>
                       <td className="py-3 text-center text-emerald-400">{row.aisp}</td>
                     </tr>
@@ -221,36 +226,69 @@ export function AISP() {
               </table>
             </div>
           </div>
+          <p className="text-sm text-[#6b5e4f] mt-6 italic">
+            AISP atoms are now visible by default on every Hey Bradley reply (Sprint L &middot; ADR-078).
+          </p>
         </div>
       </section>
 
       {/* Resources */}
-      <section className="py-20 bg-[#242424]">
-        <div className="max-w-5xl mx-auto px-6 text-center">
+      <section className="py-12 md:py-20 bg-[#f1ece4]">
+        <div className="max-w-5xl mx-auto px-4 md:px-6 text-center">
           <h2 className="text-3xl font-bold mb-4">Explore AISP</h2>
-          <p className="text-neutral-400 mb-10 max-w-xl mx-auto">
+          <p className="text-[#6b5e4f] mb-10 max-w-xl mx-auto">
             AISP is open source and free to use. Dive into the specification,
             try it in the builder, or read the research.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-purple-600 text-white hover:bg-purple-500 transition-colors">
+            <Link to="/onboarding" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-[#e8772e] text-white hover:bg-[#c45f1c] transition-colors shadow-lg">
+              Try the open source version <ArrowRight className="w-4 h-4" />
+            </Link>
+            <a href="https://github.com/bar181/aisp-open-core" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold border border-[#e8772e]/30 text-[#2d1f12] hover:bg-[#f1ece4] transition-colors">
               <ExternalLink className="w-4 h-4" /> GitHub Repo
             </a>
-            <Link to="/new-project" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-white text-neutral-900 hover:bg-neutral-100 transition-colors">
-              Try in Builder <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link to="/research" className="px-6 py-3 rounded-xl font-semibold border border-white/30 text-white hover:bg-white/10 transition-colors">
+            <Link to="/research" className="px-6 py-3 rounded-xl font-semibold border border-white/30 text-[#2d1f12] hover:bg-white/10 transition-colors">
               Read Research
             </Link>
           </div>
         </div>
       </section>
 
+      <AISPDualView />
+
+      {/* Adoption */}
+      <section className="py-12 md:py-20 bg-[#f1ece4]">
+        <div className="max-w-5xl mx-auto px-4 md:px-6 text-center">
+          <h2 className="text-3xl font-bold mb-4">Building with AISP?</h2>
+          <p className="text-[#6b5e4f] mb-10 max-w-2xl mx-auto leading-relaxed">
+            AISP is open-spec, polyglot-consumable, and ships with TypeScript + Python
+            reference parsers. Drop a Hey Bradley bundle into your pipeline and act on
+            the 5-atom trace directly &mdash; no scraping, no interpretation.
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <a
+              href="https://github.com/bar181/aisp-open-core"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-[#e8772e] text-white hover:bg-[#c45f1c] transition-colors shadow-lg"
+            >
+              View the public AISP repo <ExternalLink className="w-4 h-4" />
+            </a>
+            <Link
+              to="/docs"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold border border-[#e8772e]/30 text-[#2d1f12] hover:bg-[#f1ece4] transition-colors"
+            >
+              3rd-party adoption guide <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
-      <footer className="py-12 border-t border-white/10 bg-[#1a1a1a]">
+      <footer className="py-12 border-t border-[#e8772e]/20 bg-[#faf8f5]">
         <div className="max-w-5xl mx-auto px-6 text-center">
-          <p className="text-sm text-neutral-500 mb-2">Harvard ALM Capstone &mdash; Digital Media Design &mdash; May 2026</p>
-          <p className="text-sm text-neutral-500">Bradley Ross &mdash; Creator of AISP</p>
+          <p className="text-sm text-[#6b5e4f] mb-2">Harvard ALM Capstone &mdash; Digital Media Design &mdash; May 2026</p>
+          <p className="text-sm text-[#6b5e4f]">Bradley Ross &mdash; Creator of AISP &mdash; bar181@yahoo.com</p>
         </div>
       </footer>
     </main>

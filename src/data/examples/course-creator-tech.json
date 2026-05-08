@@ -1,0 +1,230 @@
+{
+  "_storytellingPreset": "founder-direct",
+  "_note": "P113/A3 — tech course creator running cohorts. Founder-direct preset: confident, direct, restrained-not-bro. Cites cohort dates + named students with last initial.",
+  "site": {
+    "title": "Concrete · Production Rust for the Working Engineer",
+    "description": "An 8-week cohort-based course on shipping production Rust services. Taught by Anders Fjeld, formerly Rust performance lead at Cloudflare and tech lead on the tokio runtime team. Cohorts run quarterly. Class size capped at 28.",
+    "author": "Anders Fjeld",
+    "email": "anders@concrete-rust.dev",
+    "domain": "concrete-rust.dev",
+    "project": "concrete-rust",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "developer",
+    "tone": "technical",
+    "brandName": "Concrete",
+    "tagline": "Production Rust for the working engineer.",
+    "voiceAttributes": ["confident", "direct", "restrained", "specific", "practitioner-credible"]
+  },
+  "theme": {
+    "preset": "graphite",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0e1116",
+      "bgSecondary": "#161b22",
+      "textPrimary": "#e6edf3",
+      "textSecondary": "#9aa6b2",
+      "accentPrimary": "#d97706",
+      "accentSecondary": "#3fb950"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#f6f8fa",
+      "bgSecondary": "#ffffff",
+      "textPrimary": "#0e1116",
+      "textSecondary": "#57606a",
+      "accentPrimary": "#d97706",
+      "accentSecondary": "#1a7f37"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "JetBrains Mono",
+      "headingWeight": 600,
+      "baseSize": "16px",
+      "lineHeight": 1.65
+    },
+    "spacing": { "sectionPadding": "96px", "containerMaxWidth": "1100px", "componentGap": "28px" },
+    "borderRadius": "6px"
+  },
+  "sections": [
+    {
+      "type": "menu", "id": "navbar-01", "enabled": true, "order": -1, "variant": "simple",
+      "layout": { "display": "flex", "padding": "20px 32px", "gap": "28px", "maxWidth": "1100px" },
+      "style": { "background": "#0e1116", "color": "#e6edf3" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Concrete" } },
+        { "id": "nav-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "Curriculum", "url": "#curriculum" } },
+        { "id": "nav-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "Cohorts", "url": "#cohorts" } },
+        { "id": "nav-3", "type": "link", "enabled": true, "order": 3, "props": { "text": "Students", "url": "#students" } },
+        { "id": "nav-4", "type": "link", "enabled": true, "order": 4, "props": { "text": "Instructor", "url": "#instructor" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 5, "props": { "text": "Apply for August cohort", "url": "#apply" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero", "id": "hero-01", "enabled": true, "order": 0, "variant": "left-aligned",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "28px", "padding": "144px 32px 96px", "maxWidth": "960px" },
+      "style": { "background": "#0e1116", "color": "#e6edf3" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0,
+          "props": { "text": "Cohort 09 · August 12 – October 7, 2026 · 28 seats · 11 remaining", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "Eight weeks. One production Rust service. No bootcamp theatre.", "level": 1, "size": "68px", "weight": 600 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "Concrete is an 8-week cohort-based course for engineers who already write code professionally and want to ship Rust in production. By week 8 you will have built, deployed, and load-tested a tokio-based service with structured logging, graceful shutdown, prometheus metrics, integration tests, and a CI pipeline you would actually trust on a Friday afternoon. Two live sessions per week. Real code review on every PR. No filler videos and no certificate." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "Apply for cohort 09", "url": "#apply", "style": "filled", "size": "lg", "background": "#d97706", "color": "#0e1116" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4,
+          "props": { "text": "Read the curriculum", "url": "#curriculum", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text", "id": "curriculum-overview-01", "enabled": true, "order": 1, "variant": "long-form",
+      "layout": { "display": "flex", "direction": "column", "gap": "24px", "padding": "96px 32px", "maxWidth": "880px" },
+      "style": { "background": "#0e1116", "color": "#e6edf3" },
+      "components": [
+        { "id": "co-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "What you will actually learn.", "level": 2, "size": "40px", "weight": 600 } },
+        { "id": "co-p1", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "Concrete assumes you can read and write code in some other language. C++, Go, Java, TypeScript — fine. You do not need to know Rust before week 1. By week 2 you will have written your first async tokio handler. By week 5 you will have implemented a custom Tower middleware. By week 8 you will have your service running on a real cloud target with a load profile you generated yourself. Every assignment is graded against a runnable spec — your code either passes the integration suite or it does not." } },
+        { "id": "co-p2", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "What this course is not: a survey of every crate in the ecosystem, a debate about async runtimes, or a place to learn lifetimes from first principles. There are excellent free resources for that. What this course is: 8 weeks of doing the actual work, with feedback from someone who has shipped Rust at scale, and a cohort of engineers who will read your code carefully." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns", "id": "modules-01", "enabled": true, "order": 2, "variant": "five-up",
+      "layout": { "display": "grid", "columns": 5, "gap": "24px", "padding": "96px 32px", "maxWidth": "1240px" },
+      "style": { "background": "#161b22", "color": "#e6edf3" },
+      "components": [
+        { "id": "m-1", "type": "feature-card", "enabled": true, "order": 0,
+          "props": { "icon": "01", "title": "Weeks 1-2 · Ownership for working engineers",
+            "description": "We move fast. Borrow checker as a tool, not a puzzle. Cargo, modules, error handling with thiserror and anyhow. By Friday of week 2 you are writing async fn." } },
+        { "id": "m-2", "type": "feature-card", "enabled": true, "order": 1,
+          "props": { "icon": "02", "title": "Weeks 3-4 · Tokio and the service skeleton",
+            "description": "Async runtime model, channels, select!, structured concurrency. Build the first cut of your service. axum or actix-web — your choice. Load-test with vegeta on a single laptop." } },
+        { "id": "m-3", "type": "feature-card", "enabled": true, "order": 2,
+          "props": { "icon": "03", "title": "Weeks 5-6 · Observability that holds up",
+            "description": "tracing crate end to end, structured JSON logs, prometheus metrics, OpenTelemetry traces. Graceful shutdown that actually waits. Health checks a load balancer will respect." } },
+        { "id": "m-4", "type": "feature-card", "enabled": true, "order": 3,
+          "props": { "icon": "04", "title": "Week 7 · Tests that matter",
+            "description": "Integration tests against a real PostgreSQL container. Property tests with proptest. Snapshot tests for HTTP contracts. CI in GitHub Actions that runs in under 4 minutes." } },
+        { "id": "m-5", "type": "feature-card", "enabled": true, "order": 4,
+          "props": { "icon": "05", "title": "Week 8 · Ship and load-test",
+            "description": "Deploy to fly.io or AWS Fargate. Run a real load profile. Read your own dashboards. Final code review with the instructor and one cohort peer. Service is yours to keep." } }
+      ],
+      "content": { "heading": "Five modules. Eight weeks. One service shipped.", "subheading": "Every module ends with code that runs. If your service does not pass the spec by Friday, we sit down on Saturday and figure out why." }
+    },
+    {
+      "type": "pricing", "id": "tiers-01", "enabled": true, "order": 3, "variant": "tiers",
+      "layout": { "display": "grid", "columns": 3, "gap": "28px", "padding": "96px 32px", "maxWidth": "1100px" },
+      "style": { "background": "#0e1116", "color": "#e6edf3" },
+      "components": [
+        { "id": "t-1", "type": "pricing-tier", "enabled": true, "order": 0,
+          "props": {
+            "name": "Audit",
+            "price": "$1,200",
+            "billing": "one-time",
+            "features": "Live sessions only · No PR review · No final project credit · Recording access for 90 days · For engineers who already ship Rust and want the lectures",
+            "cta": "Apply for Audit seat",
+            "ctaUrl": "#apply-audit"
+          } },
+        { "id": "t-2", "type": "pricing-tier", "enabled": true, "order": 1,
+          "props": {
+            "name": "Standard",
+            "price": "$2,800",
+            "billing": "one-time · or 3 × $980",
+            "features": "Full 8-week cohort · Code review on every PR (median 11 hours) · Final project graded · Cohort Discord · Office hours twice a week · Recordings for 1 year",
+            "cta": "Apply for Standard seat",
+            "ctaUrl": "#apply",
+            "featured": true
+          } },
+        { "id": "t-3", "type": "pricing-tier", "enabled": true, "order": 2,
+          "props": {
+            "name": "1:1",
+            "price": "$5,400",
+            "billing": "one-time · 4 seats per cohort",
+            "features": "Everything in Standard · Plus four 60-minute 1:1 sessions with Anders · Architecture review of one production system you already work on · Hand-written letter of completion · Two seats remaining for August",
+            "cta": "Apply for 1:1 seat",
+            "ctaUrl": "#apply-1on1"
+          } }
+      ],
+      "content": { "heading": "Three ways in.", "subheading": "All three include the same curriculum and the same final project. The differences are in feedback intensity." }
+    },
+    {
+      "type": "quotes", "id": "students-01", "enabled": true, "order": 4, "variant": "three-up",
+      "layout": { "display": "grid", "columns": 3, "gap": "28px", "padding": "96px 32px", "maxWidth": "1140px" },
+      "style": { "background": "#161b22", "color": "#e6edf3" },
+      "components": [
+        { "id": "s-1", "type": "testimonial", "enabled": true, "order": 0,
+          "props": { "quote": "I came in writing Go for 6 years and zero Rust. By week 4 I had refactored two of my Go services in my head and decided to actually do it at work. The PR feedback from Anders was the most precise code review I have had in 11 years of working as an engineer.", "author": "Priyanka V.", "role": "Cohort 06 · Senior Backend Engineer · Stripe", "rating": 5 } },
+        { "id": "s-2", "type": "testimonial", "enabled": true, "order": 1,
+          "props": { "quote": "The course is honest about what 8 weeks can do. You will not be a Rust expert by the end. You will, however, have shipped one real service and read about 4,000 lines of cohort code. Both of those things matter.", "author": "Maxim K.", "role": "Cohort 07 · Staff Engineer · Datadog", "rating": 5 } },
+        { "id": "s-3", "type": "testimonial", "enabled": true, "order": 2,
+          "props": { "quote": "I had bounced off Rust three times before this course. The combination of fixed weekly deadlines, peer code review, and a runnable spec — that is what made it stick. I now lead the Rust migration at my company. Anders did not promise me that. He said 'we will see.'", "author": "Hilde A.", "role": "Cohort 08 · Engineering Lead · Spotify", "rating": 5 } }
+      ],
+      "content": { "heading": "Past cohort engineers.", "subheading": "Three names from the last three cohorts. We have published all 187 cohort exit reviews on the syllabus page." }
+    },
+    {
+      "type": "team", "id": "instructor-01", "enabled": true, "order": 5, "variant": "single",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "28px", "padding": "96px 32px", "maxWidth": "880px" },
+      "style": { "background": "#0e1116", "color": "#e6edf3" },
+      "components": [
+        { "id": "i-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Your instructor.", "level": 2, "size": "40px", "weight": 600 } },
+        { "id": "i-card", "type": "team-member", "enabled": true, "order": 1,
+          "props": { "name": "Anders Fjeld", "role": "Instructor · Sole proprietor of Concrete",
+            "bio": "13 years writing Rust. Most recently, performance lead on Cloudflare's edge runtime, which serves about 84 trillion requests a year. Before that, tech lead on the tokio runtime team for 4 years. Author of 6 crates with a combined 12 million downloads. Lives in Bergen, Norway. Teaches in English. Believes the best Rust engineer in your team is probably the one who already shipped one service in production, not the one who wrote a blog post about lifetimes." } },
+        { "id": "i-extra", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "Anders teaches every cohort personally. There is no co-instructor. There is no TA. There is one teaching assistant who handles billing and Discord moderation, and her name is Linnea, and she is excellent." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "action", "id": "cta-01", "enabled": true, "order": 6, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "96px 32px", "gap": "20px", "maxWidth": "820px" },
+      "style": { "background": "linear-gradient(135deg, #d97706 0%, #b85b00 100%)", "color": "#0e1116" },
+      "components": [
+        { "id": "h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Apply for cohort 09. We close August 1.", "level": 2, "size": "40px", "weight": 600 } },
+        { "id": "sub", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "Application is one page. We read every one. Decisions go out within five business days. Cohort 09 starts Tuesday, August 12. We close at 28 students or August 1, whichever comes first." } },
+        { "id": "btn", "type": "button", "enabled": true, "order": 2,
+          "props": { "text": "Open the application", "url": "#apply-form", "style": "filled", "size": "lg", "background": "#0e1116", "color": "#e6edf3" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "contact-form", "id": "contact-01", "enabled": true, "order": 7, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "20px", "padding": "96px 32px", "maxWidth": "780px" },
+      "style": { "background": "#0e1116", "color": "#e6edf3" },
+      "components": [
+        { "id": "form-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Question for Anders?", "level": 2, "size": "32px", "weight": 600 } },
+        { "id": "form-blurb", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "Email beats DMs. Most questions answered within 36 hours, except weekends, when his daughter has piano lessons." } },
+        { "id": "form-name", "type": "input", "enabled": true, "order": 2,
+          "props": { "label": "Your name", "placeholder": "First and last", "type": "text", "required": true } },
+        { "id": "form-email", "type": "input", "enabled": true, "order": 3,
+          "props": { "label": "Email", "placeholder": "you@yourcompany.com", "type": "email", "required": true } },
+        { "id": "form-msg", "type": "input", "enabled": true, "order": 4,
+          "props": { "label": "What you are wondering", "placeholder": "A few sentences. Specifics get specifics back.", "type": "textarea", "required": true } },
+        { "id": "form-submit", "type": "button", "enabled": true, "order": 5,
+          "props": { "text": "Send to Anders", "url": "#submit", "style": "filled", "size": "lg", "background": "#d97706", "color": "#0e1116" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer", "id": "footer-01", "enabled": true, "order": 8, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "48px 32px", "gap": "12px", "maxWidth": "1100px" },
+      "style": { "background": "#161b22", "color": "#e6edf3" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Concrete · Production Rust for the Working Engineer" } },
+        { "id": "tagline", "type": "text", "enabled": true, "order": 1, "props": { "text": "Cohorts run quarterly · 28 seats · One instructor · Bergen, Norway" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 2, "props": { "text": "© 2026 Anders Fjeld · concrete-rust.dev" } }
+      ],
+      "content": {}
+    }
+  ]
+}

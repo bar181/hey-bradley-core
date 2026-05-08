@@ -1,0 +1,486 @@
+{
+  "site": {
+    "title": "Dr. Renata Vela · Keynote Speaker",
+    "description": "Keynote speaker on responsible AI, machine cognition, and the engineering of trust. Booking 2026 conferences worldwide.",
+    "author": "Dr. Renata Vela",
+    "email": "booking@renatavela.com",
+    "domain": "renatavela.com",
+    "project": "renata-vela-speaker",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "portfolio",
+    "audience": "business",
+    "tone": "formal",
+    "brandName": "Dr. Renata Vela",
+    "tagline": "Keynotes that make the room lean forward",
+    "voiceAttributes": [
+      "authoritative",
+      "warm",
+      "earned"
+    ]
+  },
+  "theme": {
+    "preset": "professional",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#fbf5ec",
+      "bgSecondary": "#f3e9d6",
+      "textPrimary": "#3a1f0c",
+      "textSecondary": "#6b4429",
+      "accentPrimary": "#a64a1f",
+      "accentSecondary": "#c8602e"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#1a0e08",
+      "bgSecondary": "#2c1810",
+      "textPrimary": "#fbf5ec",
+      "textSecondary": "#d4b89a",
+      "accentPrimary": "#c8602e",
+      "accentSecondary": "#e07c45"
+    },
+    "typography": {
+      "fontFamily": "Fraunces",
+      "headingFamily": "Fraunces",
+      "headingWeight": 600,
+      "baseSize": "17px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "6px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#fbf5ec",
+        "color": "#3a1f0c"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Dr. Renata Vela"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Book Renata",
+            "url": "#book"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "split",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "start",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1100px"
+      },
+      "style": {
+        "background": "#fbf5ec",
+        "color": "#3a1f0c"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Booking 2026 · Six dates remaining",
+            "icon": "mic",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Your conference audience can spot a generic AI talk in 30 seconds. I deliver keynotes that make the room lean forward.",
+            "level": 1,
+            "size": "58px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "I'm Dr. Renata Vela. After fifteen years researching responsible AI at MIT and Oxford, I've delivered keynotes at 184 conferences across 27 countries. My talks are not slide-deck recitations of last year's headlines — they are field reports from inside the work, calibrated to your audience, timed to the minute. The room earns the standing ovation; I just bring the material that makes it possible."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Book Renata",
+            "url": "#book",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Watch a Sample Keynote",
+            "url": "#sample",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "text": "184 keynotes · 27 countries · TED · WEF · NeurIPS · re:Invent",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "topics-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "icon-cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "72px 24px"
+      },
+      "style": {
+        "background": "#f3e9d6",
+        "color": "#3a1f0c"
+      },
+      "components": [
+        {
+          "id": "topic-1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "shield",
+            "title": "The Engineering of Trust",
+            "description": "What it actually takes to ship AI systems your customers — and your regulators — will tolerate. Drawn from the failed deployments nobody publishes. 45- or 60-minute formats. Best for: enterprise summits, board offsites, cabinet briefings."
+          }
+        },
+        {
+          "id": "topic-2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "brain",
+            "title": "Machine Cognition Without the Hype",
+            "description": "A working framework for what large models do, what they cannot do, and the seven categories of executive decision they should never be allowed near. Field-tested on 12,000+ enterprise audiences."
+          }
+        },
+        {
+          "id": "topic-3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "compass",
+            "title": "The Decade Ahead in Responsible AI",
+            "description": "A research-grounded forecast covering policy, infrastructure, and the cultural questions every leadership team will be asked between now and 2035. Includes interactive Q&A that organizers consistently rate the high point of the day."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Three Signature Talks",
+        "subheading": "Choose the closest fit; every keynote is then re-tailored to your specific audience and theme"
+      }
+    },
+    {
+      "type": "numbers",
+      "id": "stats-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "grid",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#fbf5ec",
+        "color": "#3a1f0c"
+      },
+      "components": [
+        {
+          "id": "n1",
+          "type": "stat",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "184",
+            "label": "Keynotes delivered",
+            "description": "Since 2017"
+          }
+        },
+        {
+          "id": "n2",
+          "type": "stat",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "27",
+            "label": "Countries",
+            "description": "Six continents"
+          }
+        },
+        {
+          "id": "n3",
+          "type": "stat",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "9.4",
+            "label": "Avg. organizer rating",
+            "description": "Out of 10, last 50 events"
+          }
+        },
+        {
+          "id": "n4",
+          "type": "stat",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "value": "15",
+            "label": "Years researching",
+            "description": "MIT · Oxford · DeepMind"
+          }
+        }
+      ],
+      "content": {
+        "heading": "By the Numbers",
+        "subheading": "Track record, not promises"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "quotes-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "72px 24px"
+      },
+      "style": {
+        "background": "#f3e9d6",
+        "color": "#3a1f0c"
+      },
+      "components": [
+        {
+          "id": "t1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "Renata gave the most precisely calibrated keynote I have ever programmed. Three CEOs in our audience told me afterwards it changed their roadmap. That is the highest compliment a chair can give.",
+            "author": "Lina Westergaard",
+            "role": "Programme Chair, Nordic Tech Summit",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "She did the work — three calls, two rewrites, a custom case study mid-week. The standing ovation wasn't a surprise. It was earned the moment she said yes.",
+            "author": "Daniel Okafor",
+            "role": "Director, Pan-African AI Forum",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "Most keynote speakers leave the stage and the lessons leave with them. Renata's framework is on whiteboards across our company a year later. That's the difference.",
+            "author": "Marisol Carbajal",
+            "role": "Chief AI Officer, Allura Health",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "From the Organizers",
+        "subheading": "Notes from the people who programme the room"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "72px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "#a64a1f",
+        "color": "#fbf5ec"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Six 2026 dates remain",
+            "level": 2,
+            "size": "44px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Send your event brief — theme, audience size, date window, format. Speaking fee, travel terms, and tailoring scope returned within 48 hours."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Book Renata",
+            "url": "mailto:booking@renatavela.com",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#fbf5ec",
+        "color": "#6b4429"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Dr. Renata Vela"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Speaking",
+            "links": "Keynote Topics,Past Events,Video Reel,Press Kit"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Research",
+            "links": "Publications,Lab,Citations,Books"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Booking",
+            "links": "Inquire,Speaking Fee,Travel,FAQ"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "© 2026 Dr. Renata Vela · Represented by Greyfield Speakers · Boston · London · Singapore."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

@@ -1,9 +1,10 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { cn } from '@/lib/cn'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
+import { useUIStore } from '@/store/uiStore'
 import { updateComponentProps } from '@/lib/componentHelpers'
-import { Maximize2, Columns2, Layers, Mountain } from 'lucide-react'
+import { Maximize2, Columns2, Layers, Mountain, ChevronDown, ChevronRight } from 'lucide-react'
 import { ImagePicker } from './ImagePicker'
 
 const INPUT =
@@ -19,7 +20,13 @@ const IMAGE_LAYOUTS = [
 export function ImageSectionSimple({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
   const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
+  const isDraft = useUIStore((s) => s.rightPanelTab) === 'SIMPLE'
+  const selectedContext = useUIStore((s) => s.selectedContext)
   const section = config.sections.find((s) => s.id === sectionId)
+  // P67 / Wave 2 / A2 — collapse-by-default; auto-expand the active section.
+  const isActive =
+    selectedContext?.type === 'section' && selectedContext.sectionId === sectionId
+  const [expanded, setExpanded] = useState<boolean>(isActive)
 
   if (!section) return null
 
@@ -46,7 +53,31 @@ export function ImageSectionSimple({ sectionId }: { sectionId: string }) {
   )
 
   return (
-    <div className="divide-y divide-hb-border/30">
+    <div data-section-id={sectionId} className="transition-all duration-200 ease-out">
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        aria-expanded={expanded}
+        aria-controls={`section-body-${sectionId}`}
+        data-testid="section-editor-collapse-toggle"
+        className={cn(
+          'flex items-center justify-between w-full px-2 py-2 mb-1 rounded-md',
+          'border border-hb-border/40 bg-hb-surface/40',
+          'hover:bg-hb-surface-hover transition-colors',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hb-accent'
+        )}
+      >
+        <span className="flex items-center gap-1.5">
+          <span className="text-[10px] uppercase tracking-wider text-hb-text-muted font-medium">Section</span>
+          <span className="text-xs font-semibold text-hb-text-primary capitalize">{section.type}</span>
+          {isActive && (
+            <span className="text-[9px] uppercase tracking-wider text-hb-accent font-medium">· active</span>
+          )}
+        </span>
+        {expanded ? <ChevronDown size={14} className="text-hb-text-muted" /> : <ChevronRight size={14} className="text-hb-text-muted" />}
+      </button>
+      {expanded && (
+      <div id={`section-body-${sectionId}`} className="divide-y divide-hb-border/30">
       <RightAccordion id={`image-layout-${sectionId}`} label="Style">
         <div className="grid grid-cols-2 gap-2">
           {IMAGE_LAYOUTS.map(({ v, label, Icon }) => (
@@ -72,6 +103,19 @@ export function ImageSectionSimple({ sectionId }: { sectionId: string }) {
         <div className="space-y-2.5">
           <div className="space-y-1">
             <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Image</span>
+            {imageUrl && (
+              <div className="w-full h-20 rounded-md overflow-hidden border border-hb-border/30">
+                <img
+                  src={imageUrl}
+                  alt="Current"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    ;(e.target as HTMLImageElement).style.display = 'none'
+                  }}
+                />
+              </div>
+            )}
+            {/* P114 / F2 — picker visible in SIMPLE (library-only) + EXPERT (full). */}
             <ImagePicker
               value={imageUrl}
               onChange={(url) => updateProp('imageUrl', url)}
@@ -79,6 +123,7 @@ export function ImageSectionSimple({ sectionId }: { sectionId: string }) {
               currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
               label="Choose Image"
               mode="both"
+              pickerMode={isDraft ? 'library-only' : 'full'}
             />
           </div>
           <div className="space-y-1">
@@ -103,6 +148,8 @@ export function ImageSectionSimple({ sectionId }: { sectionId: string }) {
           </div>
         </div>
       </RightAccordion>
+      </div>
+      )}
     </div>
   )
 }

@@ -1,9 +1,23 @@
 import { create } from 'zustand'
 import { masterConfigSchema } from '@/lib/schemas/masterConfig'
 import type { MasterConfig } from '@/lib/schemas/masterConfig'
+import {
+  listProjects as repoList,
+  getProject as repoGet,
+  upsertProject as repoUpsert,
+  deleteProject as repoDelete,
+  type ProjectRow,
+} from '@/contexts/persistence/repositories/projects'
+import { kvGet, kvSet } from '@/contexts/persistence/repositories/kv'
+import {
+  exportProject as bundleExportProject,
+  importBundle,
+  downloadBundle,
+} from '@/contexts/persistence/exportImport'
+import { useConfigStore } from '@/store/configStore'
 
 // ---------------------------------------------------------------------------
-// Types
+// Types — UI contract preserved from the previous localStorage-backed store.
 // ---------------------------------------------------------------------------
 
 export interface ProjectMeta {
@@ -22,16 +36,17 @@ interface ProjectStore {
   loadProject: (slug: string) => MasterConfig | null
   deleteProject: (slug: string) => void
   listProjects: () => ProjectMeta[]
-  exportProject: (config: MasterConfig, name: string) => void
-  importProject: (file: File) => Promise<MasterConfig>
+  exportProject: (slug: string) => Promise<void>
+  importProject: (file: File) => Promise<void>
   refreshList: () => void
+  hydrateLastProjectAfterDB: () => Promise<void>
 }
+
+const LAST_PROJECT_KEY = 'lastProjectId'
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
-const PROJECT_LIST_KEY = 'hb-project-list'
 
 function toSlug(name: string): string {
   return name
@@ -42,22 +57,45 @@ function toSlug(name: string): string {
     || 'untitled'
 }
 
-function projectStorageKey(slug: string): string {
-  return `hb-project-${slug}`
+function rowToMeta(row: ProjectRow): ProjectMeta {
+  // config_json holds the full MasterConfig; we extract the few fields the
+  // listing UI needs without paying for a full schema parse.
+  let sectionCount = 0
+  let theme = 'custom'
+  try {
+    const parsed = JSON.parse(row.config_json) as {
+      sections?: unknown[]
+      theme?: { preset?: string }
+    }
+    sectionCount = Array.isArray(parsed.sections) ? parsed.sections.length : 0
+    theme = parsed.theme?.preset || 'custom'
+  } catch {
+    // Tolerate malformed rows in the listing — load() will validate.
+  }
+  return {
+    slug: row.id,
+    name: row.name,
+    savedAt: new Date(row.updated_at).toISOString(),
+    sectionCount,
+    theme,
+  }
 }
 
 function readProjectList(): ProjectMeta[] {
   try {
-    const raw = localStorage.getItem(PROJECT_LIST_KEY)
-    if (!raw) return []
-    return JSON.parse(raw) as ProjectMeta[]
+    return repoList().map(rowToMeta)
   } catch {
+    // DB not yet initialised (e.g. very early render) — empty list is safe.
     return []
   }
 }
 
-function writeProjectList(projects: ProjectMeta[]): void {
-  localStorage.setItem(PROJECT_LIST_KEY, JSON.stringify(projects))
+function readInitialActive(): string | null {
+  try {
+    return kvGet(LAST_PROJECT_KEY) ?? null
+  } catch {
+    return null
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -65,49 +103,45 @@ function writeProjectList(projects: ProjectMeta[]): void {
 // ---------------------------------------------------------------------------
 
 export const useProjectStore = create<ProjectStore>((set, get) => ({
-  projects: readProjectList(),
+  // Hydration is deferred until after initDB() resolves; main.tsx invokes
+  // hydrateLastProjectAfterDB() at boot. Until then, lists are empty and
+  // activeProject is null — safe defaults that won't crash the UI.
+  projects: [],
   activeProject: null,
 
   refreshList: () => {
     set({ projects: readProjectList() })
   },
 
+  hydrateLastProjectAfterDB: async () => {
+    const slug = readInitialActive()
+    set({ projects: readProjectList(), activeProject: slug })
+    if (!slug) return
+    try {
+      const row = repoGet(slug)
+      if (!row) return
+      const parsed = JSON.parse(row.config_json) as unknown
+      const validated = masterConfigSchema.parse(parsed)
+      useConfigStore.getState().loadConfig(validated)
+    } catch {
+      // Bad row — leave configStore at defaults.
+    }
+  },
+
   saveProject: (name, config) => {
     const slug = toSlug(name)
-    const key = projectStorageKey(slug)
-
-    // Serialize and store the config
-    localStorage.setItem(key, JSON.stringify(config))
-
-    // Build meta entry
-    const meta: ProjectMeta = {
-      slug,
-      name,
-      savedAt: new Date().toISOString(),
-      sectionCount: config.sections.length,
-      theme: config.theme?.preset || 'custom',
-    }
-
-    // Upsert into project list
-    const existing = readProjectList()
-    const idx = existing.findIndex((p) => p.slug === slug)
-    if (idx >= 0) {
-      existing[idx] = meta
-    } else {
-      existing.push(meta)
-    }
-    writeProjectList(existing)
-
-    set({ projects: existing, activeProject: slug })
+    repoUpsert({ id: slug, name, config })
+    kvSet(LAST_PROJECT_KEY, slug)
+    set({ projects: readProjectList(), activeProject: slug })
   },
 
   loadProject: (slug) => {
     try {
-      const key = projectStorageKey(slug)
-      const raw = localStorage.getItem(key)
-      if (!raw) return null
-      const parsed = JSON.parse(raw)
+      const row = repoGet(slug)
+      if (!row) return null
+      const parsed = JSON.parse(row.config_json) as unknown
       const validated = masterConfigSchema.parse(parsed)
+      kvSet(LAST_PROJECT_KEY, slug)
       set({ activeProject: slug })
       return validated
     } catch {
@@ -116,15 +150,10 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
   },
 
   deleteProject: (slug) => {
-    const key = projectStorageKey(slug)
-    localStorage.removeItem(key)
-
-    const existing = readProjectList().filter((p) => p.slug !== slug)
-    writeProjectList(existing)
-
+    repoDelete(slug)
     const { activeProject } = get()
     set({
-      projects: existing,
+      projects: readProjectList(),
       activeProject: activeProject === slug ? null : activeProject,
     })
   },
@@ -133,38 +162,38 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
     return get().projects
   },
 
-  exportProject: (config, name) => {
-    const json = JSON.stringify(config, null, 2)
-    const blob = new Blob([json], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-
-    const slug = toSlug(name)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `${slug}.hey-bradley.json`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
+  exportProject: async (slug) => {
+    const row = repoGet(slug)
+    if (!row) return
+    const blob = await bundleExportProject(slug)
+    await downloadBundle(blob, `${slug}.heybradley`)
   },
 
   importProject: async (file) => {
-    return new Promise<MasterConfig>((resolve, reject) => {
-      const reader = new FileReader()
-      reader.onload = () => {
-        try {
-          const text = reader.result as string
-          const parsed = JSON.parse(text)
+    await importBundle(file)
+    // Refresh the list and re-hydrate the active project from the freshly
+    // imported DB so the UI reflects the new state.
+    set({ projects: readProjectList() })
+    const slug = readInitialActive()
+    set({ activeProject: slug })
+    if (slug) {
+      try {
+        const row = repoGet(slug)
+        if (row) {
+          const parsed = JSON.parse(row.config_json) as unknown
           const validated = masterConfigSchema.parse(parsed)
-          resolve(validated)
-        } catch (err) {
-          reject(new Error('Invalid project file. The JSON could not be validated.'))
+          useConfigStore.getState().loadConfig(validated)
+          // Re-persist via repoUpsert is unnecessary — the imported DB
+          // already contains the row.
         }
+      } catch {
+        // Tolerate validation failures; UI keeps current config.
       }
-      reader.onerror = () => {
-        reject(new Error('Failed to read the file.'))
-      }
-      reader.readAsText(file)
-    })
+    }
   },
 }))
+
+// Expose store for Playwright/E2E testing in dev mode
+if (import.meta.env.DEV) {
+  ;(window as unknown as Record<string, unknown>).__projectStore = useProjectStore
+}

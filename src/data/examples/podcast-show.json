@@ -1,0 +1,458 @@
+{
+  "site": {
+    "title": "Build Mode",
+    "description": "The podcast about agentic engineering — weekly conversations with the people actually shipping AI systems in production.",
+    "author": "Build Mode Podcast",
+    "email": "hello@buildmode.fm",
+    "domain": "buildmode.fm",
+    "project": "build-mode-podcast",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "blog",
+    "audience": "developer",
+    "tone": "casual",
+    "brandName": "Build Mode",
+    "tagline": "The podcast about agentic engineering",
+    "voiceAttributes": ["conversational", "inside-baseball", "candid"]
+  },
+  "theme": {
+    "preset": "creative",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#1e1b4b",
+      "bgSecondary": "#312e81",
+      "textPrimary": "#fafafa",
+      "textSecondary": "#c7d2fe",
+      "accentPrimary": "#6366f1",
+      "accentSecondary": "#818cf8"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#fafafa",
+      "bgSecondary": "#eef2ff",
+      "textPrimary": "#1e1b4b",
+      "textSecondary": "#4c1d95",
+      "accentPrimary": "#6366f1",
+      "accentSecondary": "#818cf8"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Inter",
+      "headingWeight": 800,
+      "baseSize": "17px",
+      "lineHeight": 1.6
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "16px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#1e1b4b",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Build Mode"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Subscribe",
+            "url": "#subscribe"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #1e1b4b 0%, #312e81 60%, #1e1b4b 100%)",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "New episode every Tuesday",
+            "icon": "mic",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Build Mode · The podcast about agentic engineering",
+            "level": 1,
+            "size": "60px",
+            "weight": 800
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Hosted by Naveed Iqbal and Jules Park. Every Tuesday we sit down with engineers actually shipping agentic systems — what works, what broke, and what they wish they'd known six months ago. No hype, no roadmap-talk, no predictions. Just the build."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Listen on Apple Podcasts",
+            "url": "#apple",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Listen on Spotify",
+            "url": "#spotify",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "text": "47 episodes · 8,400 weekly listeners · Top-50 in Tech (US)",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "episodes-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "glass",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#312e81",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "ep-1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "play",
+            "title": "Ep. 47 — The Spec Is the Compiler",
+            "description": "With Mira Solberg (Hyperion AI). Why she stopped writing prompts and started compiling them. 58 min."
+          }
+        },
+        {
+          "id": "ep-2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "play",
+            "title": "Ep. 46 — Eval-Driven Dev in Anger",
+            "description": "With Devon Park (Subline). What it actually takes to put eval gates on every PR — and what broke when they did. 1 hr 4 min."
+          }
+        },
+        {
+          "id": "ep-3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "play",
+            "title": "Ep. 45 — Agents That Don't Argue",
+            "description": "With Aisha Bello (Northwind). Replacing orchestrator agents with typed message buses, and why their incident count dropped 70%. 52 min."
+          }
+        },
+        {
+          "id": "ep-4",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "icon": "play",
+            "title": "Ep. 44 — The Agent Bill",
+            "description": "With Tomás Hidalgo (Lattice). The unglamorous math of agent loops, token bleed, and the four levers that actually move cost. 49 min."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Latest episodes",
+        "subheading": "All episodes free, no ads on the first three minutes, full transcripts at /transcripts"
+      }
+    },
+    {
+      "type": "text",
+      "id": "about-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "single",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "padding": "64px 24px",
+        "maxWidth": "800px"
+      },
+      "style": {
+        "background": "#1e1b4b",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "body",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "body": "Build Mode started in 2024 as a Slack thread between Naveed and Jules — both staff engineers, both annoyed that every AI podcast was either keynote-flavored optimism or doom. We wanted a show for the people writing the actual code: how they think about state, how they evaluate quality, what they're willing to pay per request, what they regret shipping. Forty-seven episodes later, the thread is a podcast and the audience has gotten loud about wanting more of the same. So that's what we keep doing."
+          }
+        }
+      ],
+      "content": {
+        "heading": "About the show",
+        "subheading": "Made by engineers, for engineers, about engineering"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#312e81",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "The only AI podcast where I learn something new every episode. Every other show I listen to at 2x — Build Mode I rewind.",
+            "author": "Hannah Vargas",
+            "role": "Sr. Engineer, Loomwise",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "I queue Build Mode for my whole team. The episode on eval gates basically wrote our Q1 roadmap.",
+            "author": "Andre Volkov",
+            "role": "Engineering Manager, Tidalwave",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "Naveed and Jules ask the questions I would actually ask if I were in the room. No softball, no vendor-speak. Just the build.",
+            "author": "Yuki Tanaka",
+            "role": "Founding Engineer, Marbleworks",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "From the listeners",
+        "subheading": "Why folks keep us in their Tuesday queue"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "gradient",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #6366f1 0%, #818cf8 100%)",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Subscribe wherever you listen",
+            "level": 2,
+            "size": "36px",
+            "weight": 800
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "New episode every Tuesday at 6 AM Pacific. Apple Podcasts · Spotify · Overcast · Pocket Casts · RSS. Or get the Tuesday-morning email with show notes, links, and the one quote we couldn't stop thinking about."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Subscribe Free",
+            "url": "#subscribe",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#1e1b4b",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Build Mode"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Listen",
+            "links": "Apple Podcasts,Spotify,Overcast,RSS"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Show",
+            "links": "Episodes,Transcripts,Guests,About"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Connect",
+            "links": "Newsletter,Suggest a Guest,Sponsor,Contact"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "© 2026 Build Mode. Hosted by Naveed Iqbal and Jules Park."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

@@ -1,0 +1,235 @@
+[
+  {
+    "session_id": "p3-quattro-session-01",
+    "request_id": "p3-quattro-req-001",
+    "event_type": "intent_classification",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "INTENT_ATOM",
+      "prompt_excerpt": "Build an agency site for Quattro Studio — boutique brand-and-product, Austin",
+      "trigger_words": ["build", "agency", "site", "boutique"],
+      "verb": "add",
+      "target_type": null,
+      "purpose_inference": "agency",
+      "audience_inference": "business",
+      "tone_inference": "formal",
+      "brand_name_capture": "Quattro Studio",
+      "location_capture": "Austin",
+      "confidence": 0.86
+    },
+    "latency_ms": 170,
+    "created_at": 1714820000000
+  },
+  {
+    "session_id": "p3-quattro-session-01",
+    "request_id": "p3-quattro-req-001",
+    "event_type": "template_match",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "SELECTION_ATOM",
+      "category": "agency",
+      "matched_template": "boutique-agency",
+      "confidence": 0.84,
+      "default_sections": ["menu", "hero", "text", "case-study", "gallery", "team", "contact-form", "footer"]
+    },
+    "latency_ms": 120,
+    "created_at": 1714820000170
+  },
+  {
+    "session_id": "p3-quattro-session-01",
+    "request_id": "p3-quattro-req-002",
+    "event_type": "intent_classification",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "INTENT_ATOM",
+      "prompt_excerpt": "We work with seed-to-Series-B startups. Lead with that positioning",
+      "trigger_words": ["work with", "lead", "positioning"],
+      "verb": "change",
+      "target_type": "text",
+      "target_section_role": "positioning",
+      "audience_refinement": "venture-backed-founders",
+      "patches": [
+        { "path": "/site/description", "value": "A boutique brand-and-product agency in Austin, partnering with seed-to-Series-B startups to make brands ready for the round they haven't raised yet." }
+      ]
+    },
+    "latency_ms": 240,
+    "created_at": 1714820009000
+  },
+  {
+    "session_id": "p3-quattro-session-01",
+    "request_id": "p3-quattro-req-003",
+    "event_type": "patch_validation",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "prompt_excerpt": "Hero: 'We make brands ready for the round you haven't raised yet.' professional / understated",
+      "trigger_words": ["hero", "professional", "understated"],
+      "verbatim_capture": "We make brands ready for the round you haven't raised yet.",
+      "voice_adjectives_normalized": ["polished", "restrained", "confident"],
+      "patches": [
+        { "path": "/sections/1/components/1/props/text", "value": "We make brands ready for the round you haven't raised yet." },
+        { "path": "/sections/1/components/0/props/text", "value": "Boutique brand & product · Austin · Est. 2019" },
+        { "path": "/site/voiceAttributes", "value": ["polished", "restrained", "confident"] }
+      ]
+    },
+    "latency_ms": 980,
+    "created_at": 1714820018000
+  },
+  {
+    "session_id": "p3-quattro-session-01",
+    "request_id": "p3-quattro-req-004",
+    "event_type": "decomp_split",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "DECOMP_ATOM",
+      "prompt_excerpt": "Add 3 case-study tiles: Glycora (medical wearable rebrand), Ferment (B2B coffee infrastructure), and Soane (SaaS reporting tool)",
+      "trigger_words": ["add", "case-study", "tiles"],
+      "split_strategy": "comma-list-with-parenthetical-type",
+      "todos": [
+        { "client": "Glycora", "project_type": "medical wearable rebrand", "confidence": 0.93 },
+        { "client": "Ferment", "project_type": "B2B coffee infrastructure", "confidence": 0.93 },
+        { "client": "Soane", "project_type": "SaaS reporting tool", "confidence": 0.93 }
+      ]
+    },
+    "latency_ms": 130,
+    "created_at": 1714820027000
+  },
+  {
+    "session_id": "p3-quattro-session-01",
+    "request_id": "p3-quattro-req-004",
+    "event_type": "patch_validation",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "verb": "add",
+      "target_type": "case-study",
+      "voice_inheritance": ["polished", "restrained", "confident"],
+      "patches": [
+        { "path": "/sections/insertAt/2", "value": { "type": "case-study", "id": "case-studies-01", "variant": "tile-grid", "components": "3 case-study-cards (Glycora / Ferment / Soane)" } }
+      ]
+    },
+    "latency_ms": 2080,
+    "created_at": 1714820027130
+  },
+  {
+    "session_id": "p3-quattro-session-01",
+    "request_id": "p3-quattro-req-005",
+    "event_type": "intent_classification",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "INTENT_ATOM",
+      "prompt_excerpt": "Add a portfolio section — 6 image tiles with project names; placeholder image URLs OK",
+      "trigger_words": ["add", "portfolio", "tiles", "images"],
+      "verb": "add",
+      "target_type": "gallery",
+      "tile_count": 6,
+      "placeholder_images_allowed": true,
+      "patches": [
+        { "path": "/sections/insertAt/3", "value": { "type": "gallery", "id": "portfolio-01", "variant": "image-grid", "tile_count": 6 } }
+      ]
+    },
+    "latency_ms": 1140,
+    "created_at": 1714820041000
+  },
+  {
+    "session_id": "p3-quattro-session-01",
+    "request_id": "p3-quattro-req-006",
+    "event_type": "decomp_split",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "DECOMP_ATOM",
+      "prompt_excerpt": "Add team section — Sarah (Principal), Aiden (Design Director), Mira (Strategy Director)",
+      "trigger_words": ["add", "team", "section"],
+      "split_strategy": "comma-list-with-parenthetical-role",
+      "todos": [
+        { "name": "Sarah", "role": "Principal", "confidence": 0.94 },
+        { "name": "Aiden", "role": "Design Director", "confidence": 0.94 },
+        { "name": "Mira", "role": "Strategy Director", "confidence": 0.94 }
+      ]
+    },
+    "latency_ms": 110,
+    "created_at": 1714820053000
+  },
+  {
+    "session_id": "p3-quattro-session-01",
+    "request_id": "p3-quattro-req-006",
+    "event_type": "patch_validation",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "verb": "add",
+      "target_type": "team",
+      "voice_inheritance": ["polished", "restrained", "confident"],
+      "patches": [
+        { "path": "/sections/insertAt/4", "value": { "type": "team", "id": "team-01", "variant": "grid", "components": "3 team-member cards (Sarah / Aiden / Mira)" } }
+      ]
+    },
+    "latency_ms": 1240,
+    "created_at": 1714820053110
+  },
+  {
+    "session_id": "p3-quattro-session-01",
+    "request_id": "p3-quattro-req-007",
+    "event_type": "intent_classification",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "INTENT_ATOM",
+      "prompt_excerpt": "Add a contact-form section with fields: name / email / company / project type / budget range / message",
+      "trigger_words": ["add", "contact-form", "fields"],
+      "verb": "add",
+      "target_type": "contact-form",
+      "fields": ["name", "email", "company", "project type", "budget range", "message"],
+      "patches": [
+        { "path": "/sections/insertAt/5", "value": { "type": "contact-form", "id": "contact-01", "variant": "simple", "field_count": 6 } }
+      ]
+    },
+    "latency_ms": 920,
+    "created_at": 1714820067000
+  },
+  {
+    "session_id": "p3-quattro-session-01",
+    "request_id": "p3-quattro-req-008",
+    "event_type": "patch_validation",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "prompt_excerpt": "Footer with location (Austin), email, social links (LinkedIn + Instagram + Are.na)",
+      "trigger_words": ["footer", "location", "email", "social"],
+      "verb": "add",
+      "target_type": "footer",
+      "social_links": ["LinkedIn", "Instagram", "Are.na"],
+      "patches": [
+        { "path": "/sections/insertAt/6", "value": { "type": "footer", "id": "footer-01", "variant": "multi-column" } },
+        { "path": "/sections/7/components/3/props/links", "value": "LinkedIn,Instagram,Are.na" },
+        { "path": "/sections/7/components/4/props/text", "value": "studio@quattro.co · Austin, TX" }
+      ]
+    },
+    "latency_ms": 1320,
+    "created_at": 1714820079000
+  },
+  {
+    "session_id": "p3-quattro-session-01",
+    "request_id": "p3-quattro-req-008",
+    "event_type": "response_summary",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "PROCESS",
+      "summary": "Site complete: 8 sections (menu/hero/text/case-study/gallery/team/contact-form/footer) · brand-context accumulator persisted · voice 'polished/restrained/confident' applied across hero + positioning + case-study + team + contact-form copy",
+      "total_prompts": 8,
+      "total_latency_ms": 10350,
+      "atom_path_distribution": {
+        "INTENT_only_or_PATCH_only": 5,
+        "INTENT_to_DECOMP_to_PATCH": 2,
+        "SELECTION_default_sections": 1
+      },
+      "section_count_final": 8,
+      "section_types_final": ["menu", "hero", "text", "case-study", "gallery", "team", "contact-form", "footer"],
+      "voice_attributes_final": ["polished", "restrained", "confident"],
+      "purpose_final": "agency",
+      "audience_final": "business",
+      "brand_name_final": "Quattro"
+    },
+    "latency_ms": 50,
+    "created_at": 1714820080320
+  }
+]

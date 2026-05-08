@@ -11,6 +11,8 @@ interface BlogArticle {
   excerpt: string
   author: string
   date: string
+  readTime: string
+  category: string
   tags: string[]
   featuredImage: string
 }
@@ -19,15 +21,20 @@ function parseArticles(section: Section): BlogArticle[] {
   return section.components
     .filter((c) => c.type === 'blog-article' && c.enabled)
     .sort((a, b) => a.order - b.order)
-    .map((item) => ({
-      id: item.id,
-      title: (item.props?.title as string) || 'Untitled',
-      excerpt: (item.props?.excerpt as string) || '',
-      author: (item.props?.author as string) || '',
-      date: (item.props?.date as string) || '',
-      tags: ((item.props?.tags as string) || '').split(',').map((t) => t.trim()).filter(Boolean),
-      featuredImage: (item.props?.featuredImage as string) || '',
-    }))
+    .map((item) => {
+      const tags = ((item.props?.tags as string) || '').split(',').map((t) => t.trim()).filter(Boolean)
+      return {
+        id: item.id,
+        title: (item.props?.title as string) || 'Untitled',
+        excerpt: (item.props?.excerpt as string) || '',
+        author: (item.props?.author as string) || '',
+        date: (item.props?.date as string) || '',
+        readTime: (item.props?.readTime as string) || '',
+        category: (item.props?.category as string) || tags[0] || '',
+        tags,
+        featuredImage: (item.props?.featuredImage as string) || '',
+      }
+    })
 }
 
 export function BlogFeaturedGrid({ section }: { section: Section }) {
@@ -37,7 +44,18 @@ export function BlogFeaturedGrid({ section }: { section: Section }) {
   const showTags = section.content?.showTags !== false
   const [featured, ...rest] = articles
 
-  if (!featured) return null
+  if (!featured) {
+    return (
+      <section
+        className="py-16 md:py-24 px-6"
+        style={{ background: section.style.background, color: section.style.color, fontFamily: 'var(--theme-font)' }}
+      >
+        <div className="mx-auto max-w-3xl text-center py-12 opacity-60">
+          <p className="text-base">No posts yet — your first article will appear here.</p>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section
@@ -73,6 +91,11 @@ export function BlogFeaturedGrid({ section }: { section: Section }) {
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+            {featured.category && (
+              <span className="inline-block text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/20 mb-3">
+                {featured.category}
+              </span>
+            )}
             <h3 className="text-2xl md:text-3xl font-bold leading-snug mb-2">{featured.title}</h3>
             {featured.excerpt && (
               <p className="text-sm md:text-base opacity-80 line-clamp-2 max-w-2xl">{featured.excerpt}</p>
@@ -81,6 +104,8 @@ export function BlogFeaturedGrid({ section }: { section: Section }) {
               {featured.author && <span>{featured.author}</span>}
               {featured.author && showDates && featured.date && <span>·</span>}
               {showDates && featured.date && <span>{featured.date}</span>}
+              {(featured.author || (showDates && featured.date)) && featured.readTime && <span>·</span>}
+              {featured.readTime && <span>{featured.readTime}</span>}
             </div>
             {showTags && featured.tags.length > 0 && (
               <div className="flex flex-wrap gap-1.5 mt-3">
@@ -112,14 +137,24 @@ export function BlogFeaturedGrid({ section }: { section: Section }) {
                   </div>
                 )}
                 <div className="p-5 space-y-2">
+                  {article.category && (
+                    <span
+                      className="inline-block text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full"
+                      style={{ background: section.style.color ? `color-mix(in srgb, ${section.style.color} 14%, transparent)` : 'rgba(99,102,241,0.14)' }}
+                    >
+                      {article.category}
+                    </span>
+                  )}
                   <h3 className="text-lg font-bold leading-snug line-clamp-2">{article.title}</h3>
                   {article.excerpt && (
-                    <p className="text-sm opacity-70 line-clamp-2">{article.excerpt}</p>
+                    <p className="text-[15px] leading-[1.6] opacity-70 line-clamp-2">{article.excerpt}</p>
                   )}
                   <div className="flex items-center gap-2 text-xs opacity-60">
                     {article.author && <span>{article.author}</span>}
                     {article.author && showDates && article.date && <span>·</span>}
                     {showDates && article.date && <span>{article.date}</span>}
+                    {(article.author || (showDates && article.date)) && article.readTime && <span>·</span>}
+                    {article.readTime && <span>{article.readTime}</span>}
                   </div>
                   {showTags && article.tags.length > 0 && (
                     <div className="flex flex-wrap gap-1.5">

@@ -21,7 +21,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Section render error:', error, errorInfo)
+    if (import.meta.env.DEV) console.error('Section render error:', error, errorInfo)
   }
 
   render() {

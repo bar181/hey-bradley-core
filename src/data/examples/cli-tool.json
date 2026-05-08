@@ -1,0 +1,481 @@
+{
+  "site": {
+    "title": "rolldown · the bundler that ships",
+    "description": "One command. Zero config. Sub-second builds. A Rust-native bundler with a TypeScript-first plugin API and a spec-driven workflow that compiles your build pipeline from a single AISP-compatible config.",
+    "author": "rolldown core team",
+    "email": "core@rolldown.dev",
+    "domain": "rolldown.dev",
+    "project": "rolldown",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "saas",
+    "audience": "developer",
+    "tone": "technical",
+    "brandName": "rolldown",
+    "tagline": "the bundler that ships",
+    "voiceAttributes": ["technical", "dense", "terse", "no-fluff"]
+  },
+  "theme": {
+    "preset": "saas",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0b1410",
+      "bgSecondary": "#10201a",
+      "textPrimary": "#e6f4ec",
+      "textSecondary": "#9bbfa8",
+      "accentPrimary": "#00ff88",
+      "accentSecondary": "#34d399"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#f5fff8",
+      "bgSecondary": "#e6f4ec",
+      "textPrimary": "#0b1410",
+      "textSecondary": "#3d5d4d",
+      "accentPrimary": "#00b865",
+      "accentSecondary": "#10b981"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "JetBrains Mono",
+      "headingWeight": 600,
+      "baseSize": "16px",
+      "lineHeight": 1.6
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "6px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#0b1410",
+        "color": "#e6f4ec"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "rolldown"
+          }
+        },
+        {
+          "id": "docsLink",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Docs",
+            "url": "#docs"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Install",
+            "url": "#install"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "#0b1410",
+        "color": "#e6f4ec"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "v1.0.0-RC1 · 47k stars · MIT",
+            "icon": "terminal",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "One command. Zero config. Sub-second builds.",
+            "level": 1,
+            "size": "56px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "rolldown is a Rust-native bundler with a TypeScript-first plugin API. It reads your tsconfig, infers your entrypoints, and ships an optimized bundle in under 800ms on a mid-range laptop. No webpack.config.js. No vite.config.ts unless you want one. Drop-in replacement for esbuild on 92% of public benchmarks."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "npm i -D rolldown",
+            "url": "#install",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Read the Docs",
+            "url": "#docs",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "text": "Used by Vercel, Linear, Supabase · 14M weekly downloads · Apache 2.0 + MIT dual license",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "numbers",
+      "id": "stats-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "counters",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#10201a",
+        "color": "#e6f4ec"
+      },
+      "components": [
+        {
+          "id": "n-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "780ms",
+            "label": "Cold-build p50",
+            "description": "next.js demo, 1,200 modules, M2 Air"
+          }
+        },
+        {
+          "id": "n-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "23k",
+            "label": "Repos using rolldown",
+            "description": "Per public GitHub dependency graph"
+          }
+        },
+        {
+          "id": "n-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "47k",
+            "label": "GitHub stars",
+            "description": "And rising about 800/wk since RC1"
+          }
+        }
+      ],
+      "content": {
+        "heading": "By the numbers",
+        "subheading": "Benchmarks reproducible at github.com/rolldown/bench"
+      }
+    },
+    {
+      "type": "columns",
+      "id": "features-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "glass",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#0b1410",
+        "color": "#e6f4ec"
+      },
+      "components": [
+        {
+          "id": "f-1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "zap",
+            "title": "Instant cache",
+            "description": "Persistent on-disk module cache keyed by content hash + tsconfig digest. Re-builds in 80-140ms regardless of project size. Cache survives branch switches; never re-builds an unchanged module twice."
+          }
+        },
+        {
+          "id": "f-2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "puzzle",
+            "title": "Plugin API in TS",
+            "description": "Write plugins in TypeScript, not Rust. The host runtime exposes a typed AsyncIterator of build events; your plugin returns transform results or null. Compatible with the Rollup plugin contract for 80% of common patterns."
+          }
+        },
+        {
+          "id": "f-3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "code",
+            "title": "TS-first, spec-driven",
+            "description": "Build pipelines are declared in a single AISP-compatible config that compiles to a deterministic execution plan. <2% ambiguity in spec-to-build round-trips. Pair this with Hey Bradley's spec layer and the same config generates docs, tests, and CI."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Three reasons it's already in your CI",
+        "subheading": "Designed for senior engineers shipping production builds"
+      }
+    },
+    {
+      "type": "blog",
+      "id": "blog-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "card-grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#10201a",
+        "color": "#e6f4ec"
+      },
+      "components": [
+        {
+          "id": "post-1",
+          "type": "blog-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "title": "Changelog · v1.0.0-RC1",
+            "excerpt": "ESM-first output by default, deprecated --legacy-cjs flag, new --watch.lazy mode that skips initial build until first request. Breaking: top-level CJS plugin shape; codemod available.",
+            "date": "2026-04-22",
+            "author": "core team"
+          }
+        },
+        {
+          "id": "post-2",
+          "type": "blog-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "title": "Migrating from esbuild to rolldown",
+            "excerpt": "A 12-step guide for teams running esbuild in production. Drop-in for the common case. Three known incompatibilities documented with workarounds. Average migration: 90 minutes.",
+            "date": "2026-04-08",
+            "author": "Mira Solberg"
+          }
+        },
+        {
+          "id": "post-3",
+          "type": "blog-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "title": "Benchmark · rolldown vs esbuild vs swc",
+            "excerpt": "Reproducible numbers across three real codebases (Linear, Excalidraw, Cal.com). rolldown wins cold-build by 18-44%. esbuild wins watch-mode rebuild on tiny edits. swc remains the king of pure transform.",
+            "date": "2026-03-29",
+            "author": "Tomás Hidalgo"
+          }
+        }
+      ],
+      "content": {
+        "heading": "From the changelog",
+        "subheading": "Latest releases, migration guides, and benchmark posts"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "gradient",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #00ff88 0%, #34d399 100%)",
+        "color": "#0b1410"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Install in 8 seconds",
+            "level": 2,
+            "size": "36px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "npm i -D rolldown · pnpm add -D rolldown · bun add -d rolldown — pick your poison. Zero peer-dep complaints. No postinstall scripts. Source maps on by default. Open the docs at /quickstart and ship a build before the kettle boils."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Read the Quickstart",
+            "url": "#quickstart",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#0b1410",
+        "color": "#e6f4ec"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "rolldown"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Product",
+            "links": "Docs,Quickstart,Plugins,Changelog"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Community",
+            "links": "GitHub,Discord,RFCs,Code of Conduct"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Project",
+            "links": "Roadmap,Contributing,Sponsors,License"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "© 2026 rolldown contributors. MIT + Apache 2.0 dual license."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

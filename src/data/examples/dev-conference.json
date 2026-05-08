@@ -1,0 +1,455 @@
+{
+  "site": {
+    "title": "ShipFast Conf 2026",
+    "description": "Two days of senior-engineer talks on agentic systems, specs as compilers, and shipping at scale. Brooklyn, October 14-15, 2026.",
+    "author": "ShipFast Conf",
+    "email": "hello@shipfastconf.dev",
+    "domain": "shipfastconf.dev",
+    "project": "shipfast-conf-2026",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "developer",
+    "tone": "technical",
+    "brandName": "ShipFast Conf 2026",
+    "tagline": "Brooklyn · Oct 14-15, 2026",
+    "voiceAttributes": ["technical", "dense", "no-fluff"]
+  },
+  "theme": {
+    "preset": "saas",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#09090b",
+      "bgSecondary": "#18181b",
+      "textPrimary": "#fafafa",
+      "textSecondary": "#a1a1aa",
+      "accentPrimary": "#10b981",
+      "accentSecondary": "#34d399"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#fafafa",
+      "bgSecondary": "#f4f4f5",
+      "textPrimary": "#09090b",
+      "textSecondary": "#52525b",
+      "accentPrimary": "#10b981",
+      "accentSecondary": "#34d399"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "JetBrains Mono",
+      "headingWeight": 600,
+      "baseSize": "16px",
+      "lineHeight": 1.6
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#09090b",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "ShipFast Conf 2026"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Get Tickets",
+            "url": "#tickets"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "linear-gradient(180deg, #09090b 0%, #18181b 100%)",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "T-minus 167 days · Early-bird closes May 31",
+            "icon": "clock",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "ShipFast Conf · Oct 14-15, 2026 · Brooklyn",
+            "level": 1,
+            "size": "56px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Two days. Twenty-four talks. One track. No vendor pitches, no panels, no breakout rooms — just senior engineers showing how they actually ship agentic systems in production. The Knockdown Center, Maspeth Ave."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Grab a Ticket — $749",
+            "url": "#tickets",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "See Full Agenda",
+            "url": "#agenda",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "text": "2025 sold out in 11 days · 92% returner rate · Code of Conduct enforced",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "numbers",
+      "id": "stats-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "counters",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#18181b",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "n-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "value": "24",
+            "label": "Speakers",
+            "description": "Senior engineers, no MBAs"
+          }
+        },
+        {
+          "id": "n-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "value": "24",
+            "label": "Talks",
+            "description": "30-min slots, single track"
+          }
+        },
+        {
+          "id": "n-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "value": "600",
+            "label": "Attendees",
+            "description": "Capped at the venue ceiling"
+          }
+        }
+      ],
+      "content": {
+        "heading": "By the numbers",
+        "subheading": "Tight format, tight room, tight signal-to-noise"
+      }
+    },
+    {
+      "type": "columns",
+      "id": "speakers-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "glass",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#09090b",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "s-1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "user",
+            "title": "Mira Solberg",
+            "description": "Why Specs Are Compilers Now — Principal Engineer at Hyperion AI; led the migration of their RAG pipeline from prompt-spaghetti to compiled-spec orchestration."
+          }
+        },
+        {
+          "id": "s-2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "user",
+            "title": "Devon Park",
+            "description": "Eval-Driven Development in 2026 — Staff Engineer at Subline; talks about treating evals like unit tests and CI gates for agent quality."
+          }
+        },
+        {
+          "id": "s-3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "user",
+            "title": "Aisha Bello",
+            "description": "Multi-Agent Coordination Without the Drama — Tech Lead at Northwind; on retiring orchestrators in favor of typed message buses."
+          }
+        },
+        {
+          "id": "s-4",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "icon": "user",
+            "title": "Tomás Hidalgo",
+            "description": "Cost Engineering for Agent Loops — Sr. Engineer at Lattice; the math behind why your agent spend tripled and how to cut it without losing quality."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Speakers — Day 1 highlights",
+        "subheading": "Twenty more across both days; full lineup at /agenda"
+      }
+    },
+    {
+      "type": "text",
+      "id": "about-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "single",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "padding": "64px 24px",
+        "maxWidth": "800px"
+      },
+      "style": {
+        "background": "#18181b",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "body",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "body": "ShipFast Conf is the conference we wanted to attend. Single track, so you don't have to choose. Senior engineers only on stage, so the talks have load-bearing detail. Strict 30-minute slots, so the slow-roll product-pitch never happens. We don't sell sponsor talks. We don't run panels. We don't accept submissions from people who don't ship code. Tickets cover the venue, the food, and a small honorarium for every speaker. The rest is on us."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Why this conference exists",
+        "subheading": "A no-fluff alternative to the big-tent AI events"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "gradient",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #10b981 0%, #34d399 100%)",
+        "color": "#09090b"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Tickets · $749 early-bird · $899 regular",
+            "level": 2,
+            "size": "36px",
+            "weight": 600
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Capped at 600 attendees. Two days, all meals included, after-party at Houston Hall on Oct 14. Group rates available for teams of 4+. We sold out in 11 days last year — don't sleep."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Grab a Ticket",
+            "url": "#tickets",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#09090b",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "ShipFast Conf 2026"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Conference",
+            "links": "Agenda,Speakers,Venue,Code of Conduct"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Tickets",
+            "links": "Individual,Team,Diversity Scholarships,Refunds"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Past Years",
+            "links": "2025 Talks,2024 Talks,Photos,Press"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "© 2026 ShipFast Conf. The Knockdown Center, Brooklyn NY."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

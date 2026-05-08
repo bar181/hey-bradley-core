@@ -1,0 +1,445 @@
+// comprehensiveLogs repository — typed CRUD over the P100 W2 forensic log
+// surface (`log_events` + `edit_history`).
+// Spec: P100 W2 / A1 — log-design.md §3 (categories) + §4 (linking) + §6.
+// Cross-ref: docs/adr/ADR-126.
+//
+// * Fire-and-forget: every write is wrapped in try/catch and never throws.
+// * Redaction: event_data + snapshots + user_prompt are JSON-stringified +
+//   redactKeyShapes()-scrubbed at the boundary (defence-in-depth; ADR-043).
+// * UUIDs: crypto.randomUUID() preferred; Math.random fallback for older harnesses.
+// * P105 / A2 — debounced IndexedDB flush. writeLogEvent + writeEditHistory
+//   each schedule a single coalesced persist() (500ms) so canned-fallback /
+//   error-path / listen-reject submits no longer lose their logs to in-memory
+//   sql.js. Preserves ADR-126 D4 fire-and-forget contract — write returns
+//   sync; the persist callback's catch swallows errors via warn().
+
+import type { Database } from 'sql.js';
+// NOTE: db.ts imports pruneOldLogs/pruneOldEditHistory from this module —
+// the import below is therefore part of a circular cycle. Safe because
+// `persist` is only dereferenced lazily inside scheduleFlush() (at write
+// time), well after both modules have finished initial evaluation.
+import { persist } from '../db';
+
+// ─── Types ────────────────────────────────────────────────────────────────
+
+export type LogEventType =
+  | 'input_event'
+  | 'intent_classification'
+  | 'decomposition'
+  | 'template_match'
+  | 'patch_validation'
+  | 'personality_display'
+  | 'listen_capture'
+  | 'multi_page_scope'
+  | 'process_atom_output'
+  | 'ddd_atom_output'
+  | 'error_event'
+  | 'response_summary'
+  | 'todo_execution'
+  // P100 W2 / D1 fix 3 — additive enum extension to mirror migration 005
+  // CHECK list (admits previously fixture-only event types).
+  | 'decomp_split'
+  | 'export_emit';
+
+// ─── P104 / SCHEMA-GUARDS — runtime validator helper ──────────────────────
+// Mirrors migration 005-comprehensive-logs.sql CHECK enum (15 values).
+// Defensive — validates AT WRITE TIME (writeLogEvent) and exported for
+// fixture authors / CI smoke tests. NEVER throws (ADR-126 D4 fire-and-forget).
+
+/** Per migration 005 CHECK enum (15 values). Defensive — validates AT WRITE TIME. */
+export const VALID_LOG_EVENT_TYPES = [
+  'input_event',
+  'intent_classification',
+  'decomposition',
+  'template_match',
+  'patch_validation',
+  'personality_display',
+  'listen_capture',
+  'multi_page_scope',
+  'process_atom_output',
+  'ddd_atom_output',
+  'error_event',
+  'response_summary',
+  'todo_execution',
+  'decomp_split',
+  'export_emit',
+] as const;
+
+export type ValidLogEventType = typeof VALID_LOG_EVENT_TYPES[number];
+
+/**
+ * Returns the input if valid, else returns null + warns to console.
+ * NEVER throws — fire-and-forget per ADR-126 D4.
+ * Common alias remap: 'patch_applied' → 'patch_validation' (per E2E-TEST-2 finding).
+ */
+export function validateEventType(t: string): ValidLogEventType | null {
+  if ((VALID_LOG_EVENT_TYPES as readonly string[]).includes(t)) {
+    return t as ValidLogEventType;
+  }
+  // Known alias remap (the E2E-TEST-2 gotcha)
+  if (t === 'patch_applied') {
+    if (typeof console !== 'undefined') {
+      console.warn('[validateEventType] alias remap: patch_applied → patch_validation');
+    }
+    return 'patch_validation';
+  }
+  if (typeof console !== 'undefined') {
+    console.warn(`[validateEventType] unknown event_type: ${t} — drop`);
+  }
+  return null;
+}
+
+export type InputType = 'chat' | 'listen';
+
+export interface LogEventInsert {
+  id: string;
+  sessionId: string;
+  requestId: string;
+  projectId?: string;
+  eventType: LogEventType;
+  eventData: Record<string, unknown>;
+  pageId?: string;
+  pageIndex?: number;
+  inputType?: InputType;
+  latencyMs?: number;
+}
+
+export interface EditHistoryInsert {
+  id: string;
+  projectId: string;
+  sessionId: string;
+  requestId: string;
+  patchApplied: unknown[];
+  sectionAffected?: string;
+  pageId?: string;
+  beforeSnapshot: unknown;
+  afterSnapshot: unknown;
+  userPrompt: string;
+}
+
+interface LogEventRow {
+  id: string;
+  session_id: string;
+  request_id: string;
+  project_id: string | null;
+  event_type: LogEventType;
+  event_data: string;
+  page_id: string | null;
+  page_index: number | null;
+  input_type: InputType | null;
+  latency_ms: number | null;
+  created_at: number;
+}
+
+interface EditHistoryRow {
+  id: string;
+  project_id: string;
+  session_id: string;
+  request_id: string;
+  patch_applied: string;
+  section_affected: string | null;
+  page_id: string | null;
+  before_snapshot: string;
+  after_snapshot: string;
+  user_prompt: string;
+  created_at: number;
+}
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+const DEFAULT_EVENT_RETENTION_DAYS = 30;
+const DEFAULT_EDIT_RETENTION_DAYS = 90;
+
+// ─── Public helpers ───────────────────────────────────────────────────────
+
+/** UUID v4 (browser crypto.randomUUID; Math.random fallback). Used as request_id / stage_id per §4. */
+export function newRequestId(): string {
+  try {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+      return crypto.randomUUID();
+    }
+  } catch { /* fall through */ }
+  const b = [8, 4, 4, 4, 12].map((n) =>
+    Array.from({ length: n }, () => Math.floor(Math.random() * 16).toString(16)).join(''),
+  );
+  return `${b[0]}-${b[1]}-4${b[2].slice(1)}-${b[3]}-${b[4]}`;
+}
+
+/** Strip BYOK key shapes from any string before persisting (mirrors llm/keys.ts; ADR-043). */
+export function redactKeyShapes(s: string): string {
+  if (!s) return s;
+  return s
+    .replace(/sk-ant-[A-Za-z0-9_-]{20,}/g, '[REDACTED]')
+    .replace(/sk-proj-[A-Za-z0-9_-]{20,}/g, '[REDACTED]')
+    .replace(/sk-or-[A-Za-z0-9_-]{20,}/g, '[REDACTED]')
+    .replace(/sk-[A-Za-z0-9_-]{20,}/g, '[REDACTED]')
+    .replace(/AIza[0-9A-Za-z_-]{35}/g, '[REDACTED]')
+    .replace(/Bearer\s+\S+/g, '[REDACTED]');
+}
+
+/** JSON.stringify + redactKeyShapes; never throws. */
+function safeStringifyRedacted(value: unknown): string {
+  let out: string;
+  try { out = JSON.stringify(value); } catch { out = '"[unstringifiable]"'; }
+  return redactKeyShapes(out);
+}
+
+function warn(label: string, err: unknown): void {
+  if (typeof console !== 'undefined') console.warn(`[comprehensiveLogs] ${label} failed`, err);
+}
+
+// ─── P105 / A2 — Debounced IndexedDB flush ────────────────────────────────
+// `writeLogEvent` + `writeEditHistory` write to in-memory sql.js synchronously
+// per ADR-126 D4 (fire-and-forget). Without a flush, submits with zero
+// downstream patches (canned fallback / error path / listen reject) never
+// reach IndexedDB on tab close. We coalesce all writes into a single
+// `persist()` call after 500ms of idle to avoid IDB thrash. Errors are
+// swallowed by the catch — the public write API never throws upward.
+
+const FLUSH_DEBOUNCE_MS = 500;
+let flushTimer: ReturnType<typeof setTimeout> | null = null;
+
+function scheduleFlush(): void {
+  if (flushTimer) clearTimeout(flushTimer);
+  flushTimer = setTimeout(() => {
+    flushTimer = null;
+    void persist().catch((e) => warn('persist', e));
+  }, FLUSH_DEBOUNCE_MS);
+}
+
+/**
+ * Cancel any pending debounced flush and await `persist()` synchronously.
+ * For callers that need a guaranteed flush (e.g., before page navigation,
+ * before export, before test assertions). Awaits the IDB write; never throws.
+ */
+export async function flushLogsImmediate(): Promise<void> {
+  if (flushTimer) {
+    clearTimeout(flushTimer);
+    flushTimer = null;
+  }
+  try {
+    await persist();
+  } catch (e) {
+    warn('flushLogsImmediate', e);
+  }
+}
+
+// ─── Writes ───────────────────────────────────────────────────────────────
+
+/** Insert a log event. Fire-and-forget; never throws.
+ *  P104 / SCHEMA-GUARDS — validates event_type at write time; drops invalid
+ *  rows; remaps known aliases (e.g. patch_applied → patch_validation). */
+export function writeLogEvent(db: Database, event: LogEventInsert): void {
+  // P104 — validate event_type AT WRITE TIME. Drop invalid rows; remap aliases.
+  const validated = validateEventType(event.eventType);
+  if (validated === null) return; // Drop the row; never throw.
+  let stmt: ReturnType<Database['prepare']> | null = null;
+  try {
+    stmt = db.prepare(
+      `INSERT INTO log_events (
+         id, session_id, request_id, project_id, event_type, event_data,
+         page_id, page_index, input_type, latency_ms, created_at
+       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    );
+    stmt.run([
+      event.id,
+      event.sessionId,
+      event.requestId,
+      event.projectId ?? null,
+      validated,
+      safeStringifyRedacted(event.eventData),
+      event.pageId ?? null,
+      event.pageIndex ?? null,
+      event.inputType ?? null,
+      event.latencyMs ?? null,
+      Date.now(),
+    ]);
+    // P105 / A2 — schedule debounced IDB flush after successful INSERT.
+    scheduleFlush();
+  } catch (err) {
+    warn('writeLogEvent', err);
+  } finally {
+    if (stmt) try { stmt.free(); } catch { /* ignore */ }
+  }
+}
+
+/**
+ * P107 / A6 — Centralized error event writer (C5 closure).
+ *
+ * Replaces scattered `console.warn` DEV-only catch sites in chatPipeline.ts so
+ * production builds emit `error_event` rows the owner can debug from an
+ * exported DB. BYOK redaction at every write boundary per ADR-043 +
+ * ADR-114 D3; fire-and-forget per ADR-126 D4 — NEVER throws upward.
+ *
+ * The internal try/catch is defence-in-depth: if writeLogEvent itself throws
+ * (it shouldn't — its own try/catch swallows), we fall back to a console
+ * warn so the error_event itself doesn't escape and crash the pipeline.
+ */
+export function writeErrorEvent(
+  db: Database,
+  ctx: { sessionId: string; requestId?: string | null },
+  err: unknown,
+  source: string,
+): void {
+  try {
+    if (!ctx.sessionId) return; // No session → no row (mirrors emit() guard).
+    const message = err instanceof Error ? err.message : String(err);
+    const stack = err instanceof Error ? err.stack?.slice(0, 500) : undefined;
+    writeLogEvent(db, {
+      id: newRequestId(),
+      sessionId: ctx.sessionId,
+      requestId: ctx.requestId ?? '',
+      eventType: 'error_event',
+      eventData: {
+        source,
+        message: redactKeyShapes(message),
+        stack: stack ? redactKeyShapes(stack) : undefined,
+      },
+      latencyMs: 0,
+    });
+  } catch (e) {
+    warn('writeErrorEvent', e);
+  }
+}
+
+/** Insert an edit_history row. Fire-and-forget; never throws. */
+export function writeEditHistory(db: Database, entry: EditHistoryInsert): void {
+  let stmt: ReturnType<Database['prepare']> | null = null;
+  try {
+    stmt = db.prepare(
+      `INSERT INTO edit_history (
+         id, project_id, session_id, request_id, patch_applied,
+         section_affected, page_id, before_snapshot, after_snapshot,
+         user_prompt, created_at
+       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    );
+    stmt.run([
+      entry.id,
+      entry.projectId,
+      entry.sessionId,
+      entry.requestId,
+      safeStringifyRedacted(entry.patchApplied),
+      entry.sectionAffected ?? null,
+      entry.pageId ?? null,
+      safeStringifyRedacted(entry.beforeSnapshot),
+      safeStringifyRedacted(entry.afterSnapshot),
+      redactKeyShapes(entry.userPrompt),
+      Date.now(),
+    ]);
+    // P105 / A2 — schedule debounced IDB flush (shares timer with writeLogEvent).
+    scheduleFlush();
+  } catch (err) {
+    warn('writeEditHistory', err);
+  } finally {
+    if (stmt) try { stmt.free(); } catch { /* ignore */ }
+  }
+}
+
+// ─── Pruning ──────────────────────────────────────────────────────────────
+
+/** Prune log_events older than `retentionDays` (default 30). */
+export function pruneOldLogs(db: Database, retentionDays: number = DEFAULT_EVENT_RETENTION_DAYS): void {
+  const cutoff = Date.now() - retentionDays * DAY_MS;
+  let stmt: ReturnType<Database['prepare']> | null = null;
+  try {
+    stmt = db.prepare('DELETE FROM log_events WHERE created_at < ?');
+    stmt.run([cutoff]);
+  } catch (err) {
+    warn('pruneOldLogs', err);
+  } finally {
+    if (stmt) try { stmt.free(); } catch { /* ignore */ }
+  }
+}
+
+/** Prune edit_history older than `retentionDays` (default 90). */
+export function pruneOldEditHistory(db: Database, retentionDays: number = DEFAULT_EDIT_RETENTION_DAYS): void {
+  const cutoff = Date.now() - retentionDays * DAY_MS;
+  let stmt: ReturnType<Database['prepare']> | null = null;
+  try {
+    stmt = db.prepare('DELETE FROM edit_history WHERE created_at < ?');
+    stmt.run([cutoff]);
+  } catch (err) {
+    warn('pruneOldEditHistory', err);
+  } finally {
+    if (stmt) try { stmt.free(); } catch { /* ignore */ }
+  }
+}
+
+// ─── Reads ────────────────────────────────────────────────────────────────
+
+/** All log_events for a request_id, ordered by created_at ASC. */
+export function getEventsForRequest(db: Database, requestId: string): LogEventInsert[] {
+  const out: LogEventInsert[] = [];
+  let stmt: ReturnType<Database['prepare']> | null = null;
+  try {
+    stmt = db.prepare('SELECT * FROM log_events WHERE request_id = ? ORDER BY created_at ASC');
+    stmt.bind([requestId]);
+    while (stmt.step()) {
+      out.push(rowToLogEventInsert(stmt.getAsObject() as unknown as LogEventRow));
+    }
+  } catch (err) {
+    warn('getEventsForRequest', err);
+  } finally {
+    if (stmt) try { stmt.free(); } catch { /* ignore */ }
+  }
+  return out;
+}
+
+/** All edit_history rows for a project_id, ordered by created_at DESC. */
+export function getEditHistoryForProject(db: Database, projectId: string): EditHistoryInsert[] {
+  const out: EditHistoryInsert[] = [];
+  let stmt: ReturnType<Database['prepare']> | null = null;
+  try {
+    stmt = db.prepare('SELECT * FROM edit_history WHERE project_id = ? ORDER BY created_at DESC');
+    stmt.bind([projectId]);
+    while (stmt.step()) {
+      out.push(rowToEditHistoryInsert(stmt.getAsObject() as unknown as EditHistoryRow));
+    }
+  } catch (err) {
+    warn('getEditHistoryForProject', err);
+  } finally {
+    if (stmt) try { stmt.free(); } catch { /* ignore */ }
+  }
+  return out;
+}
+
+// ─── Row mappers ──────────────────────────────────────────────────────────
+
+function safeJsonParse(s: string): unknown {
+  try { return JSON.parse(s); } catch { return null; }
+}
+
+function rowToLogEventInsert(row: LogEventRow): LogEventInsert {
+  const parsed = safeJsonParse(row.event_data);
+  const result: LogEventInsert = {
+    id: row.id,
+    sessionId: row.session_id,
+    requestId: row.request_id,
+    eventType: row.event_type,
+    eventData: parsed && typeof parsed === 'object'
+      ? (parsed as Record<string, unknown>)
+      : { raw: row.event_data },
+  };
+  if (row.project_id != null) result.projectId = row.project_id;
+  if (row.page_id != null) result.pageId = row.page_id;
+  if (row.page_index != null) result.pageIndex = row.page_index;
+  if (row.input_type != null) result.inputType = row.input_type;
+  if (row.latency_ms != null) result.latencyMs = row.latency_ms;
+  return result;
+}
+
+function rowToEditHistoryInsert(row: EditHistoryRow): EditHistoryInsert {
+  const patchParsed = safeJsonParse(row.patch_applied);
+  const result: EditHistoryInsert = {
+    id: row.id,
+    projectId: row.project_id,
+    sessionId: row.session_id,
+    requestId: row.request_id,
+    patchApplied: Array.isArray(patchParsed) ? patchParsed : [],
+    beforeSnapshot: safeJsonParse(row.before_snapshot),
+    afterSnapshot: safeJsonParse(row.after_snapshot),
+    userPrompt: row.user_prompt,
+  };
+  if (row.section_affected != null) result.sectionAffected = row.section_affected;
+  if (row.page_id != null) result.pageId = row.page_id;
+  return result;
+}

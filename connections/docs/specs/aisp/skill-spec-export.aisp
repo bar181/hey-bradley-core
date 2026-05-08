@@ -1,0 +1,61 @@
+# Crystal Atom: SPEC_EXPORT_SKILL
+# Date: 2026-05-04 · Phase: Connections P3 (Spec)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Silver (δ ≥ 0.40); Ambig < 0.05
+
+⟦
+  Ω := { Read .heybradley/spec.aisp + emit CLAUDE.md markdown bundle with ≥6 logical files via # === FILE: <path> === markers per ADR-122 }
+  Σ := {
+    Input:{
+      spec_path:𝕊,
+      output_path?:𝕊
+    },
+    Output:{
+      bundle:MarkdownBundle,
+      files:ℕ,
+      bytes:ℕ
+    },
+    MarkdownBundle:{
+      preamble:𝕊,
+      processMap:𝕊,
+      humanSpec:𝕊,
+      aispSpec:𝕊,
+      adrs:𝕊[],
+      agentWaves:𝕊[]
+    },
+    Errors:{
+      ESpecNotFound,
+      ESpecMalformed,
+      EOutputWriteFail,
+      ENoAtomsInSpec
+    }
+  }
+  Γ := {
+    R1: spec_path MUST exist + readable,
+    R2: |bundle.files| ≥ 6 (per ADR-122 D4),
+    R3: ∀ file ∈ bundle : marker = "# === FILE: <path> ===" present + unique,
+    R4: output_path defaults to ./CLAUDE.md when omitted,
+    R5: transform pure (no spec mutation; idempotent)
+  }
+  Λ := {
+    timeout := 5s,
+    fallback := none (pure file op; failure surfaces error),
+    confidence_threshold := n/a (deterministic),
+    mcp_tool := get_claude_md (per ADR-C04),
+    idempotent := ⊤
+  }
+  Ε := {
+    V1: VERIFY ∀ file ∈ bundle : "# === FILE: " marker present at section head,
+    V2: VERIFY bundle parseable as markdown (no truncated fences),
+    V3: VERIFY |bundle.files| ≥ 6,
+    V4: VERIFY output written + bytes > 0,
+    V5: VERIFY no BYOK key shapes leaked from spec to bundle
+  }
+⟧
+
+# Cross-refs:
+# - ADR-C02 §D2 (skill content strategy — /spec-export does/does-not contract)
+# - ADR-C04 (MCP tool get_claude_md)
+# - ADR-122 (Export Claude Code Markdown Bundle — single .md, file markers, ≥6 files)
+# - ADR-043 (BYOK redaction boundary — Ε V5)
+# - ADR-101 (versioned filename pattern)

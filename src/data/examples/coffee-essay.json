@@ -1,0 +1,153 @@
+{
+  "site": {
+    "title": "The Pour Lab",
+    "description": "Notes on specialty coffee from a kitchen scale and a Hario V60 — pour-over technique, single-origin obsession, and the math that makes it taste right.",
+    "author": "Jules Henrik",
+    "email": "jules@pourlab.com",
+    "domain": "pourlab.com",
+    "project": "the-pour-lab",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "blog",
+    "audience": "consumer",
+    "tone": "warm",
+    "brandName": "The Pour Lab",
+    "tagline": "Specialty coffee, written down honestly.",
+    "voiceAttributes": ["thoughtful", "specific", "first-person"]
+  },
+  "theme": {
+    "preset": "warm-paper",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#f7f1e6", "bgSecondary": "#ece2cf",
+      "textPrimary": "#2a1d12", "textSecondary": "#6b513a",
+      "accentPrimary": "#7a3b1d", "accentSecondary": "#c98a4b"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#2a1d12", "bgSecondary": "#3a2a1c",
+      "textPrimary": "#f7f1e6", "textSecondary": "#d8c4a8",
+      "accentPrimary": "#c98a4b", "accentSecondary": "#e7b27a"
+    },
+    "typography": {
+      "fontFamily": "Inter", "headingFamily": "Fraunces",
+      "headingWeight": 600, "baseSize": "17px", "lineHeight": 1.75
+    },
+    "spacing": { "sectionPadding": "80px", "containerMaxWidth": "780px", "componentGap": "24px" },
+    "borderRadius": "10px"
+  },
+  "sections": [
+    {
+      "type": "menu", "id": "navbar-01", "enabled": true, "order": -1, "variant": "simple",
+      "layout": { "display": "flex", "padding": "20px 24px", "gap": "24px", "maxWidth": "780px" },
+      "style": { "background": "#f7f1e6", "color": "#2a1d12" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "The Pour Lab" } },
+        { "id": "nav-link-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "Essays", "url": "#essays" } },
+        { "id": "nav-link-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "Method", "url": "#method" } },
+        { "id": "nav-link-3", "type": "link", "enabled": true, "order": 3, "props": { "text": "Subscribe", "url": "#subscribe" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero", "id": "hero-01", "enabled": true, "order": 0, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "20px", "padding": "96px 24px", "maxWidth": "780px" },
+      "style": { "background": "#f7f1e6", "color": "#2a1d12" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0,
+          "props": { "text": "Essay · 8 minute read · Published this Sunday", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "The pour-over is the only piece of coffee gear I trust completely.", "level": 1, "size": "56px", "weight": 600 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "I have spent four years and roughly six thousand cups inside a Hario V60. What started as a way to slow down a Sunday morning turned into a small private discipline — water at ninety-four degrees, fifteen grams of beans, two-fifty grams of water, four pours, three minutes total. The math is boring. The result is the only cup I have ever drunk where I knew what every variable was doing. This essay is about why that matters more than any espresso machine I've ever owned." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "Read the essay", "url": "#essay-body", "style": "filled", "size": "lg" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4,
+          "props": { "text": "Subscribe by email", "url": "#subscribe", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text", "id": "article-01", "enabled": true, "order": 1, "variant": "long-form",
+      "layout": { "display": "flex", "direction": "column", "gap": "28px", "padding": "72px 24px", "maxWidth": "720px" },
+      "style": { "background": "#f7f1e6", "color": "#2a1d12" },
+      "components": [
+        { "id": "subhead", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Why the V60 won me over", "level": 2, "size": "32px", "weight": 600 } },
+        { "id": "para-1", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "I owned a sixteen-hundred-dollar prosumer espresso machine for two years before I gave it away. It was beautiful. The pressure profile was programmable, the steam wand was the kind of thing baristas argue about online, and on a good day it could pull a cortado that genuinely surprised me. The problem was the bad days, which were most days. The grinder needed a quarter-turn warmer, the puck was channeling because I tamped a degree off, the basket was old and the screen was clogged and the boiler was scaling. Every cup was a forensic investigation. I kept blaming the wrong variable, and after a while I realized I was not drinking coffee, I was managing a small unreliable machine. The V60 fixed this in a single move: it removed almost every variable I could not measure, and forced me to face the ones I could." } },
+        { "id": "subhead-2", "type": "heading", "enabled": true, "order": 2,
+          "props": { "text": "Acidity is the part nobody warns you about", "level": 2, "size": "32px", "weight": 600 } },
+        { "id": "para-2", "type": "text", "enabled": true, "order": 3,
+          "props": { "text": "The first thing a good pour-over does is make acidity legible. Most cafe coffee is pulled hot, dark, and oily enough that you taste a sort of generalized roastiness — the bean is a flavor in the same way a steak cooked grey is a flavor. A V60 at ninety-four degrees with a medium-fine grind tells you exactly what part of the bean you are actually drinking. I learned that I do not like Sumatran coffee, no matter how famous the roaster is. I learned that an Ethiopian Yirgacheffe at fifteen-to-one ratio gives me lemon and bergamot in the first sip and turns sweet as it cools. I learned that the word 'bright' on a bag of beans is not marketing, it is a literal sensory promise about pH and malic acid. None of this was visible to me through espresso. Espresso compresses everything into nine bars of pressure and twenty-five seconds of contact. Pour-over takes three minutes and lets the cup tell on itself." } },
+        { "id": "subhead-3", "type": "heading", "enabled": true, "order": 4,
+          "props": { "text": "Single-origin is not snobbery, it is information", "level": 2, "size": "32px", "weight": 600 } },
+        { "id": "para-3", "type": "text", "enabled": true, "order": 5,
+          "props": { "text": "I used to think single-origin coffee was a status game — that paying twenty-six dollars for two hundred and fifty grams of washed Gesha was the espresso equivalent of buying a watch you do not need. Four years in I think the opposite. A blend hides its components on purpose. A single-origin tells you the country, the region, the wash process, the cultivar, the elevation, sometimes the farmer's name. When the cup is bad, you know which variable to change next time. When the cup is good, you can buy more of it on purpose, instead of by accident. Drinking single-origin is how I learned that I prefer washed Kenyan AAs in winter and natural Colombians in summer, and once I knew that, my coffee budget actually went down. Information beats brand loyalty." } },
+        { "id": "subhead-4", "type": "heading", "enabled": true, "order": 6,
+          "props": { "text": "The brewing math is small and worth knowing", "level": 2, "size": "32px", "weight": 600 } },
+        { "id": "para-4", "type": "text", "enabled": true, "order": 7,
+          "props": { "text": "If you take only one thing from this essay, take the ratio. Sixty grams of coffee per liter of water — that is the SCA standard, that is the number every roaster on Earth has agreed on, and it is the closest thing specialty coffee has to a law of physics. From that ratio you derive everything: a fifteen-gram dose wants two hundred and fifty grams of water, which gives you a single mug. Total dissolved solids should land around 1.35 percent on a refractometer if you own one, and your tongue if you do not. Extraction yield wants to sit between eighteen and twenty-two percent. Below eighteen the cup is sour and watery; above twenty-two it gets bitter and dry. Every variable you can change — grind size, water temperature, pour pattern, bloom time — is a knob to push the extraction toward that window. Nothing more, nothing less. Once you internalize the math, you stop chasing magic and start adjusting deliberately. The cup gets better in a week, and stays better." } },
+        { "id": "subhead-5", "type": "heading", "enabled": true, "order": 8,
+          "props": { "text": "What this is really about", "level": 2, "size": "28px", "weight": 600 } },
+        { "id": "para-5", "type": "text", "enabled": true, "order": 9,
+          "props": { "text": "I do not think pour-over is morally superior to espresso, and I do not think the V60 is the only good cone on the market. What I think is that specialty coffee, like most hobbies that are also small daily disciplines, gets better the moment you can measure what you are doing. The V60 gave me a kitchen scale, a kettle with a thermometer, a timer, and a process I could repeat. After that the coffee was just feedback. Sunday mornings became quiet. The ritual became the point. If you have been chasing a better cup with a louder machine, the move I would make is to spend ninety dollars on a dripper and a scale and an entire winter learning to measure. The cup at the end is yours." } }
+      ],
+      "content": {
+        "heading": "An essay on specialty coffee",
+        "subheading": "Five sections, four years of pour-over, and the math that makes it taste right"
+      }
+    },
+    {
+      "type": "quotes", "id": "pull-quote-01", "enabled": true, "order": 2, "variant": "single",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "64px 24px", "maxWidth": "720px", "gap": "16px" },
+      "style": { "background": "#ece2cf", "color": "#2a1d12" },
+      "components": [
+        { "id": "pq-1", "type": "pull-quote", "enabled": true, "order": 0,
+          "props": { "quote": "Drinking single-origin is how I learned I prefer washed Kenyans in winter.", "attribution": "From paragraph three — single-origin as information", "size": "lg" } }
+      ],
+      "content": { "heading": "Pulled from the essay", "subheading": "A line worth sitting with" }
+    },
+    {
+      "type": "quotes", "id": "testimonials-01", "enabled": true, "order": 3, "variant": "two-up",
+      "layout": { "display": "grid", "columns": 2, "gap": "24px", "padding": "72px 24px", "maxWidth": "780px" },
+      "style": { "background": "#f7f1e6", "color": "#2a1d12" },
+      "components": [
+        { "id": "t-1", "type": "testimonial", "enabled": true, "order": 0,
+          "props": { "quote": "I read this essay on a Sunday and bought a V60 and a kitchen scale on Monday. Three weeks in, my morning coffee is the best thing I drink all day. Jules writes like someone who has actually paid attention.", "author": "Marina Lo", "role": "Reader · subscribed January", "rating": 5 } },
+        { "id": "t-2", "type": "testimonial", "enabled": true, "order": 1,
+          "props": { "quote": "Specialty coffee writing online is mostly gear porn or barista gatekeeping. The Pour Lab is the first newsletter I have read that treats brewing like a small honest hobby. The math section is worth printing.", "author": "Devon Patel", "role": "Reader · subscribed since 2024", "rating": 5 } }
+      ],
+      "content": { "heading": "What readers are saying", "subheading": "Two notes from the inbox this month" }
+    },
+    {
+      "type": "action", "id": "cta-01", "enabled": true, "order": 4, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "80px 24px", "gap": "20px", "maxWidth": "720px" },
+      "style": { "background": "linear-gradient(135deg, #7a3b1d 0%, #c98a4b 100%)", "color": "#f7f1e6" },
+      "components": [
+        { "id": "heading", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Read more from The Pour Lab.", "level": 2, "size": "36px", "weight": 600 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "One essay every Sunday morning, written from a kitchen scale and a kettle. No affiliate links. No sponsored gear. Just notes from someone who has been paying attention to the cup for four years." } },
+        { "id": "email-input", "type": "input", "enabled": true, "order": 2,
+          "props": { "placeholder": "your@email.com", "type": "email", "name": "subscribe" } },
+        { "id": "button", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "Subscribe to Sunday essays", "url": "#subscribe", "style": "filled", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer", "id": "footer-01", "enabled": true, "order": 5, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "40px 24px", "gap": "12px", "maxWidth": "780px" },
+      "style": { "background": "#2a1d12", "color": "#f7f1e6" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "The Pour Lab" } },
+        { "id": "tagline", "type": "text", "enabled": true, "order": 1, "props": { "text": "Specialty coffee, written down honestly. Sunday mornings since 2022." } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 2, "props": { "text": "© 2026 Jules Henrik · pourlab.com" } }
+      ],
+      "content": {}
+    }
+  ],
+  "pages": [
+    { "id": "home", "title": "The Pour Lab — Specialty coffee, written down honestly", "slug": "/", "isHome": true, "sections": [] }
+  ]
+}

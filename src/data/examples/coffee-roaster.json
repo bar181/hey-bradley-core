@@ -1,0 +1,447 @@
+{
+  "site": {
+    "title": "Beanstalk Coffee Co.",
+    "description": "Single-origin coffee, roasted to order in Brooklyn. Subscriptions and small-batch beans.",
+    "author": "Beanstalk Coffee Co.",
+    "email": "hello@beanstalkcoffee.com",
+    "domain": "beanstalkcoffee.com",
+    "project": "beanstalk-coffee",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "consumer",
+    "tone": "warm",
+    "brandName": "Beanstalk Coffee Co.",
+    "tagline": "Single-origin coffee, roasted to order in Brooklyn",
+    "voiceAttributes": ["warm", "opinionated", "craft"]
+  },
+  "theme": {
+    "preset": "wellness",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#3e2723",
+      "bgSecondary": "#4e342e",
+      "textPrimary": "#fef7ed",
+      "textSecondary": "#e7d4b5",
+      "accentPrimary": "#a16207",
+      "accentSecondary": "#ca8a04"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#fef7ed",
+      "bgSecondary": "#fde9c8",
+      "textPrimary": "#3e2723",
+      "textSecondary": "#6b4f3f",
+      "accentPrimary": "#a16207",
+      "accentSecondary": "#ca8a04"
+    },
+    "typography": {
+      "fontFamily": "Fraunces",
+      "headingFamily": "Fraunces",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "12px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#3e2723",
+        "color": "#fef7ed"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Beanstalk Coffee Co."
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Subscribe",
+            "url": "#subscribe"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "overlay",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #3e2723 0%, #4e342e 60%, #3e2723 100%)",
+        "color": "#fef7ed"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Roasted weekly in Bushwick",
+            "icon": "sparkles",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Single-origin coffee, roasted to order in Brooklyn",
+            "level": 1,
+            "size": "56px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "We roast in 8-pound batches twice a week and ship within 48 hours of roast date. No grocery-store stale beans, no mystery blends. Just transparent, traceable coffee from farms we actually visit."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Start a Subscription",
+            "url": "#subscribe",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Shop Single Bags",
+            "url": "#shop",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "text": "Direct trade · 12 farms · 6 origins · roasted within 48h of shipping",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "products-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "image-cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#4e342e",
+        "color": "#fef7ed"
+      },
+      "components": [
+        {
+          "id": "p-1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "sun",
+            "title": "Light Roast — Ethiopia Yirgacheffe",
+            "description": "Bright, floral, jasmine-and-bergamot. Pour-over heads, this is your bag. $22 for 12 oz, $20 on subscription."
+          }
+        },
+        {
+          "id": "p-2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "coffee",
+            "title": "Medium Roast — Colombia Huila",
+            "description": "Caramel sweetness, milk-chocolate body, soft red-fruit finish. The crowd-pleaser. $20 for 12 oz, $18 on subscription."
+          }
+        },
+        {
+          "id": "p-3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "moon",
+            "title": "Dark Roast — Sumatra Mandheling",
+            "description": "Earthy, full-bodied, dark-chocolate and tobacco. Holds up to milk and an espresso machine. $20 for 12 oz, $18 on subscription."
+          }
+        }
+      ],
+      "content": {
+        "heading": "This week's roasts",
+        "subheading": "Three beans, three roast levels, all shipped within 48 hours"
+      }
+    },
+    {
+      "type": "text",
+      "id": "story-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "single",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "padding": "64px 24px",
+        "maxWidth": "800px"
+      },
+      "style": {
+        "background": "#3e2723",
+        "color": "#fef7ed"
+      },
+      "components": [
+        {
+          "id": "body",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "body": "Beanstalk started in 2021 in a 400-square-foot Bushwick storefront with a used Diedrich roaster and a stubborn belief that coffee tastes better when you know where it came from. Five years later we work directly with twelve farms across Ethiopia, Colombia, Guatemala, Sumatra, Costa Rica, and Kenya. We pay above Fair Trade, we visit every farm at least once a year, and we publish what we paid per pound on every bag. Coffee is agriculture. We try to act like it."
+          }
+        }
+      ],
+      "content": {
+        "heading": "About Beanstalk",
+        "subheading": "Direct trade, transparent pricing, roasted in small batches"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#4e342e",
+        "color": "#fef7ed"
+      },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "The Yirgacheffe is the best pour-over coffee I've had outside of a cafe. The fact that it shows up at my door three days after roast is unreal.",
+            "author": "Marcus Chen",
+            "role": "Subscriber, 2 years",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "Switched from a big chain subscription and there's no comparison. The Colombia Huila is the only bean my whole household agrees on.",
+            "author": "Priya Ramaswamy",
+            "role": "Subscriber, 8 months",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "Their transparency on farm-gate price is the reason I started buying. The fact that the coffee is also incredible is a bonus.",
+            "author": "Daniel Okonkwo",
+            "role": "Subscriber, 3 years",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "From our subscribers",
+        "subheading": "Why folks keep their bag landing on the doorstep"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "64px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "linear-gradient(135deg, #a16207 0%, #ca8a04 100%)",
+        "color": "#fef7ed"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Get fresh coffee on your schedule",
+            "level": 2,
+            "size": "36px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Pick a roast, a grind, and a cadence. We roast and ship every Tuesday and Friday. Pause or skip anytime — no contracts, no hassle."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Start Your Subscription",
+            "url": "#subscribe",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#3e2723",
+        "color": "#fef7ed"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Beanstalk Coffee Co."
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Shop",
+            "links": "Subscriptions,Single Bags,Gift Cards,Equipment"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Learn",
+            "links": "Origins,Brewing Guides,Farm Visits,Pricing"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Visit",
+            "links": "Bushwick Roastery,Hours,Wholesale,Contact"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "© 2026 Beanstalk Coffee Co. Roasted in Brooklyn, NY."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

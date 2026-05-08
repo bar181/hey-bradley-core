@@ -1,5 +1,7 @@
 import { create } from 'zustand'
 import { deepMerge } from '@/lib/deepMerge'
+import { applyPatches as pureApplyPatches } from '@/contexts/intelligence/applyPatches'
+import type { JSONPatch } from '@/lib/schemas/patches'
 import type { MasterConfig, Section, SectionType, PatchSource, PageConfig } from '@/lib/schemas'
 import { useUIStore } from '@/store/uiStore'
 import defaultConfig from '@/data/default-config.json'
@@ -16,21 +18,24 @@ import blog from '@/data/themes/blog.json'
 import elegant from '@/data/themes/elegant.json'
 import neon from '@/data/themes/neon.json'
 
-const DEFAULT_CONFIG: MasterConfig = defaultConfig as unknown as MasterConfig
+// P28 C17 — Zod helper replaces 13/21 `as unknown as` casts here.
+import { parseMasterConfigSafe, asThemeJson } from '@/lib/schemas/masterConfigParser'
+
+const DEFAULT_CONFIG: MasterConfig = parseMasterConfigSafe(defaultConfig) ?? (defaultConfig as unknown as MasterConfig)
 
 const THEMES: Record<string, Record<string, unknown>> = {
-  saas: saas as unknown as Record<string, unknown>,
-  agency: agency as unknown as Record<string, unknown>,
-  portfolio: portfolio as unknown as Record<string, unknown>,
-  startup: startup as unknown as Record<string, unknown>,
-  personal: personal as unknown as Record<string, unknown>,
-  professional: professional as unknown as Record<string, unknown>,
-  wellness: wellness as unknown as Record<string, unknown>,
-  minimalist: minimalist as unknown as Record<string, unknown>,
-  creative: creative as unknown as Record<string, unknown>,
-  blog: blog as unknown as Record<string, unknown>,
-  elegant: elegant as unknown as Record<string, unknown>,
-  neon: neon as unknown as Record<string, unknown>,
+  saas: asThemeJson(saas),
+  agency: asThemeJson(agency),
+  portfolio: asThemeJson(portfolio),
+  startup: asThemeJson(startup),
+  personal: asThemeJson(personal),
+  professional: asThemeJson(professional),
+  wellness: asThemeJson(wellness),
+  minimalist: asThemeJson(minimalist),
+  creative: asThemeJson(creative),
+  blog: asThemeJson(blog),
+  elegant: asThemeJson(elegant),
+  neon: asThemeJson(neon),
 }
 
 const HISTORY_LIMIT = 100
@@ -46,6 +51,9 @@ interface ConfigStore {
   activePage: string | null
 
   applyPatch: (patch: Record<string, unknown>, source: PatchSource) => void
+  /** FIX 1: single mutation path for LLM JSON-patch output. Wraps the pure
+   *  applyPatches() helper, structured-clones the config, and pushes history. */
+  applyPatches: (patches: JSONPatch[]) => void
   setSectionConfig: (sectionId: string, patch: Record<string, unknown>) => void
   addSection: (type: SectionType, afterIndex?: number) => void
   removeSection: (sectionId: string) => void
@@ -71,6 +79,7 @@ interface ConfigStore {
   // Multi-page management (ADR-035)
   addPage: (title: string) => void
   removePage: (pageId: string) => void
+  renamePage: (pageId: string, title: string) => void
   reorderPages: (fromIndex: number, toIndex: number) => void
   setActivePage: (pageId: string | null) => void
   getActivePageSections: () => Section[]
@@ -111,6 +120,13 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     const newHistory = [...history, config].slice(-HISTORY_LIMIT)
     const newConfig = deepMerge(config as unknown as Record<string, unknown>, patch) as unknown as MasterConfig
     set({ config: newConfig, history: newHistory, future: [], isDirty: true })
+  },
+
+  applyPatches: (patches) => {
+    const { config, history } = get()
+    const newHistory = [...history, config].slice(-HISTORY_LIMIT)
+    const next = pureApplyPatches(config, patches) as MasterConfig
+    set({ config: next, history: newHistory, future: [], isDirty: true })
   },
 
   setSectionConfig: (sectionId, patch) => {
@@ -606,6 +622,26 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     set({
       config: { ...config, pages: newPages },
       activePage: newActive,
+      history: newHistory,
+      future: [],
+      isDirty: true,
+    })
+  },
+
+  renamePage: (pageId, title) => {
+    const { config, history } = get()
+    if (!config.pages) return
+    const page = config.pages.find((p) => p.id === pageId)
+    if (!page) return
+    const trimmed = title.trim()
+    if (!trimmed) return // refuse empty titles
+    if (page.title === trimmed) return // no-op
+    const newHistory = [...history, config].slice(-HISTORY_LIMIT)
+    const newPages = config.pages.map((p) =>
+      p.id === pageId ? { ...p, title: trimmed } : p
+    )
+    set({
+      config: { ...config, pages: newPages },
       history: newHistory,
       future: [],
       isDirty: true,

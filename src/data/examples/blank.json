@@ -1,7 +1,7 @@
 {
   "site": {
     "title": "Blank Canvas",
-    "description": "A minimal starting point for building your website from scratch",
+    "description": "A minimal starter scaffold — bring your own brand, voice, and direction. Tell Bradley what you want to build.",
     "author": "",
     "email": "",
     "domain": "",
@@ -11,9 +11,9 @@
     "purpose": "marketing",
     "audience": "consumer",
     "tone": "casual",
-    "brandName": "",
-    "tagline": "",
-    "voiceAttributes": []
+    "brandName": "Blank Canvas · Hey Bradley scaffold",
+    "tagline": "Three sections · zero assumptions · point Bradley at any vertical and watch this hero reshape itself",
+    "voiceAttributes": ["neutral", "open", "starter", "vertical-agnostic", "demonstrative"]
   },
   "theme": {
     "preset": "minimalist",
@@ -60,24 +60,22 @@
         "direction": "column",
         "align": "center",
         "gap": "24px",
-        "padding": "120px 24px",
+        "padding": "80px 24px",
         "maxWidth": "800px"
       },
       "style": {
         "background": "#ffffff",
-        "color": "#09090b",
-        "fontFamily": "Inter",
-        "borderRadius": "0px"
+        "color": "#09090b"
       },
       "components": [
         {
           "id": "eyebrow",
           "type": "badge",
-          "enabled": false,
+          "enabled": true,
           "order": 0,
           "props": {
-            "text": "",
-            "icon": "",
+            "text": "Starter scaffold · ready for any direction",
+            "icon": "edit-3",
             "variant": "pill"
           }
         },
@@ -87,7 +85,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Your Story Starts Here",
+            "text": "Start with a clean slate",
             "level": 1,
             "size": "56px",
             "weight": 600
@@ -99,7 +97,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "Tell us about your business and watch it come to life"
+            "text": "A minimal scaffold ready to take any direction. Tell Bradley what you want to build — a portfolio, a SaaS product, a bakery — and the same hero, columns, and CTA below will reshape themselves around your brand."
           }
         },
         {
@@ -108,7 +106,7 @@
           "enabled": true,
           "order": 3,
           "props": {
-            "text": "Get Started",
+            "text": "Tell Bradley what to build",
             "url": "#",
             "style": "filled",
             "size": "lg"
@@ -183,9 +181,9 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "icon": "palette",
-            "title": "Choose Your Style",
-            "description": "Pick a theme that matches your brand. Adjust colors, fonts, and layout until everything feels right."
+            "icon": "message-square",
+            "title": "Describe your idea",
+            "description": "One sentence is enough. \"A portfolio for a wedding photographer.\" \"A bakery in Brooklyn.\" \"A landing page for a developer tool.\" Bradley reads intent, not keywords."
           }
         },
         {
@@ -194,9 +192,9 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "icon": "image",
-            "title": "Pick Images",
-            "description": "Add photos, logos, and graphics that tell your story. Drag, drop, and arrange them in seconds."
+            "icon": "layout",
+            "title": "Watch it shape itself",
+            "description": "The same scaffold becomes warm and editorial, dark and technical, or bright and playful — based on the vertical you pointed at. Theme, sections, and copy all move together."
           }
         },
         {
@@ -206,14 +204,14 @@
           "order": 2,
           "props": {
             "icon": "share-2",
-            "title": "Share Your Site",
-            "description": "Publish with one click and share the link with your audience. Update anytime — no coding required."
+            "title": "Refine in plain English",
+            "description": "\"Make it warmer.\" \"Add a pricing section.\" \"Replace the testimonial with a case study.\" Every change is a JSON patch on the spec — reversible, auditable, and yours to export."
           }
         }
       ],
       "content": {
-        "heading": "How It Works",
-        "subheading": "Three simple steps to go from idea to live website"
+        "heading": "How a blank canvas becomes a site",
+        "subheading": "Three plain-English steps from empty scaffold to a spec you can ship"
       }
     },
     {
@@ -240,7 +238,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "Ready to Build?",
+            "text": "Pick a direction and go",
             "level": 2,
             "size": "36px",
             "weight": 600
@@ -252,7 +250,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Start customizing — it only takes 5 minutes"
+            "text": "Tell Bradley what kind of site you are building. The scaffold above is a starting point — your site is one prompt away."
           }
         },
         {
@@ -261,7 +259,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "Let's Go",
+            "text": "Start the conversation",
             "url": "#",
             "style": "filled",
             "size": "lg"

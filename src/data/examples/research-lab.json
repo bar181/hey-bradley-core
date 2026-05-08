@@ -1,0 +1,262 @@
+{
+  "_storytellingPreset": "academic-rigor",
+  "_note": "P115/A4 — research lab institutional site (NOT newsletter — sibling site to research-newsletter.json which is a subscription product). Clean white, data callouts, publication archive, grant + collaborator list, Lars-persona researcher audience. Cites academic-rigor preset (claim → evidence → counterargument → sources).",
+  "site": {
+    "title": "Halvorsen Lab · Computational Soil Microbiology",
+    "description": "A computational soil microbiology lab at the University of Tromsø. We study how Arctic soil microbiomes respond to permafrost thaw. PI: Dr. Lars Halvorsen. Open data. Reproducible code. Honest uncertainty intervals.",
+    "author": "Halvorsen Lab",
+    "email": "lars.halvorsen@uit.no",
+    "domain": "halvorsen-lab.uit.no",
+    "project": "halvorsen-lab",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "enterprise",
+    "tone": "formal",
+    "brandName": "Halvorsen Lab",
+    "tagline": "Computational soil microbiology at 69° N.",
+    "voiceAttributes": ["precise", "evidence-based", "thorough", "authoritative"],
+    "storytellingPreset": "academic-rigor"
+  },
+  "theme": {
+    "preset": "white-academic",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#ffffff",
+      "bgSecondary": "#f4f6f9",
+      "textPrimary": "#0a1628",
+      "textSecondary": "#4a5a72",
+      "accentPrimary": "#1c4789",
+      "accentSecondary": "#3a8556"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#0a1628",
+      "bgSecondary": "#13213a",
+      "textPrimary": "#ffffff",
+      "textSecondary": "#a8b4c7",
+      "accentPrimary": "#5d96e5",
+      "accentSecondary": "#5fb585"
+    },
+    "typography": {
+      "fontFamily": "IBM Plex Sans",
+      "headingFamily": "IBM Plex Serif",
+      "headingWeight": 600,
+      "baseSize": "17px",
+      "lineHeight": 1.65
+    },
+    "spacing": { "sectionPadding": "104px", "containerMaxWidth": "1080px", "componentGap": "32px" },
+    "borderRadius": "4px"
+  },
+  "sections": [
+    {
+      "type": "menu", "id": "navbar-01", "enabled": true, "order": -1, "variant": "simple",
+      "layout": { "display": "flex", "padding": "24px 32px", "gap": "32px", "maxWidth": "1180px" },
+      "style": { "background": "#ffffff", "color": "#0a1628" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Halvorsen Lab" } },
+        { "id": "nav-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "Research", "url": "#research" } },
+        { "id": "nav-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "Publications", "url": "#publications" } },
+        { "id": "nav-3", "type": "link", "enabled": true, "order": 3, "props": { "text": "People", "url": "#people" } },
+        { "id": "nav-4", "type": "link", "enabled": true, "order": 4, "props": { "text": "Data & Code", "url": "#data" } },
+        { "id": "nav-5", "type": "link", "enabled": true, "order": 5, "props": { "text": "Contact", "url": "#contact" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero", "id": "hero-01", "enabled": true, "order": 0, "variant": "left-aligned",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "28px", "padding": "144px 32px 88px", "maxWidth": "920px" },
+      "style": { "background": "#ffffff", "color": "#0a1628" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0,
+          "props": { "text": "UiT The Arctic University of Norway · Department of Arctic and Marine Biology · Established 2017", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "We measure how Arctic soil microbiomes respond when the permafrost beneath them thaws — and we publish the data, the code, and the uncertainty.", "level": 1, "size": "52px", "weight": 600 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "The Halvorsen Lab is a computational soil microbiology group at the University of Tromsø. We combine long-term field sampling at four established Svalbard and Finnmark sites with whole-metagenome sequencing and Bayesian community-ecology modeling. Our public deliverables are the SoilCast methane-emission posterior, the open MIxC-Arctic 16S/ITS amplicon archive (n=11,847 samples and growing), and reproducible Snakemake pipelines for every published figure. Funded by the Research Council of Norway (project 287912) and a Horizon Europe ERC Consolidator (101090114). Hiring two PhD students for autumn 2026." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "View publications", "url": "#publications", "style": "filled", "size": "lg", "background": "#1c4789", "color": "#ffffff" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4,
+          "props": { "text": "Open data archive →", "url": "#data", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "numbers", "id": "stats-01", "enabled": true, "order": 1, "variant": "counters",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "80px 32px", "maxWidth": "1180px" },
+      "style": { "background": "#f4f6f9", "color": "#0a1628" },
+      "components": [
+        { "id": "n-1", "type": "value-prop", "enabled": true, "order": 0,
+          "props": { "value": "11,847", "label": "samples in MIxC-Arctic archive", "description": "16S rRNA + ITS amplicons from four Svalbard / Finnmark sites since 2018. Updated quarterly." } },
+        { "id": "n-2", "type": "value-prop", "enabled": true, "order": 1,
+          "props": { "value": "47", "label": "peer-reviewed publications", "description": "Including 6 in Nature, Science, or PNAS. Full list with DOIs and accepted manuscripts under §Publications." } },
+        { "id": "n-3", "type": "value-prop", "enabled": true, "order": 2,
+          "props": { "value": "€3.8M", "label": "active grant funding", "description": "RCN 287912 (€1.4M, 2024–2028) and ERC Consolidator 101090114 (€2.4M, 2024–2029)." } },
+        { "id": "n-4", "type": "value-prop", "enabled": true, "order": 3,
+          "props": { "value": "13", "label": "current lab members", "description": "1 PI, 2 postdocs, 5 PhDs, 3 MSc, 2 lab technicians. Plus an open postdoc post starting January 2027." } }
+      ],
+      "content": { "heading": "By the numbers", "subheading": "Updated April 2026. Citation counts pulled from Web of Science; sample counts from the MIxC-Arctic public S3 bucket." }
+    },
+    {
+      "type": "text", "id": "research-01", "enabled": true, "order": 2, "variant": "long-form",
+      "layout": { "display": "flex", "direction": "column", "gap": "32px", "padding": "104px 32px", "maxWidth": "820px" },
+      "style": { "background": "#ffffff", "color": "#0a1628" },
+      "components": [
+        { "id": "rh", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Research focus", "level": 2, "size": "40px", "weight": 600 } },
+        { "id": "claim", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "Central claim under investigation", "level": 3, "size": "22px", "weight": 600 } },
+        { "id": "claim-body", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "Permafrost thaw, in the active-layer-deepening regime characteristic of high-Arctic continuous permafrost (mean annual ground temperature −5 °C to −2 °C), restructures soil microbial communities along a methanogenic axis at a rate that current Earth-system models underrepresent by a factor of 1.6 to 2.3 (95% credible interval, Halvorsen et al. 2024, Nature Climate Change). The lab's work since 2024 has focused on closing this gap — both by extending the empirical sampling base and by reformulating the methanogenic-community submodel inside the JULES-permafrost framework." } },
+        { "id": "evidence", "type": "heading", "enabled": true, "order": 3,
+          "props": { "text": "Lines of evidence", "level": 3, "size": "22px", "weight": 600 } },
+        { "id": "evidence-body", "type": "text", "enabled": true, "order": 4,
+          "props": { "text": "(1) The MIxC-Arctic time series at Adventdalen (Svalbard, 78°N) shows a 4.1× increase in relative abundance of Methanoflorentaceae across active-layer transects sampled annually 2018–2025 (n=2,847). (2) Stable-isotope probing of duplicate cores incubated at +2 °C confirms these methanogens are metabolically active, not merely present (Halvorsen et al. 2023, ISME Journal). (3) Bayesian state-space modeling of in-situ flux chamber CH₄ data from the same sites (n=4 sites, 18,432 hourly observations) yields a posterior median emission factor 1.9× the JULES-permafrost default (Tan & Halvorsen 2025, Geoscientific Model Development)." } },
+        { "id": "counter", "type": "heading", "enabled": true, "order": 5,
+          "props": { "text": "Strongest counterargument", "level": 3, "size": "22px", "weight": 600 } },
+        { "id": "counter-body", "type": "text", "enabled": true, "order": 6,
+          "props": { "text": "The most credible objection is selection bias in our four Svalbard / Finnmark sites — all four are within 12 km of established Forsknings stations, all four are in continental high-Arctic settings, and the maritime mid-Arctic (East Siberian shelf, Northwest Territories) is underrepresented in our archive. Schuur and colleagues (2024, Global Biogeochemical Cycles) argue convincingly that maritime sites show the opposite signal, with marine-derived sulfate suppressing methanogenesis below thaw fronts. We accept this. Our claim is therefore scoped to continental continuous-permafrost regimes and does not generalize to the maritime margin. The lab is in active discussion with the AON-CAP network about cross-site sampling beginning in summer 2027." } },
+        { "id": "limits", "type": "heading", "enabled": true, "order": 7,
+          "props": { "text": "Limits and openings", "level": 3, "size": "22px", "weight": 600 } },
+        { "id": "limits-body", "type": "text", "enabled": true, "order": 8,
+          "props": { "text": "What would falsify the central claim: a multi-site replicate sampling effort across continental high-Arctic continuous permafrost showing no shift in Methanoflorentaceae relative abundance under thaw, OR a stable-isotope tracing study demonstrating that the 4.1× abundance shift is not metabolically active. We have pre-registered the analytical pipeline for both tests on OSF (osf.io/halvorsen-lab/mixc-replicate). The replicate sampling effort is the principal aim of ERC Consolidator 101090114 (2024–2029)." } }
+      ],
+      "content": {
+        "heading": "Research focus",
+        "subheading": "Continental high-Arctic permafrost · methanogen community shifts · Earth-system model coupling"
+      }
+    },
+    {
+      "type": "blog", "id": "publications-01", "enabled": true, "order": 3, "variant": "list",
+      "layout": { "display": "flex", "direction": "column", "gap": "32px", "padding": "104px 32px", "maxWidth": "920px" },
+      "style": { "background": "#f4f6f9", "color": "#0a1628" },
+      "components": [
+        { "id": "pub-1", "type": "blog-post", "enabled": true, "order": 0,
+          "props": {
+            "title": "Reframed methanogenic emission factors for continental high-Arctic permafrost: a Bayesian re-analysis of JULES-permafrost outputs.",
+            "date": "Halvorsen, L., Tan, M.-W., Aalto, J., Schuur, E. A. G., & Brodie, E. L. (2025). Nature Climate Change 15, 412–419.",
+            "readTime": "DOI: 10.1038/s41558-025-02103-0",
+            "tags": "Lead claim · Bayesian · JULES-permafrost · Open data · Open code",
+            "excerpt": "We reanalyze JULES-permafrost CH₄ outputs against in-situ flux observations from four continental high-Arctic sites (n=18,432 hourly observations, 2018–2025) and report a posterior median emission factor 1.9× (95% CrI 1.6–2.3) the model default. Implications for CMIP-7 are discussed. Code and data archived at zenodo.org/halvorsen-2025-jules."
+          } },
+        { "id": "pub-2", "type": "blog-post", "enabled": true, "order": 1,
+          "props": {
+            "title": "Active methanogen communities in thawing Adventdalen permafrost: a stable-isotope probing time-series, 2018–2023.",
+            "date": "Tan, M.-W., Halvorsen, L., & Mortensen, A. T. (2024). The ISME Journal 18, 1043–1056.",
+            "readTime": "DOI: 10.1038/s41396-024-01612-w",
+            "tags": "Stable isotopes · Methanoflorentaceae · Adventdalen · 6-year time series",
+            "excerpt": "Six annual sampling campaigns at Adventdalen (Svalbard, 78°N) demonstrate that the 4.1× rise in Methanoflorentaceae relative abundance under active-layer deepening reflects metabolically active organisms, not relic DNA. Implications for ¹³C-flux partitioning are quantified."
+          } },
+        { "id": "pub-3", "type": "blog-post", "enabled": true, "order": 2,
+          "props": {
+            "title": "MIxC-Arctic: an open 16S/ITS amplicon archive of high-Arctic soil microbiomes (n=11,847 and growing).",
+            "date": "Halvorsen, L., Brodie, E. L., Aalto, J., Mortensen, A. T., et al. (2024). Scientific Data 11, 287.",
+            "readTime": "DOI: 10.1038/s41597-024-03178-3",
+            "tags": "Data descriptor · Open archive · 16S rRNA · ITS · Quarterly updates",
+            "excerpt": "Description of the MIxC-Arctic open archive — sampling protocols, sequencing pipelines, QC procedures, and quarterly-update governance. The archive supersedes the closed-access NMIxC-2019 dataset. All data CC-BY-4.0."
+          } },
+        { "id": "pub-4", "type": "blog-post", "enabled": true, "order": 3,
+          "props": {
+            "title": "On the credible interval, not the point estimate: a methodological reply to Schuur et al. (2024).",
+            "date": "Halvorsen, L. & Aalto, J. (2024). Global Biogeochemical Cycles 38, e2024GB008149.",
+            "readTime": "DOI: 10.1029/2024GB008149",
+            "tags": "Methodological reply · Maritime vs continental · Scope conditions",
+            "excerpt": "We respond to Schuur et al.'s (2024) critique of the Halvorsen et al. (2024) emission-factor estimate. We accept the maritime-site point and re-scope our claim to continental continuous permafrost. The credible interval, not the point estimate, is where the disagreement actually lives."
+          } },
+        { "id": "pub-5", "type": "blog-post", "enabled": true, "order": 4,
+          "props": {
+            "title": "Snakemake-permafrost: a reproducible pipeline for amplicon → community → flux modeling on Arctic soils.",
+            "date": "Aalto, J., Mortensen, A. T., & Halvorsen, L. (2024). Methods in Ecology and Evolution 15, 891–903.",
+            "readTime": "DOI: 10.1111/2041-210X.14302",
+            "tags": "Snakemake · Reproducibility · Pipeline · Open code",
+            "excerpt": "An end-to-end Snakemake pipeline reproducing every figure in the lab's 2022–2024 publications from raw FASTQs through Bayesian community models to flux-coupled emission posteriors. Released under MIT. Containerized on Apptainer."
+          } }
+      ],
+      "content": { "heading": "Recent publications", "subheading": "Five of forty-seven peer-reviewed outputs since the lab opened in 2017. Full chronological list, with author orders, citation counts, and pre-prints, at halvorsen-lab.uit.no/publications." }
+    },
+    {
+      "type": "team", "id": "people-01", "enabled": true, "order": 4, "variant": "grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "104px 32px", "maxWidth": "1180px" },
+      "style": { "background": "#ffffff", "color": "#0a1628" },
+      "components": [
+        { "id": "ppl-1", "type": "team-member", "enabled": true, "order": 0,
+          "props": {
+            "name": "Dr. Lars Halvorsen",
+            "role": "Principal Investigator · Professor of Soil Microbiology · UiT",
+            "bio": "PhD ETH Zürich (2014). Postdoc Lawrence Berkeley National Laboratory (2014–2017). PI since 2017. Co-author on six Nature / Science / PNAS papers. ERC Consolidator 2024. Reviewer for IPCC AR7 WG1 Chapter 5.",
+            "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
+            "links": "ORCID 0000-0002-1738-4928 · Google Scholar · @halvorsen-lab"
+          } },
+        { "id": "ppl-2", "type": "team-member", "enabled": true, "order": 1,
+          "props": {
+            "name": "Dr. Mei-Wei Tan",
+            "role": "Postdoctoral Researcher · stable-isotope ecology",
+            "bio": "PhD UC Berkeley (2022). With the lab since September 2023. Lead author Tan & Halvorsen (2025, GMD). Co-PI on the Adventdalen ¹³C-SIP campaign 2024–2027.",
+            "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400",
+            "links": "ORCID 0000-0003-4821-7193 · Bluesky @meiwei-tan"
+          } },
+        { "id": "ppl-3", "type": "team-member", "enabled": true, "order": 2,
+          "props": {
+            "name": "Juhani Aalto",
+            "role": "Senior PhD Candidate · computational pipelines",
+            "bio": "MSc University of Helsinki (2021). PhD candidate since January 2022. Maintainer of Snakemake-permafrost. Will defend in November 2026 on reproducibility infrastructure for high-throughput soil microbiome studies.",
+            "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400",
+            "links": "GitHub @juhani-aalto · ORCID 0000-0001-9042-3815"
+          } }
+      ],
+      "content": { "heading": "People", "subheading": "Three of thirteen current members. Full lab roster, alumni list, and visiting-researcher schedule at halvorsen-lab.uit.no/people. We are hiring two PhD students starting autumn 2026 — see the Open Positions page." }
+    },
+    {
+      "type": "logos", "id": "collaborators-01", "enabled": true, "order": 5, "variant": "grid",
+      "layout": { "display": "grid", "columns": 4, "gap": "24px", "padding": "80px 32px", "maxWidth": "1100px" },
+      "style": { "background": "#f4f6f9", "color": "#0a1628" },
+      "components": [
+        { "id": "lg-1", "type": "logo", "enabled": true, "order": 0, "props": { "name": "Lawrence Berkeley National Laboratory", "subtitle": "Brodie Lab · joint MIxC-Arctic governance" } },
+        { "id": "lg-2", "type": "logo", "enabled": true, "order": 1, "props": { "name": "University of Helsinki", "subtitle": "Aalto Lab · Finnmark sampling collaboration" } },
+        { "id": "lg-3", "type": "logo", "enabled": true, "order": 2, "props": { "name": "Norwegian Polar Institute (NPI)", "subtitle": "Adventdalen station logistics · 2018–present" } },
+        { "id": "lg-4", "type": "logo", "enabled": true, "order": 3, "props": { "name": "Research Council of Norway (RCN)", "subtitle": "Project 287912 · €1.4M · 2024–2028" } },
+        { "id": "lg-5", "type": "logo", "enabled": true, "order": 4, "props": { "name": "European Research Council", "subtitle": "Consolidator Grant 101090114 · €2.4M · 2024–2029" } },
+        { "id": "lg-6", "type": "logo", "enabled": true, "order": 5, "props": { "name": "Northern Arizona University", "subtitle": "Schuur Lab · cross-site reanalysis (Schuur et al. 2024)" } },
+        { "id": "lg-7", "type": "logo", "enabled": true, "order": 6, "props": { "name": "AON-CAP network", "subtitle": "Cross-site sampling protocol · planned 2027" } },
+        { "id": "lg-8", "type": "logo", "enabled": true, "order": 7, "props": { "name": "Met Office Hadley Centre", "subtitle": "JULES-permafrost coupling collaboration · 2024–present" } }
+      ],
+      "content": { "heading": "Collaborators and funders", "subheading": "Active partnerships, current grants, and the institutions whose station logistics, sequencing pipelines, and co-authored papers make this lab's work possible." }
+    },
+    {
+      "type": "contact-form", "id": "contact-01", "enabled": true, "order": 6, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "20px", "padding": "104px 32px", "maxWidth": "780px" },
+      "style": { "background": "#0a1628", "color": "#ffffff" },
+      "components": [
+        { "id": "form-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Contact the lab.", "level": 2, "size": "40px", "weight": 600 } },
+        { "id": "form-blurb", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "For prospective PhD applicants, please write directly to Dr. Halvorsen with a CV, transcript, two-page research statement, and the names of two references. For data requests, the MIxC-Arctic archive is open access at halvorsen-lab.uit.no/data — no permission needed. For collaboration inquiries, press, or commissioned reviews, use the form below. We typically reply within five working days during the academic year." } },
+        { "id": "form-name", "type": "input", "enabled": true, "order": 2,
+          "props": { "label": "Your name", "placeholder": "First and last", "type": "text", "required": true } },
+        { "id": "form-email", "type": "input", "enabled": true, "order": 3,
+          "props": { "label": "Institutional email", "placeholder": "you@university.edu", "type": "email", "required": true } },
+        { "id": "form-affil", "type": "input", "enabled": true, "order": 4,
+          "props": { "label": "Affiliation", "placeholder": "Department, institution", "type": "text", "required": true } },
+        { "id": "form-topic", "type": "input", "enabled": true, "order": 5,
+          "props": { "label": "Topic", "placeholder": "PhD inquiry · Collaboration · Data question · Press · Other", "type": "text", "required": true } },
+        { "id": "form-msg", "type": "input", "enabled": true, "order": 6,
+          "props": { "label": "Message", "placeholder": "For PhD inquiries, please include CV link and a two-paragraph research interest summary in this field.", "type": "textarea", "required": true } },
+        { "id": "form-submit", "type": "button", "enabled": true, "order": 7,
+          "props": { "text": "Send to the lab", "url": "#submit", "style": "filled", "size": "lg", "background": "#1c4789", "color": "#ffffff" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer", "id": "footer-01", "enabled": true, "order": 7, "variant": "multi-column",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "56px 32px", "maxWidth": "1180px" },
+      "style": { "background": "#ffffff", "color": "#4a5a72" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Halvorsen Lab · UiT" } },
+        { "id": "col-1", "type": "footer-column", "enabled": true, "order": 1, "props": { "heading": "Research", "links": "Focus,Sites,Methods,Open positions" } },
+        { "id": "col-2", "type": "footer-column", "enabled": true, "order": 2, "props": { "heading": "Outputs", "links": "Publications,MIxC-Arctic archive,Snakemake-permafrost,Pre-prints" } },
+        { "id": "col-3", "type": "footer-column", "enabled": true, "order": 3, "props": { "heading": "Address", "links": "Department of Arctic and Marine Biology,UiT The Arctic University of Norway,9037 Tromsø,Norway" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 4, "props": { "text": "© 2026 Halvorsen Lab · UiT · ORCID 0000-0002-1738-4928 · Last updated April 2026" } }
+      ],
+      "content": {}
+    }
+  ]
+}

@@ -113,7 +113,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "Trusted by Fortune 500",
+            "text": "10 years · 80+ engagements · 7 senior partners",
             "icon": "award",
             "variant": "pill"
           }
@@ -124,7 +124,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Strategy That Grows With You",
+            "text": "Strategy work without the 80-page deck.",
             "level": 1,
             "size": "56px",
             "weight": 600
@@ -136,7 +136,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "We partner with ambitious companies to solve their toughest challenges. From market entry to operational excellence, our senior partners deliver measurable results."
+            "text": "GreenLeaf is seven senior partners working out of Cambridge and Austin. We take fewer than 18 engagements a year — go-to-market for Series B SaaS, operational turnarounds for $20M-$200M founder-led companies, and the kind of strategic memo a board can actually read in 30 minutes. No staffing pyramid. No re-skinned templates. The partner you meet in week one is the partner answering your texts in week twelve."
           }
         },
         {

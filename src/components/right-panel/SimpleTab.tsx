@@ -19,6 +19,8 @@ import { TextSectionSimple } from './simple/TextSectionSimple'
 import { LogosSectionSimple } from './simple/LogosSectionSimple'
 import { TeamSectionSimple } from './simple/TeamSectionSimple'
 import { BlogSectionSimple } from './simple/BlogSectionSimple'
+import { CaseStudySectionSimple } from './simple/CaseStudySectionSimple'
+import { ContactFormSectionSimple } from './simple/ContactFormSectionSimple'
 
 export function SimpleTab() {
   const selectedContext = useUIStore((s) => s.selectedContext)
@@ -66,6 +68,8 @@ export function SimpleTab() {
     case 'logos': return <LogosSectionSimple sectionId={section.id} />
     case 'team': return <TeamSectionSimple sectionId={section.id} />
     case 'blog': return <BlogSectionSimple sectionId={section.id} />
+    case 'case-study': return <CaseStudySectionSimple sectionId={section.id} />
+    case 'contact-form': return <ContactFormSectionSimple sectionId={section.id} />
     default: return <SectionSimple sectionId={section.id} />
   }
 }

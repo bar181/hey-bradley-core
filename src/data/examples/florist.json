@@ -12,8 +12,8 @@
     "audience": "consumer",
     "tone": "warm",
     "brandName": "Bloom & Petal",
-    "tagline": "Bespoke arrangements for every occasion",
-    "voiceAttributes": ["delicate", "elegant", "organic"]
+    "tagline": "Hand-tied in Brooklyn · weddings, events, weekly subscriptions · seasonal-only",
+    "voiceAttributes": ["delicate", "elegant", "seasonal-only", "boutique-deliberate"]
   },
   "theme": {
     "preset": "personal",
@@ -35,8 +35,8 @@
       "accentSecondary": "#ec4899"
     },
     "typography": {
-      "fontFamily": "Georgia",
-      "headingFamily": "Georgia",
+      "fontFamily": "Fraunces",
+      "headingFamily": "Fraunces",
       "headingWeight": 400,
       "baseSize": "16px",
       "lineHeight": 1.8
@@ -103,7 +103,7 @@
       "style": {
         "background": "#fefcfb",
         "color": "#1c1917",
-        "fontFamily": "Georgia",
+        "fontFamily": "Fraunces",
         "borderRadius": "0px"
       },
       "components": [
@@ -124,7 +124,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Flowers That Tell Your Story",
+            "text": "Seasonal flowers from people we know by name.",
             "level": 1,
             "size": "56px",
             "weight": 400
@@ -136,7 +136,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "Every arrangement is designed by hand using seasonal blooms sourced from local farms. From intimate bouquets to grand wedding installations, we bring your vision to life with petals."
+            "text": "Bloom & Petal is a small studio in Greenpoint, run by two florists who source weekly from four growers on Long Island and the Hudson Valley. We do bridal work for 22 weddings a year, weekly subscriptions for a dozen Brooklyn restaurants, and walk-in bouquets on Saturdays. We will not pretend a tropical is in season in February. We will tell you which alternative will actually look better."
           }
         },
         {

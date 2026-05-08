@@ -10,7 +10,10 @@
     "spec": "aisp-1.2",
     "purpose": "blog",
     "audience": "consumer",
-    "tone": "casual"
+    "tone": "playful",
+    "brandName": "The Daily Scoop",
+    "tagline": "Honest food reviews, weeknight recipes, and the occasional kitchen-fire story.",
+    "voiceAttributes": ["playful", "irreverent", "warm", "first-person"]
   },
   "theme": {
     "preset": "creative",
@@ -32,8 +35,8 @@
       "accentSecondary": "#fb923c"
     },
     "typography": {
-      "fontFamily": "Georgia",
-      "headingFamily": "Georgia",
+      "fontFamily": "Playfair Display",
+      "headingFamily": "Playfair Display",
       "headingWeight": 700,
       "baseSize": "17px",
       "lineHeight": 1.8
@@ -121,7 +124,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Stories That Taste as Good as They Sound",
+            "text": "I burned the focaccia. Again. Let's talk about it.",
             "level": 1,
             "size": "52px",
             "weight": 700
@@ -133,7 +136,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "Welcome to The Daily Scoop — your go-to spot for honest food reviews, easy weeknight recipes, and the occasional kitchen disaster story. No pretension, just good eats."
+            "text": "I'm Mara. I cook a lot, write about it, and make almost every mistake at least twice. The Daily Scoop is a weekly newsletter from a Queens kitchen — one weeknight recipe I've actually made on a Tuesday, one neighborhood spot worth the train ride, and one thing I screwed up so you don't have to. About 800 words. Reads in one cup of coffee."
           }
         },
         {

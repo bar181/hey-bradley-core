@@ -1,0 +1,265 @@
+{
+  "site": {
+    "title": "Axon CLI · agentic dependency review at parallel scale",
+    "description": "Axon runs 30 parallel review agents per repo. Stop reviewing dependencies one PR at a time. Built for engineering teams who treat code review as a system, not a chore.",
+    "author": "Axon Labs",
+    "email": "core@axoncli.dev",
+    "domain": "axoncli.dev",
+    "project": "axon-cli",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "saas",
+    "audience": "developer",
+    "tone": "technical",
+    "brandName": "Axon",
+    "tagline": "thirty agents. one command.",
+    "voiceAttributes": ["technical", "dry", "precise"]
+  },
+  "theme": {
+    "preset": "industrial-modern",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0b0a14",
+      "bgSecondary": "#15131f",
+      "textPrimary": "#ece8f5",
+      "textSecondary": "#9d97b8",
+      "accentPrimary": "#6c4dff",
+      "accentSecondary": "#22d3ee"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#f5f3fa",
+      "bgSecondary": "#e9e4f3",
+      "textPrimary": "#0b0a14",
+      "textSecondary": "#3a3552",
+      "accentPrimary": "#5938e0",
+      "accentSecondary": "#0891b2"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "JetBrains Mono",
+      "headingWeight": 700,
+      "baseSize": "15px",
+      "lineHeight": 1.6
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1180px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "4px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": { "display": "flex", "padding": "20px 32px", "gap": "24px" },
+      "style": { "background": "#0b0a14", "color": "#ece8f5" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "$ axon" } },
+        { "id": "nav-features", "type": "link", "enabled": true, "order": 1, "props": { "text": "features", "url": "#features" } },
+        { "id": "nav-docs", "type": "link", "enabled": true, "order": 2, "props": { "text": "docs", "url": "/docs" } },
+        { "id": "nav-pricing", "type": "link", "enabled": true, "order": 3, "props": { "text": "pricing", "url": "#pricing" } },
+        { "id": "nav-github", "type": "link", "enabled": true, "order": 4, "props": { "text": "github →", "url": "https://github.com/axonlabs/axon-cli" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "20px", "padding": "112px 24px 72px", "maxWidth": "1100px" },
+      "style": { "background": "#0b0a14", "color": "#ece8f5" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "v1.0 · MIT · 30 agents/repo", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Stop reviewing dependencies one PR at a time.", "level": 1, "size": "56px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Axon runs 30 parallel review agents per repo. Each agent owns a slice of the dependency graph. Reports land in minutes, not afternoons." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "Install via brew", "url": "#install", "style": "filled", "size": "lg" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4, "props": { "text": "Read the docs →", "url": "/docs", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "features-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "24px", "padding": "80px 24px" },
+      "style": { "background": "#15131f", "color": "#ece8f5" },
+      "components": [
+        { "id": "f-1", "type": "feature-card", "enabled": true, "order": 0, "props": { "icon": "git-branch", "title": "Parallel review", "description": "Spawn 30 review agents per repo. Each one inspects a disjoint slice of the diff. No serial bottleneck." } },
+        { "id": "f-2", "type": "feature-card", "enabled": true, "order": 1, "props": { "icon": "share-2", "title": "Dependency graphs", "description": "Walk every direct and transitive dep. Surface drift, version skew, and orphaned packages in one report." } },
+        { "id": "f-3", "type": "feature-card", "enabled": true, "order": 2, "props": { "icon": "shield", "title": "Security scanning", "description": "CVE matching against the live OSV database. Severity-ranked. Linked to upstream advisories." } },
+        { "id": "f-4", "type": "feature-card", "enabled": true, "order": 3, "props": { "icon": "edit-3", "title": "Batch refactor", "description": "Apply a codemod across all matched files atomically. Preview the diff before commit. No half-applied state." } },
+        { "id": "f-5", "type": "feature-card", "enabled": true, "order": 4, "props": { "icon": "check-square", "title": "Lint enforcement", "description": "Wire any linter — ESLint, Ruff, golangci-lint — into the review pipeline. Failing rules block merge." } },
+        { "id": "f-6", "type": "feature-card", "enabled": true, "order": 5, "props": { "icon": "rotate-ccw", "title": "Atomic rollback", "description": "Every Axon run produces a transactional snapshot. Revert the entire batch with one command." } }
+      ],
+      "content": { "heading": "// six things Axon does", "subheading": "Each feature was built because reviewing dependencies by hand stopped scaling at twenty repos." }
+    },
+    {
+      "type": "text",
+      "id": "code-example-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "code-block",
+      "layout": { "display": "flex", "direction": "column", "align": "stretch", "gap": "20px", "padding": "80px 24px", "maxWidth": "900px" },
+      "style": { "background": "#0b0a14", "color": "#ece8f5" },
+      "components": [
+        { "id": "ce-eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "// example invocation", "variant": "pill" } },
+        { "id": "ce-heading", "type": "heading", "enabled": true, "order": 1, "props": { "text": "One command. Thirty agents.", "level": 2, "size": "36px", "weight": 700 } },
+        { "id": "ce-code", "type": "code", "enabled": true, "order": 2, "props": { "language": "bash", "text": "$ axon run --parallel 30 --review\n  → spawning 30 review agents...\n  → graph walked: 1,847 deps across 12 repos\n  → 7 CVEs surfaced (2 high, 5 medium)\n  → 14 lint failures across 9 files\n  → report ready: ./axon-report.html (2.4 MB)\n  ✓ done in 47s" } },
+        { "id": "ce-explainer", "type": "text", "enabled": true, "order": 3, "props": { "text": "The default review fans out across the dependency graph. Pass --serial to fall back to single-agent mode for debugging. Reports are deterministic — same input, same output, same hash." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "pricing",
+      "id": "pricing-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "three-tier",
+      "layout": { "display": "grid", "columns": 3, "gap": "24px", "padding": "80px 24px", "maxWidth": "1100px" },
+      "style": { "background": "#15131f", "color": "#ece8f5" },
+      "components": [
+        { "id": "p-1", "type": "pricing-card", "enabled": true, "order": 0, "props": { "tier": "Open Source", "price": "Free", "interval": "MIT", "features": "10 parallel agents,Local execution only,GitHub OAuth,Community support", "cta": "git clone", "ctaUrl": "https://github.com/axonlabs/axon-cli" } },
+        { "id": "p-2", "type": "pricing-card", "enabled": true, "order": 1, "props": { "tier": "Team", "price": "$99", "interval": "per month per seat", "features": "30 parallel agents,Hosted dispatch,Slack + Discord webhooks,SSO + audit log,Priority support", "cta": "Start trial", "ctaUrl": "/signup", "highlighted": true } },
+        { "id": "p-3", "type": "pricing-card", "enabled": true, "order": 2, "props": { "tier": "Enterprise", "price": "Contact", "interval": "annual contract", "features": "Unlimited agents,On-prem deployment,SOC 2 / ISO 27001,Custom policy engine,Dedicated success engineer", "cta": "Talk to sales", "ctaUrl": "mailto:enterprise@axoncli.dev" } }
+      ],
+      "content": { "heading": "// pricing", "subheading": "Pay for parallelism. Open source covers the single-developer case." }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "three-up",
+      "layout": { "display": "grid", "columns": 3, "gap": "24px", "padding": "80px 24px", "maxWidth": "1100px" },
+      "style": { "background": "#0b0a14", "color": "#ece8f5" },
+      "components": [
+        { "id": "t-1", "type": "testimonial", "enabled": true, "order": 0, "props": { "quote": "We retired our weekly dependency-review meeting. Axon does it nightly across 84 repos.", "author": "Priya Vasquez", "title": "Eng Manager · Sequent" } },
+        { "id": "t-2", "type": "testimonial", "enabled": true, "order": 1, "props": { "quote": "The atomic rollback is the feature that earned our budget approval. Half-applied refactors used to bite us monthly.", "author": "Devon Marsh", "title": "Eng Manager · Glasshouse Labs" } },
+        { "id": "t-3", "type": "testimonial", "enabled": true, "order": 2, "props": { "quote": "Forty-seven seconds to scan our monorepo. The previous tool needed forty-seven minutes. Same finding count.", "author": "Yuki Hartman", "title": "Eng Manager · Northpoint Robotics" } }
+      ],
+      "content": { "heading": "// engineering managers", "subheading": "Three teams who replaced their review meeting with a cron job." }
+    },
+    {
+      "type": "action",
+      "id": "cta-install",
+      "enabled": true,
+      "order": 5,
+      "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "16px", "padding": "80px 24px" },
+      "style": { "background": "#15131f", "color": "#ece8f5" },
+      "components": [
+        { "id": "cta-heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Install Axon. Run thirty agents.", "level": 2, "size": "40px", "weight": 700 } },
+        { "id": "cta-sub", "type": "text", "enabled": true, "order": 1, "props": { "text": "brew install axon. Then axon run --parallel 30. Report lands in your terminal." } },
+        { "id": "cta-button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Read the install guide", "url": "/docs", "style": "filled", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 6,
+      "variant": "multi-column",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "48px 24px" },
+      "style": { "background": "#0b0a14", "color": "#ece8f5" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "$ axon" } },
+        { "id": "col-1", "type": "footer-column", "enabled": true, "order": 1, "props": { "heading": "Product", "links": "Features,Pricing,Docs,Changelog" } },
+        { "id": "col-2", "type": "footer-column", "enabled": true, "order": 2, "props": { "heading": "Community", "links": "GitHub,Discord,Email,RSS" } },
+        { "id": "col-3", "type": "footer-column", "enabled": true, "order": 3, "props": { "heading": "Links", "links": "github.com/axonlabs/axon-cli,discord.gg/axon,core@axoncli.dev,License (MIT)" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 4, "props": { "text": "© 2026 Axon Labs. MIT-licensed. Built for engineers who hate review meetings." } }
+      ],
+      "content": {}
+    }
+  ],
+  "pages": [
+    {
+      "id": "home",
+      "title": "Home",
+      "slug": "",
+      "isHome": true,
+      "sections": []
+    },
+    {
+      "id": "docs",
+      "title": "Docs",
+      "slug": "docs",
+      "isHome": false,
+      "sections": [
+        {
+          "type": "hero",
+          "id": "docs-hero",
+          "enabled": true,
+          "order": 0,
+          "variant": "centered",
+          "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "16px", "padding": "72px 24px 32px", "maxWidth": "900px" },
+          "style": { "background": "#0b0a14", "color": "#ece8f5" },
+          "components": [
+            { "id": "d-eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "// docs · v1.0", "variant": "pill" } },
+            { "id": "d-headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Axon docs.", "level": 1, "size": "44px", "weight": 700 } },
+            { "id": "d-subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Install in one command. Run in two. Read the report in your terminal." } }
+          ],
+          "content": {}
+        },
+        {
+          "type": "text",
+          "id": "docs-getting-started",
+          "enabled": true,
+          "order": 1,
+          "variant": "article",
+          "layout": { "display": "flex", "direction": "column", "align": "stretch", "gap": "20px", "padding": "32px 24px 64px", "maxWidth": "820px" },
+          "style": { "background": "#0b0a14", "color": "#ece8f5" },
+          "components": [
+            { "id": "gs-heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Getting started", "level": 2, "size": "32px", "weight": 700 } },
+            { "id": "gs-p1", "type": "text", "enabled": true, "order": 1, "props": { "text": "Axon is a single binary. Install it via Homebrew on macOS, apt on Debian-derived Linux, or download the static build for Windows. The binary has no runtime dependencies — it bundles the agent runtime, the dependency-graph walker, and the CVE database client." } },
+            { "id": "gs-p2", "type": "text", "enabled": true, "order": 2, "props": { "text": "After install, run axon init in any repo. This writes an axon.toml config file with sensible defaults: 10 agents in parallel, OSV as the CVE source, no automated rollback. Edit the file to scale up to 30 agents (Team tier) or unlimited (Enterprise). The config is checked into your repo." } },
+            { "id": "gs-p3", "type": "text", "enabled": true, "order": 3, "props": { "text": "Trigger a review with axon run --review. The first run takes longer because Axon caches the dependency graph and the CVE snapshot. Subsequent runs reuse the cache and finish in under a minute for most monorepos. Reports write to ./axon-report.html and to stdout in compact form." } }
+          ],
+          "content": {}
+        },
+        {
+          "type": "columns",
+          "id": "docs-cli-reference",
+          "enabled": true,
+          "order": 2,
+          "variant": "stacked",
+          "layout": { "display": "grid", "columns": 1, "gap": "16px", "padding": "32px 24px 64px", "maxWidth": "820px" },
+          "style": { "background": "#15131f", "color": "#ece8f5" },
+          "components": [
+            { "id": "cli-1", "type": "feature-card", "enabled": true, "order": 0, "props": { "icon": "terminal", "title": "axon init", "description": "Write a default axon.toml config file at the repo root. Idempotent — re-running preserves any custom edits." } },
+            { "id": "cli-2", "type": "feature-card", "enabled": true, "order": 1, "props": { "icon": "play", "title": "axon run [--review] [--parallel N]", "description": "Execute a review pass. --review enables the full pipeline (deps + CVEs + lint). --parallel N caps agent count (default: 10)." } },
+            { "id": "cli-3", "type": "feature-card", "enabled": true, "order": 2, "props": { "icon": "rotate-ccw", "title": "axon rollback [--last]", "description": "Revert the most recent atomic batch. --last is implicit. Pass a snapshot ID to roll back further." } },
+            { "id": "cli-4", "type": "feature-card", "enabled": true, "order": 3, "props": { "icon": "search", "title": "axon graph [--depth N]", "description": "Print the resolved dependency graph as JSON. --depth caps transitive walks (default: unbounded)." } },
+            { "id": "cli-5", "type": "feature-card", "enabled": true, "order": 4, "props": { "icon": "file-text", "title": "axon report [--format html|json|md]", "description": "Re-emit the most recent report in another format. Useful for piping into Slack or a static site." } }
+          ],
+          "content": { "heading": "// CLI commands", "subheading": "Five commands. The whole surface area." }
+        },
+        {
+          "type": "footer",
+          "id": "docs-footer",
+          "enabled": true,
+          "order": 3,
+          "variant": "multi-column",
+          "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "48px 24px" },
+          "style": { "background": "#0b0a14", "color": "#ece8f5" },
+          "components": [
+            { "id": "df-brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "$ axon" } },
+            { "id": "df-col-1", "type": "footer-column", "enabled": true, "order": 1, "props": { "heading": "Product", "links": "Features,Pricing,Docs,Changelog" } },
+            { "id": "df-col-2", "type": "footer-column", "enabled": true, "order": 2, "props": { "heading": "Community", "links": "GitHub,Discord,Email,RSS" } },
+            { "id": "df-col-3", "type": "footer-column", "enabled": true, "order": 3, "props": { "heading": "Links", "links": "github.com/axonlabs/axon-cli,discord.gg/axon,core@axoncli.dev,License (MIT)" } },
+            { "id": "df-copyright", "type": "footer-copyright", "enabled": true, "order": 4, "props": { "text": "© 2026 Axon Labs. MIT-licensed." } }
+          ],
+          "content": {}
+        }
+      ]
+    }
+  ]
+}

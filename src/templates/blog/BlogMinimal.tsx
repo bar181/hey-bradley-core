@@ -11,6 +11,8 @@ interface BlogArticle {
   excerpt: string
   author: string
   date: string
+  readTime: string
+  category: string
   tags: string[]
 }
 
@@ -18,14 +20,19 @@ function parseArticles(section: Section): BlogArticle[] {
   return section.components
     .filter((c) => c.type === 'blog-article' && c.enabled)
     .sort((a, b) => a.order - b.order)
-    .map((item) => ({
-      id: item.id,
-      title: (item.props?.title as string) || 'Untitled',
-      excerpt: (item.props?.excerpt as string) || '',
-      author: (item.props?.author as string) || '',
-      date: (item.props?.date as string) || '',
-      tags: ((item.props?.tags as string) || '').split(',').map((t) => t.trim()).filter(Boolean),
-    }))
+    .map((item) => {
+      const tags = ((item.props?.tags as string) || '').split(',').map((t) => t.trim()).filter(Boolean)
+      return {
+        id: item.id,
+        title: (item.props?.title as string) || 'Untitled',
+        excerpt: (item.props?.excerpt as string) || '',
+        author: (item.props?.author as string) || '',
+        date: (item.props?.date as string) || '',
+        readTime: (item.props?.readTime as string) || '',
+        category: (item.props?.category as string) || tags[0] || '',
+        tags,
+      }
+    })
 }
 
 export function BlogMinimal({ section }: { section: Section }) {
@@ -50,21 +57,33 @@ export function BlogMinimal({ section }: { section: Section }) {
         </div>
       )}
 
+      {articles.length === 0 ? (
+        <div className="mx-auto max-w-3xl text-center py-12 opacity-60">
+          <p className="text-base">No posts yet — your first article will appear here.</p>
+        </div>
+      ) : (
       <div className="mx-auto max-w-3xl divide-y" style={{ borderColor: section.style.color ? `color-mix(in srgb, ${section.style.color} 15%, transparent)` : 'rgba(255,255,255,0.1)' }}>
         {articles.map((article, idx) => (
           <article
             key={article.id}
-            className="py-8 first:pt-0 last:pb-0 opacity-0 animate-card-reveal"
+            className="py-8 first:pt-0 last:pb-0 opacity-0 animate-card-reveal transition-colors"
             style={{ animationDelay: `${idx * 80}ms` }}
           >
+            {article.category && (
+              <span className="inline-block text-[11px] font-semibold uppercase tracking-wider opacity-70 mb-2">
+                {article.category}
+              </span>
+            )}
             <h3 className="text-xl md:text-2xl font-bold leading-snug mb-2">{article.title}</h3>
             <div className="flex items-center gap-2 text-xs opacity-50 mb-3">
               {article.author && <span>{article.author}</span>}
               {article.author && showDates && article.date && <span>·</span>}
               {showDates && article.date && <span>{article.date}</span>}
+              {(article.author || (showDates && article.date)) && article.readTime && <span>·</span>}
+              {article.readTime && <span>{article.readTime}</span>}
             </div>
             {article.excerpt && (
-              <p className="text-base opacity-70 leading-relaxed">{article.excerpt}</p>
+              <p className="text-[17px] opacity-75 leading-[1.7]">{article.excerpt}</p>
             )}
             {showTags && article.tags.length > 0 && (
               <div className="flex flex-wrap gap-1.5 mt-3">
@@ -82,6 +101,7 @@ export function BlogMinimal({ section }: { section: Section }) {
           </article>
         ))}
       </div>
+      )}
     </section>
   )
 }

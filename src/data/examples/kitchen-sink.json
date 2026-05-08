@@ -1,19 +1,19 @@
 {
   "site": {
-    "title": "Nexus Labs",
-    "description": "AI-powered infrastructure for the next generation of software teams",
-    "author": "Nexus Labs Inc.",
-    "email": "hello@nexuslabs.dev",
-    "domain": "nexuslabs.dev",
-    "project": "nexus-labs",
+    "title": "Hey Bradley · Component Showcase",
+    "description": "A reference page that renders every section type Hey Bradley supports — hero, columns, blog, gallery, pricing, numbers, testimonials, logos, team, FAQ, CTA, divider, footer. Useful for previewing visual style and component coverage in one scroll.",
+    "author": "Hey Bradley",
+    "email": "hello@heybradley.dev",
+    "domain": "heybradley.dev",
+    "project": "kitchen-sink",
     "version": "1.0.0-RC1",
     "spec": "aisp-1.2",
-    "purpose": "saas",
-    "audience": "developer",
-    "tone": "technical",
-    "brandName": "Nexus Labs",
-    "tagline": "AI-powered infrastructure for the next generation",
-    "voiceAttributes": ["technical", "innovative", "bold"]
+    "purpose": "marketing",
+    "audience": "business",
+    "tone": "casual",
+    "brandName": "Hey Bradley",
+    "tagline": "Every section type, on a single page",
+    "voiceAttributes": ["demo", "exhaustive", "technical"]
   },
   "theme": {
     "preset": "saas",
@@ -70,7 +70,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "Nexus Labs"
+            "text": "Hey Bradley · Showcase"
           }
         },
         {
@@ -79,7 +79,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Get Started",
+            "text": "View Pricing Section",
             "url": "#pricing"
           }
         }
@@ -102,10 +102,7 @@
       },
       "style": {
         "background": "linear-gradient(135deg, #09090b 0%, #1e1b4b 50%, #09090b 100%)",
-        "color": "#fafafa",
-        "fontFamily": "Inter",
-        "borderRadius": "0px",
-        "imageEffect": "ken-burns"
+        "color": "#fafafa"
       },
       "components": [
         {
@@ -114,8 +111,8 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "Now in Public Beta",
-            "icon": "sparkles",
+            "text": "Demo template \u00b7 every section type",
+            "icon": "layers",
             "variant": "pill"
           }
         },
@@ -125,7 +122,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Ship Faster With AI Infrastructure",
+            "text": "See every section type Hey Bradley can render",
             "level": 1,
             "size": "56px",
             "weight": 700
@@ -137,7 +134,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "Nexus Labs gives engineering teams the building blocks to deploy, monitor, and scale AI workloads \u2014 without managing infrastructure. From model serving to vector search, everything runs on our global edge network."
+            "text": "This is a showcase, not a real product page. Scroll down to see hero, columns, two-column text, blog grid, hero image, numbers, two pricing variants, gallery, testimonials, logo wall, team cards, FAQ accordion, gradient CTA, divider, and a multi-column footer \u2014 all rendered from a single AISP spec. Use it as a visual reference when picking which sections you want for your own site."
           }
         },
         {
@@ -146,8 +143,8 @@
           "enabled": true,
           "order": 3,
           "props": {
-            "text": "Start Building Free",
-            "url": "#pricing",
+            "text": "Jump to features section",
+            "url": "#features-01",
             "style": "filled",
             "size": "lg"
           }
@@ -158,7 +155,7 @@
           "enabled": true,
           "order": 4,
           "props": {
-            "text": "View Pricing",
+            "text": "Jump to pricing section",
             "url": "#pricing",
             "style": "outline",
             "size": "lg"
@@ -195,7 +192,7 @@
           "enabled": true,
           "order": 8,
           "props": {
-            "text": "Trusted by 2,000+ engineering teams worldwide",
+            "text": "16 section types · 13 image effects · 12 themes · all rendered below from one spec",
             "show": true
           }
         }
@@ -260,8 +257,8 @@
         }
       ],
       "content": {
-        "heading": "Everything You Need to Ship AI",
-        "subheading": "From prototype to production in a single platform"
+        "heading": "Section type: columns (variant: image-cards)",
+        "subheading": "Three feature cards with icons, images, and copy. Useful for capability rundowns, service tiers, or product pillars."
       }
     },
     {
@@ -301,8 +298,75 @@
         }
       ],
       "content": {
-        "heading": "How It Works",
-        "subheading": "From model training to production serving in three commands"
+        "heading": "Section type: text (variant: two-column)",
+        "subheading": "Two parallel rich-text blocks. Useful for compare/contrast narratives, problem/solution, or before/after."
+      }
+    },
+    {
+      "type": "blog",
+      "id": "blog-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "card-grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#18181b",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "article-1",
+          "type": "blog-article",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "title": "Shipping a Multi-Region Inference Mesh in 90 Days",
+            "excerpt": "How our platform team rolled out latency-aware routing across 42 edge regions without a single off-hours pager incident.",
+            "author": "James Park",
+            "date": "2026-04-12",
+            "tags": "engineering, infrastructure, edge",
+            "featuredImage": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&q=80"
+          }
+        },
+        {
+          "id": "article-2",
+          "type": "blog-article",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "title": "Vector Search at 2B Queries Per Day: Lessons Learned",
+            "excerpt": "Embedding drift, sharding strategy, and the surprisingly mundane bug that cost us 8ms of P99 latency for three weeks.",
+            "author": "Aisha Patel",
+            "date": "2026-03-30",
+            "tags": "vector-db, performance, postmortem",
+            "featuredImage": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&auto=format&q=80"
+          }
+        },
+        {
+          "id": "article-3",
+          "type": "blog-article",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "title": "Why We Open-Sourced Our Observability Pipeline",
+            "excerpt": "Trust, recruiting, and the quiet realization that our most-loved internal tool was holding back the broader ML community.",
+            "author": "Maya Rodriguez",
+            "date": "2026-03-18",
+            "tags": "open-source, observability, culture",
+            "featuredImage": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=600&auto=format&q=80"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Section type: blog (variant: card-grid)",
+        "subheading": "Three article cards with title, excerpt, author, date, tags. Useful for engineering blogs, content marketing, or publication homes.",
+        "showDates": true,
+        "showTags": true
       }
     },
     {
@@ -401,8 +465,8 @@
         }
       ],
       "content": {
-        "heading": "Built for Scale",
-        "subheading": "Infrastructure that grows with your ambition"
+        "heading": "Section type: numbers (variant: counters)",
+        "subheading": "Four stat cards with value, label, description. Useful for trust signals, scale claims, or social proof."
       }
     },
     {
@@ -468,8 +532,8 @@
         }
       ],
       "content": {
-        "heading": "Simple, Predictable Pricing",
-        "subheading": "No surprise bills. Pay for what you use, upgrade when you need to."
+        "heading": "Section type: pricing (variant: default)",
+        "subheading": "Three static tiers with feature lists and CTAs. The simpler of the two pricing variants — useful when monthly-only pricing is enough."
       }
     },
     {
@@ -489,8 +553,8 @@
       },
       "components": [],
       "content": {
-        "heading": "Flexible Plans for Every Team",
-        "subheading": "Switch between monthly and annual billing. Save up to 17% with annual plans.",
+        "heading": "Section type: pricing (variant: toggle)",
+        "subheading": "Same three-tier shape with monthly/annual toggle and savings copy. Useful when you want to surface annual discounts inline.",
         "tiers": [
           {
             "name": "Hobby",
@@ -634,8 +698,8 @@
         }
       ],
       "content": {
-        "heading": "What Teams Are Building",
-        "subheading": "Real-world AI applications powered by Nexus Labs"
+        "heading": "Section type: gallery (variant: masonry)",
+        "subheading": "Six image tiles with captions and category tags. Useful for portfolio walls, case-study indexes, or product screenshots."
       }
     },
     {
@@ -693,8 +757,8 @@
         }
       ],
       "content": {
-        "heading": "Trusted by Engineering Leaders",
-        "subheading": "Hear from teams shipping AI at scale with Nexus Labs"
+        "heading": "Section type: quotes (variant: cards)",
+        "subheading": "Three testimonial cards with quote, author, role, rating. Useful for social proof and customer stories."
       }
     },
     {
@@ -783,8 +847,8 @@
         }
       ],
       "content": {
-        "heading": "Trusted By",
-        "subheading": ""
+        "heading": "Section type: logos (variant: marquee)",
+        "subheading": "Horizontal logo strip, optionally animated. Useful for client/partner/press walls."
       }
     },
     {
@@ -855,8 +919,8 @@
         }
       ],
       "content": {
-        "heading": "Meet the Team",
-        "subheading": "Engineers and operators who have scaled AI at the world's best companies"
+        "heading": "Section type: team (variant: cards)",
+        "subheading": "Four team-member cards with photo, name, role, bio. Useful for About pages, agency rosters, or speaker pages."
       }
     },
     {
@@ -918,8 +982,8 @@
         }
       ],
       "content": {
-        "heading": "Frequently Asked Questions",
-        "subheading": "Common questions from engineering and ML teams"
+        "heading": "Section type: questions (variant: accordion)",
+        "subheading": "Collapsible Q&A list. Useful for objection-handling, support overflow, or compliance disclosures."
       }
     },
     {
@@ -947,7 +1011,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "Ready to Ship AI Faster?",
+            "text": "Section type: action (variant: gradient)",
             "level": 2,
             "size": "36px",
             "weight": 700
@@ -959,7 +1023,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Deploy your first model in under 5 minutes. Free tier included, no credit card required."
+            "text": "A bold gradient CTA block — heading, single line of supporting copy, one primary button. The standard closer for landing pages and pricing sections."
           }
         },
         {
@@ -968,7 +1032,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "Get Started Free",
+            "text": "Try Hey Bradley with your idea",
             "url": "#signup",
             "style": "filled",
             "size": "lg"
@@ -1030,7 +1094,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "Nexus Labs"
+            "text": "Hey Bradley · Component Showcase"
           }
         },
         {
@@ -1069,7 +1133,7 @@
           "enabled": true,
           "order": 4,
           "props": {
-            "text": "\u00a9 2026 Nexus Labs Inc. SOC 2 Type II certified. GDPR compliant."
+            "text": "\u00a9 2026 Hey Bradley \u00b7 this page is a component reference, not a live product"
           }
         }
       ],

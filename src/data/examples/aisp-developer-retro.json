@@ -1,0 +1,278 @@
+{
+  "site": {
+    "title": "Hey Bradley · the spec layer your AI agents wish you wrote",
+    "description": "An open-core agentic workbench that turns ambiguous prose into a typed AISP spec your AI builds correctly on the first attempt. 1,162+ tests. 122 ADRs. 8 Crystal Atoms. Built itself.",
+    "author": "Bradley Ross",
+    "email": "core@heybradley.dev",
+    "domain": "heybradley.dev",
+    "project": "aisp-developer-retro",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "developer",
+    "tone": "technical",
+    "brandName": "Hey Bradley",
+    "tagline": "the spec layer your AI agents wish you wrote",
+    "voiceAttributes": ["technical", "opinionated", "dry-humor"]
+  },
+  "theme": {
+    "preset": "industrial-modern",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0a0a0a",
+      "bgSecondary": "#141414",
+      "textPrimary": "#e8e3d8",
+      "textSecondary": "#a89a7d",
+      "accentPrimary": "#ffb000",
+      "accentSecondary": "#22c55e"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#f4f1e8",
+      "bgSecondary": "#e6e0d2",
+      "textPrimary": "#0a0a0a",
+      "textSecondary": "#3d3a32",
+      "accentPrimary": "#b87600",
+      "accentSecondary": "#15803d"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "JetBrains Mono",
+      "headingWeight": 700,
+      "baseSize": "15px",
+      "lineHeight": 1.6
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "4px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": { "display": "flex", "padding": "20px 32px", "gap": "24px" },
+      "style": { "background": "#0a0a0a", "color": "#e8e3d8" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "$ heybradley" } },
+        { "id": "nav-methodology", "type": "link", "enabled": true, "order": 1, "props": { "text": "methodology", "url": "/methodology" } },
+        { "id": "nav-docs", "type": "link", "enabled": true, "order": 2, "props": { "text": "docs", "url": "#docs" } },
+        { "id": "nav-github", "type": "link", "enabled": true, "order": 3, "props": { "text": "github →", "url": "https://github.com/bar181/hey-bradley-core" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "24px", "padding": "96px 24px 64px", "maxWidth": "1100px" },
+      "style": { "background": "#0a0a0a", "color": "#e8e3d8" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "v1.0.0-RC1 · MIT · 1,162+ tests GREEN", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Your AI builds the wrong site 55% of the time.", "level": 1, "size": "56px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "And it's confidently wrong about it. AISP fixes that. Hey Bradley turns ambiguous prose into a typed spec your agents implement on the first attempt — 122 ADRs of receipts, 8 Crystal Atoms doing the math, and a wave-gate sprint cadence that ships six sprints in two days." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3, "props": { "text": "git clone the truth", "url": "https://github.com/bar181/hey-bradley-core", "style": "filled", "size": "lg" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4, "props": { "text": "Read the methodology →", "url": "/methodology", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "numbers",
+      "id": "stats-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "counters",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "64px 24px" },
+      "style": { "background": "#141414", "color": "#e8e3d8" },
+      "components": [
+        { "id": "n-1", "type": "value-prop", "enabled": true, "order": 0, "props": { "value": "1,162+", "label": "tests GREEN", "description": "Cumulative pure-unit seal-gate, P15 through P96. No skips. No fakes." } },
+        { "id": "n-2", "type": "value-prop", "enabled": true, "order": 1, "props": { "value": "122", "label": "ADRs sealed", "description": "Every architectural decision lives on disk. Read them. Disagree. Open a PR." } },
+        { "id": "n-3", "type": "value-prop", "enabled": true, "order": 2, "props": { "value": "8", "label": "Crystal Atoms", "description": "PATCH · INTENT · SELECTION · CONTENT · ASSUMPTIONS · DECOMP · PROCESS · DDD · AGENT. Suite complete." } }
+      ],
+      "content": { "heading": "// receipts", "subheading": "Numbers, not adjectives. All reproducible at github.com/bar181/hey-bradley-core." }
+    },
+    {
+      "type": "columns",
+      "id": "methodology-7step",
+      "enabled": true,
+      "order": 2,
+      "variant": "grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "24px", "padding": "80px 24px" },
+      "style": { "background": "#0a0a0a", "color": "#e8e3d8" },
+      "components": [
+        { "id": "m-1", "type": "feature-card", "enabled": true, "order": 0, "props": { "icon": "terminal", "title": "1. Phase execution", "description": "Code and docs per the phase plan. Disjoint-scope agent waves. The orchestrator holds context; the agents do the work." } },
+        { "id": "m-2", "type": "feature-card", "enabled": true, "order": 1, "props": { "icon": "check-square", "title": "2. End-of-phase (EOP)", "description": "Master checklist tick. STATE.md row. Session log results table. Retrospective. No phase closes without all four artifacts on disk." } },
+        { "id": "m-3", "type": "feature-card", "enabled": true, "order": 2, "props": { "icon": "shield", "title": "3. Brutal review pass", "description": "Four reviewer perspectives — UX, functionality, security, architecture — write a chunked report. Recursive up to 3 passes. Each pass identifies blockers, fixes, re-reviews until clean." } },
+        { "id": "m-4", "type": "feature-card", "enabled": true, "order": 3, "props": { "icon": "users", "title": "4. Persona scoring", "description": "Grandma, Framer, Capstone — three personas score the build against a 100-point rubric. Composite must clear 85 to seal. Subjective gut-check, kept honest by the rubric." } },
+        { "id": "m-5", "type": "feature-card", "enabled": true, "order": 4, "props": { "icon": "list", "title": "5. Carry-forward ledger", "description": "Anything not shipped becomes a documented carry-forward with a target phase or a Tier-2 deferral tag. The ledger is public. The work doesn't get lost." } },
+        { "id": "m-6", "type": "feature-card", "enabled": true, "order": 5, "props": { "icon": "scissors", "title": "6. KISS-cut discipline", "description": "Every sprint cuts at least one feature on the YAGNI principle. The denylist (no framer-motion, no gsap, no jszip) is a forcing function for restraint." } },
+        { "id": "m-7", "type": "feature-card", "enabled": true, "order": 6, "props": { "icon": "lock", "title": "7. Seal", "description": "EOP triplet committed, ADR accepted, tests GREEN, persona composite ≥85. Phase number incremented. CLAUDE.md synced. The receipt is the seal." } }
+      ],
+      "content": { "heading": "// 7-step methodology", "subheading": "The cadence that took Hey Bradley from P11 to P96 in 84 phases. Read it. Steal it. Improve it." }
+    },
+    {
+      "type": "case-study",
+      "id": "case-meta",
+      "enabled": true,
+      "order": 3,
+      "variant": "single-narrative",
+      "layout": { "display": "flex", "direction": "column", "align": "stretch", "gap": "24px", "padding": "80px 24px", "maxWidth": "900px" },
+      "style": { "background": "#141414", "color": "#e8e3d8" },
+      "components": [
+        { "id": "cs-eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "case study · meta-honest", "variant": "pill" } },
+        { "id": "cs-title", "type": "heading", "enabled": true, "order": 1, "props": { "text": "Hey Bradley built Hey Bradley.", "level": 2, "size": "40px", "weight": 700 } },
+        { "id": "cs-metrics", "type": "text", "enabled": true, "order": 2, "props": { "text": "122 ADRs · 96 phases · 1,162+ tests GREEN · 8 Crystal Atoms · ~28,400 LOC TS/TSX across 227 source files. Single-author. Open-core MIT. v1.0.0-RC1 sealed." } },
+        { "id": "cs-p1", "type": "text", "enabled": true, "order": 3, "props": { "text": "The product is its own first customer. Every sprint plan, every ADR, every brutal review, every persona score — they all live in this repository. You can read the implementation log for any phase from P11 to P96 and see exactly which agent shipped which file in which wave. The receipts are the moat." } },
+        { "id": "cs-p2", "type": "text", "enabled": true, "order": 4, "props": { "text": "We built the spec layer with the spec layer. AISP atoms classify the prompts. The wave-gate cadence runs the sprints. The carry-forward ledger tracks the deferrals. The brutal review catches the drift. When the methodology described on this site faltered, we noticed because the methodology described on this site demands you notice." } },
+        { "id": "cs-p3", "type": "text", "enabled": true, "order": 5, "props": { "text": "It is a closed loop on purpose. If the spec layer can't ship the spec layer, it can't ship anything else either. It shipped. Read the source. Honestly." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "questions",
+      "id": "faq-home",
+      "enabled": true,
+      "order": 4,
+      "variant": "accordion",
+      "layout": { "display": "flex", "direction": "column", "gap": "16px", "padding": "80px 24px", "maxWidth": "900px" },
+      "style": { "background": "#0a0a0a", "color": "#e8e3d8" },
+      "components": [
+        { "id": "faq-1", "type": "qa-item", "enabled": true, "order": 0, "props": { "question": "Why not just use ChatGPT?", "answer": "ChatGPT writes code. Hey Bradley writes the spec ChatGPT will then implement correctly. Different layer of the stack. Use both. The 55% wrong-rate is a spec problem, not a model problem." } },
+        { "id": "faq-2", "type": "qa-item", "enabled": true, "order": 1, "props": { "question": "Is AISP another framework I have to learn?", "answer": "AISP is 512 symbols that every frontier LLM already understands natively. No instructions needed. Closer to a math notation than a framework. Spend 20 minutes with the open-core repo and you're fluent enough to ship." } },
+        { "id": "faq-3", "type": "qa-item", "enabled": true, "order": 2, "props": { "question": "Will this work with my existing codebase?", "answer": "If your codebase has tests and an ADR habit, yes. If it doesn't, this is the forcing function that gets you both. The reference implementation in `examples/3rd-party-consumer/` parses an AISP bundle in TypeScript and Python in under 100 LOC each." } },
+        { "id": "faq-4", "type": "qa-item", "enabled": true, "order": 3, "props": { "question": "Why should I trust the math?", "answer": "Don't. Read the ADRs. Run the tests. Check the brutal-review docs. Score the personas yourself. The methodology survives because every claim has a receipt on disk — and if you find one that doesn't, the issue tracker is open." } }
+      ],
+      "content": { "heading": "// FAQ", "subheading": "Opinionated answers. If you disagree, the issue tracker is open." }
+    },
+    {
+      "type": "action",
+      "id": "cta-github",
+      "enabled": true,
+      "order": 5,
+      "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "16px", "padding": "80px 24px" },
+      "style": { "background": "#141414", "color": "#e8e3d8" },
+      "components": [
+        { "id": "cta-heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Read the source on GitHub.", "level": 2, "size": "40px", "weight": 700 } },
+        { "id": "cta-sub", "type": "text", "enabled": true, "order": 1, "props": { "text": "It builds itself. Honestly. MIT-licensed open core. ~28K lines of TypeScript. 122 ADRs you can argue with. The README will not waste your time." } },
+        { "id": "cta-button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Read the source on GitHub", "url": "https://github.com/bar181/hey-bradley-core", "style": "filled", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 6,
+      "variant": "multi-column",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "48px 24px" },
+      "style": { "background": "#0a0a0a", "color": "#e8e3d8" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "$ heybradley" } },
+        { "id": "col-1", "type": "footer-column", "enabled": true, "order": 1, "props": { "heading": "Project", "links": "Methodology,Docs,ADRs,Changelog" } },
+        { "id": "col-2", "type": "footer-column", "enabled": true, "order": 2, "props": { "heading": "Source", "links": "GitHub,AISP open-core,Reference impls,License (MIT)" } },
+        { "id": "col-3", "type": "footer-column", "enabled": true, "order": 3, "props": { "heading": "Author", "links": "Bradley Ross,Agentics Foundation,@bar181,Contact" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 4, "props": { "text": "© 2026 Bradley Ross. MIT-licensed. Built with the spec layer it ships." } }
+      ],
+      "content": {}
+    }
+  ],
+  "pages": [
+    {
+      "id": "methodology",
+      "title": "7-Step Methodology",
+      "slug": "methodology",
+      "isHome": false,
+      "sections": [
+        {
+          "type": "hero",
+          "id": "m-hero-01",
+          "enabled": true,
+          "order": 0,
+          "variant": "centered",
+          "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "20px", "padding": "80px 24px 48px", "maxWidth": "1000px" },
+          "style": { "background": "#0a0a0a", "color": "#e8e3d8" },
+          "components": [
+            { "id": "m-eyebrow", "type": "badge", "enabled": true, "order": 0, "props": { "text": "// methodology · 7 steps · zero shortcuts", "variant": "pill" } },
+            { "id": "m-headline", "type": "heading", "enabled": true, "order": 1, "props": { "text": "The cadence that survived 96 phases.", "level": 1, "size": "48px", "weight": 700 } },
+            { "id": "m-subtitle", "type": "text", "enabled": true, "order": 2, "props": { "text": "Each step exists because skipping it broke a phase. The discipline is the brake; the velocity emerges when the brake holds. Read in order. Steal what works." } }
+          ],
+          "content": {}
+        },
+        {
+          "type": "columns",
+          "id": "m-step-detail",
+          "enabled": true,
+          "order": 1,
+          "variant": "stacked",
+          "layout": { "display": "grid", "columns": 1, "gap": "32px", "padding": "48px 24px", "maxWidth": "900px" },
+          "style": { "background": "#141414", "color": "#e8e3d8" },
+          "components": [
+            { "id": "ms-1", "type": "feature-card", "enabled": true, "order": 0, "props": { "icon": "terminal", "title": "Step 1 — Phase execution", "description": "Plan the sprint as N disjoint-scope agents in K waves. Wave 1 sets up shared types and contracts; wave 2 fans out parallel; wave 3 closes with the seal artifact. Each agent owns a file set with zero overlap — that is the merge-conflict-free invariant codified at AGENT_ATOM Ε V1." } },
+            { "id": "ms-2", "type": "feature-card", "enabled": true, "order": 1, "props": { "icon": "check-square", "title": "Step 2 — End-of-phase artifact triplet", "description": "EOP is non-negotiable: master-checklist tick, STATE.md row, session-log results table, retrospective (keep/drop/reframe). Four files. Always. The audit trail is the methodology — without the receipt, the phase didn't happen." } },
+            { "id": "ms-3", "type": "feature-card", "enabled": true, "order": 2, "props": { "icon": "shield", "title": "Step 3 — Brutal review pass", "description": "Four parallel reviewers — UX, functionality, security, architecture — each writes a chunked report at ≤600 LOC per file. Recursive up to 3 passes. Pass-1 surfaces blockers; pass-2 verifies fixes; pass-3 confirms regression-free. No reviewer marks pass without naming the artifact they checked." } },
+            { "id": "ms-4", "type": "feature-card", "enabled": true, "order": 3, "props": { "icon": "users", "title": "Step 4 — Persona re-score", "description": "Grandma (74-year-old non-technical user), Framer (designer), Capstone (CS thesis advisor). Each scores against a 100-point rubric. Composite ≥85 is the seal threshold. The personas are not the audience — they are the brake on self-flattering claims." } },
+            { "id": "ms-5", "type": "feature-card", "enabled": true, "order": 4, "props": { "icon": "list", "title": "Step 5 — Carry-forward ledger", "description": "Anything proposed but not shipped lands in the ledger with a target phase and a justification. Tier-2 deferrals (commercial features) are flagged separately. The ledger is in CLAUDE.md and committed every sprint. Nothing falls off." } },
+            { "id": "ms-6", "type": "feature-card", "enabled": true, "order": 5, "props": { "icon": "scissors", "title": "Step 6 — KISS-cut discipline", "description": "Every sprint must KISS-cut at least one nice-to-have. The forbidden-deps denylist (framer-motion, gsap, lottie, jszip, supabase in open-core) is enforced by tests. Restraint is not optional — it is the difference between a 6-month rewrite and a 2-day sprint." } },
+            { "id": "ms-7", "type": "feature-card", "enabled": true, "order": 6, "props": { "icon": "lock", "title": "Step 7 — Seal", "description": "EOP triplet committed, ADR accepted, tests GREEN, persona composite ≥85, CLAUDE.md synced, phase number incremented. The seal is a checklist, not a vibe. Either every box is ticked or the phase is not closed. There is no halfway." } }
+          ],
+          "content": { "heading": "// 7 steps · expanded", "subheading": "Each step has shipped on every phase from P21 forward. None has ever been skipped." }
+        },
+        {
+          "type": "questions",
+          "id": "faq-methodology",
+          "enabled": true,
+          "order": 2,
+          "variant": "accordion",
+          "layout": { "display": "flex", "direction": "column", "gap": "16px", "padding": "64px 24px", "maxWidth": "900px" },
+          "style": { "background": "#0a0a0a", "color": "#e8e3d8" },
+          "components": [
+            { "id": "fm-1", "type": "qa-item", "enabled": true, "order": 0, "props": { "question": "Why not just use ChatGPT?", "answer": "ChatGPT writes code. Hey Bradley writes the spec ChatGPT will then implement correctly. Different layer of the stack. Use both. The 55% wrong-rate is a spec problem, not a model problem." } },
+            { "id": "fm-2", "type": "qa-item", "enabled": true, "order": 1, "props": { "question": "Is AISP another framework I have to learn?", "answer": "AISP is 512 symbols that every frontier LLM already understands natively. No instructions needed. Closer to a math notation than a framework. Spend 20 minutes with the open-core repo and you're fluent enough to ship." } },
+            { "id": "fm-3", "type": "qa-item", "enabled": true, "order": 2, "props": { "question": "Will this work with my existing codebase?", "answer": "If your codebase has tests and an ADR habit, yes. If it doesn't, this is the forcing function that gets you both. The reference implementation in `examples/3rd-party-consumer/` parses an AISP bundle in TypeScript and Python in under 100 LOC each." } },
+            { "id": "fm-4", "type": "qa-item", "enabled": true, "order": 3, "props": { "question": "Why should I trust the math?", "answer": "Don't. Read the ADRs. Run the tests. Check the brutal-review docs. Score the personas yourself. The methodology survives because every claim has a receipt on disk — and if you find one that doesn't, the issue tracker is open." } }
+          ],
+          "content": { "heading": "// FAQ", "subheading": "Opinionated answers. If you disagree, the issue tracker is open." }
+        },
+        {
+          "type": "action",
+          "id": "m-cta",
+          "enabled": true,
+          "order": 3,
+          "variant": "centered",
+          "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "16px", "padding": "64px 24px" },
+          "style": { "background": "#141414", "color": "#e8e3d8" },
+          "components": [
+            { "id": "m-cta-heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Read the source on GitHub", "level": 2, "size": "36px", "weight": 700 } },
+            { "id": "m-cta-sub", "type": "text", "enabled": true, "order": 1, "props": { "text": "Every step lives in the implementation logs. Pick a phase, read the EOP triplet, audit the receipts. It builds itself. Honestly." } },
+            { "id": "m-cta-button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Read the source on GitHub", "url": "https://github.com/bar181/hey-bradley-core", "style": "filled", "size": "lg" } }
+          ],
+          "content": {}
+        },
+        {
+          "type": "footer",
+          "id": "m-footer",
+          "enabled": true,
+          "order": 4,
+          "variant": "multi-column",
+          "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "48px 24px" },
+          "style": { "background": "#0a0a0a", "color": "#e8e3d8" },
+          "components": [
+            { "id": "m-brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "$ heybradley" } },
+            { "id": "m-col-1", "type": "footer-column", "enabled": true, "order": 1, "props": { "heading": "Project", "links": "Methodology,Docs,ADRs,Changelog" } },
+            { "id": "m-col-2", "type": "footer-column", "enabled": true, "order": 2, "props": { "heading": "Source", "links": "GitHub,AISP open-core,Reference impls,License (MIT)" } },
+            { "id": "m-col-3", "type": "footer-column", "enabled": true, "order": 3, "props": { "heading": "Author", "links": "Bradley Ross,Agentics Foundation,@bar181,Contact" } },
+            { "id": "m-copyright", "type": "footer-copyright", "enabled": true, "order": 4, "props": { "text": "© 2026 Bradley Ross. MIT-licensed. Built with the spec layer it ships." } }
+          ],
+          "content": {}
+        }
+      ]
+    }
+  ]
+}

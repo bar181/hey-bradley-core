@@ -1,0 +1,224 @@
+{
+  "scenario": "P100 W2 / A6 — Scenario 4 final spec bundle",
+  "mode": "planning",
+  "projectName": "SaaS Authentication System",
+  "summary": "5-phase agentic-engineering plan for a SaaS auth system. PROCESS_ATOM + DDD_ATOM + AGENT_ATOM all fired. ProcessAtomOutput shape per ADR-118 + DDD ContextRelationship per ADR-119 + recommended ADRs queued for owner.",
+  "phases": [
+    {
+      "id": "foundation",
+      "name": "Foundation",
+      "position": 0,
+      "status": "planned"
+    },
+    {
+      "id": "schema",
+      "name": "Schema + Migrations",
+      "position": 1,
+      "status": "planned"
+    },
+    {
+      "id": "auth-flow",
+      "name": "Auth Flow",
+      "position": 2,
+      "status": "planned"
+    },
+    {
+      "id": "sessions",
+      "name": "Sessions + Tokens",
+      "position": 3,
+      "status": "planned"
+    },
+    {
+      "id": "qa",
+      "name": "Testing + QA",
+      "position": 4,
+      "status": "planned"
+    }
+  ],
+  "sprints": [
+    { "id": "foundation-s1", "phaseId": "foundation", "name": "Project setup + tooling", "position": 0, "status": "planned" },
+    { "id": "foundation-s2", "phaseId": "foundation", "name": "ADR scaffolding", "position": 1, "status": "planned" },
+    { "id": "schema-s1", "phaseId": "schema", "name": "Users + sessions tables", "position": 0, "status": "planned" },
+    { "id": "schema-s2", "phaseId": "schema", "name": "RLS + indexes", "position": 1, "status": "planned" },
+    { "id": "auth-flow-s1", "phaseId": "auth-flow", "name": "Magic-link primary path", "position": 0, "status": "planned" },
+    { "id": "auth-flow-s2", "phaseId": "auth-flow", "name": "OAuth secondary path", "position": 1, "status": "planned" },
+    { "id": "sessions-s1", "phaseId": "sessions", "name": "JWT + refresh", "position": 0, "status": "planned" },
+    { "id": "sessions-s2", "phaseId": "sessions", "name": "Session revocation", "position": 1, "status": "planned" },
+    { "id": "qa-s1", "phaseId": "qa", "name": "Unit + integration suite", "position": 0, "status": "planned" },
+    { "id": "qa-s2", "phaseId": "qa", "name": "E2E + load test", "position": 1, "status": "planned" }
+  ],
+  "waves": [
+    { "id": "foundation-s1-w1", "sprintId": "foundation-s1", "parallel": true, "position": 0 },
+    { "id": "foundation-s2-w1", "sprintId": "foundation-s2", "parallel": false, "position": 0 },
+    { "id": "schema-s1-w1", "sprintId": "schema-s1", "parallel": true, "position": 0 },
+    { "id": "schema-s2-w1", "sprintId": "schema-s2", "parallel": false, "position": 0 },
+    { "id": "auth-flow-s1-w1", "sprintId": "auth-flow-s1", "parallel": true, "position": 0 },
+    { "id": "auth-flow-s2-w1", "sprintId": "auth-flow-s2", "parallel": true, "position": 0 },
+    { "id": "sessions-s1-w1", "sprintId": "sessions-s1", "parallel": true, "position": 0 },
+    { "id": "sessions-s2-w1", "sprintId": "sessions-s2", "parallel": false, "position": 0 },
+    { "id": "qa-s1-w1", "sprintId": "qa-s1", "parallel": true, "position": 0 },
+    { "id": "qa-s2-w1", "sprintId": "qa-s2", "parallel": false, "position": 0 }
+  ],
+  "agents": [
+    {
+      "id": "foundation-s1-w1-a1",
+      "waveId": "foundation-s1-w1",
+      "role": "project-bootstrap",
+      "ownedFiles": ["package.json", "tsconfig.json", "README.md"]
+    },
+    {
+      "id": "foundation-s1-w1-a2",
+      "waveId": "foundation-s1-w1",
+      "role": "ci-setup",
+      "ownedFiles": [".github/workflows/ci.yml", ".github/workflows/test.yml"]
+    },
+    {
+      "id": "foundation-s2-w1-a1",
+      "waveId": "foundation-s2-w1",
+      "role": "adr-scaffolding",
+      "ownedFiles": ["docs/adr/ADR-001-auth-strategy.md", "docs/adr/ADR-002-token-format.md", "docs/adr/ADR-003-session-storage.md"]
+    },
+    {
+      "id": "schema-s1-w1-a1",
+      "waveId": "schema-s1-w1",
+      "role": "schema-design",
+      "ownedFiles": ["src/db/migrations/001-users.sql", "src/db/migrations/002-sessions.sql"]
+    },
+    {
+      "id": "schema-s1-w1-a2",
+      "waveId": "schema-s1-w1",
+      "role": "schema-design",
+      "ownedFiles": ["src/db/migrations/003-tokens.sql", "src/db/migrations/004-audit-log.sql"]
+    },
+    {
+      "id": "schema-s2-w1-a1",
+      "waveId": "schema-s2-w1",
+      "role": "rls-policy",
+      "ownedFiles": ["src/db/policies/users.sql", "src/db/policies/sessions.sql"]
+    },
+    {
+      "id": "auth-flow-s1-w1-a1",
+      "waveId": "auth-flow-s1-w1",
+      "role": "magic-link-impl",
+      "ownedFiles": ["src/auth/magicLink.ts", "src/auth/email.ts"]
+    },
+    {
+      "id": "auth-flow-s1-w1-a2",
+      "waveId": "auth-flow-s1-w1",
+      "role": "magic-link-test",
+      "ownedFiles": ["tests/auth/magicLink.spec.ts"]
+    },
+    {
+      "id": "auth-flow-s2-w1-a1",
+      "waveId": "auth-flow-s2-w1",
+      "role": "oauth-impl",
+      "ownedFiles": ["src/auth/oauth.ts", "src/auth/providers/google.ts"]
+    },
+    {
+      "id": "auth-flow-s2-w1-a2",
+      "waveId": "auth-flow-s2-w1",
+      "role": "oauth-test",
+      "ownedFiles": ["tests/auth/oauth.spec.ts"]
+    },
+    {
+      "id": "sessions-s1-w1-a1",
+      "waveId": "sessions-s1-w1",
+      "role": "jwt-implementation",
+      "ownedFiles": ["src/sessions/jwt.ts", "src/sessions/refresh.ts"]
+    },
+    {
+      "id": "sessions-s1-w1-a2",
+      "waveId": "sessions-s1-w1",
+      "role": "jwt-test",
+      "ownedFiles": ["tests/sessions/jwt.spec.ts"]
+    },
+    {
+      "id": "sessions-s2-w1-a1",
+      "waveId": "sessions-s2-w1",
+      "role": "session-revocation",
+      "ownedFiles": ["src/sessions/revocation.ts", "tests/sessions/revocation.spec.ts"]
+    },
+    {
+      "id": "qa-s1-w1-a1",
+      "waveId": "qa-s1-w1",
+      "role": "unit-suite",
+      "ownedFiles": ["tests/unit/auth.spec.ts", "tests/unit/sessions.spec.ts"]
+    },
+    {
+      "id": "qa-s1-w1-a2",
+      "waveId": "qa-s1-w1",
+      "role": "integration-suite",
+      "ownedFiles": ["tests/integration/auth-flow.spec.ts"]
+    },
+    {
+      "id": "qa-s2-w1-a1",
+      "waveId": "qa-s2-w1",
+      "role": "e2e-suite",
+      "ownedFiles": ["tests/e2e/full-auth.spec.ts", "tests/e2e/load-test.spec.ts"]
+    }
+  ],
+  "boundedContexts": [
+    {
+      "id": "user",
+      "name": "UserContext",
+      "responsibility": "User profile + preferences + identity record",
+      "relatedPhaseIds": ["schema", "auth-flow"],
+      "x": 80,
+      "y": 80
+    },
+    {
+      "id": "session",
+      "name": "SessionContext",
+      "responsibility": "Active session lifecycle, revocation, refresh",
+      "relatedPhaseIds": ["sessions", "auth-flow"],
+      "x": 280,
+      "y": 80
+    },
+    {
+      "id": "token",
+      "name": "TokenContext",
+      "responsibility": "JWT issuance, signature, rotation, validation",
+      "relatedPhaseIds": ["sessions"],
+      "x": 480,
+      "y": 80
+    },
+    {
+      "id": "audit",
+      "name": "AuditContext",
+      "responsibility": "Append-only auth event log + replay safety",
+      "relatedPhaseIds": ["schema", "qa"],
+      "x": 280,
+      "y": 240
+    }
+  ],
+  "contextRelationships": [
+    { "from": "user", "to": "session", "kind": "partnership" },
+    { "from": "session", "to": "token", "kind": "customer-supplier" },
+    { "from": "session", "to": "audit", "kind": "anti-corruption-layer" },
+    { "from": "user", "to": "audit", "kind": "anti-corruption-layer" }
+  ],
+  "adrsRecommended": [
+    {
+      "id": "ADR-001",
+      "title": "Auth Strategy — Magic-link primary, OAuth secondary",
+      "status": "Proposed",
+      "phaseId": "foundation",
+      "rationale": "Magic-link minimizes attack surface (no passwords); OAuth secondary covers enterprise SSO."
+    },
+    {
+      "id": "ADR-002",
+      "title": "Token Format — JWT with rotation + refresh",
+      "status": "Proposed",
+      "phaseId": "sessions",
+      "rationale": "JWT enables stateless verification; refresh tokens enable session continuity without password re-entry."
+    },
+    {
+      "id": "ADR-003",
+      "title": "Session Storage — Postgres with RLS",
+      "status": "Proposed",
+      "phaseId": "schema",
+      "rationale": "Single-source-of-truth in Postgres; RLS enforces tenant boundaries at the storage layer."
+    }
+  ],
+  "rationale": "Plan derived in Planning mode via PROCESS_ATOM (5 phases) → DDD_ATOM (4 contexts) → AGENT_ATOM (16 agents across 10 waves). Disjoint ownedFiles invariant (Γ R3 / Ε V1) verified per wave. Bundle exported as `.md` per ADR-122 D2 with file markers; downstream consumer (Claude Code) reads bundle and writes implementation in their own repo."
+}

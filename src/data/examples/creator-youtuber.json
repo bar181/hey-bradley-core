@@ -1,0 +1,485 @@
+{
+  "site": {
+    "title": "Sloane Park · Daily Stack",
+    "description": "Daily Stack — 5-minute dev videos that ship working code on the first watch. By Sloane Park.",
+    "author": "Sloane Park",
+    "email": "sloane@dailystack.tv",
+    "domain": "dailystack.tv",
+    "project": "sloane-park-daily-stack",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "developer",
+    "tone": "playful",
+    "brandName": "Daily Stack",
+    "tagline": "5-minute dev videos that ship working code",
+    "voiceAttributes": [
+      "concise",
+      "energetic",
+      "no-fluff"
+    ]
+  },
+  "theme": {
+    "preset": "neon",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0a0a0a",
+      "bgSecondary": "#161616",
+      "textPrimary": "#fafafa",
+      "textSecondary": "#a1a1aa",
+      "accentPrimary": "#facc15",
+      "accentSecondary": "#fde047"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#fafafa",
+      "bgSecondary": "#f4f4f5",
+      "textPrimary": "#0a0a0a",
+      "textSecondary": "#52525b",
+      "accentPrimary": "#ca8a04",
+      "accentSecondary": "#eab308"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Inter",
+      "headingWeight": 800,
+      "baseSize": "16px",
+      "lineHeight": 1.5
+    },
+    "spacing": {
+      "sectionPadding": "72px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "12px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "0"
+      },
+      "style": {
+        "background": "#0a0a0a",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Daily Stack"
+          }
+        },
+        {
+          "id": "cta",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Subscribe",
+            "url": "#subscribe"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "start",
+        "gap": "24px",
+        "padding": "80px 24px",
+        "maxWidth": "1100px"
+      },
+      "style": {
+        "background": "#0a0a0a",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "New episode every weekday · 6am PT",
+            "icon": "play",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "You're drowning in dev tutorials that don't apply. I make 5-min videos that ship working code on the first watch.",
+            "level": 1,
+            "size": "64px",
+            "weight": 800
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "I'm Sloane. Daily Stack is the channel for engineers who don't have 47 minutes to watch someone configure their editor. Every episode: one specific problem, one specific solution, one runnable repo in the description. 312 episodes shipped, 184k subscribers, 0 wasted minutes."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Subscribe on YouTube",
+            "url": "#youtube",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Watch the Latest",
+            "url": "#latest",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "text": "184k subs · 312 episodes · 4.7M minutes watched in 2025",
+            "show": true
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "gallery",
+      "id": "gallery-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#161616",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "g1",
+          "type": "gallery-item",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "image": "linear-gradient(135deg, #facc15 0%, #ca8a04 100%)",
+            "alt": "Bright yellow video thumbnail card",
+            "caption": "Ep. 312 — Stop misusing useEffect (a 5-min triage)",
+            "category": "React"
+          }
+        },
+        {
+          "id": "g2",
+          "type": "gallery-item",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "image": "linear-gradient(135deg, #1f2937 0%, #facc15 100%)",
+            "alt": "Dark video thumbnail with yellow accent",
+            "caption": "Ep. 311 — Postgres tuning your ORM forgot",
+            "category": "Backend"
+          }
+        },
+        {
+          "id": "g3",
+          "type": "gallery-item",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "image": "linear-gradient(135deg, #fde047 0%, #0a0a0a 100%)",
+            "alt": "High-contrast yellow-to-black thumbnail card",
+            "caption": "Ep. 310 — TypeScript narrowing in 5 minutes",
+            "category": "TypeScript"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Latest Episodes",
+        "subheading": "Three new this week. All under 5 minutes. All with runnable code."
+      }
+    },
+    {
+      "type": "blog",
+      "id": "blog-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "list",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "gap": "16px",
+        "padding": "64px 24px",
+        "maxWidth": "900px"
+      },
+      "style": {
+        "background": "#0a0a0a",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "post-1",
+          "type": "blog-post",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "title": "Why I cut every video at 4:58",
+            "excerpt": "The arbitrary deadline that made my retention rate jump from 41% to 78% in six months — and the editing rules I keep on a sticky note.",
+            "date": "2026-04-22",
+            "readTime": "6 min",
+            "tags": "creator-process,retention"
+          }
+        },
+        {
+          "id": "post-2",
+          "type": "blog-post",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "title": "I stopped using B-roll. Watch time went up.",
+            "excerpt": "Counterintuitive lesson from 312 episodes: dev viewers want screen time on the actual code, not the host's face. Here's the data.",
+            "date": "2026-04-08",
+            "readTime": "4 min",
+            "tags": "youtube,analytics"
+          }
+        },
+        {
+          "id": "post-3",
+          "type": "blog-post",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "title": "The 5-min outline I use for every episode",
+            "excerpt": "Hook (10s) · Stakes (20s) · Solution (3 min) · Code-along (90s) · Wrap (10s). Stolen from radio. Works on engineers.",
+            "date": "2026-03-25",
+            "readTime": "5 min",
+            "tags": "creator-process,template"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Behind the Channel",
+        "subheading": "Process notes from someone who ships every weekday"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "quotes-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "cards",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "64px 24px"
+      },
+      "style": {
+        "background": "#161616",
+        "color": "#fafafa"
+      },
+      "components": [
+        {
+          "id": "t1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "Daily Stack is the only YouTube channel I've watched 100% to completion. Every episode pays for itself in saved time.",
+            "author": "Yusuf Adekunle",
+            "role": "Senior Engineer, Cassia Labs",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "Sloane's 5-minute Postgres episode unblocked a query I'd been stuck on for two days. I subscribed and never looked back.",
+            "author": "Mira Solberg",
+            "role": "Staff Engineer, Hyperion",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "I made my whole junior team watch Daily Stack on Mondays. Within a quarter their PR quality measurably improved. Cause and effect.",
+            "author": "Devon Park",
+            "role": "Engineering Manager, Subline",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "Subscriber Wins",
+        "subheading": "Real comments from real people who watched and shipped"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "72px 24px",
+        "gap": "16px"
+      },
+      "style": {
+        "background": "#facc15",
+        "color": "#0a0a0a"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Subscribe and stop wasting minutes",
+            "level": 2,
+            "size": "44px",
+            "weight": 800
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Free, weekday, 5 minutes. Or get the Friday digest with all five episodes plus the one tweet that started each one."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Subscribe Free",
+            "url": "#subscribe",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "multi-column",
+      "layout": {
+        "display": "grid",
+        "columns": 4,
+        "gap": "32px",
+        "padding": "48px 24px"
+      },
+      "style": {
+        "background": "#0a0a0a",
+        "color": "#a1a1aa"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Daily Stack"
+          }
+        },
+        {
+          "id": "col-1",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "heading": "Watch",
+            "links": "YouTube,Episodes,Playlists,Shorts"
+          }
+        },
+        {
+          "id": "col-2",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "heading": "Read",
+            "links": "Friday Digest,Process Notes,Source Repos,Archive"
+          }
+        },
+        {
+          "id": "col-3",
+          "type": "footer-column",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "heading": "Connect",
+            "links": "X,LinkedIn,Email,Sponsor"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "© 2026 Daily Stack · Hosted by Sloane Park · 312 episodes and counting."
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

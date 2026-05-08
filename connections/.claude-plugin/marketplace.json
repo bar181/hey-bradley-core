@@ -1,0 +1,21 @@
+{
+  "$schema": "https://code.claude.com/schemas/marketplace.json",
+  "name": "hey-bradley",
+  "description": "Hey Bradley connections marketplace — the missing first step before Claude Code (spec-first planning workbench, 8 Crystal Atoms, 3 modes, 7-step methodology).",
+  "owner": {
+    "name": "Bradley Ross",
+    "email": "bradley@heybradley.app"
+  },
+  "plugins": [
+    {
+      "name": "hey-bradley",
+      "description": "Spec-first planning workbench plugin — 5 skills (spec-init / spec-export / adr-new / ddd-map / sprint-plan), SessionStart + PreToolUse hooks, bundled stdio MCP server.",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/bar181/hey-bradley-core",
+        "path": "connections/plugin",
+        "ref": "main"
+      }
+    }
+  ]
+}

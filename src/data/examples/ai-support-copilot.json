@@ -1,0 +1,404 @@
+{
+  "site": {
+    "title": "Solva · AI copilot for support teams",
+    "description": "Solva sits inside Zendesk, Intercom, and Front. It deflects 38% of inbound tickets, drafts responses for the rest, and shaves median time-to-resolution by 47%. Real customer ROI numbers, public methodology.",
+    "author": "Solva Support AI",
+    "email": "hello@solva.support",
+    "domain": "solva.support",
+    "project": "solva-support-copilot",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "saas",
+    "audience": "business",
+    "tone": "warm",
+    "brandName": "Solva",
+    "tagline": "Your support team's AI copilot",
+    "voiceAttributes": ["warm", "outcomes-first", "evidence-led", "ops-friendly"]
+  },
+  "theme": {
+    "preset": "professional",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#fbfaf6",
+      "bgSecondary": "#f3efe6",
+      "textPrimary": "#1f2937",
+      "textSecondary": "#475569",
+      "accentPrimary": "#0d9488",
+      "accentSecondary": "#f59e0b"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#0f1f1d",
+      "bgSecondary": "#142b29",
+      "textPrimary": "#f3efe6",
+      "textSecondary": "#a1b4af",
+      "accentPrimary": "#5eead4",
+      "accentSecondary": "#fbbf24"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Fraunces",
+      "headingWeight": 600,
+      "baseSize": "16px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "12px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": { "display": "flex", "padding": "0" },
+      "style": { "background": "#fbfaf6", "color": "#1f2937" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Solva" } },
+        { "id": "demo", "type": "button", "enabled": true, "order": 1, "props": { "text": "Watch demo", "url": "#demo" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 2, "props": { "text": "Book a 20-min ROI call", "url": "#book" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "overlay",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "96px 24px",
+        "maxWidth": "1200px"
+      },
+      "style": { "background": "linear-gradient(160deg, #fbfaf6 0%, #f3efe6 60%, #fbfaf6 100%)", "color": "#1f2937" },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": { "text": "Live in Zendesk · Intercom · Front · Help Scout", "icon": "headphones", "variant": "pill" }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": { "text": "Deflect a third of your tickets. Draft the rest.", "level": 1, "size": "60px", "weight": 600 }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": { "text": "Solva is an AI copilot that lives inside your existing helpdesk. It answers your customers from your own knowledge base, drafts responses your agents can edit-and-send, and flags the tickets that actually need a human. Average customer deflects 38% of inbound, cuts median time-to-resolution by 47%, and lifts CSAT by 11 points in the first quarter." }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": { "text": "Book a 20-min ROI call", "url": "#book", "style": "filled", "size": "lg" }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": { "text": "See the case studies", "url": "#cases", "style": "outline", "size": "lg" }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 5,
+          "props": { "text": "Used by 1,400 support teams · SOC 2 Type II · GDPR · HIPAA available · BYOK on every tier", "show": true }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "numbers",
+      "id": "roi-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "counters",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "72px 24px" },
+      "style": { "background": "#f3efe6", "color": "#1f2937" },
+      "components": [
+        {
+          "id": "n-1",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 0,
+          "props": { "value": "38%", "label": "Tickets deflected", "description": "Median across customers, first 90 days" }
+        },
+        {
+          "id": "n-2",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 1,
+          "props": { "value": "47%", "label": "Faster resolution", "description": "Median time-to-first-response cut nearly in half" }
+        },
+        {
+          "id": "n-3",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 2,
+          "props": { "value": "+11 pts", "label": "CSAT lift", "description": "Within the first quarter, averaged across 1,400 teams" }
+        },
+        {
+          "id": "n-4",
+          "type": "value-prop",
+          "enabled": true,
+          "order": 3,
+          "props": { "value": "$8.40", "label": "Cost per resolved ticket saved", "description": "Average across the customer base" }
+        }
+      ],
+      "content": {
+        "heading": "ROI you can show your CFO",
+        "subheading": "Public methodology — every number sourced from opted-in customer telemetry"
+      }
+    },
+    {
+      "type": "case-study",
+      "id": "cases-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "cards",
+      "layout": { "display": "grid", "columns": 2, "gap": "24px", "padding": "72px 24px" },
+      "style": { "background": "#fbfaf6", "color": "#1f2937" },
+      "components": [
+        {
+          "id": "c-1",
+          "type": "case-study-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "headline": "Cut first-response time from 38 minutes to 7",
+            "body": "Hartwell Direct, a DTC home-goods brand with 400k customers, flipped Solva on inside Zendesk. Within six weeks the AI was confidently resolving 41% of inbound — order tracking, return labels, sizing — and drafting the rest. First-response dropped from 38 minutes to 7. CSAT lifted from 76 to 87. Headcount stayed flat.",
+            "outcomeMetric": "-31 min response time",
+            "clientName": "Hartwell Direct",
+            "mediaUrl": ""
+          }
+        },
+        {
+          "id": "c-2",
+          "type": "case-study-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "headline": "Saved $1.2M / year in support headcount avoidance",
+            "body": "Vespertine Cloud, a B2B SaaS company growing 80% YoY, faced doubling their support team or doubling per-ticket cost. Solva deflected 35% of inbound from the first month and the team handled 2.1x ticket volume with the same eight agents. Twelve-month run-rate savings: $1.2M. Time-to-payback: 7 weeks.",
+            "outcomeMetric": "$1.2M / yr saved",
+            "clientName": "Vespertine Cloud",
+            "mediaUrl": ""
+          }
+        }
+      ],
+      "content": {
+        "heading": "Two customer case studies",
+        "subheading": "Real teams, real numbers, public references on request"
+      }
+    },
+    {
+      "type": "quotes",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "cards",
+      "layout": { "display": "grid", "columns": 3, "gap": "24px", "padding": "64px 24px" },
+      "style": { "background": "#f3efe6", "color": "#1f2937" },
+      "components": [
+        {
+          "id": "t-1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "We were two weeks from approving a $400k support-team expansion. Solva went live on a Tuesday and by Friday our backlog had cleared on its own. We canceled the headcount plan. CFO sent flowers.",
+            "author": "Mira Patel",
+            "role": "VP Customer Experience, Hartwell Direct",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "The drafting feature is the unlock for us. Our agents review and send in 12 seconds instead of writing from scratch. Solva sounds like our brand because it learned from our brand. CSAT is up 13 points.",
+            "author": "Jordan O'Sullivan",
+            "role": "Head of Support, Vespertine Cloud",
+            "rating": 5
+          }
+        },
+        {
+          "id": "t-3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "I've been on three other AI support tools. Solva is the only one I'd recommend without hedging. It defers to humans on edge cases, never invents policy, and the analytics show me exactly what it's doing.",
+            "author": "Riley Tanaka",
+            "role": "Director of Support Ops, Lumenstack",
+            "rating": 5
+          }
+        }
+      ],
+      "content": {
+        "heading": "What support leaders say",
+        "subheading": "Three customers, three full quotes — no testimonial blurbs"
+      }
+    },
+    {
+      "type": "columns",
+      "id": "valueprops-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "icon-cards",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "72px 24px" },
+      "style": { "background": "#fbfaf6", "color": "#1f2937" },
+      "components": [
+        {
+          "id": "v-1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "book-open",
+            "title": "Trained on your knowledge base",
+            "description": "Connect your existing help center, Notion, or Confluence and Solva indexes it in under an hour. Every response cites source articles. No hallucinated policy. When the docs don't have an answer, Solva says so and routes the ticket to a human — never invents."
+          }
+        },
+        {
+          "id": "v-2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "users",
+            "title": "Drafts that sound like your team",
+            "description": "Point Solva at 200 historical tickets and it learns your voice — the greeting, the sign-off, the way you handle frustrated customers. Drafts arrive in the agent's inbox sounding like a teammate wrote them. Average edit-and-send time: 12 seconds."
+          }
+        },
+        {
+          "id": "v-3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "bar-chart-2",
+            "title": "Analytics your CFO will read",
+            "description": "Live dashboard showing deflection rate, time saved, cost per resolved ticket, and CSAT lift — broken down by channel, queue, and ticket type. Export to CSV for your monthly board deck. Public methodology so your finance team can verify the math."
+          }
+        }
+      ],
+      "content": {
+        "heading": "How Solva actually works",
+        "subheading": "Knowledge-first, voice-aware, and answerable to ops"
+      }
+    },
+    {
+      "type": "pricing",
+      "id": "pricing-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "3-tier",
+      "layout": { "display": "flex", "gap": "24px", "padding": "80px 24px" },
+      "style": { "background": "#f3efe6", "color": "#1f2937" },
+      "components": [
+        {
+          "id": "tier-1",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "name": "Starter",
+            "price": "$199",
+            "period": "/mo",
+            "features": "Up to 3,000 resolved tickets/mo,Zendesk + Intercom integration,Knowledge-base ingestion,Email support,30-day pilot",
+            "ctaText": "Start 30-day pilot",
+            "ctaUrl": "#pilot",
+            "highlighted": false
+          }
+        },
+        {
+          "id": "tier-2",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "name": "Pro",
+            "price": "$899",
+            "period": "/mo",
+            "features": "Up to 30,000 resolved tickets/mo,All helpdesk integrations,Voice training (200 historical tickets),Live analytics dashboard,Priority support,BYOK supported",
+            "ctaText": "Book ROI call",
+            "ctaUrl": "#book",
+            "highlighted": true
+          }
+        },
+        {
+          "id": "tier-3",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "name": "Enterprise",
+            "price": "Custom",
+            "period": "",
+            "features": "Unlimited tickets,SSO + SAML,HIPAA available,Dedicated CSM,Custom integrations,99.99% SLA,Quarterly business reviews",
+            "ctaText": "Talk to sales",
+            "ctaUrl": "#sales",
+            "highlighted": false
+          }
+        }
+      ],
+      "content": {
+        "heading": "Pricing that pays for itself",
+        "subheading": "Median customer breaks even at 7 weeks · BYOK on Pro and Enterprise"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 6,
+      "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "72px 24px", "gap": "16px" },
+      "style": { "background": "linear-gradient(135deg, #0d9488 0%, #f59e0b 100%)", "color": "#fbfaf6" },
+      "components": [
+        { "id": "heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Book a 20-minute ROI call.", "level": 2, "size": "40px", "weight": 600 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 1, "props": { "text": "We'll plug into a sample of your tickets, run a deflection projection, and show you the savings forecast for your team's exact volume. No deck, no sales-engineer dance — just real numbers from your real ticket data." } },
+        { "id": "button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Book the ROI call", "url": "#book", "style": "filled", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 7,
+      "variant": "multi-column",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "48px 24px" },
+      "style": { "background": "#fbfaf6", "color": "#475569" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Solva" } },
+        { "id": "col-1", "type": "footer-column", "enabled": true, "order": 1, "props": { "heading": "Product", "links": "How it works,Integrations,Pricing,Security" } },
+        { "id": "col-2", "type": "footer-column", "enabled": true, "order": 2, "props": { "heading": "Customers", "links": "Case studies,ROI calculator,Methodology,References" } },
+        { "id": "col-3", "type": "footer-column", "enabled": true, "order": 3, "props": { "heading": "Company", "links": "About,Careers,Contact,Privacy" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 4, "props": { "text": "© 2026 Solva Support AI · SOC 2 Type II · HIPAA available · status.solva.support" } }
+      ],
+      "content": {}
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+# Crystal Atom: ADR_NEW_SKILL
+# Date: 2026-05-04 · Phase: Connections P3 (Spec)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Silver (δ ≥ 0.40); Ambig < 0.05
+
+⟦
+  Ω := { Scaffold new ADR file with auto-incremented ID + Status:Proposed + 4 required sections (Context/Decisions/Consequences/Cross-refs) }
+  Σ := {
+    Input:{
+      title:𝕊
+    },
+    Output:{
+      adr_path:𝕊,
+      adr_id:ℕ,
+      slug:𝕊
+    },
+    AdrScaffold:{
+      header:{id:ℕ, status:𝕊, date:𝕊, title:𝕊},
+      sections:{context:𝕊, decisions:𝕊, consequences:𝕊, crossRefs:𝕊}
+    },
+    Errors:{
+      ETitleTooShort,
+      ETitleTooLong,
+      EAdrDirNotFound,
+      EIdCollision,
+      EFileWriteFail
+    }
+  }
+  Γ := {
+    R1: |title| ≥ 5 chars,
+    R2: |title| ≤ 80 chars,
+    R3: adr_id = (max(scan(docs/adr/ADR-NNN-*.md)) + 1),
+    R4: adr_id monotonically increasing (no reuse of gaps),
+    R5: slug = kebab-case(title),
+    R6: sections ⊇ {Context, Decisions, Consequences, Cross-refs}
+  }
+  Λ := {
+    timeout := 2s,
+    fallback := none (local file op; no MCP call),
+    confidence_threshold := n/a (deterministic),
+    mcp_tool := none (self-contained; D3 ships even if MCP absent),
+    target_dir := docs/adr/
+  }
+  Ε := {
+    V1: VERIFY 4 sections present (Context + Decisions + Consequences + Cross-refs),
+    V2: VERIFY header includes "Status: Proposed",
+    V3: VERIFY adr_id is next available (no collision with existing files),
+    V4: VERIFY filename pattern ADR-NNN-<kebab-slug>.md,
+    V5: VERIFY scaffold ≤ 120 LOC per ADR template discipline
+  }
+⟧
+
+# Cross-refs:
+# - ADR-C02 §D3 (skill content strategy — /adr-new does/does-not contract)
+# - ADR-C01 (plugin structure — D3 self-contained, no mcp capability needed)
+# - ADR-109 + ADR-133 (project-local ADR cadence + ID monotonicity)

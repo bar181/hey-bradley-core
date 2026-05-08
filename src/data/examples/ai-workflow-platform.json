@@ -1,0 +1,356 @@
+{
+  "site": {
+    "title": "Threadbase · AI workflows that actually run",
+    "description": "Threadbase is a flow-builder where every node is an AI agent. Connect your tools, describe the outcome, and ship a workflow that runs every minute, every webhook, or every Monday at 9am. No prompt engineering required.",
+    "author": "Threadbase",
+    "email": "hello@threadbase.io",
+    "domain": "threadbase.io",
+    "project": "threadbase-platform",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "saas",
+    "audience": "business",
+    "tone": "technical",
+    "brandName": "Threadbase",
+    "tagline": "Zapier, but every node is an AI agent",
+    "voiceAttributes": ["agentic", "outcomes-first", "ops-friendly", "specific"]
+  },
+  "theme": {
+    "preset": "tech-business",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0d1117",
+      "bgSecondary": "#161b22",
+      "textPrimary": "#f0f6fc",
+      "textSecondary": "#9ba9bf",
+      "accentPrimary": "#f59e0b",
+      "accentSecondary": "#fb923c"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#fffbf5",
+      "bgSecondary": "#fff3e0",
+      "textPrimary": "#0d1117",
+      "textSecondary": "#475569",
+      "accentPrimary": "#d97706",
+      "accentSecondary": "#ea580c"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Inter",
+      "headingWeight": 700,
+      "baseSize": "16px",
+      "lineHeight": 1.65
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "1240px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "12px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": { "display": "flex", "padding": "0" },
+      "style": { "background": "#0d1117", "color": "#f0f6fc" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Threadbase" } },
+        { "id": "templates", "type": "button", "enabled": true, "order": 1, "props": { "text": "Templates", "url": "#templates" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 2, "props": { "text": "Start free", "url": "#signup" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "96px 24px",
+        "maxWidth": "1240px"
+      },
+      "style": { "background": "linear-gradient(140deg, #0d1117 0%, #161b22 50%, #0d1117 100%)", "color": "#f0f6fc" },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": { "text": "180+ integrations · 24 prebuilt agents · run on schedule, webhook, or click", "icon": "workflow", "variant": "pill" }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": { "text": "Workflows where every node is an AI agent.", "level": 1, "size": "60px", "weight": 700 }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": { "text": "Threadbase is the flow-builder for the agentic era. Drag a Slack trigger onto the canvas, drop a triage agent, drop a CRM updater, drop an outbound email — connect them and you've replaced a 14-step internal process with a workflow that runs in 6 seconds. 180 integrations, 24 prebuilt agents, and a visual canvas your ops team can actually maintain." }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": { "text": "Build your first flow", "url": "#signup", "style": "filled", "size": "lg" }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": { "text": "See it in action", "url": "#templates", "style": "outline", "size": "lg" }
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": true,
+          "order": 5,
+          "props": { "text": "8,200 teams · 240M flow runs / mo · SOC 2 Type II · GDPR · HIPAA available on Enterprise", "show": true }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "usecases-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "icon-cards",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "72px 24px" },
+      "style": { "background": "#161b22", "color": "#f0f6fc" },
+      "components": [
+        {
+          "id": "u-1",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "icon": "inbox",
+            "title": "Inbound triage",
+            "description": "New email or Slack message lands, the triage agent classifies it, the routing agent assigns the right team, and the summary agent posts a one-line digest in the right channel. What took 14 minutes per ticket happens in 6 seconds. Replace your shared inbox with a flow that scales."
+          }
+        },
+        {
+          "id": "u-2",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "icon": "trending-up",
+            "title": "Sales ops automation",
+            "description": "New Salesforce lead → enrichment agent fills 18 fields → scoring agent ranks → outbound agent drafts a personal email → SDR reviews and sends. The flow runs on every lead, every minute, every weekday. Sales ops teams report cutting busywork by 11 hours per week per rep."
+          }
+        },
+        {
+          "id": "u-3",
+          "type": "feature-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "icon": "file-search",
+            "title": "Internal research",
+            "description": "Schedule a Monday-morning flow: research agent pulls competitor releases, summarizer agent ranks by relevance, formatter agent writes a one-page brief, Slack agent posts to #strategy. The team starts the week with a digest instead of 90 minutes of tab-clicking."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Three flows you'll ship in your first hour",
+        "subheading": "Templates included — or build from scratch on the canvas"
+      }
+    },
+    {
+      "type": "logos",
+      "id": "integrations-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "marquee",
+      "layout": { "display": "flex", "direction": "row", "align": "center", "gap": "48px", "padding": "56px 24px" },
+      "style": { "background": "#0d1117", "color": "#9ba9bf" },
+      "components": [
+        { "id": "l-1", "type": "logo", "enabled": true, "order": 0, "props": { "name": "Slack", "image": "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=120&h=40&fit=crop&auto=format&q=80", "url": "#integrations" } },
+        { "id": "l-2", "type": "logo", "enabled": true, "order": 1, "props": { "name": "GitHub", "image": "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=120&h=40&fit=crop&auto=format&q=80", "url": "#integrations" } },
+        { "id": "l-3", "type": "logo", "enabled": true, "order": 2, "props": { "name": "Linear", "image": "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=120&h=40&fit=crop&auto=format&q=80", "url": "#integrations" } },
+        { "id": "l-4", "type": "logo", "enabled": true, "order": 3, "props": { "name": "Notion", "image": "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=120&h=40&fit=crop&auto=format&q=80", "url": "#integrations" } },
+        { "id": "l-5", "type": "logo", "enabled": true, "order": 4, "props": { "name": "Stripe", "image": "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=120&h=40&fit=crop&auto=format&q=80", "url": "#integrations" } },
+        { "id": "l-6", "type": "logo", "enabled": true, "order": 5, "props": { "name": "Salesforce", "image": "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=120&h=40&fit=crop&auto=format&q=80", "url": "#integrations" } },
+        { "id": "l-7", "type": "logo", "enabled": true, "order": 6, "props": { "name": "HubSpot", "image": "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=120&h=40&fit=crop&auto=format&q=80", "url": "#integrations" } },
+        { "id": "l-8", "type": "logo", "enabled": true, "order": 7, "props": { "name": "Zendesk", "image": "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=120&h=40&fit=crop&auto=format&q=80", "url": "#integrations" } },
+        { "id": "l-9", "type": "logo", "enabled": true, "order": 8, "props": { "name": "Intercom", "image": "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=120&h=40&fit=crop&auto=format&q=80", "url": "#integrations" } },
+        { "id": "l-10", "type": "logo", "enabled": true, "order": 9, "props": { "name": "Airtable", "image": "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=120&h=40&fit=crop&auto=format&q=80", "url": "#integrations" } },
+        { "id": "l-11", "type": "logo", "enabled": true, "order": 10, "props": { "name": "Postgres", "image": "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=120&h=40&fit=crop&auto=format&q=80", "url": "#integrations" } },
+        { "id": "l-12", "type": "logo", "enabled": true, "order": 11, "props": { "name": "Gmail", "image": "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=120&h=40&fit=crop&auto=format&q=80", "url": "#integrations" } }
+      ],
+      "content": {
+        "heading": "180+ integrations across the work-graph",
+        "subheading": "Twelve favorites — the full list lives at /integrations"
+      }
+    },
+    {
+      "type": "numbers",
+      "id": "metrics-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "counters",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "64px 24px" },
+      "style": { "background": "#161b22", "color": "#f0f6fc" },
+      "components": [
+        { "id": "n-1", "type": "value-prop", "enabled": true, "order": 0, "props": { "value": "240M", "label": "Flow runs / month", "description": "Across the platform, April 2026" } },
+        { "id": "n-2", "type": "value-prop", "enabled": true, "order": 1, "props": { "value": "8,200", "label": "Customer teams", "description": "From 5-person startups to 5,000-person orgs" } },
+        { "id": "n-3", "type": "value-prop", "enabled": true, "order": 2, "props": { "value": "11 hrs", "label": "Saved per rep / week", "description": "Median across sales-ops customers" } },
+        { "id": "n-4", "type": "value-prop", "enabled": true, "order": 3, "props": { "value": "6 sec", "label": "Median run time", "description": "End-to-end across triage flows" } }
+      ],
+      "content": {
+        "heading": "By the numbers",
+        "subheading": "Real metrics from the production fleet — not pitch-deck math"
+      }
+    },
+    {
+      "type": "case-study",
+      "id": "case-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "cards",
+      "layout": { "display": "grid", "columns": 2, "gap": "24px", "padding": "72px 24px" },
+      "style": { "background": "#0d1117", "color": "#f0f6fc" },
+      "components": [
+        {
+          "id": "c-1",
+          "type": "case-study-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "headline": "Cut sales-ops busywork by 11 hours / rep / week",
+            "body": "Northwind Logistics built a 7-node flow on Threadbase that enriches every inbound lead, scores it against three ICP profiles, drafts a personal outreach email, and queues it for SDR review. Net result: 11 hours of busywork eliminated per rep per week, 38% lift in qualified meetings, zero new tooling.",
+            "outcomeMetric": "+38% qualified meetings",
+            "clientName": "Northwind Logistics",
+            "mediaUrl": ""
+          }
+        },
+        {
+          "id": "c-2",
+          "type": "case-study-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "headline": "Replaced a 4-person triage team with a 5-node flow",
+            "body": "Vespertine Support shipped a Threadbase flow that classifies every inbound ticket, routes it to the right team, generates a draft response, and posts a Slack alert if SLA is at risk. The triage team was freed for higher-value work and CSAT lifted 9 points. The whole flow took an afternoon to build.",
+            "outcomeMetric": "+9 CSAT points",
+            "clientName": "Vespertine Support",
+            "mediaUrl": ""
+          }
+        }
+      ],
+      "content": {
+        "heading": "Two case studies, real numbers",
+        "subheading": "Both customers shipped these flows in under a day"
+      }
+    },
+    {
+      "type": "pricing",
+      "id": "pricing-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "3-tier",
+      "layout": { "display": "flex", "gap": "24px", "padding": "80px 24px" },
+      "style": { "background": "#161b22", "color": "#f0f6fc" },
+      "components": [
+        {
+          "id": "tier-1",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "name": "Starter",
+            "price": "$29",
+            "period": "/mo",
+            "features": "5,000 flow runs/mo,Up to 3 active flows,180 integrations,Community support,Marketplace LLM keys",
+            "ctaText": "Start free 14-day trial",
+            "ctaUrl": "#signup",
+            "highlighted": false
+          }
+        },
+        {
+          "id": "tier-2",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "name": "Pro",
+            "price": "$129",
+            "period": "/mo",
+            "features": "100,000 flow runs/mo,Unlimited flows,Bring-your-own LLM key,Webhook + scheduled triggers,Priority email support,Run history (30 days)",
+            "ctaText": "Start free 14-day trial",
+            "ctaUrl": "#pro",
+            "highlighted": true
+          }
+        },
+        {
+          "id": "tier-3",
+          "type": "pricing-tier",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "name": "Enterprise",
+            "price": "Custom",
+            "period": "",
+            "features": "Unlimited runs,SSO + SAML,HIPAA available,VPC peering,Dedicated CSM,99.99% SLA,Custom integrations",
+            "ctaText": "Talk to sales",
+            "ctaUrl": "#sales",
+            "highlighted": false
+          }
+        }
+      ],
+      "content": {
+        "heading": "Pricing that scales with your run volume",
+        "subheading": "Free 14-day trial on every tier · BYOK on Pro and Enterprise"
+      }
+    },
+    {
+      "type": "action",
+      "id": "cta-01",
+      "enabled": true,
+      "order": 6,
+      "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "72px 24px", "gap": "16px" },
+      "style": { "background": "linear-gradient(135deg, #f59e0b 0%, #fb923c 100%)", "color": "#0d1117" },
+      "components": [
+        { "id": "heading", "type": "heading", "enabled": true, "order": 0, "props": { "text": "Ship your first flow today.", "level": 2, "size": "40px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 1, "props": { "text": "Free 14-day trial. No credit card. 180 integrations and 24 agents waiting on the canvas. Start with a template or drag your first node — most teams ship a working flow inside an hour." } },
+        { "id": "button", "type": "button", "enabled": true, "order": 2, "props": { "text": "Start free trial", "url": "#signup", "style": "filled", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 7,
+      "variant": "multi-column",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "48px 24px" },
+      "style": { "background": "#0d1117", "color": "#9ba9bf" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "Threadbase" } },
+        { "id": "col-1", "type": "footer-column", "enabled": true, "order": 1, "props": { "heading": "Product", "links": "Templates,Integrations,Pricing,Changelog" } },
+        { "id": "col-2", "type": "footer-column", "enabled": true, "order": 2, "props": { "heading": "Builders", "links": "Docs,SDK,Custom agents,Webhook reference" } },
+        { "id": "col-3", "type": "footer-column", "enabled": true, "order": 3, "props": { "heading": "Company", "links": "About,Security,Status,Contact" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 4, "props": { "text": "© 2026 Threadbase, Inc. SOC 2 Type II · GDPR · status.threadbase.io" } }
+      ],
+      "content": {}
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "entry_1777501200000_a1b2c3",
+    "namespace": "hey-bradley-phases",
+    "key": "p15-phase-summary",
+    "type": "semantic",
+    "content": "P15 — Polish + Kitchen Sink + Blog + Novice Simplification (MVP track). Phase 14 had closed at 74/100 with a stalled test count (102) and no DRAFT-mode discipline; the builder needed novice-friendly narrowing before LLM integration could begin. P15 ran a 14-agent swarm across 4 implementation waves and 2 review fix-passes: shipped draftRename.ts label dictionary, blog-standard.json + kitchen-sink.json (now covering all 16 section types), ChatExplainer 3-step strip, SettingsDrawer single right-side drawer, DRAFT narrowing (center tabs 5→2, sections 16→3, TopBar 8→5), 31 native tooltips, 4 keyboard shortcuts, ADR-038 + ADR-039 merged, and 2 new Playwright tests. The KISS pivot in Wave 2 (article→existing blog type) avoided a schema migration when a Wave 1 agent invented a section type that didn't exist. Composite 82/100 with all three persona scores passing (Grandma 70, Framer 88, Capstone 84) — clean handoff to P16 (local DB). References: phase-15/{README,session-log,retrospective}.md, ADR-038, ADR-039, commits 8950b7c..7412b5b.",
+    "tags": ["phase:P15", "domain:ui", "priority:polish", "draft-mode", "kitchen-sink"],
+    "metadata": {
+      "phase": "P15",
+      "sprint": "pre-sprint",
+      "composite": 82,
+      "tests": "111/111",
+      "commit": "7412b5b",
+      "started_at": "2026-04-06",
+      "sealed_at": "2026-04-27",
+      "related_files": [
+        "plans/implementation/phase-15/README.md",
+        "plans/implementation/phase-15/session-log.md",
+        "plans/implementation/phase-15/retrospective.md",
+        "src/lib/draftRename.ts",
+        "src/data/examples/blog-standard.json",
+        "docs/adr/ADR-038-swarm-protocol.md",
+        "docs/adr/ADR-039-golden-artifacts.md"
+      ]
+    },
+    "embedding": null
+  },
+  {
+    "id": "entry_1777501200001_b2c3d4",
+    "namespace": "hey-bradley-adrs",
+    "key": "adr-045-patch-atom",
+    "type": "semantic",
+    "content": "ADR-045 — System Prompt = AISP Crystal Atom (PATCH_ATOM). ADR-044 had fixed the LLM's output shape as a JSON patch envelope, but plain English framing produced unacceptable rates of markdown fences, prose preamble, and hallucinated section types in early manual tests against Haiku and Gemini Flash. Phase 18 needed first-try compliance against the JSON contract under a tight ~2.4k-token budget without leaning on tool-use. The decision: embed an AISP Crystal Atom (Ω/Σ/Γ/Λ/Ε) in the system prompt that declares the schema, allowed ops, the enumerated SectionType set, and a self-verification clause; the response remains plain JSON. AISP appears in prompt only — never in response — because the JSON envelope is already the contract and a parallel AISP parser would double the validator surface. Trade-off: ~320 extra tokens per request (under cap; mitigated by future prompt caching). Implemented at src/contexts/intelligence/prompts/system.ts via buildSystemPrompt(ctx); both prompt builder and patchValidator.ts import ALLOWED_PATHS from the same module to prevent drift. References: ADR-044 (JSON patch contract), ADR-032 (per-section atoms, deferred), ADR-026 (AISP as artifact), ADR-042 (provider abstraction).",
+    "tags": ["phase:P18", "domain:aisp", "atom:PATCH", "priority:moat", "adr:045"],
+    "metadata": {
+      "adr_number": 45,
+      "phase": "P18",
+      "status": "Accepted",
+      "line_count": 104,
+      "cross_refs": ["ADR-026", "ADR-032", "ADR-042", "ADR-044", "ADR-047"]
+    },
+    "embedding": null
+  },
+  {
+    "id": "entry_1777501200002_c3d4e5",
+    "namespace": "hey-bradley-decisions",
+    "key": "sprint-j-option-b-composition",
+    "type": "semantic",
+    "content": "Sprint J Decision D1 — Personality response shape: Option B (composition), NOT Option A (LLM-driven generation). Sprint J needed to ship 5 personality modes (professional/fun/geek/teacher/coach) that visibly change the AI's voice mid-build, but Option A would have widened PATCH_ATOM Σ to carry a personality-message field through the LLM round-trip — a Σ widening on a locked Crystal Atom, which violates the project's atom-discipline invariant. Locked decision: PATCH_ATOM Σ unchanged; a new personalityEngine.render(envelope, personalityId, intentTrace) → string runs AFTER patches land, composing the chat-bubble voice from the existing intentTrace and envelope without any LLM call. Why: zero Σ widening preserves the moat (atom discipline is tier-1 architectural innovation), composition is $0/turn (no LLM), and the resulting messages are deterministic and testable from source-level. Outcome: Sprint J shipped at ~615/615 GREEN with composite ≥ 93 target; ADR-073 codifies the composition pattern and is referenced by ADR-074 (picker), ADR-075 (log), ADR-076 (mobile). References: sprint-j-personality/03-sprint-j-locked.md (D1), ADR-073, ADR-045 (the Σ that stays unchanged).",
+    "tags": ["phase:P50", "sprint:J", "domain:aisp", "atom:PATCH", "priority:moat"],
+    "metadata": {
+      "phase": "P50",
+      "locked_at": "2026-04-29",
+      "alternatives_considered": [
+        "Option A: LLM-driven personality generation (would widen PATCH_ATOM Σ)",
+        "Option C: hybrid (LLM tone hint + composition) — rejected as worst of both"
+      ],
+      "related_adrs": ["ADR-045", "ADR-053", "ADR-073", "ADR-074", "ADR-075", "ADR-076"]
+    },
+    "embedding": null
+  },
+  {
+    "id": "entry_1777501200003_d4e5f6",
+    "namespace": "hey-bradley-learnings",
+    "key": "sprint-j-stream-timeout-pattern",
+    "type": "pattern",
+    "content": "Sprint J / P52 Reframe — agent stream timeouts are a known reality, not a workaround. P52 dispatched a 3-agent wave (A7 ConversationLogTab, A8 ShareSpecButton, A9 ADR + tests) on a network-unstable day; 2 of 3 agents timed out mid-stream. The clean agent (A8) shipped end-to-end usable code, and A7's partial export (loadConversationLog shape) was directly reusable by a manual-write follow-up. Drop: 3-agent waves with 600-word prompts on unstable links — smaller prompts plus more agents (or a sequential fallback) are more resilient. Reframe: agent prompts must be resilient contracts, not orchestration — each agent must be re-dispatchable from a clean slate without sibling-agent context, and manual-write fallback is a feature to plan for in Sprint K, not a workaround to apologize for. Keep: atomic per-wave commit cadence (so partial waves still ship usable code) and redactKeyShapes boundary discipline carried forward from P46/ADR-067 without any thinking. References: phase-52/retrospective.md, ADR-075, ADR-067 (export-strip discipline).",
+    "tags": ["phase:P52", "sprint:J", "domain:infra", "priority:debt", "severity:should"],
+    "metadata": {
+      "phase": "P52",
+      "type": "reframe",
+      "source_doc": "plans/implementation/phase-52/retrospective.md"
+    },
+    "embedding": null
+  },
+  {
+    "id": "entry_1777501200004_e5f6a7",
+    "namespace": "hey-bradley-strategic",
+    "key": "2026-04-29-product-evaluation-b-minus",
+    "type": "semantic",
+    "content": "2026-04-29 Strategic Review — Hey Bradley as a category-level product: B- (capstone artifact A-, OSS A-, distribution D+, defensibility C). The evaluation graded HB against the full 10-sprint commercial arc and concluded: structurally innovative thesis (5-atom AISP), engineering rigor is tier-1 (73 ADRs, 550 PURE-UNIT tests, multi-reviewer pattern), but the moat is invisible (AISP buried in EXPERT mode), the pixel ratio is backwards (Builder 80% / Spec sub-tab), there is no viral mechanic, and the learning flywheel is unscaffolded. Top 4 unblocking moves were ranked: (1) make AISP live trace always-on, (2) ship hosted shareable spec artifact pre-May, (3) reverse the pixel ratio in at least one mode, (4) scaffold local-only opt-in telemetry now. Owner reviewed and elected to proceed with Sprint J as planned; recommendations 1/2/4/5/7 were captured for the record and have since shaped the moat-priority reordering (Sprint K Speed → L Spec → M Templates → N Share → O RC). References: plans/strategic-reviews/2026-04-29-product-evaluation.md, plans/strategic-reviews/open-core-moat-roadmap.md, sprint-j-personality/03-sprint-j-locked.md.",
+    "tags": ["phase:P50", "sprint:J", "domain:aisp", "priority:moat", "strategic-review"],
+    "metadata": {
+      "review_date": "2026-04-29",
+      "scope": "Hey Bradley as category-level product (10-sprint commercial arc)",
+      "score": "B-",
+      "recommendation_rank": 1
+    },
+    "embedding": null
+  }
+]

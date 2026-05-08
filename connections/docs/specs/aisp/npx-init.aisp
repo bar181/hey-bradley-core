@@ -1,0 +1,59 @@
+# Crystal Atom: NPX_INIT_COMMAND
+# Date: 2026-05-04 · Phase: Connections P3 (Spec)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Silver (δ ≥ 0.40); Ambig < 0.05
+
+⟦
+  Ω := { Scaffold .heybradley/ directory in project root for first-time onboarding; idempotent unless --force; zero network calls; atomic writes }
+  Σ := {
+    Input:{
+      force?:𝔹,
+      name?:𝕊
+    },
+    Output:{
+      files_created:𝕊[],
+      skipped:𝕊[],
+      path:𝕊,
+      exit_code:ℕ
+    },
+    ScaffoldFiles := 𝔼{
+      ".heybradley/spec.aisp",
+      ".heybradley/config.json",
+      ".heybradley/.gitignore"
+    },
+    Errors:{
+      EExistingDirNoForce,
+      EWritePermissionDenied,
+      EInvalidName
+    }
+  }
+  Γ := {
+    R1: idempotent ⇔ ¬force ∧ exists(.heybradley/) ⇒ skip_all,
+    R2: files_created ⊆ ScaffoldFiles,
+    R3: ∀ f ∈ files_created : ¬contains(f, sk-) ∧ ¬contains(f, AIza) ∧ ¬contains(f, Bearer ),
+    R4: writes are atomic via temp-file + rename,
+    R5: config.json := { projectName:𝕊, tierTarget:◊|◊⁺|◊⁺⁺, version:"0.1.0" }
+  }
+  Λ := {
+    timeout := 5s,
+    network := ∅ (fully offline),
+    output_root := process.cwd(),
+    log_target := .heybradley/log.json (fire-and-forget per ADR-126 D4)
+  }
+  Ε := {
+    V1: VERIFY config.json parses as valid JSON,
+    V2: VERIFY .gitignore excludes log.json AND any *.db cache,
+    V3: VERIFY exit_code = 0 ⇔ files_created ≠ ∅ ∨ (skipped = ScaffoldFiles ∧ ¬force),
+    V4: VERIFY exit_code = 1 ⇔ exists(.heybradley/) ∧ ¬force,
+    V5: VERIFY exit_code = 2 ⇔ ∃ f ∈ ScaffoldFiles : write(f) failed,
+    V6: VERIFY no BYOK key shapes (sk-/AIza/Bearer ) in any scaffolded file
+  }
+⟧
+
+# Cross-refs:
+# - ADR-C05 §D2 (init command scaffold contract)
+# - ADR-122 (markdown bundle is downstream output; init prepares the input slot)
+# - ADR-114 D5 (sql.js browser-only — .heybradley/ stays JSON-portable, no SQLite)
+# - ADR-043 (BYOK trust boundary — Γ R3 + Ε V6)
+# - ADR-126 D4 (fire-and-forget log writes; log failure never crashes init)
+# - ADR-101 D3 (versioned filename pattern — spec.aisp placeholder ready for downstream rename)

@@ -85,6 +85,7 @@ export default {
         'fade-in-up': 'fadeInUp 0.6s ease-out both',
         'card-reveal': 'cardReveal 0.5s ease-out forwards',
         'lightbox-fade-in': 'lightboxFadeIn 0.2s ease-out both',
+        'lightbox-scale-in': 'lightboxScaleIn 0.2s ease-out both',
       },
       keyframes: {
         orbPulse: {
@@ -110,6 +111,10 @@ export default {
         lightboxFadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
+        },
+        lightboxScaleIn: {
+          '0%': { opacity: '0', transform: 'scale(0.95)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
         },
       },
     },

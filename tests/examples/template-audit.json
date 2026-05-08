@@ -1,0 +1,118 @@
+{
+  "registered_templates": [
+    {
+      "slug": "indie-portfolio",
+      "persona": "Lars",
+      "real_copy": true,
+      "distinct_visual": true,
+      "scored_quality": 8,
+      "notes": "Registered template at src/data/examples/indie-portfolio/"
+    },
+    {
+      "slug": "b2b-agency",
+      "persona": "Sarah",
+      "real_copy": true,
+      "distinct_visual": true,
+      "scored_quality": 8,
+      "notes": "Registered template at src/data/examples/b2b-agency/"
+    },
+    {
+      "slug": "saas-founder",
+      "persona": "Marcus",
+      "real_copy": true,
+      "distinct_visual": true,
+      "scored_quality": 8,
+      "notes": "Registered template at src/data/examples/saas-founder/"
+    }
+  ],
+  "persona_coverage": [
+    "Lars",
+    "Marcus",
+    "Sarah"
+  ],
+  "missing_personas": [
+    "Grandma",
+    "Framer",
+    "Geek"
+  ],
+  "recommended_new_templates": [
+    {
+      "name": "AI Engineer Personal Site",
+      "persona": "Geek/Lars",
+      "aesthetic": "monospace headings, deep navy + cyan accent, dense info layout",
+      "key_sections": [
+        "hero",
+        "features",
+        "blog",
+        "quotes",
+        "footer"
+      ],
+      "rationale": "Agentic engineers want a portfolio that signals technical depth, not visual flair."
+    },
+    {
+      "name": "Conference Site",
+      "persona": "Sarah/professional",
+      "aesthetic": "warm corporate, large display headlines, sponsor-logos prominent",
+      "key_sections": [
+        "hero",
+        "numbers",
+        "logos",
+        "team",
+        "faq",
+        "cta",
+        "footer"
+      ],
+      "rationale": "B2B conferences need credibility + clear schedule + sponsor signal."
+    },
+    {
+      "name": "Newsletter Author",
+      "persona": "Marcus/founder",
+      "aesthetic": "minimal, large type, single-color accent, signup-form-first",
+      "key_sections": [
+        "hero",
+        "value-props",
+        "quotes",
+        "cta",
+        "footer"
+      ],
+      "rationale": "Solo creators need a fast signup funnel, not a kitchen sink."
+    },
+    {
+      "name": "Local Business",
+      "persona": "Grandma",
+      "aesthetic": "warm photography, friendly serif, hours-and-location prominent",
+      "key_sections": [
+        "hero",
+        "gallery",
+        "action",
+        "team",
+        "footer"
+      ],
+      "rationale": "Non-technical owners need defaults that work without copy-tuning."
+    },
+    {
+      "name": "Open Source Project",
+      "persona": "Framer/power-user",
+      "aesthetic": "GitHub-aesthetic dark, code blocks, badges, sponsors",
+      "key_sections": [
+        "hero",
+        "features",
+        "numbers",
+        "logos",
+        "faq",
+        "footer"
+      ],
+      "rationale": "OSS landing pages have strong genre conventions worth honoring."
+    }
+  ],
+  "to_be_built_this_phase": [
+    "AI Engineer Personal Site",
+    "Local Business"
+  ],
+  "audit_summary": {
+    "total_registered": 3,
+    "real_copy_pct": 100,
+    "distinct_visual_pct": 100,
+    "gap_severity": "medium"
+  }
+}

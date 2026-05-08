@@ -1,0 +1,193 @@
+{
+  "_storytellingPreset": "contrarian-tech",
+  "_note": "P113/A3 — opinion blogger making sharp, controversial-adjacent takes about software. Contrarian-tech preset: the consensus is X; here's why it's wrong.",
+  "site": {
+    "title": "The Slower Path",
+    "description": "An opinion blog about software, by someone who has shipped enough of it to be skeptical. Updated when there is something to actually say. Sharp, opinionated, occasionally wrong on purpose.",
+    "author": "Iain MacAlister",
+    "email": "iain@theslowerpath.dev",
+    "domain": "theslowerpath.dev",
+    "project": "the-slower-path",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "blog",
+    "audience": "developer",
+    "tone": "bold",
+    "brandName": "The Slower Path",
+    "tagline": "The consensus is wrong. Probably. Sometimes.",
+    "voiceAttributes": ["contrarian", "sharp", "opinionated", "earned"]
+  },
+  "theme": {
+    "preset": "newsprint",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#f4f1ea",
+      "bgSecondary": "#ebe6d6",
+      "textPrimary": "#15130d",
+      "textSecondary": "#52493a",
+      "accentPrimary": "#a8261c",
+      "accentSecondary": "#15130d"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#15130d",
+      "bgSecondary": "#23201a",
+      "textPrimary": "#f4f1ea",
+      "textSecondary": "#c4bba4",
+      "accentPrimary": "#e0594d",
+      "accentSecondary": "#f4f1ea"
+    },
+    "typography": {
+      "fontFamily": "Source Serif Pro",
+      "headingFamily": "Playfair Display",
+      "headingWeight": 700,
+      "baseSize": "19px",
+      "lineHeight": 1.65
+    },
+    "spacing": { "sectionPadding": "88px", "containerMaxWidth": "780px", "componentGap": "24px" },
+    "borderRadius": "0px"
+  },
+  "sections": [
+    {
+      "type": "menu", "id": "navbar-01", "enabled": true, "order": -1, "variant": "simple",
+      "layout": { "display": "flex", "padding": "20px 24px", "gap": "28px", "maxWidth": "780px" },
+      "style": { "background": "#f4f1ea", "color": "#15130d" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "The Slower Path" } },
+        { "id": "nav-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "Archive", "url": "#archive" } },
+        { "id": "nav-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "Replies", "url": "#replies" } },
+        { "id": "nav-3", "type": "link", "enabled": true, "order": 3, "props": { "text": "About", "url": "#about" } },
+        { "id": "nav-4", "type": "link", "enabled": true, "order": 4, "props": { "text": "Subscribe", "url": "#subscribe" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero", "id": "hero-01", "enabled": true, "order": 0, "variant": "left-aligned",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "24px", "padding": "112px 24px 88px", "maxWidth": "740px" },
+      "style": { "background": "#f4f1ea", "color": "#15130d" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0,
+          "props": { "text": "An opinion blog · Since 2021 · 47 posts · 0 newsletters", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "Microservices are not an architecture. They are an admission that you could not make a monolith work and decided to ship ten failures instead of one.", "level": 1, "size": "60px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "I have spent 18 years writing software, the last 11 at companies that called themselves 'distributed' on slide 2 of every kickoff. The Slower Path is the blog I started after I quit a Series-D in 2021 and watched the next two companies I joined make exactly the same mistakes for exactly the same reasons. The arguments here will not feel original. They are not supposed to be. They are supposed to be the things engineers say to each other in private, written down in public." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "Read the latest piece", "url": "#latest", "style": "filled", "size": "lg", "background": "#a8261c", "color": "#f4f1ea" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4,
+          "props": { "text": "Browse the archive", "url": "#archive", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "blog", "id": "archive-01", "enabled": true, "order": 1, "variant": "list",
+      "layout": { "display": "flex", "direction": "column", "gap": "40px", "padding": "88px 24px", "maxWidth": "740px" },
+      "style": { "background": "#f4f1ea", "color": "#15130d" },
+      "components": [
+        { "id": "post-1", "type": "blog-post", "enabled": true, "order": 0,
+          "props": {
+            "title": "Microservices are not an architecture. They are an admission.",
+            "date": "April 28, 2026",
+            "readTime": "9 min read",
+            "tags": "architecture, monolith, hot-take",
+            "excerpt": "Every company I have worked at since 2018 has gone microservices and then quietly walked it back two years later. We do not call it walking back. We call it 'the platform team is consolidating shared services.' Same outcome. Slower."
+          } },
+        { "id": "post-2", "type": "blog-post", "enabled": true, "order": 1,
+          "props": {
+            "title": "Test-driven development is fine. Test-driven development as a personality is the actual problem.",
+            "date": "April 14, 2026",
+            "readTime": "7 min read",
+            "tags": "testing, culture",
+            "excerpt": "I have been writing tests since 2008. I have shipped TDD projects, BDD projects, and projects where we wrote the tests after the code at 2 a.m. on a Tuesday. The TDD evangelists will tell you these have different outcomes. They do not. The thing that matters is whether the tests run on every commit, and whether the failures are read."
+          } },
+        { "id": "post-3", "type": "blog-post", "enabled": true, "order": 2,
+          "props": {
+            "title": "Your team does not need a staff engineer. Your team needs a staff editor.",
+            "date": "March 30, 2026",
+            "readTime": "11 min read",
+            "tags": "leadership, careers",
+            "excerpt": "The hardest thing on a software team is not the code. It is keeping 8 engineers writing in roughly the same dialect over 18 months. We made up the staff engineer title to do this work. Then we forgot to teach the staff engineers how to edit. So they wrote architecture documents instead. Same outcome. Slower."
+          } },
+        { "id": "post-4", "type": "blog-post", "enabled": true, "order": 3,
+          "props": {
+            "title": "Kubernetes is excellent. Your application is not Google.",
+            "date": "March 17, 2026",
+            "readTime": "8 min read",
+            "tags": "ops, kubernetes",
+            "excerpt": "I have run Kubernetes clusters at 4 companies. Two of them needed it. Two of them were running 6 services at 200 RPS in total and could have shipped on a single Hetzner box for €20 a month. The two that needed Kubernetes liked it less than the two that did not. That is not nothing."
+          } },
+        { "id": "post-5", "type": "blog-post", "enabled": true, "order": 4,
+          "props": {
+            "title": "The 10x engineer is real. They are also bad for your team.",
+            "date": "March 3, 2026",
+            "readTime": "10 min read",
+            "tags": "careers, leadership",
+            "excerpt": "I have worked with three people I would call 10x in the literal sense — the kind who ships work in a week that would take the rest of the team a quarter. All three of them left collateral damage that took six months to clean up. None of them shipped that fast in the cleanup phase. We do not talk about the cleanup phase."
+          } }
+      ],
+      "content": { "heading": "Recent pieces.", "subheading": "Five of 47. The rest are in the archive, sorted by which I would still defend in print and which I have quietly walked back." }
+    },
+    {
+      "type": "quotes", "id": "replies-01", "enabled": true, "order": 2, "variant": "two-up",
+      "layout": { "display": "grid", "columns": 2, "gap": "32px", "padding": "88px 24px", "maxWidth": "1080px" },
+      "style": { "background": "#ebe6d6", "color": "#15130d" },
+      "components": [
+        { "id": "r-1", "type": "testimonial", "enabled": true, "order": 0,
+          "props": { "quote": "The microservices piece made me genuinely angry for about 30 minutes. I sent it to my CTO. We are now consolidating four services into one. I still think you are wrong about half of it. Please keep writing.", "author": "Margaux Olsen", "role": "Reader · Senior Engineer · Helsinki", "rating": 5 } },
+        { "id": "r-2", "type": "testimonial", "enabled": true, "order": 1,
+          "props": { "quote": "I have been reading The Slower Path since piece 3. Iain is wrong about Kubernetes. He is right about everything else. The honesty about being wrong on purpose is what keeps me here — most opinion bloggers refuse to admit they have been wrong even once.", "author": "Tomás Ribeiro", "role": "Reader · Staff Engineer · São Paulo", "rating": 5 } },
+        { "id": "r-3", "type": "testimonial", "enabled": true, "order": 2,
+          "props": { "quote": "I do not agree with Iain on TDD or on staff engineers. I read every post anyway. The blog is what tech writing was 12 years ago — argued, specific, willing to lose readers. I have lost two friendships over forwarded posts and gained one job. Net positive.", "author": "Hannelore Brinkmann", "role": "Reader · CTO · Berlin", "rating": 5 } },
+        { "id": "r-4", "type": "testimonial", "enabled": true, "order": 3,
+          "props": { "quote": "The Slower Path replied to a critical email I sent in February with 1,400 words and a list of every place I had a point. I have been a paying subscriber to many newsletters. None of them did that.", "author": "Devesh Krishnan", "role": "Reader · Tech Lead · Mumbai", "rating": 5 } }
+      ],
+      "content": { "heading": "Reader replies, edited only for length.", "subheading": "I publish my favorite responses every 6 weeks. The angry ones are usually the best." }
+    },
+    {
+      "type": "text", "id": "about-01", "enabled": true, "order": 3, "variant": "long-form",
+      "layout": { "display": "flex", "direction": "column", "gap": "20px", "padding": "88px 24px", "maxWidth": "720px" },
+      "style": { "background": "#f4f1ea", "color": "#15130d" },
+      "components": [
+        { "id": "about-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Who writes this.", "level": 2, "size": "36px", "weight": 700 } },
+        { "id": "about-p1", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "Iain MacAlister. 18 years writing software. Glasgow, Scotland. Currently the engineering lead at a 32-person product company I will not name on the website because they did not ask for the publicity. Before that, distributed-systems engineering at three larger companies which all had Kubernetes and which I will also not name. I write here because I have to write somewhere, and the company blog wants me to talk about hiring." } },
+        { "id": "about-p2", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "The Slower Path is free, has no advertising, no Patreon, no sponsorships, and never will. It is a blog. I publish when I have something to say. About once every two weeks. Sometimes once a month. I will tell you when I have been wrong, on the front page, with the original piece left up. That is the only promise the blog makes." } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "contact-form", "id": "contact-01", "enabled": true, "order": 4, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "20px", "padding": "88px 24px", "maxWidth": "720px" },
+      "style": { "background": "#15130d", "color": "#f4f1ea" },
+      "components": [
+        { "id": "form-h", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Tell me I'm wrong.", "level": 2, "size": "44px", "weight": 700 } },
+        { "id": "form-blurb", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "I read every email. I do not reply to every email. The angry ones get answered first. Specifics beat headlines. If you can name the post and the paragraph, I will engage." } },
+        { "id": "form-name", "type": "input", "enabled": true, "order": 2,
+          "props": { "label": "Your name", "placeholder": "First and last", "type": "text", "required": true } },
+        { "id": "form-email", "type": "input", "enabled": true, "order": 3,
+          "props": { "label": "Email", "placeholder": "you@somewhere.com", "type": "email", "required": true } },
+        { "id": "form-which-post", "type": "input", "enabled": true, "order": 4,
+          "props": { "label": "Which post?", "placeholder": "Title or URL", "type": "text", "required": false } },
+        { "id": "form-msg", "type": "input", "enabled": true, "order": 5,
+          "props": { "label": "What I got wrong", "placeholder": "Be specific. Cite paragraphs.", "type": "textarea", "required": true } },
+        { "id": "form-submit", "type": "button", "enabled": true, "order": 6,
+          "props": { "text": "Send to Iain", "url": "#submit", "style": "filled", "size": "lg", "background": "#a8261c", "color": "#f4f1ea" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer", "id": "footer-01", "enabled": true, "order": 5, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "48px 24px", "gap": "12px", "maxWidth": "780px" },
+      "style": { "background": "#15130d", "color": "#f4f1ea" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "The Slower Path · An opinion blog" } },
+        { "id": "tagline", "type": "text", "enabled": true, "order": 1, "props": { "text": "Free, ad-free, never sponsored. Glasgow, Scotland. Since 2021." } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 2, "props": { "text": "© 2026 Iain MacAlister · theslowerpath.dev" } }
+      ],
+      "content": {}
+    }
+  ]
+}

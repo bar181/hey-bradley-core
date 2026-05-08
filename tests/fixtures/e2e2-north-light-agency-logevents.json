@@ -1,0 +1,249 @@
+[
+  {
+    "session_id": "e2e2-northlight-session-01",
+    "request_id": "e2e2-northlight-req-001",
+    "event_type": "intent_classification",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "INTENT_ATOM",
+      "prompt_excerpt": "I run a creative agency called North Light. Build me a site.",
+      "trigger_words": ["agency", "build", "site", "called"],
+      "verb": "add",
+      "target_type": null,
+      "purpose_inference": "agency",
+      "audience_inference": "business",
+      "brand_name_capture": "North Light",
+      "confidence": 0.82
+    },
+    "latency_ms": 180,
+    "created_at": 1714734000000
+  },
+  {
+    "session_id": "e2e2-northlight-session-01",
+    "request_id": "e2e2-northlight-req-001",
+    "event_type": "template_match",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "SELECTION_ATOM",
+      "category": "agency",
+      "matched_template": "b2b-agency",
+      "confidence": 0.82,
+      "default_sections": ["menu", "hero", "columns", "quotes", "action", "footer"]
+    },
+    "latency_ms": 130,
+    "created_at": 1714734000180
+  },
+  {
+    "session_id": "e2e2-northlight-session-01",
+    "request_id": "e2e2-northlight-req-002",
+    "event_type": "patch_validation",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "prompt_excerpt": "Brand colors are #1a3d2e (deep forest), #d4af37 (gold), #f7f4ed (cream), #2c2c2c (charcoal)",
+      "trigger_words": ["brand", "colors", "palette"],
+      "hex_tokens_extracted": ["#1a3d2e", "#d4af37", "#f7f4ed", "#2c2c2c"],
+      "palette_labels": {
+        "#1a3d2e": "deep forest",
+        "#d4af37": "gold",
+        "#f7f4ed": "cream",
+        "#2c2c2c": "charcoal"
+      },
+      "patches": [
+        { "path": "/theme/palette/bgPrimary", "value": "#1a3d2e" },
+        { "path": "/theme/palette/bgSecondary", "value": "#2c2c2c" },
+        { "path": "/theme/palette/textPrimary", "value": "#f7f4ed" },
+        { "path": "/theme/palette/textSecondary", "value": "#cdd6c8" },
+        { "path": "/theme/palette/accentPrimary", "value": "#d4af37" },
+        { "path": "/theme/palette/accentSecondary", "value": "#f7f4ed" },
+        { "path": "/theme/preset", "value": "elegant" },
+        { "path": "/theme/mode", "value": "dark" }
+      ]
+    },
+    "latency_ms": 280,
+    "created_at": 1714734009000
+  },
+  {
+    "session_id": "e2e2-northlight-session-01",
+    "request_id": "e2e2-northlight-req-003",
+    "event_type": "intent_classification",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "INTENT_ATOM",
+      "prompt_excerpt": "Voice should sound like Wes Anderson narration — specific, slightly dry, almost over-precise",
+      "trigger_words": ["voice", "tone", "sound like"],
+      "verb": "change",
+      "target_type": "text",
+      "voice_reference": "Wes Anderson narration",
+      "voice_adjectives_normalized": ["specific", "dry", "precise"],
+      "patches": [
+        { "path": "/site/voiceAttributes", "value": ["specific", "dry", "precise"] }
+      ]
+    },
+    "latency_ms": 220,
+    "created_at": 1714734018000
+  },
+  {
+    "session_id": "e2e2-northlight-session-01",
+    "request_id": "e2e2-northlight-req-004",
+    "event_type": "patch_validation",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "prompt_excerpt": "Here's our tagline: 'Lit by north windows. Built by daylight.'",
+      "trigger_words": ["tagline", "brand"],
+      "verbatim_capture": "Lit by north windows. Built by daylight.",
+      "patches": [
+        { "path": "/site/tagline", "value": "Lit by north windows. Built by daylight." }
+      ]
+    },
+    "latency_ms": 130,
+    "created_at": 1714734025000
+  },
+  {
+    "session_id": "e2e2-northlight-session-01",
+    "request_id": "e2e2-northlight-req-005",
+    "event_type": "intent_classification",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "INTENT_ATOM",
+      "prompt_excerpt": "Hero copy: 'We make brands that age well.'",
+      "trigger_words": ["hero", "copy"],
+      "verb": "change",
+      "target_type": "hero",
+      "target_index": 1,
+      "verbatim_capture": "We make brands that age well.",
+      "voice_inheritance": ["specific", "dry", "precise"],
+      "patches": [
+        { "path": "/sections/1/components/1/props/text", "value": "We make brands that age well." },
+        { "path": "/sections/1/components/2/props/text", "value": "North Light Studio works with founders who care about how their brand reads in 10 years. We've been at this since 2017 — eight years, 47 brands, three of which still exist." },
+        { "path": "/sections/1/components/0/props/text", "value": "A four-person studio · Vancouver · Est. 2017" }
+      ]
+    },
+    "latency_ms": 920,
+    "created_at": 1714734033000
+  },
+  {
+    "session_id": "e2e2-northlight-session-01",
+    "request_id": "e2e2-northlight-req-006",
+    "event_type": "intent_classification",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "INTENT_ATOM",
+      "prompt_excerpt": "About copy: 'North Light Studio is a four-person creative agency in Vancouver. We work with founders who care about how their brand reads in 10 years.'",
+      "trigger_words": ["about", "copy"],
+      "verb": "add",
+      "target_type": "text",
+      "target_section_role": "about",
+      "verbatim_capture": "North Light Studio is a four-person creative agency in Vancouver. We work with founders who care about how their brand reads in 10 years.",
+      "voice_inheritance": ["specific", "dry", "precise"],
+      "patches": [
+        { "path": "/sections/insertAt/1", "value": { "type": "text", "id": "about-01", "variant": "two-column" } }
+      ]
+    },
+    "latency_ms": 1080,
+    "created_at": 1714734043000
+  },
+  {
+    "session_id": "e2e2-northlight-session-01",
+    "request_id": "e2e2-northlight-req-007",
+    "event_type": "decomp_split",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "DECOMP_ATOM",
+      "prompt_excerpt": "Add 3 case-study tiles for our recent clients: Kenji Coffee (rebrand), Margot Press (book design), Lattice Lighting (ecom)",
+      "trigger_words": ["add", "case-study", "tiles", "clients"],
+      "split_strategy": "comma-list-with-parenthetical-type",
+      "todos": [
+        { "client": "Kenji Coffee", "project_type": "rebrand", "confidence": 0.92 },
+        { "client": "Margot Press", "project_type": "book design", "confidence": 0.92 },
+        { "client": "Lattice Lighting", "project_type": "ecom", "confidence": 0.92 }
+      ]
+    },
+    "latency_ms": 120,
+    "created_at": 1714734055000
+  },
+  {
+    "session_id": "e2e2-northlight-session-01",
+    "request_id": "e2e2-northlight-req-007",
+    "event_type": "patch_validation",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "verb": "add",
+      "target_type": "case-study",
+      "voice_inheritance": ["specific", "dry", "precise"],
+      "patches": [
+        { "path": "/sections/insertAt/3", "value": { "type": "case-study", "id": "case-studies-01", "variant": "tile-grid", "components": "3 case-study-cards (Kenji Coffee / Margot Press / Lattice Lighting)" } }
+      ]
+    },
+    "latency_ms": 1980,
+    "created_at": 1714734055120
+  },
+  {
+    "session_id": "e2e2-northlight-session-01",
+    "request_id": "e2e2-northlight-req-008",
+    "event_type": "intent_classification",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "INTENT_ATOM",
+      "prompt_excerpt": "Add a contact form with 'Let's talk' headline",
+      "trigger_words": ["add", "contact", "form", "headline"],
+      "verb": "add",
+      "target_type": "contact-form",
+      "verbatim_capture": "Let's talk",
+      "voice_inheritance": ["specific", "dry", "precise"],
+      "patches": [
+        { "path": "/sections/insertAt/6", "value": { "type": "contact-form", "id": "contact-01", "variant": "simple", "headline": "Let's talk." } }
+      ]
+    },
+    "latency_ms": 1180,
+    "created_at": 1714734078000
+  },
+  {
+    "session_id": "e2e2-northlight-session-01",
+    "request_id": "e2e2-northlight-req-009",
+    "event_type": "patch_validation",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "PATCH_ATOM",
+      "prompt_excerpt": "Make the hero use the deep forest as the background, gold as the accent",
+      "trigger_words": ["make", "hero", "background", "accent"],
+      "verb": "change",
+      "target_type": "hero",
+      "target_index": 1,
+      "color_name_resolution": {
+        "deep forest": "#1a3d2e",
+        "gold": "#d4af37"
+      },
+      "patches": [
+        { "path": "/sections/1/style/background", "value": "#1a3d2e" },
+        { "path": "/sections/1/components/3/props/background", "value": "#d4af37" },
+        { "path": "/sections/1/components/3/props/color", "value": "#1a3d2e" }
+      ]
+    },
+    "latency_ms": 240,
+    "created_at": 1714734091000
+  },
+  {
+    "session_id": "e2e2-northlight-session-01",
+    "request_id": "e2e2-northlight-req-009",
+    "event_type": "response_summary",
+    "input_type": "chat",
+    "event_data": {
+      "atom": "PROCESS",
+      "summary": "Site complete: 9 sections (menu/hero/text/columns/case-study/quotes/team/contact-form/footer) · brand-context accumulator persisted via log_events · voice 'specific/dry/precise' applied to 4 CONTENT regen calls",
+      "total_prompts": 9,
+      "total_latency_ms": 6330,
+      "atom_path_distribution": {
+        "INTENT_only_or_PATCH_only": 4,
+        "INTENT_to_CONTENT": 4,
+        "INTENT_to_DECOMP_to_CONTENT": 1
+      },
+      "section_count_final": 9,
+      "voice_attributes_final": ["specific", "dry", "precise"]
+    },
+    "latency_ms": 60,
+    "created_at": 1714734091240
+  }
+]

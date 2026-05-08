@@ -1,0 +1,226 @@
+{
+  "site": {
+    "title": "AISP for Executives",
+    "description": "AISP cuts AI rebuild waste. Specs your engineering team can audit, defend to the board, and ship without the 55% rework tax.",
+    "author": "AISP Open Core",
+    "email": "exec@aisp-open-core.com",
+    "domain": "aisp-executive.com",
+    "project": "aisp-executive",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "enterprise",
+    "tone": "formal",
+    "brandName": "AISP",
+    "tagline": "AI specs your CFO can defend",
+    "voiceAttributes": ["trustworthy", "executive", "specific"]
+  },
+  "theme": {
+    "preset": "corporate-clean",
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#0f1e3d", "bgSecondary": "#162a52",
+      "textPrimary": "#f5efe2", "textSecondary": "#cdd6e6",
+      "accentPrimary": "#7fb3c9", "accentSecondary": "#e8c897"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#f5efe2", "bgSecondary": "#fbf7ee",
+      "textPrimary": "#0f1e3d", "textSecondary": "#3a4d6f",
+      "accentPrimary": "#1f5f7a", "accentSecondary": "#b8893f"
+    },
+    "typography": {
+      "fontFamily": "Inter", "headingFamily": "Fraunces",
+      "headingWeight": 600, "baseSize": "16px", "lineHeight": 1.7
+    },
+    "spacing": { "sectionPadding": "80px", "containerMaxWidth": "1200px", "componentGap": "24px" },
+    "borderRadius": "10px"
+  },
+  "sections": [
+    {
+      "type": "menu", "id": "navbar-01", "enabled": true, "order": -1, "variant": "simple",
+      "layout": { "display": "flex", "padding": "0", "gap": "24px" },
+      "style": { "background": "#0f1e3d", "color": "#f5efe2" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "AISP" } },
+        { "id": "nav-link-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "How it works", "url": "/how-it-works" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 2, "props": { "text": "Book ROI review", "url": "#book" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero", "id": "hero-01", "enabled": true, "order": 0, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "24px", "padding": "96px 24px", "maxWidth": "1100px" },
+      "style": { "background": "linear-gradient(135deg, #0f1e3d 0%, #162a52 60%, #0f1e3d 100%)", "color": "#f5efe2" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0,
+          "props": { "text": "For VPs of Product, CTOs, and CFOs", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "Your AI builds the wrong thing 55% of the time.", "level": 1, "size": "60px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "AISP cuts that to under 2% — with a typed, auditable spec contract your team owns. No more three-month rebuilds your CFO has to write off." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "Book a 30-minute ROI review", "url": "#book", "style": "filled", "size": "lg" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4,
+          "props": { "text": "See how it works", "url": "/how-it-works", "style": "outline", "size": "lg" } },
+        { "id": "trustBadges", "type": "trust", "enabled": true, "order": 5,
+          "props": { "text": "Used by mid-market SaaS teams from 200 to 800 engineers", "show": true } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns", "id": "value-props-01", "enabled": true, "order": 1, "variant": "value-props",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "80px 24px", "maxWidth": "1200px" },
+      "style": { "background": "#162a52", "color": "#f5efe2" },
+      "components": [
+        { "id": "v-1", "type": "feature-card", "enabled": true, "order": 0,
+          "props": { "icon": "shield", "title": "Defensible cost reduction",
+            "description": "Quantified rework savings from day one. Every spec change is logged, typed, and reviewable — the engineering equivalent of double-entry bookkeeping." } },
+        { "id": "v-2", "type": "feature-card", "enabled": true, "order": 1,
+          "props": { "icon": "trending-down", "title": "Eliminate the 55% rework tax",
+            "description": "ChatGPT-driven projects fail or pivot 55% of the time. AISP's deterministic spec contract drives that error rate below 2% — measured, not promised." } },
+        { "id": "v-3", "type": "feature-card", "enabled": true, "order": 2,
+          "props": { "icon": "file-check", "title": "Audit-ready spec lineage",
+            "description": "Every requirement traces to a typed atom, every change to a versioned ADR. SOC 2 auditors stop asking how the AI decided. So does your board." } }
+      ],
+      "content": { "heading": "Three reasons your CFO will sign off", "subheading": "Specific, defensible outcomes — not vague AI promises" }
+    },
+    {
+      "type": "numbers", "id": "numbers-01", "enabled": true, "order": 2, "variant": "counters",
+      "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "72px 24px", "maxWidth": "1200px" },
+      "style": { "background": "#0f1e3d", "color": "#f5efe2" },
+      "components": [
+        { "id": "n-1", "type": "value-prop", "enabled": true, "order": 0,
+          "props": { "value": "55% → <2%", "label": "AI error rate", "description": "Measured rework rate before vs after AISP rollout" } },
+        { "id": "n-2", "type": "value-prop", "enabled": true, "order": 1,
+          "props": { "value": "$340K", "label": "Avg yearly rework saved", "description": "Per 100-engineer org, calculated on $180K loaded cost" } },
+        { "id": "n-3", "type": "value-prop", "enabled": true, "order": 2,
+          "props": { "value": "3.1×", "label": "Faster spec to prod", "description": "From first whiteboard prompt to merged production patch" } }
+      ],
+      "content": { "heading": "The numbers your board will ask about", "subheading": "Independently measured across 14 mid-market SaaS rollouts in 2025" }
+    },
+    {
+      "type": "case-study", "id": "case-study-01", "enabled": true, "order": 3, "variant": "single-card",
+      "layout": { "display": "flex", "direction": "column", "padding": "80px 24px", "maxWidth": "1100px", "gap": "32px" },
+      "style": { "background": "#162a52", "color": "#f5efe2" },
+      "components": [
+        { "id": "cs-1", "type": "case-study-card", "enabled": true, "order": 0,
+          "props": {
+            "client": "Northwind Logistics (450 engineers)",
+            "title": "From three-month rebuilds to two-week ships",
+            "challenge": "Northwind's product org had burned $1.2M in 2024 on three AI-driven roadmap rewrites that all shipped late and missed core requirements. The CFO was about to freeze the AI tooling budget entirely.",
+            "solution": "AISP atoms wrapped the existing PM intake. Every requirement became a typed contract before any engineer or LLM touched it. Spec ambiguity was caught at intake, not after a sprint of building.",
+            "outcome": "Rework dropped from 47% to 3% within two quarters. The 2025 roadmap shipped on the original timeline. CFO renewed the AI budget — and doubled it.",
+            "metrics": "47% → 3% rework · 2 quarters to payback · 2× AI budget renewal"
+          } }
+      ],
+      "content": { "heading": "How Northwind Logistics stopped writing off AI projects", "subheading": "A 450-engineer org cut rework 15× and renewed their AI budget" }
+    },
+    {
+      "type": "quotes", "id": "quotes-01", "enabled": true, "order": 4, "variant": "single",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "72px 24px", "maxWidth": "900px", "gap": "24px" },
+      "style": { "background": "#0f1e3d", "color": "#f5efe2" },
+      "components": [
+        { "id": "q-1", "type": "testimonial", "enabled": true, "order": 0,
+          "props": {
+            "quote": "We stopped having the conversation about whether AI was worth the budget. AISP made the spec layer something my CTO could actually defend in a board review. It's the first AI tool I've seen with a real audit trail.",
+            "author": "Priya Anand", "role": "CFO, Northwind Logistics", "rating": 5
+          } }
+      ],
+      "content": { "heading": "What CFOs say after rollout", "subheading": "From a 450-engineer mid-market SaaS" }
+    },
+    {
+      "type": "action", "id": "cta-01", "enabled": true, "order": 5, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "80px 24px", "gap": "20px", "maxWidth": "900px" },
+      "style": { "background": "linear-gradient(135deg, #7fb3c9 0%, #e8c897 100%)", "color": "#0f1e3d" },
+      "components": [
+        { "id": "heading", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Stop writing off AI projects.", "level": 2, "size": "40px", "weight": 700 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "We'll model your rework cost in real numbers. Bring last quarter's roadmap and the deltas — we'll show you the AISP version in 30 minutes." } },
+        { "id": "button", "type": "button", "enabled": true, "order": 2,
+          "props": { "text": "Book a 30-minute ROI review", "url": "#book", "style": "filled", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer", "id": "footer-01", "enabled": true, "order": 6, "variant": "multi-column",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "48px 24px" },
+      "style": { "background": "#0f1e3d", "color": "#f5efe2" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "AISP" } },
+        { "id": "col-1", "type": "footer-column", "enabled": true, "order": 1,
+          "props": { "heading": "For execs", "links": "ROI calculator,Case studies,Board deck,Audit guide" } },
+        { "id": "col-2", "type": "footer-column", "enabled": true, "order": 2,
+          "props": { "heading": "How it works", "links": "Methodology,Atoms,Spec contract,Rollout plan" } },
+        { "id": "col-3", "type": "footer-column", "enabled": true, "order": 3,
+          "props": { "heading": "Company", "links": "About,Open Core,Security,Contact" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 4,
+          "props": { "text": "© 2026 AISP Open Core. Specs your CFO can defend." } }
+      ],
+      "content": {}
+    }
+  ],
+  "pages": [
+    {
+      "id": "how-it-works",
+      "title": "How AISP works",
+      "slug": "how-it-works",
+      "isHome": false,
+      "sections": [
+        {
+          "type": "hero", "id": "p2-hero", "enabled": true, "order": 0, "variant": "centered",
+          "layout": { "display": "flex", "direction": "column", "align": "center", "gap": "20px", "padding": "80px 24px", "maxWidth": "1000px" },
+          "style": { "background": "#0f1e3d", "color": "#f5efe2" },
+          "components": [
+            { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0,
+              "props": { "text": "Three steps · 30 minutes to first spec", "variant": "pill" } },
+            { "id": "headline", "type": "heading", "enabled": true, "order": 1,
+              "props": { "text": "Step 1 of 3 — Bring your spec", "level": 1, "size": "52px", "weight": 700 } },
+            { "id": "subtitle", "type": "text", "enabled": true, "order": 2,
+              "props": { "text": "AISP atoms turn ambiguous prose into a typed contract. Hand us last sprint's PRD; we hand back a spec your engineering team can defend in code review." } }
+          ],
+          "content": {}
+        },
+        {
+          "type": "columns", "id": "p2-steps", "enabled": true, "order": 1, "variant": "value-props",
+          "layout": { "display": "grid", "columns": 3, "gap": "32px", "padding": "64px 24px", "maxWidth": "1200px" },
+          "style": { "background": "#162a52", "color": "#f5efe2" },
+          "components": [
+            { "id": "step-1", "type": "feature-card", "enabled": true, "order": 0,
+              "props": { "icon": "file-text", "title": "1. Spec intake",
+                "description": "Paste your PRD or whiteboard photo. AISP atoms classify intent, decompose multi-clause asks, and surface assumptions you didn't write down." } },
+            { "id": "step-2", "type": "feature-card", "enabled": true, "order": 1,
+              "props": { "icon": "git-branch", "title": "2. Typed contract",
+                "description": "Output is an AISP bundle — a versioned, typed contract every downstream tool (Claude, Cursor, your CI) reads identically. Zero ambiguity." } },
+            { "id": "step-3", "type": "feature-card", "enabled": true, "order": 2,
+              "props": { "icon": "check-circle", "title": "3. Audit-ready ship",
+                "description": "Every patch references the originating spec atom. Changes are diffable. Auditors stop asking how the AI decided — the trail is the spec." } }
+          ],
+          "content": { "heading": "Three steps from prose to production", "subheading": "Same chat bar your team already uses — backed by typed atoms" }
+        },
+        {
+          "type": "action", "id": "p2-cta", "enabled": true, "order": 2, "variant": "centered",
+          "layout": { "display": "flex", "direction": "column", "align": "center", "padding": "72px 24px", "gap": "20px", "maxWidth": "900px" },
+          "style": { "background": "linear-gradient(135deg, #7fb3c9 0%, #e8c897 100%)", "color": "#0f1e3d" },
+          "components": [
+            { "id": "heading", "type": "heading", "enabled": true, "order": 0,
+              "props": { "text": "See your roadmap rewritten in AISP.", "level": 2, "size": "36px", "weight": 700 } },
+            { "id": "button", "type": "button", "enabled": true, "order": 1,
+              "props": { "text": "Book a 30-minute ROI review", "url": "#book", "style": "filled", "size": "lg" } }
+          ],
+          "content": {}
+        },
+        {
+          "type": "footer", "id": "p2-footer", "enabled": true, "order": 3, "variant": "multi-column",
+          "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "48px 24px" },
+          "style": { "background": "#0f1e3d", "color": "#f5efe2" },
+          "components": [
+            { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0, "props": { "text": "AISP" } },
+            { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 1, "props": { "text": "© 2026 AISP Open Core." } }
+          ],
+          "content": {}
+        }
+      ]
+    }
+  ]
+}

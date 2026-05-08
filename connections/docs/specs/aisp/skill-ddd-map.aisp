@@ -1,0 +1,63 @@
+# Crystal Atom: DDD_MAP_SKILL
+# Date: 2026-05-04 · Phase: Connections P3 (Spec)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Silver (δ ≥ 0.40); Ambig < 0.05
+
+⟦
+  Ω := { Run DDD_ATOM over project description or .heybradley/spec.aisp; emit bounded contexts + relationships as markdown (informational; no spec mutation) }
+  Σ := {
+    Input:{
+      source:{type∈{description, spec_id}, value:𝕊}
+    },
+    Output:{
+      contexts:BoundedContext[],
+      relationships:Relationship[],
+      markdown:𝕊
+    },
+    BoundedContext:{
+      id:𝕊,
+      name:𝕊,
+      responsibility:𝕊,
+      relatedPhaseIds:𝕊[]
+    },
+    Relationship:{
+      from:𝕊,
+      to:𝕊,
+      kind∈{partnership, customer-supplier, conformist, anti-corruption-layer}
+    },
+    Errors:{
+      ESourceMissing,
+      EMcpUnavailable,
+      ENoContextsFound,
+      EOrphanRelationship
+    }
+  }
+  Γ := {
+    R1: |contexts| ≤ 8 (per DDD_ATOM Γ R1, ADR-119),
+    R2: ∀ context : context.responsibility.length ≥ 1,
+    R3: ∀ context.id : unique within output,
+    R4: ∀ relationship : relationship.kind ∈ 4-kind enum,
+    R5: ∀ relationship : (from, to) reference declared context.id,
+    R6: |markdown| ≤ 200 lines (fits stdout without file write)
+  }
+  Λ := {
+    timeout := 10s,
+    fallback := MCP unavailable ⇒ rules-only classifier (LLM enrichment inert at v0.1.0),
+    confidence_threshold := 0.70,
+    mcp_tool := get_ddd (per ADR-C04),
+    output_target := stdout (markdown text)
+  }
+  Ε := {
+    V1: VERIFY ∀ relationship : from ∈ contexts.id ∧ to ∈ contexts.id,
+    V2: VERIFY ∀ relationship.kind ∈ {partnership, customer-supplier, conformist, anti-corruption-layer},
+    V3: VERIFY |contexts| ≤ 8,
+    V4: VERIFY anti-corruption-layer kinds note cross-domain boundary in markdown,
+    V5: VERIFY no shared mutable state implied between contexts
+  }
+⟧
+
+# Cross-refs:
+# - ADR-C02 §D4 (skill content strategy — /ddd-map does/does-not contract)
+# - ADR-C04 (MCP tool get_ddd)
+# - ADR-119 (DDD_ATOM — 7th Crystal Atom; verbatim Σ/Γ/Λ/Ε contract)
+# - ADR-118 (PROCESS_ATOM — sibling atom; time-axis vs domain-axis boundary)

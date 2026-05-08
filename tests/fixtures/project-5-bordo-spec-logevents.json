@@ -1,0 +1,210 @@
+[
+  {
+    "session_id": "project-5-bordo-spec-session-01",
+    "request_id": "project-5-bordo-req-001",
+    "event_type": "process_atom_output",
+    "event_data": {
+      "atom": "PROCESS_ATOM",
+      "prompt_excerpt": "Decompose Bordo — inventory + fulfillment for indie wineries — into phases and sprints",
+      "phases_count": 5,
+      "sprints_count": 10,
+      "phases": [
+        { "id": "foundation", "name": "Foundation", "position": 0, "status": "planned" },
+        { "id": "inventory", "name": "Inventory", "position": 1, "status": "planned" },
+        { "id": "orders", "name": "Orders", "position": 2, "status": "planned" },
+        { "id": "fulfillment", "name": "Fulfillment", "position": 3, "status": "planned" },
+        { "id": "reporting", "name": "Reporting", "position": 4, "status": "planned" }
+      ],
+      "rationale": "5 sequential phases at Γ R1 cap. Sprint count per phase = 2 (under R2 cap of 4). Domain-specific names overrode generic Foundation/Build/Polish fallback because vocabulary matched recipe map.",
+      "highlight": "5 phases · 10 sprints · domain-named (foundation/inventory/orders/fulfillment/reporting); within all Γ caps"
+    },
+    "latency_ms": 312,
+    "created_at": 1714723200000
+  },
+  {
+    "session_id": "project-5-bordo-spec-session-01",
+    "request_id": "project-5-bordo-req-002",
+    "event_type": "ddd_atom_output",
+    "event_data": {
+      "atom": "DDD_ATOM",
+      "prompt_excerpt": "Identify bounded contexts: Inventory / Orders / Fulfillment / Producer-Profile / Reporting",
+      "contexts_count": 5,
+      "relationships_count": 5,
+      "contexts": [
+        { "id": "inventory", "name": "InventoryContext", "responsibility": "wine SKU master + lot tracking + on-hand quantity" },
+        { "id": "orders", "name": "OrdersContext", "responsibility": "order intake + line items + status lifecycle" },
+        { "id": "fulfillment", "name": "FulfillmentContext", "responsibility": "pick/pack/ship workflow + carrier handoff" },
+        { "id": "producer-profile", "name": "ProducerProfileContext", "responsibility": "winery identity + branding + tax + license metadata" },
+        { "id": "reporting", "name": "ReportingContext", "responsibility": "read-side projections, never mutates upstream state" }
+      ],
+      "relationships": [
+        { "from": "orders", "to": "inventory", "kind": "customer-supplier" },
+        { "from": "fulfillment", "to": "orders", "kind": "customer-supplier" },
+        { "from": "reporting", "to": "inventory", "kind": "anti-corruption-layer" },
+        { "from": "reporting", "to": "orders", "kind": "anti-corruption-layer" },
+        { "from": "producer-profile", "to": "inventory", "kind": "partnership" }
+      ],
+      "rationale": "5 bounded contexts (under Γ R1 cap of 8). Anti-corruption-layer between reporting and write contexts prevents schema drift from leaking into transactional code. Producer-profile is partnership rather than customer-supplier because neither side owns the relationship lifecycle — it is metadata reference.",
+      "highlight": "5 contexts · 5 relationships · ACL pattern between reporting and write contexts"
+    },
+    "latency_ms": 188,
+    "created_at": 1714723200312
+  },
+  {
+    "session_id": "project-5-bordo-spec-session-01",
+    "request_id": "project-5-bordo-req-003",
+    "event_type": "intent_classification",
+    "event_data": {
+      "verb": "scope",
+      "target": "agents",
+      "confidence": 0.94,
+      "atom": "INTENT_ATOM",
+      "route": "PLANNING",
+      "input_length_chars": 92,
+      "prompt_excerpt": "Scope agents per wave: Wave 1 schema + repo; Wave 2 inventory atom; Wave 3 fulfillment + reporting",
+      "highlight": "Multi-clause prompt detected; routing to DECOMP for wave split before AGENT_ATOM dispatch"
+    },
+    "latency_ms": 87,
+    "created_at": 1714723200500
+  },
+  {
+    "session_id": "project-5-bordo-spec-session-01",
+    "request_id": "project-5-bordo-req-003",
+    "event_type": "decomp_split",
+    "event_data": {
+      "atom": "DECOMP_ATOM",
+      "todos_count": 3,
+      "confidence": 0.92,
+      "todos": [
+        { "kind": "scope-wave", "scope": "wave-1", "target": "schema-design + repo-layer + test-coverage + closer-docs" },
+        { "kind": "scope-wave", "scope": "wave-2", "target": "inventory-atom + ui-component + closer-docs" },
+        { "kind": "scope-wave", "scope": "wave-3", "target": "fulfillment-atom + reporting-atom + ui-component + closer-docs" }
+      ],
+      "highlight": "3 waves split; route gate fired (≥0.7); 3 sequential AGENT_ATOM invocations dispatched"
+    },
+    "latency_ms": 121,
+    "created_at": 1714723200587
+  },
+  {
+    "session_id": "project-5-bordo-spec-session-01",
+    "request_id": "project-5-bordo-req-003",
+    "event_type": "process_atom_output",
+    "event_data": {
+      "atom": "AGENT_ATOM",
+      "wave_id": "wave-1",
+      "agents_count": 4,
+      "agents": [
+        { "id": "wave-1-a1", "role": "schema-design", "ownedFiles": ["src/contexts/persistence/migrations/wave-1-schema.sql"], "dod_count": 3 },
+        { "id": "wave-1-a2", "role": "repo-layer", "ownedFiles": ["src/contexts/persistence/repositories/inventoryRepo.ts", "src/contexts/persistence/repositories/ordersRepo.ts", "src/contexts/persistence/repositories/fulfillmentRepo.ts", "src/contexts/persistence/repositories/producerProfileRepo.ts"], "dod_count": 3 },
+        { "id": "wave-1-a3", "role": "test-coverage", "ownedFiles": ["tests/wave-1.spec.ts"], "dod_count": 3 },
+        { "id": "wave-1-a4", "role": "closer-docs", "ownedFiles": ["plans/implementation/wave-1/session-log.md", "plans/implementation/wave-1/retrospective.md"], "dod_count": 3 }
+      ],
+      "rationale": "Wave 1 = 4 agents (under Γ R1 cap of 7). Disjoint ownedFiles verified per Ε V1: SQL / TS-repo / TS-test / planning-md — no overlap. Roles unique per Ε V3. Each DoD ≥1 per Ε V2. Roles match KEBAB_RE per Γ R4.",
+      "highlight": "Wave 1: 4 agents (schema-design, repo-layer, test-coverage, closer-docs); disjoint ownedFiles verified"
+    },
+    "latency_ms": 404,
+    "created_at": 1714723200708
+  },
+  {
+    "session_id": "project-5-bordo-spec-session-01",
+    "request_id": "project-5-bordo-req-004",
+    "event_type": "response_summary",
+    "event_data": {
+      "kind": "tdd-scaffold",
+      "phase_id": "wave-1",
+      "phase_name": "Wave 1 inventory schema",
+      "test_cases_count": 18,
+      "coverage": {
+        "aisp_sigma": 1,
+        "ddd_context": 5,
+        "agent_dod": 12,
+        "phase_gate": 0
+      },
+      "cap": 30,
+      "prompt_excerpt": "Generate TDD scaffold for Wave 1 inventory schema — 3 cases per agent",
+      "sample_cases": [
+        { "id": "ddd-inventory-01", "given": "the bounded context InventoryContext", "when": "it handles its responsibility", "then": "wine SKU master + lot tracking + on-hand quantity", "derivedFrom": "DDD-context" },
+        { "id": "agent-wave-1-a1-01", "given": "agent schema-design (wave-1-a1) is dispatched", "when": "the wave seals", "then": "the DoD item is met: RLS policies present", "derivedFrom": "AGENT-DoD" },
+        { "id": "agent-wave-1-a3-08", "given": "agent test-coverage (wave-1-a3) is dispatched", "when": "the wave seals", "then": "the DoD item is met: all describes GREEN", "derivedFrom": "AGENT-DoD" }
+      ],
+      "highlight": "18 cases generated (cap 30); 1 AISP-Σ + 5 DDD + 12 AGENT-DoD; 0 phase-gate (wave-level scaffold)"
+    },
+    "latency_ms": 94,
+    "created_at": 1714723201112
+  },
+  {
+    "session_id": "project-5-bordo-spec-session-01",
+    "request_id": "project-5-bordo-req-005",
+    "event_type": "response_summary",
+    "event_data": {
+      "kind": "kiss-review",
+      "phase_id": "wave-1",
+      "phase_name": "Wave 1",
+      "verdict": "PASS",
+      "summary": { "p1": 0, "p2": 1, "p3": 0, "total": 1 },
+      "categories": {
+        "no-new-deps": { "findings": 0, "status": "clean" },
+        "loc-cap": { "findings": 1, "status": "P2", "detail": "Agent wave-1-a2 owns 4 files; threshold > 3. Recommendation: split A2a/A2b at Wave 2 if drift exceeds 300-LOC pure-module cap." },
+        "no-hardcode": { "findings": 0, "status": "clean" },
+        "gate-conditions": { "findings": 0, "status": "clean" },
+        "aisp-sigma": { "findings": 0, "status": "clean" },
+        "scope-creep": { "findings": 0, "status": "clean" }
+      },
+      "prompt_excerpt": "Run KISS review across all sprints. Flag any LOC-cap risks.",
+      "highlight": "0 P1 / 1 P2 / 0 P3 — Verdict: PASS. Single P2 on A2 repo-layer file count; not a Wave 1 blocker."
+    },
+    "latency_ms": 73,
+    "created_at": 1714723201206
+  },
+  {
+    "session_id": "project-5-bordo-spec-session-01",
+    "request_id": "project-5-bordo-req-006",
+    "event_type": "export_emit",
+    "event_data": {
+      "atom": "EXPORT_CLAUDE_CODE",
+      "phase_id": "wave-1",
+      "format": "markdown-bundle",
+      "logical_files_count": 8,
+      "logical_files": [
+        "CLAUDE.md",
+        "process-map.md",
+        "human-spec/north-star.md",
+        "human-spec/sadd.md",
+        "human-spec/implementation-plan.md",
+        "aisp/wave-1-aisp.md",
+        "adrs/ADR-118-119-120-128-129-130.md",
+        "agents/wave-1.md"
+      ],
+      "file_marker_pattern": "# === FILE: <path> ===",
+      "bundle_size_bytes": 14820,
+      "seal_fired": true,
+      "eop_triplet": {
+        "post_review_chars": 612,
+        "session_log_chars": 488,
+        "retrospective_chars": 412
+      },
+      "prompt_excerpt": "Seal Wave 1 with EOP triplet and export the Claude Code bundle",
+      "highlight": "SealPanel fired; EOP triplet rendered; markdown bundle (8 logical files; 14820 bytes) emitted via Blob"
+    },
+    "latency_ms": 41,
+    "created_at": 1714723201279
+  },
+  {
+    "id": "project-5-bordo-todo-exec-001",
+    "session_id": "project-5-bordo-spec-session-01",
+    "request_id": "project-5-bordo-req-008",
+    "event_type": "todo_execution",
+    "event_data": {
+      "atom": "DECOMP_TODO_EXECUTOR",
+      "todo_order": 1,
+      "verb": "decompose",
+      "target": "wave",
+      "status": "applied",
+      "patches_count": 0,
+      "agents_emitted": 4,
+      "highlight": "Wave 2 AGENT_ATOM emitted 4 disjoint-ownedFile agents from Phase 3 sprint scope"
+    },
+    "latency_ms": 220,
+    "created_at": 1714723220000
+  }
+]

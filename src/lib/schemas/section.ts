@@ -6,9 +6,68 @@ export const sectionTypeSchema = z.enum([
   'hero', 'menu', 'columns', 'pricing', 'action', 'footer',
   'quotes', 'questions', 'numbers', 'gallery', 'logos', 'team',
   'image', 'divider', 'text', 'blog',
+  // P75 / OC-7 / Agent A1 — 2 new section types (case-study, contact-form).
+  // ADR-099+ candidate; total = 18.
+  'case-study', 'contact-form',
 ])
 
 export type SectionType = z.infer<typeof sectionTypeSchema>
+
+// ---------------------------------------------------------------------------
+// P104 / SCHEMA-GUARDS — runtime alias-aware section-type guard
+// ---------------------------------------------------------------------------
+// SIDE-CAR helper to sectionTypeSchema (Zod). The Zod schema remains the
+// strict source of truth for MasterConfig validation. This helper exists for
+// JSON-load / user-facing-input call sites that want a friendly remap of
+// common section-type aliases (e.g. 'article' → 'text', 'testimonial' →
+// 'quotes') surfaced by the E2E-TEST-2 trigger-word taxonomy.
+//
+// Design contract: NEVER throws; warns + returns null on truly unknown types.
+// Callers may opt in; opting out preserves strict Zod semantics unchanged.
+
+/** 18 valid section types per ADR-100. Mirrors sectionTypeSchema enum. */
+export const VALID_SECTION_TYPES = [
+  'hero', 'menu', 'columns', 'pricing', 'action', 'footer',
+  'quotes', 'questions', 'numbers', 'gallery', 'logos', 'team',
+  'image', 'divider', 'text', 'blog', 'case-study', 'contact-form',
+] as const
+
+export type ValidSectionType = typeof VALID_SECTION_TYPES[number]
+
+/** Common alias map — return canonical type or null. Surfaced by E2E-TEST-2. */
+export function validateSectionType(t: string): ValidSectionType | null {
+  if ((VALID_SECTION_TYPES as readonly string[]).includes(t)) {
+    return t as ValidSectionType
+  }
+  // Known aliases — surfaced by E2E-TEST-2 trigger-word taxonomy
+  const aliases: Record<string, ValidSectionType> = {
+    article: 'text',
+    'long-form': 'text',
+    testimonial: 'quotes',
+    testimonials: 'quotes',
+    'pull-quote': 'quotes',
+    nav: 'menu',
+    navigation: 'menu',
+    cta: 'action',
+    faq: 'questions',
+    stats: 'numbers',
+    'case study': 'case-study',
+    'success story': 'case-study',
+    'contact form': 'contact-form',
+    'contact us': 'contact-form',
+    'get in touch': 'contact-form',
+  }
+  if (aliases[t]) {
+    if (typeof console !== 'undefined') {
+      console.warn(`[validateSectionType] alias remap: ${t} → ${aliases[t]}`)
+    }
+    return aliases[t]
+  }
+  if (typeof console !== 'undefined') {
+    console.warn(`[validateSectionType] unknown section type: ${t}`)
+  }
+  return null
+}
 
 // ---------------------------------------------------------------------------
 // Component schema (ADR-016)

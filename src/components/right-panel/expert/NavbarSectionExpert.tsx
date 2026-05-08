@@ -1,7 +1,12 @@
+import { useState } from 'react'
+import { ChevronDown, ChevronRight } from 'lucide-react'
+import { cn } from '@/lib/cn'
 import { Toggle } from '@/components/shared/Toggle'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
+import { useUIStore } from '@/store/uiStore'
 import { setComponentEnabled } from '@/lib/componentHelpers'
+import { tokens } from '@/styles/design-tokens'
 
 interface NavbarSectionExpertProps {
   sectionId: string
@@ -10,7 +15,13 @@ interface NavbarSectionExpertProps {
 export function NavbarSectionExpert({ sectionId }: NavbarSectionExpertProps) {
   const config = useConfigStore((s) => s.config)
   const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
+  const selectedContext = useUIStore((s) => s.selectedContext)
   const section = config.sections.find((s) => s.id === sectionId)
+
+  // P67c / A2 — collapse-by-default pattern (parity with SectionSimple).
+  const isActive =
+    selectedContext?.type === 'section' && selectedContext.sectionId === sectionId
+  const [expanded, setExpanded] = useState<boolean>(() => isActive)
 
   if (!section) return null
 
@@ -36,7 +47,40 @@ export function NavbarSectionExpert({ sectionId }: NavbarSectionExpertProps) {
   ]
 
   return (
-    <div>
+    <div
+      data-section-id={sectionId}
+      className="transition-all duration-200 ease-out"
+      style={{ transitionDuration: tokens.motion.duration.base }}
+    >
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        aria-expanded={expanded}
+        aria-controls={`navbar-expert-body-${sectionId}`}
+        data-testid="section-editor-collapse-toggle"
+        className={cn(
+          'flex items-center justify-between w-full px-2 py-2 mb-1 rounded-md',
+          'border border-hb-border/40 bg-hb-surface/40',
+          'hover:bg-hb-surface-hover transition-colors',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hb-accent'
+        )}
+      >
+        <span className="flex items-center gap-1.5">
+          <span className="text-[10px] uppercase tracking-wider text-hb-text-muted font-medium">
+            Section
+          </span>
+          <span className="text-xs font-semibold text-hb-text-primary capitalize">
+            {section.type}
+          </span>
+        </span>
+        {expanded ? (
+          <ChevronDown size={14} className="text-hb-text-muted" />
+        ) : (
+          <ChevronRight size={14} className="text-hb-text-muted" />
+        )}
+      </button>
+      {expanded && (
+      <div id={`navbar-expert-body-${sectionId}`}>
       <RightAccordion id="navbar-components" label="Components" defaultOpen>
         <div>
           {components.map((comp, i) => (
@@ -66,6 +110,8 @@ export function NavbarSectionExpert({ sectionId }: NavbarSectionExpertProps) {
           </div>
         </div>
       </RightAccordion>
+      </div>
+      )}
     </div>
   )
 }

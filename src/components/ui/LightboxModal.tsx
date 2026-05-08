@@ -48,7 +48,7 @@ export function LightboxModal({ src, alt, isOpen, onClose }: LightboxModalProps)
       <img
         src={src}
         alt={alt || 'Enlarged image'}
-        className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl"
+        className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl animate-lightbox-scale-in transition-transform duration-200 ease-out"
         onClick={(e) => e.stopPropagation()}
       />
     </div>,

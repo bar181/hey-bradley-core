@@ -18,8 +18,49 @@
       "createdAt": "2026-03-27T21:56:11.893Z",
       "updatedAt": "2026-03-27T21:56:11.893Z"
     },
+<<<<<<< HEAD
+    "swarm-1777091917951-peo6bv": {
+      "swarmId": "swarm-1777091917951-peo6bv",
+      "topology": "hierarchical-mesh",
+      "maxAgents": 15,
+      "status": "running",
+      "agents": [],
+      "tasks": [],
+      "config": {
+        "topology": "hierarchical-mesh",
+        "maxAgents": 15,
+        "strategy": "specialized",
+        "communicationProtocol": "message-bus",
+        "autoScaling": true,
+        "consensusMechanism": "majority"
+      },
+      "createdAt": "2026-04-25T04:38:37.951Z",
+      "updatedAt": "2026-04-25T04:38:37.951Z"
+    },
+    "swarm-1777091927572-c48ou3": {
+      "swarmId": "swarm-1777091927572-c48ou3",
+      "topology": "hierarchical-mesh",
+      "maxAgents": 15,
+      "status": "running",
+      "agents": [],
+      "tasks": [],
+      "config": {
+        "topology": "hierarchical-mesh",
+        "maxAgents": 15,
+        "strategy": "specialized",
+        "communicationProtocol": "message-bus",
+        "autoScaling": true,
+        "consensusMechanism": "majority"
+      },
+      "createdAt": "2026-04-25T04:38:47.572Z",
+      "updatedAt": "2026-04-25T04:38:47.572Z"
+    },
+    "swarm-1777267710728-x24erh": {
+      "swarmId": "swarm-1777267710728-x24erh",
+=======
     "swarm-1775576959846-gtadwp": {
       "swarmId": "swarm-1775576959846-gtadwp",
+>>>>>>> origin/main
       "topology": "hierarchical-mesh",
       "maxAgents": 14,
       "status": "running",
@@ -33,8 +74,85 @@
         "autoScaling": true,
         "consensusMechanism": "majority"
       },
+<<<<<<< HEAD
+      "createdAt": "2026-04-27T05:28:30.728Z",
+      "updatedAt": "2026-04-27T05:28:30.728Z"
+    },
+    "swarm-1777271231132-jt4y4s": {
+      "swarmId": "swarm-1777271231132-jt4y4s",
+      "topology": "hierarchical-mesh",
+      "maxAgents": 14,
+      "status": "running",
+      "agents": [],
+      "tasks": [],
+      "config": {
+        "topology": "hierarchical-mesh",
+        "maxAgents": 14,
+        "strategy": "specialized",
+        "communicationProtocol": "message-bus",
+        "autoScaling": true,
+        "consensusMechanism": "majority"
+      },
+      "createdAt": "2026-04-27T06:27:11.132Z",
+      "updatedAt": "2026-04-27T06:27:11.132Z"
+    },
+    "swarm-1777291333446-jsthek": {
+      "swarmId": "swarm-1777291333446-jsthek",
+      "topology": "hierarchical-mesh",
+      "maxAgents": 14,
+      "status": "running",
+      "agents": [],
+      "tasks": [],
+      "config": {
+        "topology": "hierarchical-mesh",
+        "maxAgents": 14,
+        "strategy": "specialized",
+        "communicationProtocol": "message-bus",
+        "autoScaling": true,
+        "consensusMechanism": "majority"
+      },
+      "createdAt": "2026-04-27T12:02:13.446Z",
+      "updatedAt": "2026-04-27T12:02:13.446Z"
+    },
+    "swarm-1777296946167-loimh6": {
+      "swarmId": "swarm-1777296946167-loimh6",
+      "topology": "hierarchical-mesh",
+      "maxAgents": 14,
+      "status": "running",
+      "agents": [],
+      "tasks": [],
+      "config": {
+        "topology": "hierarchical-mesh",
+        "maxAgents": 14,
+        "strategy": "specialized",
+        "communicationProtocol": "message-bus",
+        "autoScaling": true,
+        "consensusMechanism": "majority"
+      },
+      "createdAt": "2026-04-27T13:35:46.167Z",
+      "updatedAt": "2026-04-27T13:35:46.167Z"
+    },
+    "swarm-1777315769632-n5b3mb": {
+      "swarmId": "swarm-1777315769632-n5b3mb",
+      "topology": "hierarchical-mesh",
+      "maxAgents": 14,
+      "status": "running",
+      "agents": [],
+      "tasks": [],
+      "config": {
+        "topology": "hierarchical-mesh",
+        "maxAgents": 14,
+        "strategy": "specialized",
+        "communicationProtocol": "message-bus",
+        "autoScaling": true,
+        "consensusMechanism": "majority"
+      },
+      "createdAt": "2026-04-27T18:49:29.632Z",
+      "updatedAt": "2026-04-27T18:49:29.632Z"
+=======
       "createdAt": "2026-04-07T15:49:19.846Z",
       "updatedAt": "2026-04-07T15:49:19.846Z"
+>>>>>>> origin/main
     }
   },
   "version": "3.0.0"

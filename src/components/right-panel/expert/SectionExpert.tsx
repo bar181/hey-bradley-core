@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   ArrowUp,
   ArrowDown,
@@ -6,6 +7,8 @@ import {
   AlignLeft,
   AlignCenter,
   AlignRight,
+  ChevronDown,
+  ChevronRight,
   Image as ImageIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/cn'
@@ -13,8 +16,10 @@ import { Toggle } from '@/components/shared/Toggle'
 import { SegmentedControl } from '@/components/shared/SegmentedControl'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
+import { useUIStore } from '@/store/uiStore'
 import { resolveHeroContent } from '@/lib/schemas'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
+import { tokens } from '@/styles/design-tokens'
 
 // Preset maps to section.variant
 const sectionPresets = [
@@ -58,7 +63,14 @@ interface SectionExpertProps {
 export function SectionExpert({ sectionId }: SectionExpertProps) {
   const config = useConfigStore((s) => s.config)
   const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
+  const selectedContext = useUIStore((s) => s.selectedContext)
   const section = config.sections.find((s) => s.id === sectionId)
+
+  // P67c / A2 — collapse-by-default pattern (parity with SectionSimple).
+  // Active section auto-expands via initial state; otherwise collapsed.
+  const isActive =
+    selectedContext?.type === 'section' && selectedContext.sectionId === sectionId
+  const [expanded, setExpanded] = useState<boolean>(() => isActive)
 
   if (!section) return null
 
@@ -70,7 +82,7 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
   const ctaText = hero.cta?.text ?? ''
   const layout = section.layout as Record<string, unknown>
   const padding = (layout?.padding as string) ?? '64px'
-  const gap = (layout?.gap as string) ?? '24px'
+  const gap = (layout?.gap as string) ?? tokens.spacing['stack-gap']
   const maxWidth = (layout?.maxWidth as string) ?? '1280px'
   const direction = (layout?.direction as string) ?? 'column'
   const align = (layout?.align as string) ?? 'center'
@@ -199,7 +211,47 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
   ]
 
   return (
-    <div>
+    <div
+      data-section-id={sectionId}
+      className="transition-all duration-200 ease-out"
+      style={{ transitionDuration: tokens.motion.duration.base }}
+    >
+      {/* P67c / A2 — Collapse-by-default header (parity with SectionSimple).
+          Active section auto-expands; tap header to toggle. */}
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        aria-expanded={expanded}
+        aria-controls={`section-expert-body-${sectionId}`}
+        data-testid="section-editor-collapse-toggle"
+        className={cn(
+          'flex items-center justify-between w-full px-2 py-2 mb-1 rounded-md',
+          'border border-hb-border/40 bg-hb-surface/40',
+          'hover:bg-hb-surface-hover transition-colors',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hb-accent'
+        )}
+      >
+        <span className="flex items-center gap-1.5">
+          <span className="text-[10px] uppercase tracking-wider text-hb-text-muted font-medium">
+            Section
+          </span>
+          <span className="text-xs font-semibold text-hb-text-primary capitalize">
+            {section.type}
+          </span>
+          {isActive && (
+            <span className="text-[9px] uppercase tracking-wider text-hb-accent font-medium">
+              · active
+            </span>
+          )}
+        </span>
+        {expanded ? (
+          <ChevronDown size={14} className="text-hb-text-muted" />
+        ) : (
+          <ChevronRight size={14} className="text-hb-text-muted" />
+        )}
+      </button>
+      {expanded && (
+      <div id={`section-expert-body-${sectionId}`}>
       <RightAccordion id="design" label="Design">
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
@@ -490,6 +542,8 @@ export function SectionExpert({ sectionId }: SectionExpertProps) {
         </div>
       </RightAccordion>
 
+      </div>
+      )}
     </div>
   )
 }

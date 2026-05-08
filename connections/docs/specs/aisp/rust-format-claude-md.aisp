@@ -1,0 +1,65 @@
+# Crystal Atom: RUST_FORMAT_CLAUDE_MD
+# Date: 2026-05-04 · Phase: Connections P3 (Spec)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Gold (δ ≥ 0.50); byte-equivalent to TS buildClaudeCodeBundle()
+# Exposure: Rust → WASM (per ADR-C07 D1 = Option C)
+
+⟦
+  Ω := { AispBundle → markdown string with `# === FILE: <path> ===` markers per ADR-122; pure Rust port of TS buildClaudeCodeBundle(); byte-equivalent for same input }
+  Σ := {
+    Input:{
+      spec: AispBundle
+    },
+    Output: String,
+    AispBundle:{
+      atoms: Vec<Atom>,
+      humanSpec: String,
+      northStar: String,
+      sadd: String,
+      implementationPlan: String,
+      adrs: Vec<AdrRef>,
+      agentWaves: Vec<WaveScope>
+    },
+    Atom:{
+      name:String,
+      omega:String,
+      sigma:String,
+      gamma:String,
+      lambda:String,
+      epsilon:String
+    },
+    Errors:{
+      EBundleIncomplete{missing:𝕊},
+      EFileMarkerCollision{path:𝕊},
+      EUtf8Invalid
+    }
+  }
+  Γ := {
+    R1: Output starts with `# CLAUDE.md` canonical header,
+    R2: |file_markers| ≥ 6 per ADR-122 D4 (CLAUDE.md + process-map + human-spec + aisp + adrs + agents),
+    R3: Pure module — NO React, NO store, NO @/components imports per ADR-134,
+    R4: Output byte-equivalent to TS buildClaudeCodeBundle() for same input,
+    R5: ∀ marker ∈ output : marker matches /^# === FILE: [^=]+ ===$/
+  }
+  Λ := {
+    purity := pure_function (no I/O, no network, no clock),
+    determinism := same_bundle ⇒ same_string (byte-for-byte),
+    idempotence := format(format(x)) === format(x) (string passthrough),
+    wasm_export := format_claude_md,
+    line_endings := \n only (LF; no \r\n),
+    encoding := UTF-8
+  }
+  Ε := {
+    V1: VERIFY ∀ file_marker ∈ output : marker.path is unique (no duplicates),
+    V2: VERIFY output is valid UTF-8,
+    V3: VERIFY all line endings normalized to \n (no \r\n, no \r),
+    V4: VERIFY |file_markers| ≥ 6,
+    V5: VERIFY byte_equiv(rust_output, ts_output) for ≥ 3 fixture inputs (parity test)
+  }
+⟧
+
+# Cross-refs:
+# - ADR-C07 §D1 (WASM export = Option C; this is one of 4 enhanced functions)
+# - ADR-122 (markdown bundle output format — D2 file marker pattern; D4 ≥ 6 logical files)
+# - ADR-134 (atom→view fix: pure module — no React/store imports; types in neutral modules)
+# - ADR-119 (DDD_ATOM atom shape — atoms[].omega/sigma/gamma/lambda/epsilon mirrored in Σ)

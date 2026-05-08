@@ -32,6 +32,72 @@ body {
     --hb-accent-light: rgba(165, 28, 48, 0.22); /* Crimson transparent */
     --hb-accent-hover: #C1283E;    /* Bright crimson — hover */
     --hb-nav-bg: #8C1515;          /* Dark crimson — top bar */
+    /* P88 — Listen-mode parchment/espresso palette (mode-independent) */
+    --hb-listen-bg: #faf8f5;       /* Warm parchment — fullscreen overlay bg */
+    --hb-listen-fg: #2d1f12;       /* Dark espresso — mic + button surface */
+    --hb-listen-accent: #6b5e4f;   /* Warm taupe — focus ring + hover + transcript */
+    /* P102 — Marketing palette (mode-independent; Welcome / Onboarding pages) */
+    --hb-paper: #faf8f5;           /* Warm parchment — marketing page bg (alias of listen-bg) */
+    --hb-paper-soft: #f1ece4;      /* Soft parchment — marketing card bg / footer */
+    --hb-paper-tile: #f0ede8;      /* Tile parchment — onboarding example tile bg */
+    --hb-ink: #2d1f12;             /* Dark espresso — marketing primary text (alias of listen-fg) */
+    --hb-ink-muted: #6b5e4f;       /* Warm taupe — marketing secondary text (alias of listen-accent) */
+    --hb-warm: #A51C30;            /* Harvard crimson — marketing accent (was warm orange) */
+    --hb-warm-hover: #8C1515;      /* Dark crimson — marketing accent hover */
+    /* P102 — Marketing crimson deep (mode-independent; Onboarding hover) */
+    --hb-crimson-deep: #8c1515;    /* Dark crimson — primary CTA hover on marketing pages */
+    /* P102 — RGB channel form of marketing accents for Tailwind opacity arbitrary
+       values — `bg-[rgb(var(--hb-warm-rgb)/0.15)]` works because the channels are
+       space-separated; `bg-[var(--hb-warm)]/15` fails silently because Tailwind
+       cannot statically extract RGB from a hex-valued var. */
+    --hb-warm-rgb: 165 28 48;      /* #A51C30 channels (crimson) */
+    --hb-accent-rgb: 165 28 48;    /* #A51C30 channels */
+    --hb-paper-soft-rgb: 241 236 228; /* #f1ece4 channels (footer/hover bg overlay) */
+    --hb-paper-rgb: 250 248 245;   /* #faf8f5 channels (page bg overlay) */
+    /* P102 — Marketing gray scale (mode-independent; Onboarding card surfaces).
+       These match Tailwind gray-50/100/400/500/600/900 + a parchment swatch and
+       are used on white-backed marketing cards where chrome --hb-text-* would
+       resolve to the wrong hue across dark/light chrome modes. */
+    --hb-mkt-text: #1a1a1a;        /* Near-black — marketing card heading */
+    --hb-mkt-text-secondary: #4b5563; /* Gray-600 — marketing card body */
+    --hb-mkt-text-muted: #6b7280;  /* Gray-500 — marketing card subtle */
+    --hb-mkt-text-faint: #9ca3af;  /* Gray-400 — marketing card meta */
+    --hb-mkt-border: #e5e1dc;      /* Warm border — marketing card outline */
+    --hb-mkt-chip-bg: #f3f4f6;     /* Gray-100 — pill / chip bg on white */
+    --hb-mkt-thumb-from: #faf8f5;  /* Parchment — saved-project thumbnail start */
+    --hb-mkt-thumb-to: #f0ede8;    /* Tile parchment — thumbnail end (alias of paper-tile) */
+    --hb-mkt-thumb-icon: #d1cbc3;  /* Warm gray — empty-state icon */
+    --hb-mkt-danger: #f87171;      /* Soft red — delete-button hover */
+    /* P102 / CF#11 — Status palette tokens (closes ADR-117 D4 literal-hex stopgap).
+       Mode-independent; consumed by ProcessMapSVG + DomainModelSVG status pills. */
+    --hb-status-sealed: #22c55e;   /* Green — sealed phase pill */
+    --hb-status-deferred: #f59e0b; /* Amber — deferred / carry-forward pill */
+  }
+  /* P119 — Dark-mode overrides for marketing tokens.
+     Activated when `.dark` class lands on `<html>` or `<body>`.
+     Light-mode parchment palette flips to dark surfaces; warm orange (--hb-warm)
+     stays consistent across modes — brand-locked accent. */
+  .dark {
+    --hb-paper: #1a1a1a;
+    --hb-paper-soft: #242424;
+    --hb-paper-tile: #2c2c2c;
+    --hb-paper-rgb: 26 26 26;
+    --hb-paper-soft-rgb: 36 36 36;
+
+    --hb-ink: #f3f3f1;
+    --hb-ink-muted: #a8a39a;
+
+    /* --hb-warm and --hb-warm-hover stay light-mode values — brand accent locks across modes */
+
+    --hb-mkt-text: #f3f3f1;
+    --hb-mkt-text-secondary: #c4beb6;
+    --hb-mkt-text-muted: #a8a39a;
+    --hb-mkt-text-faint: #7a756d;
+    --hb-mkt-border: #3a3a3a;
+    --hb-mkt-chip-bg: #2c2c2c;
+    --hb-mkt-thumb-from: #242424;
+    --hb-mkt-thumb-to: #1a1a1a;
+    --hb-mkt-thumb-icon: #5a554d;
   }
   .light-chrome {
     /* Hey Bradley Chrome — Light Mode (Harvard HMS Brand)
@@ -61,6 +127,36 @@ body {
   .light-chrome textarea:focus,
   .light-chrome select:focus {
     border-color: var(--hb-accent);
+  }
+
+  /* P121.5 — Hero orb keyframes (extracted from ListenTab.tsx inline styles).
+     Global so HeroOrb.tsx + ListenOrb.tsx can both reference them. */
+  @keyframes orb-pulse {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    25% { opacity: 0.75; transform: scale(1.06); }
+    50% { opacity: 1; transform: scale(1.15); }
+    75% { opacity: 0.85; transform: scale(1.08); }
+  }
+  @keyframes orb-breathe {
+    0%, 100% { opacity: 0.4; transform: scale(1) rotate(0deg); }
+    50% { opacity: 0.8; transform: scale(1.1) rotate(3deg); }
+  }
+
+  /* P121.5 — Light mode for marketing pages.
+     Activated by .hb-light on <html> via MarketingNav theme toggle.
+     Marketing pages use `.dark` wrapper which takes precedence when both exist,
+     so .hb-light only needs to override the `.dark` marketing vars. */
+  .hb-light .dark {
+    --hb-bg: #FAFAF8;
+    --hb-surface: #FFFFFF;
+    --hb-surface-hover: #F5F3F0;
+    --hb-border: #E5E1DC;
+    --hb-text-primary: #1A1A1A;
+    --hb-text-secondary: #4B5563;
+    --hb-text-muted: #9CA3AF;
+    --hb-accent: #A51C30;
+    --hb-accent-hover: #8B1729;
+    --hb-nav-bg: #A51C30;
   }
 
   /* Reduced motion: disable animations */

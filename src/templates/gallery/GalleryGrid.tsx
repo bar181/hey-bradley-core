@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { Section } from '@/lib/schemas'
 import { getStr, getImageEffectClass } from '@/lib/sectionContent'
 import { LightboxModal } from '@/components/ui/LightboxModal'
+import { ImageFallback } from '@/components/ui/ImageFallback'
 
 /* --------------------------------------------------------------------- */
 /*  GalleryGrid — Equal-size image grid (3 cols default)                   */
@@ -19,7 +20,6 @@ const DEFAULT_IMAGES = [
 export function GalleryGrid({ section }: { section: Section }) {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
   const effectClass = getImageEffectClass(section)
-  const isClickEnlarge = section.style?.imageEffect === 'click-enlarge'
   const cols = section.layout.columns ?? 3
   const items = section.components
     .filter((c) => c.enabled)
@@ -64,10 +64,19 @@ export function GalleryGrid({ section }: { section: Section }) {
             <img
               src={img.url}
               alt={img.caption || 'Gallery image'}
-              className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105${isClickEnlarge ? ' cursor-pointer' : ''}`}
-              onClick={isClickEnlarge ? () => setLightboxSrc(img.url) : undefined}
-              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+              loading="lazy"
+              className="w-full h-full object-cover transition-transform duration-200 ease-out group-hover:scale-105 cursor-pointer"
+              onClick={() => setLightboxSrc(img.url)}
+              onError={(e) => {
+                const img = e.target as HTMLImageElement
+                img.style.display = 'none'
+                const sibling = img.nextElementSibling as HTMLElement | null
+                if (sibling?.dataset.fallback === 'on') sibling.style.display = 'flex'
+              }}
             />
+            <div data-fallback="on" className="absolute inset-0" style={{ display: 'none' }}>
+              <ImageFallback label={img.caption || 'Image'} />
+            </div>
             {img.caption && (
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                 <p className="text-sm text-white">{img.caption}</p>

@@ -1,0 +1,64 @@
+# Crystal Atom: SPRINT_PLAN_SKILL
+# Date: 2026-05-04 · Phase: Connections P3 (Spec)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Silver (δ ≥ 0.40); Ambig < 0.05
+
+⟦
+  Ω := { Decompose sprint scope into wave structure with ordered AgentSpec[]; enforce disjoint ownedFiles per wave + DoD checklists per AGENT_ATOM (ADR-120) }
+  Σ := {
+    Input:{
+      sprint_scope:𝕊,
+      wave_count?:ℕ
+    },
+    Output:{
+      waves:Wave[],
+      markdown:𝕊
+    },
+    Wave:{
+      id:𝕊,
+      agents:AgentSpec[]
+    },
+    AgentSpec:{
+      role:𝕊,
+      scope:𝕊,
+      ownedFiles:𝕊[],
+      inputs:𝕊[],
+      dod:𝕊[]
+    },
+    Errors:{
+      EScopeTooShort,
+      EWaveCountOutOfRange,
+      EOwnedFilesOverlap,
+      EAgentCapExceeded,
+      EMcpUnavailable
+    }
+  }
+  Γ := {
+    R1: ∀ wave : |wave.agents| ≤ 7 (per AGENT_ATOM Γ R1),
+    R2: ∀ agent : agent.dod.length ≥ 1,
+    R3: ∀ wave : ⋂ {agent.ownedFiles | agent ∈ wave.agents} = ∅ (disjoint per wave),
+    R4: ∀ agent : agent.role ∈ kebab-case identifier,
+    R5: wave_count default := 2,
+    R6: 1 ≤ wave_count ≤ 5
+  }
+  Λ := {
+    timeout := 10s,
+    fallback := MCP unavailable ⇒ rules-only classifier (LLM-handoff inert at v0.1.0),
+    confidence_threshold := 0.75,
+    mcp_tool := get_agent_scopes (per ADR-C04),
+    output_target := stdout if wave_count ≤ 2 else ${CLAUDE_SKILL_DIR}/sprint-plan.md
+  }
+  Ε := {
+    V1: VERIFY disjoint-ownedFiles invariant holds across all agents within each wave,
+    V2: VERIFY ∀ agent : |agent.dod| ≥ 1,
+    V3: VERIFY ∀ agent.role : matches kebab-case regex /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/,
+    V4: VERIFY ∀ wave : |wave.agents| ≤ 7,
+    V5: VERIFY ∀ agent.role : unique within same wave
+  }
+⟧
+
+# Cross-refs:
+# - ADR-C02 §D5 (skill content strategy — /sprint-plan does/does-not contract)
+# - ADR-C04 (MCP tool get_agent_scopes)
+# - ADR-120 (AGENT_ATOM — 8th + final Crystal Atom; disjoint ownedFiles invariant)
+# - ADR-118 (PROCESS_ATOM — wave-level structure; sequential-across-waves contract)

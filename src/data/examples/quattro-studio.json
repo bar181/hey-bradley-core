@@ -1,0 +1,214 @@
+{
+  "site": {
+    "title": "Quattro Studio",
+    "description": "A boutique brand-and-product agency in Austin, partnering with seed-to-Series-B startups to make brands ready for the round they haven't raised yet.",
+    "author": "Sarah Vance",
+    "email": "studio@quattro.co",
+    "domain": "quattro.co",
+    "project": "quattro-studio",
+    "version": "1.0.0",
+    "spec": "aisp-1.2",
+    "purpose": "agency",
+    "audience": "business",
+    "tone": "formal",
+    "brandName": "Quattro",
+    "tagline": "Brand and product, in one room.",
+    "voiceAttributes": ["polished", "restrained", "confident"]
+  },
+  "theme": {
+    "preset": "elegant",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#f4ecdc",
+      "bgSecondary": "#ffffff",
+      "textPrimary": "#0c1d3a",
+      "textSecondary": "#3d4a63",
+      "accentPrimary": "#b08a3e",
+      "accentSecondary": "#0c1d3a"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#0c1d3a",
+      "bgSecondary": "#152544",
+      "textPrimary": "#f4ecdc",
+      "textSecondary": "#cdb98c",
+      "accentPrimary": "#b08a3e",
+      "accentSecondary": "#f4ecdc"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Canela",
+      "headingWeight": 500,
+      "baseSize": "17px",
+      "lineHeight": 1.6
+    },
+    "spacing": { "sectionPadding": "112px", "containerMaxWidth": "1200px", "componentGap": "32px" },
+    "borderRadius": "2px"
+  },
+  "sections": [
+    {
+      "type": "menu", "id": "navbar-01", "enabled": true, "order": -1, "variant": "simple",
+      "layout": { "display": "flex", "padding": "24px 32px", "gap": "32px" },
+      "style": { "background": "#f4ecdc", "color": "#0c1d3a" },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Quattro" } },
+        { "id": "nav-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "Work", "url": "#work" } },
+        { "id": "nav-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "Studio", "url": "#studio" } },
+        { "id": "nav-3", "type": "link", "enabled": true, "order": 3, "props": { "text": "Team", "url": "#team" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 4, "props": { "text": "Start a project", "url": "#contact" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero", "id": "hero-01", "enabled": true, "order": 0, "variant": "centered",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "32px", "padding": "168px 32px 128px", "maxWidth": "1100px" },
+      "style": { "background": "#f4ecdc", "color": "#0c1d3a", "fontFamily": "Canela" },
+      "components": [
+        { "id": "eyebrow", "type": "badge", "enabled": true, "order": 0,
+          "props": { "text": "Boutique brand & product · Austin · Est. 2019", "variant": "pill" } },
+        { "id": "headline", "type": "heading", "enabled": true, "order": 1,
+          "props": { "text": "We make brands ready for the round you haven't raised yet.", "level": 1, "size": "76px", "weight": 500 } },
+        { "id": "subtitle", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "Quattro Studio partners with seed-to-Series-B founders on the work that comes before the next deck — positioning, identity, product surface, and the language a board can actually quote." } },
+        { "id": "primaryCta", "type": "button", "enabled": true, "order": 3,
+          "props": { "text": "See selected work", "url": "#work", "style": "filled", "size": "lg", "background": "#b08a3e", "color": "#0c1d3a" } },
+        { "id": "secondaryCta", "type": "button", "enabled": true, "order": 4,
+          "props": { "text": "Start a project", "url": "#contact", "style": "outline", "size": "lg" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "text", "id": "positioning-01", "enabled": true, "order": 1, "variant": "two-column",
+      "layout": { "display": "grid", "columns": 2, "gap": "72px", "padding": "128px 32px", "maxWidth": "1140px" },
+      "style": { "background": "#ffffff", "color": "#0c1d3a" },
+      "components": [
+        { "id": "pos-heading", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "We work with seed-to-Series-B founders. That's the line.", "level": 2, "size": "44px", "weight": 500 } },
+        { "id": "pos-body-1", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "Quattro is a four-partner studio working with venture-backed companies between their seed and Series-B rounds — the stretch of life where the brand stops being a placeholder and starts being a position." } },
+        { "id": "pos-body-2", "type": "text", "enabled": true, "order": 2,
+          "props": { "text": "We take on six to eight engagements a year. Each one runs eight to fourteen weeks. We do not take on work where we cannot meet the founder in the first week." } },
+        { "id": "pos-body-3", "type": "text", "enabled": true, "order": 3,
+          "props": { "text": "Brand strategy, identity systems, product surface, and the founder-facing language that holds the whole thing together. One team. One room. One bill." } }
+      ],
+      "content": { "heading": "Positioning", "subheading": "Seed to Series-B. Six to eight clients a year. No exceptions." }
+    },
+    {
+      "type": "case-study", "id": "case-studies-01", "enabled": true, "order": 2, "variant": "tile-grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "40px", "padding": "128px 32px", "maxWidth": "1200px" },
+      "style": { "background": "#0c1d3a", "color": "#f4ecdc" },
+      "components": [
+        { "id": "cs-1", "type": "case-study-card", "enabled": true, "order": 0,
+          "props": {
+            "client": "Glycora",
+            "title": "Medical wearable rebrand · 2024",
+            "challenge": "A continuous glucose monitor company carrying a name and identity inherited from its R&D phase — clinical, anonymous, and impossible to defend in front of a hospital procurement committee.",
+            "solution": "A new wordmark drawn against the curvature of the device itself, a calmer two-color clinical palette, and a brand voice that reads like a trusted physician — not a startup.",
+            "outcome": "Closed Series-B at a 3.2x step-up. Now the default CGM in three U.S. hospital networks. Procurement decks now run twelve pages instead of forty.",
+            "metrics": "Series-B 3.2x step-up · 3 hospital networks · 12-page deck"
+          } },
+        { "id": "cs-2", "type": "case-study-card", "enabled": true, "order": 1,
+          "props": {
+            "client": "Ferment",
+            "title": "B2B coffee infrastructure · 2024",
+            "challenge": "A green-coffee logistics platform whose customers were operations directors at roasters — yet the brand looked like a third-wave cafe. Buyers were not converting because they did not believe the company could carry a six-figure contract.",
+            "solution": "Industrial-grade identity. Spec-sheet typography. Photography of pallets and warehouses, not latte art. A new sales surface that opens with throughput, not provenance.",
+            "outcome": "Average contract value up 64% in two quarters. Cycle time on enterprise deals down from 11 weeks to 6. Now powering green-coffee flow for four of the top twenty U.S. roasters.",
+            "metrics": "+64% ACV · 11 → 6 week cycle · top-20 roasters"
+          } },
+        { "id": "cs-3", "type": "case-study-card", "enabled": true, "order": 2,
+          "props": {
+            "client": "Soane",
+            "title": "SaaS reporting tool · 2023",
+            "challenge": "A finance reporting tool built by ex-Stripe engineers, sitting on $4M ARR and a brand their CFO buyers found 'too clever.' The product was excellent. The first impression was not.",
+            "solution": "A reset toward institutional confidence: a serif wordmark, a single accent color, a product surface re-centered on the report itself. The marketing site now opens with a real rendered statement, not an illustration.",
+            "outcome": "Pipeline conversion up 41%. Sales cycle to enterprise CFOs cut nearly in half. The product is now the default reporting layer at three publicly-traded brand portfolios.",
+            "metrics": "+41% pipeline conversion · 47% shorter cycle · 3 public-co clients"
+          } }
+      ],
+      "content": { "heading": "Selected work", "subheading": "Three recent partners. Each between seed and Series-B. Each still using what we shipped." }
+    },
+    {
+      "type": "gallery", "id": "portfolio-01", "enabled": true, "order": 3, "variant": "image-grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "24px", "padding": "112px 32px", "maxWidth": "1200px" },
+      "style": { "background": "#f4ecdc", "color": "#0c1d3a" },
+      "components": [
+        { "id": "p-1", "type": "gallery-tile", "enabled": true, "order": 0,
+          "props": { "image": "https://images.example.com/quattro/glycora-device.jpg", "alt": "Glycora wearable on a clinical surface", "title": "Glycora", "caption": "Medical wearable · Identity & packaging" } },
+        { "id": "p-2", "type": "gallery-tile", "enabled": true, "order": 1,
+          "props": { "image": "https://images.example.com/quattro/ferment-warehouse.jpg", "alt": "Ferment coffee warehouse pallets", "title": "Ferment", "caption": "B2B logistics · Brand & sales surface" } },
+        { "id": "p-3", "type": "gallery-tile", "enabled": true, "order": 2,
+          "props": { "image": "https://images.example.com/quattro/soane-dashboard.jpg", "alt": "Soane reporting dashboard", "title": "Soane", "caption": "SaaS · Identity & product surface" } },
+        { "id": "p-4", "type": "gallery-tile", "enabled": true, "order": 3,
+          "props": { "image": "https://images.example.com/quattro/lumen-print.jpg", "alt": "Lumen printed brand book", "title": "Lumen Bio", "caption": "Biotech · Identity system" } },
+        { "id": "p-5", "type": "gallery-tile", "enabled": true, "order": 4,
+          "props": { "image": "https://images.example.com/quattro/halt-pitchdeck.jpg", "alt": "Halt pitch deck spread", "title": "Halt Security", "caption": "Cybersecurity · Pitch deck & narrative" } },
+        { "id": "p-6", "type": "gallery-tile", "enabled": true, "order": 5,
+          "props": { "image": "https://images.example.com/quattro/orchid-packaging.jpg", "alt": "Orchid product packaging", "title": "Orchid Foods", "caption": "DTC food · Packaging & voice" } }
+      ],
+      "content": { "heading": "Recent ground", "subheading": "A partial portfolio. The full set is shared on first call." }
+    },
+    {
+      "type": "team", "id": "team-01", "enabled": true, "order": 4, "variant": "grid",
+      "layout": { "display": "grid", "columns": 3, "gap": "40px", "padding": "112px 32px", "maxWidth": "1140px" },
+      "style": { "background": "#ffffff", "color": "#0c1d3a" },
+      "components": [
+        { "id": "t-1", "type": "team-member", "enabled": true, "order": 0,
+          "props": { "name": "Sarah Vance", "role": "Principal",
+            "bio": "Fifteen years in brand and product, formerly at Pentagram and Frog. Founded Quattro in 2019. Leads every engagement personally through week three, then less obtrusively after." } },
+        { "id": "t-2", "type": "team-member", "enabled": true, "order": 1,
+          "props": { "name": "Aiden Park", "role": "Design Director",
+            "bio": "Identity, type systems, and product surface. Twelve years across consumer and enterprise. Believes a brand is finished when nothing more can be removed without breaking it." } },
+        { "id": "t-3", "type": "team-member", "enabled": true, "order": 2,
+          "props": { "name": "Mira Okafor", "role": "Strategy Director",
+            "bio": "Positioning, narrative, and the founder-facing language that shows up in every board deck thereafter. Former equity-research analyst, which explains the vocabulary." } }
+      ],
+      "content": { "heading": "Three partners. One studio.", "subheading": "If you hire Quattro, one of these three is your day-to-day. There is no account team behind us." }
+    },
+    {
+      "type": "contact-form", "id": "contact-01", "enabled": true, "order": 5, "variant": "simple",
+      "layout": { "display": "flex", "direction": "column", "align": "start", "gap": "24px", "padding": "128px 32px", "maxWidth": "820px" },
+      "style": { "background": "#0c1d3a", "color": "#f4ecdc" },
+      "components": [
+        { "id": "form-heading", "type": "heading", "enabled": true, "order": 0,
+          "props": { "text": "Start a project.", "level": 2, "size": "60px", "weight": 500 } },
+        { "id": "form-blurb", "type": "text", "enabled": true, "order": 1,
+          "props": { "text": "We respond inside two business days. Tell us a little about the company, the round you're working toward, and what you're hoping changes by the end of an engagement." } },
+        { "id": "form-field-name", "type": "input", "enabled": true, "order": 2,
+          "props": { "label": "Your name", "placeholder": "First and last", "type": "text", "required": true } },
+        { "id": "form-field-email", "type": "input", "enabled": true, "order": 3,
+          "props": { "label": "Email", "placeholder": "you@yourcompany.com", "type": "email", "required": true } },
+        { "id": "form-field-company", "type": "input", "enabled": true, "order": 4,
+          "props": { "label": "Company", "placeholder": "What it's called", "type": "text", "required": true } },
+        { "id": "form-field-project-type", "type": "input", "enabled": true, "order": 5,
+          "props": { "label": "Project type", "placeholder": "Brand · Identity · Product surface · Pitch · Other", "type": "text", "required": true } },
+        { "id": "form-field-budget", "type": "input", "enabled": true, "order": 6,
+          "props": { "label": "Budget range (USD)", "placeholder": "We engage on projects of $80k and up", "type": "text", "required": false } },
+        { "id": "form-field-message", "type": "input", "enabled": true, "order": 7,
+          "props": { "label": "What you're working on", "placeholder": "A few sentences. Stage of company, round timing, what you're hoping changes.", "type": "textarea", "required": true } },
+        { "id": "form-submit", "type": "button", "enabled": true, "order": 8,
+          "props": { "text": "Send to Quattro", "url": "#submit", "style": "filled", "size": "lg", "background": "#b08a3e", "color": "#0c1d3a" } }
+      ],
+      "content": { "heading": "Start a project", "subheading": "Two-business-day response. Always from a partner." }
+    },
+    {
+      "type": "footer", "id": "footer-01", "enabled": true, "order": 6, "variant": "multi-column",
+      "layout": { "display": "grid", "columns": 4, "gap": "32px", "padding": "64px 32px" },
+      "style": { "background": "#152544", "color": "#f4ecdc" },
+      "components": [
+        { "id": "brand", "type": "footer-brand", "enabled": true, "order": 0,
+          "props": { "text": "Quattro Studio", "tagline": "Brand and product, in one room. Austin, Texas." } },
+        { "id": "col-1", "type": "footer-column", "enabled": true, "order": 1,
+          "props": { "heading": "Studio", "links": "Work,Studio,Team,Contact" } },
+        { "id": "col-2", "type": "footer-column", "enabled": true, "order": 2,
+          "props": { "heading": "Practice", "links": "Brand strategy,Identity,Product surface,Founder narrative" } },
+        { "id": "col-3", "type": "footer-column", "enabled": true, "order": 3,
+          "props": { "heading": "Elsewhere", "links": "LinkedIn,Instagram,Are.na" } },
+        { "id": "contact-info", "type": "footer-text", "enabled": true, "order": 4,
+          "props": { "text": "studio@quattro.co · Austin, TX" } },
+        { "id": "copyright", "type": "footer-copyright", "enabled": true, "order": 5,
+          "props": { "text": "© 2026 Quattro Studio · Austin · A boutique of four." } }
+      ],
+      "content": {}
+    }
+  ]
+}

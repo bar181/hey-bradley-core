@@ -1,0 +1,58 @@
+# Crystal Atom: MCP_VALIDATE_AISP
+# Date: 2026-05-04 · Phase: Connections P3 (Spec)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Silver (δ ≥ 0.40); Ambig < 0.05 (Phase-3); Ambig < 0.02 (production)
+
+⟦
+  Ω := { Score AISP Crystal Atom text — emit δ density + Ambig + tier per validation pipeline `validate ≜ ⌈⌉ ∘ δ ∘ Γ? ∘ ∂` upstream }
+  Σ := {
+    Input:{
+      aisp_text:𝕊,
+      target_tier?:𝕋,
+      _meta?:{ session_id?:𝕊 }
+    },
+    Output:{
+      density:ℝ[0..1],
+      ambig:ℝ[0..1],
+      tier:𝕋,
+      parse_total:ℕ,
+      parse_unique:ℕ,
+      errors:𝕊[]
+    },
+    𝕋 := ◊⁺⁺ | ◊⁺ | ◊ | ◊⁻ | ⊘,
+    Errors:{
+      EAispUnparseable, # SOFT — result.tier=⊘, ambig=1.0, errors[] populated (NOT JSON-RPC error)
+      EByokLeak         # JSON-RPC -32602 (defence-in-depth strip)
+    }
+  }
+  Γ := {
+    R1: output.density ∈ [0,1] ∧ HIGHER ⊰ better,
+    R2: output.ambig ∈ [0,1] ∧ LOWER ⊰ better,
+    R3: output.tier ∈ {◊⁺⁺ : δ≥0.75, ◊⁺ : δ≥0.60, ◊ : δ≥0.40, ◊⁻ : δ≥0.20, ⊘ : δ<0.20},
+    R4: output.parse_total ≥ output.parse_unique,
+    R5: ¬∃ s ∈ (input ∪ output) : s ∋ {sk-, AIza, Bearer }
+  }
+  Λ := {
+    timeout := 2s,
+    fallback := unparseable ⇒ soft-error in result (tier=⊘, ambig=1.0, errors[] populated; NOT JSON-RPC -32602),
+    runtime := WASM via aisp-core per ADR-C07 D1 (deferred decision: npm aisp-validator vs Rust aisp crate vs WASM bundle),
+    transport := stdio,
+    backs_skill := /sprint-plan density gate (per ADR-C02 §D5)
+  }
+  Ε := {
+    V1: density ≜ |Σ_512_hits| ÷ |non-whitespace_tokens|,
+    V2: ambig ≜ 1 - parse_unique ÷ parse_total,
+    V3: VERIFY tier ≡ ⌈⌉(density) per Γ R3 ladder,
+    V4: VERIFY production specs achieve Ambig < 0.02 (hard gate),
+    V5: VERIFY redactKeyShapes() applied at write boundary per ADR-126,
+    V6: VERIFY tool_call row emitted to log_events with _meta.session_id
+  }
+⟧
+
+# Cross-refs:
+# - ADR-C04 §D3 (validate_aisp inputSchema + softer error model deferred to result)
+# - ADR-C04 §D6 (common conventions)
+# - ADR-C07 D1 (validator runtime path: WASM via aisp-core; deferred npm/Rust decision)
+# - aisp-open-core AI_GUIDE.md §B2 (δ formula + Ambig formula + tier ladder verbatim)
+# - ADR-126 D2/D3 (logging + redactKeyShapes)
+# - ADR-043 + ADR-114 D3 (BYOK trust boundary — Γ R5)

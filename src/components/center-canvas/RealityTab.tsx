@@ -11,6 +11,8 @@ import { HeroOverlay } from '@/templates/hero/HeroOverlay'
 import { HeroMinimal } from '@/templates/hero/HeroMinimal'
 import { NavbarSimple } from '@/templates/navbar/NavbarSimple'
 import { NavbarCentered } from '@/templates/navbar/NavbarCentered'
+import { NavbarSticky } from '@/templates/navbar/NavbarSticky'
+import { NavbarMegaMenu } from '@/templates/navbar/NavbarMegaMenu'
 import { ActionCentered } from '@/templates/action/ActionCentered'
 import { ActionSplit } from '@/templates/action/ActionSplit'
 import { ActionGradient } from '@/templates/action/ActionGradient'
@@ -26,6 +28,8 @@ import { ColumnsGlass } from '@/templates/columns/ColumnsGlass'
 import { PricingTiers } from '@/templates/pricing/PricingTiers'
 import { PricingToggle } from '@/templates/pricing/PricingToggle'
 import { PricingComparison } from '@/templates/pricing/PricingComparison'
+import { PricingCalculator } from '@/templates/pricing/PricingCalculator'
+import { PricingEnterprise } from '@/templates/pricing/PricingEnterprise'
 import { FooterSimple } from '@/templates/footer/FooterSimple'
 import { QuotesCards } from '@/templates/quotes/QuotesCards'
 import { QuotesSingle } from '@/templates/quotes/QuotesSingle'
@@ -62,10 +66,14 @@ import { LogosGrid } from '@/templates/logos/LogosGrid'
 import { TeamCards } from '@/templates/team/TeamCards'
 import { TeamGrid } from '@/templates/team/TeamGrid'
 import { TeamMinimal } from '@/templates/team/TeamMinimal'
+import { TeamHoverBio } from '@/templates/team/TeamHoverBio'
+import { TeamWithSocial } from '@/templates/team/TeamWithSocial'
 import { BlogCardGrid } from '@/templates/blog/BlogCardGrid'
 import { BlogListExcerpts } from '@/templates/blog/BlogListExcerpts'
 import { BlogFeaturedGrid } from '@/templates/blog/BlogFeaturedGrid'
 import { BlogMinimal } from '@/templates/blog/BlogMinimal'
+import { CaseStudyCards } from '@/templates/case-study/CaseStudyCards'
+import { ContactFormSimple } from '@/templates/contact-form/ContactFormSimple'
 import {
   Star,
   Grid3X3,
@@ -84,6 +92,8 @@ import {
   FileText,
   Award,
   Users,
+  Briefcase,
+  Mail,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -104,6 +114,8 @@ const DIVIDER_SECTION_TYPES: { type: SectionType; name: string; icon: LucideIcon
   { type: 'logos', name: 'Logo Cloud', icon: Award },
   { type: 'team', name: 'Team', icon: Users },
   { type: 'blog', name: 'Blog', icon: FileText },
+  { type: 'case-study', name: 'Case Study', icon: Briefcase },
+  { type: 'contact-form', name: 'Contact Form', icon: Mail },
 ]
 
 const SECTION_LABELS: Record<string, string> = {
@@ -123,6 +135,8 @@ const SECTION_LABELS: Record<string, string> = {
   logos: 'Logo Cloud',
   team: 'Team',
   blog: 'Blog',
+  'case-study': 'Case Study',
+  'contact-form': 'Contact Form',
 }
 
 function AddSectionDivider({ afterIndex }: { afterIndex: number }) {
@@ -140,7 +154,7 @@ function AddSectionDivider({ afterIndex }: { afterIndex: number }) {
       <button
         type="button"
         onClick={() => setShowPicker(!showPicker)}
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-hb-surface border border-hb-border rounded-full px-3 py-1 text-xs text-hb-text-muted hover:text-hb-accent hover:border-hb-accent/50 shadow-sm z-10 focus-visible:ring-2 focus-visible:ring-hb-accent focus-visible:opacity-100"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 max-sm:opacity-100 transition-opacity bg-hb-surface border border-hb-border rounded-full px-3 py-1 text-xs text-hb-text-muted hover:text-hb-accent active:text-hb-accent hover:border-hb-accent/50 active:border-hb-accent/50 shadow-sm z-10 focus-visible:ring-2 focus-visible:ring-hb-accent focus-visible:opacity-100"
         aria-label="Add section"
       >
         + Add Section
@@ -363,8 +377,23 @@ export function RealityTab() {
     )
   }
 
+  const activePageTitle = useConfigStore((s) => {
+    const ap = s.activePage
+    const page = s.config.pages?.find((p) => p.id === ap)
+    return page?.title ?? 'Preview'
+  })
+
   return (
     <div ref={containerRef} className="min-h-full">
+      {/* P53 A11 — Mobile-only sticky mini-nav. Visual marker for the View
+          surface inside MobileLayout. No navigation; A10 owns the tab switcher. */}
+      <div
+        data-testid="mobile-preview-stickynav"
+        className="md:hidden sticky top-0 z-10 flex items-center justify-between gap-2 bg-hb-bg border-b border-hb-border px-3 py-1.5 text-[11px] text-hb-text-muted"
+      >
+        <span className="truncate font-medium text-hb-text-primary">{activePageTitle}</span>
+        <span className="opacity-60">Preview</span>
+      </div>
       {isMultiPage && <MultiPageNav />}
       <div
         className="mx-auto transition-all duration-300"
@@ -413,6 +442,10 @@ function renderSection(section: ReturnType<typeof useConfigStore.getState>['conf
     switch (section.variant) {
       case 'centered':
         return <NavbarCentered section={section} />
+      case 'sticky':
+        return <NavbarSticky section={section} />
+      case 'mega-menu':
+        return <NavbarMegaMenu section={section} />
       case 'simple':
       default:
         return <NavbarSimple section={section} />
@@ -459,6 +492,10 @@ function renderSection(section: ReturnType<typeof useConfigStore.getState>['conf
         return <PricingToggle section={section} />
       case 'comparison':
         return <PricingComparison section={section} />
+      case 'calculator':
+        return <PricingCalculator section={section} />
+      case 'enterprise':
+        return <PricingEnterprise section={section} />
       default:
         return <PricingTiers section={section} />
     }
@@ -585,6 +622,10 @@ function renderSection(section: ReturnType<typeof useConfigStore.getState>['conf
         return <TeamGrid section={section} />
       case 'minimal':
         return <TeamMinimal section={section} />
+      case 'hover-bio':
+        return <TeamHoverBio section={section} />
+      case 'with-social':
+        return <TeamWithSocial section={section} />
       default:
         return <TeamCards section={section} />
     }
@@ -600,6 +641,12 @@ function renderSection(section: ReturnType<typeof useConfigStore.getState>['conf
       default:
         return <BlogCardGrid section={section} />
     }
+  }
+  if (section.type === 'case-study') {
+    return <CaseStudyCards section={section} />
+  }
+  if (section.type === 'contact-form') {
+    return <ContactFormSimple section={section} />
   }
   return (
     <div

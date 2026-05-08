@@ -1,0 +1,62 @@
+# Crystal Atom: SPEC_INIT_SKILL
+# Date: 2026-05-04 · Phase: Connections P3 (Spec)
+# AISP Version: 𝔸5.1.Platinum@2026-01-09
+# Tier target: Silver (δ ≥ 0.40); Ambig < 0.05
+
+⟦
+  Ω := { Convert plain-text project description into AISP-compliant draft spec via 8-atom pipeline; emit markdown bundle to ${CLAUDE_SKILL_DIR}/spec.md }
+  Σ := {
+    Input:{
+      description:𝕊,
+      tier_target?:◊⁻|◊|◊⁺|◊⁺⁺
+    },
+    Output:{
+      spec:AispBundle,
+      ambig:ℝ,
+      tier:𝕋,
+      path:𝕊
+    },
+    AispBundle:{
+      atoms:Atom[],
+      humanSpec:𝕊,
+      northStar:𝕊,
+      sadd:𝕊,
+      implementationPlan:𝕊
+    },
+    Errors:{
+      EDescTooShort,
+      EDescTooLong,
+      EMcpUnavailable,
+      ETierBelowTarget
+    }
+  }
+  Γ := {
+    R1: |description| ≥ 10 chars,
+    R2: |description| ≤ 4000 chars,
+    R3: |spec.atoms| ≥ 5,
+    R4: tier ⊒ tier_target ?? ◊,
+    R5: spec MUST include ⟦Ω⟧⟦Σ⟧⟦Γ⟧⟦Λ⟧⟦Ε⟧ blocks per atom
+  }
+  Λ := {
+    timeout := 30s,
+    fallback := MCP unavailable ⇒ deterministic rules-based classifier (no LLM),
+    confidence_threshold := 0.85,
+    mcp_tool := get_spec (per ADR-C04),
+    output_target := ${CLAUDE_SKILL_DIR}/spec.md
+  }
+  Ε := {
+    V1: VERIFY Ambig(spec) < 0.05,
+    V2: VERIFY ∀ atom ∈ spec.atoms : atom parses to {Ω,Σ,Γ,Λ,Ε},
+    V3: VERIFY tier(spec) ⊒ tier_target,
+    V4: VERIFY spec.path written + non-empty,
+    V5: VERIFY no BYOK key shapes (sk-/AIza/Bearer ) in spec
+  }
+⟧
+
+# Cross-refs:
+# - ADR-C02 §D1 (skill content strategy — /spec-init does/does-not contract)
+# - ADR-C04 (MCP tool get_spec; calls 8-atom pipeline)
+# - ADR-053 (AISP intent classifier discipline)
+# - ADR-120 (AGENT_ATOM — final atom of suite)
+# - ADR-122 (markdown bundle output format)
+# - ADR-043 (BYOK trust boundary — Λ + Ε V5)

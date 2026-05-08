@@ -1,10 +1,11 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { cn } from '@/lib/cn'
 import { Switch } from '@/components/ui/switch'
 import { RightAccordion } from '../RightAccordion'
 import { useConfigStore } from '@/store/configStore'
+import { useUIStore } from '@/store/uiStore'
 import { updateComponentProps, setComponentEnabled } from '@/lib/componentHelpers'
-import { Users, Grid3X3, List, Plus, Trash2 } from 'lucide-react'
+import { Users, Grid3X3, List, Plus, Trash2, ChevronDown, ChevronRight } from 'lucide-react'
 import { SectionHeadingEditor } from './SectionHeadingEditor'
 import { ImagePicker } from './ImagePicker'
 
@@ -23,7 +24,13 @@ const MAX_MEMBERS = 12
 export function TeamSectionSimple({ sectionId }: { sectionId: string }) {
   const config = useConfigStore((s) => s.config)
   const setSectionConfig = useConfigStore((s) => s.setSectionConfig)
+  const isDraft = useUIStore((s) => s.rightPanelTab) === 'SIMPLE'
+  const selectedContext = useUIStore((s) => s.selectedContext)
   const section = config.sections.find((s) => s.id === sectionId)
+  // P67 / Wave 2 / A2 — collapse-by-default; auto-expand the active section.
+  const isActive =
+    selectedContext?.type === 'section' && selectedContext.sectionId === sectionId
+  const [expanded, setExpanded] = useState<boolean>(isActive)
 
   if (!section) return null
 
@@ -96,7 +103,31 @@ export function TeamSectionSimple({ sectionId }: { sectionId: string }) {
   )
 
   return (
-    <div className="divide-y divide-hb-border/30">
+    <div data-section-id={sectionId} className="transition-all duration-200 ease-out">
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        aria-expanded={expanded}
+        aria-controls={`section-body-${sectionId}`}
+        data-testid="section-editor-collapse-toggle"
+        className={cn(
+          'flex items-center justify-between w-full px-2 py-2 mb-1 rounded-md',
+          'border border-hb-border/40 bg-hb-surface/40',
+          'hover:bg-hb-surface-hover transition-colors',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hb-accent'
+        )}
+      >
+        <span className="flex items-center gap-1.5">
+          <span className="text-[10px] uppercase tracking-wider text-hb-text-muted font-medium">Section</span>
+          <span className="text-xs font-semibold text-hb-text-primary capitalize">{section.type}</span>
+          {isActive && (
+            <span className="text-[9px] uppercase tracking-wider text-hb-accent font-medium">· active</span>
+          )}
+        </span>
+        {expanded ? <ChevronDown size={14} className="text-hb-text-muted" /> : <ChevronRight size={14} className="text-hb-text-muted" />}
+      </button>
+      {expanded && (
+      <div id={`section-body-${sectionId}`} className="divide-y divide-hb-border/30">
       <SectionHeadingEditor sectionId={sectionId} />
       {/* LAYOUT */}
       <RightAccordion id={`team-layout-${sectionId}`} label="Style">
@@ -147,8 +178,9 @@ export function TeamSectionSimple({ sectionId }: { sectionId: string }) {
                     <button
                       type="button"
                       onClick={() => removeMember(item.id)}
-                      className="text-hb-text-muted hover:text-red-400 transition-colors p-0.5"
+                      className="text-hb-text-muted hover:text-red-400 transition-colors p-0.5 focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] rounded"
                       title="Remove member"
+                      aria-label={`Remove team member ${idx + 1}`}
                     >
                       <Trash2 size={12} />
                     </button>
@@ -158,7 +190,7 @@ export function TeamSectionSimple({ sectionId }: { sectionId: string }) {
                 <div className={cn(!item.enabled && 'opacity-25 pointer-events-none', 'space-y-2')}>
                   {imageUrl && (
                     <div className="w-16 h-16 rounded-full overflow-hidden border border-hb-border/30 mx-auto">
-                      <img src={imageUrl} alt={name || 'Photo'} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                      <img src={imageUrl} alt={name || 'Photo'} loading="lazy" width={64} height={64} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
                     </div>
                   )}
                   <div className="space-y-1">
@@ -181,6 +213,7 @@ export function TeamSectionSimple({ sectionId }: { sectionId: string }) {
                       className={cn(INPUT, 'text-xs')}
                     />
                   </div>
+                  {/* P114 / F2 — picker visible in SIMPLE (library-only) + EXPERT (full). */}
                   <div className="space-y-1">
                     <span className="text-xs font-medium text-hb-text-muted uppercase tracking-wide">Photo</span>
                     <ImagePicker
@@ -190,6 +223,7 @@ export function TeamSectionSimple({ sectionId }: { sectionId: string }) {
                       currentEffect={(section.style as Record<string, unknown>)?.imageEffect as string | undefined}
                       label="Choose Photo"
                       mode="image"
+                      pickerMode={isDraft ? 'library-only' : 'full'}
                     />
                   </div>
                   <div className="space-y-1">
@@ -223,6 +257,8 @@ export function TeamSectionSimple({ sectionId }: { sectionId: string }) {
           )}
         </div>
       </RightAccordion>
+      </div>
+      )}
     </div>
   )
 }

@@ -1,11 +1,22 @@
+import { useEffect } from 'react'
 import { Palette, LayoutList, MessageSquare, Mic, Settings } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { useUIStore } from '@/store/uiStore'
 import type { LeftPanelTab } from '@/store/uiStore'
+import { useConfigStore } from '@/store/configStore'
+import type { SectionType } from '@/lib/schemas/section'
 import { SectionsSection } from './SectionsSection'
 import { ChatInput } from '@/components/shell/ChatInput'
 import { ListenTab } from './ListenTab'
+import { PageSelector } from './PageSelector'
 import { Tooltip } from '@/components/ui/Tooltip'
+
+// Mirrors DRAFT_ALLOWED_SECTION_TYPES in SectionsSection.tsx (kept inline; KISS).
+const DRAFT_ALLOWED_SECTION_TYPES: ReadonlySet<SectionType> = new Set<SectionType>([
+  'hero',
+  'blog',
+  'footer',
+])
 
 const TABS = [
   { value: 'builder' as const, icon: LayoutList, label: 'Builder' },
@@ -19,6 +30,34 @@ export function LeftPanel() {
   const selectedContext = useUIStore((s) => s.selectedContext)
   const setSelectedContext = useUIStore((s) => s.setSelectedContext)
   const setRightPanelVisible = useUIStore((s) => s.setRightPanelVisible)
+  const rightPanelTab = useUIStore((s) => s.rightPanelTab)
+  const sections = useConfigStore((s) => {
+    const activePage = s.activePage
+    if (activePage && s.config.pages && s.config.pages.length > 0) {
+      const page = s.config.pages.find((p) => p.id === activePage)
+      if (page) return page.sections
+    }
+    return s.config.sections
+  })
+
+  // DRAFT-mode fallback: if the selected section is now hidden by the narrowed
+  // surface, redirect selection to the first allowed (and enabled) section.
+  useEffect(() => {
+    if (rightPanelTab !== 'SIMPLE') return
+    if (selectedContext?.type !== 'section') return
+    const current = sections.find((s) => s.id === selectedContext.sectionId)
+    if (current && DRAFT_ALLOWED_SECTION_TYPES.has(current.type as SectionType)) return
+    const fallback =
+      sections.find(
+        (s) => s.enabled && DRAFT_ALLOWED_SECTION_TYPES.has(s.type as SectionType),
+      ) ??
+      sections.find((s) => DRAFT_ALLOWED_SECTION_TYPES.has(s.type as SectionType))
+    if (fallback) {
+      setSelectedContext({ type: 'section', sectionId: fallback.id })
+    } else {
+      setSelectedContext({ type: 'theme' })
+    }
+  }, [rightPanelTab, selectedContext, sections, setSelectedContext])
 
   const handleTabChange = (tab: LeftPanelTab) => {
     setLeftPanelTab(tab)
@@ -31,6 +70,8 @@ export function LeftPanel() {
 
   return (
     <div className="bg-hb-bg h-full flex flex-col">
+      {/* P78 / OC-11 — Page selector strip (above tabs). Renders empty CTA in single-page mode. */}
+      <PageSelector />
       {/* Tab bar — 3 tabs */}
       <div role="tablist" aria-label="Left panel tabs" className="flex border-b border-hb-border">
         {TABS.map(({ value, icon: Icon, label }) => (
@@ -46,6 +87,15 @@ export function LeftPanel() {
                 ? 'text-hb-accent border-b-2 border-hb-accent'
                 : 'text-hb-text-muted hover:text-hb-text-secondary'
             )}
+            title={
+              value === 'builder'
+                ? 'Pick and arrange the sections of your page.'
+                : value === 'chat'
+                  ? 'Tell the assistant what you want and watch it build.'
+                  // P19 Fix-Pass 2 (F8): friendlier listen-tab tooltip — was
+                  // "Watch a guided demo …" / "Microphone capture (alpha)".
+                  : 'Speak to Bradley (preview).'
+            }
           >
             <Icon size={13} />
             {label}
@@ -73,6 +123,7 @@ export function LeftPanel() {
                   ? 'bg-hb-accent text-white border-hb-accent'
                   : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-accent/25'
               )}
+              title="Tell us what your site is about and who it is for."
             >
               <Settings size={14} className={isSiteContextSelected ? 'text-white/70' : 'text-hb-text-muted'} />
               <span className={cn('text-sm', isSiteContextSelected ? 'text-white font-medium' : 'text-hb-text-primary')}>Site Settings</span>
@@ -96,6 +147,7 @@ export function LeftPanel() {
                   ? 'bg-hb-accent text-white border-hb-accent'
                   : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-accent/25'
               )}
+              title="Pick the look and colors of your site."
             >
               <Palette size={14} className={isThemeSelected ? 'text-white/70' : 'text-hb-text-muted'} />
               <span className={cn('text-sm', isThemeSelected ? 'text-white font-medium' : 'text-hb-text-primary')}>Theme</span>
