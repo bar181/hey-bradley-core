@@ -42,8 +42,16 @@ export function CenterCanvas() {
   return (
     <div className="h-full flex flex-col">
       <TabBar />
-      <div className={cn('flex-1 overflow-auto', activeTab === 'REALITY' ? 'bg-hb-bg' : 'p-4 bg-hb-surface-hover')}>
-        {activeTab === 'REALITY' && <RealityTab />}
+      {/* Loop 2 / Builder lift — wrap REALITY in a subtle "preview frame"
+          (rounded card + drop shadow + breathing room) so the canvas reads as
+          a real site preview, not a tiny iframe. Other tabs keep their flat
+          chrome since they're tool surfaces, not previews. */}
+      <div className={cn('flex-1 overflow-auto', activeTab === 'REALITY' ? 'bg-hb-bg p-4' : 'p-4 bg-hb-surface-hover')}>
+        {activeTab === 'REALITY' && (
+          <div className="mx-auto rounded-lg border border-hb-border bg-hb-bg shadow-xl ring-1 ring-black/5 overflow-hidden">
+            <RealityTab />
+          </div>
+        )}
         {activeTab === 'XAI_DOCS' && <XAIDocsTab />}
         {activeTab === 'DATA' && <DataTab />}
         {activeTab === 'CONVERSATION_LOG' && <ConversationLogTab />}

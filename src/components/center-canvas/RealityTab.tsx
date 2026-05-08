@@ -366,17 +366,18 @@ export function RealityTab() {
     return (
       <div ref={containerRef} className="min-h-full flex items-center justify-center p-8">
         {isMultiPage && <MultiPageNav />}
-        {/* P123/W2 — actionable empty state. The old copy ("Start by adding
-            sections...") was directionally right but generic. New copy gives
-            two concrete next steps. */}
-        <div className="text-center max-w-sm">
-          <div className="w-16 h-16 rounded-full bg-hb-accent/10 flex items-center justify-center mx-auto mb-4">
-            <Layout size={28} className="text-hb-accent" />
+        {/* Loop 2 / Builder lift — welcome empty state with crimson accent ring,
+            larger orb, two concrete next steps. Treats first-load as a moment,
+            not a void. */}
+        <div className="text-center max-w-md">
+          <div className="w-20 h-20 rounded-full bg-hb-accent/10 ring-4 ring-hb-accent/20 flex items-center justify-center mx-auto mb-5">
+            <Layout size={32} className="text-hb-accent" />
           </div>
-          <p className="text-lg text-hb-text-primary font-semibold">Your site preview lives here.</p>
-          <p className="text-sm text-hb-text-muted mt-2 leading-relaxed">
-            Click <span className="font-medium text-hb-text-secondary">+ Add Section</span> in the left panel,
-            or pick a starter from the <span className="font-medium text-hb-text-secondary">Examples</span> tab.
+          <p className="text-xl text-hb-text-primary font-bold tracking-tight">Welcome to Hey Bradley.</p>
+          <p className="text-sm text-hb-text-muted mt-3 leading-relaxed">
+            Start by describing your site in <span className="font-semibold text-hb-text-secondary">Chat</span>,{' '}
+            or click <span className="font-semibold text-hb-text-secondary">+ Add Section</span> in the left
+            panel to start building.
           </p>
         </div>
       </div>

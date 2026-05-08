@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Pause, Play } from 'lucide-react'
 import { MarketingNav } from '@/components/MarketingNav'
 
 // P122 / W9 — Walkthrough revert to the original phase-1-15 3-pane design.
@@ -64,14 +64,25 @@ const TYPE_MS = 28
 function MobilePreview({ state }: { state: PreviewState }) {
   const headingFont = state.fontStyle === 'serif' ? 'font-serif' : 'font-sans'
   return (
+    // Loop 2 / Walkthrough lift — phone-shaped device frame: thicker dark
+    // bezel + status-bar mockup + home-indicator pill, so the preview reads
+    // as a real phone, not a stretched rectangle.
     <div
-      className="mx-auto rounded-3xl border-4 border-[var(--hb-ink)] bg-[var(--hb-paper)] shadow-2xl overflow-hidden wt-fade-in"
-      style={{ width: 320, maxWidth: '100%' }}
+      className="relative mx-auto rounded-[2.25rem] border-[8px] border-[#0f0f10] bg-[var(--hb-paper)] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.45),0_15px_30px_-10px_rgba(0,0,0,0.25)] overflow-hidden wt-fade-in"
+      style={{ width: 300, maxWidth: '100%' }}
       data-testid="walkthrough-mobile-frame"
       key={`${state.heroBg}-${state.showPricing}-${state.showContact}-${state.fontStyle}`}
     >
+      {/* Status bar — time + signal/wifi/battery pictograms */}
+      <div className="flex items-center justify-between px-4 py-1 text-[9px] font-mono bg-[var(--hb-paper-soft)] text-[var(--hb-ink-muted)] border-b border-[rgb(var(--hb-warm-rgb)/0.15)]">
+        <span className="font-semibold text-[var(--hb-ink)]">9:41</span>
+        <span className="flex items-center gap-1">
+          <span aria-hidden="true">•••</span>
+          <span aria-hidden="true">▮▮▮</span>
+        </span>
+      </div>
       {/* Browser chrome */}
-      <div className="flex items-center gap-1.5 px-3 py-2 bg-[var(--hb-paper-soft)] border-b border-[rgb(var(--hb-warm-rgb)/0.15)]">
+      <div className="flex items-center gap-1.5 px-3 py-1.5 bg-[var(--hb-paper-soft)] border-b border-[rgb(var(--hb-warm-rgb)/0.15)]">
         <span className="w-2 h-2 rounded-full bg-red-300" />
         <span className="w-2 h-2 rounded-full bg-yellow-300" />
         <span className="w-2 h-2 rounded-full bg-green-300" />
@@ -116,6 +127,10 @@ function MobilePreview({ state }: { state: PreviewState }) {
           </div>
         </div>
       )}
+      {/* iOS-style home-indicator pill */}
+      <div className="flex justify-center py-1.5 bg-[var(--hb-paper)]" aria-hidden="true">
+        <span className="block h-1 w-20 rounded-full bg-[var(--hb-ink)]/30" />
+      </div>
     </div>
   )
 }
@@ -128,15 +143,17 @@ export default function Walkthrough() {
 
   const [activeIdx, setActiveIdx] = useState(0)
   const [typed, setTyped] = useState(reduced ? STEPS[0].typed : '')
+  // Loop 2 / Walkthrough lift — play/pause user control.
+  const [paused, setPaused] = useState(false)
 
-  // Cycle through prompts (paused under reduced-motion).
+  // Cycle through prompts (paused under reduced-motion or when user pauses).
   useEffect(() => {
-    if (reduced) return
+    if (reduced || paused) return
     const id = window.setInterval(() => {
       setActiveIdx((i) => (i + 1) % STEPS.length)
     }, CYCLE_MS)
     return () => window.clearInterval(id)
-  }, [reduced])
+  }, [reduced, paused])
 
   // Typewriter effect for the active step.
   useEffect(() => {
@@ -163,11 +180,40 @@ export default function Walkthrough() {
       <MarketingNav />
 
       <main className="max-w-7xl mx-auto px-4 md:px-6 py-12 md:py-16">
-        <header className="text-center mb-10 md:mb-14">
+        <header className="text-center mb-8 md:mb-12">
           <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-3">Describe it. See it.</h1>
           <p className="text-base md:text-lg text-[var(--hb-ink-muted)] max-w-2xl mx-auto">
             Watch a real prompt turn into a real site. Three panes — the words, the work, the result.
           </p>
+          {/* Loop 2 / Walkthrough lift — play/pause + scrub indicator
+              (1 of 5). Mirrors the P123.5 ListenPreview transport bar. */}
+          <div className="mt-5 inline-flex items-center gap-3 px-3 py-1.5 rounded-full bg-white border border-[rgb(var(--hb-warm-rgb)/0.2)] shadow-sm">
+            <button
+              type="button"
+              onClick={() => setPaused((p) => !p)}
+              aria-label={paused ? 'Play walkthrough' : 'Pause walkthrough'}
+              data-testid="walkthrough-play-pause"
+              className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[var(--hb-warm)] text-white hover:bg-[var(--hb-warm-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-warm)] focus-visible:ring-offset-2 transition-colors"
+            >
+              {paused ? <Play size={12} className="ml-0.5" /> : <Pause size={12} />}
+            </button>
+            <div className="flex items-center gap-1" aria-label={`Step ${activeIdx + 1} of ${STEPS.length}`}>
+              {STEPS.map((_, i) => (
+                <span
+                  key={i}
+                  data-testid={i === activeIdx ? 'walkthrough-scrub-active' : `walkthrough-scrub-${i}`}
+                  className={`block h-1.5 rounded-full transition-all ${
+                    i === activeIdx
+                      ? 'w-6 bg-[var(--hb-warm)]'
+                      : 'w-1.5 bg-[var(--hb-ink)]/20'
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-xs font-mono tabular-nums text-[var(--hb-ink-muted)]">
+              {activeIdx + 1} / {STEPS.length}
+            </span>
+          </div>
         </header>
 
         {/* 3-pane grid: stacks on mobile, side-by-side at md+ */}
@@ -187,10 +233,10 @@ export default function Walkthrough() {
                     key={step.prompt}
                     data-testid={isActive ? 'walkthrough-active-prompt' : `walkthrough-prompt-${i}`}
                     aria-current={isActive ? 'true' : undefined}
-                    className={`relative rounded-xl border bg-[var(--hb-paper-soft)] px-4 py-3 text-sm md:text-base transition-opacity duration-300 ${
+                    className={`relative rounded-xl border bg-[var(--hb-paper-soft)] px-4 py-3 text-sm md:text-base transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md cursor-default ${
                       isActive
                         ? 'border-[var(--hb-warm)] opacity-100 wt-active-glow'
-                        : 'border-[rgb(var(--hb-warm-rgb)/0.15)] opacity-50'
+                        : 'border-[rgb(var(--hb-warm-rgb)/0.15)] opacity-50 hover:opacity-80'
                     }`}
                     style={
                       isActive
@@ -211,22 +257,26 @@ export default function Walkthrough() {
             </ul>
           </section>
 
-          {/* CENTER — typewriter */}
+          {/* CENTER — typewriter (terminal aesthetic; dark, monospace, crimson caret). */}
           <section
             data-testid="walkthrough-pane-typewriter"
             aria-label="Live response"
-            className="bg-[#1a1a1a] text-[#e6e6e6] rounded-2xl border border-[rgb(var(--hb-warm-rgb)/0.2)] p-4 md:p-5 shadow-sm min-h-[220px] md:min-h-[280px]"
+            className="bg-[#0f0f10] text-[#e6e6e6] rounded-2xl border border-white/10 p-4 md:p-5 shadow-2xl ring-1 ring-black/30 min-h-[220px] md:min-h-[280px]"
           >
             <div className="flex items-center gap-1.5 mb-4 pb-3 border-b border-white/10">
               <span className="w-2 h-2 rounded-full bg-red-400" />
               <span className="w-2 h-2 rounded-full bg-yellow-400" />
               <span className="w-2 h-2 rounded-full bg-green-400" />
               <span className="ml-2 text-[11px] text-white/50">hey-bradley · response</span>
+              <span className="ml-auto inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-emerald-400/80">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                live
+              </span>
             </div>
-            <pre className="font-mono text-sm md:text-[13px] leading-relaxed whitespace-pre-wrap break-words">
+            <pre className="font-mono text-sm md:text-[13px] leading-relaxed whitespace-pre-wrap break-words text-emerald-50/90">
               <span className="text-[var(--hb-warm)]">$ </span>
               {typed}
-              <span className="wt-caret text-[var(--hb-warm)]">|</span>
+              <span className="wt-caret text-[var(--hb-warm)] font-bold">▍</span>
             </pre>
           </section>
 
@@ -240,22 +290,22 @@ export default function Walkthrough() {
           </section>
         </div>
 
-        {/* Bottom note linking to the longer narrative blog */}
-        <div className="mt-12 max-w-2xl mx-auto text-center">
-          <p className="text-sm text-[var(--hb-ink-muted)] italic">
-            <span className="font-semibold not-italic">Note: </span>
-            Want the longer story? Read{' '}
-            <Link to="/blog/describe-it-see-it" className="text-[var(--hb-warm)] hover:underline">
-              the full narrative on the blog
-            </Link>
-            .
+        {/* Loop 2 / Walkthrough lift — closing CTA reframed: "Watched the demo
+            → now try it yourself." Primary path goes to Builder, secondary
+            keeps the open-core link. Adds the longer-story note below the
+            buttons so the buttons read as the primary close. */}
+        <div className="mt-14 max-w-2xl mx-auto text-center">
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-3">Now try it yourself.</h2>
+          <p className="text-base text-[var(--hb-ink-muted)] mb-6">
+            One sentence. Real site. The same thing you just watched, but with your idea.
           </p>
-          <div className="mt-8 flex flex-col md:flex-row items-center justify-center gap-3">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-3">
             <Link
-              to="/new-project"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] bg-[var(--hb-warm)] text-white font-semibold rounded-xl hover:bg-[var(--hb-warm-hover)] transition-colors shadow-md"
+              to="/builder"
+              data-testid="walkthrough-cta-try"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 min-h-[44px] bg-[var(--hb-warm)] text-white font-semibold rounded-xl hover:bg-[var(--hb-warm-hover)] transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
             >
-              Start describing <ArrowRight className="w-4 h-4" />
+              Try it yourself <ArrowRight className="w-4 h-4" />
             </Link>
             <a
               href="https://github.com/bar181/hey-bradley-core"
@@ -266,6 +316,13 @@ export default function Walkthrough() {
               View the open core <ArrowRight className="w-4 h-4" />
             </a>
           </div>
+          <p className="mt-7 text-sm text-[var(--hb-ink-muted)] italic">
+            Want the longer story? Read{' '}
+            <Link to="/blog/describe-it-see-it" className="text-[var(--hb-warm)] not-italic font-semibold hover:underline">
+              the full narrative on the blog
+            </Link>
+            .
+          </p>
         </div>
       </main>
     </div>
