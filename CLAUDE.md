@@ -192,11 +192,11 @@ npx @claude-flow/cli@latest daemon start
 |---|---|
 | **Main** | `5b3d52398` — v2.0.0-RC1 merged to `main` 2026-05-08 + 4 follow-up commits (P121 close-out, Vercel URL, `vercel.json` SPA hotfix, P122 bug log) |
 | **Tag** | `v2.0.0-RC1` (points at prep commit `0818e42b6`) |
-| **Active branch** | `swarm/p122-ux-overhaul` (cut from `main`; local-only — no push to main without owner sign-off) |
-| **Last sealed** | **P121 / HITL Pre-Merge Gate** ✅ — see `plans/hitl/phase-121/retrospective.md` |
-| **Active phase** | **P122 / UX-OVERHAUL + LLM-LIVE** — staged 40 → 50/100 UI lift + Gemini BYOK live + Agentics LLM-log + DB view; see `plans/hitl/phase-122/preflight.md` |
-| **Next** | **P123** — UI continuation 50 → 65/100 (panel proportions, resizable panels, public below-fold) |
-| **Then** | **P124** — open scope (was Gemini demo mode, now in P122; reassess at P122 close) |
+| **Active branch** | `swarm/p122-ux-overhaul` (P122 seal commit local-only; P123 cuts a fresh branch off this seal once owner approves) |
+| **Last sealed** | **P122 / UX-OVERHAUL + LLM-LIVE** ✅ — see `plans/hitl/phase-122/retrospective.md` (4 of 8 surfaces met target; public-only composite 60/100; 3 below-floor surfaces handed to P123) |
+| **Active phase** | **P123 / UI-CONTINUATION + LLM-SMOKE** — Contact 58 → 65 + Builder 55 → 65 + Agentics 60 → 70 + live Gemini chat + listen smokes per ADR-150; see `plans/hitl/phase-123/preflight.md` |
+| **Next** | **P124** — open scope (reassess at P123 close) |
+| **Then** | TBD post-P123 retrospective |
 | **Capstone** | Harvard ALM defense complete — 10/10, May 2026 |
 
 ---

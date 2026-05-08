@@ -1,44 +1,53 @@
 {
+  "_storytellingPreset": "founder-direct",
+  "_note": "P122 / W2 — Hey Bradley default template. Dark canvas + crimson (#A51C30). Per human-2.md lines 50-90: 4 sections (Hero · Features · Stats · CTA band) plus nav and footer. No stock photos; the hero gets a crimson radial-gradient orb. Voice = founder-direct.",
   "site": {
-    "title": "Your Website",
-    "description": "A beautiful website built with Hey Bradley",
-    "author": "",
-    "email": "hello@example.com",
-    "domain": "example.com",
-    "project": "my-website",
+    "title": "Hey Bradley",
+    "description": "Describe any site. Watch it build. The website builder that finally works the way you talk.",
+    "author": "Bradley Ross",
+    "email": "hello@hey-bradley.dev",
+    "domain": "hey-bradley.dev",
+    "project": "hey-bradley",
     "version": "1.0.0-RC1",
-    "spec": "aisp-1.2"
+    "spec": "aisp-1.2",
+    "purpose": "marketing",
+    "audience": "consumer",
+    "tone": "bold",
+    "brandName": "Hey Bradley",
+    "tagline": "Describe it. See it.",
+    "voiceAttributes": ["founder-direct", "confident", "plain-spoken", "specific"],
+    "storytellingPreset": "founder-direct"
   },
   "theme": {
     "preset": "saas",
     "mode": "dark",
     "palette": {
-      "bgPrimary": "#0a0a1a",
-      "bgSecondary": "#12122a",
-      "textPrimary": "#f8fafc",
-      "textSecondary": "#94a3b8",
-      "accentPrimary": "#6366f1",
-      "accentSecondary": "#818cf8"
+      "bgPrimary": "#0f0f10",
+      "bgSecondary": "#17171a",
+      "textPrimary": "#f5f5f4",
+      "textSecondary": "#a8a39a",
+      "accentPrimary": "#A51C30",
+      "accentSecondary": "#c93a4f"
     },
     "alternatePalette": {
-      "bgPrimary": "#ffffff",
-      "bgSecondary": "#f8fafc",
-      "textPrimary": "#09090b",
-      "textSecondary": "#6b7280",
-      "accentPrimary": "#4f46e5",
-      "accentSecondary": "#6366f1"
+      "bgPrimary": "#fafaf9",
+      "bgSecondary": "#f5f5f4",
+      "textPrimary": "#0f0f10",
+      "textSecondary": "#57534e",
+      "accentPrimary": "#A51C30",
+      "accentSecondary": "#7f1322"
     },
     "typography": {
       "fontFamily": "Inter",
       "headingFamily": "Inter",
-      "headingWeight": 800,
+      "headingWeight": 700,
       "baseSize": "16px",
       "lineHeight": 1.7
     },
     "spacing": {
-      "sectionPadding": "64px",
-      "containerMaxWidth": "1280px",
-      "componentGap": "24px"
+      "sectionPadding": "96px",
+      "containerMaxWidth": "1200px",
+      "componentGap": "32px"
     },
     "borderRadius": "12px"
   },
@@ -51,33 +60,20 @@
       "variant": "simple",
       "layout": {
         "display": "flex",
-        "padding": "0"
+        "padding": "20px 32px",
+        "gap": "28px"
       },
       "style": {
-        "background": "#0a0a1a",
-        "color": "#f8fafc"
+        "background": "#0f0f10",
+        "color": "#f5f5f4"
       },
       "components": [
-        {
-          "id": "logo",
-          "type": "text",
-          "enabled": true,
-          "order": 0,
-          "props": {
-            "text": "Your Brand"
-          }
-        },
-        {
-          "id": "cta",
-          "type": "button",
-          "enabled": true,
-          "order": 1,
-          "props": {
-            "text": "Get Started",
-            "url": "#pricing"
-          }
-        }
-      ]
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Hey Bradley" } },
+        { "id": "nav-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "How it works", "url": "#features" } },
+        { "id": "nav-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "The numbers", "url": "#stats" } },
+        { "id": "cta", "type": "button", "enabled": true, "order": 3, "props": { "text": "Try the builder", "url": "#cta" } }
+      ],
+      "content": {}
     },
     {
       "type": "hero",
@@ -89,13 +85,13 @@
         "display": "flex",
         "direction": "column",
         "align": "center",
-        "gap": "24px",
-        "padding": "64px",
-        "maxWidth": "1280px"
+        "gap": "28px",
+        "padding": "120px 24px",
+        "maxWidth": "1100px"
       },
       "style": {
-        "background": "linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a1a 100%)",
-        "color": "#f8fafc",
+        "background": "radial-gradient(ellipse at center, rgba(165, 28, 48, 0.18) 0%, rgba(15, 15, 16, 0) 60%), #0f0f10",
+        "color": "#f5f5f4",
         "fontFamily": "Inter",
         "borderRadius": "0px"
       },
@@ -106,7 +102,7 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "Your Tagline Here",
+            "text": "The website builder that talks back",
             "icon": "sparkles",
             "variant": "pill"
           }
@@ -117,9 +113,9 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Welcome to Your Website",
+            "text": "Describe it. See it.",
             "level": 1,
-            "size": "56px",
+            "size": "72px",
             "weight": 700
           }
         },
@@ -129,7 +125,7 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "Describe what makes your business special"
+            "text": "Your voice is the whiteboard. Describe any site. Watch it build."
           }
         },
         {
@@ -138,8 +134,8 @@
           "enabled": true,
           "order": 3,
           "props": {
-            "text": "Start Building",
-            "url": "#pricing",
+            "text": "Start describing",
+            "url": "#cta",
             "style": "filled",
             "size": "lg"
           }
@@ -150,8 +146,8 @@
           "enabled": true,
           "order": 4,
           "props": {
-            "text": "See How It Works",
-            "url": "#about",
+            "text": "Watch a demo",
+            "url": "/walkthrough",
             "style": "outline",
             "size": "lg"
           }
@@ -159,15 +155,9 @@
         {
           "id": "heroImage",
           "type": "image",
-          "enabled": true,
+          "enabled": false,
           "order": 5,
-          "props": {
-            "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&q=80",
-            "alt": "Hero image",
-            "aspect": "16:9",
-            "position": "below",
-            "shadow": true
-          }
+          "props": {}
         },
         {
           "id": "backgroundImage",
@@ -186,14 +176,15 @@
         {
           "id": "trustBadges",
           "type": "trust",
-          "enabled": true,
+          "enabled": false,
           "order": 8,
           "props": {
-            "text": "Trusted by happy customers worldwide",
-            "show": true
+            "text": "",
+            "show": false
           }
         }
-      ]
+      ],
+      "content": {}
     },
     {
       "type": "columns",
@@ -205,11 +196,11 @@
         "display": "grid",
         "columns": 3,
         "gap": "32px",
-        "padding": "48px"
+        "padding": "96px 24px"
       },
       "style": {
-        "background": "#12122a",
-        "color": "#f8fafc"
+        "background": "#17171a",
+        "color": "#f5f5f4"
       },
       "components": [
         {
@@ -218,9 +209,9 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "icon": "\u26a1",
-            "title": "Your First Feature",
-            "description": "Describe what makes this special."
+            "icon": "🎙",
+            "title": "Listen mode",
+            "description": "Talk through your idea. The site builds while you speak. No forms. No drag-and-drop. Just the way you'd describe it to a friend."
           }
         },
         {
@@ -229,9 +220,9 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "icon": "\ud83c\udfaf",
-            "title": "Pixel Perfect",
-            "description": "Every detail exactly the way you want it."
+            "icon": "⚡",
+            "title": "Real time, not rebuild",
+            "description": "Surgical JSON patches, not full regeneration. Sub-second updates. Change a headline and only the headline moves."
           }
         },
         {
@@ -240,91 +231,32 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "icon": "\ud83d\udd12",
-            "title": "Rock Solid",
-            "description": "Built with quality from the start."
+            "icon": "📄",
+            "title": "Export the spec",
+            "description": "Every build produces a formally verified AISP spec. Hand it to Claude Code, Cursor, or any AI coding assistant. They read it and ship."
           }
         }
       ],
       "content": {
-        "heading": "What We Do",
-        "subheading": "A closer look at what sets us apart"
-      }
-    },
-    {
-      "type": "quotes",
-      "id": "testimonials-01",
-      "enabled": true,
-      "order": 2,
-      "variant": "cards",
-      "layout": {
-        "display": "grid",
-        "columns": 3,
-        "gap": "24px",
-        "padding": "64px 24px"
-      },
-      "style": {
-        "background": "#0a0a1a",
-        "color": "#f8fafc"
-      },
-      "components": [
-        {
-          "id": "t-1",
-          "type": "testimonial",
-          "enabled": true,
-          "order": 0,
-          "props": {
-            "quote": "This product completely transformed the way we work. We saved hours every week and the results speak for themselves.",
-            "author": "Jamie N.",
-            "role": "Head of Growth",
-            "rating": 5
-          }
-        },
-        {
-          "id": "t-2",
-          "type": "testimonial",
-          "enabled": true,
-          "order": 1,
-          "props": {
-            "quote": "The experience was seamless from start to finish. I would recommend this to anyone looking for quality and reliability.",
-            "author": "Alex P.",
-            "role": "Founder",
-            "rating": 5
-          }
-        },
-        {
-          "id": "t-3",
-          "type": "testimonial",
-          "enabled": true,
-          "order": 2,
-          "props": {
-            "quote": "Outstanding quality and attention to detail. Our team has been thoroughly impressed with the results.",
-            "author": "Priya S.",
-            "role": "VP Engineering",
-            "rating": 5
-          }
-        }
-      ],
-      "content": {
-        "heading": "Loved by Builders",
-        "subheading": "See what people are saying"
+        "heading": "Three things most builders get wrong",
+        "subheading": "And the one Hey Bradley got right"
       }
     },
     {
       "type": "numbers",
-      "id": "numbers-01",
+      "id": "stats-01",
       "enabled": true,
-      "order": 3,
+      "order": 2,
       "variant": "counters",
       "layout": {
         "display": "grid",
-        "columns": 4,
-        "gap": "32px",
-        "padding": "64px 24px"
+        "columns": 3,
+        "gap": "48px",
+        "padding": "96px 24px"
       },
       "style": {
-        "background": "#12122a",
-        "color": "#f8fafc"
+        "background": "#0f0f10",
+        "color": "#f5f5f4"
       },
       "components": [
         {
@@ -333,9 +265,9 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "value": "2,000+",
-            "label": "Sites Built",
-            "description": "And counting"
+            "value": "92%",
+            "label": "Intent preserved",
+            "description": "Across five handoffs (design → ticket → code → review → ship), AISP keeps over 90% of original intent. Industry baseline: ~8%."
           }
         },
         {
@@ -344,9 +276,9 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "value": "< 5 min",
-            "label": "Time to Launch",
-            "description": "Average build time"
+            "value": "<2%",
+            "label": "Spec ambiguity",
+            "description": "AISP holds ambiguity below 2% per handoff. Normal software handoffs run ~40%. The math is brutal — and that's the math we beat."
           }
         },
         {
@@ -355,44 +287,33 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "value": "99.9%",
-            "label": "Uptime",
-            "description": "Always available"
-          }
-        },
-        {
-          "id": "n-4",
-          "type": "value-prop",
-          "enabled": true,
-          "order": 3,
-          "props": {
-            "value": "4.9/5",
-            "label": "Rating",
-            "description": "From 500+ reviews"
+            "value": "0.8s",
+            "label": "First build",
+            "description": "From the moment you stop talking to the first rendered preview. JSON patches, not regeneration. The math goes one direction."
           }
         }
       ],
       "content": {
-        "heading": "The Numbers Speak",
-        "subheading": "Real results from real people"
+        "heading": "The numbers behind the build",
+        "subheading": "Capstone research, Harvard ALM Digital Media Design — 2026"
       }
     },
     {
       "type": "action",
       "id": "cta-01",
       "enabled": true,
-      "order": 4,
-      "variant": "simple",
+      "order": 3,
+      "variant": "centered",
       "layout": {
         "display": "flex",
         "direction": "column",
         "align": "center",
-        "padding": "48px",
-        "gap": "16px"
+        "padding": "112px 24px",
+        "gap": "20px"
       },
       "style": {
-        "background": "#0a0a1a",
-        "color": "#f8fafc"
+        "background": "linear-gradient(180deg, #0f0f10 0%, #17171a 100%)",
+        "color": "#f5f5f4"
       },
       "components": [
         {
@@ -401,9 +322,9 @@
           "enabled": true,
           "order": 0,
           "props": {
-            "text": "Ready to build something amazing?",
+            "text": "Ready to build?",
             "level": 2,
-            "size": "32px",
+            "size": "48px",
             "weight": 700
           }
         },
@@ -413,7 +334,7 @@
           "enabled": true,
           "order": 1,
           "props": {
-            "text": "Take the next step and get started today."
+            "text": "From your idea to a real site, in your words."
           }
         },
         {
@@ -422,13 +343,53 @@
           "enabled": true,
           "order": 2,
           "props": {
-            "text": "Launch Now",
-            "url": "#signup",
+            "text": "Try the builder",
+            "url": "/builder",
             "style": "filled",
             "size": "lg"
           }
         }
-      ]
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "40px 24px",
+        "gap": "8px"
+      },
+      "style": {
+        "background": "#0f0f10",
+        "color": "#a8a39a"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Hey Bradley · Open source · MIT licensed · Built at Harvard"
+          }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "© 2026 Hey Bradley. Describe it. See it."
+          }
+        }
+      ],
+      "content": {}
     }
   ]
 }

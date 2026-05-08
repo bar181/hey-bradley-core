@@ -35,6 +35,11 @@ export function AISP() {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.05]">
             AI Symbolic Protocol
           </h1>
+          {/* P122 / W8 — plain-English line above the math-first technical
+              line so a new visitor gets the gist before the symbol talk. */}
+          <p className="text-lg md:text-xl text-[#2d1f12] font-semibold leading-relaxed mb-3 max-w-2xl">
+            The spec layer that AI tools read directly &mdash; no interpretation, no telephone game.
+          </p>
           <p className="text-base md:text-xl text-[#6b5e4f] leading-relaxed mb-8 max-w-2xl">
             A math-first neural symbolic language with 512 symbols that all AI and
             LLM understand natively. The goal: near-zero ambiguity between what you

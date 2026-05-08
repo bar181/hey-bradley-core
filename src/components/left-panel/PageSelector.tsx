@@ -3,6 +3,7 @@ import { Plus, X } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { useUIStore } from '@/store/uiStore'
 import { useConfigStore } from '@/store/configStore'
+import { ScrollArea } from '@/components/ui/ScrollArea'
 
 /**
  * P78 / OC-11 (ADR-085, ADR-103) — Page selector strip.
@@ -83,8 +84,15 @@ export function PageSelector() {
     setDraftTitle('')
   }
 
+  // P122 / W4 — wrap horizontal page-tab strip in shadcn ScrollArea so the
+  // tab list scrolls horizontally on narrow viewports without leaking the
+  // browser's native horizontal scrollbar onto the surrounding panel.
+  // `min-w-0` on the outer container is the standard flex-child trick for
+  // letting the inner row contract instead of forcing the parent to grow.
   return (
-    <div className="flex items-center gap-1 overflow-x-auto border-b border-hb-border px-2 py-1.5">
+    <div className="border-b border-hb-border min-w-0 overflow-x-hidden">
+      <ScrollArea type="horizontal" className="w-full">
+        <div className="flex items-center gap-1 px-2 py-1.5 w-max">
       {pages.map((page) => {
         const isActive = page.id === activePageId
         const isRenaming = renamingId === page.id
@@ -168,6 +176,8 @@ export function PageSelector() {
         <Plus size={12} />
         Add page
       </button>
+        </div>
+      </ScrollArea>
     </div>
   )
 }

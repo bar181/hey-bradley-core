@@ -254,7 +254,8 @@ export function SpecWorkbench({ phases, activePhaseId, activeSprintId, onSprintE
         data-testid="spec-workbench-empty"
         className="flex items-center justify-center min-h-[200px] p-8 rounded-md border border-dashed border-[var(--hb-border)] bg-[var(--hb-surface)]"
       >
-        <p className="text-sm text-[var(--hb-text-muted)] italic">Select a phase to see its spec</p>
+        {/* P122 / W8 — plainer language for new visitors. */}
+        <p className="text-sm text-[var(--hb-text-muted)] italic">Pick a phase on the left to see how it was built</p>
       </div>
     )
   }

@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Code2, ExternalLink } from 'lucide-react'
+import { ArrowRight, Code2, ExternalLink, FileText, Zap, GitMerge } from 'lucide-react'
 import { MarketingNav } from '@/components/MarketingNav'
 import { HeroOrb } from '@/components/marketing/HeroOrb'
 import { useReveal } from '@/hooks/useReveal'
+import { Button } from '@/components/ui/button'
 
 // Unsplash images matched to content
 const IMG = {
@@ -55,13 +56,23 @@ export function OpenCore() {
               <p className="text-sm text-[var(--hb-text-muted)] mb-8">
                 Bradley Ross &middot; Agentic Engineer &middot; ALM, Digital Media Design
               </p>
+              {/* P122 / W8 — hero CTAs promoted to shadcn Button. */}
               <div className="flex flex-wrap gap-3">
-                <Link to="/new-project" className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--hb-accent)] text-white font-semibold rounded-xl hover:bg-[var(--hb-accent-hover)] transition-colors shadow-lg">
+                <Button
+                  size="lg"
+                  render={<Link to="/new-project" />}
+                  className="min-h-[44px] gap-2 rounded-xl px-6 py-3 text-base font-semibold shadow-lg bg-[var(--hb-accent)] text-white hover:bg-[var(--hb-accent-hover)]"
+                >
                   Try the builder <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link to="/blog/research-the-telephone-game" className="inline-flex items-center gap-2 px-6 py-3 border border-white/20 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors">
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  render={<Link to="/blog/research-the-telephone-game" />}
+                  className="min-h-[44px] gap-2 rounded-xl px-6 py-3 text-base font-semibold border-white/20 bg-transparent text-white hover:bg-white/10"
+                >
                   Read the research <ArrowRight className="w-4 h-4" />
-                </Link>
+                </Button>
               </div>
             </div>
           </div>
@@ -202,6 +213,62 @@ export function OpenCore() {
                 <p className="text-sm text-[var(--hb-text-secondary)] leading-relaxed">{step.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* P122 / W8 — Capstone enhancement: "How the engineering works"
+          sub-section. Plain-English bullets for the curious technical reader,
+          each linking to one of the existing P118 long-form blog posts where
+          the deeper detail lives. Non-technical reader is unaffected — the
+          existing narrative above is unmodified, and the bullet copy itself
+          is plain English (no Crystal Atom / JSON-Patch jargon in the bullets;
+          those phrases live in the linked posts where the audience self-selects). */}
+      <section className="pb-12 md:pb-16">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="mx-auto max-w-3xl rounded-2xl border border-[var(--hb-border)] bg-[var(--hb-surface)]/60 p-6 md:p-8">
+            <p className="text-xs uppercase tracking-[0.25em] text-[var(--hb-accent)] font-semibold mb-3">
+              For the curious
+            </p>
+            <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-3">
+              How the engineering works
+            </h3>
+            <p className="text-[var(--hb-text-secondary)] text-sm md:text-base leading-relaxed mb-6">
+              Three things make Hey Bradley different from a typical site
+              generator. Each one has its own write-up if you want the detail.
+            </p>
+            <ul className="space-y-4">
+              <li className="flex gap-3">
+                <FileText className="w-5 h-5 mt-1 text-[var(--hb-accent)] flex-shrink-0" />
+                <div>
+                  <p className="text-sm md:text-base font-semibold mb-1">Every build produces a portable spec</p>
+                  <p className="text-sm text-[var(--hb-text-secondary)] leading-relaxed">
+                    What you describe is captured in a structured format an AI coding tool can read directly — no re-explaining required.{' '}
+                    <Link to="/blog/the-handoff-that-changes-everything" className="text-[var(--hb-accent)] hover:underline">Read about the hand-off &rarr;</Link>
+                  </p>
+                </div>
+              </li>
+              <li className="flex gap-3">
+                <Zap className="w-5 h-5 mt-1 text-[var(--hb-accent)] flex-shrink-0" />
+                <div>
+                  <p className="text-sm md:text-base font-semibold mb-1">Updates are surgical, not regenerated</p>
+                  <p className="text-sm text-[var(--hb-text-secondary)] leading-relaxed">
+                    Change one sentence and only that part of the site changes. The rest of your work is preserved.{' '}
+                    <Link to="/blog/describe-it-see-it" className="text-[var(--hb-accent)] hover:underline">See how it compares &rarr;</Link>
+                  </p>
+                </div>
+              </li>
+              <li className="flex gap-3">
+                <GitMerge className="w-5 h-5 mt-1 text-[var(--hb-accent)] flex-shrink-0" />
+                <div>
+                  <p className="text-sm md:text-base font-semibold mb-1">90% of your intent survives the hand-off</p>
+                  <p className="text-sm text-[var(--hb-text-secondary)] leading-relaxed">
+                    Industry baseline is about 8% across five hand-offs. The capstone research measured how to keep the rest.{' '}
+                    <Link to="/blog/why-we-built-this-the-honest-version" className="text-[var(--hb-accent)] hover:underline">Read the honest version &rarr;</Link>
+                  </p>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </section>

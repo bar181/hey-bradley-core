@@ -20,6 +20,14 @@ import { AISPDeveloperCard } from '@/components/onboarding/AISPDeveloperCard'
 import { ProcessMapSVG, type ProcessMap } from '@/components/planning/ProcessMapSVG'
 import { SpecWorkbench } from '@/components/agentics/SpecWorkbench'
 import { SealPanel } from '@/components/agentics/SealPanel'
+// P122 / W6 — Agentics observability surfaces (LLM log + DB inspector).
+// Cross-ref: ADR-043 (BYOK), ADR-126 (logging), ADR-110 (AISP visibility).
+import { LLMLogPanel } from '@/components/agentics/LLMLogPanel'
+import { DBPanel } from '@/components/agentics/DBPanel'
+// P122 / W6 — surface CostPill in Agentics header so the owner can watch
+// live BYOK cap consumption without switching modes (preflight §4-G-25).
+import { CostPill } from '@/components/shell/CostPill'
+import { useProjectStore } from '@/store/projectStore'
 import { HEY_BRADLEY_SAMPLE_MAP } from '@/data/sample-process-map'
 import {
   HEY_BRADLEY_SAMPLE_PHASES,
@@ -34,6 +42,8 @@ import {
 
 export function Agentics() {
   const phases = HEY_BRADLEY_SAMPLE_PHASES
+  // P122 / W6 — read activeProject for project-scoped LLM log + DB views.
+  const activeProjectId = useProjectStore((s) => s.activeProject)
   const [activePhaseId, setActivePhaseId] = useState<string>('foundation')
   const [activeSprintId, setActiveSprintId] = useState<string | undefined>(
     phases[0]?.sprints[0]?.id,
@@ -122,13 +132,17 @@ export function Agentics() {
             Building with AISP
           </span>
         </div>
-        <Link
-          to="/"
-          className="text-sm text-[var(--hb-accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] focus-visible:ring-offset-2 rounded transition-colors duration-200"
-          data-testid="agentics-back-home"
-        >
-          ← Back to home
-        </Link>
+        <div className="flex items-center gap-3">
+          {/* P122 / W6 — live cap consumption visible during BYOK smoke testing. */}
+          <CostPill />
+          <Link
+            to="/"
+            className="text-sm text-[var(--hb-accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] focus-visible:ring-offset-2 rounded transition-colors duration-200"
+            data-testid="agentics-back-home"
+          >
+            ← Back to home
+          </Link>
+        </div>
       </header>
 
       <div className="flex flex-col md:flex-row min-h-[calc(100vh-64px)]">
@@ -248,10 +262,21 @@ export function Agentics() {
                   }}
                 />
               </div>
+              {/*
+                P122 / W6 — observability surfaces. Both panels are read-only
+                and inherit BYOK redaction from the write-time `redactKeyShapes`
+                call sites in `comprehensiveLogs.ts` + `llmLogs.ts` per
+                ADR-043 + ADR-114 D3.
+              */}
+              <div className="mt-4 flex flex-col gap-4">
+                <LLMLogPanel projectId={activeProjectId} />
+                <DBPanel projectId={activeProjectId} />
+              </div>
             </>
           ) : (
             <div className="text-sm text-[var(--hb-text-muted)]">
-              Select a phase from the map to see its spec.
+              {/* P122 / W8 — plainer language for new visitors. */}
+              Pick a phase from the map to see how it was built.
             </div>
           )}
         </aside>

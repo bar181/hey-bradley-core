@@ -105,17 +105,48 @@ export function SectionSimple({ sectionId }: { sectionId: string }) {
 
   const applyHeroLayout = useCallback(
     (layout: typeof HERO_LAYOUTS[number]) => {
+      // P122 / W4 / §4-F-18 — preserve user's image URL across layout switches.
+      // BUG was: when switching from a layout that used `backgroundImage` to one
+      // that uses `heroImage` (or vice-versa), the new media slot was empty so
+      // we'd assign a stock DEFAULT_IMAGE and silently overwrite the user's
+      // custom photo. FIX: if the OUTGOING active image-media component had a
+      // URL the user picked, port it to the INCOMING image-media component.
+      // (Image-only crossover; image↔video transitions intentionally still
+      // fall back to DEFAULT_VIDEO because formats are different.)
       const mediaMap: Record<string, boolean> = {
         heroImage: layout.media === 'heroImage',
         backgroundImage: layout.media === 'backgroundImage',
         heroVideo: layout.media === 'heroVideo',
       }
+      // Find an existing image URL the user already has set (heroImage or
+      // backgroundImage), preferring whichever was currently enabled.
+      const findUrl = (id: string) =>
+        (section.components.find((c) => c.id === id)?.props?.url as string) || ''
+      const existingHeroImageUrl = findUrl('heroImage')
+      const existingBgImageUrl = findUrl('backgroundImage')
+      // The "carry-forward" image URL: pick the one currently enabled first,
+      // else any non-empty image URL, else empty (we'll fall back to default).
+      const heroEnabledNow = section.components.find((c) => c.id === 'heroImage')?.enabled
+      const bgEnabledNow = section.components.find((c) => c.id === 'backgroundImage')?.enabled
+      const carryImageUrl =
+        (heroEnabledNow && existingHeroImageUrl) ||
+        (bgEnabledNow && existingBgImageUrl) ||
+        existingHeroImageUrl ||
+        existingBgImageUrl ||
+        ''
+
       const updatedComponents = section.components.map((c) => {
         if (!(c.id in mediaMap)) return c
         const shouldEnable = mediaMap[c.id]
         const currentUrl = (c.props?.url as string) || ''
+        // If we're enabling an image slot (heroImage or backgroundImage) and
+        // it's empty, prefer the user's carry-forward URL over the stock
+        // default. Video stays on its own DEFAULT_VIDEO fallback.
         if (shouldEnable && !currentUrl) {
-          const defaultUrl = c.id === 'heroImage' ? DEFAULT_IMAGE : c.id === 'backgroundImage' ? DEFAULT_BG_IMAGE : c.id === 'heroVideo' ? DEFAULT_VIDEO : ''
+          let defaultUrl = ''
+          if (c.id === 'heroImage') defaultUrl = carryImageUrl || DEFAULT_IMAGE
+          else if (c.id === 'backgroundImage') defaultUrl = carryImageUrl || DEFAULT_BG_IMAGE
+          else if (c.id === 'heroVideo') defaultUrl = DEFAULT_VIDEO
           return { ...c, enabled: shouldEnable, props: { ...c.props, url: defaultUrl } }
         }
         return { ...c, enabled: shouldEnable }

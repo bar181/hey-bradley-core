@@ -2,7 +2,9 @@ import { Link } from "react-router-dom"
 import { ArrowRight, Mic, MessageSquare, SlidersHorizontal, Code2, FileText } from "lucide-react"
 import { MarketingNav } from "@/components/MarketingNav"
 import { HeroOrb } from "@/components/marketing/HeroOrb"
+import { ListenPreview } from "@/components/marketing/ListenPreview"
 import { useReveal } from "@/hooks/useReveal"
+import { Button } from "@/components/ui/button"
 
 // P121.5 — Harvard crimson redesign. Dark hero with pulsating red orb,
 // brad_pixar avatar, Apple-style scroll story.
@@ -87,39 +89,32 @@ export function Welcome() {
               See how it compares &rarr;
             </Link>
           </p>
+          {/* P122 / W8 — primary + secondary CTAs upgraded to shadcn Button.
+              Brand color stays var(--hb-accent) via className override; outline
+              variant inherits real focus-visible ring + hover-scale from the
+              primitive (see src/components/ui/button.tsx). */}
           <div className="flex flex-wrap justify-center gap-3 mb-12">
-            <Link
-              to="/new-project"
-              className="inline-flex items-center gap-2 px-6 py-3 min-h-[44px] bg-[var(--hb-accent)] text-white font-semibold rounded-xl hover:bg-[var(--hb-accent-hover)] transition-colors shadow-lg"
+            <Button
+              size="lg"
+              render={<Link to="/new-project" />}
+              className="min-h-[44px] gap-2 rounded-xl px-6 py-3 text-base font-semibold shadow-lg bg-[var(--hb-accent)] text-white hover:bg-[var(--hb-accent-hover)]"
             >
               Start describing
               <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              to="/walkthrough"
-              className="inline-flex items-center gap-2 px-6 py-3 min-h-[44px] border border-white/20 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors"
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              render={<Link to="/walkthrough" />}
+              className="min-h-[44px] gap-2 rounded-xl px-6 py-3 text-base font-semibold border-white/20 bg-transparent text-white hover:bg-white/10"
             >
-              Watch the walkthrough <ArrowRight className="w-4 h-4" />
-            </Link>
+              Watch the walkthrough
+              <ArrowRight className="w-4 h-4" />
+            </Button>
           </div>
 
-          {/* Typing demo card */}
-          <div
-            className="max-w-md mx-auto bg-[var(--hb-surface)] rounded-2xl border border-[var(--hb-border)] p-6 shadow-sm"
-            aria-hidden="true"
-          >
-            <div className="text-sm text-[var(--hb-text-muted)] mb-5 font-mono">
-              <span className="hb-hero-typing">a website for our coffee shop</span>
-            </div>
-            <div className="hb-hero-morph">
-              <div className="rounded-xl bg-[var(--hb-bg)] p-5 border border-[var(--hb-border)]">
-                <div className="h-3 w-2/3 rounded bg-[var(--hb-text-primary)] opacity-60 mb-3" />
-                <div className="h-2 w-full rounded bg-[var(--hb-text-muted)] opacity-30 mb-2" />
-                <div className="h-2 w-5/6 rounded bg-[var(--hb-text-muted)] opacity-30 mb-5" />
-                <div className="inline-block h-8 w-28 rounded-lg bg-[var(--hb-accent)]" />
-              </div>
-            </div>
-          </div>
+          {/* Listen-mode preview mockup (W3) */}
+          <ListenPreview />
         </div>
       </section>
 
@@ -253,13 +248,15 @@ export function Welcome() {
         <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-8 leading-tight">
           From your idea to a real site, in your words.
         </h2>
-        <Link
-          to="/new-project"
-          className="inline-flex items-center gap-2 px-8 py-4 min-h-[44px] bg-[var(--hb-accent)] text-white font-semibold rounded-xl hover:bg-[var(--hb-accent-hover)] transition-colors shadow-lg text-lg"
+        {/* P122 / W8 — closing CTA promoted to shadcn Button. */}
+        <Button
+          size="lg"
+          render={<Link to="/new-project" />}
+          className="min-h-[44px] gap-2 rounded-xl px-8 py-4 text-lg font-semibold shadow-lg bg-[var(--hb-accent)] text-white hover:bg-[var(--hb-accent-hover)]"
         >
           Start describing
           <ArrowRight className="w-5 h-5" />
-        </Link>
+        </Button>
         <p className="text-xs text-[var(--hb-text-muted)] mt-8 tracking-wide">
           Open source &middot; MIT licensed &middot; ALM &middot; Harvard University
         </p>

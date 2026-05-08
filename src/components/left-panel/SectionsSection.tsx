@@ -11,6 +11,7 @@ import { useUIStore } from '@/store/uiStore'
 import { useConfigStore } from '@/store/configStore'
 import { applyDraftLabel } from '@/lib/draftRename'
 import { QuickAddPicker } from './QuickAddPicker'
+import { Button } from '@/components/ui/button'
 import type { SectionType } from '@/lib/schemas/section'
 import { isSwappable, swapCandidates, defaultComponentsFor, SWAP_LABEL, type SwappableType } from '@/lib/sectionTypeSwap'
 
@@ -553,16 +554,29 @@ export function SectionsSection() {
         </div>
       )}
 
-      {/* Enable multi-page button (single-page mode) */}
+      {/* P122 / W4 / §4-F-17 — Add-page button (single-page mode).
+          BUG was: this slot showed a disabled "Multi-Page (Coming Soon)"
+          stub — clicking it did nothing, but the user reasonably expected
+          it to add a page. FIX: wire to `addPage('Untitled Page')`, which
+          already promotes the current single-page config to multi-page on
+          first invocation (configStore.ts: addPage seeds a Home page from
+          the existing sections). After the call we read configStore's
+          activePage back so SectionsSection's section list re-renders the
+          newly-active page. */}
       {!isMultiPage && !isDraft && (
         <button
           type="button"
-          disabled
-          className="flex items-center gap-1.5 w-full px-3 py-1.5 mb-1 text-xs text-hb-text-muted opacity-50 cursor-not-allowed rounded-md"
-          title="Multiple pages will be available in a future update."
+          data-testid="enable-multipage-button"
+          onClick={() => {
+            addPage('Untitled Page')
+            setLocalOrder(null)
+          }}
+          className="flex items-center gap-1.5 w-full px-3 py-1.5 mb-1 text-xs text-hb-text-muted hover:text-hb-text-secondary hover:bg-hb-surface-hover rounded-md transition-colors focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)]"
+          title="Turn this single-page site into multi-page and add a new page."
+          aria-label="Add a new page"
         >
           <Files size={12} />
-          Multi-Page (Coming Soon)
+          + Add Page
         </button>
       )}
 
@@ -571,7 +585,7 @@ export function SectionsSection() {
         <div className="rounded-lg border border-hb-border bg-hb-surface/50 p-4 text-center">
           <p className="text-sm text-hb-text-muted font-medium">No sections yet</p>
           <p className="text-xs text-hb-text-muted/60 mt-1.5 leading-relaxed">
-            Click &quot;More Sections&quot; below to add your first section.
+            Click &quot;+ Add Section&quot; below to add your first section.
             <br />
             Or try loading an example from the Examples tab.
           </p>
@@ -600,16 +614,22 @@ export function SectionsSection() {
         aria-orientation="vertical"
         onKeyDown={handleListKeyDown}
       >
+        {/* P122 / W4 — "More Sections" → "+ Add Section" via shadcn Button
+            (variant=outline, size=sm). Communicates "action, not navigation"
+            per W1 audit Task 5 + preflight §4-D-12. */}
         <Tooltip content="Add a new section" position="right">
-          <button
+          <Button
             type="button"
+            variant="outline"
+            size="sm"
             onClick={() => setShowHidden(!showHidden)}
-            className="flex items-center gap-1.5 w-full px-3 py-1.5 text-xs text-hb-text-muted hover:text-hb-text-secondary transition-colors"
-            title="Show more section types you can add to your page."
+            aria-expanded={showHidden}
+            className="w-full justify-start gap-1.5"
+            title="Add a new section to your page."
           >
             <ChevronRight size={12} className={cn('transition-transform', showHidden && 'rotate-90')} />
-            More Sections
-          </button>
+            + Add Section
+          </Button>
         </Tooltip>
         {showHidden && (
           <div className="flex flex-col gap-1 mt-1">
