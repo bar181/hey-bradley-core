@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RuVector &mdash; Self-Learning Vector Engine | Hey Bradley</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface-hover: #22252f;
+    --border: #2a2d3a;
+    --text: #e4e4e7;
+    --text-muted: #9ca3af;
+    --text-dim: #6b7280;
+    --accent: #818cf8;
+    --accent-hover: #6366f1;
+    --green: #34d399;
+    --green-dim: rgba(52, 211, 153, 0.15);
+    --red: #f87171;
+    --red-dim: rgba(248, 113, 113, 0.15);
+    --amber: #fbbf24;
+    --amber-dim: rgba(251, 191, 36, 0.15);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167, 139, 250, 0.15);
+    --cyan: #22d3ee;
+    --cyan-dim: rgba(34, 211, 238, 0.15);
+    --pink: #f472b6;
+    --pink-dim: rgba(244, 114, 182, 0.15);
+    --orange: #fb923c;
+    --orange-dim: rgba(251, 146, 60, 0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(15, 17, 23, 0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+  .nav a:hover { color: var(--text); }
+  .nav .logo { font-size: 1.125rem; font-weight: 700; color: var(--text); }
+  .nav-links { display: flex; gap: 1.5rem; }
+
+  /* SECTIONS */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+  .section-alt {
+    background: var(--surface);
+  }
+  .section-wide {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 6rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .hero .tagline {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--orange);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+  .hero p {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* TYPOGRAPHY */
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+  .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .label-red { color: var(--red); }
+  .label-green { color: var(--green); }
+  .label-purple { color: var(--purple); }
+  .label-amber { color: var(--amber); }
+  .label-cyan { color: var(--cyan); }
+  .label-orange { color: var(--orange); }
+  .text-red { color: var(--red); }
+  .text-green { color: var(--green); }
+  .text-purple { color: var(--purple); }
+  .text-amber { color: var(--amber); }
+  .text-cyan { color: var(--cyan); }
+  .text-orange { color: var(--orange); }
+  .text-muted { color: var(--text-muted); }
+
+  p { margin-bottom: 1rem; }
+
+  /* STAT BOX */
+  .stat-box {
+    background: var(--orange-dim);
+    border: 1px solid rgba(251, 146, 60, 0.3);
+    border-radius: 1rem;
+    padding: 2.5rem;
+    text-align: center;
+    margin: 2rem 0;
+  }
+  .stat-box .number {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  /* BLOCKQUOTE */
+  blockquote {
+    border-left: 4px solid var(--border);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 1.125rem;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 0.75rem;
+    font-style: normal;
+    font-size: 0.875rem;
+    color: var(--text-dim);
+  }
+
+  /* TIMELINE */
+  .timeline { margin: 2rem 0; }
+  .timeline-step {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .timeline-dot {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: var(--orange-dim);
+    border: 1px solid rgba(251, 146, 60, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--orange);
+    font-weight: 700;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+  .timeline-content h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  .timeline-content p {
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+
+  /* CARDS */
+  .card-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.5rem;
+  }
+
+  /* CODE BLOCK */
+  .code-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8125rem;
+    line-height: 1.8;
+    overflow-x: auto;
+    white-space: pre;
+    color: var(--text-muted);
+    margin: 1.5rem 0;
+  }
+  .code-block .comment { color: var(--text-dim); }
+  .code-block .kw { color: var(--purple); }
+  .code-block .fn { color: var(--cyan); }
+  .code-block .str { color: var(--green); }
+  .code-block .num { color: var(--orange); }
+  .code-block .cmd { color: var(--cyan); }
+  .code-block .flag { color: var(--purple); }
+  .code-block .val { color: var(--green); }
+
+  /* TABLE */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+  .data-table th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .data-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(42, 45, 58, 0.5);
+    color: var(--text-muted);
+  }
+  .data-table tr.highlight { background: var(--green-dim); }
+  .data-table tr.highlight td { color: var(--green); font-weight: 500; }
+
+  /* PILL */
+  .pill {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 2rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin: 0.25rem;
+  }
+  .pill-cyan { background: var(--cyan-dim); color: var(--cyan); border: 1px solid rgba(34, 211, 238, 0.3); }
+  .pill-purple { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(167, 139, 250, 0.3); }
+  .pill-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(52, 211, 153, 0.3); }
+  .pill-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(251, 191, 36, 0.3); }
+  .pill-orange { background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(251, 146, 60, 0.3); }
+
+  /* TIER GRID */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  .tier-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 2rem;
+  }
+  .tier-card h3 { font-size: 1.25rem; font-weight: 700; }
+  .tier-card .tier-label { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem; }
+  .tier-card ul { list-style: none; }
+  .tier-card ul li {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    padding: 0.25rem 0;
+  }
+  .tier-card ul li::before {
+    content: '\2713';
+    color: var(--green);
+    margin-right: 0.5rem;
+  }
+
+  /* ARCHITECTURE DIAGRAM */
+  .arch-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 2rem;
+    margin: 2rem 0;
+    text-align: center;
+  }
+  .arch-row {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 0.75rem 0;
+    flex-wrap: wrap;
+  }
+  .arch-node {
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    min-width: 130px;
+  }
+  .arch-top { background: var(--orange-dim); border: 1px solid rgba(251, 146, 60, 0.4); color: var(--orange); }
+  .arch-mid { background: var(--purple-dim); border: 1px solid rgba(167, 139, 250, 0.3); color: var(--purple); }
+  .arch-bot { background: var(--green-dim); border: 1px solid rgba(52, 211, 153, 0.3); color: var(--green); }
+  .arch-ext { background: var(--cyan-dim); border: 1px solid rgba(34, 211, 238, 0.3); color: var(--cyan); }
+  .arch-arrow {
+    color: var(--text-dim);
+    font-size: 1.25rem;
+    margin: 0.25rem 0;
+  }
+
+  /* CTA */
+  .cta-section {
+    text-align: center;
+    padding: 5rem 2rem;
+  }
+  .cta-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .btn {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.2s;
+    margin: 0.5rem;
+  }
+  .btn-primary { background: white; color: #111; }
+  .btn-primary:hover { background: #e5e5e5; }
+  .btn-secondary { background: transparent; border: 1px solid rgba(255,255,255,0.3); color: white; }
+  .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 0.875rem;
+  }
+  footer a { color: var(--text-muted); text-decoration: none; }
+  footer a:hover { color: var(--text); }
+
+  /* PERF BAR */
+  .perf-bar {
+    margin-bottom: 1.25rem;
+  }
+  .perf-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    margin-bottom: 0.4rem;
+  }
+  .perf-track {
+    height: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0.375rem;
+    overflow: hidden;
+  }
+  .perf-fill {
+    height: 100%;
+    border-radius: 0.375rem;
+    transition: width 1s ease;
+  }
+
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 2rem; }
+    .card-grid-2, .card-grid-3, .card-grid-4 { grid-template-columns: 1fr; }
+    .tier-grid { grid-template-columns: 1fr; }
+    .stat-box .number { font-size: 2.5rem; }
+    .arch-row { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <a href="/" class="logo">Hey Bradley</a>
+  <div class="nav-links">
+    <a href="index.html">Wiki</a>
+    <a href="18-ruflo-agent-coordination.guide.html">RuFlo</a>
+    <a href="17-telephone-game-over.html">Vision</a>
+    <a href="/docs">Docs</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="tagline">Submodule &mdash; upstream/ruvector &mdash; v0.2.19</div>
+  <h1>RuVector: The Memory That<br>Learns While You Search.</h1>
+  <p>A Rust-powered, self-learning vector database with HNSW indexing, Graph Neural Networks, and 52,000+ inserts per second. The engine that gives Hey Bradley&rsquo;s agents long-term memory.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- STORYBRAND: THE PROBLEM                                    -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section">
+  <div class="label label-red">The Problem &mdash; Cold Starts, Every Time</div>
+  <h2>Your AI woke up this morning<br>and forgot everything.</h2>
+  <p>Every conversation with an AI starts at zero. The agent that fixed your authentication bug yesterday doesn&rsquo;t remember doing it today. The pattern it discovered? Gone. The architectural decision it learned from three failed attempts? Evaporated.</p>
+  <p>Traditional databases can store text, but they can&rsquo;t search by <em>meaning</em>. You can look up &ldquo;JWT refresh token&rdquo; by keyword, but you can&rsquo;t ask &ldquo;how did we solve the session expiry problem?&rdquo; and get the right answer in sub-millisecond time.</p>
+  <p>Without semantic memory, every AI session is a <strong>cold start</strong>. Agents repeat the same research, make the same mistakes, and never compound their knowledge.</p>
+
+  <div class="stat-box" style="background: var(--red-dim); border-color: rgba(248, 113, 113, 0.3);">
+    <div class="number" style="color: var(--red);">0 ms</div>
+    <div>The lifespan of agent knowledge without persistent vector memory.</div>
+  </div>
+
+  <blockquote>
+    &ldquo;It&rsquo;s not that agents are stupid. It&rsquo;s that they&rsquo;re amnesiac. Every session, they start from scratch.&rdquo;
+    <cite>&mdash; The case for semantic memory</cite>
+  </blockquote>
+</div>
+
+<!-- STORYBRAND: THE GUIDE -->
+<div class="section-alt">
+  <div class="section">
+    <div class="label label-orange">The Guide &mdash; RuVector Enters</div>
+    <h2>What if the database got smarter<br>every time you searched it?</h2>
+    <p>Most vector databases are static indexes. You insert vectors, you search vectors. The index never improves on its own. RuVector is different.</p>
+    <p>RuVector wraps HNSW (Hierarchical Navigable Small World) graphs with <strong>Graph Neural Networks</strong> that learn from every query. Each search teaches the index what &ldquo;similar&rdquo; actually means in your project&rsquo;s context. The edges between vectors grow learnable weights. The graph reorganizes itself to surface better results faster.</p>
+    <p>It&rsquo;s not just a database. It&rsquo;s a <strong>living neural architecture</strong> that turns static embeddings into compounding intelligence.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2rem;">
+      <div class="stat-box" style="margin: 0; padding: 1.5rem;">
+        <div class="number" style="font-size: 2rem;">52K+</div>
+        <div style="font-size: 0.75rem;">Inserts/sec</div>
+      </div>
+      <div class="stat-box" style="margin: 0; padding: 1.5rem;">
+        <div class="number" style="font-size: 2rem;">&lt;1ms</div>
+        <div style="font-size: 0.75rem;">Query Latency</div>
+      </div>
+      <div class="stat-box" style="margin: 0; padding: 1.5rem;">
+        <div class="number" style="font-size: 2rem;">~50B</div>
+        <div style="font-size: 0.75rem;">Per Vector</div>
+      </div>
+      <div class="stat-box" style="margin: 0; padding: 1.5rem;">
+        <div class="number" style="font-size: 2rem;">150x</div>
+        <div style="font-size: 0.75rem;">Faster Search</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STORYBRAND: THE PLAN -->
+<div class="section">
+  <div class="label label-purple">The Plan &mdash; How RuVector Works</div>
+  <h2>Four layers of intelligence.</h2>
+
+  <div class="timeline">
+    <div class="timeline-step">
+      <div class="timeline-dot">1</div>
+      <div class="timeline-content">
+        <h4>Embed</h4>
+        <p>Convert text, code, or patterns into high-dimensional vectors using ONNX models (MiniLM-L6 or MPNet). Supports Euclidean and Poincar&eacute; (hyperbolic) geometries.</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-dot">2</div>
+      <div class="timeline-content">
+        <h4>Index with HNSW</h4>
+        <p>Vectors are inserted into a Hierarchical Navigable Small World graph. O(log n) search complexity, navigable skip-list structure, and tunable M/efConstruction parameters.</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-dot">3</div>
+      <div class="timeline-content">
+        <h4>Learn with GNN</h4>
+        <p>Graph Neural Networks add learnable edge weights to the HNSW graph. Every query teaches the index what &ldquo;similar&rdquo; means in context. Message-passing layers propagate relevance signals.</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-dot">4</div>
+      <div class="timeline-content">
+        <h4>Retrieve &amp; Adapt</h4>
+        <p>Semantic search returns the most relevant results. EWC++ prevents catastrophic forgetting. SONA provides instant adaptation without full retraining.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ARCHITECTURE -->
+<div class="section-alt">
+  <div class="section">
+    <div class="label label-cyan">Architecture &mdash; The Stack</div>
+    <h2>Rust core. JavaScript surface.</h2>
+    <p>RuVector is written in Rust for performance, with TypeScript/JavaScript bindings via npm. It runs as a library, a WASM module (browser/IoT), a CLI, a PostgreSQL extension, or a containerized service.</p>
+
+    <div class="arch-box">
+      <div style="font-size: 0.75rem; color: var(--text-dim); margin-bottom: 0.75rem;">Application Layer</div>
+      <div class="arch-row">
+        <div class="arch-node arch-top">RuFlo Agents</div>
+        <div class="arch-node arch-top">Hey Bradley</div>
+        <div class="arch-node arch-top">Your App</div>
+      </div>
+      <div class="arch-arrow">&darr; &darr; &darr;</div>
+      <div style="font-size: 0.75rem; color: var(--text-dim); margin-bottom: 0.5rem;">API Layer</div>
+      <div class="arch-row">
+        <div class="arch-node arch-mid">npm: ruvector</div>
+        <div class="arch-node arch-mid">WASM Module</div>
+        <div class="arch-node arch-mid">PostgreSQL Plugin</div>
+        <div class="arch-node arch-mid">CLI</div>
+      </div>
+      <div class="arch-arrow">&darr; &darr;</div>
+      <div style="font-size: 0.75rem; color: var(--text-dim); margin-bottom: 0.5rem;">Intelligence Layer</div>
+      <div class="arch-row">
+        <div class="arch-node arch-bot">HNSW Graph</div>
+        <div class="arch-node arch-bot">GNN Learner</div>
+        <div class="arch-node arch-bot">SONA Adapter</div>
+        <div class="arch-node arch-bot">EWC++ Guard</div>
+      </div>
+      <div class="arch-arrow">&darr;</div>
+      <div style="font-size: 0.75rem; color: var(--text-dim); margin-bottom: 0.5rem;">Storage Layer</div>
+      <div class="arch-row">
+        <div class="arch-node arch-ext">Rust Core (SIMD)</div>
+        <div class="arch-node arch-ext">sql.js / SQLite</div>
+        <div class="arch-node arch-ext">RVF Format</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- KEY FEATURES                                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section">
+  <div class="label label-green">Key Features</div>
+  <h2>What makes RuVector different.</h2>
+
+  <div class="card-grid card-grid-3" style="margin-top: 2rem;">
+    <div class="card" style="border-color: rgba(251, 146, 60, 0.3);">
+      <h3 class="text-orange">Self-Learning HNSW</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">Graph Neural Networks add learnable weights to HNSW edges. The index improves with every query &mdash; no manual tuning required.</p>
+    </div>
+    <div class="card" style="border-color: rgba(167, 139, 250, 0.3);">
+      <h3 class="text-purple">Hyperbolic Geometry</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">Poincar&eacute; ball embeddings capture hierarchical relationships that Euclidean space cannot represent. Code &rarr; module &rarr; function hierarchies map naturally.</p>
+    </div>
+    <div class="card" style="border-color: rgba(52, 211, 153, 0.3);">
+      <h3 class="text-green">50+ Attention Mechanisms</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">FlashAttention-3, multi-head, cross-attention, and sparse attention variants. Choose the right attention pattern for your data.</p>
+    </div>
+    <div class="card" style="border-color: rgba(34, 211, 238, 0.3);">
+      <h3 class="text-cyan">Hybrid Search</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">Combines dense vector similarity with sparse keyword retrieval and Graph RAG for maximum recall and precision.</p>
+    </div>
+    <div class="card" style="border-color: rgba(251, 191, 36, 0.3);">
+      <h3 class="text-amber">Multi-Platform</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">npm package, WASM (browser/IoT), CLI, PostgreSQL extension, or Docker container. RVF format boots in 125ms with zero dependencies.</p>
+    </div>
+    <div class="card" style="border-color: rgba(244, 114, 182, 0.3);">
+      <h3 style="color: var(--pink);">EWC++ Memory Guard</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">Elastic Weight Consolidation prevents catastrophic forgetting. New patterns don&rsquo;t erase old knowledge &mdash; the system accumulates intelligence over time.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PERFORMANCE BENCHMARKS                                     -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-alt">
+  <div class="section">
+    <div class="label label-amber">Performance &mdash; Benchmarks</div>
+    <h2>Numbers that matter.</h2>
+    <p>RuVector&rsquo;s Rust core with SIMD acceleration delivers production-grade performance at every scale.</p>
+
+    <div style="margin-top: 2rem;">
+      <div class="perf-bar">
+        <div class="perf-label">
+          <span>Insert throughput</span>
+          <span class="text-orange" style="font-weight: 600;">52,000+ vectors/sec</span>
+        </div>
+        <div class="perf-track">
+          <div class="perf-fill" style="width: 95%; background: linear-gradient(to right, #ea580c, #fb923c);"></div>
+        </div>
+      </div>
+      <div class="perf-bar">
+        <div class="perf-label">
+          <span>Query latency (1M vectors)</span>
+          <span class="text-green" style="font-weight: 600;">&lt;1ms</span>
+        </div>
+        <div class="perf-track">
+          <div class="perf-fill" style="width: 98%; background: linear-gradient(to right, #059669, #34d399);"></div>
+        </div>
+      </div>
+      <div class="perf-bar">
+        <div class="perf-label">
+          <span>Memory per vector</span>
+          <span class="text-cyan" style="font-weight: 600;">~50 bytes</span>
+        </div>
+        <div class="perf-track">
+          <div class="perf-fill" style="width: 92%; background: linear-gradient(to right, #0891b2, #22d3ee);"></div>
+        </div>
+      </div>
+      <div class="perf-bar">
+        <div class="perf-label">
+          <span>Search improvement vs linear scan</span>
+          <span class="text-purple" style="font-weight: 600;">150x faster</span>
+        </div>
+        <div class="perf-track">
+          <div class="perf-fill" style="width: 99%; background: linear-gradient(to right, #7c3aed, #a78bfa);"></div>
+        </div>
+      </div>
+      <div class="perf-bar">
+        <div class="perf-label">
+          <span>RVF cold boot</span>
+          <span class="text-amber" style="font-weight: 600;">125ms (zero deps)</span>
+        </div>
+        <div class="perf-track">
+          <div class="perf-fill" style="width: 88%; background: linear-gradient(to right, #d97706, #fbbf24);"></div>
+        </div>
+      </div>
+    </div>
+
+    <table class="data-table" style="margin-top: 2rem;">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>RuVector</th>
+          <th>pgvector</th>
+          <th>Pinecone</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Self-learning</td>
+          <td class="text-green">GNN + SONA</td>
+          <td class="text-red">No</td>
+          <td class="text-red">No</td>
+        </tr>
+        <tr>
+          <td>WASM support</td>
+          <td class="text-green">Browser + IoT</td>
+          <td class="text-red">No</td>
+          <td class="text-red">No</td>
+        </tr>
+        <tr>
+          <td>Hyperbolic geometry</td>
+          <td class="text-green">Poincar&eacute; ball</td>
+          <td class="text-red">No</td>
+          <td class="text-red">No</td>
+        </tr>
+        <tr>
+          <td>pgvector compatible</td>
+          <td class="text-green">53+ SQL functions</td>
+          <td class="text-green">Native</td>
+          <td class="text-red">No</td>
+        </tr>
+        <tr>
+          <td>Hosting required</td>
+          <td class="text-green">None (npm/WASM)</td>
+          <td class="text-amber">PostgreSQL</td>
+          <td class="text-red">Cloud only</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- HOW-TO GUIDE                                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section">
+  <div class="label label-orange">How-To Guide &mdash; Quick Start</div>
+  <h2>From install to semantic search<br>in four steps.</h2>
+
+  <h3 style="margin-top: 2rem;">1. Install</h3>
+  <div class="code-block"><span class="comment"># npm package</span>
+<span class="cmd">npm install</span> <span class="val">ruvector</span>
+
+<span class="comment"># Or with the LLM runtime</span>
+<span class="cmd">npm install</span> <span class="val">@ruvector/ruvllm</span></div>
+
+  <h3 style="margin-top: 2rem;">2. Create an Index</h3>
+  <div class="code-block"><span class="kw">import</span> { RuVector } <span class="kw">from</span> <span class="str">'ruvector'</span>;
+
+<span class="comment">// Create a new HNSW index</span>
+<span class="kw">const</span> db = <span class="kw">new</span> <span class="fn">RuVector</span>({
+  dimensions: <span class="num">384</span>,           <span class="comment">// MiniLM-L6 dimension</span>
+  metric: <span class="str">'cosine'</span>,           <span class="comment">// cosine, euclidean, or dot</span>
+  maxElements: <span class="num">100000</span>,       <span class="comment">// max vectors</span>
+  efConstruction: <span class="num">200</span>,       <span class="comment">// build quality (higher = better)</span>
+  M: <span class="num">16</span>,                      <span class="comment">// connections per node</span>
+});
+
+<span class="kw">await</span> db.<span class="fn">init</span>();</div>
+
+  <h3 style="margin-top: 2rem;">3. Insert Vectors</h3>
+  <div class="code-block"><span class="comment">// Single insert</span>
+<span class="kw">await</span> db.<span class="fn">insert</span>({
+  id: <span class="str">'auth-pattern-1'</span>,
+  vector: embedding,             <span class="comment">// Float32Array[384]</span>
+  metadata: {
+    type: <span class="str">'pattern'</span>,
+    domain: <span class="str">'authentication'</span>,
+    description: <span class="str">'JWT refresh token with sliding window'</span>
+  }
+});
+
+<span class="comment">// Batch insert (52K+/sec)</span>
+<span class="kw">await</span> db.<span class="fn">batchInsert</span>(vectors);</div>
+
+  <h3 style="margin-top: 2rem;">4. Search by Meaning</h3>
+  <div class="code-block"><span class="comment">// Semantic search</span>
+<span class="kw">const</span> results = <span class="kw">await</span> db.<span class="fn">search</span>({
+  vector: queryEmbedding,
+  topK: <span class="num">5</span>,
+  filter: { type: <span class="str">'pattern'</span> }  <span class="comment">// optional metadata filter</span>
+});
+
+<span class="comment">// Results ranked by semantic similarity</span>
+results.<span class="fn">forEach</span>(r =&gt; {
+  console.<span class="fn">log</span>(r.id, r.score, r.metadata.description);
+});</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- RUFLO INTEGRATION                                          -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-alt">
+  <div class="section">
+    <div class="label label-cyan">Integration &mdash; RuVector + RuFlo + Hey Bradley</div>
+    <h2>The memory layer for agent swarms.</h2>
+    <p>RuVector powers the memory and knowledge capabilities inside RuFlo. When an agent stores a pattern, searches for context, or learns from an outcome, RuVector is the engine underneath.</p>
+
+    <div class="card-grid card-grid-2" style="margin-top: 2rem;">
+      <div class="card">
+        <h3>Current Embeddings Config</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Live configuration from this project:</p>
+        <ul style="list-style: none; font-size: 0.875rem; color: var(--text-muted); margin-top: 0.5rem;">
+          <li style="padding: 0.2rem 0;"><strong>Model:</strong> all-MiniLM-L6-v2</li>
+          <li style="padding: 0.2rem 0;"><strong>Dimension:</strong> 384</li>
+          <li style="padding: 0.2rem 0;"><strong>Cache Size:</strong> 256</li>
+          <li style="padding: 0.2rem 0;"><strong>Hyperbolic:</strong> enabled (curvature: -1)</li>
+          <li style="padding: 0.2rem 0;"><strong>Neural:</strong> enabled</li>
+          <li style="padding: 0.2rem 0;"><strong>Geometries:</strong> Euclidean, Poincar&eacute;</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Available ONNX Models</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Pre-loaded embedding models:</p>
+        <ul style="list-style: none; font-size: 0.875rem; color: var(--text-muted); margin-top: 0.5rem;">
+          <li style="padding: 0.2rem 0;"><span class="pill pill-green">all-MiniLM-L6-v2</span> <span style="font-size: 0.75rem;">&mdash; 384d, fast</span></li>
+          <li style="padding: 0.2rem 0;"><span class="pill pill-purple">all-mpnet-base-v2</span> <span style="font-size: 0.75rem;">&mdash; 768d, accurate</span></li>
+        </ul>
+        <p class="text-muted" style="font-size: 0.875rem; margin-top: 1rem;"><strong>Normalizations:</strong></p>
+        <div style="margin-top: 0.5rem;">
+          <span class="pill pill-cyan">L2</span>
+          <span class="pill pill-cyan">L1</span>
+          <span class="pill pill-cyan">MinMax</span>
+          <span class="pill pill-cyan">Z-Score</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Submodule Setup</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">RuVector is being added as a git submodule at <code style="background: rgba(255,255,255,0.1); padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem;">upstream/ruvector</code>. Shallow clone &mdash; no full commit history needed.</p>
+        <div class="code-block" style="margin: 1rem 0; padding: 1rem;"><span class="comment"># Being handled by a separate swarm</span>
+<span class="cmd">git submodule add</span> <span class="flag">--depth 1</span> \
+  <span class="val">https://github.com/ruvnet/ruvector.git</span> \
+  <span class="val">upstream/ruvector</span></div>
+      </div>
+      <div class="card">
+        <h3>RuFlo MCP Tools</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Memory tools powered by RuVector:</p>
+        <div style="margin-top: 0.5rem;">
+          <span class="pill pill-orange">memory_store</span>
+          <span class="pill pill-orange">memory_search</span>
+          <span class="pill pill-orange">memory_retrieve</span>
+          <span class="pill pill-orange">embeddings_generate</span>
+          <span class="pill pill-orange">embeddings_search</span>
+          <span class="pill pill-orange">ruvllm_hnsw_create</span>
+          <span class="pill pill-orange">ruvllm_sona_create</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- ECOSYSTEM                                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section">
+  <div class="label label-purple">Ecosystem &mdash; The RuVector Family</div>
+  <h2>One core. Many surfaces.</h2>
+
+  <div class="tier-grid">
+    <div class="tier-card" style="border-color: var(--orange);">
+      <h3 class="text-orange">ruvector</h3>
+      <div class="tier-label">npm &middot; Core Package</div>
+      <ul>
+        <li>HNSW indexing engine</li>
+        <li>GNN self-learning layer</li>
+        <li>Hybrid dense+sparse search</li>
+        <li>WASM and Node.js runtime</li>
+        <li>RVF portable format</li>
+      </ul>
+    </div>
+    <div class="tier-card" style="border-color: var(--purple);">
+      <h3 class="text-purple">@ruvector/ruvllm</h3>
+      <div class="tier-label">npm &middot; LLM Runtime</div>
+      <ul>
+        <li>SONA instant adaptation</li>
+        <li>MicroLoRA fine-tuning</li>
+        <li>HNSW-based routing</li>
+        <li>Chat template formatting</li>
+        <li>KV-cache management</li>
+      </ul>
+    </div>
+    <div class="tier-card" style="border-color: var(--cyan);">
+      <h3 class="text-cyan">@ruvector/postgres-cli</h3>
+      <div class="tier-label">npm &middot; PostgreSQL Bridge</div>
+      <ul>
+        <li>pgvector drop-in replacement</li>
+        <li>53+ SQL functions</li>
+        <li>GNN layers in PostgreSQL</li>
+        <li>Cypher, SQL, SPARQL queries</li>
+        <li>Migration tooling</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- WHAT RUVECTOR STORES IN HEY BRADLEY                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-alt">
+  <div class="section">
+    <div class="label label-green">In Practice &mdash; What Gets Stored</div>
+    <h2>The memories that make agents smarter.</h2>
+    <p>In the Hey Bradley project, RuVector stores these categories of semantic knowledge:</p>
+
+    <div class="card-grid card-grid-2" style="margin-top: 2rem;">
+      <div class="card">
+        <h3>Code Patterns</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Architectural decisions, component structures, API patterns. When an agent encounters a similar problem, it recalls what worked before.</p>
+      </div>
+      <div class="card">
+        <h3>Agent Outcomes</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Success/failure pairs with full context. ReasoningBank trajectories. Which agent types excel at which tasks. Routing intelligence that compounds.</p>
+      </div>
+      <div class="card">
+        <h3>Session Context</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Cross-conversation state. What was discussed, decided, and deferred. Phase progress, blockers, and priorities that survive session boundaries.</p>
+      </div>
+      <div class="card">
+        <h3>Security Fingerprints</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Vulnerability patterns, CVE signatures, prompt injection attempts. The security mesh gets stronger with every scan.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STORYBRAND: THE TRANSFORMATION -->
+<div class="section">
+  <div class="label label-green">The Transformation</div>
+  <h2>Before and after semantic memory.</h2>
+
+  <table class="data-table" style="margin-top: 2rem;">
+    <thead>
+      <tr>
+        <th>Dimension</th>
+        <th>Without RuVector</th>
+        <th>With RuVector</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Agent startup</strong></td>
+        <td class="text-red">Cold &mdash; rediscovers everything</td>
+        <td class="text-green">Warm &mdash; recalls relevant patterns</td>
+      </tr>
+      <tr>
+        <td><strong>Search type</strong></td>
+        <td class="text-red">Keyword matching only</td>
+        <td class="text-green">Semantic similarity + keyword hybrid</td>
+      </tr>
+      <tr>
+        <td><strong>Index quality</strong></td>
+        <td class="text-amber">Static &mdash; never improves</td>
+        <td class="text-green">Self-learning &mdash; GNN adapts per query</td>
+      </tr>
+      <tr>
+        <td><strong>Knowledge retention</strong></td>
+        <td class="text-red">Lost between sessions</td>
+        <td class="text-green">Persistent with EWC++ protection</td>
+      </tr>
+      <tr>
+        <td><strong>Hierarchical data</strong></td>
+        <td class="text-red">Flat Euclidean only</td>
+        <td class="text-green">Poincar&eacute; hyperbolic geometry</td>
+      </tr>
+      <tr>
+        <td><strong>Deployment</strong></td>
+        <td class="text-amber">Cloud DB required</td>
+        <td class="text-green">npm install, runs anywhere</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>Static indexes are yesterday.<br>Living memory is now.</h2>
+  <p class="text-muted" style="max-width: 600px; margin: 0 auto 2rem; font-size: 1.125rem;">
+    RuVector turns every search into a learning opportunity.<br>
+    HNSW for speed. GNN for intelligence. EWC++ for permanence.<br>
+    The database that remembers &mdash; and gets better at it.
+  </p>
+  <a href="https://github.com/ruvnet/ruvector" class="btn btn-primary" target="_blank" rel="noopener noreferrer">RuVector on GitHub</a>
+  <a href="18-ruflo-agent-coordination.guide.html" class="btn btn-secondary">RuFlo Guide</a>
+  <a href="index.html" class="btn btn-secondary">Back to Wiki</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>Harvard ALM Capstone &mdash; Digital Media Design &mdash; May 2026</p>
+  <p style="margin-top: 0.5rem;">Bradley Ross &mdash; Creator of AISP &amp; Hey Bradley</p>
+  <div style="margin-top: 1rem; display: flex; gap: 1.5rem; justify-content: center;">
+    <a href="https://github.com/ruvnet/ruvector" target="_blank" rel="noopener noreferrer">RuVector Repo</a>
+    <a href="https://github.com/bar181/hey-bradley-core" target="_blank" rel="noopener noreferrer">Hey Bradley Repo</a>
+    <a href="18-ruflo-agent-coordination.guide.html">RuFlo Guide</a>
+    <a href="index.html">Wiki Index</a>
+  </div>
+</footer>
+
+</body>
+</html>

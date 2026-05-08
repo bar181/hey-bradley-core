@@ -1,0 +1,1 @@
+Dear {{NAME}}, Welcome. We are delighted to have you.

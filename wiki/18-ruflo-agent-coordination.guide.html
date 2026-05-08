@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RuFlo &mdash; Agent Coordination System | Hey Bradley</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface-hover: #22252f;
+    --border: #2a2d3a;
+    --text: #e4e4e7;
+    --text-muted: #9ca3af;
+    --text-dim: #6b7280;
+    --accent: #818cf8;
+    --accent-hover: #6366f1;
+    --green: #34d399;
+    --green-dim: rgba(52, 211, 153, 0.15);
+    --red: #f87171;
+    --red-dim: rgba(248, 113, 113, 0.15);
+    --amber: #fbbf24;
+    --amber-dim: rgba(251, 191, 36, 0.15);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167, 139, 250, 0.15);
+    --cyan: #22d3ee;
+    --cyan-dim: rgba(34, 211, 238, 0.15);
+    --pink: #f472b6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(15, 17, 23, 0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+  .nav a:hover { color: var(--text); }
+  .nav .logo { font-size: 1.125rem; font-weight: 700; color: var(--text); }
+  .nav-links { display: flex; gap: 1.5rem; }
+
+  /* SECTIONS */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+  .section-alt {
+    background: var(--surface);
+  }
+  .section-wide {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 6rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .hero .tagline {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--cyan);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+  .hero p {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* TYPOGRAPHY */
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+  .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .label-red { color: var(--red); }
+  .label-green { color: var(--green); }
+  .label-purple { color: var(--purple); }
+  .label-amber { color: var(--amber); }
+  .label-cyan { color: var(--cyan); }
+  .text-red { color: var(--red); }
+  .text-green { color: var(--green); }
+  .text-purple { color: var(--purple); }
+  .text-amber { color: var(--amber); }
+  .text-cyan { color: var(--cyan); }
+  .text-muted { color: var(--text-muted); }
+
+  p { margin-bottom: 1rem; }
+
+  /* STAT BOX */
+  .stat-box {
+    background: var(--cyan-dim);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    border-radius: 1rem;
+    padding: 2.5rem;
+    text-align: center;
+    margin: 2rem 0;
+  }
+  .stat-box .number {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--cyan);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  /* BLOCKQUOTE */
+  blockquote {
+    border-left: 4px solid var(--border);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 1.125rem;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 0.75rem;
+    font-style: normal;
+    font-size: 0.875rem;
+    color: var(--text-dim);
+  }
+
+  /* TIMELINE */
+  .timeline { margin: 2rem 0; }
+  .timeline-step {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .timeline-dot {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: var(--cyan-dim);
+    border: 1px solid rgba(34, 211, 238, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cyan);
+    font-weight: 700;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+  .timeline-content h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  .timeline-content p {
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+
+  /* CARDS */
+  .card-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.5rem;
+  }
+
+  /* CODE BLOCK */
+  .code-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8125rem;
+    line-height: 1.8;
+    overflow-x: auto;
+    white-space: pre;
+    color: var(--text-muted);
+    margin: 1.5rem 0;
+  }
+  .code-block .comment { color: var(--text-dim); }
+  .code-block .cmd { color: var(--cyan); }
+  .code-block .flag { color: var(--purple); }
+  .code-block .val { color: var(--green); }
+
+  /* TABLE */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+  .data-table th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .data-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(42, 45, 58, 0.5);
+    color: var(--text-muted);
+  }
+  .data-table tr.highlight { background: var(--green-dim); }
+  .data-table tr.highlight td { color: var(--green); font-weight: 500; }
+
+  /* CAPABILITY PILL */
+  .pill {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 2rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin: 0.25rem;
+  }
+  .pill-cyan { background: var(--cyan-dim); color: var(--cyan); border: 1px solid rgba(34, 211, 238, 0.3); }
+  .pill-purple { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(167, 139, 250, 0.3); }
+  .pill-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(52, 211, 153, 0.3); }
+  .pill-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(251, 191, 36, 0.3); }
+
+  /* TIER GRID */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  .tier-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 2rem;
+  }
+  .tier-card h3 { font-size: 1.25rem; font-weight: 700; }
+  .tier-card .tier-label { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem; }
+  .tier-card ul { list-style: none; }
+  .tier-card ul li {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    padding: 0.25rem 0;
+  }
+  .tier-card ul li::before {
+    content: '\2713';
+    color: var(--green);
+    margin-right: 0.5rem;
+  }
+
+  /* CTA */
+  .cta-section {
+    text-align: center;
+    padding: 5rem 2rem;
+  }
+  .cta-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .btn {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.2s;
+    margin: 0.5rem;
+  }
+  .btn-primary { background: white; color: #111; }
+  .btn-primary:hover { background: #e5e5e5; }
+  .btn-secondary { background: transparent; border: 1px solid rgba(255,255,255,0.3); color: white; }
+  .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 0.875rem;
+  }
+  footer a { color: var(--text-muted); text-decoration: none; }
+  footer a:hover { color: var(--text); }
+
+  /* ARCHITECTURE DIAGRAM */
+  .arch-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 2rem;
+    margin: 2rem 0;
+    text-align: center;
+  }
+  .arch-row {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 0.75rem 0;
+    flex-wrap: wrap;
+  }
+  .arch-node {
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    min-width: 120px;
+  }
+  .arch-queen { background: var(--cyan-dim); border: 1px solid rgba(34, 211, 238, 0.4); color: var(--cyan); }
+  .arch-worker { background: var(--purple-dim); border: 1px solid rgba(167, 139, 250, 0.3); color: var(--purple); }
+  .arch-memory { background: var(--green-dim); border: 1px solid rgba(52, 211, 153, 0.3); color: var(--green); }
+  .arch-hook { background: var(--amber-dim); border: 1px solid rgba(251, 191, 36, 0.3); color: var(--amber); }
+  .arch-arrow {
+    color: var(--text-dim);
+    font-size: 1.25rem;
+    margin: 0.25rem 0;
+  }
+
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 2rem; }
+    .card-grid-2, .card-grid-3, .card-grid-4 { grid-template-columns: 1fr; }
+    .tier-grid { grid-template-columns: 1fr; }
+    .stat-box .number { font-size: 2.5rem; }
+    .arch-row { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <a href="/" class="logo">Hey Bradley</a>
+  <div class="nav-links">
+    <a href="index.html">Wiki</a>
+    <a href="17-telephone-game-over.html">Vision</a>
+    <a href="/about">About</a>
+    <a href="/docs">Docs</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="tagline">Agent Coordination for Hey Bradley &mdash; Phase 15+</div>
+  <h1>RuFlo: The Nervous System<br>Behind the Builder.</h1>
+  <p>90 specialized agents. 16 capability domains. One coordination layer that turns a solo developer into an engineering department &mdash; without hiring anyone.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- STORYBRAND NARRATIVE: THE GUIDE                            -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<!-- ACT I: THE CHARACTER HAS A PROBLEM -->
+<div class="section">
+  <div class="label label-red">The Problem &mdash; Drowning in Complexity</div>
+  <h2>One developer. 100,000 lines of code.<br>An impossible deadline.</h2>
+  <p>Bradley has a capstone due. The project has grown into a real product &mdash; 171 TypeScript files, 12 themes, 15 example sites, 102 tests, 37 architectural decisions. It&rsquo;s no longer a homework assignment. It&rsquo;s an engineering operation.</p>
+  <p>The problem isn&rsquo;t writing code. AI can write code. The problem is <strong>coordination</strong>. When you ask ten AI agents to work on one codebase simultaneously, you don&rsquo;t get ten times the output. You get a merge conflict, three regressions, and a broken build.</p>
+
+  <div class="stat-box" style="background: var(--red-dim); border-color: rgba(248, 113, 113, 0.3);">
+    <div class="number" style="color: var(--red);">10x agents</div>
+    <div>does not equal 10x output. Not without coordination.</div>
+  </div>
+
+  <blockquote>
+    &ldquo;I had the agents. I had the tools. What I didn&rsquo;t have was a way to make them work together without stepping on each other&rsquo;s feet.&rdquo;
+    <cite>&mdash; The moment before RuFlo</cite>
+  </blockquote>
+</div>
+
+<!-- ACT II: THE GUIDE APPEARS -->
+<div class="section-alt">
+  <div class="section">
+    <div class="label label-cyan">The Guide &mdash; RuFlo Enters</div>
+    <h2>What if your agents had<br>a nervous system?</h2>
+    <p>The human body doesn&rsquo;t coordinate by committee. Your brain doesn&rsquo;t send a Slack message to your hand and hope it replies. There&rsquo;s a nervous system &mdash; a hierarchy of signals, reflexes, and memory that coordinates everything in real time.</p>
+    <p>RuFlo is that nervous system for AI agent swarms. It gives agents <strong>topology</strong> (who talks to whom), <strong>memory</strong> (shared knowledge that persists), <strong>consensus</strong> (how to agree without deadlock), and <strong>hooks</strong> (reflexes that fire automatically).</p>
+    <p>Install it. Point it at your project. Your agents stop colliding and start collaborating.</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; margin-top: 2rem;">
+      <div class="stat-box" style="margin: 0; padding: 1.5rem;">
+        <div class="number" style="font-size: 2.5rem;">90</div>
+        <div style="font-size: 0.8125rem;">Agent Types</div>
+      </div>
+      <div class="stat-box" style="margin: 0; padding: 1.5rem;">
+        <div class="number" style="font-size: 2.5rem;">16</div>
+        <div style="font-size: 0.8125rem;">Capability Areas</div>
+      </div>
+      <div class="stat-box" style="margin: 0; padding: 1.5rem;">
+        <div class="number" style="font-size: 2.5rem;">30</div>
+        <div style="font-size: 0.8125rem;">Built-in Skills</div>
+      </div>
+      <div class="stat-box" style="margin: 0; padding: 1.5rem;">
+        <div class="number" style="font-size: 2.5rem;">v3</div>
+        <div style="font-size: 0.8125rem;">Current Version</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACT III: THE PLAN -->
+<div class="section">
+  <div class="label label-purple">The Plan &mdash; How RuFlo Works</div>
+  <h2>Four layers. One coordination surface.</h2>
+  <p>Every complex task flows through the same pattern: initialize the swarm, spawn specialized agents, coordinate through shared memory, synthesize results. RuFlo handles the plumbing so agents focus on the work.</p>
+
+  <div class="timeline">
+    <div class="timeline-step">
+      <div class="timeline-dot">1</div>
+      <div class="timeline-content">
+        <h4>Initialize the Swarm</h4>
+        <p>Choose a topology &mdash; hierarchical for tight coordination, mesh for peer-to-peer, adaptive for dynamic scaling. The queen agent takes control.</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-dot">2</div>
+      <div class="timeline-content">
+        <h4>Spawn Specialized Agents</h4>
+        <p>A coder writes code. A tester writes tests. A reviewer checks quality. A security-architect audits for vulnerabilities. Each agent has one job and does it well.</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-dot">3</div>
+      <div class="timeline-content">
+        <h4>Coordinate via Memory</h4>
+        <p>HNSW-indexed vector memory gives every agent access to shared context. No agent works blind. Patterns learned on one task accelerate the next.</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-dot">4</div>
+      <div class="timeline-content">
+        <h4>Synthesize &amp; Ship</h4>
+        <p>Results converge. Hooks fire automatically &mdash; linting, testing, pattern recording. The final output is reviewed, committed, and deployed.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ARCHITECTURE VISUAL -->
+<div class="section-alt">
+  <div class="section">
+    <div class="label label-cyan">Architecture &mdash; The Hierarchy</div>
+    <h2>How agents talk to each other.</h2>
+    <p>RuFlo&rsquo;s default topology is hierarchical-mesh: a queen coordinator delegates to specialized workers who can also communicate laterally. Memory flows up, directives flow down, and hooks fire at every transition.</p>
+
+    <div class="arch-box">
+      <div class="arch-row">
+        <div class="arch-node arch-queen">Queen Coordinator</div>
+      </div>
+      <div class="arch-arrow">&darr; &darr; &darr;</div>
+      <div class="arch-row">
+        <div class="arch-node arch-worker">Planner</div>
+        <div class="arch-node arch-worker">Coder</div>
+        <div class="arch-node arch-worker">Tester</div>
+        <div class="arch-node arch-worker">Reviewer</div>
+      </div>
+      <div class="arch-arrow">&darr; &darr;</div>
+      <div class="arch-row">
+        <div class="arch-node arch-memory">HNSW Memory</div>
+        <div class="arch-node arch-memory">AgentDB</div>
+        <div class="arch-node arch-hook">17 Hooks</div>
+        <div class="arch-node arch-hook">12 Workers</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 16 CAPABILITY DOMAINS                                      -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section">
+  <div class="label label-green">Capabilities &mdash; 16 Domains</div>
+  <h2>Everything RuFlo can do.</h2>
+  <p>Each domain is a self-contained system of MCP tools, CLI commands, specialized agents, and skills.</p>
+
+  <div class="card-grid card-grid-2" style="margin-top: 2rem;">
+    <div class="card">
+      <h3>Agent Management</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">Spawn, monitor, pool, and lifecycle-manage individual agents. 8 tools, 5 core agent types.</p>
+      <div style="margin-top: 0.75rem;">
+        <span class="pill pill-cyan">agent_spawn</span>
+        <span class="pill pill-cyan">agent_status</span>
+        <span class="pill pill-cyan">agent_pool</span>
+        <span class="pill pill-cyan">agent_health</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Swarm Orchestration</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">Multi-agent coordination with topology-aware routing. Hierarchical, mesh, or adaptive topologies.</p>
+      <div style="margin-top: 0.75rem;">
+        <span class="pill pill-purple">swarm_init</span>
+        <span class="pill pill-purple">swarm_status</span>
+        <span class="pill pill-purple">topology</span>
+        <span class="pill pill-purple">consensus</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Memory &amp; Knowledge</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">Persistent memory with HNSW vector search, AgentDB storage, 150x faster search, namespace isolation.</p>
+      <div style="margin-top: 0.75rem;">
+        <span class="pill pill-green">memory_store</span>
+        <span class="pill pill-green">memory_search</span>
+        <span class="pill pill-green">HNSW</span>
+        <span class="pill pill-green">AgentDB</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Intelligence &amp; Learning</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">Neural pattern training (SONA), reinforcement learning loops, EWC++ consolidation. Agents get smarter over time.</p>
+      <div style="margin-top: 0.75rem;">
+        <span class="pill pill-amber">neural_train</span>
+        <span class="pill pill-amber">neural_predict</span>
+        <span class="pill pill-amber">SONA</span>
+        <span class="pill pill-amber">patterns</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Hooks &amp; Automation</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">17 lifecycle hooks + 12 background workers. Pre/post task hooks, session management, git integration, auto-learning.</p>
+      <div style="margin-top: 0.75rem;">
+        <span class="pill pill-cyan">pre-task</span>
+        <span class="pill pill-cyan">post-task</span>
+        <span class="pill pill-cyan">pre-edit</span>
+        <span class="pill pill-cyan">session</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Hive Mind Consensus</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">Byzantine fault-tolerant distributed agreement. Raft leader election, CRDT sync, gossip protocols, quorum management.</p>
+      <div style="margin-top: 0.75rem;">
+        <span class="pill pill-purple">byzantine</span>
+        <span class="pill pill-purple">raft</span>
+        <span class="pill pill-purple">crdt</span>
+        <span class="pill pill-purple">gossip</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Security &amp; Compliance</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">CVE scanning, threat analysis, claims-based authorization, input validation, PII detection.</p>
+      <div style="margin-top: 0.75rem;">
+        <span class="pill pill-green">security_scan</span>
+        <span class="pill pill-green">claims</span>
+        <span class="pill pill-green">CVE</span>
+        <span class="pill pill-green">PII</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Performance &amp; Profiling</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">Benchmarking, bottleneck detection, metrics collection, optimization recommendations.</p>
+      <div style="margin-top: 0.75rem;">
+        <span class="pill pill-amber">benchmark</span>
+        <span class="pill pill-amber">profile</span>
+        <span class="pill pill-amber">metrics</span>
+        <span class="pill pill-amber">optimize</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>GitHub Integration</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">PR management, code review swarms, issue tracking, release automation, multi-repo coordination. 13 specialized agents.</p>
+      <div style="margin-top: 0.75rem;">
+        <span class="pill pill-cyan">pr-manager</span>
+        <span class="pill pill-cyan">code-review</span>
+        <span class="pill pill-cyan">release</span>
+        <span class="pill pill-cyan">issue-tracker</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Session &amp; Workflow</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">Session state management, workflow templates, task lifecycle, daemon scheduling. Persistent across conversations.</p>
+      <div style="margin-top: 0.75rem;">
+        <span class="pill pill-purple">session</span>
+        <span class="pill pill-purple">workflow</span>
+        <span class="pill pill-purple">task</span>
+        <span class="pill pill-purple">daemon</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Embeddings &amp; Vectors</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">Vector embeddings with sql.js, HNSW indexing, hyperbolic embeddings, semantic search at scale.</p>
+      <div style="margin-top: 0.75rem;">
+        <span class="pill pill-green">embed</span>
+        <span class="pill pill-green">search</span>
+        <span class="pill pill-green">HNSW</span>
+        <span class="pill pill-green">hyperbolic</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>WASM Sandboxed Agents</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">Isolated agent execution in WebAssembly. Virtual filesystem, no OS access. Safe code execution in untrusted environments.</p>
+      <div style="margin-top: 0.75rem;">
+        <span class="pill pill-amber">wasm_create</span>
+        <span class="pill pill-amber">wasm_prompt</span>
+        <span class="pill pill-amber">gallery</span>
+        <span class="pill pill-amber">export</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>RuVLLM Inference</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">WASM-native HNSW routing, SONA instant adaptation, MicroLoRA fine-tuning, intelligent chat formatting.</p>
+      <div style="margin-top: 0.75rem;">
+        <span class="pill pill-cyan">ruvllm</span>
+        <span class="pill pill-cyan">SONA</span>
+        <span class="pill pill-cyan">MicroLoRA</span>
+        <span class="pill pill-cyan">HNSW route</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Code Analysis &amp; Diff</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">AST-level analysis, diff classification, risk scoring, coverage routing, dependency graph analysis.</p>
+      <div style="margin-top: 0.75rem;">
+        <span class="pill pill-purple">diff</span>
+        <span class="pill pill-purple">risk</span>
+        <span class="pill pill-purple">coverage</span>
+        <span class="pill pill-purple">AST</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>SPARC Methodology</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">Specification &rarr; Pseudocode &rarr; Architecture &rarr; Refinement &rarr; Completion. Structured development with dedicated agents per phase.</p>
+      <div style="margin-top: 0.75rem;">
+        <span class="pill pill-green">specification</span>
+        <span class="pill pill-green">pseudocode</span>
+        <span class="pill pill-green">architecture</span>
+        <span class="pill pill-green">refinement</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Configuration &amp; System</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">Config management, provider setup, system diagnostics, doctor auto-fix, shell completions.</p>
+      <div style="margin-top: 0.75rem;">
+        <span class="pill pill-amber">config</span>
+        <span class="pill pill-amber">doctor</span>
+        <span class="pill pill-amber">status</span>
+        <span class="pill pill-amber">providers</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- HOW-TO GUIDE                                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-alt">
+  <div class="section">
+    <div class="label label-amber">How-To Guide &mdash; Getting Started</div>
+    <h2>From zero to swarm in five commands.</h2>
+
+    <h3 style="margin-top: 2rem;">1. Install &amp; Connect</h3>
+    <p class="text-muted">Add RuFlo as an MCP server to Claude Code. Start the daemon.</p>
+    <div class="code-block"><span class="comment"># Add RuFlo as MCP server</span>
+<span class="cmd">claude mcp add ruflo</span> <span class="flag">--</span> <span class="val">npx -y @claude-flow/cli@latest</span>
+
+<span class="comment"># Start background workers</span>
+<span class="cmd">npx ruflo@latest daemon start</span>
+
+<span class="comment"># Verify everything works</span>
+<span class="cmd">npx ruflo@latest doctor</span> <span class="flag">--fix</span></div>
+
+    <h3 style="margin-top: 2rem;">2. Initialize a Swarm</h3>
+    <p class="text-muted">Choose your topology and spawn the coordinator.</p>
+    <div class="code-block"><span class="comment"># Hierarchical swarm with 8 agents (recommended for coding tasks)</span>
+<span class="cmd">npx ruflo@latest swarm init</span> <span class="flag">--topology</span> <span class="val">hierarchical</span> <span class="flag">--max-agents</span> <span class="val">8</span> <span class="flag">--strategy</span> <span class="val">specialized</span>
+
+<span class="comment"># Check status</span>
+<span class="cmd">npx ruflo@latest swarm status</span></div>
+
+    <h3 style="margin-top: 2rem;">3. Spawn Agents</h3>
+    <p class="text-muted">Spawn specialized agents for your task. Each agent type has a focused role.</p>
+    <div class="code-block"><span class="comment"># Spawn a coder agent</span>
+<span class="cmd">npx ruflo@latest agent spawn</span> <span class="flag">-t</span> <span class="val">coder</span> <span class="flag">--name</span> <span class="val">feature-coder</span>
+
+<span class="comment"># Spawn a tester agent</span>
+<span class="cmd">npx ruflo@latest agent spawn</span> <span class="flag">-t</span> <span class="val">tester</span> <span class="flag">--name</span> <span class="val">test-writer</span>
+
+<span class="comment"># Spawn a reviewer agent</span>
+<span class="cmd">npx ruflo@latest agent spawn</span> <span class="flag">-t</span> <span class="val">reviewer</span> <span class="flag">--name</span> <span class="val">quality-check</span></div>
+
+    <h3 style="margin-top: 2rem;">4. Use Memory</h3>
+    <p class="text-muted">Store and search patterns across sessions. HNSW indexing makes search 150x faster.</p>
+    <div class="code-block"><span class="comment"># Store a pattern</span>
+<span class="cmd">npx ruflo@latest memory store</span> <span class="flag">--key</span> <span class="val">"auth-pattern"</span> <span class="flag">--value</span> <span class="val">"JWT with refresh tokens"</span> <span class="flag">--namespace</span> <span class="val">patterns</span>
+
+<span class="comment"># Semantic search</span>
+<span class="cmd">npx ruflo@latest memory search</span> <span class="flag">--query</span> <span class="val">"authentication"</span> <span class="flag">--namespace</span> <span class="val">patterns</span>
+
+<span class="comment"># List all stored knowledge</span>
+<span class="cmd">npx ruflo@latest memory list</span> <span class="flag">--limit</span> <span class="val">20</span></div>
+
+    <h3 style="margin-top: 2rem;">5. Run Diagnostics</h3>
+    <p class="text-muted">The doctor command catches problems before they become emergencies.</p>
+    <div class="code-block"><span class="comment"># Full system health check</span>
+<span class="cmd">npx ruflo@latest doctor</span> <span class="flag">--fix</span>
+
+<span class="comment"># System status overview</span>
+<span class="cmd">npx ruflo@latest status</span>
+
+<span class="comment"># Agent health check</span>
+<span class="cmd">npx ruflo@latest agent health</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- MODEL ROUTING                                              -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section">
+  <div class="label label-purple">Intelligence &mdash; 3-Tier Model Routing</div>
+  <h2>The right brain for the right job.</h2>
+  <p>Not every task needs the biggest model. RuFlo&rsquo;s ADR-026 routing system automatically selects the cheapest, fastest model that can handle the job.</p>
+
+  <div class="tier-grid">
+    <div class="tier-card" style="border-color: var(--green);">
+      <h3 class="text-green">Tier 1 &mdash; WASM</h3>
+      <div class="tier-label">&lt;1ms latency &middot; $0 cost</div>
+      <ul>
+        <li>Simple transforms (var&rarr;const)</li>
+        <li>Type annotations</li>
+        <li>Format corrections</li>
+        <li>Agent Booster handles it</li>
+      </ul>
+    </div>
+    <div class="tier-card" style="border-color: var(--amber);">
+      <h3 class="text-amber">Tier 2 &mdash; Haiku</h3>
+      <div class="tier-label">~500ms latency &middot; $0.0002</div>
+      <ul>
+        <li>Simple tasks (&lt;30% complexity)</li>
+        <li>Routine code generation</li>
+        <li>Basic analysis</li>
+        <li>Standard formatting</li>
+      </ul>
+    </div>
+    <div class="tier-card" style="border-color: var(--purple);">
+      <h3 class="text-purple">Tier 3 &mdash; Sonnet/Opus</h3>
+      <div class="tier-label">2-5s latency &middot; $0.003-0.015</div>
+      <ul>
+        <li>Complex reasoning (&gt;30%)</li>
+        <li>Architecture decisions</li>
+        <li>Security audits</li>
+        <li>Cross-file refactors</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- WORKFLOW TEMPLATES                                          -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-alt">
+  <div class="section">
+    <div class="label label-green">Workflows &mdash; Built-In Templates</div>
+    <h2>Batteries included.</h2>
+    <p>RuFlo ships with workflow templates for the most common development tasks. Each template defines the agents, topology, and steps.</p>
+
+    <table class="data-table" style="margin-top: 2rem;">
+      <thead>
+        <tr>
+          <th>Workflow</th>
+          <th>Agents</th>
+          <th>Topology</th>
+          <th>Best For</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Feature</strong></td>
+          <td>planner, coder, tester, reviewer</td>
+          <td>Hierarchical</td>
+          <td>New features end-to-end</td>
+        </tr>
+        <tr>
+          <td><strong>Bugfix</strong></td>
+          <td>researcher, coder, tester</td>
+          <td>Hierarchical</td>
+          <td>Investigate &amp; fix bugs</td>
+        </tr>
+        <tr>
+          <td><strong>Refactor</strong></td>
+          <td>planner, coder, reviewer</td>
+          <td>Mesh</td>
+          <td>Cross-file restructuring</td>
+        </tr>
+        <tr>
+          <td><strong>Security</strong></td>
+          <td>security-architect, auditor, coder</td>
+          <td>Hierarchical</td>
+          <td>Security audit &amp; remediation</td>
+        </tr>
+        <tr>
+          <td><strong>Testing</strong></td>
+          <td>tester, coder, reviewer</td>
+          <td>Hierarchical</td>
+          <td>Test coverage expansion</td>
+        </tr>
+        <tr>
+          <td><strong>Release</strong></td>
+          <td>release-manager, tester, pr-manager</td>
+          <td>Hierarchical</td>
+          <td>Version bump, changelog, deploy</td>
+        </tr>
+        <tr>
+          <td><strong>Learning</strong></td>
+          <td>sona-optimizer, researcher</td>
+          <td>Adaptive</td>
+          <td>Pattern training &amp; optimization</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- RuVECTOR / HNSW                                            -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section">
+  <div class="label label-cyan">RuVector &mdash; The Memory Engine</div>
+  <h2>HNSW: How agents remember.</h2>
+  <p>RuVector is the vector search engine inside RuFlo. It uses Hierarchical Navigable Small World (HNSW) graphs to find similar patterns in sub-millisecond time &mdash; even across millions of stored memories.</p>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem;">
+    <div class="card">
+      <h3 class="text-cyan">What it stores</h3>
+      <ul style="list-style: none; font-size: 0.875rem; color: var(--text-muted);">
+        <li style="padding: 0.25rem 0;">&bull; Code patterns and architectural decisions</li>
+        <li style="padding: 0.25rem 0;">&bull; Agent outcomes (success/failure + context)</li>
+        <li style="padding: 0.25rem 0;">&bull; Cross-session conversation state</li>
+        <li style="padding: 0.25rem 0;">&bull; Learned optimizations and routing preferences</li>
+        <li style="padding: 0.25rem 0;">&bull; Security vulnerability fingerprints</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 class="text-cyan">Why it matters</h3>
+      <ul style="list-style: none; font-size: 0.875rem; color: var(--text-muted);">
+        <li style="padding: 0.25rem 0;">&bull; <strong>150x faster</strong> search vs. linear scan</li>
+        <li style="padding: 0.25rem 0;">&bull; <strong>Semantic</strong> search, not just keyword matching</li>
+        <li style="padding: 0.25rem 0;">&bull; <strong>Namespace isolation</strong> between projects</li>
+        <li style="padding: 0.25rem 0;">&bull; <strong>EWC++</strong> prevents catastrophic forgetting</li>
+        <li style="padding: 0.25rem 0;">&bull; <strong>Quantization</strong> for 4-32x memory reduction</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- HEY BRADLEY INTEGRATION                                    -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-alt">
+  <div class="section">
+    <div class="label label-amber">Integration &mdash; Hey Bradley + RuFlo</div>
+    <h2>How this project uses RuFlo today.</h2>
+    <p>Hey Bradley adopted RuFlo as its agent coordination system starting in Phase 15. Here&rsquo;s the current integration state.</p>
+
+    <div class="card-grid card-grid-2" style="margin-top: 2rem;">
+      <div class="card">
+        <h3>Project Config</h3>
+        <ul style="list-style: none; font-size: 0.875rem; color: var(--text-muted);">
+          <li style="padding: 0.25rem 0;"><strong>Topology:</strong> hierarchical-mesh</li>
+          <li style="padding: 0.25rem 0;"><strong>Max Agents:</strong> 15</li>
+          <li style="padding: 0.25rem 0;"><strong>Memory:</strong> hybrid (HNSW + AgentDB)</li>
+          <li style="padding: 0.25rem 0;"><strong>Neural:</strong> enabled</li>
+          <li style="padding: 0.25rem 0;"><strong>Version:</strong> 3.0.0</li>
+          <li style="padding: 0.25rem 0;"><strong>Platform:</strong> linux x64 (Node v24)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Submodule Integration</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">RuFlo is being added as a git submodule in the <code style="background: rgba(255,255,255,0.1); padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem;">upstream/</code> directory. This keeps the coordination system versioned alongside the project without bloating the main repo. A separate swarm handles the submodule integration.</p>
+      </div>
+      <div class="card">
+        <h3>Codebase Scale</h3>
+        <ul style="list-style: none; font-size: 0.875rem; color: var(--text-muted);">
+          <li style="padding: 0.25rem 0;"><strong>Total lines:</strong> 100,000+</li>
+          <li style="padding: 0.25rem 0;"><strong>Source files:</strong> 171 TS/TSX</li>
+          <li style="padding: 0.25rem 0;"><strong>Themes:</strong> 12</li>
+          <li style="padding: 0.25rem 0;"><strong>Examples:</strong> 15</li>
+          <li style="padding: 0.25rem 0;"><strong>Tests:</strong> 102 passing</li>
+          <li style="padding: 0.25rem 0;"><strong>ADRs:</strong> 37</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Phase Roadmap</h3>
+        <ul style="list-style: none; font-size: 0.875rem; color: var(--text-muted);">
+          <li style="padding: 0.25rem 0;"><span class="text-green">P11-P14:</span> CLOSED</li>
+          <li style="padding: 0.25rem 0;"><span class="text-cyan">P15:</span> Developer assistance (current)</li>
+          <li style="padding: 0.25rem 0;"><span class="text-muted">P16-P19:</span> Reviews &amp; validation</li>
+          <li style="padding: 0.25rem 0;"><span class="text-muted">P20-P22:</span> Pre-LLM simulations</li>
+          <li style="padding: 0.25rem 0;"><span class="text-purple">P23+:</span> Real LLM integration</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- ACT IV: SUCCESS — THE TRANSFORMATION                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section">
+  <div class="label label-green">The Transformation &mdash; What Changes</div>
+  <h2>Before and after the nervous system.</h2>
+
+  <table class="data-table" style="margin-top: 2rem;">
+    <thead>
+      <tr>
+        <th>Dimension</th>
+        <th>Without RuFlo</th>
+        <th>With RuFlo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Agent coordination</strong></td>
+        <td class="text-red">Manual, conflict-prone</td>
+        <td class="text-green">Topology-aware, automatic</td>
+      </tr>
+      <tr>
+        <td><strong>Shared memory</strong></td>
+        <td class="text-red">None &mdash; each agent starts cold</td>
+        <td class="text-green">HNSW-indexed, persistent, searchable</td>
+      </tr>
+      <tr>
+        <td><strong>Model selection</strong></td>
+        <td class="text-amber">Always use the biggest model</td>
+        <td class="text-green">3-tier routing, right-sized per task</td>
+      </tr>
+      <tr>
+        <td><strong>Quality hooks</strong></td>
+        <td class="text-red">Manual lint/test after each change</td>
+        <td class="text-green">17 hooks fire automatically</td>
+      </tr>
+      <tr>
+        <td><strong>Learning</strong></td>
+        <td class="text-red">Same mistakes every session</td>
+        <td class="text-green">SONA + ReasoningBank + EWC++</td>
+      </tr>
+      <tr>
+        <td><strong>Security</strong></td>
+        <td class="text-amber">Periodic manual audit</td>
+        <td class="text-green">Continuous scanning, claims-based auth</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- KEY HIGHLIGHTS                                             -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section-alt">
+  <div class="section">
+    <div class="label label-cyan">Key Highlights</div>
+    <h2>What makes RuFlo different.</h2>
+
+    <div class="card-grid card-grid-3" style="margin-top: 2rem;">
+      <div class="card" style="border-color: rgba(34, 211, 238, 0.3);">
+        <h3 class="text-cyan">MCP-Native</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Built for the Model Context Protocol. Every capability is an MCP tool that any Claude Code session can invoke. No custom API needed.</p>
+      </div>
+      <div class="card" style="border-color: rgba(167, 139, 250, 0.3);">
+        <h3 class="text-purple">Self-Learning</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Agents learn from outcomes. SONA adaptation, MicroLoRA fine-tuning, and ReasoningBank trajectory tracking mean tomorrow&rsquo;s swarm is smarter than today&rsquo;s.</p>
+      </div>
+      <div class="card" style="border-color: rgba(52, 211, 153, 0.3);">
+        <h3 class="text-green">Zero-Config Start</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">One npx command to add, one to init, one doctor to verify. Production-grade coordination in under a minute.</p>
+      </div>
+      <div class="card" style="border-color: rgba(251, 191, 36, 0.3);">
+        <h3 class="text-amber">WASM Sandboxing</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Run agents in WebAssembly isolation. No OS access, no file system leaks. Safe execution even with untrusted code.</p>
+      </div>
+      <div class="card" style="border-color: rgba(34, 211, 238, 0.3);">
+        <h3 class="text-cyan">Byzantine Fault Tolerant</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Hive Mind consensus survives malicious or failing agents. Raft for leader election, CRDT for eventual consistency, gossip for scale.</p>
+      </div>
+      <div class="card" style="border-color: rgba(167, 139, 250, 0.3);">
+        <h3 class="text-purple">Browser Automation</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Built-in Playwright-powered browser control. Agents can open, click, fill, screenshot, and evaluate &mdash; visual testing and web scraping included.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- AGENT CATALOG HIGHLIGHTS                                   -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<div class="section">
+  <div class="label label-purple">Agent Catalog &mdash; 90 Types</div>
+  <h2>A specialist for every task.</h2>
+  <p>Here are the key agent categories. Each agent is pre-configured with the right tools, permissions, and domain knowledge for its role.</p>
+
+  <div class="card-grid card-grid-2" style="margin-top: 2rem;">
+    <div class="card">
+      <h3>Core Development</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">
+        <span class="pill pill-cyan">coder</span>
+        <span class="pill pill-cyan">tester</span>
+        <span class="pill pill-cyan">reviewer</span>
+        <span class="pill pill-cyan">planner</span>
+        <span class="pill pill-cyan">researcher</span>
+      </p>
+    </div>
+    <div class="card">
+      <h3>Architecture &amp; Design</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">
+        <span class="pill pill-purple">system-architect</span>
+        <span class="pill pill-purple">ddd-domain-expert</span>
+        <span class="pill pill-purple">adr-architect</span>
+        <span class="pill pill-purple">specification</span>
+      </p>
+    </div>
+    <div class="card">
+      <h3>Security</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">
+        <span class="pill pill-green">security-architect</span>
+        <span class="pill pill-green">security-auditor</span>
+        <span class="pill pill-green">injection-analyst</span>
+        <span class="pill pill-green">pii-detector</span>
+        <span class="pill pill-green">aidefence-guardian</span>
+      </p>
+    </div>
+    <div class="card">
+      <h3>Swarm Coordination</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">
+        <span class="pill pill-amber">hierarchical-coordinator</span>
+        <span class="pill pill-amber">mesh-coordinator</span>
+        <span class="pill pill-amber">adaptive-coordinator</span>
+        <span class="pill pill-amber">byzantine-coordinator</span>
+      </p>
+    </div>
+    <div class="card">
+      <h3>GitHub &amp; DevOps</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">
+        <span class="pill pill-cyan">pr-manager</span>
+        <span class="pill pill-cyan">release-manager</span>
+        <span class="pill pill-cyan">issue-tracker</span>
+        <span class="pill pill-cyan">cicd-engineer</span>
+        <span class="pill pill-cyan">workflow-automation</span>
+      </p>
+    </div>
+    <div class="card">
+      <h3>Performance &amp; ML</h3>
+      <p class="text-muted" style="font-size: 0.875rem;">
+        <span class="pill pill-purple">performance-engineer</span>
+        <span class="pill pill-purple">ml-developer</span>
+        <span class="pill pill-purple">sona-learning-optimizer</span>
+        <span class="pill pill-purple">perf-analyzer</span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>One developer. Ninety agents.<br>One nervous system.</h2>
+  <p class="text-muted" style="max-width: 600px; margin: 0 auto 2rem; font-size: 1.125rem;">
+    RuFlo turns agent chaos into coordinated engineering.<br>
+    Topology. Memory. Consensus. Hooks.<br>
+    The plumbing disappears. The work gets done.
+  </p>
+  <a href="https://github.com/bar181/hey-bradley-core" class="btn btn-primary" target="_blank" rel="noopener noreferrer">View Project on GitHub</a>
+  <a href="index.html" class="btn btn-secondary">Back to Wiki</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>Harvard ALM Capstone &mdash; Digital Media Design &mdash; May 2026</p>
+  <p style="margin-top: 0.5rem;">Bradley Ross &mdash; Creator of AISP &amp; Hey Bradley</p>
+  <div style="margin-top: 1rem; display: flex; gap: 1.5rem; justify-content: center;">
+    <a href="https://github.com/bar181/hey-bradley-core" target="_blank" rel="noopener noreferrer">Hey Bradley Repo</a>
+    <a href="17-telephone-game-over.html">Vision</a>
+    <a href="index.html">Wiki Index</a>
+    <a href="/about">About</a>
+  </div>
+</footer>
+
+</body>
+</html>

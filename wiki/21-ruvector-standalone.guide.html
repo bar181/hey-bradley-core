@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RuVector &mdash; Self-Learning Vector GNN Database</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface-hover: #22252f;
+    --border: #2a2d3a;
+    --text: #e4e4e7;
+    --text-muted: #9ca3af;
+    --text-dim: #6b7280;
+    --accent: #818cf8;
+    --green: #34d399;
+    --green-dim: rgba(52, 211, 153, 0.15);
+    --red: #f87171;
+    --red-dim: rgba(248, 113, 113, 0.15);
+    --amber: #fbbf24;
+    --amber-dim: rgba(251, 191, 36, 0.15);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167, 139, 250, 0.15);
+    --cyan: #22d3ee;
+    --cyan-dim: rgba(34, 211, 238, 0.15);
+    --pink: #f472b6;
+    --pink-dim: rgba(244, 114, 182, 0.15);
+    --orange: #fb923c;
+    --orange-dim: rgba(251, 146, 60, 0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(15, 17, 23, 0.9); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .nav a { color: var(--text-muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+  .nav a:hover { color: var(--text); }
+  .nav .logo { font-size: 1.125rem; font-weight: 700; color: var(--text); }
+  .nav-links { display: flex; gap: 1.5rem; }
+
+  .section { max-width: 900px; margin: 0 auto; padding: 4rem 2rem; }
+  .section-alt { background: var(--surface); }
+
+  .hero { text-align: center; padding: 6rem 2rem; max-width: 900px; margin: 0 auto; }
+  .hero .tagline { font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--orange); margin-bottom: 1.5rem; }
+  .hero h1 { font-size: 3rem; font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
+  .hero p { font-size: 1.25rem; color: var(--text-muted); max-width: 640px; margin: 0 auto; }
+
+  h2 { font-size: 2rem; font-weight: 700; margin-bottom: 1rem; line-height: 1.3; }
+  h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; }
+  h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 600; margin-bottom: 1rem; }
+  .label-red { color: var(--red); } .label-green { color: var(--green); } .label-purple { color: var(--purple); }
+  .label-amber { color: var(--amber); } .label-cyan { color: var(--cyan); } .label-orange { color: var(--orange); }
+  .text-red { color: var(--red); } .text-green { color: var(--green); } .text-purple { color: var(--purple); }
+  .text-amber { color: var(--amber); } .text-cyan { color: var(--cyan); } .text-orange { color: var(--orange); }
+  .text-muted { color: var(--text-muted); }
+  p { margin-bottom: 1rem; }
+
+  .stat-box { border-radius: 1rem; padding: 2rem; text-align: center; margin: 1.5rem 0; }
+  .stat-box .number { font-size: 3rem; font-weight: 800; line-height: 1; margin-bottom: 0.5rem; }
+
+  blockquote { border-left: 4px solid var(--border); padding-left: 1.5rem; margin: 2rem 0; font-style: italic; color: var(--text-muted); font-size: 1.125rem; }
+  blockquote cite { display: block; margin-top: 0.75rem; font-style: normal; font-size: 0.875rem; color: var(--text-dim); }
+
+  .card-grid { display: grid; gap: 1.5rem; }
+  .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .card { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; }
+
+  .code-block {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 1rem;
+    padding: 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem;
+    line-height: 1.8; overflow-x: auto; white-space: pre; color: var(--text-muted); margin: 1.5rem 0;
+  }
+  .code-block .c { color: var(--text-dim); }
+  .code-block .k { color: var(--purple); }
+  .code-block .f { color: var(--cyan); }
+  .code-block .s { color: var(--green); }
+  .code-block .n { color: var(--orange); }
+
+  .data-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+  .data-table th { text-align: left; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); color: var(--text-muted); font-weight: 500; }
+  .data-table td { padding: 0.75rem 1rem; border-bottom: 1px solid rgba(42, 45, 58, 0.5); color: var(--text-muted); }
+
+  .pill { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 2rem; font-size: 0.7rem; font-weight: 500; margin: 0.15rem; }
+  .pill-cyan { background: var(--cyan-dim); color: var(--cyan); border: 1px solid rgba(34, 211, 238, 0.3); }
+  .pill-purple { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(167, 139, 250, 0.3); }
+  .pill-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(52, 211, 153, 0.3); }
+  .pill-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(251, 191, 36, 0.3); }
+  .pill-orange { background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(251, 146, 60, 0.3); }
+
+  .step-num { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--orange-dim); border: 1px solid rgba(251, 146, 60, 0.4); color: var(--orange); font-weight: 700; font-size: 0.8rem; margin-right: 0.75rem; flex-shrink: 0; }
+
+  .arch-box { background: var(--surface); border: 1px solid var(--border); border-radius: 1rem; padding: 2rem; margin: 2rem 0; text-align: center; }
+  .arch-row { display: flex; justify-content: center; gap: 0.75rem; margin: 0.5rem 0; flex-wrap: wrap; }
+  .arch-node { padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 600; }
+  .arch-top { background: var(--orange-dim); border: 1px solid rgba(251, 146, 60, 0.4); color: var(--orange); }
+  .arch-mid { background: var(--purple-dim); border: 1px solid rgba(167, 139, 250, 0.3); color: var(--purple); }
+  .arch-bot { background: var(--green-dim); border: 1px solid rgba(52, 211, 153, 0.3); color: var(--green); }
+  .arch-ext { background: var(--cyan-dim); border: 1px solid rgba(34, 211, 238, 0.3); color: var(--cyan); }
+  .arch-arrow { color: var(--text-dim); font-size: 1rem; margin: 0.15rem 0; }
+
+  .tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2rem 0; }
+  .tier-card { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; }
+  .tier-card h3 { font-size: 1.125rem; font-weight: 700; }
+  .tier-card .tl { font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+  .tier-card ul { list-style: none; }
+  .tier-card ul li { font-size: 0.8125rem; color: var(--text-muted); padding: 0.2rem 0; }
+  .tier-card ul li::before { content: '\2713'; color: var(--green); margin-right: 0.5rem; }
+
+  .perf-bar { margin-bottom: 1.25rem; }
+  .perf-label { display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.4rem; }
+  .perf-track { height: 0.75rem; background: rgba(255, 255, 255, 0.05); border-radius: 0.375rem; overflow: hidden; }
+  .perf-fill { height: 100%; border-radius: 0.375rem; }
+
+  .cta-section { text-align: center; padding: 5rem 2rem; }
+  .cta-section h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+  .btn { display: inline-block; padding: 0.875rem 2rem; border-radius: 0.75rem; font-weight: 600; text-decoration: none; font-size: 1rem; transition: all 0.2s; margin: 0.5rem; }
+  .btn-primary { background: white; color: #111; }
+  .btn-primary:hover { background: #e5e5e5; }
+  .btn-secondary { background: transparent; border: 1px solid rgba(255,255,255,0.3); color: white; }
+  .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+  footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--border); color: var(--text-dim); font-size: 0.875rem; }
+  footer a { color: var(--text-muted); text-decoration: none; }
+  footer a:hover { color: var(--text); }
+
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 2rem; }
+    .card-grid-2, .card-grid-3, .card-grid-4 { grid-template-columns: 1fr; }
+    .tier-grid { grid-template-columns: 1fr; }
+    .arch-row { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <a href="https://github.com/ruvnet/ruvector" class="logo" target="_blank" rel="noopener noreferrer">RuVector</a>
+  <div class="nav-links">
+    <a href="#what">What</a>
+    <a href="#start">Quick Start</a>
+    <a href="#api">API</a>
+    <a href="#gnn">GNN</a>
+    <a href="#deploy">Deploy</a>
+    <a href="#ecosystem">Ecosystem</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="tagline">Rust Core &middot; npm Package &middot; MIT License &middot; v0.2.19</div>
+  <h1>RuVector: A Vector Database<br>That Learns From Every Query.</h1>
+  <p>High-performance HNSW indexing fused with Graph Neural Networks. Sub-millisecond search, 52,000+ inserts/sec, and an index that gets smarter every time you use it &mdash; without manual tuning.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- WHAT IS RUVECTOR                           -->
+<!-- ═══════════════════════════════════════════ -->
+
+<div class="section" id="what">
+  <div class="label label-orange">What Is RuVector</div>
+  <h2>Not just a vector database.<br>A living neural architecture.</h2>
+  <p>RuVector is a Rust-powered vector database with JavaScript/TypeScript bindings. It implements HNSW (Hierarchical Navigable Small World) graphs for approximate nearest-neighbor search &mdash; the same algorithm behind Pinecone, Qdrant, and pgvector.</p>
+  <p>What makes RuVector different: the HNSW graph has <strong>learnable edge weights</strong> powered by Graph Neural Networks. Every query teaches the index what &ldquo;similar&rdquo; means in your specific context. The paths that produce good results get stronger. The index reorganizes itself continuously. Search quality improves 50&ndash;80% over time with zero code changes.</p>
+  <p>It runs everywhere: npm package, WASM module (browser, IoT, embedded), PostgreSQL extension (pgvector drop-in replacement), CLI, or Docker container.</p>
+
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2rem;">
+    <div class="stat-box" style="background: var(--orange-dim); border: 1px solid rgba(251, 146, 60, 0.3); margin: 0; padding: 1.5rem;">
+      <div class="number" style="color: var(--orange); font-size: 2.25rem;">52K+</div>
+      <div style="font-size: 0.75rem;">Inserts/sec</div>
+    </div>
+    <div class="stat-box" style="background: var(--green-dim); border: 1px solid rgba(52, 211, 153, 0.3); margin: 0; padding: 1.5rem;">
+      <div class="number" style="color: var(--green); font-size: 2.25rem;">&lt;1ms</div>
+      <div style="font-size: 0.75rem;">Query Latency</div>
+    </div>
+    <div class="stat-box" style="background: var(--purple-dim); border: 1px solid rgba(167, 139, 250, 0.3); margin: 0; padding: 1.5rem;">
+      <div class="number" style="color: var(--purple); font-size: 2.25rem;">~50B</div>
+      <div style="font-size: 0.75rem;">Per Vector</div>
+    </div>
+    <div class="stat-box" style="background: var(--cyan-dim); border: 1px solid rgba(34, 211, 238, 0.3); margin: 0; padding: 1.5rem;">
+      <div class="number" style="color: var(--cyan); font-size: 2.25rem;">Rust</div>
+      <div style="font-size: 0.75rem;">SIMD Core</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- CORE FEATURES                              -->
+<!-- ═══════════════════════════════════════════ -->
+
+<div class="section-alt">
+  <div class="section">
+    <div class="label label-cyan">Core Features</div>
+    <h2>What you get out of the box.</h2>
+
+    <div class="card-grid card-grid-3" style="margin-top: 2rem;">
+      <div class="card" style="border-color: rgba(251, 146, 60, 0.3);">
+        <h3 class="text-orange">HNSW Indexing</h3>
+        <p class="text-muted" style="font-size: 0.8125rem;">O(log n) approximate nearest-neighbor search. Tunable M (16&ndash;64 connections), efConstruction (100&ndash;400), efSearch (50&ndash;500). Navigable multi-layer graph structure.</p>
+      </div>
+      <div class="card" style="border-color: rgba(167, 139, 250, 0.3);">
+        <h3 class="text-purple">GNN Self-Learning</h3>
+        <p class="text-muted" style="font-size: 0.8125rem;">Graph Neural Networks add learnable weights to HNSW edges. Message-passing layers propagate relevance signals. Search improves 50&ndash;80% over time.</p>
+      </div>
+      <div class="card" style="border-color: rgba(52, 211, 153, 0.3);">
+        <h3 class="text-green">Hyperbolic Geometry</h3>
+        <p class="text-muted" style="font-size: 0.8125rem;">Poincar&eacute; ball and Lorentz hyperboloid models. M&ouml;bius operations for hierarchical data. Captures tree-like structures that Euclidean space cannot represent.</p>
+      </div>
+      <div class="card" style="border-color: rgba(34, 211, 238, 0.3);">
+        <h3 class="text-cyan">Hybrid Search</h3>
+        <p class="text-muted" style="font-size: 0.8125rem;">Dense vector similarity + sparse keyword retrieval + Graph RAG. Maximum recall and precision in a single query.</p>
+      </div>
+      <div class="card" style="border-color: rgba(251, 191, 36, 0.3);">
+        <h3 class="text-amber">50+ Attention Types</h3>
+        <p class="text-muted" style="font-size: 0.8125rem;">FlashAttention-3, multi-head, cross-attention, local-global (Longformer), hyperbolic attention, RoPE, MoE routing, sparse attention, and more.</p>
+      </div>
+      <div class="card" style="border-color: rgba(244, 114, 182, 0.3);">
+        <h3 style="color: var(--pink);">EWC++ Memory Guard</h3>
+        <p class="text-muted" style="font-size: 0.8125rem;">Elastic Weight Consolidation prevents catastrophic forgetting. New patterns don&rsquo;t erase old knowledge. Intelligence accumulates over the lifetime of the index.</p>
+      </div>
+      <div class="card" style="border-color: rgba(251, 146, 60, 0.3);">
+        <h3 class="text-orange">Quantization</h3>
+        <p class="text-muted" style="font-size: 0.8125rem;">Scalar (4x compression), Product (8&ndash;16x), Binary (32x). Trade memory for accuracy at scale. BitNet 1.58-bit with TL1 kernels.</p>
+      </div>
+      <div class="card" style="border-color: rgba(167, 139, 250, 0.3);">
+        <h3 class="text-purple">Multi-Metric</h3>
+        <p class="text-muted" style="font-size: 0.8125rem;">Cosine similarity, Euclidean distance, dot product, Manhattan distance. Choose the right distance metric for your embedding model.</p>
+      </div>
+      <div class="card" style="border-color: rgba(52, 211, 153, 0.3);">
+        <h3 class="text-green">Query Languages</h3>
+        <p class="text-muted" style="font-size: 0.8125rem;">SQL, SPARQL, and Cypher via rvLite unified query interface. Graph, RDF, and relational paradigms in one engine.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- DEVELOPER STEP-BY-STEP                     -->
+<!-- ═══════════════════════════════════════════ -->
+
+<div class="section" id="start">
+  <div class="label label-green">Developer Guide &mdash; Step by Step</div>
+  <h2>From install to semantic search.</h2>
+
+  <!-- STEP 1 -->
+  <div style="display: flex; align-items: flex-start; margin-top: 2rem;">
+    <span class="step-num">1</span>
+    <div style="flex: 1;">
+      <h3>Install the Package</h3>
+      <p class="text-muted" style="font-size: 0.9rem;">RuVector is available on npm. The Rust core compiles to native bindings automatically.</p>
+    </div>
+  </div>
+  <div class="code-block"><span class="c"># Install core package</span>
+<span class="f">npm install</span> <span class="s">ruvector</span>
+
+<span class="c"># Or with the LLM runtime</span>
+<span class="f">npm install</span> <span class="s">@ruvector/ruvllm</span>
+
+<span class="c"># Or the PostgreSQL CLI</span>
+<span class="f">npm install -g</span> <span class="s">@ruvector/postgres-cli</span></div>
+
+  <!-- STEP 2 -->
+  <div style="display: flex; align-items: flex-start; margin-top: 2.5rem;">
+    <span class="step-num">2</span>
+    <div style="flex: 1;">
+      <h3>Create an HNSW Index</h3>
+      <p class="text-muted" style="font-size: 0.9rem;">Initialize with your embedding dimensions and distance metric. Tune HNSW parameters for your use case.</p>
+    </div>
+  </div>
+  <div class="code-block"><span class="k">import</span> { RuVector } <span class="k">from</span> <span class="s">'ruvector'</span>;
+
+<span class="k">const</span> db = <span class="k">new</span> <span class="f">RuVector</span>({
+  <span class="c">// Required</span>
+  dimensions: <span class="n">384</span>,               <span class="c">// Must match your embedding model</span>
+
+  <span class="c">// Distance metric</span>
+  distanceMetric: <span class="s">'cosine'</span>,       <span class="c">// 'cosine' | 'euclidean' | 'dotproduct' | 'manhattan'</span>
+
+  <span class="c">// HNSW tuning</span>
+  m: <span class="n">32</span>,                          <span class="c">// Connections per node (16-64, default 32)</span>
+  efConstruction: <span class="n">200</span>,           <span class="c">// Build quality (100-400, higher = better index)</span>
+  efSearch: <span class="n">100</span>,                 <span class="c">// Search quality (50-500, higher = more accurate)</span>
+  maxElements: <span class="n">100000</span>,           <span class="c">// Maximum vector capacity</span>
+
+  <span class="c">// Storage</span>
+  storagePath: <span class="s">'./data/vectors'</span>, <span class="c">// Persist to disk (optional)</span>
+});
+
+<span class="k">await</span> db.<span class="f">init</span>();</div>
+
+  <!-- STEP 3 -->
+  <div style="display: flex; align-items: flex-start; margin-top: 2.5rem;">
+    <span class="step-num">3</span>
+    <div style="flex: 1;">
+      <h3>Insert Vectors</h3>
+      <p class="text-muted" style="font-size: 0.9rem;">Insert single vectors or batch insert at 52K+ vectors/second. Attach metadata for filtered search.</p>
+    </div>
+  </div>
+  <div class="code-block"><span class="c">// Single insert with metadata</span>
+<span class="k">await</span> db.<span class="f">insert</span>({
+  id: <span class="s">'doc-001'</span>,
+  vector: embedding,                <span class="c">// Float32Array matching dimensions</span>
+  metadata: {
+    type: <span class="s">'article'</span>,
+    topic: <span class="s">'machine-learning'</span>,
+    date: <span class="s">'2026-04-07'</span>,
+  }
+});
+
+<span class="c">// Batch insert (52K+ vectors/sec)</span>
+<span class="k">const</span> vectors = documents.<span class="f">map</span>((doc, i) =&gt; ({
+  id: <span class="s">`doc-</span>${i}<span class="s">`</span>,
+  vector: doc.embedding,
+  metadata: { title: doc.title, category: doc.category }
+}));
+
+<span class="k">await</span> db.<span class="f">insertBatch</span>(vectors);</div>
+
+  <!-- STEP 4 -->
+  <div style="display: flex; align-items: flex-start; margin-top: 2.5rem;">
+    <span class="step-num">4</span>
+    <div style="flex: 1;">
+      <h3>Search by Meaning</h3>
+      <p class="text-muted" style="font-size: 0.9rem;">Semantic similarity search with optional metadata filters. Results ranked by distance score.</p>
+    </div>
+  </div>
+  <div class="code-block"><span class="c">// Basic semantic search</span>
+<span class="k">const</span> results = <span class="k">await</span> db.<span class="f">search</span>({
+  vector: queryEmbedding,          <span class="c">// Your query vector</span>
+  topK: <span class="n">10</span>,                        <span class="c">// Number of results</span>
+});
+
+<span class="c">// Filtered search</span>
+<span class="k">const</span> filtered = <span class="k">await</span> db.<span class="f">search</span>({
+  vector: queryEmbedding,
+  topK: <span class="n">5</span>,
+  filter: {
+    category: <span class="s">'machine-learning'</span>,  <span class="c">// Metadata filter</span>
+  }
+});
+
+<span class="c">// Process results</span>
+results.<span class="f">forEach</span>(result =&gt; {
+  console.<span class="f">log</span>(result.id);          <span class="c">// 'doc-042'</span>
+  console.<span class="f">log</span>(result.score);       <span class="c">// 0.9847 (similarity)</span>
+  console.<span class="f">log</span>(result.metadata);    <span class="c">// { type: 'article', ... }</span>
+});</div>
+
+  <!-- STEP 5 -->
+  <div style="display: flex; align-items: flex-start; margin-top: 2.5rem;">
+    <span class="step-num">5</span>
+    <div style="flex: 1;">
+      <h3>Enable GNN Self-Learning</h3>
+      <p class="text-muted" style="font-size: 0.9rem;">Turn on the Graph Neural Network layer. The index starts learning from every query automatically.</p>
+    </div>
+  </div>
+  <div class="code-block"><span class="c">// Enable GNN on the index</span>
+<span class="k">await</span> db.<span class="f">enableGNN</span>({
+  learningRate: <span class="n">0.001</span>,           <span class="c">// How fast edges adapt</span>
+  ewcLambda: <span class="n">0.4</span>,                <span class="c">// EWC++ strength (prevents forgetting)</span>
+  messagePassingLayers: <span class="n">2</span>,       <span class="c">// GNN depth</span>
+});
+
+<span class="c">// The index now learns from every search</span>
+<span class="c">// Paths that produce good results get stronger</span>
+<span class="c">// Search improves 50-80% over time, automatically</span>
+
+<span class="c">// Check learning stats</span>
+<span class="k">const</span> stats = <span class="k">await</span> db.<span class="f">gnnStats</span>();
+console.<span class="f">log</span>(stats.queriesProcessed);
+console.<span class="f">log</span>(stats.edgeWeightRange);
+console.<span class="f">log</span>(stats.improvementPercent);</div>
+
+  <!-- STEP 6 -->
+  <div style="display: flex; align-items: flex-start; margin-top: 2.5rem;">
+    <span class="step-num">6</span>
+    <div style="flex: 1;">
+      <h3>Hyperbolic Embeddings (Optional)</h3>
+      <p class="text-muted" style="font-size: 0.9rem;">Use Poincar&eacute; ball geometry for hierarchical data. Taxonomies, org charts, and code module trees map naturally.</p>
+    </div>
+  </div>
+  <div class="code-block"><span class="c">// Create index with hyperbolic geometry</span>
+<span class="k">const</span> hyperDB = <span class="k">new</span> <span class="f">RuVector</span>({
+  dimensions: <span class="n">384</span>,
+  geometry: <span class="s">'poincare'</span>,           <span class="c">// Poincaré ball model</span>
+  curvature: <span class="n">-1</span>,                 <span class="c">// Negative curvature for hyperbolic space</span>
+  maxNorm: <span class="n">0.99999</span>,              <span class="c">// Keep vectors inside the ball</span>
+});
+
+<span class="c">// Möbius operations for geodesic distances</span>
+<span class="c">// Naturally captures parent-child, category-item relationships</span>
+<span class="c">// More expressive than Euclidean for tree-structured data</span></div>
+
+  <!-- STEP 7 -->
+  <div style="display: flex; align-items: flex-start; margin-top: 2.5rem;">
+    <span class="step-num">7</span>
+    <div style="flex: 1;">
+      <h3>Persist and Load</h3>
+      <p class="text-muted" style="font-size: 0.9rem;">Save the index to disk (including GNN weights). Reload instantly. RVF format boots in 125ms.</p>
+    </div>
+  </div>
+  <div class="code-block"><span class="c">// Save to disk</span>
+<span class="k">await</span> db.<span class="f">save</span>(<span class="s">'./my-index.rvf'</span>);
+
+<span class="c">// Load from disk (125ms cold boot)</span>
+<span class="k">const</span> loaded = <span class="k">await</span> RuVector.<span class="f">load</span>(<span class="s">'./my-index.rvf'</span>);
+
+<span class="c">// RVF format includes:</span>
+<span class="c">// - HNSW graph structure</span>
+<span class="c">// - GNN learned weights</span>
+<span class="c">// - All metadata</span>
+<span class="c">// - WASM runtime (portable across platforms)</span></div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- GNN DEEP DIVE                              -->
+<!-- ═══════════════════════════════════════════ -->
+
+<div class="section-alt" id="gnn">
+  <div class="section">
+    <div class="label label-purple">GNN Self-Learning &mdash; How It Works</div>
+    <h2>Static indexes are yesterday.<br>Living graphs are now.</h2>
+    <p>Traditional HNSW builds a fixed graph at insert time. The structure never changes after creation. RuVector adds a Graph Neural Network layer that makes the graph <strong>adaptive</strong>.</p>
+
+    <div class="card-grid card-grid-2" style="margin-top: 2rem;">
+      <div class="card">
+        <h3 class="text-purple">Message Passing</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">GNN layers propagate relevance signals across the HNSW graph. When a search traverses an edge and the result is used, that edge gets a stronger weight. Unused paths weaken over time.</p>
+      </div>
+      <div class="card">
+        <h3 class="text-orange">Learnable Edge Weights</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Every HNSW edge has a trainable weight parameter. The graph learns which connections actually matter for your specific data distribution and query patterns.</p>
+      </div>
+      <div class="card">
+        <h3 class="text-green">EWC++ Protection</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Elastic Weight Consolidation prevents catastrophic forgetting. When the index learns new patterns, it protects the weights that encode important old knowledge. Intelligence accumulates.</p>
+      </div>
+      <div class="card">
+        <h3 class="text-cyan">SIMD Acceleration</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">The entire learning loop executes in &lt;1ms via Rust SIMD intrinsics. No separate training step. No batch jobs. Learning happens inline with every query.</p>
+      </div>
+    </div>
+
+    <blockquote style="margin-top: 2rem;">
+      &ldquo;Traditional HNSW: build once, search forever. RuVector HNSW: build once, get smarter forever.&rdquo;
+    </blockquote>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- HNSW CONFIGURATION                         -->
+<!-- ═══════════════════════════════════════════ -->
+
+<div class="section" id="api">
+  <div class="label label-amber">HNSW Configuration Reference</div>
+  <h2>Tuning the index.</h2>
+  <p>HNSW performance depends on three key parameters. Here&rsquo;s how to tune them for your use case.</p>
+
+  <table class="data-table" style="margin-top: 2rem;">
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Range</th>
+        <th>Default</th>
+        <th>Effect</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>M</strong></td>
+        <td>16 &ndash; 64</td>
+        <td>32</td>
+        <td>Connections per node. Higher = better recall, more memory</td>
+      </tr>
+      <tr>
+        <td><strong>efConstruction</strong></td>
+        <td>100 &ndash; 400</td>
+        <td>200</td>
+        <td>Build-time quality. Higher = better index, slower insert</td>
+      </tr>
+      <tr>
+        <td><strong>efSearch</strong></td>
+        <td>50 &ndash; 500</td>
+        <td>100</td>
+        <td>Search-time quality. Higher = more accurate, slower query</td>
+      </tr>
+      <tr>
+        <td><strong>maxElements</strong></td>
+        <td>1 &ndash; millions</td>
+        <td>10,000</td>
+        <td>Pre-allocated capacity. Set to expected max for best perf</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top: 2rem;">Quantization Options</h3>
+  <table class="data-table" style="margin-top: 1rem;">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Compression</th>
+        <th>Quality Loss</th>
+        <th>Use Case</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>None</strong></td>
+        <td>1x (full precision)</td>
+        <td>0%</td>
+        <td>Maximum accuracy, small datasets</td>
+      </tr>
+      <tr>
+        <td><strong>Scalar</strong></td>
+        <td>4x</td>
+        <td>&lt;1%</td>
+        <td>Good balance, most use cases</td>
+      </tr>
+      <tr>
+        <td><strong>Product</strong></td>
+        <td>8&ndash;16x</td>
+        <td>1&ndash;3%</td>
+        <td>Large datasets, memory constrained</td>
+      </tr>
+      <tr>
+        <td><strong>Binary</strong></td>
+        <td>32x</td>
+        <td>5&ndash;10%</td>
+        <td>Massive scale, rough filtering</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top: 2rem;">Distance Metrics</h3>
+  <div class="card-grid card-grid-4" style="margin-top: 1rem;">
+    <div class="card" style="text-align: center;">
+      <h4 class="text-orange">Cosine</h4>
+      <p class="text-muted" style="font-size: 0.8rem;">Best for text embeddings. Direction matters, magnitude doesn&rsquo;t.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <h4 class="text-purple">Euclidean</h4>
+      <p class="text-muted" style="font-size: 0.8rem;">Spatial distance. Best for image features, physical coordinates.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <h4 class="text-green">Dot Product</h4>
+      <p class="text-muted" style="font-size: 0.8rem;">Raw similarity. Best when magnitude encodes importance.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <h4 class="text-cyan">Manhattan</h4>
+      <p class="text-muted" style="font-size: 0.8rem;">Grid distance. Useful for categorical and sparse data.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- DEPLOYMENT MODES                           -->
+<!-- ═══════════════════════════════════════════ -->
+
+<div class="section-alt" id="deploy">
+  <div class="section">
+    <div class="label label-cyan">Deployment Modes</div>
+    <h2>Six ways to run RuVector.</h2>
+
+    <div class="card-grid card-grid-3" style="margin-top: 2rem;">
+      <div class="card" style="border-color: rgba(251, 146, 60, 0.3);">
+        <h3 class="text-orange">npm Package</h3>
+        <p class="text-muted" style="font-size: 0.8125rem;">Import directly into Node.js or TypeScript. Rust native bindings compiled at install time.</p>
+        <div class="code-block" style="margin: 0.75rem 0 0 0; padding: 0.75rem; font-size: 0.75rem;"><span class="f">npm i</span> <span class="s">ruvector</span></div>
+      </div>
+      <div class="card" style="border-color: rgba(167, 139, 250, 0.3);">
+        <h3 class="text-purple">WASM (rvLite)</h3>
+        <p class="text-muted" style="font-size: 0.8125rem;">3MB standalone binary. Runs in browser, IoT, mobile, and embedded environments. Zero dependencies.</p>
+        <div class="code-block" style="margin: 0.75rem 0 0 0; padding: 0.75rem; font-size: 0.75rem;"><span class="c">// Browser import</span>
+<span class="k">import</span> { rvLite } <span class="k">from</span> <span class="s">'ruvector/wasm'</span></div>
+      </div>
+      <div class="card" style="border-color: rgba(52, 211, 153, 0.3);">
+        <h3 class="text-green">PostgreSQL</h3>
+        <p class="text-muted" style="font-size: 0.8125rem;">Docker image with 77+ SQL functions. Drop-in pgvector replacement with GNN layers added.</p>
+        <div class="code-block" style="margin: 0.75rem 0 0 0; padding: 0.75rem; font-size: 0.75rem;"><span class="f">docker run -d</span> \
+  <span class="s">ruvnet/ruvector-postgres</span></div>
+      </div>
+      <div class="card" style="border-color: rgba(34, 211, 238, 0.3);">
+        <h3 class="text-cyan">CLI</h3>
+        <p class="text-muted" style="font-size: 0.8125rem;">Command-line interface for database management, vector operations, and schema migrations.</p>
+        <div class="code-block" style="margin: 0.75rem 0 0 0; padding: 0.75rem; font-size: 0.75rem;"><span class="f">npm i -g</span> <span class="s">@ruvector/postgres-cli</span>
+<span class="f">ruvector-pg</span> <span class="k">vector create table</span></div>
+      </div>
+      <div class="card" style="border-color: rgba(251, 191, 36, 0.3);">
+        <h3 class="text-amber">RVF Format</h3>
+        <p class="text-muted" style="font-size: 0.8125rem;">Universal binary container. Merges database, models, GNN state, WASM runtime into one deployable file. 125ms cold boot.</p>
+        <div class="code-block" style="margin: 0.75rem 0 0 0; padding: 0.75rem; font-size: 0.75rem;"><span class="k">await</span> db.<span class="f">save</span>(<span class="s">'index.rvf'</span>)
+<span class="c">// Ships as one file, runs anywhere</span></div>
+      </div>
+      <div class="card" style="border-color: rgba(244, 114, 182, 0.3);">
+        <h3 style="color: var(--pink);">Docker</h3>
+        <p class="text-muted" style="font-size: 0.8125rem;">Containerized service with REST API. Production-ready with health checks, metrics, and horizontal scaling.</p>
+        <div class="code-block" style="margin: 0.75rem 0 0 0; padding: 0.75rem; font-size: 0.75rem;"><span class="f">docker run -d</span> <span class="k">-p 5432:5432</span> \
+  <span class="s">ruvnet/ruvector-postgres</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- BENCHMARKS                                 -->
+<!-- ═══════════════════════════════════════════ -->
+
+<div class="section">
+  <div class="label label-amber">Benchmarks</div>
+  <h2>Measured performance.</h2>
+  <p class="text-muted">Benchmarked on Apple M4 Pro with Criterion.rs statistical sampling.</p>
+
+  <div style="margin-top: 2rem;">
+    <div class="perf-bar">
+      <div class="perf-label">
+        <span>Insert throughput</span>
+        <span class="text-orange" style="font-weight: 600;">52,000+ vectors/sec</span>
+      </div>
+      <div class="perf-track"><div class="perf-fill" style="width: 95%; background: linear-gradient(to right, #ea580c, #fb923c);"></div></div>
+    </div>
+    <div class="perf-bar">
+      <div class="perf-label">
+        <span>Search latency (1M vectors)</span>
+        <span class="text-green" style="font-weight: 600;">&lt;1ms</span>
+      </div>
+      <div class="perf-track"><div class="perf-fill" style="width: 98%; background: linear-gradient(to right, #059669, #34d399);"></div></div>
+    </div>
+    <div class="perf-bar">
+      <div class="perf-label">
+        <span>SIMD speedup (Cosine)</span>
+        <span class="text-purple" style="font-weight: 600;">5.95x</span>
+      </div>
+      <div class="perf-track"><div class="perf-fill" style="width: 85%; background: linear-gradient(to right, #7c3aed, #a78bfa);"></div></div>
+    </div>
+    <div class="perf-bar">
+      <div class="perf-label">
+        <span>SIMD speedup (Euclidean)</span>
+        <span class="text-cyan" style="font-weight: 600;">2.9x</span>
+      </div>
+      <div class="perf-track"><div class="perf-fill" style="width: 60%; background: linear-gradient(to right, #0891b2, #22d3ee);"></div></div>
+    </div>
+    <div class="perf-bar">
+      <div class="perf-label">
+        <span>Memory per vector</span>
+        <span class="text-amber" style="font-weight: 600;">~50 bytes</span>
+      </div>
+      <div class="perf-track"><div class="perf-fill" style="width: 92%; background: linear-gradient(to right, #d97706, #fbbf24);"></div></div>
+    </div>
+    <div class="perf-bar">
+      <div class="perf-label">
+        <span>GNN learning overhead per query</span>
+        <span class="text-green" style="font-weight: 600;">&lt;1ms (inline)</span>
+      </div>
+      <div class="perf-track"><div class="perf-fill" style="width: 97%; background: linear-gradient(to right, #059669, #34d399);"></div></div>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 2.5rem;">vs. Alternatives</h3>
+  <table class="data-table" style="margin-top: 1rem;">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>RuVector</th>
+        <th>pgvector</th>
+        <th>Pinecone</th>
+        <th>Qdrant</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Self-learning (GNN)</td>
+        <td class="text-green">Yes</td>
+        <td class="text-red">No</td>
+        <td class="text-red">No</td>
+        <td class="text-red">No</td>
+      </tr>
+      <tr>
+        <td>Hyperbolic geometry</td>
+        <td class="text-green">Yes</td>
+        <td class="text-red">No</td>
+        <td class="text-red">No</td>
+        <td class="text-red">No</td>
+      </tr>
+      <tr>
+        <td>WASM support</td>
+        <td class="text-green">3MB rvLite</td>
+        <td class="text-red">No</td>
+        <td class="text-red">No</td>
+        <td class="text-red">No</td>
+      </tr>
+      <tr>
+        <td>pgvector compatible</td>
+        <td class="text-green">77+ functions</td>
+        <td class="text-green">Native</td>
+        <td class="text-red">No</td>
+        <td class="text-red">No</td>
+      </tr>
+      <tr>
+        <td>Self-hosted</td>
+        <td class="text-green">npm / Docker</td>
+        <td class="text-green">PostgreSQL</td>
+        <td class="text-red">Cloud only</td>
+        <td class="text-green">Docker</td>
+      </tr>
+      <tr>
+        <td>EWC++ memory guard</td>
+        <td class="text-green">Yes</td>
+        <td class="text-red">No</td>
+        <td class="text-red">No</td>
+        <td class="text-red">No</td>
+      </tr>
+      <tr>
+        <td>Price</td>
+        <td class="text-green">Free (MIT)</td>
+        <td class="text-green">Free</td>
+        <td class="text-amber">Paid</td>
+        <td class="text-green">Free (Apache)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- ECOSYSTEM                                  -->
+<!-- ═══════════════════════════════════════════ -->
+
+<div class="section-alt" id="ecosystem">
+  <div class="section">
+    <div class="label label-orange">Ecosystem Packages</div>
+    <h2>The RuVector family.</h2>
+
+    <div class="tier-grid">
+      <div class="tier-card" style="border-color: var(--orange);">
+        <h3 class="text-orange">ruvector</h3>
+        <div class="tl">Core vector database</div>
+        <ul>
+          <li>HNSW indexing engine</li>
+          <li>GNN self-learning layer</li>
+          <li>Hybrid dense + sparse search</li>
+          <li>Multi-metric distance</li>
+          <li>Quantization (4&ndash;32x)</li>
+          <li>RVF portable format</li>
+        </ul>
+      </div>
+      <div class="tier-card" style="border-color: var(--purple);">
+        <h3 class="text-purple">@ruvector/ruvllm</h3>
+        <div class="tl">Self-learning LLM runtime</div>
+        <ul>
+          <li>SONA instant adaptation (&lt;100&mu;s)</li>
+          <li>MicroLoRA (rank 1&ndash;2 fine-tuning)</li>
+          <li>BaseLoRA (rank 4&ndash;16 long-term)</li>
+          <li>TurboQuant KV-cache (6&ndash;8x savings)</li>
+          <li>ReasoningBank pattern storage</li>
+          <li>Chat template formatting</li>
+        </ul>
+      </div>
+      <div class="tier-card" style="border-color: var(--cyan);">
+        <h3 class="text-cyan">@ruvector/postgres-cli</h3>
+        <div class="tl">PostgreSQL bridge</div>
+        <ul>
+          <li>pgvector drop-in replacement</li>
+          <li>77+ SQL functions</li>
+          <li>GNN layers in PostgreSQL</li>
+          <li>SQL, Cypher, SPARQL queries</li>
+          <li>Schema migration tooling</li>
+          <li>Docker image included</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card-grid card-grid-3" style="margin-top: 1.5rem;">
+      <div class="card">
+        <h4 class="text-green">@ruvector/gnn</h4>
+        <p class="text-muted" style="font-size: 0.8125rem;">Standalone GNN layer. Add self-learning to any HNSW implementation.</p>
+      </div>
+      <div class="card">
+        <h4 class="text-amber">@ruvector/server</h4>
+        <p class="text-muted" style="font-size: 0.8125rem;">REST API server. Deploy RuVector as a standalone service.</p>
+      </div>
+      <div class="card">
+        <h4 style="color: var(--pink);">ruvllm-esp32</h4>
+        <p class="text-muted" style="font-size: 0.8125rem;">Edge deployment for ESP32 embedded systems. Vector search on microcontrollers.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- POSTGRESQL GUIDE                           -->
+<!-- ═══════════════════════════════════════════ -->
+
+<div class="section">
+  <div class="label label-green">PostgreSQL Integration</div>
+  <h2>Drop-in pgvector replacement.</h2>
+  <p>RuVector&rsquo;s PostgreSQL extension adds GNN self-learning to standard vector operations. Existing pgvector queries work unchanged &mdash; you just get a smarter index.</p>
+
+  <div class="code-block"><span class="c">-- Start the Docker container</span>
+<span class="f">docker run -d</span> <span class="k">--name</span> ruvector \
+  <span class="k">-e</span> POSTGRES_PASSWORD=<span class="s">secret</span> \
+  <span class="k">-p</span> <span class="n">5432</span>:<span class="n">5432</span> \
+  <span class="s">ruvnet/ruvector-postgres:latest</span></div>
+
+  <div class="code-block"><span class="c">-- Create a vector table (standard pgvector syntax)</span>
+<span class="k">CREATE TABLE</span> documents (
+  id <span class="k">SERIAL PRIMARY KEY</span>,
+  title <span class="k">TEXT</span>,
+  embedding <span class="f">vector</span>(<span class="n">384</span>)
+);
+
+<span class="c">-- Create HNSW index with GNN learning</span>
+<span class="k">CREATE INDEX ON</span> documents
+  <span class="k">USING</span> <span class="f">hnsw</span> (embedding <span class="f">vector_cosine_ops</span>)
+  <span class="k">WITH</span> (m = <span class="n">32</span>, ef_construction = <span class="n">200</span>);
+
+<span class="c">-- Search (same syntax as pgvector)</span>
+<span class="k">SELECT</span> id, title, embedding <span class="f">&lt;=&gt;</span> <span class="s">'[0.1, 0.2, ...]'</span> <span class="k">AS</span> distance
+<span class="k">FROM</span> documents
+<span class="k">ORDER BY</span> embedding <span class="f">&lt;=&gt;</span> <span class="s">'[0.1, 0.2, ...]'</span>
+<span class="k">LIMIT</span> <span class="n">10</span>;
+
+<span class="c">-- RuVector-specific: check GNN learning stats</span>
+<span class="k">SELECT</span> * <span class="k">FROM</span> <span class="f">ruvector_gnn_stats</span>();</div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- USE CASES                                  -->
+<!-- ═══════════════════════════════════════════ -->
+
+<div class="section-alt">
+  <div class="section">
+    <div class="label label-purple">Use Cases</div>
+    <h2>Where RuVector excels.</h2>
+
+    <div class="card-grid card-grid-2" style="margin-top: 2rem;">
+      <div class="card">
+        <h3>RAG Systems</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Retrieval-augmented generation with semantic search. The index learns which documents are actually useful for which queries &mdash; retrieval improves automatically over time.</p>
+      </div>
+      <div class="card">
+        <h3>Agent Memory</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Persistent semantic memory for AI agents. Code patterns, architectural decisions, outcomes. EWC++ ensures old knowledge survives new learning.</p>
+      </div>
+      <div class="card">
+        <h3>Recommendation Engines</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">User preference vectors, content embeddings, collaborative filtering. Hyperbolic geometry captures hierarchical category structures naturally.</p>
+      </div>
+      <div class="card">
+        <h3>Semantic Code Search</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Embed functions, classes, and modules. Search by intent, not keywords. &ldquo;How do we handle auth?&rdquo; finds the right code even if it never mentions &ldquo;auth.&rdquo;</p>
+      </div>
+      <div class="card">
+        <h3>Anomaly Detection</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">Security fingerprints, log patterns, network traffic. Vectors that don&rsquo;t cluster with any known pattern are flagged. GNN learns what &ldquo;normal&rdquo; means in your system.</p>
+      </div>
+      <div class="card">
+        <h3>Edge / IoT</h3>
+        <p class="text-muted" style="font-size: 0.875rem;">3MB WASM module runs on embedded devices. Local vector search without cloud connectivity. Binary quantization for extreme memory constraints.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>The vector database that<br>learns while you search.</h2>
+  <p class="text-muted" style="max-width: 600px; margin: 0 auto 2rem; font-size: 1.125rem;">
+    HNSW for speed. GNN for intelligence. EWC++ for permanence.<br>
+    Rust core. npm install. MIT license.<br>
+    One command. Sub-millisecond search. Self-improving forever.
+  </p>
+  <a href="https://github.com/ruvnet/ruvector" class="btn btn-primary" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+  <a href="https://www.npmjs.com/package/ruvector" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">npm Package</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>RuVector &mdash; Self-Learning Vector GNN Database &mdash; MIT License</p>
+  <p style="margin-top: 0.5rem;">Created by <a href="https://github.com/ruvnet" target="_blank" rel="noopener noreferrer">Reuven Cohen (ruvnet)</a></p>
+  <div style="margin-top: 1rem; display: flex; gap: 1.5rem; justify-content: center;">
+    <a href="https://github.com/ruvnet/ruvector" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="https://www.npmjs.com/package/ruvector" target="_blank" rel="noopener noreferrer">npm</a>
+    <a href="https://github.com/ruvnet/ruvector/blob/main/docs/guides/GETTING_STARTED.md" target="_blank" rel="noopener noreferrer">Getting Started</a>
+    <a href="https://github.com/ruvnet/ruvector/blob/main/docs/api/RUST_API.md" target="_blank" rel="noopener noreferrer">API Docs</a>
+  </div>
+</footer>
+
+</body>
+</html>
