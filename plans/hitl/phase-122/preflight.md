@@ -46,8 +46,11 @@ A surface scores the *minimum* of its weakest dimension (visual / functional / r
 - [ ] Chat toolbar: SHARE SPEC + EXPORT + SIMULATED MODE + PROFESSIONAL all visible at 1280px.
 - [ ] Agentics grid: 7 cards fill cleanly, no orphan cell.
 - [ ] "+ Add Section" button replaces "More Sections" label.
-- [ ] CI: Node 22 pinned in `.github/workflows/gates.yml` (closes CF-P121-1).
+- [x] CI: Node 22 pinned in `.github/workflows/gates.yml` (closes CF-P121-1; closed early in P121 commit `e3f27df89`).
 - [ ] WASM: dev server initialises sql.js without console errors (closes CF-P121 follow-up).
+- [x] **404 on deep links** — `vercel.json` SPA rewrite shipped (commit `54d0a1d9f`).
+- [ ] **Add Page in Builder works** — `addPage` action wires correctly from button to store; new page renders in the page list.
+- [ ] **Hero photo switch preserves image URL** — switching layouts in the hero editor does not silently mutate `imageUrl`.
 - [ ] Honest self-assessment: ≥50/100 OR document the gap with a re-score and lowest-surface call-out.
 - [ ] EOP triplet: `preflight.md` (this file) · `session-log.md` · `retrospective.md`.
 
@@ -84,8 +87,17 @@ A surface scores the *minimum* of its weakest dimension (visual / functional / r
 
 ### E — Engineering hygiene (Wave 5, P121 carry-forwards)
 
-13. Pin Node 22 in `.github/workflows/gates.yml` (`node-version: '22'`).
+13. Pin Node 22 in `.github/workflows/gates.yml` (`node-version: '22'`). **CLOSED early during P121 merge sequence (commit `e3f27df89`).**
 14. sql.js WASM at `public/sql-wasm.wasm`; update `db.ts` `initSqlJs({ locateFile: () => '/sql-wasm.wasm' })`; ensure not in `.gitignore`.
+15. **CF-P122-A** — regenerate `package-lock.json` under Node 22 + commit, then revert CI from `npm install` back to `npm ci` (currently `npm install --no-audit --no-fund` per `e3f27df89` + `70ee45d57`).
+
+### F — Production bug fixes (Wave 6, owner-reported from live site 2026-05-08)
+
+16. **404 on deep links** — `https://hey-bradley-core.vercel.app/builder` (and every non-root URL) returned 404 because no SPA fallback was configured. **CLOSED via hotfix `54d0a1d9f` (NEW `vercel.json` with `{ "source": "/(.*)", "destination": "/index.html" }`)** pushed direct to main 2026-05-08; Vercel auto-redeploy fires.
+17. **"Add page" doesn't work in Builder** — owner reported the add-page action is unresponsive. Fix: trace `addPage` action in `uiStore` / `configStore`; verify the wired button calls it; verify the new-page section list renders. Likely scope: `src/components/left-panel/PageSelector.tsx` or `src/store/configStore.ts`.
+18. **Hero photo switch silently mutates image** — when editing the hero and switching from "full photo" layout to other photo options, the image URL changes unexpectedly. Either (a) the layout-switch is incorrectly resetting the image URL field, or (b) a default image is being injected on layout change. Fix: trace hero layout-switch handler; preserve current `imageUrl` across layout changes (only structural fields should change).
+19. **Default template tone — confirmation** — owner re-emphasised: "default should look like Hey Bradley (same colors and tone)". Already in §4-B-5 above; this is the locked direction, not a new ask. Noted for emphasis: dark + crimson (`#A51C30`), no stock photos, Hey Bradley brand voice ("Describe it. See it.").
+20. **`core.js:297` console error** — `TypeError: Cannot read properties of undefined (reading 'payload')` reported on production. Likely from a Vercel toolbar / GitHub-Copilot-extension runtime, not from app code (the bundled app entry is `index-*.js`, not `core.js`). Verify post-hotfix; if it persists, isolate via console + browser-extension-disabled test. **Tracking, not blocking.**
 
 ## 5. Scope (out — explicitly)
 
