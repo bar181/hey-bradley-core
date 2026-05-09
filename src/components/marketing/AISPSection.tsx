@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { ArrowRight } from "lucide-react"
 import { useReveal } from "@/hooks/useReveal"
 import { AtomGalaxy } from "./AtomGalaxy"
+import { MARKETING_IMAGES } from "@/lib/marketingImages"
 
 // P125 / W6 — AISP marketing section modeled on capstone v8 slides 6 & 7.
 // Five Crystal Atom cards in Cormorant Garamond on a near-black surface.
@@ -55,12 +56,28 @@ export function AISPSection() {
   return (
     <section
       ref={r.ref}
-      className={`relative py-28 transition-all duration-700 ${
+      className={`relative overflow-hidden py-28 transition-all duration-700 ${
         r.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
       }`}
       style={{ backgroundColor: "var(--hb-void)" }}
     >
-      <div className="max-w-6xl mx-auto px-6">
+      {/* P125.6 — Subtle backdrop photo (research / Harvard library) */}
+      <img
+        src={MARKETING_IMAGES.research.src}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ opacity: 0.15, mixBlendMode: "luminosity" }}
+        loading="lazy"
+      />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 60% at 50% 50%, transparent 20%, var(--hb-void) 80%)",
+        }}
+      />
+      <div className="relative max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
           <div className="marketing-eyebrow mb-5">
             AISP · The recipe, not the wish

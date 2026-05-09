@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { ArrowRight, Mic, MessageSquare, SlidersHorizontal, Code2, FileText } from "lucide-react"
+import { ArrowRight, Mic, MessageSquare, SlidersHorizontal } from "lucide-react"
 import { MarketingNav } from "@/components/MarketingNav"
 import { HeroAnimated } from "@/components/marketing/HeroAnimated"
 import { CinematicDemo } from "@/components/marketing/CinematicDemo"
@@ -7,6 +7,7 @@ import { StatsSection } from "@/components/marketing/StatsSection"
 import { AISPSection } from "@/components/marketing/AISPSection"
 import { useReveal } from "@/hooks/useReveal"
 import { Button } from "@/components/ui/button"
+import { MARKETING_IMAGES } from "@/lib/marketingImages"
 
 // P121.5 — Harvard crimson redesign. Dark hero with pulsating red orb,
 // brad_pixar avatar, Apple-style scroll story.
@@ -59,9 +60,24 @@ const HERO_KEYFRAMES = `
 `
 
 const WAYS = [
-  { icon: Mic, title: "Speak", desc: "Describe it out loud." },
-  { icon: MessageSquare, title: "Type", desc: "Write a sentence or two." },
-  { icon: SlidersHorizontal, title: "Adjust", desc: "Tweak what you see." },
+  {
+    icon: Mic,
+    title: "Speak",
+    desc: "Describe it out loud.",
+    image: MARKETING_IMAGES.microphone,
+  },
+  {
+    icon: MessageSquare,
+    title: "Type",
+    desc: "Write a sentence or two.",
+    image: MARKETING_IMAGES.codeDark,
+  },
+  {
+    icon: SlidersHorizontal,
+    title: "Adjust",
+    desc: "Tweak what you see.",
+    image: MARKETING_IMAGES.dashboard,
+  },
 ]
 
 export function Welcome() {
@@ -107,27 +123,49 @@ export function Welcome() {
             <Link
               key={w.title}
               to="/new-project"
-              className="marketing-feature-card group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)]"
+              className="marketing-feature-card group block overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)]"
+              style={{ padding: 0 }}
             >
-              <w.icon
-                className="w-7 h-7 mb-5"
-                style={{ color: "var(--hb-blue)" }}
-              />
-              <h3
-                className="mb-2"
-                style={{
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
-                  fontWeight: 400,
-                  fontSize: "26px",
-                  lineHeight: 1.1,
-                  color: "var(--hb-text-primary)",
-                }}
-              >
-                {w.title}
-              </h3>
-              <p className="text-[14px] leading-relaxed text-[var(--hb-text-secondary)]">
-                {w.desc}
-              </p>
+              {/* Real photo header — Ken Burns on hover */}
+              <div className="relative h-36 overflow-hidden">
+                <img
+                  src={w.image.src}
+                  alt={w.image.alt}
+                  className="absolute inset-0 w-full h-full object-cover effect-ken-burns"
+                  loading="lazy"
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(7,7,14,0.10) 0%, rgba(7,7,14,0.85) 100%)",
+                  }}
+                />
+                <w.icon
+                  className="absolute bottom-4 left-4 w-6 h-6"
+                  style={{
+                    color: "var(--hb-text-primary)",
+                    filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.6))",
+                  }}
+                />
+              </div>
+              <div className="p-6">
+                <h3
+                  className="mb-2"
+                  style={{
+                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontWeight: 400,
+                    fontSize: "26px",
+                    lineHeight: 1.1,
+                    color: "var(--hb-text-primary)",
+                  }}
+                >
+                  {w.title}
+                </h3>
+                <p className="text-[14px] leading-relaxed text-[var(--hb-text-secondary)]">
+                  {w.desc}
+                </p>
+              </div>
             </Link>
           ))}
         </div>
@@ -165,15 +203,40 @@ export function Welcome() {
             </Link>
           </div>
 
+          {/* P125.6 — Real photo of blueprint/whiteboard work (replaces
+              the FileText icon decoration). Tilt-3D on hover for life. */}
           <div
-            className="relative bg-[var(--hb-surface)] rounded-2xl border border-[var(--hb-border)] p-8 shadow-sm min-h-[260px] flex items-center justify-center"
+            className="relative rounded-2xl overflow-hidden border border-[var(--hb-border)] shadow-sm effect-tilt-3d"
             aria-hidden="true"
+            style={{ minHeight: 280 }}
           >
-            <div className="relative">
-              <FileText className="w-20 h-20 text-[var(--hb-accent)]" strokeWidth={1.4} />
-              <div className="hb-doc-1 absolute top-2 left-10 w-12 h-14 rounded-md bg-[var(--hb-bg)] border border-[var(--hb-border)] shadow-sm" />
-              <div className="hb-doc-2 absolute top-6 left-12 w-10 h-12 rounded-md bg-[var(--hb-bg)] border border-[var(--hb-border)] shadow-sm" />
-              <div className="hb-doc-3 absolute top-10 left-8 w-11 h-13 rounded-md bg-[var(--hb-bg)] border border-[var(--hb-border)] shadow-sm" />
+            <img
+              src={MARKETING_IMAGES.blueprint.src}
+              alt={MARKETING_IMAGES.blueprint.alt}
+              className="absolute inset-0 w-full h-full object-cover effect-ken-burns"
+              loading="lazy"
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(7,7,14,0.20) 0%, rgba(7,7,14,0.55) 100%)",
+              }}
+            />
+            <div className="absolute bottom-4 left-4 right-4 marketing-mono"
+              style={{
+                fontSize: "10px",
+                letterSpacing: "0.18em",
+                color: "var(--hb-accent)",
+                backgroundColor: "rgba(0,0,0,0.45)",
+                padding: "4px 10px",
+                borderRadius: "999px",
+                border: "1px solid var(--hb-border-warm)",
+                backdropFilter: "blur(6px)",
+                width: "fit-content",
+              }}
+            >
+              SPEC HANDOFF
             </div>
           </div>
         </div>
@@ -218,32 +281,78 @@ export function Welcome() {
             </a>
           </div>
 
-          <div className="bg-[var(--hb-surface)] rounded-2xl border border-[var(--hb-border)] p-6 shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-3 mb-4">
-              <Code2 className="w-7 h-7 text-[var(--hb-text-primary)]" />
-              <span className="font-mono text-sm text-[var(--hb-text-muted)]">
-                bar181/aisp-open-core
-              </span>
-            </div>
-            <div className="rounded-lg bg-[var(--hb-bg)] p-4 font-mono text-xs text-[var(--hb-text-muted)] leading-relaxed">
-              <div className="mb-1"><span className="text-[var(--hb-accent)]">$</span> git clone</div>
-              <div className="opacity-70">&nbsp;&nbsp;the spec your AI</div>
-              <div className="opacity-70">&nbsp;&nbsp;wishes every</div>
-              <div className="opacity-70">&nbsp;&nbsp;project came with.</div>
+          {/* P125.6 — Real photo of moody dark workspace + git command card overlay */}
+          <div
+            className="relative rounded-2xl overflow-hidden border border-[var(--hb-border)] shadow-sm"
+            style={{ minHeight: 280 }}
+          >
+            <img
+              src={MARKETING_IMAGES.workspaceDark.src}
+              alt={MARKETING_IMAGES.workspaceDark.alt}
+              className="absolute inset-0 w-full h-full object-cover effect-ken-burns"
+              loading="lazy"
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(7,7,14,0.30) 0%, rgba(7,7,14,0.75) 100%)",
+              }}
+            />
+            {/* Glass-morphism git terminal card */}
+            <div
+              className="absolute bottom-5 left-5 right-5 rounded-xl p-5"
+              style={{
+                backgroundColor: "rgba(15, 15, 26, 0.78)",
+                border: "1px solid var(--hb-border-warm)",
+                backdropFilter: "blur(10px)",
+              }}
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <span className="w-2 h-2 rounded-full bg-[#ff5f57]" />
+                <span className="w-2 h-2 rounded-full bg-[#febc2e]" />
+                <span className="w-2 h-2 rounded-full bg-[#28c840]" />
+                <span className="ml-2 font-mono text-[11px] text-[var(--hb-text-muted)]">
+                  bar181/aisp-open-core
+                </span>
+              </div>
+              <div className="font-mono text-[12px] text-[var(--hb-text-secondary)] leading-relaxed">
+                <div><span className="text-[var(--hb-accent)]">$</span> git clone</div>
+                <div className="opacity-75">&nbsp;&nbsp;the spec your AI</div>
+                <div className="opacity-75">&nbsp;&nbsp;wishes every</div>
+                <div className="opacity-75">&nbsp;&nbsp;project came with.</div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Section 5 — Closing CTA */}
+      {/* P125.6 — Closing CTA hero with real photography backdrop */}
       <section
         ref={s5.ref}
-        className={`max-w-3xl mx-auto px-6 py-24 text-center transition-all duration-700 ${
+        className={`relative overflow-hidden transition-all duration-700 ${
           s5.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
-        <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-8 leading-tight">
-          From your idea to a real site, in your words.
+        <img
+          src={MARKETING_IMAGES.closing.src}
+          alt={MARKETING_IMAGES.closing.alt}
+          className="absolute inset-0 w-full h-full object-cover effect-ken-burns"
+          loading="lazy"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, var(--hb-deep) 0%, rgba(7,7,14,0.55) 30%, rgba(7,7,14,0.85) 70%, var(--hb-deep) 100%)",
+          }}
+        />
+        <div className="relative max-w-3xl mx-auto px-6 py-32 text-center">
+        <div className="marketing-eyebrow mb-5">
+          One more sentence away
+        </div>
+        <h2 className="marketing-h2 mb-8 max-w-2xl mx-auto">
+          From your idea to a real site, <em>in your words.</em>
         </h2>
         {/* P122 / W8 — closing CTA promoted to shadcn Button. */}
         <Button
@@ -257,6 +366,7 @@ export function Welcome() {
         <p className="text-xs text-[var(--hb-text-muted)] mt-8 tracking-wide">
           Open source &middot; MIT licensed &middot; ALM &middot; Harvard University
         </p>
+        </div>
       </section>
 
       {/* P123.5 — minimal footer (carry-forward from P122 §4-A-4).

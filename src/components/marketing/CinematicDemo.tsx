@@ -202,54 +202,27 @@ export function CinematicDemo() {
                   border: "1px solid var(--hb-border-warm)",
                 }}
               >
-                {/* CSS-generated "image" area — coffee-warm gradient with
-                    steam plumes drawn as SVG. Replaces the placeholder
-                    text-only header — this reads as a real designed site. */}
+                {/* P125.6 — Real coffee photography (Unsplash CDN). Replaces
+                    the SVG steam plumes per owner directive. Ken Burns hover
+                    + dark gradient overlay keeps the chip readable. */}
                 <div
-                  className="relative effect-ken-burns"
-                  style={{
-                    height: 110,
-                    background:
-                      "radial-gradient(ellipse at 30% 80%, #6b3a1c 0%, #2a1208 55%, #07070e 100%), linear-gradient(135deg, #2a1208 0%, #07070e 100%)",
-                  }}
+                  className="relative overflow-hidden effect-ken-burns"
+                  style={{ height: 140 }}
                 >
-                  {/* Steam plumes */}
-                  <svg
-                    className="absolute inset-0 w-full h-full"
-                    viewBox="0 0 200 110"
-                    preserveAspectRatio="xMidYMid slice"
-                    aria-hidden="true"
-                  >
-                    <defs>
-                      <linearGradient id="steam" x1="0" y1="1" x2="0" y2="0">
-                        <stop offset="0%" stopColor="#f0ede5" stopOpacity="0" />
-                        <stop offset="100%" stopColor="#f0ede5" stopOpacity="0.20" />
-                      </linearGradient>
-                    </defs>
-                    <path
-                      d="M50,110 Q45,80 55,55 Q65,30 50,8"
-                      stroke="url(#steam)"
-                      strokeWidth="2"
-                      fill="none"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M70,110 Q78,85 70,60 Q62,32 78,12"
-                      stroke="url(#steam)"
-                      strokeWidth="2"
-                      fill="none"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M90,110 Q86,80 96,52 Q106,28 92,8"
-                      stroke="url(#steam)"
-                      strokeWidth="2"
-                      fill="none"
-                      strokeLinecap="round"
-                    />
-                    {/* Cup ellipse hint at bottom */}
-                    <ellipse cx="72" cy="108" rx="34" ry="6" fill="#3d1f0a" opacity="0.7" />
-                  </svg>
+                  <img
+                    src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1200&q=78&auto=format&fit=crop"
+                    alt="Pour-over coffee being prepared"
+                    className="absolute inset-0 w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                  {/* Dark gradient overlay so text/chip stay readable */}
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(7,7,14,0.20) 0%, rgba(7,7,14,0.65) 100%)",
+                    }}
+                  />
                   {/* Crimson eyebrow chip top-right */}
                   <div
                     className="absolute top-3 right-3 marketing-mono"
@@ -257,10 +230,11 @@ export function CinematicDemo() {
                       fontSize: "9px",
                       letterSpacing: "0.18em",
                       color: "var(--hb-accent)",
-                      backgroundColor: "rgba(0,0,0,0.5)",
+                      backgroundColor: "rgba(0,0,0,0.55)",
                       padding: "3px 8px",
                       borderRadius: "999px",
                       border: "1px solid var(--hb-border-warm)",
+                      backdropFilter: "blur(6px)",
                     }}
                   >
                     ASHEVILLE · NC
