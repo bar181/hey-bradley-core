@@ -1,0 +1,78 @@
+{
+  "url": "http://localhost:5173/",
+  "ts": "2026-05-09T01:26:20.984Z",
+  "pageMetrics": {
+    "docHeight": 6289,
+    "heroHeight": 828
+  },
+  "imageReport": {
+    "total": 9,
+    "loaded": 9,
+    "broken": 0,
+    "unsplash": 8,
+    "brokenList": [],
+    "unsplashList": [
+      {
+        "src": "photo-1495474472287-4d71bcdd2085",
+        "naturalWidth": 1200,
+        "naturalHeight": 800,
+        "visible": true
+      },
+      {
+        "src": "photo-1521017432531-fbd92d768814",
+        "naturalWidth": 1200,
+        "naturalHeight": 800,
+        "visible": true
+      },
+      {
+        "src": "photo-1517694712202-14dd9538aa97",
+        "naturalWidth": 1200,
+        "naturalHeight": 800,
+        "visible": true
+      },
+      {
+        "src": "photo-1531297484001-80022131f5a1",
+        "naturalWidth": 1200,
+        "naturalHeight": 850,
+        "visible": true
+      },
+      {
+        "src": "photo-1522202176988-66273c2fd55f",
+        "naturalWidth": 1600,
+        "naturalHeight": 1067,
+        "visible": true
+      },
+      {
+        "src": "photo-1481627834876-b7833e8f5570",
+        "naturalWidth": 1200,
+        "naturalHeight": 1109,
+        "visible": true
+      },
+      {
+        "src": "photo-1497032628192-86f99bcd76bc",
+        "naturalWidth": 1200,
+        "naturalHeight": 800,
+        "visible": true
+      },
+      {
+        "src": "photo-1542435503-956c469947f6",
+        "naturalWidth": 1200,
+        "naturalHeight": 900,
+        "visible": true
+      }
+    ]
+  },
+  "network": {
+    "okRequests": 8,
+    "failedRequests": 0,
+    "failedList": [],
+    "statusBreakdown": {
+      "200": 8
+    }
+  },
+  "consoleErrors": [
+    "Base UI: A component that acts as a button expected a native <button> because the `nativeButton` prop is true. Rendering a non-<button> removes native button semantics, which can impact forms and accessibility. Use a real <button> in the `render` prop, or set `nativeButton` to `false`.\n    at Button (http://localhost:5173/src/components/ui/button.tsx:33:25)\n    at HeroAnimated (http://localhost:5173/src/components/marketing/HeroAnimated.tsx:345:34)\n    at Welcome (http://localhost:5173/src/pages/Welcome.tsx?t=1778289664181:101:20)",
+    "Base UI: A component that acts as a button expected a native <button> because the `nativeButton` prop is true. Rendering a non-<button> removes native button semantics, which can impact forms and accessibility. Use a real <button> in the `render` prop, or set `nativeButton` to `false`.\n    at Button (http://localhost:5173/src/components/ui/button.tsx:33:25)\n    at HeroAnimated (http://localhost:5173/src/components/marketing/HeroAnimated.tsx:362:33)\n    at Welcome (http://localhost:5173/src/pages/Welcome.tsx?t=1778289664181:101:20)",
+    "Base UI: A component that acts as a button expected a native <button> because the `nativeButton` prop is true. Rendering a non-<button> removes native button semantics, which can impact forms and accessibility. Use a real <button> in the `render` prop, or set `nativeButton` to `false`.\n    at Button (http://localhost:5173/src/components/ui/button.tsx:33:25)\n    at Welcome (http://localhost:5173/src/pages/Welcome.tsx?t=1778289664181:599:24)"
+  ]
+}
