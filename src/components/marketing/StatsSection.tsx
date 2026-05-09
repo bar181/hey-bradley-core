@@ -1,4 +1,5 @@
 import { useReveal } from "@/hooks/useReveal"
+import { StatsSparkline } from "./StatsSparkline"
 
 // P125 / W5 — Stats section modeled on capstone v8 slide 8.
 // Three numbers in Cormorant Garamond. Featured center stat pulses crimson.
@@ -111,6 +112,9 @@ export function StatsSection() {
             )
           })}
         </div>
+
+        {/* P125.5 / W6 — D3 sparklines under the stat numbers. */}
+        <StatsSparkline />
 
         <p className="marketing-mono text-center mt-10 text-[var(--hb-text-faint)]">
           Capstone defense · Harvard ALM · May 2026

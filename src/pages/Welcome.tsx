@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { ArrowRight, Mic, MessageSquare, SlidersHorizontal, Code2, FileText } from "lucide-react"
 import { MarketingNav } from "@/components/MarketingNav"
+import { HeroAnimated } from "@/components/marketing/HeroAnimated"
 import { CinematicDemo } from "@/components/marketing/CinematicDemo"
 import { StatsSection } from "@/components/marketing/StatsSection"
 import { AISPSection } from "@/components/marketing/AISPSection"
@@ -74,46 +75,13 @@ export function Welcome() {
       <style>{HERO_KEYFRAMES}</style>
       <MarketingNav />
 
-      {/* P125 / W3 + W9 — Hero rebuild on Harvard depth.
-          Cormorant Garamond headline with italic-crimson "See it.";
-          radial crimson orb + grid overlay via .marketing-hero-bg;
-          eyebrow with HARVARD ALM. The "Coming from another builder?"
-          line was removed (W9 — it diluted the hero). */}
-      <section className="marketing-hero-bg marketing-grain relative overflow-hidden min-h-[92vh] flex items-center justify-center pt-20 pb-16">
-        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-          <div className="marketing-eyebrow mb-7">
-            Harvard Extension School · ALM · May 2026
-          </div>
-          <h1 className="marketing-h1 mb-6">
-            Describe it. <em>See it.</em>
-          </h1>
-          <p className="marketing-body max-w-xl mx-auto mb-10">
-            Your voice is the whiteboard. Hey Bradley turns any idea into a
-            visual site and a formal spec — while you&rsquo;re still talking.
-          </p>
-          <div className="flex flex-wrap justify-center gap-3 mb-16">
-            <Button
-              size="lg"
-              render={<Link to="/new-project" />}
-              className="min-h-[44px] gap-2 rounded-full px-8 py-4 text-base font-semibold shadow-lg bg-[var(--hb-accent)] text-white hover:bg-[var(--hb-accent-hover)]"
-            >
-              Start describing
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              render={<Link to="/walkthrough" />}
-              className="min-h-[44px] gap-2 rounded-full px-8 py-4 text-base font-semibold border-white/15 bg-transparent text-[var(--hb-text-primary)] hover:border-[var(--hb-accent)] hover:bg-transparent"
-            >
-              Watch the walkthrough
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-          </div>
+      {/* P125.5 / W2 — Animated hero (orb + rings + particles + waveform +
+          avatar + animated typing). Replaces the static hero shipped in P125. */}
+      <HeroAnimated />
 
-          {/* P125 / W4 — cinematic demo (replaces ListenPreview). */}
-          <CinematicDemo />
-        </div>
+      {/* P125 / W4 — cinematic demo, now in its own breathing-room section. */}
+      <section className="px-6 py-16" style={{ backgroundColor: "var(--hb-deep)" }}>
+        <CinematicDemo />
       </section>
 
       {/* P125 / W5 — Stats section (capstone v8 slide 8). */}

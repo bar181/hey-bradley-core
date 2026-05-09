@@ -334,6 +334,138 @@ body {
     animation: p125-cursor-blink 0.9s step-end infinite;
   }
 
+  /* P125.5 — Hero animation suite (alive, not boring).
+     Pulsing orb + orbital rings + particle drift + waveform bars +
+     letter-reveal stagger + typewriter caret. Pure CSS keyframes,
+     respects prefers-reduced-motion. */
+  @keyframes p125-orb-breathe {
+    0%, 100% { transform: scale(1) translate(var(--mx, 0), var(--my, 0)); opacity: 0.85; }
+    50%      { transform: scale(1.06) translate(var(--mx, 0), var(--my, 0)); opacity: 1; }
+  }
+  @keyframes p125-orb-glow {
+    0%, 100% { filter: blur(60px) brightness(1); }
+    50%      { filter: blur(80px) brightness(1.25); }
+  }
+  @keyframes p125-ring-rotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes p125-ring-rotate-rev {
+    from { transform: rotate(360deg); }
+    to   { transform: rotate(0deg); }
+  }
+  @keyframes p125-particle-drift {
+    0%   { transform: translate(0, 0) scale(0.8); opacity: 0; }
+    20%  { opacity: 0.7; }
+    100% { transform: translate(var(--dx, 40px), var(--dy, -60px)) scale(1.1); opacity: 0; }
+  }
+  @keyframes p125-bar-pulse {
+    0%, 100% { transform: scaleY(0.25); opacity: 0.4; }
+    50%      { transform: scaleY(1); opacity: 1; }
+  }
+  @keyframes p125-letter-rise {
+    0%   { opacity: 0; transform: translateY(0.4em) scale(0.95); filter: blur(4px); }
+    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  }
+  @keyframes p125-marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @keyframes p125-count-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .marketing-overhaul .hero-orb-anim {
+    --mx: 0px; --my: 0px;
+    animation: p125-orb-breathe 7s cubic-bezier(0.45, 0, 0.55, 1) infinite,
+               p125-orb-glow 9s ease-in-out infinite;
+    will-change: transform, filter;
+    transition: --mx 0.4s ease-out, --my 0.4s ease-out;
+  }
+  .marketing-overhaul .hero-ring {
+    border: 1px solid rgba(165, 28, 48, 0.18);
+    border-radius: 50%;
+    animation: p125-ring-rotate 28s linear infinite;
+    will-change: transform;
+  }
+  .marketing-overhaul .hero-ring-rev {
+    border-style: dashed;
+    animation: p125-ring-rotate-rev 44s linear infinite;
+  }
+  .marketing-overhaul .hero-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--hb-accent);
+    box-shadow: 0 0 12px rgba(165, 28, 48, 0.7);
+    animation: p125-particle-drift 6s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+  .marketing-overhaul .hero-wave-bar {
+    transform-origin: 50% 50%;
+    animation: p125-bar-pulse 1.4s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+  .marketing-overhaul .hero-letter {
+    display: inline-block;
+    opacity: 0;
+    animation: p125-letter-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    will-change: transform, opacity, filter;
+  }
+  .marketing-overhaul .hero-avatar-ring {
+    box-shadow: 0 0 0 2px var(--hb-accent),
+                0 0 24px -4px rgba(165, 28, 48, 0.6);
+  }
+  .marketing-overhaul .marquee-track {
+    animation: p125-marquee 38s linear infinite;
+    will-change: transform;
+  }
+
+  /* Section reveal — translate from sides. Pair with isVisible toggle. */
+  .marketing-overhaul .reveal-from-left {
+    opacity: 0;
+    transform: translateX(-32px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .marketing-overhaul .reveal-from-right {
+    opacity: 0;
+    transform: translateX(32px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .marketing-overhaul .reveal-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .marketing-overhaul .reveal-active {
+    opacity: 1 !important;
+    transform: translate(0, 0) !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marketing-overhaul .hero-orb-anim,
+    .marketing-overhaul .hero-ring,
+    .marketing-overhaul .hero-ring-rev,
+    .marketing-overhaul .hero-particle,
+    .marketing-overhaul .hero-wave-bar,
+    .marketing-overhaul .hero-letter,
+    .marketing-overhaul .marquee-track {
+      animation: none !important;
+    }
+    .marketing-overhaul .hero-letter { opacity: 1; }
+    .marketing-overhaul .reveal-from-left,
+    .marketing-overhaul .reveal-from-right,
+    .marketing-overhaul .reveal-up {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
   /* P125 — Feature card crimson hover (W7). */
   .marketing-overhaul .marketing-feature-card {
     position: relative;

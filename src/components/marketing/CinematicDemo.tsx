@@ -193,77 +193,165 @@ export function CinematicDemo() {
             className="relative p-6 flex flex-col gap-4"
             style={{ backgroundColor: "var(--hb-bg)" }}
           >
-            {/* Section 1 — hero card */}
+            {/* Section 1 — hero card with gradient image area */}
             {step >= 1 && (
               <div
-                className="demo-section-rise rounded-xl p-6"
+                className="demo-section-rise rounded-xl overflow-hidden"
                 style={{
                   backgroundColor: "var(--hb-surface)",
                   border: "1px solid var(--hb-border-warm)",
                 }}
               >
+                {/* CSS-generated "image" area — coffee-warm gradient with
+                    steam plumes drawn as SVG. Replaces the placeholder
+                    text-only header — this reads as a real designed site. */}
                 <div
-                  className="marketing-eyebrow mb-2"
-                  style={{ fontSize: "10px", color: "var(--hb-accent)" }}
+                  className="relative effect-ken-burns"
+                  style={{
+                    height: 110,
+                    background:
+                      "radial-gradient(ellipse at 30% 80%, #6b3a1c 0%, #2a1208 55%, #07070e 100%), linear-gradient(135deg, #2a1208 0%, #07070e 100%)",
+                  }}
                 >
-                  Asheville · NC
+                  {/* Steam plumes */}
+                  <svg
+                    className="absolute inset-0 w-full h-full"
+                    viewBox="0 0 200 110"
+                    preserveAspectRatio="xMidYMid slice"
+                    aria-hidden="true"
+                  >
+                    <defs>
+                      <linearGradient id="steam" x1="0" y1="1" x2="0" y2="0">
+                        <stop offset="0%" stopColor="#f0ede5" stopOpacity="0" />
+                        <stop offset="100%" stopColor="#f0ede5" stopOpacity="0.20" />
+                      </linearGradient>
+                    </defs>
+                    <path
+                      d="M50,110 Q45,80 55,55 Q65,30 50,8"
+                      stroke="url(#steam)"
+                      strokeWidth="2"
+                      fill="none"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M70,110 Q78,85 70,60 Q62,32 78,12"
+                      stroke="url(#steam)"
+                      strokeWidth="2"
+                      fill="none"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M90,110 Q86,80 96,52 Q106,28 92,8"
+                      stroke="url(#steam)"
+                      strokeWidth="2"
+                      fill="none"
+                      strokeLinecap="round"
+                    />
+                    {/* Cup ellipse hint at bottom */}
+                    <ellipse cx="72" cy="108" rx="34" ry="6" fill="#3d1f0a" opacity="0.7" />
+                  </svg>
+                  {/* Crimson eyebrow chip top-right */}
+                  <div
+                    className="absolute top-3 right-3 marketing-mono"
+                    style={{
+                      fontSize: "9px",
+                      letterSpacing: "0.18em",
+                      color: "var(--hb-accent)",
+                      backgroundColor: "rgba(0,0,0,0.5)",
+                      padding: "3px 8px",
+                      borderRadius: "999px",
+                      border: "1px solid var(--hb-border-warm)",
+                    }}
+                  >
+                    ASHEVILLE · NC
+                  </div>
                 </div>
-                <h3
-                  style={{
-                    fontFamily: "'Cormorant Garamond', Georgia, serif",
-                    fontWeight: 300,
-                    fontSize: "30px",
-                    lineHeight: 1.05,
-                    color: "var(--hb-text-primary)",
-                    margin: 0,
-                  }}
-                >
-                  Asheville Roasters
-                </h3>
-                <p
-                  className="mt-2 text-[13px]"
-                  style={{
-                    color: "var(--hb-text-secondary)",
-                    fontFamily: "'DM Sans', system-ui, sans-serif",
-                  }}
-                >
-                  Slow-roasted, served warm.
-                </p>
-                <button
-                  className="mt-4 marketing-mono text-[11px] px-3 py-1.5 rounded-full"
-                  style={{
-                    backgroundColor: "var(--hb-accent)",
-                    color: "white",
-                  }}
-                >
-                  See the menu →
-                </button>
+                <div className="p-5">
+                  <h3
+                    style={{
+                      fontFamily: "'Cormorant Garamond', Georgia, serif",
+                      fontWeight: 300,
+                      fontSize: "30px",
+                      lineHeight: 1.05,
+                      color: "var(--hb-text-primary)",
+                      margin: 0,
+                    }}
+                  >
+                    Asheville <em style={{ color: "var(--hb-accent)" }}>Roasters</em>
+                  </h3>
+                  <p
+                    className="mt-2 text-[12px]"
+                    style={{
+                      color: "var(--hb-text-secondary)",
+                      fontFamily: "'DM Sans', system-ui, sans-serif",
+                    }}
+                  >
+                    Slow-roasted, served warm, poured by people who know your name.
+                  </p>
+                  <button
+                    className="mt-3 marketing-mono text-[10px] px-3 py-1.5 rounded-full"
+                    style={{
+                      backgroundColor: "var(--hb-accent)",
+                      color: "white",
+                    }}
+                  >
+                    See the menu →
+                  </button>
+                </div>
               </div>
             )}
 
-            {/* Section 2 — three cards */}
+            {/* Section 2 — real menu grid (replaces text-only labels) */}
             {step >= 2 && (
               <div
-                className="demo-section-rise grid grid-cols-3 gap-2"
-                style={{ animationDelay: "0ms" }}
+                className="demo-section-rise rounded-xl p-4"
+                style={{
+                  backgroundColor: "var(--hb-surface)",
+                  border: "1px solid var(--hb-border)",
+                }}
               >
-                {["Menu", "Hours", "Visit"].map((label) => (
-                  <div
-                    key={label}
-                    className="rounded-lg py-4 text-center"
-                    style={{
-                      backgroundColor: "var(--hb-surface)",
-                      border: "1px solid var(--hb-border)",
-                    }}
-                  >
-                    <div
-                      className="marketing-mono text-[11px]"
-                      style={{ color: "var(--hb-text-secondary)" }}
+                <div
+                  className="marketing-eyebrow mb-3"
+                  style={{ fontSize: "9px", letterSpacing: "0.22em" }}
+                >
+                  Today's pour
+                </div>
+                <ul className="space-y-1.5">
+                  {[
+                    { name: "Single-origin pour-over", price: "$5.50" },
+                    { name: "Cortado", price: "$4.25" },
+                    { name: "Cold brew on tap", price: "$4.75" },
+                  ].map((item) => (
+                    <li
+                      key={item.name}
+                      className="flex items-baseline gap-3"
                     >
-                      {label}
-                    </div>
-                  </div>
-                ))}
+                      <span
+                        style={{
+                          fontFamily: "'Cormorant Garamond', Georgia, serif",
+                          fontStyle: "italic",
+                          fontSize: "15px",
+                          color: "var(--hb-text-primary)",
+                        }}
+                      >
+                        {item.name}
+                      </span>
+                      <span
+                        className="flex-1 border-b border-dotted"
+                        style={{ borderColor: "var(--hb-border)" }}
+                      />
+                      <span
+                        className="marketing-mono"
+                        style={{
+                          fontSize: "11px",
+                          color: "var(--hb-accent)",
+                        }}
+                      >
+                        {item.price}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
 

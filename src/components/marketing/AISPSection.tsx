@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { ArrowRight } from "lucide-react"
 import { useReveal } from "@/hooks/useReveal"
+import { AtomGalaxy } from "./AtomGalaxy"
 
 // P125 / W6 — AISP marketing section modeled on capstone v8 slides 6 & 7.
 // Five Crystal Atom cards in Cormorant Garamond on a near-black surface.
@@ -72,6 +73,11 @@ export function AISPSection() {
             compose into a proof-carrying document any agent can read the same
             way you can.
           </p>
+        </div>
+
+        {/* P125.5 / W5 — D3 atom galaxy (animated rotation, hover). */}
+        <div className="mb-16">
+          <AtomGalaxy />
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
