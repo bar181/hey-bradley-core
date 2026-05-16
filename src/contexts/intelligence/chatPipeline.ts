@@ -13,10 +13,11 @@ import { useIntelligenceStore } from '@/store/intelligenceStore'
 import { useUIStore } from '@/store/uiStore'
 import { useProjectStore } from '@/store/projectStore'
 import { buildSystemPrompt } from '@/contexts/intelligence/prompts/system'
-import { parseResponse } from '@/contexts/intelligence/llm/responseParser'
+import { parseResponse, type ResponseConfidence } from '@/contexts/intelligence/llm/responseParser'
 import { validatePatches } from '@/contexts/intelligence/llm/patchValidator'
 import { auditedComplete } from '@/contexts/intelligence/llm/auditedComplete'
 import { recordPipelineFailure } from '@/contexts/intelligence/llm/recordPipelineFailure'
+import { appendLowConfidenceNote, synthesizeBestGuessPatches } from '@/contexts/intelligence/llm/confidenceNarration'
 import { parseChatCommand, parseMultiPartCommand } from '@/lib/cannedChat'
 import { isUnmeasurableGoal } from '@/contexts/intelligence/aisp/intentAtom'
 import { hasContradiction } from '@/contexts/intelligence/aisp/decompAtom'
@@ -197,6 +198,10 @@ async function runLLMPipeline(
   preconditionFailed?: 'no_adapter'
   /** P19 Fix-Pass 2 (F2): pass the adapter/pipeline error category up. */
   errorKind?: ChatErrorKind | null
+  /** P126 / F5 — confidence band on the LLM response (when one was parsed). */
+  confidence?: ResponseConfidence
+  /** P126 / F5 — which classifyConfidence rule fired (drives note rotation). */
+  lowConfidenceReason?: string
 }> {
   const adapter = useIntelligenceStore.getState().adapter
   if (!adapter) {
@@ -223,7 +228,10 @@ async function runLLMPipeline(
     return { applied: 0, summary: '', errorKind: mapped }
   }
   const callId = res.auditCallId
-  const parsed = parseResponse(res.json)
+  // P126 / F5 — pass userText so the parser's confidence classifier can run
+  // the single-patch-vs-multi-target heuristic. Empty/invalid envelopes are
+  // routed to the synth-fallback at the submit() layer (ADR-155 D2).
+  const parsed = parseResponse(res.json, text)
   if (!parsed.ok) {
     recordPipelineFailure(callId, 'parse', `@root: ${parsed.reason}`)
     return { applied: 0, summary: '', errorKind: 'validation_failed' }
@@ -253,6 +261,8 @@ async function runLLMPipeline(
     applied: parsed.envelope.patches.length,
     summary: parsed.envelope.summary ?? 'Done.',
     errorKind: null,
+    confidence: parsed.confidence,
+    ...(parsed.reason !== undefined ? { lowConfidenceReason: parsed.reason } : {}),
   }
 }
 
@@ -724,19 +734,25 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       const afterLLM = useConfigStore.getState().config
       emit(logCtx, 'patch_validation', { stage: 'llm', applied: llm.applied, ok: true })
       editHist(logCtx, beforeLLM, afterLLM, [], text)
-      const improvements = await deriveImprovements(effectiveText, llm.applied, llm.summary, aispTrace, scope)
+      // P126 / F5 — append a casual note + chat-history deep-link when the
+      // parser flagged this response as low-confidence (hedge words, or a
+      // single patch when the prompt looked multi-target). ADR-155 D1.
+      const llmSummary = llm.confidence === 'low'
+        ? appendLowConfidenceNote(llm.summary, llm.lowConfidenceReason)
+        : llm.summary
+      const improvements = await deriveImprovements(effectiveText, llm.applied, llmSummary, aispTrace, scope)
       const personalityMessage = await derivePersonalityMessage(
-        { summary: llm.summary, patches: new Array(llm.applied) },
+        { summary: llmSummary, patches: new Array(llm.applied) },
         aispTrace,
       )
       emit(logCtx, 'personality_display', { personalityId: useIntelligenceStore.getState().personalityId ?? null, message: personalityMessage ? redactKeyShapes(personalityMessage) : null })
       const doneAt = Date.now()
-      emit(logCtx, 'response_summary', { stage: 'llm', appliedPatchCount: llm.applied, latencyMs: doneAt - startedAt, ok: true })
+      emit(logCtx, 'response_summary', { stage: 'llm', appliedPatchCount: llm.applied, latencyMs: doneAt - startedAt, ok: true, confidence: llm.confidence ?? 'high' })
       return {
         ok: true,
         appliedPatchCount: llm.applied,
         fellBackToCanned: false,
-        summary: llm.summary,
+        summary: llmSummary,
         durationMs: doneAt - startedAt,
         errorKind: null,
         aisp: aispTrace,
@@ -763,6 +779,47 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         errorKind: 'precondition_failed',
         aisp: aispTrace,
         aispRoute,
+      }
+    }
+    // P126 / F5 — ADR-155 D2 anti-empty-return guard. When the LLM round-trip
+    // produced ZERO usable patches (validation_failed: empty patches / schema
+    // miss / per-patch validate fail) we synthesize a best-guess patch from the
+    // user text and append a casual low-confidence note. This is the explicit
+    // "never say 'I don't understand'" path — runs only on validation_failed
+    // (cost_cap / rate_limit / timeout still drop into the canned fallback so
+    // the user sees a kind-specific error pill).
+    if (llm.errorKind === 'validation_failed') {
+      try {
+        const cfgNow = useConfigStore.getState().config
+        const synthesized = synthesizeBestGuessPatches(effectiveText, cfgNow)
+        if (synthesized.length > 0) {
+          stageMarks.applyStart = Date.now()
+          const beforeSynth = cfgNow
+          const synthScoped = prefixPatchPaths(synthesized, scope.scopeRoot) as JSONPatch[]
+          useConfigStore.getState().applyPatches(synthScoped)
+          const afterSynth = useConfigStore.getState().config
+          emit(logCtx, 'patch_validation', { stage: 'best-guess-synth', applied: synthScoped.length, ok: true, confidence: 'low' })
+          editHist(logCtx, beforeSynth, afterSynth, synthScoped as unknown[], text)
+          const synthSummary = appendLowConfidenceNote('', 'empty-patches')
+          const doneAt = Date.now()
+          emit(logCtx, 'response_summary', { stage: 'best-guess-synth', appliedPatchCount: synthScoped.length, latencyMs: doneAt - startedAt, ok: true, confidence: 'low' })
+          return {
+            ok: true,
+            appliedPatchCount: synthScoped.length,
+            fellBackToCanned: false,
+            summary: synthSummary,
+            durationMs: doneAt - startedAt,
+            errorKind: null,
+            aisp: aispTrace,
+            aispRoute,
+            latencyMs: doneAt - startedAt,
+            latencyBreakdown: buildBreakdown(stageMarks, doneAt),
+          }
+        }
+      } catch (e) {
+        // Synth path is best-effort; any throw falls through to canned fallback
+        // below so the user is never stranded with an empty response.
+        if (import.meta.env.DEV) console.warn('[chatPipeline] best-guess synth threw', e)
       }
     }
   } catch (e) {
