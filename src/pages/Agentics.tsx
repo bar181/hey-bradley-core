@@ -21,6 +21,8 @@ import { AISPDeveloperCard } from '@/components/onboarding/AISPDeveloperCard'
 import { ProcessMapSVG, type ProcessMap } from '@/components/planning/ProcessMapSVG'
 import { SpecWorkbench } from '@/components/agentics/SpecWorkbench'
 import { SealPanel } from '@/components/agentics/SealPanel'
+// P126 / F4 — Specifications card (live + on-demand spec sections).
+import { SpecsCard } from '@/components/agentics/SpecsCard'
 // P122 / W6 — Agentics observability surfaces (LLM log + DB inspector).
 // Cross-ref: ADR-043 (BYOK), ADR-126 (logging), ADR-110 (AISP visibility).
 import { LLMLogPanel } from '@/components/agentics/LLMLogPanel'
@@ -295,6 +297,8 @@ export function Agentics() {
 
               {obsTab === 'spec' && (
                 <div role="tabpanel" data-testid="agentics-obs-panel-spec">
+                  {/* P126 / F4 — higher-level checklist sits ABOVE the workbench. */}
+                  <SpecsCard />
                   <SpecWorkbench
                     phases={phases}
                     activePhaseId={activePhaseId}
