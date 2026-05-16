@@ -1,0 +1,147 @@
+{
+  "items": [
+    {
+      "id": "mkt-01",
+      "desc": "site.title or brand references 'Atlas' AND ('AI' or 'Consulting')",
+      "pass": true
+    },
+    {
+      "id": "mkt-02",
+      "desc": "theme.palette.bgPrimary is navy (R<60, G<60, B>40 — dark blue hex)",
+      "pass": false
+    },
+    {
+      "id": "mkt-03",
+      "desc": "theme.palette.accentPrimary is electric-blue (high B channel, mid-high G)",
+      "pass": true
+    },
+    {
+      "id": "mkt-04",
+      "desc": "Has at least one section with type 'hero'",
+      "pass": true
+    },
+    {
+      "id": "mkt-05",
+      "desc": "Hero headline mentions 'AI features' OR 'ship' AND 'AI'",
+      "pass": true
+    },
+    {
+      "id": "mkt-06",
+      "desc": "Hero has a CTA button",
+      "pass": true
+    },
+    {
+      "id": "mkt-07",
+      "desc": "Hero CTA text contains 'discovery' OR 'book'",
+      "pass": true
+    },
+    {
+      "id": "mkt-08",
+      "desc": "Has a features section (columns/grid)",
+      "pass": true
+    },
+    {
+      "id": "mkt-09",
+      "desc": "Has at least 3 feature cards",
+      "pass": true
+    },
+    {
+      "id": "mkt-10",
+      "desc": "Feature 1 references 'strategy'",
+      "pass": true
+    },
+    {
+      "id": "mkt-11",
+      "desc": "Feature 2 references 'implementation'",
+      "pass": true
+    },
+    {
+      "id": "mkt-12",
+      "desc": "Feature 3 references 'training'",
+      "pass": true
+    },
+    {
+      "id": "mkt-13",
+      "desc": "Has a pricing section",
+      "pass": true
+    },
+    {
+      "id": "mkt-14",
+      "desc": "Has at least 3 pricing tier cards",
+      "pass": true
+    },
+    {
+      "id": "mkt-15",
+      "desc": "Pricing tier 1 named 'Starter'",
+      "pass": true
+    },
+    {
+      "id": "mkt-16",
+      "desc": "Pricing tier 2 named 'Growth'",
+      "pass": true
+    },
+    {
+      "id": "mkt-17",
+      "desc": "Pricing tier 3 named 'Enterprise'",
+      "pass": true
+    },
+    {
+      "id": "mkt-18",
+      "desc": "Has a customer logos / social-proof bar",
+      "pass": true
+    },
+    {
+      "id": "mkt-19",
+      "desc": "At least 5 customer logo entries",
+      "pass": true
+    },
+    {
+      "id": "mkt-20",
+      "desc": "Has a testimonials section",
+      "pass": true
+    },
+    {
+      "id": "mkt-21",
+      "desc": "At least 3 testimonials",
+      "pass": true
+    },
+    {
+      "id": "mkt-22",
+      "desc": "Each testimonial has a quote/text field",
+      "pass": true
+    },
+    {
+      "id": "mkt-23",
+      "desc": "Each testimonial has an author name",
+      "pass": true
+    },
+    {
+      "id": "mkt-24",
+      "desc": "Has a closing/final CTA section (separate from hero CTA)",
+      "pass": false
+    },
+    {
+      "id": "mkt-25",
+      "desc": "Closing CTA references 'discovery call' or 'book'",
+      "pass": false
+    },
+    {
+      "id": "mkt-26",
+      "desc": "Has navigation/menu section",
+      "pass": false
+    },
+    {
+      "id": "mkt-27",
+      "desc": "Layout has at least 6 distinct sections",
+      "pass": true
+    },
+    {
+      "id": "mkt-28",
+      "desc": "Final config has no malformed sections",
+      "pass": true
+    }
+  ],
+  "passed": 24,
+  "failed": 4,
+  "score": 0.8571428571428571
+}

@@ -1,0 +1,464 @@
+{
+  "site": {
+    "title": "Hey Bradley",
+    "description": "Bradley's personal blog on web development, AI, and design."
+  },
+  "theme": {
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#121212",
+      "bgSecondary": "#1e1e1e",
+      "textPrimary": "#e0e0e0",
+      "textSecondary": "#b0b0b0",
+      "accentPrimary": "#dc143c",
+      "accentSecondary": "#8b0000"
+    },
+    "typography": {
+      "fontFamily": "Roboto, sans-serif",
+      "headingFamily": "Cormorant Garamond, serif",
+      "baseSize": "17px",
+      "lineHeight": 1.5
+    },
+    "spacing": {
+      "sectionPadding": "80px",
+      "containerMaxWidth": "960px",
+      "componentGap": "32px"
+    },
+    "borderRadius": "6px"
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-main",
+      "enabled": true,
+      "order": 1,
+      "variant": "center-text",
+      "layout": {
+        "minHeight": "60vh",
+        "alignItems": "center",
+        "justifyContent": "center"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "hero-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Hey, I'm Bradley!",
+            "level": "h1"
+          }
+        },
+        {
+          "id": "hero-subheading",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Welcome to my personal blog where I share thoughts on web development, AI, and design. Stay tuned for new articles!",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "hero-button",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Read My Latest Post",
+            "link": "/blog/latest",
+            "variant": "primary"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "blog-posts",
+      "id": "latest-posts",
+      "enabled": true,
+      "order": 3,
+      "variant": "grid",
+      "layout": {
+        "columns": 3,
+        "gap": "32px"
+      },
+      "style": {
+        "paddingTop": "40px",
+        "paddingBottom": "40px"
+      },
+      "components": [
+        {
+          "id": "posts-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Latest Articles",
+            "level": "h2"
+          }
+        }
+      ],
+      "content": {
+        "posts": [
+          {
+            "id": "post-1",
+            "title": "Getting Started with React Hooks",
+            "date": "2023-10-26",
+            "excerpt": "A deep dive into useState and useEffect, and how they simplify component logic.",
+            "image": "/images/react-hooks.jpg",
+            "alt": "React Hooks code example",
+            "tags": [
+              "React",
+              "Frontend",
+              "JavaScript"
+            ],
+            "link": "/blog/react-hooks",
+            "hookProblem": "Struggling with complex class components and state management in React?",
+            "resolutionSummary": "React Hooks offer a simpler, more functional way to manage state and side effects, leading to cleaner and more reusable code."
+          },
+          {
+            "id": "post-2",
+            "title": "Introduction to Generative AI",
+            "date": "2023-10-20",
+            "excerpt": "Exploring the basics of AI models that create new content.",
+            "image": "/images/generative-ai.jpg",
+            "alt": "Abstract AI art",
+            "tags": [
+              "AI",
+              "Machine Learning"
+            ],
+            "link": "/blog/generative-ai",
+            "hookProblem": "Curious about AI but unsure how machines can create original content?",
+            "resolutionSummary": "This article demystifies generative AI, explaining how models like GANs and Transformers produce new text, images, and more."
+          },
+          {
+            "id": "post-3",
+            "title": "Designing for Accessibility: A Checklist",
+            "date": "2023-10-15",
+            "excerpt": "Ensuring your website is usable by everyone, regardless of ability.",
+            "image": "/images/accessibility.jpg",
+            "alt": "Person using a screen reader",
+            "tags": [
+              "Design",
+              "UX",
+              "Accessibility"
+            ],
+            "link": "/blog/accessibility-checklist",
+            "hookProblem": "Is your website unintentionally excluding users with disabilities?",
+            "resolutionSummary": "Learn essential accessibility guidelines and a practical checklist to ensure your designs are inclusive and usable by everyone."
+          },
+          {
+            "id": "post-4",
+            "title": "Product-Market Fit: Finding Your Niche",
+            "date": "2023-11-05",
+            "excerpt": "Strategies for identifying and validating product-market fit to ensure sustainable growth.",
+            "image": "/images/product-market-fit.jpg",
+            "alt": "Product-market fit diagram",
+            "tags": [
+              "Product",
+              "Strategy",
+              "Startup"
+            ],
+            "link": "/blog/product-market-fit",
+            "hookProblem": "Launching a product but not seeing the traction you expected?",
+            "resolutionSummary": "Discover strategies to identify and validate product-market fit, ensuring your offering truly resonates with a specific customer segment."
+          },
+          {
+            "id": "post-5",
+            "title": "The Origin Story of Bradley AI",
+            "date": "2023-11-10",
+            "excerpt": "A look back at how Bradley AI came to be, from initial idea to prototype.",
+            "image": "/images/bradley-ai-origin.jpg",
+            "alt": "AI circuit board",
+            "tags": [
+              "AI",
+              "Story",
+              "Development"
+            ],
+            "link": "/blog/bradley-ai-origin",
+            "hookProblem": "Ever wonder how a complex AI project goes from a spark of an idea to a functional prototype?",
+            "resolutionSummary": "This post traces the development of Bradley AI, revealing the challenges and breakthroughs from concept to execution."
+          },
+          {
+            "id": "post-6",
+            "title": "Capstone Project: Building a Full-Stack E-commerce Site",
+            "date": "2023-11-15",
+            "excerpt": "My journey and lessons learned from developing a complete e-commerce platform.",
+            "image": "/images/ecommerce-capstone.jpg",
+            "alt": "E-commerce website screenshot",
+            "tags": [
+              "Web Development",
+              "Full-Stack",
+              "Project"
+            ],
+            "link": "/blog/ecommerce-capstone",
+            "hookProblem": "Planning to build a comprehensive web application and need a roadmap for success?",
+            "resolutionSummary": "Follow my journey building a full-stack e-commerce site, from technology choices to deployment, gaining insights for your own projects."
+          }
+        ]
+      }
+    },
+    {
+      "type": "call-to-action",
+      "id": "subscribe-cta",
+      "enabled": true,
+      "order": 3,
+      "variant": "centered-form",
+      "layout": {
+        "paddingTop": "60px",
+        "paddingBottom": "60px"
+      },
+      "style": {
+        "backgroundColor": "#f0f8ff"
+      },
+      "components": [
+        {
+          "id": "cta-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Never Miss a Post!",
+            "level": "h2"
+          }
+        },
+        {
+          "id": "cta-text",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Subscribe to my newsletter for the latest articles and updates delivered straight to your inbox.",
+            "size": "md"
+          }
+        },
+        {
+          "id": "cta-form",
+          "type": "form",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "formType": "newsletter",
+            "buttonText": "Subscribe",
+            "placeholderText": "Your email address"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "site-footer",
+      "enabled": true,
+      "order": 4,
+      "variant": "simple-links",
+      "layout": {
+        "paddingTop": "40px",
+        "paddingBottom": "40px",
+        "alignItems": "center",
+        "justifyContent": "space-between"
+      },
+      "style": {
+        "backgroundColor": "#1a1a1a",
+        "color": "#e0e0e0"
+      },
+      "components": [
+        {
+          "id": "footer-copyright",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "© 2023 Hey Bradley. All rights reserved."
+          }
+        },
+        {
+          "id": "footer-links",
+          "type": "nav-menu",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "menuItems": [
+              {
+                "text": "About",
+                "link": "/about"
+              },
+              {
+                "text": "Contact",
+                "link": "/contact"
+              },
+              {
+                "text": "Privacy Policy",
+                "link": "/privacy"
+              }
+            ],
+            "direction": "horizontal"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-whiteboard",
+      "enabled": true,
+      "order": 5,
+      "variant": "center-text",
+      "layout": {
+        "minHeight": "70vh",
+        "alignItems": "center",
+        "justifyContent": "center"
+      },
+      "style": {
+        "backgroundColor": "#f8f8f8",
+        "color": "#333333"
+      },
+      "components": [
+        {
+          "id": "whiteboard-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "The whiteboard that listens",
+            "level": "h1"
+          }
+        },
+        {
+          "id": "whiteboard-subheading",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Capture ideas effortlessly with AI-powered transcription and smart organization.",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "whiteboard-button",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Learn More",
+            "link": "/product",
+            "variant": "primary"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "author-bio",
+      "id": "author-bio-section",
+      "enabled": true,
+      "order": 2,
+      "variant": "left-image",
+      "layout": {
+        "display": "grid",
+        "gridTemplateColumns": "1fr 2fr",
+        "gap": "60px",
+        "alignItems": "center",
+        "paddingTop": "80px",
+        "paddingBottom": "80px",
+        "containerMaxWidth": "960px",
+        "margin": "0 auto"
+      },
+      "style": {
+        "backgroundColor": "#1e1e1e",
+        "color": "#e0e0e0"
+      },
+      "components": [
+        {
+          "id": "author-image",
+          "type": "image",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "src": "/images/bradley-ross.jpg",
+            "alt": "Portrait of Bradley Ross Harvard ALM",
+            "style": {
+              "borderRadius": "50%",
+              "width": "200px",
+              "height": "200px",
+              "objectFit": "cover",
+              "boxShadow": "0 4px 12px rgba(0,0,0,0.3)"
+            }
+          }
+        },
+        {
+          "id": "author-name",
+          "type": "heading",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Bradley Ross Harvard ALM",
+            "level": "h2"
+          }
+        },
+        {
+          "id": "author-bio-text",
+          "type": "text",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Bradley Ross holds an ALM from Harvard and is a passionate web developer, AI enthusiast, and design thinker. He believes in crafting intuitive and powerful digital experiences that blend cutting-edge technology with elegant design. On this blog, he shares insights, tutorials, and personal reflections on his journey through the ever-evolving landscapes of web development, artificial intelligence, and user experience design.",
+            "size": "md"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "call-to-action",
+      "id": "newsletter-signup",
+      "enabled": true,
+      "order": 99,
+      "variant": "centered-form",
+      "layout": {
+        "paddingTop": "60px",
+        "paddingBottom": "60px"
+      },
+      "style": {
+        "backgroundColor": "#f0f8ff",
+        "color": "#1e1e1e"
+      },
+      "components": [
+        {
+          "id": "newsletter-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Join My Newsletter",
+            "level": "h2"
+          }
+        },
+        {
+          "id": "newsletter-subtext",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Get the latest updates, articles, and insights delivered straight to your inbox.",
+            "size": "md"
+          }
+        },
+        {
+          "id": "newsletter-form",
+          "type": "form",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "formType": "newsletter",
+            "buttonText": "Subscribe",
+            "placeholderText": "Your email address"
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

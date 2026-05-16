@@ -1,0 +1,35 @@
+{
+  "wallClockMs": 3485,
+  "response": "{\n  \"perScenario\": {\n    \"blog\": {\n      \"score\": 60,\n      \"verdict\": \"The blog layout is functional, and thematic elements are mostly applied. However, the article cards are missing actual images, and the 'sim' string in the last article card indicates truncated content, which would be incomplete on a live site. The author bio and newsletter sections are correctly requested but not fully represented in the truncated config.\"\n    },\n    \"portfolio\": {\n      \"score\": 85,\n      \"verdict\": \"The portfolio site successfully implements most requests, including the visual theme, parallax hero, video reel, and project grid with hover effects. The main drawback is the missing 'tagline' component in the hero, which was requested. Also, one component ID `subtitle` is duplicated in the hero, which might cause rendering issues.\"\n    },\n    \"marketing\": {\n      \"score\": 90,\n      \"verdict\": \"The marketing site is well-structured and aligns closely with the prompt. The dark theme with blue accents is applied, and all specified sections like feature cards, pricing, testimonials, and customer logos are present. The primary CTAs link correctly. The feature cards are missing images, which is a minor visual gap.\"\n    }\n  },\n  \"topFindings\": [\n    \"Truncated content in the blog scenario's article-3 indicates an incomplete configuration.\",\n    \"Multiple `image` fields are empty across all scenarios (blog article cards, marketing feature cards, portfolio video poster), indicating a lack of visual content.\",\n    \"The portfolio scenario has a duplicate component ID ('subtitle') within its hero section, which could lead to unpredictable rendering behavior or errors.\"\n  ],\n  \"promptImprovements\": [\n    \"Specify concrete image URLs or placeholder images for all visual components (e.g., 'Add a hero background image from unsplash.com/abc').\",\n    \"Request explicit content for all text fields, including full article summaries or complete taglines, to avoid truncated or generic outputs.\",\n    \"Clarify component uniqueness or hierarchy, especially when similar components are requested (e.g., 'Add a separate tagline component below the subtitle' instead of just 'tagline').\"\n  ]\n}",
+  "inTok": 6172,
+  "outTok": 482,
+  "cost": 0.0030566,
+  "errKind": null,
+  "parsed": {
+    "perScenario": {
+      "blog": {
+        "score": 60,
+        "verdict": "The blog layout is functional, and thematic elements are mostly applied. However, the article cards are missing actual images, and the 'sim' string in the last article card indicates truncated content, which would be incomplete on a live site. The author bio and newsletter sections are correctly requested but not fully represented in the truncated config."
+      },
+      "portfolio": {
+        "score": 85,
+        "verdict": "The portfolio site successfully implements most requests, including the visual theme, parallax hero, video reel, and project grid with hover effects. The main drawback is the missing 'tagline' component in the hero, which was requested. Also, one component ID `subtitle` is duplicated in the hero, which might cause rendering issues."
+      },
+      "marketing": {
+        "score": 90,
+        "verdict": "The marketing site is well-structured and aligns closely with the prompt. The dark theme with blue accents is applied, and all specified sections like feature cards, pricing, testimonials, and customer logos are present. The primary CTAs link correctly. The feature cards are missing images, which is a minor visual gap."
+      }
+    },
+    "topFindings": [
+      "Truncated content in the blog scenario's article-3 indicates an incomplete configuration.",
+      "Multiple `image` fields are empty across all scenarios (blog article cards, marketing feature cards, portfolio video poster), indicating a lack of visual content.",
+      "The portfolio scenario has a duplicate component ID ('subtitle') within its hero section, which could lead to unpredictable rendering behavior or errors."
+    ],
+    "promptImprovements": [
+      "Specify concrete image URLs or placeholder images for all visual components (e.g., 'Add a hero background image from unsplash.com/abc').",
+      "Request explicit content for all text fields, including full article summaries or complete taglines, to avoid truncated or generic outputs.",
+      "Clarify component uniqueness or hierarchy, especially when similar components are requested (e.g., 'Add a separate tagline component below the subtitle' instead of just 'tagline')."
+    ]
+  },
+  "reviewerId": "render-readiness"
+}

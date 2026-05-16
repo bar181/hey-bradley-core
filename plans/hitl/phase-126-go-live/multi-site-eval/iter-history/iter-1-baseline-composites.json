@@ -1,0 +1,16 @@
+{
+  "composites": {
+    "scenarioAvgs": {
+      "blog": 66,
+      "portfolio": 70,
+      "marketing": 86.6
+    },
+    "overall": 80.15643738977072
+  },
+  "totalCost": 0.0791168,
+  "perScenarioChecklist": {
+    "blog": 0.84,
+    "portfolio": 0.8148148148148148,
+    "marketing": 0.9285714285714286
+  }
+}

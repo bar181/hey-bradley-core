@@ -1,0 +1,537 @@
+{
+  "site": {
+    "title": "Atlas AI Consulting",
+    "description": "Unlock the power of AI with Atlas AI Consulting – your partner in strategy, implementation, and training."
+  },
+  "theme": {
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#0A1128",
+      "bgSecondary": "#151B33",
+      "textPrimary": "#F0F4F8",
+      "textSecondary": "#B0B8C4",
+      "accentPrimary": "#0070F3",
+      "accentSecondary": "#7B9EC7"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Inter",
+      "baseSize": "16px",
+      "lineHeight": 1.5
+    },
+    "spacing": {
+      "sectionPadding": "64px",
+      "containerMaxWidth": "1180px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "32px",
+        "padding": "128px 24px 96px",
+        "parallax": false
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Elevate Your Business with AI"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Ship AI Features Customers Actually Use",
+            "level": 1,
+            "size": "72px",
+            "weight": 700
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Harness the power of artificial intelligence to drive innovation, efficiency, and growth."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Book a Discovery Call",
+            "url": "#contact-01",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "video",
+      "id": "video-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "reel",
+      "layout": {
+        "display": "flex",
+        "align": "center",
+        "justify": "center",
+        "padding": "64px 24px"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "reel",
+          "type": "video-embed",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "poster": "https://via.placeholder.com/1280x720?text=Atlas+AI+Consulting+Video",
+            "autoplay": false,
+            "loop": true,
+            "alt": "An introductory video about Atlas AI Consulting services"
+          }
+        }
+      ],
+      "content": {
+        "heading": "See Atlas AI in Action"
+      }
+    },
+    {
+      "type": "columns",
+      "id": "features-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "default",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "96px 32px",
+        "maxWidth": "1180px"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "feature-strategy",
+          "type": "article-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "title": "AI Strategy & Vision",
+            "image": "",
+            "alt": "AI strategy and vision",
+            "hook": "Unsure where AI fits into your business? We'll chart the course.",
+            "problem": "Many businesses recognize AI's potential but lack a clear roadmap to integrate it effectively, leading to fragmented efforts and missed opportunities.",
+            "resolution": "Atlas AI Consulting provides comprehensive strategic planning, identifying high-impact AI use cases tailored to your business goals and competitive landscape, ensuring a clear path to innovation.",
+            "tags": [
+              "Strategy",
+              "Roadmap",
+              "Innovation"
+            ]
+          }
+        },
+        {
+          "id": "feature-implementation",
+          "type": "article-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "title": "AI Implementation & Development",
+            "image": "",
+            "alt": "AI implementation and development",
+            "hook": "From concept to code, we build robust AI solutions that deliver.",
+            "problem": "Developing and deploying AI models can be complex, requiring specialized technical expertise and careful integration into existing systems, often overwhelming internal teams.",
+            "resolution": "Our expert engineers handle the full lifecycle of AI development, from model design and training to deployment and maintenance, ensuring seamless integration and optimal performance.",
+            "tags": [
+              "Development",
+              "Integration",
+              "Deployment"
+            ]
+          }
+        },
+        {
+          "id": "feature-training",
+          "type": "article-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "title": "AI Training & Empowerment",
+            "image": "",
+            "alt": "AI training and empowerment",
+            "hook": "Empower your team to confidently manage and scale your AI initiatives.",
+            "problem": "Without proper training, teams struggle to adopt new AI tools and processes, limiting the potential ROI of AI investments and fostering resistance to change.",
+            "resolution": "We offer customized training programs and workshops designed to upskill your workforce, ensuring your team is proficient in managing, optimizing, and leveraging AI technologies effectively.",
+            "tags": [
+              "Training",
+              "Upskilling",
+              "Adoption"
+            ]
+          }
+        }
+      ],
+      "content": {
+        "heading": "Our Expertise: Your AI Journey Partner",
+        "subheading": "From strategic planning to practical implementation and team empowerment, we cover every step."
+      }
+    },
+    {
+      "type": "logos",
+      "id": "logos-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "bar",
+      "layout": {
+        "display": "flex",
+        "gap": "48px",
+        "justify": "center",
+        "padding": "48px 24px",
+        "flexWrap": "wrap"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "logo-1",
+          "type": "logo",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "name": "Tech Innovations",
+            "image": "https://via.placeholder.com/120x60?text=Tech+Innovations",
+            "alt": "Tech Innovations logo"
+          }
+        },
+        {
+          "id": "logo-2",
+          "type": "logo",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "name": "Global Dynamics",
+            "image": "https://via.placeholder.com/120x60?text=Global+Dynamics",
+            "alt": "Global Dynamics logo"
+          }
+        },
+        {
+          "id": "logo-3",
+          "type": "logo",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "name": "Synergy Solutions",
+            "image": "https://via.placeholder.com/120x60?text=Synergy+Solutions",
+            "alt": "Synergy Solutions logo"
+          }
+        },
+        {
+          "id": "logo-4",
+          "type": "logo",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "name": "Pinnacle Corp",
+            "image": "https://via.placeholder.com/120x60?text=Pinnacle+Corp",
+            "alt": "Pinnacle Corp logo"
+          }
+        },
+        {
+          "id": "logo-5",
+          "type": "logo",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "name": "Quantum Enterprises",
+            "image": "https://via.placeholder.com/120x60?text=Quantum+Enterprises",
+            "alt": "Quantum Enterprises logo"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "logos",
+      "id": "logos-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "bar",
+      "layout": {
+        "display": "flex",
+        "gap": "48px",
+        "justify": "center",
+        "padding": "48px 24px",
+        "flexWrap": "wrap"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "logo-1",
+          "type": "logo",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "name": "Innovate Corp",
+            "image": "https://via.placeholder.com/120x60?text=Innovate+Corp",
+            "alt": "Innovate Corp logo"
+          }
+        },
+        {
+          "id": "logo-2",
+          "type": "logo",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "name": "Future Solutions",
+            "image": "https://via.placeholder.com/120x60?text=Future+Solutions",
+            "alt": "Future Solutions logo"
+          }
+        },
+        {
+          "id": "logo-3",
+          "type": "logo",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "name": "Global Tech",
+            "image": "https://via.placeholder.com/120x60?text=Global+Tech",
+            "alt": "Global Tech logo"
+          }
+        },
+        {
+          "id": "logo-4",
+          "type": "logo",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "name": "Synergy Labs",
+            "image": "https://via.placeholder.com/120x60?text=Synergy+Labs",
+            "alt": "Synergy Labs logo"
+          }
+        },
+        {
+          "id": "logo-5",
+          "type": "logo",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "name": "Pioneer Systems",
+            "image": "https://via.placeholder.com/120x60?text=Pioneer+Systems",
+            "alt": "Pioneer Systems logo"
+          }
+        },
+        {
+          "id": "logo-6",
+          "type": "logo",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "name": "Apex Innovations",
+            "image": "https://via.placeholder.com/120x60?text=Apex+Innovations",
+            "alt": "Apex Innovations logo"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "pricing",
+      "id": "pricing-01",
+      "enabled": true,
+      "order": 5,
+      "variant": "3tier",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "96px 24px",
+        "maxWidth": "1180px"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "tier-starter",
+          "type": "price-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "name": "Starter",
+            "price": "$999/mo",
+            "features": [
+              "Basic AI strategy workshop",
+              "1 proof-of-concept AI model",
+              "Email support"
+            ],
+            "cta": "Get Started"
+          }
+        },
+        {
+          "id": "tier-growth",
+          "type": "price-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "name": "Growth",
+            "price": "$2999/mo",
+            "features": [
+              "Advanced AI roadmap",
+              "3 production-ready AI models",
+              "Dedicated project manager",
+              "Priority chat support"
+            ],
+            "cta": "Accelerate Growth"
+          }
+        },
+        {
+          "id": "tier-enterprise",
+          "type": "price-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "name": "Enterprise",
+            "price": "Contact us",
+            "features": [
+              "Custom AI innovation lab",
+              "Unlimited AI solution development",
+              "24/7 technical support",
+              "On-site training & workshops"
+            ],
+            "cta": "Talk to Sales"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Flexible AI Solutions for Every Business",
+        "subheading": "Choose the plan that best fits your AI ambitions and business scale."
+      }
+    },
+    {
+      "type": "testimonials",
+      "id": "testimonials-01",
+      "enabled": true,
+      "order": 6,
+      "variant": "grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "96px 24px",
+        "maxWidth": "1180px"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "q1",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "quote": "Atlas AI Consulting transformed our data strategy. Their team's expertise in predictive analytics gave us insights we never thought possible.",
+            "author": "Dr. Elena Petrova",
+            "role": "CTO, Global Innovations Inc."
+          }
+        },
+        {
+          "id": "q2",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "quote": "The implementation process was seamless, and the training provided ensured our team adopted the new AI tools with confidence. Highly recommended!",
+            "author": "Marcus Chen",
+            "role": "Head of Operations, Synergy Retail"
+          }
+        },
+        {
+          "id": "q3",
+          "type": "testimonial",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "Their strategic guidance on integrating AI into our customer service platform led to a significant increase in efficiency and customer satisfaction.",
+            "author": "Sarah Davies",
+            "role": "VP Customer Experience, Horizon Solutions"
+          }
+        }
+      ],
+      "content": {
+        "heading": "What Our Clients Say",
+        "subheading": "Real-world impact from our AI partnerships."
+      }
+    },
+    {
+      "type": "contact",
+      "id": "contact-01",
+      "enabled": true,
+      "order": 99,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "gap": "24px",
+        "padding": "96px 24px",
+        "align": "center"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "cta-book",
+          "type": "button",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Book a Discovery Call",
+            "url": "mailto:info@atlasai.com?subject=Discovery%20Call%20Request",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "email",
+          "type": "link",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "info@atlasai.com",
+            "url": "mailto:info@atlasai.com"
+          }
+        },
+        {
+          "id": "linkedin",
+          "type": "link",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Connect on LinkedIn",
+            "url": "https://www.linkedin.com/company/atlas-ai-consulting"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Ready to Transform Your Business with AI?",
+        "subheading": "Book a discovery call with our experts to chart your AI journey."
+      }
+    }
+  ]
+}

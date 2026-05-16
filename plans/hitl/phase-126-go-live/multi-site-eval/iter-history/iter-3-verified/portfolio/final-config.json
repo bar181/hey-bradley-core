@@ -1,0 +1,369 @@
+{
+  "site": {
+    "title": "Bradley Ross | Visual Designer",
+    "description": "Visual designer portfolio for Bradley Ross"
+  },
+  "theme": {
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#fdfaf6",
+      "bgSecondary": "#f5f0e8",
+      "textPrimary": "#111",
+      "textSecondary": "#555",
+      "accentPrimary": "#80a490",
+      "accentSecondary": "#a6b9a8"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Outfit",
+      "baseSize": "16px",
+      "lineHeight": 1.5
+    },
+    "spacing": {
+      "sectionPadding": "64px",
+      "containerMaxWidth": "1180px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "gap": "28px",
+        "padding": "20px 32px"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Bradley Ross"
+          }
+        },
+        {
+          "id": "nav-1",
+          "type": "link",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Projects",
+            "url": "#projects"
+          }
+        },
+        {
+          "id": "nav-2",
+          "type": "link",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Contact",
+            "url": "#contact"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "32px",
+        "padding": "128px 24px 96px",
+        "parallax": true
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Bradley Ross",
+            "level": 1,
+            "size": "96px",
+            "weight": 300
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Visual Designer"
+          }
+        },
+        {
+          "id": "tagline",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Crafting thoughtful visual experiences."
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Crafting thoughtful visual experiences."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "View Projects",
+            "url": "#projects",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "video",
+      "id": "video-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "reel",
+      "layout": {
+        "display": "flex",
+        "align": "center",
+        "padding": "64px 24px"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "reel",
+          "type": "video-embed",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "url": "https://www.youtube.com/embed/dQw4w9WgXcQ?si=Rj3DkXh2vM1v6D9q",
+            "poster": "",
+            "autoplay": false,
+            "loop": true,
+            "alt": "Bradley Ross portfolio reel"
+          }
+        }
+      ],
+      "content": {
+        "heading": "My Latest Work"
+      }
+    },
+    {
+      "type": "columns",
+      "id": "projects-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "project-grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "96px 32px",
+        "maxWidth": "1180px"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "project-1",
+          "type": "project-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "title": "Aura Branding Redesign",
+            "image": "https://bradleyross.co/images/aura-thumb.jpg",
+            "alt": "Aura branding project thumbnail",
+            "tags": [
+              "Branding",
+              "UI/UX",
+              "Packaging"
+            ],
+            "effects": [
+              "hover-zoom",
+              "scroll-reveal",
+              "scroll-reveal"
+            ],
+            "url": "#"
+          }
+        },
+        {
+          "id": "project-2",
+          "type": "project-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "title": "Zenith Mobile App",
+            "image": "https://bradleyross.co/images/zenith-thumb.jpg",
+            "alt": "Zenith mobile app project thumbnail",
+            "tags": [
+              "UI/UX",
+              "Mobile",
+              "Product Design"
+            ],
+            "effects": [
+              "hover-zoom",
+              "scroll-reveal",
+              "scroll-reveal"
+            ],
+            "url": "#"
+          }
+        },
+        {
+          "id": "project-3",
+          "type": "project-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "title": "Equinox Website",
+            "image": "https://bradleyross.co/images/equinox-thumb.jpg",
+            "alt": "Equinox website project thumbnail",
+            "tags": [
+              "Web Design",
+              "UI/UX",
+              "Branding"
+            ],
+            "effects": [
+              "hover-zoom",
+              "scroll-reveal",
+              "scroll-reveal"
+            ],
+            "url": "#"
+          }
+        },
+        {
+          "id": "project-4",
+          "type": "project-card",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "title": "Nova Creative Campaigns",
+            "image": "https://bradleyross.co/images/nova-thumb.jpg",
+            "alt": "Nova creative campaigns thumbnail",
+            "tags": [
+              "Marketing",
+              "Visuals",
+              "Advertising"
+            ],
+            "effects": [
+              "hover-zoom",
+              "scroll-reveal",
+              "scroll-reveal"
+            ],
+            "url": "#"
+          }
+        },
+        {
+          "id": "project-5",
+          "type": "project-card",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "title": "Solstice Editorial Design",
+            "image": "https://bradleyross.co/images/solstice-thumb.jpg",
+            "alt": "Solstice editorial design thumbnail",
+            "tags": [
+              "Print",
+              "Editorial",
+              "Layout"
+            ],
+            "effects": [
+              "hover-zoom",
+              "scroll-reveal",
+              "scroll-reveal"
+            ],
+            "url": "#"
+          }
+        },
+        {
+          "id": "project-6",
+          "type": "project-card",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "title": "Luna Packaging Concepts",
+            "image": "https://bradleyross.co/images/luna-thumb.jpg",
+            "alt": "Luna packaging concepts thumbnail",
+            "tags": [
+              "Packaging",
+              "3D Render",
+              "Product"
+            ],
+            "effects": [
+              "hover-zoom",
+              "scroll-reveal",
+              "scroll-reveal"
+            ],
+            "url": "#"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Featured Projects",
+        "subheading": "A selection of my recent work across branding, digital, and print."
+      }
+    },
+    {
+      "type": "contact",
+      "id": "contact-01",
+      "enabled": true,
+      "order": 99,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "gap": "16px",
+        "padding": "64px 24px"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "email",
+          "type": "link",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "hello@bradleyross.co",
+            "url": "mailto:hello@bradleyross.co"
+          }
+        },
+        {
+          "id": "twitter",
+          "type": "link",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "@bradleyross",
+            "url": "https://x.com/bradleyross"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Get in touch"
+      }
+    }
+  ]
+}

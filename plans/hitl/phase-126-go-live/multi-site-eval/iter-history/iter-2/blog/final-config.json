@@ -1,0 +1,251 @@
+{
+  "site": {
+    "title": "Hey Bradley",
+    "description": ""
+  },
+  "theme": {
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#1a1a1a",
+      "bgSecondary": "#262626",
+      "textPrimary": "#fefefe",
+      "textSecondary": "#ccc",
+      "accentPrimary": "#a52a2a",
+      "accentSecondary": "#d35f5f"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Cormorant Garamond",
+      "baseSize": "16px",
+      "lineHeight": 1.5
+    },
+    "spacing": {
+      "sectionPadding": "64px",
+      "containerMaxWidth": "1180px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "32px",
+        "padding": "128px 24px 96px",
+        "parallax": false
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "BUILD. SHIP. GROW."
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "The whiteboard that listens",
+            "level": 1,
+            "size": "96px",
+            "weight": 300
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Turn ideas into action without ever leaving the flow."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Get Started",
+            "url": "#",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "articles-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "default",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "96px 32px",
+        "maxWidth": "1180px"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "article-1",
+          "type": "article-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "title": "Hey Bradley: The Origin Story",
+            "image": "",
+            "alt": "Bradley working on a whiteboard",
+            "hook": "Ever felt like your best ideas get lost in translation from whiteboard to execution?",
+            "problem": "I struggled with capturing the fluidity of thought in rigid digital tools, leading to creative blocks and lost momentum.",
+            "resolution": "This led me to build Hey Bradley, a tool that brings your ideas to life as naturally as you conceive them.",
+            "tags": [
+              "Origin",
+              "Vision",
+              "Inspiration"
+            ]
+          }
+        },
+        {
+          "id": "article-2",
+          "type": "article-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "title": "The Product Journey: From Idea to Interaction",
+            "image": "",
+            "alt": "Screenshot of Hey Bradley product interface",
+            "hook": "Transforming a raw concept into a polished product requires more than just code; it demands a conversation.",
+            "problem": "Many tools dictate how you work, forcing your creative process into their pre-defined boxes, stifling true innovation.",
+            "resolution": "Hey Bradley was meticulously crafted to adapt to your workflow, providing an intuitive, conversational interface that builds with you.",
+            "tags": [
+              "Product",
+              "Development",
+              "UX"
+            ]
+          }
+        },
+        {
+          "id": "article-3",
+          "type": "article-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "title": "Capstone: Building the Future of Creative Flow",
+            "image": "",
+            "alt": "Bradley celebrating a product launch",
+            "hook": "The journey doesn't end with a launch; it's a continuous evolution towards a more intuitive creative future.",
+            "problem": "The digital landscape is littered with tools that solve immediate problems but fail to scale with growing ambitions or adapt to new challenges.",
+            "resolution": "Hey Bradley's capstone isn't just a finished product; it's a living platform, constantly learning and evolving to keep pace with your wildest ideas.",
+            "tags": [
+              "Future",
+              "Vision",
+              "Innovation"
+            ]
+          }
+        }
+      ],
+      "content": {
+        "heading": "The Story Behind Hey Bradley",
+        "subheading": "Journey through the inception, creation, and future of a new kind of creative partner."
+      }
+    },
+    {
+      "type": "content",
+      "id": "author-bio-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "default",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "24px",
+        "padding": "64px 24px",
+        "maxWidth": "800px"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "bio-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "About Bradley Ross",
+            "level": 2,
+            "size": "48px",
+            "weight": 500
+          }
+        },
+        {
+          "id": "bio-text",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Bradley Ross is the creator of Hey Bradley and holds an ALM from Harvard University. With a passion for transforming complex ideas into intuitive digital experiences, Bradley's work focuses on empowering creators to build, ship, and grow their visions seamlessly. His journey from whiteboard concept to robust platform is driven by a belief in tools that listen and adapt to the human creative process."
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "newsletter",
+      "id": "newsletter-01",
+      "enabled": true,
+      "order": 98,
+      "variant": "inline",
+      "layout": {
+        "display": "flex",
+        "gap": "12px",
+        "padding": "64px 24px",
+        "justifyContent": "center",
+        "alignItems": "center",
+        "flexDirection": "column"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "email-input",
+          "type": "input",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "placeholder": "your@email.com",
+            "name": "email"
+          }
+        },
+        {
+          "id": "submit",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Subscribe",
+            "style": "filled"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Join the Flow"
+      }
+    }
+  ]
+}
