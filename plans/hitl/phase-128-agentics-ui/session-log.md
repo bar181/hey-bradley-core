@@ -81,7 +81,54 @@ Cost: $0.26 across all 3 loops + reviewer agents. UI work (F4-F8) now unblocked 
 
 ---
 
-*Append entries below as work proceeds. Format: `## YYYY-MM-DD — Topic`.*
+## 2026-05-16 — F6 README + ABSTRACT (commit bd2b13874)
+
+Per Phase 129 human-1.md F6 directive: rewrote `README.md` (396 lines, under 400-line cap) with two-half structure:
+
+**First half (what + why):** TOC · §1 Capstone summary (Bradley Ross, Harvard ALM DGMD E-599, May 2026) · §2 Abstract (full text) · §3 The 55% problem · §4 Six core value props · §5 AISP deep-dive (512-symbol, `Ambig(D)<0.02`, 100% reproduction, 8-atom Crystal Atom table) · §6 Novel ideas + core concepts · §7 Three modes · §8 Developer adoption path · §9 Wiki guides + phase-level details · §10 Engineering scoreboard.
+
+**Second half (how — divider `§11 — Getting started —`):** §11 Quick start · §12 BYOK + cost discipline · §13 Self-hosting · §14 Contributing + project process · §15 License + author + contact-for-applications.
+
+Also fixed `ABSTRACT.md` — restored the missing "Software is no longer written. It is specified." opening (file was clipping mid-sentence); reformatted with proper section breaks. 19 lines.
+
+## 2026-05-16 — F1 listen review card removed (commit 249f1d14a)
+
+Per owner directive 2026-05-16: the pre-pipeline `ListenReviewCard` defeated listen mode's core value prop ("site updates while you're still talking"). The approve click turned listen into a slower chat mode. Per the same directive, the P126 F5 low-confidence pattern (best-guess patch + persona note + Chat-History deep-link) is the safety gate going forward.
+
+Surgical removal:
+- `useListenPipeline.ts` — `submitListenFinal` now calls `runListenPipeline` directly. Removed `ListenReviewState`, `pttReview` state, `handleListenApprove`/`Edit`/`Cancel`, `buildActionPreview` import.
+- `ListenTranscript.tsx` — dropped `ListenReviewCard` import + render block + 4 picked-prop names.
+- `ListenControls.tsx` — dropped `pttReview` from picked state + all guards; simplified aria-label / button label / disabled gates.
+- Deleted: `src/components/left-panel/listen/{ListenReviewCard.tsx, listenActionPreview.ts}`.
+- Tests: `p37-listen-split.spec.ts` updated with regression guards asserting review handlers/state are ABSENT; `p36-listen-enhanced.spec.ts` + `p36-fix-pass.spec.ts` → `.obsolete-p128` (tested deleted behavior).
+- `handleListenClarificationAccept` retained as a safety net for the rare "zero patches applied + intent ambiguous" edge.
+
+F1 5-check audit re-run:
+1. Transcript appears while speaking — ✅ unchanged
+2. Patch fires on silence/stop — ✅ NOW LITERAL (no approve gate)
+3. Preview headline updates — ✅ shared chat-pipeline path (P126/P127 verified)
+4. CostPill increments — ✅ `intelligenceStore.recordUsage` on every adapter call
+5. Chat history logs the listen event — ✅ `writeLogEvent(..., inputType:'listen')` + `appendListenTranscript`
+
+Gates: `npm run build` GREEN 6.25 s 792.42 KB gzip · ARCH 12/12 PASS · 28/28 listen tests PASS · secrets-guard clean.
+
+## 2026-05-16 — Session close — state snapshot
+
+**Branch:** `swarm/p128-agentics-ui`
+**Last commit:** `249f1d14a`
+
+| # | Feature | Status |
+|---|---|---|
+| F1 | Listen mode review-card removal | **COMPLETE** — 5/5 checks PASS, 28/28 tests PASS, build 792.42 KB gzip green, ARCH 12/12 |
+| F2 | Input mode dropdown | NOT STARTED |
+| F3 | BYOK modal (next priority per owner directive) | NOT STARTED |
+| F4 | Resizable panels | NOT STARTED |
+| F5 | Tech-debt sweep | NOT STARTED |
+| F6 | README 396 lines + ABSTRACT.md | **COMPLETE** (commit `bd2b13874`) |
+
+**Step-3-template-quality-lift** (the original P128 Step 3) also COMPLETE at commit `521f88d69`: all 6 non-AISP spec templates ≥80/100 (composite 84.7).
+
+Next session resumes at F3 BYOK modal per the `next-session-grounding.md` doc on this branch.
 
 ---
 
