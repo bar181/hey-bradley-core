@@ -16,8 +16,10 @@
     "failures": []
   },
   "css": {
-    "pass": true,
-    "failures": []
+    "pass": false,
+    "failures": [
+      "JSON parse error: Expected ',' or '}' after property value in JSON at position 855 (line 39 column 5)"
+    ]
   },
   "build-plan": {
     "pass": true,

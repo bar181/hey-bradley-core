@@ -1,0 +1,12 @@
+{
+  "total": 0.0255584,
+  "perSpec": {
+    "aisp": 0.0136717,
+    "north-star": 0.0006753999999999999,
+    "features": 0.0017259,
+    "architecture": 0.00168,
+    "css": 0.0017913,
+    "build-plan": 0.0026996,
+    "human-spec": 0.0014525
+  }
+}
