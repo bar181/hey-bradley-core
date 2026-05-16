@@ -11,6 +11,9 @@
     "url": "https://github.com/bar181/hey-bradley-core"
   },
   "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "scripts": {
     "predev": "node scripts/copy-sqljs-wasm.mjs",
     "dev": "vite",
