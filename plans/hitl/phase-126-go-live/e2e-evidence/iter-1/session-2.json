@@ -1,0 +1,32 @@
+{
+  "iteration": 1,
+  "session": 2,
+  "prompt": "Change the hero headline to Ship faster",
+  "timestamp": "2026-05-16T18:34:01.874Z",
+  "model": "gemini-2.5-flash",
+  "wallClockMs": 915,
+  "tokens": {
+    "in": 596,
+    "out": 102
+  },
+  "estimatedCostUsd": 0.0004338,
+  "errorKind": null,
+  "rawResponse": "{\n  \"templateId\": \"update-hero-headline\",\n  \"confidence\": 0.9,\n  \"summary\": \"Updated the hero section headline to 'Ship faster'.\",\n  \"patchOps\": [\n    {\n      \"op\": \"replace\",\n      \"path\": \"/sections/1/components/1/props/text\",\n      \"value\": \"Ship faster\"\n    }\n  ],\n  \"lowConfidenceNote\": \"\"\n}",
+  "parsed": {
+    "templateId": "update-hero-headline",
+    "confidence": 0.9,
+    "summary": "Updated the hero section headline to 'Ship faster'.",
+    "patchOps": [
+      {
+        "op": "replace",
+        "path": "/sections/1/components/1/props/text",
+        "value": "Ship faster"
+      }
+    ],
+    "lowConfidenceNote": ""
+  },
+  "grade": {
+    "score": 1,
+    "reasons": []
+  }
+}

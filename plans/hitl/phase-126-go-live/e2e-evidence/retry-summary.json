@@ -1,0 +1,28 @@
+{
+  "timestamp": "2026-05-16T18:34:03.061Z",
+  "mode": "direct-api",
+  "iterations": 1,
+  "bestComposite": 1,
+  "totalCostUsd": 0.0014718,
+  "sessions": [
+    {
+      "session": 1,
+      "score": 1,
+      "reasons": [],
+      "confidence": 0.6
+    },
+    {
+      "session": 2,
+      "score": 1,
+      "reasons": [],
+      "confidence": 0.9
+    },
+    {
+      "session": 3,
+      "score": 1,
+      "reasons": [],
+      "confidence": 0.3
+    }
+  ],
+  "verdict": "PASS"
+}

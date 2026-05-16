@@ -10,13 +10,16 @@
 
 import { useConfigStore } from '@/store/configStore'
 import { useIntelligenceStore } from '@/store/intelligenceStore'
+import { useLLMHealthStore } from '@/store/llmHealthStore'
 import { useUIStore } from '@/store/uiStore'
 import { useProjectStore } from '@/store/projectStore'
 import { buildSystemPrompt } from '@/contexts/intelligence/prompts/system'
-import { parseResponse } from '@/contexts/intelligence/llm/responseParser'
+import { parseResponse, type ResponseConfidence } from '@/contexts/intelligence/llm/responseParser'
 import { validatePatches } from '@/contexts/intelligence/llm/patchValidator'
 import { auditedComplete } from '@/contexts/intelligence/llm/auditedComplete'
 import { recordPipelineFailure } from '@/contexts/intelligence/llm/recordPipelineFailure'
+import { appendLowConfidenceNote, synthesizeBestGuessPatches } from '@/contexts/intelligence/llm/confidenceNarration'
+import { appendSessionLog, type SessionLogEventType } from '@/contexts/intelligence/sessionLog'
 import { parseChatCommand, parseMultiPartCommand } from '@/lib/cannedChat'
 import { isUnmeasurableGoal } from '@/contexts/intelligence/aisp/intentAtom'
 import { hasContradiction } from '@/contexts/intelligence/aisp/decompAtom'
@@ -169,6 +172,33 @@ async function deriveImprovements(
   }
 }
 
+/**
+ * P126 / F3 — fire-and-forget session-log writer. Wraps appendSessionLog so a
+ * misbehaving localStorage (quota, JSON.parse) NEVER bubbles up into chat
+ * runtime. ADR-154.
+ */
+function safeLog(
+  eventType: SessionLogEventType,
+  summary: string,
+  payload?: Record<string, unknown>,
+  mode?: 'chat' | 'listen',
+): void {
+  try {
+    const entry: Parameters<typeof appendSessionLog>[0] = { eventType, summary }
+    if (payload !== undefined) entry.payload = payload
+    if (mode !== undefined) entry.mode = mode
+    appendSessionLog(entry)
+  } catch (e) {
+    if (import.meta.env.DEV) console.warn('[chatPipeline] safeLog failed', eventType, e)
+  }
+}
+
+/** Clip a string to a max length, appending a single ellipsis when clipped. */
+function truncate(s: string | undefined | null, max: number): string {
+  if (!s) return ''
+  return s.length <= max ? s : `${s.slice(0, max - 1)}…`
+}
+
 const FALLBACK_HINT =
   "Hmm, I didn't catch that. Try one of: " +
   "Make the hero say 'Bake Joy Daily' · " +
@@ -197,6 +227,10 @@ async function runLLMPipeline(
   preconditionFailed?: 'no_adapter'
   /** P19 Fix-Pass 2 (F2): pass the adapter/pipeline error category up. */
   errorKind?: ChatErrorKind | null
+  /** P126 / F5 — confidence band on the LLM response (when one was parsed). */
+  confidence?: ResponseConfidence
+  /** P126 / F5 — which classifyConfidence rule fired (drives note rotation). */
+  lowConfidenceReason?: string
 }> {
   const adapter = useIntelligenceStore.getState().adapter
   if (!adapter) {
@@ -209,6 +243,16 @@ async function runLLMPipeline(
   }
   const configState = useConfigStore.getState()
   const systemPrompt = buildSystemPrompt({ configJson: configState.config, history })
+  // P126 / F3 — session-log: capture the outgoing LLM call (no prompt body in
+  // payload per ADR-154 D3 redaction policy — just size + source).
+  const sessionMode: 'chat' | 'listen' | undefined =
+    source === 'chat' ? 'chat' : source === 'listen' ? 'listen' : undefined
+  safeLog(
+    'llm_call_sent',
+    'LLM call dispatched',
+    { source, promptChars: text.length },
+    sessionMode,
+  )
   const res = await auditedComplete(adapter, { systemPrompt, userPrompt: text }, { source })
   if (!res.ok) {
     // F2: translate adapter LLMError.kind onto the ChatErrorKind union.
@@ -223,11 +267,33 @@ async function runLLMPipeline(
     return { applied: 0, summary: '', errorKind: mapped }
   }
   const callId = res.auditCallId
-  const parsed = parseResponse(res.json)
+  // P126 / F5 — pass userText so the parser's confidence classifier can run
+  // the single-patch-vs-multi-target heuristic. Empty/invalid envelopes are
+  // routed to the synth-fallback at the submit() layer (ADR-155 D2).
+  const parsed = parseResponse(res.json, text)
   if (!parsed.ok) {
     recordPipelineFailure(callId, 'parse', `@root: ${parsed.reason}`)
+    safeLog(
+      'llm_response_received',
+      'parse failed',
+      { ok: false, reason: parsed.reason },
+      sessionMode,
+    )
     return { applied: 0, summary: '', errorKind: 'validation_failed' }
   }
+  // P126 / F3 — session-log: log the parsed envelope (truncated summary;
+  // confidence band + patchCount in payload). No raw response body. ADR-154 D3.
+  safeLog(
+    'llm_response_received',
+    truncate(parsed.envelope.summary, 80),
+    {
+      ok: true,
+      confidence: parsed.confidence,
+      patchCount: parsed.envelope.patches.length,
+      ...(parsed.reason !== undefined ? { reason: parsed.reason } : {}),
+    },
+    sessionMode,
+  )
   const errs = validatePatches(parsed.envelope.patches, configState.config)
   if (errs.length > 0) {
     const first = errs[0]
@@ -253,6 +319,8 @@ async function runLLMPipeline(
     applied: parsed.envelope.patches.length,
     summary: parsed.envelope.summary ?? 'Done.',
     errorKind: null,
+    confidence: parsed.confidence,
+    ...(parsed.reason !== undefined ? { lowConfidenceReason: parsed.reason } : {}),
   }
 }
 
@@ -308,6 +376,11 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       durationMs: Date.now() - startedAt, errorKind: null, latencyMs: null, latencyBreakdown: null,
     }
   }
+  // P126 / F3 — session-log: capture the user prompt at submit entry. ADR-154 D3
+  // redactor scrubs key-shapes before persistence.
+  const submitMode: 'chat' | 'listen' | undefined =
+    opts.source === 'chat' ? 'chat' : opts.source === 'listen' ? 'listen' : undefined
+  safeLog('user_prompt', text, undefined, submitMode)
 
   // P79 / OC-14 (A3) — page-aware pipeline (ADR-104). Read activePageId once
   // at submit entry; resolve scope ({ page, sections, scopeRoot }). When
@@ -534,6 +607,17 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
           useConfigStore.getState().applyPatches(composed)
           const afterDecomp = useConfigStore.getState().config
           emit(logCtx, 'patch_validation', { stage: 'decomp', applied: composed.length, ok: true })
+          // P126 / F3 — session-log: surface applied patches for Chat History.
+          safeLog(
+            'patch_applied',
+            `${composed.length} patch op${composed.length === 1 ? '' : 's'}`,
+            {
+              count: composed.length,
+              stage: 'decomp',
+              paths: composed.map((p) => (p as { path?: string }).path ?? ''),
+            },
+            submitMode,
+          )
           editHist(logCtx, beforeDecomp, afterDecomp, composed as unknown[], text)
           const doneAt = Date.now()
           // P85 / OC-19 (A2) — Recommendation 2: surface user-visible todo list.
@@ -582,6 +666,16 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
           useConfigStore.getState().applyPatches(tplScopedPatches)
           const afterTpl = useConfigStore.getState().config
           emit(logCtx, 'patch_validation', { stage: 'template', applied: tplScopedPatches.length, ok: true })
+          safeLog(
+            'patch_applied',
+            `${tplScopedPatches.length} patch op${tplScopedPatches.length === 1 ? '' : 's'}`,
+            {
+              count: tplScopedPatches.length,
+              stage: 'template',
+              paths: tplScopedPatches.map((p) => (p as { path?: string }).path ?? ''),
+            },
+            submitMode,
+          )
           editHist(logCtx, beforeTpl, afterTpl, tplScopedPatches as unknown[], text)
           const doneAt = Date.now()
           // P85 / OC-19 (A2) — Recommendation 1: surface matcher confidence chip.
@@ -628,6 +722,17 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         useConfigStore.getState().applyPatches(legacyScoped)
         const afterLegacy = useConfigStore.getState().config
         emit(logCtx, 'patch_validation', { stage: 'legacy-template', applied: legacyScoped.length, ok: true, templateId: tpl.template.id })
+        safeLog(
+          'patch_applied',
+          `${legacyScoped.length} patch op${legacyScoped.length === 1 ? '' : 's'}`,
+          {
+            count: legacyScoped.length,
+            stage: 'legacy-template',
+            templateId: tpl.template.id,
+            paths: legacyScoped.map((p) => (p as { path?: string }).path ?? ''),
+          },
+          submitMode,
+        )
         editHist(logCtx, beforeLegacy, afterLegacy, legacyScoped as unknown[], text)
         const tplSummary = `${tpl.envelope.summary} _(template: ${tpl.template.id})_`
         const improvements = await deriveImprovements(
@@ -720,23 +825,49 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     // call also lands on the active page (or root, single-page mode).
     const beforeLLM = useConfigStore.getState().config
     const llm = await runLLMPipeline(effectiveText, opts.source, opts.history, scope)
+    // P126 / F2a — surface LLM round-trip health to the StatusBar dot. Success
+    // lights green; any errorKind below flips red. Pure in-memory; no key in
+    // payload (ADR-153 D3).
+    if (llm.applied > 0) useLLMHealthStore.getState().setLLMHealth('ok')
+    else if (llm.errorKind) useLLMHealthStore.getState().setLLMHealth('error')
     if (llm.applied > 0) {
       const afterLLM = useConfigStore.getState().config
       emit(logCtx, 'patch_validation', { stage: 'llm', applied: llm.applied, ok: true })
+      safeLog(
+        'patch_applied',
+        `${llm.applied} patch op${llm.applied === 1 ? '' : 's'}`,
+        { count: llm.applied, stage: 'llm', confidence: llm.confidence ?? 'high' },
+        submitMode,
+      )
       editHist(logCtx, beforeLLM, afterLLM, [], text)
-      const improvements = await deriveImprovements(effectiveText, llm.applied, llm.summary, aispTrace, scope)
+      // P126 / F5 — append a casual note + chat-history deep-link when the
+      // parser flagged this response as low-confidence (hedge words, or a
+      // single patch when the prompt looked multi-target). ADR-155 D1.
+      const llmSummary = llm.confidence === 'low'
+        ? appendLowConfidenceNote(llm.summary, llm.lowConfidenceReason)
+        : llm.summary
+      // P126 / F3 — session-log: surface low-confidence narration as its own event.
+      if (llm.confidence === 'low') {
+        safeLog(
+          'confidence_low',
+          llm.lowConfidenceReason ?? 'low confidence',
+          { reason: llm.lowConfidenceReason ?? null },
+          submitMode,
+        )
+      }
+      const improvements = await deriveImprovements(effectiveText, llm.applied, llmSummary, aispTrace, scope)
       const personalityMessage = await derivePersonalityMessage(
-        { summary: llm.summary, patches: new Array(llm.applied) },
+        { summary: llmSummary, patches: new Array(llm.applied) },
         aispTrace,
       )
       emit(logCtx, 'personality_display', { personalityId: useIntelligenceStore.getState().personalityId ?? null, message: personalityMessage ? redactKeyShapes(personalityMessage) : null })
       const doneAt = Date.now()
-      emit(logCtx, 'response_summary', { stage: 'llm', appliedPatchCount: llm.applied, latencyMs: doneAt - startedAt, ok: true })
+      emit(logCtx, 'response_summary', { stage: 'llm', appliedPatchCount: llm.applied, latencyMs: doneAt - startedAt, ok: true, confidence: llm.confidence ?? 'high' })
       return {
         ok: true,
         appliedPatchCount: llm.applied,
         fellBackToCanned: false,
-        summary: llm.summary,
+        summary: llmSummary,
         durationMs: doneAt - startedAt,
         errorKind: null,
         aisp: aispTrace,
@@ -765,6 +896,64 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         aispRoute,
       }
     }
+    // P126 / F5 — ADR-155 D2 anti-empty-return guard. When the LLM round-trip
+    // produced ZERO usable patches (validation_failed: empty patches / schema
+    // miss / per-patch validate fail) we synthesize a best-guess patch from the
+    // user text and append a casual low-confidence note. This is the explicit
+    // "never say 'I don't understand'" path — runs only on validation_failed
+    // (cost_cap / rate_limit / timeout still drop into the canned fallback so
+    // the user sees a kind-specific error pill).
+    if (llm.errorKind === 'validation_failed') {
+      try {
+        const cfgNow = useConfigStore.getState().config
+        const synthesized = synthesizeBestGuessPatches(effectiveText, cfgNow)
+        if (synthesized.length > 0) {
+          stageMarks.applyStart = Date.now()
+          const beforeSynth = cfgNow
+          const synthScoped = prefixPatchPaths(synthesized, scope.scopeRoot) as JSONPatch[]
+          useConfigStore.getState().applyPatches(synthScoped)
+          const afterSynth = useConfigStore.getState().config
+          emit(logCtx, 'patch_validation', { stage: 'best-guess-synth', applied: synthScoped.length, ok: true, confidence: 'low' })
+          safeLog(
+            'patch_applied',
+            `${synthScoped.length} patch op${synthScoped.length === 1 ? '' : 's'}`,
+            {
+              count: synthScoped.length,
+              stage: 'best-guess-synth',
+              confidence: 'low',
+              paths: synthScoped.map((p) => (p as { path?: string }).path ?? ''),
+            },
+            submitMode,
+          )
+          safeLog(
+            'confidence_low',
+            'empty-patches → best-guess synth',
+            { reason: 'empty-patches' },
+            submitMode,
+          )
+          editHist(logCtx, beforeSynth, afterSynth, synthScoped as unknown[], text)
+          const synthSummary = appendLowConfidenceNote('', 'empty-patches')
+          const doneAt = Date.now()
+          emit(logCtx, 'response_summary', { stage: 'best-guess-synth', appliedPatchCount: synthScoped.length, latencyMs: doneAt - startedAt, ok: true, confidence: 'low' })
+          return {
+            ok: true,
+            appliedPatchCount: synthScoped.length,
+            fellBackToCanned: false,
+            summary: synthSummary,
+            durationMs: doneAt - startedAt,
+            errorKind: null,
+            aisp: aispTrace,
+            aispRoute,
+            latencyMs: doneAt - startedAt,
+            latencyBreakdown: buildBreakdown(stageMarks, doneAt),
+          }
+        }
+      } catch (e) {
+        // Synth path is best-effort; any throw falls through to canned fallback
+        // below so the user is never stranded with an empty response.
+        if (import.meta.env.DEV) console.warn('[chatPipeline] best-guess synth threw', e)
+      }
+    }
   } catch (e) {
     // F17: replace the silent swallow. Record a pipeline failure (callId is
     // null because the LLM-pipeline body owns its own audit row, but a throw
@@ -774,6 +963,25 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     writeErrorEvent(getDB(), { sessionId: logCtx.sessionId, requestId: logCtx.requestId }, e, 'chatPipeline.runLLMPipeline')
     if (import.meta.env.DEV) console.warn('[chatPipeline] runLLMPipeline threw', e)
     pipelineErrorKind = 'unknown'
+    useLLMHealthStore.getState().setLLMHealth('error')
+    // P126 / F3 — session-log: surface the thrown error in chat history.
+    safeLog(
+      'pipeline_error',
+      'unknown',
+      { errorKind: 'unknown', errorMessage: e instanceof Error ? e.message : String(e) },
+      submitMode,
+    )
+  }
+  // P126 / F3 — session-log: surface non-throw pipeline errors (cost_cap /
+  // rate_limit / timeout / validation_failed / precondition_failed). Quiet on
+  // clean canned-only fallthrough where no errorKind was set.
+  if (pipelineErrorKind) {
+    safeLog(
+      'pipeline_error',
+      pipelineErrorKind,
+      { errorKind: pipelineErrorKind },
+      submitMode,
+    )
   }
   const canned = runCanned(effectiveText)
   emit(logCtx, 'response_summary', { stage: 'canned-fallback', appliedPatchCount: 0, latencyMs: Date.now() - startedAt, ok: canned.matched, errorKind: pipelineErrorKind })

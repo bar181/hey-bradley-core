@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { TopBar } from './TopBar'
 import { StatusBar } from './StatusBar'
 import { PanelLayout } from './PanelLayout'
+import { BYOKPanel } from './BYOKPanel'
 import { ShortcutHelp } from '@/components/ui/ShortcutHelp'
 import { SettingsDrawer } from '@/components/settings/SettingsDrawer'
 import { useConfigStore } from '@/store/configStore'
@@ -53,8 +54,9 @@ export function AppShell() {
   const isPreviewMode = useUIStore((s) => s.isPreviewMode)
 
   return (
-    <div data-testid="appshell-mode-whiteboard" className="h-screen flex flex-col bg-hb-bg">
+    <div data-testid="appshell-mode-whiteboard" className="relative h-screen flex flex-col bg-hb-bg">
       {!isPreviewMode && <TopBar />}
+      {!isPreviewMode && <BYOKPanel />}
       <main className="flex-1 overflow-hidden">
         <PanelLayout />
       </main>

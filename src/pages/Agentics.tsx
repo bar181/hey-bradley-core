@@ -15,16 +15,20 @@
  * map node selects the phase via NODE_TO_PHASE_ID.
  */
 import { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { FileText, Activity, Database } from 'lucide-react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { FileText, Activity, Database, MessageSquare } from 'lucide-react'
 import { AISPDeveloperCard } from '@/components/onboarding/AISPDeveloperCard'
 import { ProcessMapSVG, type ProcessMap } from '@/components/planning/ProcessMapSVG'
 import { SpecWorkbench } from '@/components/agentics/SpecWorkbench'
 import { SealPanel } from '@/components/agentics/SealPanel'
+// P126 / F4 — Specifications card (live + on-demand spec sections).
+import { SpecsCard } from '@/components/agentics/SpecsCard'
 // P122 / W6 — Agentics observability surfaces (LLM log + DB inspector).
 // Cross-ref: ADR-043 (BYOK), ADR-126 (logging), ADR-110 (AISP visibility).
 import { LLMLogPanel } from '@/components/agentics/LLMLogPanel'
 import { DBPanel } from '@/components/agentics/DBPanel'
+// P126 / F3 — chat-history feed surfaced as the 4th observability tab. ADR-154.
+import { ChatHistoryPanel } from '@/components/agentics/ChatHistoryPanel'
 // P122 / W6 — surface CostPill in Agentics header so the owner can watch
 // live BYOK cap consumption without switching modes (preflight §4-G-25).
 import { CostPill } from '@/components/shell/CostPill'
@@ -57,9 +61,19 @@ export function Agentics() {
   ])
   // Loop 2 / Agentics lift — tabbed observability. "spec" is the spec workbench
   // (default landing), "log" is the LLM call ledger, "db" is the raw DB inspector.
+  // P126 / F3 — "history" added as the 4th tab (chat-history feed; ADR-154).
   // Tabs replace stacked panels so the visitor sees one observability surface
   // at a time instead of the previous "stacked widgets" feel.
-  const [obsTab, setObsTab] = useState<'spec' | 'log' | 'db'>('spec')
+  // P126 / F3 — read `?tab=history` (and any of the 3 legacy slugs) from the
+  // URL so external links / ADR-155 deep-link narrations can land directly on
+  // the right tab. Falls back to 'spec' when the param is missing/invalid.
+  const [searchParams] = useSearchParams()
+  const initialObsTab: 'spec' | 'log' | 'db' | 'history' = (() => {
+    const t = searchParams.get('tab')
+    if (t === 'history' || t === 'log' || t === 'db' || t === 'spec') return t
+    return 'spec'
+  })()
+  const [obsTab, setObsTab] = useState<'spec' | 'log' | 'db' | 'history'>(initialObsTab)
 
   // P102 / A2 (CF#8 closure) — surface most-recent PROCESS_ATOM output from
   // log_events into the Agentics center map. Fire-and-forget per ADR-126; on
@@ -257,6 +271,7 @@ export function Agentics() {
                   { id: 'spec', label: 'Spec', icon: FileText },
                   { id: 'log', label: 'LLM Log', icon: Activity },
                   { id: 'db', label: 'Database', icon: Database },
+                  { id: 'history', label: 'Chat History', icon: MessageSquare },
                 ] as const).map(({ id, label, icon: Icon }) => {
                   const isActive = obsTab === id
                   return (
@@ -282,6 +297,8 @@ export function Agentics() {
 
               {obsTab === 'spec' && (
                 <div role="tabpanel" data-testid="agentics-obs-panel-spec">
+                  {/* P126 / F4 — higher-level checklist sits ABOVE the workbench. */}
+                  <SpecsCard />
                   <SpecWorkbench
                     phases={phases}
                     activePhaseId={activePhaseId}
@@ -323,6 +340,15 @@ export function Agentics() {
                     Raw project data — every patch, every event.
                   </p>
                   <DBPanel projectId={activeProjectId} />
+                </div>
+              )}
+
+              {obsTab === 'history' && (
+                <div role="tabpanel" data-testid="agentics-obs-panel-history">
+                  <p className="mb-3 text-xs text-[var(--hb-text-muted)]">
+                    Every prompt, LLM call, patch, and error — redacted, in-browser.
+                  </p>
+                  <ChatHistoryPanel />
                 </div>
               )}
             </>

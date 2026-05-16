@@ -54,6 +54,13 @@ interface IntelligenceState {
   inFlight: boolean
   /** Sprint J P50 (A1) — chat-bubble personality. Hydrated from kv on init. */
   personalityId: PersonalityId
+  /**
+   * P126 F2b — true when the generated spec bundle is in sync with the
+   * current config. Flips to false on any JSON mutation; flips back to
+   * true on a successful spec-generate. In-memory only (resets on reload).
+   * Wiring is intentionally deferred to F4; for now just expose the field.
+   */
+  specsFresh: boolean
 
   init: () => Promise<void>
   testConnection: () => Promise<boolean>
@@ -69,6 +76,8 @@ interface IntelligenceState {
   setInFlight: (value: boolean) => void
   /** Sprint J P50 (A1) — persist + update chat-bubble personality. */
   setPersonality: (id: PersonalityId) => void
+  /** P126 F2b — flip the spec-freshness flag (F4 will wire actual triggers). */
+  setSpecsFresh: (b: boolean) => void
 }
 
 // One-time wiring so we end the previous project's session when the active
@@ -88,6 +97,7 @@ export const useIntelligenceStore = create<IntelligenceState>((set, get) => ({
   rememberKey: false,
   inFlight: false,
   personalityId: 'professional',
+  specsFresh: true,
 
   init: async () => {
     const { pickAdapter } = await import('@/contexts/intelligence/llm/pickAdapter')
@@ -222,6 +232,8 @@ export const useIntelligenceStore = create<IntelligenceState>((set, get) => ({
     }
     set({ personalityId: id })
   },
+
+  setSpecsFresh: (b) => set({ specsFresh: b }),
 }))
 
 // Dev-only window exposure mirrors __configStore / __projectStore patterns

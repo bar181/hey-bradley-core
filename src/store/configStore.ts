@@ -4,7 +4,13 @@ import { applyPatches as pureApplyPatches } from '@/contexts/intelligence/applyP
 import type { JSONPatch } from '@/lib/schemas/patches'
 import type { MasterConfig, Section, SectionType, PatchSource, PageConfig } from '@/lib/schemas'
 import { useUIStore } from '@/store/uiStore'
-import defaultConfig from '@/data/default-config.json'
+// P126 F1 — Default template swap. configStore now boots from the
+// Hey Bradley flagship MasterConfig (dark / Harvard crimson /
+// "Describe it. See it.") instead of the legacy SaaS-shaped JSON.
+// The JSON file is retained for the Onboarding "Hey Bradley" preset
+// card (src/pages/Onboarding.tsx) and llm-fixtures path references;
+// only the boot-time DEFAULT_CONFIG changes here.
+import heyBradleyFlagship from '@/data/examples/hey-bradley-flagship'
 import saas from '@/data/themes/saas.json'
 import agency from '@/data/themes/agency.json'
 import portfolio from '@/data/themes/portfolio.json'
@@ -21,7 +27,10 @@ import neon from '@/data/themes/neon.json'
 // P28 C17 — Zod helper replaces 13/21 `as unknown as` casts here.
 import { parseMasterConfigSafe, asThemeJson } from '@/lib/schemas/masterConfigParser'
 
-const DEFAULT_CONFIG: MasterConfig = parseMasterConfigSafe(defaultConfig) ?? (defaultConfig as unknown as MasterConfig)
+// Flagship is already typed as MasterConfig at the export site; run it
+// through parseMasterConfigSafe anyway so any future schema drift is
+// caught at boot rather than at first render.
+const DEFAULT_CONFIG: MasterConfig = parseMasterConfigSafe(heyBradleyFlagship) ?? heyBradleyFlagship
 
 const THEMES: Record<string, Record<string, unknown>> = {
   saas: asThemeJson(saas),
