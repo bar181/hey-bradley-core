@@ -607,6 +607,17 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
           useConfigStore.getState().applyPatches(composed)
           const afterDecomp = useConfigStore.getState().config
           emit(logCtx, 'patch_validation', { stage: 'decomp', applied: composed.length, ok: true })
+          // P126 / F3 — session-log: surface applied patches for Chat History.
+          safeLog(
+            'patch_applied',
+            `${composed.length} patch op${composed.length === 1 ? '' : 's'}`,
+            {
+              count: composed.length,
+              stage: 'decomp',
+              paths: composed.map((p) => (p as { path?: string }).path ?? ''),
+            },
+            submitMode,
+          )
           editHist(logCtx, beforeDecomp, afterDecomp, composed as unknown[], text)
           const doneAt = Date.now()
           // P85 / OC-19 (A2) — Recommendation 2: surface user-visible todo list.
@@ -655,6 +666,16 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
           useConfigStore.getState().applyPatches(tplScopedPatches)
           const afterTpl = useConfigStore.getState().config
           emit(logCtx, 'patch_validation', { stage: 'template', applied: tplScopedPatches.length, ok: true })
+          safeLog(
+            'patch_applied',
+            `${tplScopedPatches.length} patch op${tplScopedPatches.length === 1 ? '' : 's'}`,
+            {
+              count: tplScopedPatches.length,
+              stage: 'template',
+              paths: tplScopedPatches.map((p) => (p as { path?: string }).path ?? ''),
+            },
+            submitMode,
+          )
           editHist(logCtx, beforeTpl, afterTpl, tplScopedPatches as unknown[], text)
           const doneAt = Date.now()
           // P85 / OC-19 (A2) — Recommendation 1: surface matcher confidence chip.
@@ -701,6 +722,17 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
         useConfigStore.getState().applyPatches(legacyScoped)
         const afterLegacy = useConfigStore.getState().config
         emit(logCtx, 'patch_validation', { stage: 'legacy-template', applied: legacyScoped.length, ok: true, templateId: tpl.template.id })
+        safeLog(
+          'patch_applied',
+          `${legacyScoped.length} patch op${legacyScoped.length === 1 ? '' : 's'}`,
+          {
+            count: legacyScoped.length,
+            stage: 'legacy-template',
+            templateId: tpl.template.id,
+            paths: legacyScoped.map((p) => (p as { path?: string }).path ?? ''),
+          },
+          submitMode,
+        )
         editHist(logCtx, beforeLegacy, afterLegacy, legacyScoped as unknown[], text)
         const tplSummary = `${tpl.envelope.summary} _(template: ${tpl.template.id})_`
         const improvements = await deriveImprovements(
@@ -801,6 +833,12 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     if (llm.applied > 0) {
       const afterLLM = useConfigStore.getState().config
       emit(logCtx, 'patch_validation', { stage: 'llm', applied: llm.applied, ok: true })
+      safeLog(
+        'patch_applied',
+        `${llm.applied} patch op${llm.applied === 1 ? '' : 's'}`,
+        { count: llm.applied, stage: 'llm', confidence: llm.confidence ?? 'high' },
+        submitMode,
+      )
       editHist(logCtx, beforeLLM, afterLLM, [], text)
       // P126 / F5 — append a casual note + chat-history deep-link when the
       // parser flagged this response as low-confidence (hedge words, or a
@@ -808,6 +846,15 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       const llmSummary = llm.confidence === 'low'
         ? appendLowConfidenceNote(llm.summary, llm.lowConfidenceReason)
         : llm.summary
+      // P126 / F3 — session-log: surface low-confidence narration as its own event.
+      if (llm.confidence === 'low') {
+        safeLog(
+          'confidence_low',
+          llm.lowConfidenceReason ?? 'low confidence',
+          { reason: llm.lowConfidenceReason ?? null },
+          submitMode,
+        )
+      }
       const improvements = await deriveImprovements(effectiveText, llm.applied, llmSummary, aispTrace, scope)
       const personalityMessage = await derivePersonalityMessage(
         { summary: llmSummary, patches: new Array(llm.applied) },
@@ -867,6 +914,23 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
           useConfigStore.getState().applyPatches(synthScoped)
           const afterSynth = useConfigStore.getState().config
           emit(logCtx, 'patch_validation', { stage: 'best-guess-synth', applied: synthScoped.length, ok: true, confidence: 'low' })
+          safeLog(
+            'patch_applied',
+            `${synthScoped.length} patch op${synthScoped.length === 1 ? '' : 's'}`,
+            {
+              count: synthScoped.length,
+              stage: 'best-guess-synth',
+              confidence: 'low',
+              paths: synthScoped.map((p) => (p as { path?: string }).path ?? ''),
+            },
+            submitMode,
+          )
+          safeLog(
+            'confidence_low',
+            'empty-patches → best-guess synth',
+            { reason: 'empty-patches' },
+            submitMode,
+          )
           editHist(logCtx, beforeSynth, afterSynth, synthScoped as unknown[], text)
           const synthSummary = appendLowConfidenceNote('', 'empty-patches')
           const doneAt = Date.now()
@@ -900,6 +964,24 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     if (import.meta.env.DEV) console.warn('[chatPipeline] runLLMPipeline threw', e)
     pipelineErrorKind = 'unknown'
     useLLMHealthStore.getState().setLLMHealth('error')
+    // P126 / F3 — session-log: surface the thrown error in chat history.
+    safeLog(
+      'pipeline_error',
+      'unknown',
+      { errorKind: 'unknown', errorMessage: e instanceof Error ? e.message : String(e) },
+      submitMode,
+    )
+  }
+  // P126 / F3 — session-log: surface non-throw pipeline errors (cost_cap /
+  // rate_limit / timeout / validation_failed / precondition_failed). Quiet on
+  // clean canned-only fallthrough where no errorKind was set.
+  if (pipelineErrorKind) {
+    safeLog(
+      'pipeline_error',
+      pipelineErrorKind,
+      { errorKind: pipelineErrorKind },
+      submitMode,
+    )
   }
   const canned = runCanned(effectiveText)
   emit(logCtx, 'response_summary', { stage: 'canned-fallback', appliedPatchCount: 0, latencyMs: Date.now() - startedAt, ok: canned.matched, errorKind: pipelineErrorKind })
