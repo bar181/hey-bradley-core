@@ -10,6 +10,7 @@
 
 import { useConfigStore } from '@/store/configStore'
 import { useIntelligenceStore } from '@/store/intelligenceStore'
+import { useLLMHealthStore } from '@/store/llmHealthStore'
 import { useUIStore } from '@/store/uiStore'
 import { useProjectStore } from '@/store/projectStore'
 import { buildSystemPrompt } from '@/contexts/intelligence/prompts/system'
@@ -18,6 +19,7 @@ import { validatePatches } from '@/contexts/intelligence/llm/patchValidator'
 import { auditedComplete } from '@/contexts/intelligence/llm/auditedComplete'
 import { recordPipelineFailure } from '@/contexts/intelligence/llm/recordPipelineFailure'
 import { appendLowConfidenceNote, synthesizeBestGuessPatches } from '@/contexts/intelligence/llm/confidenceNarration'
+import { appendSessionLog, type SessionLogEventType } from '@/contexts/intelligence/sessionLog'
 import { parseChatCommand, parseMultiPartCommand } from '@/lib/cannedChat'
 import { isUnmeasurableGoal } from '@/contexts/intelligence/aisp/intentAtom'
 import { hasContradiction } from '@/contexts/intelligence/aisp/decompAtom'
@@ -170,6 +172,33 @@ async function deriveImprovements(
   }
 }
 
+/**
+ * P126 / F3 — fire-and-forget session-log writer. Wraps appendSessionLog so a
+ * misbehaving localStorage (quota, JSON.parse) NEVER bubbles up into chat
+ * runtime. ADR-154.
+ */
+function safeLog(
+  eventType: SessionLogEventType,
+  summary: string,
+  payload?: Record<string, unknown>,
+  mode?: 'chat' | 'listen',
+): void {
+  try {
+    const entry: Parameters<typeof appendSessionLog>[0] = { eventType, summary }
+    if (payload !== undefined) entry.payload = payload
+    if (mode !== undefined) entry.mode = mode
+    appendSessionLog(entry)
+  } catch (e) {
+    if (import.meta.env.DEV) console.warn('[chatPipeline] safeLog failed', eventType, e)
+  }
+}
+
+/** Clip a string to a max length, appending a single ellipsis when clipped. */
+function truncate(s: string | undefined | null, max: number): string {
+  if (!s) return ''
+  return s.length <= max ? s : `${s.slice(0, max - 1)}…`
+}
+
 const FALLBACK_HINT =
   "Hmm, I didn't catch that. Try one of: " +
   "Make the hero say 'Bake Joy Daily' · " +
@@ -214,6 +243,16 @@ async function runLLMPipeline(
   }
   const configState = useConfigStore.getState()
   const systemPrompt = buildSystemPrompt({ configJson: configState.config, history })
+  // P126 / F3 — session-log: capture the outgoing LLM call (no prompt body in
+  // payload per ADR-154 D3 redaction policy — just size + source).
+  const sessionMode: 'chat' | 'listen' | undefined =
+    source === 'chat' ? 'chat' : source === 'listen' ? 'listen' : undefined
+  safeLog(
+    'llm_call_sent',
+    'LLM call dispatched',
+    { source, promptChars: text.length },
+    sessionMode,
+  )
   const res = await auditedComplete(adapter, { systemPrompt, userPrompt: text }, { source })
   if (!res.ok) {
     // F2: translate adapter LLMError.kind onto the ChatErrorKind union.
@@ -234,8 +273,27 @@ async function runLLMPipeline(
   const parsed = parseResponse(res.json, text)
   if (!parsed.ok) {
     recordPipelineFailure(callId, 'parse', `@root: ${parsed.reason}`)
+    safeLog(
+      'llm_response_received',
+      'parse failed',
+      { ok: false, reason: parsed.reason },
+      sessionMode,
+    )
     return { applied: 0, summary: '', errorKind: 'validation_failed' }
   }
+  // P126 / F3 — session-log: log the parsed envelope (truncated summary;
+  // confidence band + patchCount in payload). No raw response body. ADR-154 D3.
+  safeLog(
+    'llm_response_received',
+    truncate(parsed.envelope.summary, 80),
+    {
+      ok: true,
+      confidence: parsed.confidence,
+      patchCount: parsed.envelope.patches.length,
+      ...(parsed.reason !== undefined ? { reason: parsed.reason } : {}),
+    },
+    sessionMode,
+  )
   const errs = validatePatches(parsed.envelope.patches, configState.config)
   if (errs.length > 0) {
     const first = errs[0]
@@ -318,6 +376,11 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
       durationMs: Date.now() - startedAt, errorKind: null, latencyMs: null, latencyBreakdown: null,
     }
   }
+  // P126 / F3 — session-log: capture the user prompt at submit entry. ADR-154 D3
+  // redactor scrubs key-shapes before persistence.
+  const submitMode: 'chat' | 'listen' | undefined =
+    opts.source === 'chat' ? 'chat' : opts.source === 'listen' ? 'listen' : undefined
+  safeLog('user_prompt', text, undefined, submitMode)
 
   // P79 / OC-14 (A3) — page-aware pipeline (ADR-104). Read activePageId once
   // at submit entry; resolve scope ({ page, sections, scopeRoot }). When
@@ -730,6 +793,11 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     // call also lands on the active page (or root, single-page mode).
     const beforeLLM = useConfigStore.getState().config
     const llm = await runLLMPipeline(effectiveText, opts.source, opts.history, scope)
+    // P126 / F2a — surface LLM round-trip health to the StatusBar dot. Success
+    // lights green; any errorKind below flips red. Pure in-memory; no key in
+    // payload (ADR-153 D3).
+    if (llm.applied > 0) useLLMHealthStore.getState().setLLMHealth('ok')
+    else if (llm.errorKind) useLLMHealthStore.getState().setLLMHealth('error')
     if (llm.applied > 0) {
       const afterLLM = useConfigStore.getState().config
       emit(logCtx, 'patch_validation', { stage: 'llm', applied: llm.applied, ok: true })
@@ -831,6 +899,7 @@ export async function submit(opts: ChatPipelineOptions): Promise<ChatPipelineRes
     writeErrorEvent(getDB(), { sessionId: logCtx.sessionId, requestId: logCtx.requestId }, e, 'chatPipeline.runLLMPipeline')
     if (import.meta.env.DEV) console.warn('[chatPipeline] runLLMPipeline threw', e)
     pipelineErrorKind = 'unknown'
+    useLLMHealthStore.getState().setLLMHealth('error')
   }
   const canned = runCanned(effectiveText)
   emit(logCtx, 'response_summary', { stage: 'canned-fallback', appliedPatchCount: 0, latencyMs: Date.now() - startedAt, ok: canned.matched, errorKind: pipelineErrorKind })
