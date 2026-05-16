@@ -202,7 +202,9 @@ interface UIStore {
    */
   setPendingMessage: (msg: PendingMessage | null) => void
   /**
-   * P36 — Push transcript to ChatInput for inline edit (ListenReviewCard "Edit").
+   * P36 — Push transcript to ChatInput for inline edit. Used by voice command
+   * fall-throughs (e.g. dispatchCommand "prefill-and-focus"). The P36 review
+   * card was removed in P128 F1; this helper survives for the command path.
    * P37 R2 S1 — clamps to MAX_PREFILL_LENGTH; refuses BYOK shape; refuses
    * non-string types (returns null). Thin wrapper over setPendingMessage.
    */

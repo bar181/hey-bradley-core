@@ -2,17 +2,17 @@
  * P37 Wave 1 (R2 S3) — ListenTranscript.
  *
  * Renders all "below-the-button" voice surfaces — interim / final transcript,
- * error banner, busy banner, hint, AISP chip, review card, clarification
- * card, Bradley reply. Extracted from ListenTab to keep every file under
- * the CLAUDE.md 500-LOC hard cap.
+ * error banner, busy banner, hint, AISP chip, clarification card, Bradley
+ * reply. Extracted from ListenTab to keep every file under the CLAUDE.md
+ * 500-LOC hard cap.
  *
  * Pure presentational: state + handlers come from useListenPipeline.
- * All P19 + P36 testids preserved (listen-transcript, listen-error-banner,
- * listen-busy, listen-hint, listen-review-*, listen-clarification-*,
- * listen-reply, listen-aisp-chip).
+ *
+ * P128 F1 — the pre-pipeline review card was removed (owner directive). Listen
+ * mode now fires patches immediately on silence/stop; the P126 F5 low-confidence
+ * persona-message + Chat-History deep-link is the safety gate.
  */
 import { mapListenError } from './listenHelpers'
-import { ListenReviewCard } from './ListenReviewCard'
 import { ListenClarificationCard } from './ListenClarificationCard'
 import type {
   ListenPipelineHandlers,
@@ -30,15 +30,11 @@ export interface ListenTranscriptProps {
     | 'pttReply'
     | 'pttBusy'
     | 'pttAisp'
-    | 'pttReview'
     | 'pttClarification'
     | 'pttHint'
   >
   handlers: Pick<
     ListenPipelineHandlers,
-    | 'handleListenApprove'
-    | 'handleListenEdit'
-    | 'handleListenCancel'
     | 'handleListenClarificationAccept'
     | 'dismissError'
     | 'dismissClarification'
@@ -55,14 +51,10 @@ export function ListenTranscript({ state, handlers }: ListenTranscriptProps) {
     pttReply,
     pttBusy,
     pttAisp,
-    pttReview,
     pttClarification,
     pttHint,
   } = state
   const {
-    handleListenApprove,
-    handleListenEdit,
-    handleListenCancel,
     handleListenClarificationAccept,
     dismissError,
     dismissClarification,
@@ -119,20 +111,6 @@ export function ListenTranscript({ state, handlers }: ListenTranscriptProps) {
         </div>
       )}
 
-      {/* P36 (A2) — Pre-pipeline review card. Gates pipeline on Approve. */}
-      {pttReview && !pttBusy && !pttClarification && (
-        <ListenReviewCard
-          transcript={pttReview.transcript}
-          actionPreview={pttReview.preview}
-          confidence={pttReview.confidence}
-          onApprove={() => {
-            void handleListenApprove()
-          }}
-          onEdit={handleListenEdit}
-          onCancel={handleListenCancel}
-        />
-      )}
-
       {/* P36 (A1) — Voice clarification (low-confidence intent). */}
       {pttClarification && !pttBusy && (
         <ListenClarificationCard
@@ -145,7 +123,7 @@ export function ListenTranscript({ state, handlers }: ListenTranscriptProps) {
         />
       )}
 
-      {pttReply && !pttBusy && !pttReview && !pttClarification && (
+      {pttReply && !pttBusy && !pttClarification && (
         <div
           data-testid="listen-reply"
           className="w-full max-w-[300px] rounded-md bg-[#A51C30]/10 border border-[#A51C30]/30 px-3 py-2 text-sm text-white/85 space-y-1"

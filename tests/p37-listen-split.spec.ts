@@ -57,13 +57,19 @@ test.describe('R2 S3 — useListenPipeline exposes the documented contract', () 
     expect(src).toMatch(/handlers[\s:,]/)
   })
 
-  test('hook owns runListenPipeline + the 4 review handlers', () => {
+  // P128 F1 — the pre-pipeline review card was removed (owner directive
+  // 2026-05-16). submitListenFinal now calls runListenPipeline directly on
+  // silence/stop; the P126 F5 low-confidence persona-message-with-Chat-
+  // History-deep-link is the safety gate. Only the clarification handler
+  // remains for the rare "no patches applied, intent ambiguous" branch.
+  test('hook owns runListenPipeline + clarification handler (P128 F1: review handlers removed)', () => {
     const src = readFileSync(HOOK, 'utf8')
     expect(src).toContain('runListenPipeline')
-    expect(src).toContain('handleListenApprove')
-    expect(src).toContain('handleListenEdit')
-    expect(src).toContain('handleListenCancel')
     expect(src).toContain('handleListenClarificationAccept')
+    // Review handlers must NOT exist after P128 F1:
+    expect(src).not.toContain('handleListenApprove')
+    expect(src).not.toContain('handleListenEdit')
+    expect(src).not.toContain('handleListenCancel')
   })
 
   test('hook owns submitListenFinal + PTT handlers', () => {
@@ -73,13 +79,14 @@ test.describe('R2 S3 — useListenPipeline exposes the documented contract', () 
     expect(src).toContain('handlePttPressEnd')
   })
 
-  test('hook owns pipeline state (review/clarification/aisp/busy/reply)', () => {
+  // P128 F1 — pttReview state removed alongside the review-card UI.
+  test('hook owns pipeline state (clarification/aisp/busy/reply; review removed in P128 F1)', () => {
     const src = readFileSync(HOOK, 'utf8')
-    expect(src).toContain('pttReview')
     expect(src).toContain('pttClarification')
     expect(src).toContain('pttAisp')
     expect(src).toContain('pttBusy')
     expect(src).toContain('pttReply')
+    expect(src).not.toContain('pttReview')
   })
 })
 
