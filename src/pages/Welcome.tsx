@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom"
-import { ArrowRight, Mic, MessageSquare, SlidersHorizontal, Code2, FileText } from "lucide-react"
+import { ArrowRight, Mic, MessageSquare, SlidersHorizontal } from "lucide-react"
 import { MarketingNav } from "@/components/MarketingNav"
-import { HeroOrb } from "@/components/marketing/HeroOrb"
+import { HeroAnimated } from "@/components/marketing/HeroAnimated"
+import { CinematicDemo } from "@/components/marketing/CinematicDemo"
+import { StatsSection } from "@/components/marketing/StatsSection"
+import { AISPSection } from "@/components/marketing/AISPSection"
 import { useReveal } from "@/hooks/useReveal"
+import { Button } from "@/components/ui/button"
+import { MARKETING_IMAGES } from "@/lib/marketingImages"
 
 // P121.5 — Harvard crimson redesign. Dark hero with pulsating red orb,
 // brad_pixar avatar, Apple-style scroll story.
@@ -55,9 +60,24 @@ const HERO_KEYFRAMES = `
 `
 
 const WAYS = [
-  { icon: Mic, title: "Speak", desc: "Describe it out loud." },
-  { icon: MessageSquare, title: "Type", desc: "Write a sentence or two." },
-  { icon: SlidersHorizontal, title: "Adjust", desc: "Tweak what you see." },
+  {
+    icon: Mic,
+    title: "Speak",
+    desc: "Describe it out loud.",
+    image: MARKETING_IMAGES.microphone,
+  },
+  {
+    icon: MessageSquare,
+    title: "Type",
+    desc: "Write a sentence or two.",
+    image: MARKETING_IMAGES.codeDark,
+  },
+  {
+    icon: SlidersHorizontal,
+    title: "Adjust",
+    desc: "Tweak what you see.",
+    image: MARKETING_IMAGES.dashboard,
+  },
 ]
 
 export function Welcome() {
@@ -67,86 +87,85 @@ export function Welcome() {
   const s5 = useReveal<HTMLElement>()
 
   return (
-    <main className="dark min-h-screen bg-[var(--hb-bg)] text-[var(--hb-text-primary)]">
+    <main className="dark marketing-overhaul min-h-screen bg-[var(--hb-bg)] text-[var(--hb-text-primary)]">
       <style>{HERO_KEYFRAMES}</style>
       <MarketingNav />
 
-      {/* Section 1 — Hero with orb */}
-      <section className="relative overflow-hidden min-h-[85vh] flex items-center justify-center">
-        <HeroOrb size={600} opacity={45} />
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.05] mb-6" style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}>
-            Describe it. See it.
-          </h1>
-          <p className="text-xl md:text-2xl text-[var(--hb-text-secondary)] leading-relaxed mb-3 max-w-2xl mx-auto">
-            The website builder that finally works the way you talk.
-          </p>
-          <p className="text-sm text-[var(--hb-text-muted)] mb-8">
-            Coming from another builder?{' '}
-            <Link to="/blog/describe-it-see-it" className="text-[var(--hb-accent)] hover:underline">
-              See how it compares &rarr;
-            </Link>
-          </p>
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
-            <Link
-              to="/new-project"
-              className="inline-flex items-center gap-2 px-6 py-3 min-h-[44px] bg-[var(--hb-accent)] text-white font-semibold rounded-xl hover:bg-[var(--hb-accent-hover)] transition-colors shadow-lg"
-            >
-              Start describing
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              to="/walkthrough"
-              className="inline-flex items-center gap-2 px-6 py-3 min-h-[44px] border border-white/20 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors"
-            >
-              Watch the walkthrough <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+      {/* P125.5 / W2 — Animated hero (orb + rings + particles + waveform +
+          avatar + animated typing). Replaces the static hero shipped in P125. */}
+      <HeroAnimated />
 
-          {/* Typing demo card */}
-          <div
-            className="max-w-md mx-auto bg-[var(--hb-surface)] rounded-2xl border border-[var(--hb-border)] p-6 shadow-sm"
-            aria-hidden="true"
-          >
-            <div className="text-sm text-[var(--hb-text-muted)] mb-5 font-mono">
-              <span className="hb-hero-typing">a website for our coffee shop</span>
-            </div>
-            <div className="hb-hero-morph">
-              <div className="rounded-xl bg-[var(--hb-bg)] p-5 border border-[var(--hb-border)]">
-                <div className="h-3 w-2/3 rounded bg-[var(--hb-text-primary)] opacity-60 mb-3" />
-                <div className="h-2 w-full rounded bg-[var(--hb-text-muted)] opacity-30 mb-2" />
-                <div className="h-2 w-5/6 rounded bg-[var(--hb-text-muted)] opacity-30 mb-5" />
-                <div className="inline-block h-8 w-28 rounded-lg bg-[var(--hb-accent)]" />
-              </div>
-            </div>
-          </div>
-        </div>
+      {/* P125 / W4 — cinematic demo, now in its own breathing-room section. */}
+      <section className="px-6 py-16" style={{ backgroundColor: "var(--hb-deep)" }}>
+        <CinematicDemo />
       </section>
 
-      {/* Section 2 — It works the way you talk */}
+      {/* P125 / W5 — Stats section (capstone v8 slide 8). */}
+      <StatsSection />
+
+      {/* Section 2 — It works the way you talk (P125 / W7 redesign) */}
       <section
         id="how-it-works"
         ref={s2.ref}
-        className={`max-w-5xl mx-auto px-6 py-20 transition-all duration-700 ${
+        className={`max-w-5xl mx-auto px-6 py-24 transition-all duration-700 ${
           s2.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
-        <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">
-          It works the way you talk.
+        <div className="marketing-eyebrow mb-5">Three ways in</div>
+        <h2 className="marketing-h2 mb-4 max-w-2xl">
+          It works the way <em>you talk.</em>
         </h2>
-        <p className="text-lg text-[var(--hb-text-secondary)] leading-relaxed mb-10 max-w-2xl">
+        <p className="marketing-body max-w-2xl mb-12">
           Speak it. Type it. Drag it. Whatever feels right today.
         </p>
-        <div className="grid sm:grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-3 gap-5">
           {WAYS.map((w) => (
             <Link
               key={w.title}
               to="/new-project"
-              className="group block p-5 min-h-[44px] rounded-2xl bg-[var(--hb-surface)] border border-[var(--hb-border)] hover:border-[var(--hb-accent)]/50 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] transition-transform duration-200 hover:scale-[1.02]"
+              className="marketing-feature-card group block overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)]"
+              style={{ padding: 0 }}
             >
-              <w.icon className="w-7 h-7 text-[var(--hb-accent)] mb-3" />
-              <h3 className="text-lg font-semibold mb-1">{w.title}</h3>
-              <p className="text-sm text-[var(--hb-text-secondary)] leading-relaxed">{w.desc}</p>
+              {/* Real photo header — Ken Burns on hover */}
+              <div className="relative h-36 overflow-hidden">
+                <img
+                  src={w.image.src}
+                  alt={w.image.alt}
+                  className="absolute inset-0 w-full h-full object-cover effect-ken-burns"
+                  loading="lazy"
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(7,7,14,0.10) 0%, rgba(7,7,14,0.85) 100%)",
+                  }}
+                />
+                <w.icon
+                  className="absolute bottom-4 left-4 w-6 h-6"
+                  style={{
+                    color: "var(--hb-text-primary)",
+                    filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.6))",
+                  }}
+                />
+              </div>
+              <div className="p-6">
+                <h3
+                  className="mb-2"
+                  style={{
+                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontWeight: 400,
+                    fontSize: "26px",
+                    lineHeight: 1.1,
+                    color: "var(--hb-text-primary)",
+                  }}
+                >
+                  {w.title}
+                </h3>
+                <p className="text-[14px] leading-relaxed text-[var(--hb-text-secondary)]">
+                  {w.desc}
+                </p>
+              </div>
             </Link>
           ))}
         </div>
@@ -161,6 +180,10 @@ export function Welcome() {
       >
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
+            <span
+              className="inline-block w-12 h-1 rounded-full bg-[var(--hb-accent)] mb-4"
+              aria-hidden="true"
+            />
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-5">
               Take it anywhere.
             </h2>
@@ -180,19 +203,47 @@ export function Welcome() {
             </Link>
           </div>
 
+          {/* P125.6 — Real photo of blueprint/whiteboard work (replaces
+              the FileText icon decoration). Tilt-3D on hover for life. */}
           <div
-            className="relative bg-[var(--hb-surface)] rounded-2xl border border-[var(--hb-border)] p-8 shadow-sm min-h-[260px] flex items-center justify-center"
+            className="relative rounded-2xl overflow-hidden border border-[var(--hb-border)] shadow-sm effect-tilt-3d"
             aria-hidden="true"
+            style={{ minHeight: 280 }}
           >
-            <div className="relative">
-              <FileText className="w-20 h-20 text-[var(--hb-accent)]" strokeWidth={1.4} />
-              <div className="hb-doc-1 absolute top-2 left-10 w-12 h-14 rounded-md bg-[var(--hb-bg)] border border-[var(--hb-border)] shadow-sm" />
-              <div className="hb-doc-2 absolute top-6 left-12 w-10 h-12 rounded-md bg-[var(--hb-bg)] border border-[var(--hb-border)] shadow-sm" />
-              <div className="hb-doc-3 absolute top-10 left-8 w-11 h-13 rounded-md bg-[var(--hb-bg)] border border-[var(--hb-border)] shadow-sm" />
+            <img
+              src={MARKETING_IMAGES.blueprint.src}
+              alt={MARKETING_IMAGES.blueprint.alt}
+              className="absolute inset-0 w-full h-full object-cover effect-ken-burns"
+              loading="lazy"
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(7,7,14,0.20) 0%, rgba(7,7,14,0.55) 100%)",
+              }}
+            />
+            <div className="absolute bottom-4 left-4 right-4 marketing-mono"
+              style={{
+                fontSize: "10px",
+                letterSpacing: "0.18em",
+                color: "var(--hb-accent)",
+                backgroundColor: "rgba(0,0,0,0.45)",
+                padding: "4px 10px",
+                borderRadius: "999px",
+                border: "1px solid var(--hb-border-warm)",
+                backdropFilter: "blur(6px)",
+                width: "fit-content",
+              }}
+            >
+              SPEC HANDOFF
             </div>
           </div>
         </div>
       </section>
+
+      {/* P125 / W6 — AISP marketing section (capstone v8 slides 6+7). */}
+      <AISPSection />
 
       {/* Section 4 — Open core */}
       <section
@@ -203,6 +254,10 @@ export function Welcome() {
       >
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
+            <span
+              className="inline-block w-12 h-1 rounded-full bg-[var(--hb-accent)] mb-4"
+              aria-hidden="true"
+            />
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-5">
               Open core. Yours to keep.
             </h2>
@@ -226,44 +281,122 @@ export function Welcome() {
             </a>
           </div>
 
-          <div className="bg-[var(--hb-surface)] rounded-2xl border border-[var(--hb-border)] p-6 shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-3 mb-4">
-              <Code2 className="w-7 h-7 text-[var(--hb-text-primary)]" />
-              <span className="font-mono text-sm text-[var(--hb-text-muted)]">
-                bar181/aisp-open-core
-              </span>
-            </div>
-            <div className="rounded-lg bg-[var(--hb-bg)] p-4 font-mono text-xs text-[var(--hb-text-muted)] leading-relaxed">
-              <div className="mb-1"><span className="text-[var(--hb-accent)]">$</span> git clone</div>
-              <div className="opacity-70">&nbsp;&nbsp;the spec your AI</div>
-              <div className="opacity-70">&nbsp;&nbsp;wishes every</div>
-              <div className="opacity-70">&nbsp;&nbsp;project came with.</div>
+          {/* P125.6 — Real photo of moody dark workspace + git command card overlay */}
+          <div
+            className="relative rounded-2xl overflow-hidden border border-[var(--hb-border)] shadow-sm"
+            style={{ minHeight: 280 }}
+          >
+            <img
+              src={MARKETING_IMAGES.workspaceDark.src}
+              alt={MARKETING_IMAGES.workspaceDark.alt}
+              className="absolute inset-0 w-full h-full object-cover effect-ken-burns"
+              loading="lazy"
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(7,7,14,0.30) 0%, rgba(7,7,14,0.75) 100%)",
+              }}
+            />
+            {/* Glass-morphism git terminal card */}
+            <div
+              className="absolute bottom-5 left-5 right-5 rounded-xl p-5"
+              style={{
+                backgroundColor: "rgba(15, 15, 26, 0.78)",
+                border: "1px solid var(--hb-border-warm)",
+                backdropFilter: "blur(10px)",
+              }}
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <span className="w-2 h-2 rounded-full bg-[#ff5f57]" />
+                <span className="w-2 h-2 rounded-full bg-[#febc2e]" />
+                <span className="w-2 h-2 rounded-full bg-[#28c840]" />
+                <span className="ml-2 font-mono text-[11px] text-[var(--hb-text-muted)]">
+                  bar181/aisp-open-core
+                </span>
+              </div>
+              <div className="font-mono text-[12px] text-[var(--hb-text-secondary)] leading-relaxed">
+                <div><span className="text-[var(--hb-accent)]">$</span> git clone</div>
+                <div className="opacity-75">&nbsp;&nbsp;the spec your AI</div>
+                <div className="opacity-75">&nbsp;&nbsp;wishes every</div>
+                <div className="opacity-75">&nbsp;&nbsp;project came with.</div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Section 5 — Closing CTA */}
+      {/* P125.6 — Closing CTA hero with real photography backdrop */}
       <section
         ref={s5.ref}
-        className={`max-w-3xl mx-auto px-6 py-24 text-center transition-all duration-700 ${
+        className={`relative overflow-hidden transition-all duration-700 ${
           s5.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
-        <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-8 leading-tight">
-          From your idea to a real site, in your words.
+        <img
+          src={MARKETING_IMAGES.closing.src}
+          alt={MARKETING_IMAGES.closing.alt}
+          className="absolute inset-0 w-full h-full object-cover effect-ken-burns"
+          loading="lazy"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, var(--hb-deep) 0%, rgba(7,7,14,0.55) 30%, rgba(7,7,14,0.85) 70%, var(--hb-deep) 100%)",
+          }}
+        />
+        <div className="relative max-w-3xl mx-auto px-6 py-32 text-center">
+        <div className="marketing-eyebrow mb-5">
+          One more sentence away
+        </div>
+        <h2 className="marketing-h2 mb-8 max-w-2xl mx-auto">
+          From your idea to a real site, <em>in your words.</em>
         </h2>
-        <Link
-          to="/new-project"
-          className="inline-flex items-center gap-2 px-8 py-4 min-h-[44px] bg-[var(--hb-accent)] text-white font-semibold rounded-xl hover:bg-[var(--hb-accent-hover)] transition-colors shadow-lg text-lg"
+        {/* P122 / W8 — closing CTA promoted to shadcn Button. */}
+        <Button
+          size="lg"
+          render={<Link to="/new-project" />}
+          className="min-h-[44px] gap-2 rounded-xl px-8 py-4 text-lg font-semibold shadow-lg bg-[var(--hb-accent)] text-white hover:bg-[var(--hb-accent-hover)]"
         >
           Start describing
           <ArrowRight className="w-5 h-5" />
-        </Link>
+        </Button>
         <p className="text-xs text-[var(--hb-text-muted)] mt-8 tracking-wide">
           Open source &middot; MIT licensed &middot; ALM &middot; Harvard University
         </p>
+        </div>
       </section>
+
+      {/* P123.5 — minimal footer (carry-forward from P122 §4-A-4).
+          Links open in same tab for nav routes; GitHub opens external.
+          Tokens-only; brand-locked Crimson via var(--hb-accent). */}
+      <footer
+        className="border-t border-[var(--hb-border)] bg-[var(--hb-surface)] mt-8"
+        role="contentinfo"
+      >
+        <div className="max-w-5xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[var(--hb-text-muted)]">
+          <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2" aria-label="Footer">
+            <Link to="/blog" className="hover:text-[var(--hb-accent)] transition-colors">Blog</Link>
+            <Link to="/open-core" className="hover:text-[var(--hb-accent)] transition-colors">Open Core</Link>
+            <a
+              href="https://github.com/bar181/hey-bradley-core"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[var(--hb-accent)] transition-colors"
+            >
+              GitHub
+            </a>
+            <Link to="/aisp" className="hover:text-[var(--hb-accent)] transition-colors">
+              Built with AISP
+            </Link>
+          </nav>
+          <div className="text-[var(--hb-text-muted)]/80">
+            Harvard ALM 2026
+          </div>
+        </div>
+      </footer>
     </main>
   )
 }

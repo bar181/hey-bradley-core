@@ -262,7 +262,11 @@ export const useUIStore = create<UIStore>((set, get) => ({
   leftPanelTab: 'builder',
   selectedContext: { type: 'theme' },
   rightAccordions: { ...THEME_DEFAULTS },
-  previewWidth: 'full',
+  // P123/W2 — default to 'desktop' (1280px) so the canvas renders at real
+  // desktop scale with breathing room around it. 'full' looked under-zoomed
+  // on first load (text felt small relative to chrome). User can still flip
+  // to full/tablet/mobile from the TopBar device buttons.
+  previewWidth: 'desktop',
   isPreviewMode: false,
   leftPanelVisible: true,
   rightPanelVisible: true,

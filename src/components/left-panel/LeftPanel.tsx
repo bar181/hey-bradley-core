@@ -103,9 +103,11 @@ export function LeftPanel() {
         ))}
       </div>
 
-      {/* Tab content */}
+      {/* Tab content. P123/W2 — bumped builder panel inner padding from
+          px-3 pt-3 to px-4 pt-4 + added pb-3, so rows don't feel cramped
+          against the left edge / tab bar / scroll bottom. */}
       {activeTab === 'builder' && (
-        <div className="flex-1 overflow-auto px-3 pt-3 animate-fade-in-up" data-builder-panel>
+        <div className="flex-1 overflow-auto px-4 pt-4 pb-3 animate-fade-in-up" data-builder-panel>
           {/* Site Settings row */}
           <Tooltip content="Configure site purpose, audience, and tone" position="right">
             <div
@@ -118,7 +120,8 @@ export function LeftPanel() {
                 }
               }}
               className={cn(
-                'flex items-center gap-2.5 px-3 py-2 rounded-md cursor-pointer transition-colors border border-transparent mb-1',
+                // P123/W2 — mb-1 → mb-1.5 + py-2 → py-2.5 for slightly less cramped rows.
+                'flex items-center gap-2.5 px-3 py-2.5 rounded-md cursor-pointer transition-colors border border-transparent mb-1.5',
                 isSiteContextSelected
                   ? 'bg-hb-accent text-white border-hb-accent'
                   : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-accent/25'
@@ -142,7 +145,8 @@ export function LeftPanel() {
                 }
               }}
               className={cn(
-                'flex items-center gap-2.5 px-3 py-2 rounded-md cursor-pointer transition-colors border border-transparent',
+                // P123/W2 — py-2 → py-2.5 to match Site Settings row.
+                'flex items-center gap-2.5 px-3 py-2.5 rounded-md cursor-pointer transition-colors border border-transparent',
                 isThemeSelected
                   ? 'bg-hb-accent text-white border-hb-accent'
                   : 'bg-hb-surface hover:bg-hb-surface-hover border-hb-accent/25'
@@ -154,8 +158,8 @@ export function LeftPanel() {
             </div>
           </Tooltip>
 
-          {/* Divider */}
-          <div className="border-t border-hb-border my-2 mx-1" />
+          {/* Divider — P123/W2 my-2 → my-3 for breathing between Settings/Theme cluster and section list. */}
+          <div className="border-t border-hb-border my-3 mx-1" />
 
           {/* Section rows */}
           <SectionsSection />

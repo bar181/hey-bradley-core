@@ -16,10 +16,19 @@
  */
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { FileText, Activity, Database } from 'lucide-react'
 import { AISPDeveloperCard } from '@/components/onboarding/AISPDeveloperCard'
 import { ProcessMapSVG, type ProcessMap } from '@/components/planning/ProcessMapSVG'
 import { SpecWorkbench } from '@/components/agentics/SpecWorkbench'
 import { SealPanel } from '@/components/agentics/SealPanel'
+// P122 / W6 — Agentics observability surfaces (LLM log + DB inspector).
+// Cross-ref: ADR-043 (BYOK), ADR-126 (logging), ADR-110 (AISP visibility).
+import { LLMLogPanel } from '@/components/agentics/LLMLogPanel'
+import { DBPanel } from '@/components/agentics/DBPanel'
+// P122 / W6 — surface CostPill in Agentics header so the owner can watch
+// live BYOK cap consumption without switching modes (preflight §4-G-25).
+import { CostPill } from '@/components/shell/CostPill'
+import { useProjectStore } from '@/store/projectStore'
 import { HEY_BRADLEY_SAMPLE_MAP } from '@/data/sample-process-map'
 import {
   HEY_BRADLEY_SAMPLE_PHASES,
@@ -34,6 +43,8 @@ import {
 
 export function Agentics() {
   const phases = HEY_BRADLEY_SAMPLE_PHASES
+  // P122 / W6 — read activeProject for project-scoped LLM log + DB views.
+  const activeProjectId = useProjectStore((s) => s.activeProject)
   const [activePhaseId, setActivePhaseId] = useState<string>('foundation')
   const [activeSprintId, setActiveSprintId] = useState<string | undefined>(
     phases[0]?.sprints[0]?.id,
@@ -44,6 +55,11 @@ export function Agentics() {
   const [expandedPhaseIds, setExpandedPhaseIds] = useState<readonly string[]>([
     'foundation',
   ])
+  // Loop 2 / Agentics lift — tabbed observability. "spec" is the spec workbench
+  // (default landing), "log" is the LLM call ledger, "db" is the raw DB inspector.
+  // Tabs replace stacked panels so the visitor sees one observability surface
+  // at a time instead of the previous "stacked widgets" feel.
+  const [obsTab, setObsTab] = useState<'spec' | 'log' | 'db'>('spec')
 
   // P102 / A2 (CF#8 closure) — surface most-recent PROCESS_ATOM output from
   // log_events into the Agentics center map. Fire-and-forget per ADR-126; on
@@ -113,22 +129,34 @@ export function Agentics() {
       data-testid="agentics-mode-stub"
       className="min-h-screen bg-[var(--hb-bg)] text-[var(--hb-text-primary)]"
     >
-      <header className="border-b border-[var(--hb-border)] px-4 md:px-8 py-4 flex items-center justify-between gap-3 flex-wrap">
-        <div className="flex items-center gap-3 flex-wrap">
-          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-mono uppercase tracking-wider bg-[var(--hb-accent)]/10 text-[var(--hb-accent)]">
+      {/* Loop 2 / Agentics lift — hero header replaces the thin metadata strip.
+          Plain-English headline + subtitle gives the page identity; CostPill
+          surfaces large + always-visible at top right; back-home link demoted
+          but still focusable. */}
+      <header className="border-b border-[var(--hb-border)] bg-[var(--hb-surface)]/40">
+        <div className="px-4 md:px-8 py-2 flex items-center justify-between gap-3 border-b border-[var(--hb-border)]/60">
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[var(--hb-accent)]/10 text-[var(--hb-accent)]">
             Agentics · P95
           </span>
-          <span className="text-sm text-[var(--hb-text-secondary)] hidden md:inline">
-            Building with AISP
-          </span>
+          <div className="flex items-center gap-3 flex-shrink-0 whitespace-nowrap">
+            <CostPill />
+            <Link
+              to="/"
+              className="text-xs text-[var(--hb-text-muted)] hover:text-[var(--hb-accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] focus-visible:ring-offset-2 rounded transition-colors duration-200"
+              data-testid="agentics-back-home"
+            >
+              ← Back to home
+            </Link>
+          </div>
         </div>
-        <Link
-          to="/"
-          className="text-sm text-[var(--hb-accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] focus-visible:ring-offset-2 rounded transition-colors duration-200"
-          data-testid="agentics-back-home"
-        >
-          ← Back to home
-        </Link>
+        <div className="px-4 md:px-8 py-5 md:py-6">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--hb-text-primary)]">
+            Agentics — see how your site was built.
+          </h1>
+          <p className="mt-1.5 text-sm md:text-base text-[var(--hb-text-secondary)] max-w-2xl">
+            Every prompt, every patch, every spec. Live evidence that the assistant did the work.
+          </p>
+        </div>
       </header>
 
       <div className="flex flex-col md:flex-row min-h-[calc(100vh-64px)]">
@@ -215,43 +243,92 @@ export function Agentics() {
         >
           {activePhase ? (
             <>
-              <SpecWorkbench
-                phases={phases}
-                activePhaseId={activePhaseId}
-                activeSprintId={activeSprintId}
-              />
-              {/*
-                P99 / A8 — SealPanel mount. EOP triplets live on disk under
-                `plans/implementation/phase-{N}/seal/`; browser surface has no
-                runtime fetch yet, so eop=null shows the "No EOP yet" state.
-                Carry-forward: P101+ to add fetch/build-time pre-bake.
-              */}
-              <div className="mt-4">
-                <SealPanel
-                  phase={activePhase}
-                  eop={null}
-                  onSeal={() => {
-                    // P101 / R2 G2 fix — wire seal-event to log_events.
-                    // Fire-and-forget per ADR-126; uses 'response_summary'
-                    // event_type with kind:'seal-event' marker (avoids CHECK
-                    // enum extension at P101).
-                    try {
-                      writeLogEvent(getDB(), {
-                        id: newRequestId(),
-                        sessionId: 'agentics',
-                        requestId: newRequestId(),
-                        eventType: 'response_summary',
-                        eventData: { kind: 'seal-event', phaseId: activePhase.id },
-                        latencyMs: 0,
-                      })
-                    } catch { /* fire-and-forget per ADR-126 */ }
-                  }}
-                />
+              {/* Loop 2 / Agentics lift — tabbed observability. The 3 surfaces
+                  (Spec / LLM Log / Database) used to stack vertically and feel
+                  like 3 unrelated widgets. Tabs make them ONE observability
+                  workbench with a single visible focus at a time. */}
+              <div
+                role="tablist"
+                aria-label="Observability views"
+                data-testid="agentics-obs-tablist"
+                className="flex border-b border-[var(--hb-border)] mb-4"
+              >
+                {([
+                  { id: 'spec', label: 'Spec', icon: FileText },
+                  { id: 'log', label: 'LLM Log', icon: Activity },
+                  { id: 'db', label: 'Database', icon: Database },
+                ] as const).map(({ id, label, icon: Icon }) => {
+                  const isActive = obsTab === id
+                  return (
+                    <button
+                      key={id}
+                      role="tab"
+                      aria-selected={isActive}
+                      data-testid={`agentics-obs-tab-${id}`}
+                      type="button"
+                      onClick={() => setObsTab(id)}
+                      className={`inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--hb-accent)] focus-visible:ring-offset-2 ${
+                        isActive
+                          ? 'text-[var(--hb-accent)] border-b-2 border-[var(--hb-accent)] -mb-px'
+                          : 'text-[var(--hb-text-muted)] hover:text-[var(--hb-text-secondary)]'
+                      }`}
+                    >
+                      <Icon size={13} aria-hidden="true" />
+                      {label}
+                    </button>
+                  )
+                })}
               </div>
+
+              {obsTab === 'spec' && (
+                <div role="tabpanel" data-testid="agentics-obs-panel-spec">
+                  <SpecWorkbench
+                    phases={phases}
+                    activePhaseId={activePhaseId}
+                    activeSprintId={activeSprintId}
+                  />
+                  <div className="mt-4">
+                    <SealPanel
+                      phase={activePhase}
+                      eop={null}
+                      onSeal={() => {
+                        try {
+                          writeLogEvent(getDB(), {
+                            id: newRequestId(),
+                            sessionId: 'agentics',
+                            requestId: newRequestId(),
+                            eventType: 'response_summary',
+                            eventData: { kind: 'seal-event', phaseId: activePhase.id },
+                            latencyMs: 0,
+                          })
+                        } catch { /* fire-and-forget per ADR-126 */ }
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {obsTab === 'log' && (
+                <div role="tabpanel" data-testid="agentics-obs-panel-log">
+                  <p className="mb-3 text-xs text-[var(--hb-text-muted)]">
+                    Recent LLM calls — BYOK · redacted.
+                  </p>
+                  <LLMLogPanel projectId={activeProjectId} />
+                </div>
+              )}
+
+              {obsTab === 'db' && (
+                <div role="tabpanel" data-testid="agentics-obs-panel-db">
+                  <p className="mb-3 text-xs text-[var(--hb-text-muted)]">
+                    Raw project data — every patch, every event.
+                  </p>
+                  <DBPanel projectId={activeProjectId} />
+                </div>
+              )}
             </>
           ) : (
             <div className="text-sm text-[var(--hb-text-muted)]">
-              Select a phase from the map to see its spec.
+              Pick a phase from the map to see how it was built.
             </div>
           )}
         </aside>

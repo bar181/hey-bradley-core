@@ -11,6 +11,11 @@ const DEFAULT_MODEL = 'gemini-2.5-flash';
 // ai.google.dev/gemini-api/docs/pricing — free tier removed 2026-04-01).
 const COST_PER_M = { in: 0.30, out: 2.50 } as const;
 
+// P122 / W6 — module-level guard so the first-call confirmation logs exactly
+// once per page lifecycle (the adapter may be re-instantiated across pickAdapter
+// calls). No api key is logged — only model id + provider name.
+let firstCallLogged = false;
+
 export class GeminiAdapter implements LLMAdapter {
   private client: GoogleGenAI;
   private modelId: string;
@@ -46,17 +51,31 @@ export class GeminiAdapter implements LLMAdapter {
   }
 
   async complete(req: LLMRequest): Promise<LLMResponse> {
+    // P122 / W6 — one-line console.info on first call so the owner can confirm
+    // wiring during local BYOK smoke. No api key in the log line; provider +
+    // model only. Module-level flag fires exactly once per page lifecycle.
+    if (!firstCallLogged) {
+      firstCallLogged = true;
+      try {
+        // eslint-disable-next-line no-console
+        console.info(`[gemini] live BYOK adapter active — model=${this.modelId}`);
+      } catch { /* non-fatal */ }
+    }
     try {
       // P20 C20: Google @google/genai SDK does NOT accept a per-call signal.
       // Best-effort: race the SDK promise against the abort event so OUR side
       // resolves promptly on timeout. The SDK fetch may continue in background
       // (fire-and-forget); that's the residual leak documented in C20 GOAP.
+      // Gemini 2.5 Flash silently spends "thinking tokens" against
+      // maxOutputTokens; thinkingBudget: 0 disables it for JSON-shaped
+      // calls. 4096 cap covers the largest observed atom (~1158 out tokens).
       const sdkPromise = this.client.models.generateContent({
         model: this.modelId,
         contents: req.userPrompt,
         config: {
           systemInstruction: req.systemPrompt,
-          maxOutputTokens: 1024,
+          maxOutputTokens: 4096,
+          thinkingConfig: { thinkingBudget: 0 },
         },
       });
       const r = req.signal

@@ -6,6 +6,13 @@ import { useUIStore } from '@/store/uiStore'
 import { useIntelligenceStore } from '@/store/intelligenceStore'
 import { THEME_REGISTRY } from '@/data/themes/index'
 import { EXAMPLE_SITES } from '@/data/examples'
+// P122 / W2 — 4-card template picker assets.
+// Hey Bradley = the (rewritten) default-config; Portfolio = NEW JSON;
+// Kitchen Sink + swarm-pick (Hazel & Birch wedding planner) reuse existing
+// EXAMPLE_SITES. See plans/hitl/phase-122/session-log.md for swarm-pick rationale.
+import heyBradleyDefault from '@/data/default-config.json'
+import portfolioClean from '@/data/examples/portfolio-clean.json'
+import type { MasterConfig } from '@/lib/schemas'
 // Sprint J P50 (A5) — first-run personality step. Reuses A4's picker; the
 // import target lands when A4 seals. If the file is missing at tsc time the
 // build will surface a clear missing-module error pointing at A4 deliverable.
@@ -234,47 +241,217 @@ function ExampleCard({
 }
 
 /* ------------------------------------------------------------------ */
-/*  Theme Card                                                         */
+/*  Theme Card — REMOVED at P122 / W2.                                */
+/*  The 12-theme grid was replaced by the 4-card TemplatePicker        */
+/*  defined below. Theme browsing remains reachable via the Examples   */
+/*  tab in the left panel; see plans/hitl/phase-122/preflight.md §4-B. */
 /* ------------------------------------------------------------------ */
 
-function ThemeCard({ theme, onSelect }: { theme: ThemeJSON; onSelect: () => void }) {
-  const meta = theme.meta
-  const p = theme.theme.palette || {
-    bgPrimary: '#0a0a1a',
-    bgSecondary: '#111827',
-    textPrimary: '#f8fafc',
-    textSecondary: '#94a3b8',
-    accentPrimary: '#6366f1',
-    accentSecondary: '#818cf8',
+/* ------------------------------------------------------------------ */
+/*  Template Picker (P122 / W2)                                       */
+/* ------------------------------------------------------------------ */
+
+interface TemplateOption {
+  id: string
+  name: string
+  description: string
+  config: MasterConfig
+  /** Visual mock for the card thumb — gradient + dots. No real images. */
+  thumb: {
+    bg: string
+    accent: string
+    text: string
+    label: string
   }
+}
+
+/**
+ * Resolves the 4 template options in display order. The "swarm-pick" slot
+ * looks up Hazel & Birch (P116/B1 wedding-planner) from EXAMPLE_SITES at
+ * render-time so the picker stays decoupled from import order; if the entry
+ * is renamed or removed, we fall back to the next-best non-SaaS demo.
+ */
+function getTemplateOptions(): TemplateOption[] {
+  const kitchenSink = EXAMPLE_SITES.find((e) => e.name === 'Kitchen Sink Demo')
+  const swarmPick =
+    EXAMPLE_SITES.find((e) => e.name === 'Hazel & Birch · Wedding Planning') ??
+    EXAMPLE_SITES.find((e) => e.name === 'North Light — Wes Anderson Agency') ??
+    EXAMPLE_SITES[0]
+
+  return [
+    {
+      id: 'hey-bradley',
+      name: 'Hey Bradley',
+      description: "The builder's own site — dark theme, crimson accent, four sections.",
+      config: heyBradleyDefault as unknown as MasterConfig,
+      thumb: {
+        bg: '#0f0f10',
+        accent: '#A51C30',
+        text: '#f5f5f4',
+        label: 'Dark · Crimson',
+      },
+    },
+    {
+      id: 'kitchen-sink',
+      name: 'Kitchen Sink',
+      description: 'Every section type — use this to explore all capabilities.',
+      config: (kitchenSink?.config ?? (heyBradleyDefault as unknown as MasterConfig)) as MasterConfig,
+      thumb: {
+        bg: '#1e293b',
+        accent: '#6366f1',
+        text: '#f8fafc',
+        label: 'Reference',
+      },
+    },
+    {
+      id: 'portfolio',
+      name: 'Portfolio',
+      description: 'Clean personal site for creatives, designers, and founders.',
+      config: portfolioClean as unknown as MasterConfig,
+      thumb: {
+        bg: '#faf8f3',
+        accent: '#8a6a3f',
+        text: '#2d1f12',
+        label: 'Light · Serif',
+      },
+    },
+    {
+      id: 'swarm-pick',
+      name: swarmPick?.name ?? 'Editor Pick',
+      description:
+        swarmPick?.description ??
+        'A polished demo from the Hey Bradley template library.',
+      config: (swarmPick?.config ?? (heyBradleyDefault as unknown as MasterConfig)) as MasterConfig,
+      thumb: {
+        bg: '#f6f1e7',
+        accent: '#7a8b6a',
+        text: '#2c2a25',
+        label: 'Editor pick',
+      },
+    },
+  ]
+}
+
+function TemplateCard({
+  option,
+  selected,
+  onSelect,
+}: {
+  option: TemplateOption
+  selected: boolean
+  onSelect: () => void
+}) {
+  return (
+    <div
+      data-testid={`template-card-${option.id}`}
+      className={`group rounded-xl border bg-white overflow-hidden transition-all hover:shadow-lg hover:-translate-y-0.5 text-left flex flex-col ${
+        selected
+          ? 'border-[var(--hb-accent)] ring-2 ring-[rgb(var(--hb-accent-rgb)/0.25)] shadow-md'
+          : 'border-[var(--hb-mkt-border)] hover:border-[rgb(var(--hb-accent-rgb)/0.3)]'
+      }`}
+    >
+      {/* Preview thumb — pure CSS mock, no real images required. */}
+      <div
+        className="relative aspect-[16/10] flex flex-col items-center justify-center gap-3"
+        style={{
+          background: `linear-gradient(135deg, ${option.thumb.bg} 0%, ${option.thumb.bg} 60%, ${option.thumb.accent}33 100%)`,
+        }}
+        aria-hidden="true"
+      >
+        <div
+          className="w-2/3 h-2 rounded-full opacity-90"
+          style={{ background: option.thumb.text }}
+        />
+        <div
+          className="w-1/2 h-1.5 rounded-full opacity-60"
+          style={{ background: option.thumb.text }}
+        />
+        <div className="flex gap-2 mt-1">
+          <div
+            className="w-12 h-3 rounded"
+            style={{ background: option.thumb.accent }}
+          />
+          <div
+            className="w-12 h-3 rounded border"
+            style={{ borderColor: option.thumb.text, opacity: 0.5 }}
+          />
+        </div>
+        {selected && (
+          <span className="absolute top-2 right-2 text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-[var(--hb-accent)] text-white shadow-sm">
+            Selected
+          </span>
+        )}
+        <span
+          className="absolute bottom-2 left-2 text-[10px] font-medium px-1.5 py-0.5 rounded-full backdrop-blur-sm"
+          style={{
+            background: `${option.thumb.bg}cc`,
+            color: option.thumb.text,
+            border: `1px solid ${option.thumb.text}33`,
+          }}
+        >
+          {option.thumb.label}
+        </span>
+      </div>
+      <div className="px-4 py-3 flex-1 flex flex-col">
+        <div className="text-sm font-semibold text-[var(--hb-mkt-text)]">{option.name}</div>
+        <div className="text-xs text-[var(--hb-mkt-text-muted)] mt-1 line-clamp-2 flex-1">
+          {option.description}
+        </div>
+        <button
+          type="button"
+          onClick={onSelect}
+          data-testid={`template-card-${option.id}-button`}
+          className="mt-3 w-full px-3 py-2 rounded-lg bg-[var(--hb-accent)] text-white text-xs font-medium hover:bg-[var(--hb-crimson-deep)] transition-colors shadow-sm"
+        >
+          Use this template
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function TemplatePicker({
+  onSelect,
+  defaultTemplateId,
+}: {
+  onSelect: (option: TemplateOption) => void
+  defaultTemplateId: string
+}) {
+  const options = getTemplateOptions()
+  const [selectedId, setSelectedId] = useState<string>(defaultTemplateId)
 
   return (
-    <button
-      type="button"
-      onClick={onSelect}
-      className="group rounded-xl border border-[var(--hb-mkt-border)] bg-white overflow-hidden transition-all hover:shadow-lg hover:border-[rgb(var(--hb-accent-rgb)/0.3)] hover:-translate-y-0.5 text-left"
+    <div
+      className="bg-white rounded-2xl border border-[var(--hb-mkt-border)] shadow-sm overflow-hidden"
+      data-testid="template-picker"
     >
-      {/* Preview screenshot */}
-      <div className="relative overflow-hidden bg-[var(--hb-paper-tile)]">
-        <img
-          src={`/previews/theme-${meta.slug}.png`}
-          alt={`${meta.name} theme preview`}
-          loading="lazy"
-          className="aspect-[16/10] w-full object-cover object-top"
-          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
-        />
-        {/* Palette dots overlay */}
-        <div className="absolute bottom-2 left-2 flex gap-1">
-          {[p.bgPrimary, p.accentPrimary, p.textPrimary].map((c, i) => (
-            <div key={i} className="w-3 h-3 rounded-full border border-white/30 shadow-sm" style={{ backgroundColor: c }} />
+      <div className="px-5 py-4 border-b border-[var(--hb-mkt-border)] flex items-center justify-between">
+        <div>
+          <h2 className="text-sm font-semibold text-[var(--hb-mkt-text)]">Pick a template</h2>
+          <p className="text-xs text-[var(--hb-mkt-text-faint)] mt-0.5">
+            Hey Bradley is selected by default — pick another to start somewhere else.
+          </p>
+        </div>
+        <span className="text-[10px] font-medium text-[var(--hb-mkt-text-faint)] bg-[var(--hb-mkt-chip-bg)] px-2 py-1 rounded-full">
+          4 templates
+        </span>
+      </div>
+      <div className="p-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {options.map((opt) => (
+            <TemplateCard
+              key={opt.id}
+              option={opt}
+              selected={selectedId === opt.id}
+              onSelect={() => {
+                setSelectedId(opt.id)
+                onSelect(opt)
+              }}
+            />
           ))}
         </div>
       </div>
-      <div className="px-3.5 py-2.5">
-        <div className="text-sm font-medium text-[var(--hb-mkt-text)] group-hover:text-[var(--hb-accent)] transition-colors">{meta.name}</div>
-        <div className="text-[11px] text-[var(--hb-mkt-text-faint)] mt-0.5">{meta.mood}</div>
-      </div>
-    </button>
+    </div>
   )
 }
 
@@ -498,17 +675,21 @@ export function Onboarding() {
     (e) => !DEFAULT_EXAMPLE_NAMES.includes(e.name as typeof DEFAULT_EXAMPLE_NAMES[number])
   )
 
-  const handleThemeSelect = (slug: string) => {
-    applyVibe(slug)
-    // Persist to localStorage so useAutoSave doesn't overwrite on builder mount
-    const config = useConfigStore.getState().config
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
-    // P114 / A1 fix #1 — also write to canonical projects table so autosave
-    // observes a non-null activeProject and Welcome's recent-projects card
-    // sees the new row. Slug derives from theme name via toSlug() inside the
-    // store; same-name re-pick overwrites prior row (acceptable for theme).
-    const themeName = `${slug.charAt(0).toUpperCase()}${slug.slice(1)} Site`
-    saveProject(themeName, config)
+  // P122 / W2 — handleThemeSelect REMOVED. Theme picker grid replaced by
+  // TemplatePicker in the right panel. The 12-theme grid was its only caller;
+  // keeping the handler would trip TS6133 (noUnusedLocals).
+
+  // P122 / W2 — 4-card template picker handler. Mirrors handleExampleSelect:
+  // load the selected MasterConfig into the store, persist a canonical project
+  // row keyed on the template name, then navigate to /builder.
+  const handleTemplateSelect = (option: TemplateOption) => {
+    loadConfig(option.config)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(option.config))
+    saveProject(option.name, option.config)
+    const heroSection = option.config.sections?.find((s) => s.type === 'hero' && s.enabled)
+    if (heroSection) {
+      setSelectedContext({ type: 'section', sectionId: heroSection.id })
+    }
     navigate('/builder')
   }
 
@@ -876,31 +1057,19 @@ export function Onboarding() {
             <CollapsibleCapabilities />
           </div>
 
-          {/* ===== RIGHT PANEL: Themes ===== */}
+          {/* ===== RIGHT PANEL: Templates (P122 / W2 — 4-card picker) ===== */}
+          {/* Hey Bradley default-selected · Kitchen Sink · Portfolio · swarm-pick. */}
+          {/* Replaces the prior 12-theme grid; theme browsing is reachable via */}
+          {/* the Examples tab in the left panel + via Settings post-onboarding. */}
           <div className="lg:col-span-7">
-            <div className="bg-white rounded-2xl border border-[var(--hb-mkt-border)] shadow-sm overflow-hidden">
-              <div className="px-5 py-4 border-b border-[var(--hb-mkt-border)] flex items-center justify-between">
-                <div>
-                  <h2 className="text-sm font-semibold text-[var(--hb-mkt-text)]">Choose a Theme</h2>
-                  <p className="text-xs text-[var(--hb-mkt-text-faint)] mt-0.5">Pick a visual style as your starting point</p>
-                </div>
-                <span className="text-[10px] font-medium text-[var(--hb-mkt-text-faint)] bg-[var(--hb-mkt-chip-bg)] px-2 py-1 rounded-full">
-                  {(THEME_REGISTRY as unknown as ThemeJSON[]).length} themes
-                </span>
-              </div>
-              <div className="p-4">
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {(THEME_REGISTRY as unknown as ThemeJSON[]).map((t) => (
-                    <ThemeCard
-                      key={t.meta.slug}
-                      theme={t}
-                      onSelect={() => handleThemeSelect(t.meta.slug)}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-
+            <TemplatePicker
+              onSelect={handleTemplateSelect}
+              defaultTemplateId="hey-bradley"
+            />
+            <p className="mt-3 text-[11px] text-[var(--hb-mkt-text-faint)] text-center">
+              Looking for a specific aesthetic? Browse {(THEME_REGISTRY as unknown as ThemeJSON[]).length} themes
+              on the <span className="font-medium">Examples</span> tab on the left.
+            </p>
           </div>
 
         </div>

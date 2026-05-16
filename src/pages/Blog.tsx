@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { ArrowRight, Clock, Share2, Check } from 'lucide-react'
 import { MarketingNav } from '@/components/MarketingNav'
+import { Button } from '@/components/ui/button'
 import {
   listBlogPosts,
   categoryOf,
@@ -194,28 +195,32 @@ export function Blog() {
         </section>
       )}
 
-      {/* Category filter */}
+      {/* Category filter — P122 / W8: pills upgraded to shadcn Button so the
+          active/inactive state matches the rest of the site's button language.
+          Brand color stays var(--hb-accent) via className override. */}
       <section className="max-w-6xl mx-auto px-4 md:px-6 pb-6" data-testid="blog-category-filter">
         <div className="flex flex-wrap items-center gap-2" role="tablist" aria-label="Filter posts by category">
           {CATEGORY_TABS.map((tab) => {
             const active = activeCategory === tab.key
             return (
-              <button
+              <Button
                 key={tab.key}
                 type="button"
                 role="tab"
                 aria-selected={active}
                 onClick={() => setCategory(tab.key)}
                 data-testid={`blog-category-${tab.key}`}
+                size="sm"
+                variant={active ? 'default' : 'outline'}
                 className={
-                  'text-sm px-5 py-2.5 rounded-full border transition-all font-medium ' +
+                  'rounded-full px-5 h-9 text-sm font-medium ' +
                   (active
-                    ? 'bg-[var(--hb-accent)] border-[var(--hb-accent)] text-white shadow-lg shadow-[var(--hb-accent)]/20'
-                    : 'bg-[var(--hb-surface)] border-[var(--hb-border)] text-[var(--hb-text-muted)] hover:text-[var(--hb-text-primary)] hover:border-[var(--hb-accent)]/40')
+                    ? 'bg-[var(--hb-accent)] border-[var(--hb-accent)] text-white shadow-lg shadow-[var(--hb-accent)]/20 hover:bg-[var(--hb-accent-hover)]'
+                    : 'bg-[var(--hb-surface)] border-[var(--hb-border)] text-[var(--hb-text-muted)] hover:text-[var(--hb-text-primary)] hover:bg-[var(--hb-surface)] hover:border-[var(--hb-accent)]/40')
                 }
               >
                 {tab.label}
-              </button>
+              </Button>
             )
           })}
         </div>

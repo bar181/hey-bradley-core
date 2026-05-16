@@ -1,6 +1,13 @@
 # P121 / HITL Pre-Merge Gate — Retrospective
 
-> **Status as of 2026-05-08:** Code-side gate green; human review surfaced UX gaps that scope P122; awaiting merge to close.
+> **STATUS: ✅ SEALED 2026-05-08**
+>
+> v2.0.0-RC1 merged to `main` (PR #1, no-squash, 359 commits preserved). Vercel
+> production deploy verified end-to-end. Hotfix `vercel.json` SPA rewrite
+> shipped same day after live `/builder` 404 was reported. All P121 DoD checks
+> green. Two carry-forwards (`CF-P122-A` lockfile-under-Node-22; `CF-P121-2/3/4`
+> post-merge owner-actions) hand off to P122. Workflow shifts to feature-branch
+> for P122+ — no more direct main pushes.
 
 ---
 

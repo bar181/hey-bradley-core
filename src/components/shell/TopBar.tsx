@@ -164,8 +164,24 @@ export function TopBar() {
             <Settings size={16} />
           </button>
         </Tooltip>
-        {/* Save status indicator */}
-        <span className={`text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded ${isDirty ? 'text-amber-400/80' : 'text-green-400/80'}`}>
+        {/* Save status indicator — Loop 4 polish: pill with status dot
+            (green = saved, amber pulsing = unsaved). Reads as a real
+            "save state" pill instead of a raw text label. */}
+        <span
+          className={`flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full border ${
+            isDirty
+              ? 'border-amber-400/40 bg-amber-400/10 text-amber-300'
+              : 'border-green-400/30 bg-green-400/10 text-green-300'
+          }`}
+          aria-live="polite"
+          title={isDirty ? 'Unsaved changes — autosave runs every few seconds.' : 'All changes saved locally.'}
+        >
+          <span
+            className={`w-1.5 h-1.5 rounded-full ${
+              isDirty ? 'bg-amber-400 animate-pulse' : 'bg-green-400'
+            }`}
+            aria-hidden="true"
+          />
           {isDirty ? 'Unsaved' : 'Saved'}
         </span>
       </div>

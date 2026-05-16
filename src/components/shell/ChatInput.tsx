@@ -568,8 +568,11 @@ export function ChatInput() {
   return (
     <div className="flex flex-col h-full">
       {/* P19 Fix-Pass 2 (F13): simulated-mode header pill so users know they
-          aren't hitting a real LLM. Pinned above the messages area. */}
-      <div className="px-4 py-1.5 border-b border-hb-border/40 flex items-center gap-1.5">
+          aren't hitting a real LLM. Pinned above the messages area.
+          P122 / W4 — `flex-wrap` so SHARE SPEC + EXPORT + SIMULATED MODE +
+          PROFESSIONAL chips remain visible at 1280px (preflight §4-D-10).
+          KISS: no horizontal-scroll wrapper needed when wrap fits the bill. */}
+      <div className="px-4 py-1.5 border-b border-hb-border/40 flex flex-wrap items-center gap-1.5 min-w-0">
         {/* Sprint J P52 (A8) — desktop-only Share Spec; mobile mount via A10 (P53). */}
         <span className="hidden md:inline-flex"><ShareSpecButton /></span>
         <span className="hidden md:inline-flex"><ExportStaticHtmlButton /></span>

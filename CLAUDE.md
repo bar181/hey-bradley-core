@@ -190,12 +190,14 @@ npx @claude-flow/cli@latest daemon start
 
 | Item | Value |
 |---|---|
-| **Main** | `0d44a17b0` — v2.0.0-RC1 merged to `main` 2026-05-08 (PR #1, no-squash, 359 commits preserved) |
+| **Main** | `5b3d52398` — v2.0.0-RC1 merged to `main` 2026-05-08 + 4 follow-up commits (P121 close-out, Vercel URL, `vercel.json` SPA hotfix, P122 bug log) |
 | **Tag** | `v2.0.0-RC1` (points at prep commit `0818e42b6`) |
-| **Last sealed** | **P121 / HITL Pre-Merge Gate** — see `plans/hitl/phase-121/retrospective.md` |
-| **Active** | **P122 / UX-OVERHAUL** — staged 40 → 50/100 UI lift; nav locked, Hey Bradley dark/crimson default template, ListenPreview component, builder critical fixes; see `plans/hitl/phase-122/preflight.md` |
-| **Next** | **P123** — UI continuation 50 → 65/100 (panel proportions, resizable panels, public below-fold) |
-| **Then** | **P124** — Gemini demo mode (`/api/demo-chat`, server-side key, IP rate limit, dollar cap; owner provides key at start) |
+| **Active branch** | `swarm/p122-ux-overhaul` (P122 + P123 seals local-only; P124 cuts a fresh branch off the P123 seal once owner approves) |
+| **Last sealed** | **P123 / UX-CONTINUATION + LLM-LIVE + multi-loop review (Loops 1-5)** ✅ — see `plans/hitl/phase-123/PUBLISHABLE-REPORT.md` (Welcome 91 / Builder 90 / Agentics 91 / Walkthrough 93 / Contact 92 / Capstone 88 / Blog 89 / AISP 90; composite **90.5/100** across 8 surfaces; 13 live Gemini calls / $0.008163 / 100% pass; 36/41 functional tests PASS / 0 FAIL / 5 deferred to owner runbooks; STT confirmed Web Speech API; build green 637 KB gzip; ARCH 12/12) |
+| **Composite quality** | **90.5/100** across 8 surfaces (8 of 8 ≥85; 5 of 8 ≥90; 2 above modern peer); cumulative LLM spend $0.008326 / $1.00 cap = 0.83% used (14 / 50 session-call cap) |
+| **Active phase** | **P124 / VERCEL DEMO MODE + CARRY-FORWARDS** — `/api/demo-chat` server-side Gemini route + IP rate limit + dollar cap + close 6 P123 carry-forwards (CF-Loop3-thinking, CF-OWNER-1 in-app CostPill verify, CF-OWNER-2 mic runbook, CF-P124-Vercel demo route, CF-shadcn-105LOC sweep, CF-asset-acquisition); see `plans/hitl/phase-124/preflight.md` |
+| **Next** | **P125** — open scope (reassess at P124 close) |
+| **Then** | TBD post-P124 retrospective |
 | **Capstone** | Harvard ALM defense complete — 10/10, May 2026 |
 
 ---

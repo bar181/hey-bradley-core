@@ -81,13 +81,16 @@ export async function initDB(): Promise<Database> {
       : (typeof (fromDefault as { default?: InitFn } | undefined)?.default === 'function'
           ? (fromDefault as { default: InitFn }).default
           : (sqljsModule as unknown as InitFn));
+    // Standardised WASM path per ADR/P122 W5: `/sql-wasm.wasm` at site root.
     // Fetch WASM with credentials so Codespaces proxy auth cookies are sent.
     // Without this, the proxy returns an HTML auth page instead of the binary.
-    const wasmUrl = new URL('/sqljs/sql-wasm.wasm', window.location.origin).href;
+    const wasmUrl = new URL('/sql-wasm.wasm', window.location.origin).href;
     const wasmResponse = await fetch(wasmUrl, { credentials: 'same-origin' });
     if (!wasmResponse.ok) throw new Error(`WASM fetch failed: ${wasmResponse.status}`);
     const wasmBinary = await wasmResponse.arrayBuffer();
-    SQL = await initSqlJs({ wasmBinary });
+    // `locateFile` is also passed for completeness — sql.js falls back to it if
+    // wasmBinary is unavailable (e.g. test environments that bypass fetch).
+    SQL = await initSqlJs({ wasmBinary, locateFile: () => '/sql-wasm.wasm' });
 
     const buf = await idbGet<ArrayBuffer | Uint8Array>(IDB_KEY);
     const db: Database = buf

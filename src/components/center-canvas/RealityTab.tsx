@@ -366,12 +366,19 @@ export function RealityTab() {
     return (
       <div ref={containerRef} className="min-h-full flex items-center justify-center p-8">
         {isMultiPage && <MultiPageNav />}
-        <div className="text-center">
-          <div className="w-16 h-16 rounded-full bg-hb-accent/10 flex items-center justify-center mx-auto mb-4">
-            <Layout size={28} className="text-hb-accent" />
+        {/* Loop 2 / Builder lift — welcome empty state with crimson accent ring,
+            larger orb, two concrete next steps. Treats first-load as a moment,
+            not a void. */}
+        <div className="text-center max-w-md">
+          <div className="w-20 h-20 rounded-full bg-hb-accent/10 ring-4 ring-hb-accent/20 flex items-center justify-center mx-auto mb-5">
+            <Layout size={32} className="text-hb-accent" />
           </div>
-          <p className="text-lg text-hb-text-muted font-medium">Your site preview will appear here.</p>
-          <p className="text-sm text-hb-text-muted/60 mt-2">Start by adding sections from the left panel.</p>
+          <p className="text-xl text-hb-text-primary font-bold tracking-tight">Welcome to Hey Bradley.</p>
+          <p className="text-sm text-hb-text-muted mt-3 leading-relaxed">
+            Start by describing your site in <span className="font-semibold text-hb-text-secondary">Chat</span>,{' '}
+            or click <span className="font-semibold text-hb-text-secondary">+ Add Section</span> in the left
+            panel to start building.
+          </p>
         </div>
       </div>
     )

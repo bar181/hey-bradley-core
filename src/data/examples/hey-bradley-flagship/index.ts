@@ -3,15 +3,31 @@
 // moat priorities (features), scoreboard (numbers), AISP architecture (text), open
 // core vs commercial (pricing), testimonials (quotes), CTA, footer. ≥8 sections,
 // real copy, no Lorem.
+//
+// P125 — Harvard depth palette + Cormorant Garamond. The default template now
+// loads in the same dark/crimson visual language as the marketing-overhaul on
+// /. So a reviewer who opens the builder for the first time sees the
+// designed product, not flat parchment. Buttons match the Welcome.tsx pill-shape
+// CTAs via borderRadius: '9999px'. Image-creation-list 1A captures this state.
 
 import type { MasterConfig } from '@/lib/schemas'
 
-const CRIMSON = '#A51C30'      // Harvard crimson — the brand accent
-const ORANGE = '#e8772e'        // CTA accent
-const CREAM = '#faf8f5'         // background
-const PARCHMENT = '#f1ece4'     // section alt
-const INK = '#2d1f12'           // text primary
-const TAUPE = '#6b5e4f'         // text secondary
+const CRIMSON = '#A51C30'      // Harvard crimson — primary accent / CTA
+const HARVARD_BLUE = '#6578B4'  // Harvard Blue 2 — data/research accent only
+const VOID = '#000000'          // pure black — hero
+const DEEP = '#07070e'          // near-black — main bg
+const SURFACE = '#0f0f1a'       // elevated card bg
+const WARM_WHITE = '#f0ede5'    // text primary (warm, not pure)
+const WARM_DIM = '#a8a39a'      // text secondary
+
+// Legacy aliases — map the original light-mode token names to the new
+// Harvard depth values so the section-style block expressions below
+// (`style: { background: CREAM, color: INK }` etc.) keep resolving
+// without per-section rewrites.
+const CREAM = DEEP        // was '#faf8f5'    (parchment bg → near-black)
+const PARCHMENT = SURFACE // was '#f1ece4'    (parchment alt → surface)
+const INK = WARM_WHITE    // was '#2d1f12'    (espresso text → warm white)
+const TAUPE = WARM_DIM    // was '#6b5e4f'    (warm muted → warm dim)
 
 const heyBradleyFlagship: MasterConfig = {
   site: {
@@ -32,27 +48,27 @@ const heyBradleyFlagship: MasterConfig = {
   },
   theme: {
     preset: 'wellness',
-    mode: 'light',
+    mode: 'dark',
     palette: {
-      bgPrimary: CREAM,
-      bgSecondary: PARCHMENT,
-      textPrimary: INK,
-      textSecondary: TAUPE,
+      bgPrimary: DEEP,
+      bgSecondary: SURFACE,
+      textPrimary: WARM_WHITE,
+      textSecondary: WARM_DIM,
       accentPrimary: CRIMSON,
-      accentSecondary: ORANGE,
+      accentSecondary: HARVARD_BLUE,
     },
     alternatePalette: {
-      bgPrimary: INK,
-      bgSecondary: '#3d2e1c',
-      textPrimary: CREAM,
-      textSecondary: '#c0b6a8',
-      accentPrimary: ORANGE,
-      accentSecondary: CRIMSON,
+      bgPrimary: VOID,
+      bgSecondary: DEEP,
+      textPrimary: WARM_WHITE,
+      textSecondary: WARM_DIM,
+      accentPrimary: CRIMSON,
+      accentSecondary: HARVARD_BLUE,
     },
     typography: {
-      fontFamily: 'Inter',
-      headingFamily: 'Instrument Serif',
-      headingWeight: 600,
+      fontFamily: 'DM Sans',
+      headingFamily: 'Cormorant Garamond',
+      headingWeight: 300,
       baseSize: '17px',
       lineHeight: 1.65,
     },
@@ -61,7 +77,7 @@ const heyBradleyFlagship: MasterConfig = {
       containerMaxWidth: '1180px',
       componentGap: '32px',
     },
-    borderRadius: '12px',
+    borderRadius: '14px',
   },
   sections: [
     {
@@ -82,11 +98,11 @@ const heyBradleyFlagship: MasterConfig = {
       layout: { display: 'flex', direction: 'column', align: 'center', gap: '32px', padding: '128px 24px 96px', maxWidth: '1080px' },
       style: { background: CREAM, color: INK, fontFamily: 'Instrument Serif', borderRadius: '0px' },
       components: [
-        { id: 'eyebrow', type: 'badge', enabled: true, order: 0, props: { text: 'AISP 5.1 Platinum · Harvard Capstone May 2026 · v1.0.0-RC1', variant: 'pill' } },
-        { id: 'headline', type: 'heading', enabled: true, order: 1, props: { text: 'Tell Bradley what you want. Watch it appear.', level: 1, size: '72px', weight: 600 } },
-        { id: 'subtitle', type: 'text', enabled: true, order: 2, props: { text: 'A whiteboard that listens, builds what you describe in real-time, and secretly writes enterprise specs behind the scenes. Local-only. BYOK. No backend. The spec is the moat.' } },
-        { id: 'primaryCta', type: 'button', enabled: true, order: 3, props: { text: 'Try it now', url: '/builder', style: 'filled', size: 'lg' } },
-        { id: 'secondaryCta', type: 'button', enabled: true, order: 4, props: { text: 'Read the AISP spec', url: '/aisp', style: 'outline', size: 'lg' } },
+        { id: 'eyebrow', type: 'badge', enabled: true, order: 0, props: { text: 'Harvard Extension School · ALM · May 2026', variant: 'pill' } },
+        { id: 'headline', type: 'heading', enabled: true, order: 1, props: { text: 'Describe it. See it.', level: 1, size: '96px', weight: 300 } },
+        { id: 'subtitle', type: 'text', enabled: true, order: 2, props: { text: 'Your voice is the whiteboard. Hey Bradley turns any idea into a visual site and a formal spec — while you\'re still talking.' } },
+        { id: 'primaryCta', type: 'button', enabled: true, order: 3, props: { text: 'Start describing', url: '/builder', style: 'filled', size: 'lg' } },
+        { id: 'secondaryCta', type: 'button', enabled: true, order: 4, props: { text: 'Watch the walkthrough', url: '/walkthrough', style: 'outline', size: 'lg' } },
         { id: 'tertiary', type: 'link', enabled: true, order: 5, props: { text: 'Open core on GitHub →', url: 'https://github.com/bar181/hey-bradley-core' } },
       ],
       content: {},

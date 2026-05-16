@@ -1,0 +1,374 @@
+{
+  "_storytellingPreset": "founder-direct",
+  "_note": "P122 / W2 — Clean personal portfolio template (Card 3 in onboarding picker). Light theme, serif typography, warm. Hero placeholder copy: 'Your Name Here' / 'Designer · Builder · Maker'. 4 sections: Hero + Gallery (3-col) + About + Contact. Replaces stock-photo emptiness with named-pieces-from-life intent so a first-time user can swap the placeholders one at a time.",
+  "site": {
+    "title": "Your Name — Portfolio",
+    "description": "Clean personal site for creatives, designers, and founders. Replace the placeholders. Make it yours.",
+    "author": "Your Name",
+    "email": "hello@yourname.com",
+    "domain": "yourname.com",
+    "project": "portfolio-clean",
+    "version": "1.0.0-RC1",
+    "spec": "aisp-1.2",
+    "purpose": "portfolio",
+    "audience": "consumer",
+    "tone": "warm",
+    "brandName": "Your Name",
+    "tagline": "Designer · Builder · Maker",
+    "voiceAttributes": ["warm", "personal", "specific", "founder-direct"],
+    "storytellingPreset": "founder-direct"
+  },
+  "theme": {
+    "preset": "personal",
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#faf8f3",
+      "bgSecondary": "#f1ece4",
+      "textPrimary": "#2d1f12",
+      "textSecondary": "#6b5e4f",
+      "accentPrimary": "#8a6a3f",
+      "accentSecondary": "#b08a3e"
+    },
+    "alternatePalette": {
+      "bgPrimary": "#1a1410",
+      "bgSecondary": "#2c241c",
+      "textPrimary": "#faf8f3",
+      "textSecondary": "#cfc6b1",
+      "accentPrimary": "#d8b673",
+      "accentSecondary": "#a3947a"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Fraunces",
+      "headingWeight": 500,
+      "baseSize": "17px",
+      "lineHeight": 1.7
+    },
+    "spacing": {
+      "sectionPadding": "112px",
+      "containerMaxWidth": "1080px",
+      "componentGap": "32px"
+    },
+    "borderRadius": "6px"
+  },
+  "sections": [
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "padding": "24px 32px",
+        "gap": "32px",
+        "maxWidth": "1080px"
+      },
+      "style": {
+        "background": "#faf8f3",
+        "color": "#2d1f12"
+      },
+      "components": [
+        { "id": "logo", "type": "text", "enabled": true, "order": 0, "props": { "text": "Your Name" } },
+        { "id": "nav-1", "type": "link", "enabled": true, "order": 1, "props": { "text": "Work", "url": "#work" } },
+        { "id": "nav-2", "type": "link", "enabled": true, "order": 2, "props": { "text": "About", "url": "#about" } },
+        { "id": "nav-3", "type": "link", "enabled": true, "order": 3, "props": { "text": "Contact", "url": "#contact" } }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "20px",
+        "padding": "120px 24px",
+        "maxWidth": "880px"
+      },
+      "style": {
+        "background": "#faf8f3",
+        "color": "#2d1f12"
+      },
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Open for new work",
+            "icon": "circle",
+            "variant": "pill"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Your Name Here",
+            "level": 1,
+            "size": "72px",
+            "weight": 500
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Designer · Builder · Maker"
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "See the work",
+            "url": "#work",
+            "style": "filled",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "secondaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "Say hello",
+            "url": "#contact",
+            "style": "outline",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "heroImage",
+          "type": "image",
+          "enabled": false,
+          "order": 5,
+          "props": {}
+        },
+        {
+          "id": "backgroundImage",
+          "type": "image",
+          "enabled": false,
+          "order": 6,
+          "props": {}
+        },
+        {
+          "id": "heroVideo",
+          "type": "video",
+          "enabled": false,
+          "order": 7,
+          "props": {}
+        },
+        {
+          "id": "trustBadges",
+          "type": "trust",
+          "enabled": false,
+          "order": 8,
+          "props": { "text": "", "show": false }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "gallery",
+      "id": "work-01",
+      "enabled": true,
+      "order": 1,
+      "variant": "grid",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "24px",
+        "padding": "112px 24px"
+      },
+      "style": {
+        "background": "#f1ece4",
+        "color": "#2d1f12"
+      },
+      "components": [
+        {
+          "id": "g1",
+          "type": "gallery-item",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "title": "Project One",
+            "subtitle": "Brand identity · 2025",
+            "description": "One sentence about what made this piece worth making."
+          }
+        },
+        {
+          "id": "g2",
+          "type": "gallery-item",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "title": "Project Two",
+            "subtitle": "Web design · 2025",
+            "description": "What you reached for. What you actually shipped."
+          }
+        },
+        {
+          "id": "g3",
+          "type": "gallery-item",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "title": "Project Three",
+            "subtitle": "Editorial · 2024",
+            "description": "The constraint that turned out to be the gift."
+          }
+        }
+      ],
+      "content": {
+        "heading": "Selected work",
+        "subheading": "A small, careful collection. Replace these with yours."
+      }
+    },
+    {
+      "type": "text",
+      "id": "about-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "single",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "112px 24px",
+        "gap": "20px",
+        "maxWidth": "720px"
+      },
+      "style": {
+        "background": "#faf8f3",
+        "color": "#2d1f12"
+      },
+      "components": [
+        {
+          "id": "about-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "About",
+            "level": 2,
+            "size": "40px",
+            "weight": 500
+          }
+        },
+        {
+          "id": "about-body",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Tell the short version of your story here. Where you started. What you make. Who you make it with. Replace this paragraph with two or three sentences in your own voice — Bradley will keep the typography and rhythm."
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "action",
+      "id": "contact-01",
+      "enabled": true,
+      "order": 3,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "112px 24px",
+        "gap": "20px"
+      },
+      "style": {
+        "background": "#f1ece4",
+        "color": "#2d1f12"
+      },
+      "components": [
+        {
+          "id": "heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Let's make something",
+            "level": 2,
+            "size": "44px",
+            "weight": 500
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Open for select projects this season. Tell me what you're making."
+          }
+        },
+        {
+          "id": "button",
+          "type": "button",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Say hello",
+            "url": "mailto:hello@yourname.com",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "footer",
+      "id": "footer-01",
+      "enabled": true,
+      "order": 4,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "padding": "32px 24px",
+        "gap": "8px"
+      },
+      "style": {
+        "background": "#faf8f3",
+        "color": "#6b5e4f"
+      },
+      "components": [
+        {
+          "id": "brand",
+          "type": "footer-brand",
+          "enabled": true,
+          "order": 0,
+          "props": { "text": "Your Name" }
+        },
+        {
+          "id": "copyright",
+          "type": "footer-copyright",
+          "enabled": true,
+          "order": 1,
+          "props": { "text": "© 2026 Your Name. All work hand-made." }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}
