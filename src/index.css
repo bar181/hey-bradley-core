@@ -199,6 +199,16 @@ body {
     --hb-accent-dim:     rgba(165, 28, 48, 0.15);
     --hb-blue:           #6578B4;
     --hb-blue-dim:       rgba(101, 120, 180, 0.15);
+
+    /* P125.7 — Non-brand visualization + chrome tokens (added to keep
+       src/components/ free of hex literals per ADR-087). The hex values
+       live here in CSS only; TSX references them as var(--token). */
+    --hb-d3-core-hot:    #ff5566;  /* AtomGalaxy D3 nucleus inner stop */
+    --hb-d3-core-dark:   #2a0810;  /* AtomGalaxy D3 nucleus outer stop */
+    --hb-traffic-red:    #ff5f57;  /* CinematicDemo macOS window dot */
+    --hb-traffic-yellow: #febc2e;  /* CinematicDemo macOS window dot */
+    --hb-traffic-green:  #28c840;  /* CinematicDemo macOS window dot */
+    --hb-live-dot:       #6BCB77;  /* HeroAnimated live status indicator */
   }
 
   /* P125 — Marketing typography (Cormorant Garamond + DM Mono).

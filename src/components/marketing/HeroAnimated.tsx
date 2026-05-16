@@ -161,7 +161,7 @@ export function HeroAnimated() {
           <span
             className="w-1.5 h-1.5 rounded-full"
             style={{
-              backgroundColor: "#6BCB77",
+              backgroundColor: "var(--hb-live-dot)",
               boxShadow: "0 0 8px rgba(107, 203, 119, 0.7)",
             }}
           />

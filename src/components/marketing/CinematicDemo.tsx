@@ -71,9 +71,9 @@ export function CinematicDemo() {
             borderBottom: "1px solid var(--hb-border)",
           }}
         >
-          <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
-          <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
-          <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+          <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "var(--hb-traffic-red)" }} />
+          <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "var(--hb-traffic-yellow)" }} />
+          <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "var(--hb-traffic-green)" }} />
           <div
             className="ml-3 marketing-mono text-[11px]"
             style={{ color: "var(--hb-text-muted)" }}

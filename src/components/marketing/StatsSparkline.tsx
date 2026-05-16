@@ -15,19 +15,19 @@ type Series = {
 const SERIES: Series[] = [
   {
     label: "BASELINE → +42%",
-    color: "#6578B4",
+    color: "var(--hb-blue)",
     // 16-pt growth curve: starts low, climbs steadily
     values: [0.18, 0.22, 0.25, 0.28, 0.32, 0.36, 0.41, 0.45, 0.5, 0.54, 0.58, 0.62, 0.66, 0.7, 0.75, 0.8],
   },
   {
     label: "OVERALL · 92%",
-    color: "#A51C30",
+    color: "var(--hb-accent)",
     // Steeper, with a small recovery dip mid-way
     values: [0.20, 0.30, 0.42, 0.50, 0.55, 0.58, 0.60, 0.62, 0.59, 0.65, 0.74, 0.82, 0.86, 0.89, 0.91, 0.92],
   },
   {
     label: "AMBIGUITY δ",
-    color: "#f0ede5",
+    color: "var(--hb-text-primary)",
     // Rapid decay (lower is better for ambiguity)
     values: [0.85, 0.78, 0.66, 0.54, 0.42, 0.32, 0.24, 0.18, 0.13, 0.10, 0.08, 0.06, 0.045, 0.030, 0.022, 0.016],
   },
@@ -94,8 +94,8 @@ export function StatsSparkline() {
         .attr("x2", "0")
         .attr("y1", "0")
         .attr("y2", "1")
-      grad.append("stop").attr("offset", "0%").attr("stop-color", s.color).attr("stop-opacity", 0.35)
-      grad.append("stop").attr("offset", "100%").attr("stop-color", s.color).attr("stop-opacity", 0.0)
+      grad.append("stop").attr("offset", "0%").style("stop-color", s.color).attr("stop-opacity", 0.35)
+      grad.append("stop").attr("offset", "100%").style("stop-color", s.color).attr("stop-opacity", 0.0)
 
       svg
         .append("path")
@@ -106,7 +106,7 @@ export function StatsSparkline() {
         .append("path")
         .attr("d", line(s.values) as string)
         .attr("fill", "none")
-        .attr("stroke", s.color)
+        .style("stroke", s.color)
         .attr("stroke-width", 1.5)
         .attr("stroke-linecap", "round")
         .attr("stroke-linejoin", "round")
@@ -128,7 +128,7 @@ export function StatsSparkline() {
         .attr("cx", x(lastIdx))
         .attr("cy", y(s.values[lastIdx]))
         .attr("r", 0)
-        .attr("fill", s.color)
+        .style("fill", s.color)
         .style("filter", `drop-shadow(0 0 6px ${s.color})`)
         .transition()
         .delay(1800)

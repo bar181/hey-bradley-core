@@ -81,9 +81,9 @@ export function AtomGalaxy() {
       .attr("cx", "50%")
       .attr("cy", "50%")
       .attr("r", "50%")
-    grad.append("stop").attr("offset", "0%").attr("stop-color", "#ff5566").attr("stop-opacity", 1)
-    grad.append("stop").attr("offset", "50%").attr("stop-color", "#A51C30").attr("stop-opacity", 1)
-    grad.append("stop").attr("offset", "100%").attr("stop-color", "#2a0810").attr("stop-opacity", 0.6)
+    grad.append("stop").attr("offset", "0%").style("stop-color", "var(--hb-d3-core-hot)").attr("stop-opacity", 1)
+    grad.append("stop").attr("offset", "50%").style("stop-color", "var(--hb-accent)").attr("stop-opacity", 1)
+    grad.append("stop").attr("offset", "100%").style("stop-color", "var(--hb-d3-core-dark)").attr("stop-opacity", 0.6)
 
     // Glow halo behind nucleus
     svg
@@ -111,7 +111,7 @@ export function AtomGalaxy() {
       .attr("font-family", "'Cormorant Garamond', Georgia, serif")
       .attr("font-weight", 300)
       .attr("font-size", 22)
-      .attr("fill", "#f0ede5")
+      .style("fill", "var(--hb-text-primary)")
       .text("𝔸")
 
     // Atom nodes
@@ -141,8 +141,8 @@ export function AtomGalaxy() {
       node
         .append("circle")
         .attr("r", 22)
-        .attr("fill", "#0f0f1a")
-        .attr("stroke", "#A51C30")
+        .style("fill", "var(--hb-surface)")
+        .style("stroke", "var(--hb-accent)")
         .attr("stroke-width", 1.5)
 
       // Glyph
@@ -153,7 +153,7 @@ export function AtomGalaxy() {
         .attr("font-family", "'Cormorant Garamond', Georgia, serif")
         .attr("font-weight", 400)
         .attr("font-size", 24)
-        .attr("fill", "#A51C30")
+        .style("fill", "var(--hb-accent)")
         .text(atom.glyph)
 
       // Label below node
@@ -174,7 +174,7 @@ export function AtomGalaxy() {
         .attr("font-family", "'Cormorant Garamond', Georgia, serif")
         .attr("font-style", "italic")
         .attr("font-size", 14)
-        .attr("fill", "#f0ede5")
+        .style("fill", "var(--hb-text-primary)")
         .text(atom.name)
 
       // Hover effect
