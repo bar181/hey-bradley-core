@@ -1,0 +1,67 @@
+[2026-05-16T19:22:48.289Z] === P126 multi-site eval — direct Gemini API, no Playwright ===
+[2026-05-16T19:22:48.291Z] --- Running scenario: Hey Bradley storytelling blog (blog) ---
+[2026-05-16T19:22:48.291Z]   [blog] prompt 1/8: "Set this up as a personal blog called Hey Bradley"
+[2026-05-16T19:22:50.765Z]     ↳ 2472ms $0.002161 2 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:22:50.765Z]   [blog] prompt 2/8: "Use a dark theme with warm crimson accents"
+[2026-05-16T19:22:52.742Z]     ↳ 1976ms $0.001820 7 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:22:52.743Z]   [blog] prompt 3/8: "Use Cormorant Garamond for headings"
+[2026-05-16T19:22:53.719Z]     ↳ 976ms $0.001223 1 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:22:53.720Z]   [blog] prompt 4/8: "Add a hero with headline The whiteboard that listens"
+[2026-05-16T19:22:56.241Z]     ↳ 2521ms $0.002295 1 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:22:56.241Z]   [blog] prompt 5/8: "Add three article cards origin product and capstone"
+[2026-05-16T19:23:01.003Z]     ↳ 4761ms $0.003348 1 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:01.003Z]   [blog] prompt 6/8: "Each article needs a hook problem and resolution summary"
+[2026-05-16T19:23:04.016Z]     ↳ 3013ms $0.002931 9 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:04.016Z]   [blog] prompt 7/8: "Add an author bio for Bradley Ross Harvard ALM"
+[2026-05-16T19:23:06.951Z]     ↳ 2935ms $0.002751 1 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:06.951Z]   [blog] prompt 8/8: "Add a newsletter signup section at the bottom"
+[2026-05-16T19:23:08.936Z]     ↳ 1985ms $0.002237 1 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:08.938Z]   [blog] checklist: 25/25 (100.0%) cost=$0.018765
+[2026-05-16T19:23:08.938Z] --- Running scenario: Bradley Ross designer portfolio (portfolio) ---
+[2026-05-16T19:23:08.939Z]   [portfolio] prompt 1/9: "Make this a designer portfolio for Bradley Ross"
+[2026-05-16T19:23:14.074Z]     ↳ 5135ms $0.003866 10 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:14.074Z]   [portfolio] prompt 2/9: "Use a light beige theme with sage green accents"
+[2026-05-16T19:23:15.568Z]     ↳ 1493ms $0.001665 4 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:15.568Z]   [portfolio] prompt 3/9: "Add a hero with name title tagline and parallax effect"
+[2026-05-16T19:23:17.644Z]     ↳ 2076ms $0.001880 4 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:17.645Z]   [portfolio] prompt 4/9: "Add a video reel section right below the hero"
+[2026-05-16T19:23:19.720Z]     ↳ 2075ms $0.001919 1 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:19.720Z]   [portfolio] prompt 5/9: "Show six project cards in a grid layout"
+[2026-05-16T19:23:24.444Z]     ↳ 4723ms $0.003797 1 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:24.444Z]   [portfolio] prompt 6/9: "Each project needs a thumbnail image and three tags"
+[2026-05-16T19:23:25.481Z]     ↳ 1037ms $0.001465 0 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:25.482Z]   [portfolio] prompt 7/9: "Add hover zoom effect to all project images"
+[2026-05-16T19:23:27.425Z]     ↳ 1943ms $0.002262 6 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:27.425Z]   [portfolio] prompt 8/9: "Add a contact section with email and Twitter links"
+[2026-05-16T19:23:29.420Z]     ↳ 1995ms $0.002205 1 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:29.421Z]   [portfolio] prompt 9/9: "Add subtle animation to the project grid on scroll"
+[2026-05-16T19:23:31.291Z]     ↳ 1870ms $0.002136 6 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:31.294Z]   [portfolio] checklist: 27/27 (100.0%) cost=$0.021195
+[2026-05-16T19:23:31.295Z] --- Running scenario: Atlas AI Consulting marketing site (marketing) ---
+[2026-05-16T19:23:31.295Z]   [marketing] prompt 1/9: "Build a SaaS landing page for Atlas AI Consulting"
+[2026-05-16T19:23:47.439Z]     ↳ 16144ms $0.011258 15 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:47.439Z]   [marketing] prompt 2/9: "Use a navy and electric-blue palette professional and sharp"
+[2026-05-16T19:23:49.416Z]     ↳ 1976ms $0.002444 6 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:49.416Z]   [marketing] prompt 3/9: "Hero headline Ship AI features customers actually use"
+[2026-05-16T19:23:50.445Z]     ↳ 1029ms $0.001773 1 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:50.446Z]   [marketing] prompt 4/9: "Hero CTA button book a discovery call"
+[2026-05-16T19:23:51.738Z]     ↳ 1292ms $0.002010 2 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:51.739Z]   [marketing] prompt 5/9: "Add three feature cards strategy implementation and training"
+[2026-05-16T19:23:55.688Z]     ↳ 3949ms $0.003668 14 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:55.688Z]   [marketing] prompt 6/9: "Add three pricing tiers Starter Growth and Enterprise"
+[2026-05-16T19:23:58.524Z]     ↳ 2836ms $0.003108 1 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:23:58.524Z]   [marketing] prompt 7/9: "Add a customer logos bar with five fictional companies"
+[2026-05-16T19:24:02.147Z]     ↳ 3623ms $0.003545 1 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:24:02.147Z]   [marketing] prompt 8/9: "Add three customer testimonials with names and quotes"
+[2026-05-16T19:24:04.696Z]     ↳ 2549ms $0.003012 9 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:24:04.697Z]   [marketing] prompt 9/9: "Add a final closing CTA section book a discovery call"
+[2026-05-16T19:24:06.871Z]     ↳ 2173ms $0.002783 1 ops (0 rejected as forbidden), 0 failed apply
+[2026-05-16T19:24:06.873Z]   [marketing] checklist: 28/28 (100.0%) cost=$0.033600
+[2026-05-16T19:24:06.874Z] --- Running 5 brutal-honest reviewers in parallel ---
+[2026-05-16T19:24:11.224Z]   reviewer ux-critic: 3350ms $0.003025 OK
+[2026-05-16T19:24:11.225Z]   reviewer prompt-fidelity: 4350ms $0.003446 OK
+[2026-05-16T19:24:11.226Z]   reviewer json-validator: 3512ms $0.003156 OK
+[2026-05-16T19:24:11.226Z]   reviewer copy-quality: 3424ms $0.003092 OK
+[2026-05-16T19:24:11.226Z]   reviewer render-readiness: 3485ms $0.003057 OK
+[2026-05-16T19:24:11.227Z] overall composite: 90.2%
+[2026-05-16T19:24:11.231Z] === DONE · total cost $0.089336 ===

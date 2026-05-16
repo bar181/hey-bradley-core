@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>P126 multi-site eval — preview</title>
+<style>
+  :root { --bg:#0a0a0f; --fg:#f0ede5; --dim:#a8a39a; --accent:#A51C30; --card:#15151f; }
+  body { margin:0; font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--fg); }
+  header { padding:24px 32px; border-bottom:1px solid #222; display:flex; gap:16px; align-items:center; }
+  header h1 { margin:0; font-family:'Cormorant Garamond',serif; font-weight:300; font-size:24px; }
+  select { background:#000; color:#fff; border:1px solid #333; padding:8px 12px; font-size:14px; border-radius:4px; }
+  main { padding:32px; max-width:1100px; margin:0 auto; }
+  .section { background:var(--card); padding:24px; margin:16px 0; border-radius:8px; border:1px solid #222; }
+  .section h2 { margin:0 0 8px; font-size:14px; color:var(--accent); text-transform:uppercase; letter-spacing:0.1em; }
+  .section h3 { margin:8px 0; font-family:'Cormorant Garamond',serif; font-weight:300; }
+  .components { display:flex; flex-wrap:wrap; gap:12px; margin-top:12px; }
+  .comp { background:#0a0a14; border:1px solid #222; padding:12px; border-radius:6px; flex:1 1 240px; font-size:13px; }
+  .comp pre { font-size:11px; color:var(--dim); overflow:auto; max-height:200px; margin:4px 0 0; }
+  .stats { background:#000; padding:16px 24px; border:1px solid #222; border-radius:8px; margin-bottom:16px; display:flex; gap:24px; flex-wrap:wrap; font-size:13px; }
+  .stats span b { color:var(--accent); font-family:monospace; }
+  .palette { display:flex; gap:6px; }
+  .swatch { width:24px; height:24px; border-radius:50%; border:1px solid #333; }
+</style>
+</head>
+<body>
+<header>
+  <h1>P126 multi-site eval — preview</h1>
+  <select id="picker">
+    <option value="blog">Blog (Hey Bradley storytelling)</option>
+    <option value="portfolio">Portfolio (Bradley Ross designer)</option>
+    <option value="marketing">Marketing (Atlas AI Consulting)</option>
+  </select>
+</header>
+<main id="root"></main>
+<script>
+const CONFIGS = {};
+async function load() {
+  for (const id of ['blog','portfolio','marketing']) {
+    const r = await fetch('output/' + id + '/final-config.json');
+    CONFIGS[id] = await r.json();
+  }
+  render(document.getElementById('picker').value);
+}
+function render(id) {
+  const cfg = CONFIGS[id];
+  const root = document.getElementById('root');
+  if (!cfg) { root.textContent = 'No config'; return; }
+  const t = cfg.theme || {};
+  const p = t.palette || {};
+  let html = '<div class="stats">' +
+    '<span>title <b>' + (cfg.site?.title || '?') + '</b></span>' +
+    '<span>mode <b>' + (t.mode || '?') + '</b></span>' +
+    '<span>sections <b>' + (cfg.sections?.length || 0) + '</b></span>' +
+    '<span>palette <div class="palette">' +
+      ['bgPrimary','bgSecondary','textPrimary','accentPrimary','accentSecondary']
+        .map((k) => '<div class="swatch" style="background:' + (p[k]||'transparent') + '" title="'+k+': '+(p[k]||'')+'"></div>').join('') +
+    '</div></span>' +
+  '</div>';
+  for (const s of (cfg.sections || [])) {
+    html += '<div class="section">' +
+      '<h2>' + (s.type || '') + ' · ' + (s.id || '') + '</h2>';
+    if (s.content?.heading) html += '<h3>' + s.content.heading + '</h3>';
+    if (s.content?.subheading) html += '<p style="color:var(--dim)">' + s.content.subheading + '</p>';
+    html += '<div class="components">';
+    for (const c of (s.components || [])) {
+      const props = JSON.stringify(c.props || {}, null, 2);
+      html += '<div class="comp"><b>' + (c.type || '') + '</b> · ' + (c.id || '') + '<pre>' + props.replace(/</g,'&lt;') + '</pre></div>';
+    }
+    html += '</div></div>';
+  }
+  root.innerHTML = html;
+}
+document.getElementById('picker').addEventListener('change', (e) => render(e.target.value));
+load();
+</script>
+</body>
+</html>

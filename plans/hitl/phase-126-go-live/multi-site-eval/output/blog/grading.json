@@ -1,0 +1,132 @@
+{
+  "items": [
+    {
+      "id": "blog-01",
+      "desc": "site.title includes 'Hey Bradley' or 'Bradley' (case-insensitive)",
+      "pass": true
+    },
+    {
+      "id": "blog-02",
+      "desc": "site.author or related field references 'Bradley Ross'",
+      "pass": true
+    },
+    {
+      "id": "blog-03",
+      "desc": "theme.mode equals 'dark'",
+      "pass": true
+    },
+    {
+      "id": "blog-04",
+      "desc": "theme.palette.bgPrimary is a dark color (hex starts #0 or #1 or named black/near-black)",
+      "pass": true
+    },
+    {
+      "id": "blog-05",
+      "desc": "theme.palette.accentPrimary is a crimson/red hex (#A-D or #E0-FF in red channel, low green/blue)",
+      "pass": true
+    },
+    {
+      "id": "blog-06",
+      "desc": "theme.typography.headingFamily equals 'Cormorant Garamond' (case-insensitive)",
+      "pass": true
+    },
+    {
+      "id": "blog-07",
+      "desc": "Has at least one section with type 'hero'",
+      "pass": true
+    },
+    {
+      "id": "blog-08",
+      "desc": "Hero headline mentions 'whiteboard' OR 'listens'",
+      "pass": true
+    },
+    {
+      "id": "blog-09",
+      "desc": "Has at least one columns/grid/list section after hero (article grid)",
+      "pass": true
+    },
+    {
+      "id": "blog-10",
+      "desc": "Has at least 3 article cards/components in some section",
+      "pass": true
+    },
+    {
+      "id": "blog-11",
+      "desc": "Article 1 references 'origin' or 'beginning' or 'start' in text",
+      "pass": true
+    },
+    {
+      "id": "blog-12",
+      "desc": "Article 2 references 'product' or 'builder' or 'platform' in text",
+      "pass": true
+    },
+    {
+      "id": "blog-13",
+      "desc": "Article 3 references 'capstone' or 'Harvard' in text",
+      "pass": true
+    },
+    {
+      "id": "blog-14",
+      "desc": "At least one article has a 'hook' or hook-like field/intro text",
+      "pass": true
+    },
+    {
+      "id": "blog-15",
+      "desc": "At least one article has a 'problem' field or problem-framed sentence",
+      "pass": true
+    },
+    {
+      "id": "blog-16",
+      "desc": "At least one article has a 'resolution' field or resolution-framed sentence",
+      "pass": true
+    },
+    {
+      "id": "blog-17",
+      "desc": "Has an author-bio section/component",
+      "pass": true
+    },
+    {
+      "id": "blog-18",
+      "desc": "Author bio mentions 'Harvard' or 'ALM' or both",
+      "pass": true
+    },
+    {
+      "id": "blog-19",
+      "desc": "Has a newsletter signup section",
+      "pass": true
+    },
+    {
+      "id": "blog-20",
+      "desc": "Newsletter section has an email input or form component",
+      "pass": true
+    },
+    {
+      "id": "blog-21",
+      "desc": "Layout has at least 4 distinct sections",
+      "pass": true
+    },
+    {
+      "id": "blog-22",
+      "desc": "Accent color suggests warm brand (crimson/red/burgundy hex)",
+      "pass": true
+    },
+    {
+      "id": "blog-23",
+      "desc": "Heading typography is serif (heading family is a known serif: Cormorant, Garamond, Playfair, Instrument Serif, etc.)",
+      "pass": true
+    },
+    {
+      "id": "blog-24",
+      "desc": "Has visible call-to-action button somewhere (signup/read more)",
+      "pass": true
+    },
+    {
+      "id": "blog-25",
+      "desc": "Final config has no malformed sections (every section has type + id + components array)",
+      "pass": true
+    }
+  ],
+  "passed": 25,
+  "failed": 0,
+  "score": 1
+}

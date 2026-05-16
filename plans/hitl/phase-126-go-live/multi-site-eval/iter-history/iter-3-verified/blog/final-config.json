@@ -1,0 +1,329 @@
+{
+  "site": {
+    "title": "Hey Bradley",
+    "description": ""
+  },
+  "theme": {
+    "mode": "dark",
+    "palette": {
+      "bgPrimary": "#1a0000",
+      "bgSecondary": "#330000",
+      "textPrimary": "#fefefe",
+      "textSecondary": "#bbb",
+      "accentPrimary": "#cc3333",
+      "accentSecondary": "#ff6666"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Cormorant Garamond",
+      "baseSize": "16px",
+      "lineHeight": 1.5
+    },
+    "spacing": {
+      "sectionPadding": "64px",
+      "containerMaxWidth": "1180px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-01",
+      "enabled": true,
+      "order": 0,
+      "variant": "centered",
+      "layout": {
+        "display": "flex",
+        "direction": "column",
+        "align": "center",
+        "gap": "32px",
+        "padding": "128px 24px 96px",
+        "parallax": false
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "eyebrow",
+          "type": "badge",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Your ideas, made real."
+          }
+        },
+        {
+          "id": "headline",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "The whiteboard that listens",
+            "level": 1,
+            "size": "96px",
+            "weight": 300
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Unlocking the story behind your next big thing."
+          }
+        },
+        {
+          "id": "primaryCta",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Read the Stories",
+            "url": "#articles",
+            "style": "filled",
+            "size": "lg"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "menu",
+      "id": "navbar-01",
+      "enabled": true,
+      "order": -1,
+      "variant": "simple",
+      "layout": {
+        "display": "flex",
+        "gap": "28px",
+        "padding": "20px 32px"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "logo",
+          "type": "text",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "text": "Hey Bradley"
+          }
+        },
+        {
+          "id": "nav-1",
+          "type": "link",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Articles",
+            "url": "#articles"
+          }
+        },
+        {
+          "id": "nav-2",
+          "type": "link",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "About",
+            "url": "#about"
+          }
+        },
+        {
+          "id": "nav-3",
+          "type": "link",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Contact",
+            "url": "#contact"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "columns",
+      "id": "articles-01",
+      "enabled": true,
+      "order": 2,
+      "variant": "default",
+      "layout": {
+        "display": "grid",
+        "columns": 3,
+        "gap": "32px",
+        "padding": "96px 32px",
+        "maxWidth": "1180px"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "article-1",
+          "type": "article-card",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "title": "The Spark: How Hey Bradley Began",
+            "image": "",
+            "alt": "Abstract image representing an idea forming",
+            "hook": "Every great idea starts with a simple sketch, but turning that sketch into a living product often feels like speaking different languages.",
+            "problem": "I struggled to bridge the gap between my conceptual vision and the technical execution, watching good ideas falter in translation.",
+            "resolution": "Hey Bradley emerged from this frustration: a tool designed to understand your intent, making the leap from thought to prototype seamless and intuitive.",
+            "tags": [
+              "Origin",
+              "Idea",
+              "Vision"
+            ]
+          }
+        },
+        {
+          "id": "article-2",
+          "type": "article-card",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "title": "Crafting the Core: Hey Bradley's Product Philosophy",
+            "image": "",
+            "alt": "Image representing product development and iteration",
+            "hook": "In a world flooded with complex tools, the true challenge isn't adding more features, but making them profoundly simple and effective.",
+            "problem": "Building Hey Bradley meant constantly fighting the urge to over-engineer, risking feature bloat that would betray its core promise of intuitive creation.",
+            "resolution": "We committed to a 'less but better' philosophy, meticulously refining each interaction to ensure Hey Bradley feels like a natural extension of your creative flow.",
+            "tags": [
+              "Product",
+              "Design",
+              "Philosophy"
+            ]
+          }
+        },
+        {
+          "id": "article-3",
+          "type": "article-card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "title": "The Grand Vision: Hey Bradley's Capstone Journey",
+            "image": "",
+            "alt": "Image representing a finished project or journey's end",
+            "hook": "Looking ahead, the ultimate test of any innovation is its ability to empower new creations we haven't even imagined yet.",
+            "problem": "As Hey Bradley evolves, the challenge is to expand its capabilities without compromising the magical simplicity that defines it, ensuring it grows with its users.",
+            "resolution": "Our capstone is an ongoing journey to build a platform that continuously learns and adapts, truly listening to your ideas and bringing them to life with unprecedented ease and power.",
+            "tags": [
+              "Future",
+              "Vision",
+              "Innovation"
+            ]
+          }
+        }
+      ],
+      "content": {
+        "heading": "The Stories Behind the Product",
+        "subheading": "Discover the narrative arc of Hey Bradley, from its humble beginnings to its ambitious future."
+      }
+    },
+    {
+      "type": "hero",
+      "id": "author-bio-01",
+      "enabled": true,
+      "order": 97,
+      "variant": "left-aligned",
+      "layout": {
+        "display": "flex",
+        "direction": "row",
+        "gap": "64px",
+        "padding": "96px 32px",
+        "align": "center"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "bio-image",
+          "type": "image",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "src": "https://via.placeholder.com/250x250/cc3333/fefefe?text=Bradley",
+            "alt": "Portrait of Bradley Ross",
+            "width": "250px",
+            "height": "250px",
+            "borderRadius": "50%"
+          }
+        },
+        {
+          "id": "bio-content",
+          "type": "group",
+          "enabled": true,
+          "order": 1,
+          "layout": {
+            "display": "flex",
+            "direction": "column",
+            "gap": "16px"
+          },
+          "components": [
+            {
+              "id": "bio-heading",
+              "type": "heading",
+              "enabled": true,
+              "order": 0,
+              "props": {
+                "text": "About Bradley Ross",
+                "level": 2
+              }
+            },
+            {
+              "id": "bio-text",
+              "type": "text",
+              "enabled": true,
+              "order": 1,
+              "props": {
+                "text": "Bradley Ross holds an ALM from Harvard University, where he specialized in the intersection of technology and narrative design. He is the creator of Hey Bradley, a platform dedicated to transforming ideas into reality through intuitive storytelling and AI-driven insights."
+              }
+            }
+          ]
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "newsletter",
+      "id": "newsletter-01",
+      "enabled": true,
+      "order": 98,
+      "variant": "inline",
+      "layout": {
+        "display": "flex",
+        "gap": "12px",
+        "padding": "64px 24px",
+        "direction": "column",
+        "align": "center"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "email-input",
+          "type": "input",
+          "enabled": true,
+          "order": 0,
+          "props": {
+            "placeholder": "your@email.com",
+            "name": "email"
+          }
+        },
+        {
+          "id": "submit",
+          "type": "button",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Subscribe",
+            "style": "filled"
+          }
+        }
+      ],
+      "content": {
+        "heading": "Join the Journey",
+        "subheading": "Get updates on AI, narrative design, and the future of creation."
+      }
+    }
+  ]
+}

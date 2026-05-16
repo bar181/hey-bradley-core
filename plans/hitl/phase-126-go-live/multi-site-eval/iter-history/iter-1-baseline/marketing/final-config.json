@@ -1,0 +1,576 @@
+{
+  "site": {
+    "title": "Atlas AI Consulting",
+    "description": "Unlock the power of Artificial Intelligence for your business with Atlas AI Consulting."
+  },
+  "theme": {
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#1A2E44",
+      "bgSecondary": "#0F1C2E",
+      "textPrimary": "#E0E7EB",
+      "textSecondary": "#A0B7C6",
+      "accentPrimary": "#007BFF",
+      "accentSecondary": "#3399FF"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "headingFamily": "Inter",
+      "baseSize": "16px",
+      "lineHeight": 1.5
+    },
+    "spacing": {
+      "sectionPadding": "64px",
+      "containerMaxWidth": "1180px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-main",
+      "enabled": true,
+      "order": 1,
+      "variant": "centered-split",
+      "layout": {
+        "minHeight": "70vh",
+        "paddingTop": "100px",
+        "paddingBottom": "100px"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "hero-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "level": 1,
+            "text": "Ship AI features customers actually use",
+            "align": "center"
+          }
+        },
+        {
+          "id": "hero-subheading",
+          "type": "paragraph",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Atlas AI Consulting provides cutting-edge artificial intelligence solutions to drive innovation, efficiency, and growth for your enterprise.",
+            "align": "center",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "hero-cta-button",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Book a Discovery Call",
+            "variant": "primary",
+            "link": "#contact"
+          }
+        },
+        {
+          "id": "hero-image",
+          "type": "image",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "image": "https://images.unsplash.com/photo-1606297314545-21d45903b414?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwyMHx8YWklMjB0ZWNofGVufDB8fHx8MTcwODY0MzYxNnww&ixlib=rb-4.0.3&q=80&w=1080",
+            "alt": "AI consulting dashboard with data visualizations"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "features",
+      "id": "features-solutions",
+      "enabled": true,
+      "order": 2,
+      "variant": "grid-icons",
+      "layout": {
+        "paddingTop": "80px",
+        "paddingBottom": "80px"
+      },
+      "style": {
+        "backgroundColor": "var(--bgSecondary)"
+      },
+      "components": [
+        {
+          "id": "features-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "level": 2,
+            "text": "Our AI Solutions",
+            "align": "center"
+          }
+        },
+        {
+          "id": "feature-nlp",
+          "type": "card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "title": "Natural Language Processing",
+            "description": "Automate text analysis, sentiment detection, and customer support with advanced NLP models.",
+            "icon": "chat"
+          }
+        },
+        {
+          "id": "feature-ml",
+          "type": "card",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "title": "Machine Learning Integration",
+            "description": "Implement predictive analytics, recommendation engines, and intelligent automation into your systems.",
+            "icon": "analytics"
+          }
+        },
+        {
+          "id": "feature-cv",
+          "type": "card",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "title": "Computer Vision",
+            "description": "Leverage image and video analysis for quality control, security, and enhanced user experiences.",
+            "icon": "visibility"
+          }
+        },
+        {
+          "id": "feature-data-strategy",
+          "type": "card",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "title": "AI Strategy & Consulting",
+            "description": "Develop a tailored AI roadmap to align technology with your business goals and maximize ROI.",
+            "icon": "lightbulb"
+          }
+        },
+        {
+          "id": "feature-ai-strategy",
+          "type": "card",
+          "enabled": true,
+          "order": 6,
+          "props": {
+            "title": "AI Strategy & Roadmap",
+            "description": "Develop a comprehensive AI strategy that aligns with your business objectives and charts a clear path for digital transformation.",
+            "icon": "strategy"
+          }
+        },
+        {
+          "id": "feature-ai-implementation",
+          "type": "card",
+          "enabled": true,
+          "order": 7,
+          "props": {
+            "title": "Seamless AI Implementation",
+            "description": "Integrate cutting-edge AI solutions into your existing infrastructure with minimal disruption and maximum efficiency.",
+            "icon": "deploy"
+          }
+        },
+        {
+          "id": "feature-ai-training",
+          "type": "card",
+          "enabled": true,
+          "order": 8,
+          "props": {
+            "title": "AI Upskilling & Training",
+            "description": "Empower your team with the knowledge and skills to effectively manage, utilize, and innovate with AI technologies.",
+            "icon": "learn"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "testimonials",
+      "id": "testimonials-clients",
+      "enabled": true,
+      "order": 4,
+      "variant": "carousel",
+      "layout": {
+        "paddingTop": "80px",
+        "paddingBottom": "80px"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "testimonials-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "level": 2,
+            "text": "What Our Clients Say",
+            "align": "center"
+          }
+        },
+        {
+          "id": "testimonial-1",
+          "type": "card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "quote": "Atlas AI transformed our data analysis process. Their expertise delivered tangible results within weeks!",
+            "author": "Jane Doe",
+            "role": "CEO, Tech Solutions Inc.",
+            "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29329?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHxwZXJzb24lMjBmYWNlfGVufDB8fHx8MTcwODY0Mzk2NHww&ixlib=rb-4.0.3&q=80&w=1080"
+          }
+        },
+        {
+          "id": "testimonial-2",
+          "type": "card",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "quote": "The team at Atlas AI is incredibly knowledgeable. They helped us implement a custom AI solution that significantly improved our operational efficiency.",
+            "author": "John Smith",
+            "role": "CTO, Global Innovations",
+            "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwyfHxwZXJzb24lMjBmYWNlfGVufDB8fHx8MTcwODY0Mzk2NHww&ixlib=rb-4.0.3&q=80&w=1080"
+          }
+        },
+        {
+          "id": "testimonial-3",
+          "type": "card",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "quote": "Atlas AI's custom solutions have been a game-changer for our workflow efficiency. Highly recommended!",
+            "author": "Emily Chen",
+            "role": "Operations Director, Innovate Solutions",
+            "image": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHw0fHxwZXJzb24lMjBmYWNlfGVufDB8fHx8MTcwODY0Mzk2NHww&ixlib=rb-4.0.3&q=80&w=1080"
+          }
+        },
+        {
+          "id": "testimonial-4",
+          "type": "card",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "quote": "The depth of knowledge and professionalism from Atlas AI is unmatched. They truly understand our business needs.",
+            "author": "Michael Lee",
+            "role": "VP of Product, Future Tech",
+            "image": "https://images.unsplash.com/photo-1599566150163-29194d6fdd0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHw3fHxwZXJzb24lMjBmYWNlfGVufDB8fHx8MTcwODY0Mzk2NHww&ixlib=rb-4.0.3&q=80&w=1080"
+          }
+        },
+        {
+          "id": "testimonial-5",
+          "type": "card",
+          "enabled": true,
+          "order": 6,
+          "props": {
+            "quote": "Working with Atlas AI was seamless. Their solutions are robust and their team is incredibly supportive.",
+            "author": "Sarah Brown",
+            "role": "Founder, Data Insights Co.",
+            "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwyMHx8cGVyc29uJTIwZmFjZXxlbnwwfHx8fDE3MDg2NDM5NjR8MA&ixlib=rb-4.0.3&q=80&w=1080"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "contact",
+      "id": "contact-us",
+      "enabled": true,
+      "order": 5,
+      "variant": "form-split",
+      "layout": {
+        "paddingTop": "80px",
+        "paddingBottom": "80px"
+      },
+      "style": {
+        "backgroundColor": "var(--bgSecondary)"
+      },
+      "components": [
+        {
+          "id": "contact-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "level": 2,
+            "text": "Ready to Transform Your Business?",
+            "align": "center"
+          }
+        },
+        {
+          "id": "contact-paragraph",
+          "type": "paragraph",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Get in touch with Atlas AI Consulting today to discuss your AI needs and how we can help you achieve your goals.",
+            "align": "center"
+          }
+        },
+        {
+          "id": "contact-form",
+          "type": "form",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "fields": [
+              {
+                "name": "name",
+                "label": "Name",
+                "type": "text",
+                "placeholder": "Your Name"
+              },
+              {
+                "name": "email",
+                "label": "Email",
+                "type": "email",
+                "placeholder": "your@example.com"
+              },
+              {
+                "name": "message",
+                "label": "Message",
+                "type": "textarea",
+                "placeholder": "Tell us about your project"
+              }
+            ],
+            "submitButtonText": "Send Message"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "pricing",
+      "id": "pricing-tiers",
+      "enabled": true,
+      "order": 6,
+      "variant": "columns",
+      "layout": {
+        "paddingTop": "80px",
+        "paddingBottom": "80px"
+      },
+      "style": {
+        "backgroundColor": "var(--bgPrimary)"
+      },
+      "components": [
+        {
+          "id": "pricing-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "level": 2,
+            "text": "Flexible Pricing Plans",
+            "align": "center"
+          }
+        },
+        {
+          "id": "pricing-subheading",
+          "type": "paragraph",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Choose the plan that best fits your business needs.",
+            "align": "center",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "pricing-starter-card",
+          "type": "card",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "title": "Starter",
+            "subtitle": "$99/month",
+            "description": "Ideal for small businesses and startups looking to explore AI.",
+            "features": [
+              "Basic AI consultation",
+              "1 custom model",
+              "Email support"
+            ],
+            "buttonText": "Get Started",
+            "buttonLink": "#contact",
+            "variant": "elevated"
+          }
+        },
+        {
+          "id": "pricing-growth-card",
+          "type": "card",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "title": "Growth",
+            "subtitle": "$499/month",
+            "description": "Perfect for growing businesses ready to integrate AI solutions.",
+            "features": [
+              "Advanced AI strategy",
+              "3 custom models",
+              "Priority support",
+              "Monthly reports"
+            ],
+            "buttonText": "Choose Growth",
+            "buttonLink": "#contact",
+            "variant": "elevated"
+          }
+        },
+        {
+          "id": "pricing-enterprise-card",
+          "type": "card",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "title": "Enterprise",
+            "subtitle": "Custom Pricing",
+            "description": "Tailored solutions for large enterprises with complex AI requirements.",
+            "features": [
+              "Dedicated AI team",
+              "Unlimited custom models",
+              "24/7 Premium support",
+              "On-site consulting"
+            ],
+            "buttonText": "Contact Us",
+            "buttonLink": "#contact",
+            "variant": "elevated"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "logos",
+      "id": "customer-logos-bar",
+      "enabled": true,
+      "order": 3,
+      "variant": "simple",
+      "layout": {
+        "paddingTop": "40px",
+        "paddingBottom": "40px"
+      },
+      "style": {
+        "backgroundColor": "var(--bgPrimary)"
+      },
+      "components": [
+        {
+          "id": "logos-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "level": 3,
+            "text": "Trusted by Industry Leaders",
+            "align": "center"
+          }
+        },
+        {
+          "id": "logo-acme-corp",
+          "type": "image",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "image": "https://via.placeholder.com/150x50?text=Acme+Corp",
+            "alt": "Acme Corp Logo"
+          }
+        },
+        {
+          "id": "logo-globex",
+          "type": "image",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "image": "https://via.placeholder.com/150x50?text=Globex+Inc.",
+            "alt": "Globex Inc. Logo"
+          }
+        },
+        {
+          "id": "logo-waystar",
+          "type": "image",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "image": "https://via.placeholder.com/150x50?text=Waystar+RoyCo",
+            "alt": "Waystar RoyCo Logo"
+          }
+        },
+        {
+          "id": "logo-cyberdyne",
+          "type": "image",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "image": "https://via.placeholder.com/150x50?text=Cyberdyne+Systems",
+            "alt": "Cyberdyne Systems Logo"
+          }
+        },
+        {
+          "id": "logo-tyrell",
+          "type": "image",
+          "enabled": true,
+          "order": 6,
+          "props": {
+            "image": "https://via.placeholder.com/150x50?text=Tyrell+Corp",
+            "alt": "Tyrell Corporation Logo"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "cta",
+      "id": "closing-cta",
+      "enabled": true,
+      "order": 7,
+      "variant": "centered",
+      "layout": {
+        "paddingTop": "100px",
+        "paddingBottom": "100px"
+      },
+      "style": {
+        "backgroundColor": "var(--bgPrimary)",
+        "color": "var(--textPrimary)",
+        "textAlign": "center"
+      },
+      "components": [
+        {
+          "id": "cta-heading-closing",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "level": 2,
+            "text": "Ready to Transform Your Business with AI?",
+            "align": "center"
+          }
+        },
+        {
+          "id": "cta-paragraph-closing",
+          "type": "paragraph",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Book a free discovery call with our experts to discuss your unique challenges and how Atlas AI Consulting can help you achieve your goals.",
+            "align": "center",
+            "size": "lg"
+          }
+        },
+        {
+          "id": "cta-button-closing",
+          "type": "button",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Book Your Discovery Call",
+            "variant": "primary",
+            "link": "#contact"
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}

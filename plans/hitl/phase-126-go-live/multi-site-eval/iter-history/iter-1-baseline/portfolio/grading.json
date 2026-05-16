@@ -1,0 +1,142 @@
+{
+  "items": [
+    {
+      "id": "port-01",
+      "desc": "site.title or brand references 'Bradley Ross' or 'portfolio'",
+      "pass": true
+    },
+    {
+      "id": "port-02",
+      "desc": "theme.mode equals 'light'",
+      "pass": true
+    },
+    {
+      "id": "port-03",
+      "desc": "theme.palette.bgPrimary is a light beige/cream hex (#F or #E in red/green channels)",
+      "pass": true
+    },
+    {
+      "id": "port-04",
+      "desc": "theme.palette.accentPrimary or accentSecondary is sage green hex (mid-range green channel, low blue)",
+      "pass": true
+    },
+    {
+      "id": "port-05",
+      "desc": "Has at least one section with type 'hero'",
+      "pass": true
+    },
+    {
+      "id": "port-06",
+      "desc": "Hero has a name/title text component",
+      "pass": true
+    },
+    {
+      "id": "port-07",
+      "desc": "Hero has a tagline/subtitle text component",
+      "pass": true
+    },
+    {
+      "id": "port-08",
+      "desc": "Hero references 'parallax' in style, layout, effects, or animation field",
+      "pass": false
+    },
+    {
+      "id": "port-09",
+      "desc": "Has a video reel section (type video OR a section named/described as video)",
+      "pass": true
+    },
+    {
+      "id": "port-10",
+      "desc": "Video section appears within first 3 sections (excluding navbar)",
+      "pass": true
+    },
+    {
+      "id": "port-11",
+      "desc": "Has a projects/work section (columns/grid)",
+      "pass": true
+    },
+    {
+      "id": "port-12",
+      "desc": "Has at least 6 project cards/components",
+      "pass": true
+    },
+    {
+      "id": "port-13",
+      "desc": "Each project has an image/thumbnail field",
+      "pass": false
+    },
+    {
+      "id": "port-14",
+      "desc": "Each project has tags (array with ≥1 entry)",
+      "pass": false
+    },
+    {
+      "id": "port-15",
+      "desc": "Project tags total at least 18 (6 projects × ~3 tags)",
+      "pass": true
+    },
+    {
+      "id": "port-16",
+      "desc": "Project images reference 'hover' OR 'zoom' OR 'hoverZoom' effect somewhere",
+      "pass": true
+    },
+    {
+      "id": "port-17",
+      "desc": "Has a contact section",
+      "pass": true
+    },
+    {
+      "id": "port-18",
+      "desc": "Contact section has an email field/text",
+      "pass": true
+    },
+    {
+      "id": "port-19",
+      "desc": "Contact section has Twitter/X reference",
+      "pass": true
+    },
+    {
+      "id": "port-20",
+      "desc": "Has scroll/reveal animation reference somewhere in project section",
+      "pass": true
+    },
+    {
+      "id": "port-21",
+      "desc": "Layout has at least 5 distinct sections",
+      "pass": true
+    },
+    {
+      "id": "port-22",
+      "desc": "Beige bg is genuinely warm (not pure white #FFFFFF)",
+      "pass": true
+    },
+    {
+      "id": "port-23",
+      "desc": "Sage accent is genuinely green-toned (G channel > R and > B)",
+      "pass": true
+    },
+    {
+      "id": "port-24",
+      "desc": "Has visible CTA in hero (button)",
+      "pass": true
+    },
+    {
+      "id": "port-25",
+      "desc": "Final config has no malformed sections",
+      "pass": true
+    },
+    {
+      "id": "port-26",
+      "desc": "Project images have alt-text or label fields",
+      "pass": false
+    },
+    {
+      "id": "port-27",
+      "desc": "Has navigation/menu section",
+      "pass": false
+    }
+  ],
+  "passed": 22,
+  "failed": 5,
+  "score": 0.8148148148148148
+}

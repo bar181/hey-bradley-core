@@ -1,0 +1,518 @@
+{
+  "site": {
+    "title": "Bradley Ross - Designer Portfolio",
+    "description": "Showcasing the design work and creative projects of Bradley Ross."
+  },
+  "theme": {
+    "mode": "light",
+    "palette": {
+      "bgPrimary": "#f5f5dc",
+      "bgSecondary": "#e0e0c6",
+      "textPrimary": "#333333",
+      "textSecondary": "#555555",
+      "accentPrimary": "#8fbc8f",
+      "accentSecondary": "#a2cd8b"
+    },
+    "typography": {
+      "fontFamily": "Montserrat",
+      "headingFamily": "Open Sans",
+      "baseSize": "16px",
+      "lineHeight": 1.5
+    },
+    "spacing": {
+      "sectionPadding": "96px",
+      "containerMaxWidth": "1280px",
+      "componentGap": "24px"
+    },
+    "borderRadius": "8px"
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-intro",
+      "enabled": true,
+      "order": 1,
+      "variant": "centered-image",
+      "layout": {
+        "minHeight": "80vh"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "hero-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Hi, I'm Bradley Ross",
+            "level": "h1"
+          }
+        },
+        {
+          "id": "hero-subheading",
+          "type": "subheading",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "A passionate UI/UX Designer & Front-end Developer."
+          }
+        },
+        {
+          "id": "hero-avatar",
+          "type": "image",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "image": "https://via.placeholder.com/200/6a99ff/1a1a1a?text=BR",
+            "alt": "Bradley Ross avatar",
+            "style": {
+              "borderRadius": "50%",
+              "marginTop": "2rem"
+            }
+          }
+        },
+        {
+          "id": "hero-cta",
+          "type": "button",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "text": "View My Work",
+            "link": "#portfolio",
+            "variant": "primary"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "video",
+      "id": "video-reel",
+      "enabled": true,
+      "order": 2,
+      "variant": "full-width",
+      "layout": {},
+      "style": {
+        "paddingTop": "48px",
+        "paddingBottom": "48px",
+        "backgroundColor": "#f0f0e8"
+      },
+      "components": [
+        {
+          "id": "video-reel-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "My Creative Reel",
+            "level": "h2",
+            "style": {
+              "textAlign": "center",
+              "marginBottom": "24px"
+            }
+          }
+        },
+        {
+          "id": "video-player",
+          "type": "video-player",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "src": "https://www.youtube.com/embed/dQw4w9WgXcQ?si=xXQxXQxXQxXQxXQx",
+            "title": "My Design Reel",
+            "autoplay": false,
+            "controls": true,
+            "loop": false,
+            "style": {
+              "width": "100%",
+              "height": "500px",
+              "maxWidth": "960px",
+              "margin": "0 auto"
+            }
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "portfolio",
+      "id": "portfolio-projects",
+      "enabled": true,
+      "order": 3,
+      "variant": "grid-cards",
+      "layout": {
+        "columns": 3,
+        "gap": "32px"
+      },
+      "style": {
+        "animation": "scroll-reveal"
+      },
+      "components": [
+        {
+          "id": "portfolio-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "My Latest Projects",
+            "level": "h2"
+          }
+        },
+        {
+          "id": "project-card-1",
+          "type": "card",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "title": "E-commerce Redesign",
+            "description": "A comprehensive redesign of an online retail platform focusing on user experience and conversion.",
+            "image": "https://via.placeholder.com/400x300/6a99ff/1a1a1a?text=Project+1",
+            "alt": "E-commerce Redesign project thumbnail",
+            "tags": [
+              "UI/UX",
+              "Web Design",
+              "Research"
+            ],
+            "link": "/project-ecommerce",
+            "effects": [
+              "hover-zoom"
+            ]
+          }
+        },
+        {
+          "id": "project-card-2",
+          "type": "card",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "title": "Mobile App Development",
+            "description": "Designed and prototyped a new mobile application for fitness tracking.",
+            "image": "https://via.placeholder.com/400x300/6a99ff/1a1a1a?text=Project+2",
+            "alt": "Mobile App project thumbnail",
+            "tags": [
+              "Mobile UI",
+              "App Design",
+              "Prototyping"
+            ],
+            "link": "/project-mobile",
+            "effects": [
+              "hover-zoom"
+            ]
+          }
+        },
+        {
+          "id": "project-card-3",
+          "type": "card",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "title": "Brand Identity & Website",
+            "description": "Developed a complete brand identity and accompanying responsive website for a startup.",
+            "image": "https://via.placeholder.com/400x300/6a99ff/1a1a1a?text=Project+3",
+            "alt": "Brand Identity project thumbnail",
+            "tags": [
+              "Branding",
+              "Web Development",
+              "UI Design"
+            ],
+            "link": "/project-branding",
+            "effects": [
+              "hover-zoom"
+            ]
+          }
+        },
+        {
+          "id": "project-card-4",
+          "type": "card",
+          "enabled": true,
+          "order": 5,
+          "props": {
+            "title": "Data Visualization Dashboard",
+            "description": "Designed an interactive dashboard to visualize complex data sets for business intelligence.",
+            "image": "https://via.placeholder.com/400x300/6a99ff/1a1a1a?text=Project+4",
+            "alt": "Data Visualization Dashboard thumbnail",
+            "tags": [
+              "Data Viz",
+              "Dashboard",
+              "UX Research"
+            ],
+            "link": "/project-data-viz",
+            "effects": [
+              "hover-zoom"
+            ]
+          }
+        },
+        {
+          "id": "project-card-5",
+          "type": "card",
+          "enabled": true,
+          "order": 6,
+          "props": {
+            "title": "SaaS Platform UI",
+            "description": "Developed the user interface for a new Software-as-a-Service platform, focusing on scalability.",
+            "image": "https://via.placeholder.com/400x300/6a99ff/1a1a1a?text=Project+5",
+            "alt": "SaaS Platform UI thumbnail",
+            "tags": [
+              "SaaS UI",
+              "Product Design",
+              "Wireframing"
+            ],
+            "link": "/project-saas",
+            "effects": [
+              "hover-zoom"
+            ]
+          }
+        },
+        {
+          "id": "project-card-6",
+          "type": "card",
+          "enabled": true,
+          "order": 7,
+          "props": {
+            "title": "Educational Website Design",
+            "description": "Created an engaging and accessible website for an online educational program.",
+            "image": "https://via.placeholder.com/400x300/6a99ff/1a1a1a?text=Project+6",
+            "alt": "Educational Website Design thumbnail",
+            "tags": [
+              "EdTech",
+              "Web Design",
+              "Accessibility"
+            ],
+            "link": "/project-education",
+            "effects": [
+              "hover-zoom"
+            ]
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "about",
+      "id": "about-me",
+      "enabled": true,
+      "order": 4,
+      "variant": "text-with-image",
+      "layout": {
+        "columns": 2,
+        "gap": "48px"
+      },
+      "style": {},
+      "components": [
+        {
+          "id": "about-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "About Me",
+            "level": "h2"
+          }
+        },
+        {
+          "id": "about-text-1",
+          "type": "paragraph",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "I'm Bradley Ross, a seasoned designer with a passion for creating intuitive and beautiful digital experiences. With X years of experience, I specialize in UI/UX design, front-end development, and bringing complex ideas to life through thoughtful design."
+          }
+        },
+        {
+          "id": "about-text-2",
+          "type": "paragraph",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "My goal is always to blend aesthetics with functionality, ensuring every project not only looks great but also provides a seamless user journey. I thrive on problem-solving and collaborating with teams to deliver impactful solutions."
+          }
+        },
+        {
+          "id": "about-image",
+          "type": "image",
+          "enabled": true,
+          "order": 4,
+          "props": {
+            "image": "https://via.placeholder.com/600x400/6a99ff/1a1a1a?text=Bradley+Ross",
+            "alt": "Bradley Ross working on a computer",
+            "style": {
+              "borderRadius": "8px"
+            }
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "contact",
+      "id": "contact-section",
+      "enabled": true,
+      "order": 5,
+      "variant": "simple-form",
+      "layout": {},
+      "style": {
+        "textAlign": "center"
+      },
+      "components": [
+        {
+          "id": "contact-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Let's Connect",
+            "level": "h2"
+          }
+        },
+        {
+          "id": "contact-subheading",
+          "type": "paragraph",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Have a project in mind or just want to say hello? Feel free to reach out!"
+          }
+        },
+        {
+          "id": "contact-form",
+          "type": "form",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "fields": [
+              {
+                "name": "name",
+                "label": "Name",
+                "type": "text",
+                "placeholder": "Your Name"
+              },
+              {
+                "name": "email",
+                "label": "Email",
+                "type": "email",
+                "placeholder": "your.email@example.com"
+              },
+              {
+                "name": "message",
+                "label": "Message",
+                "type": "textarea",
+                "placeholder": "Tell me about your project..."
+              }
+            ],
+            "submitText": "Send Message",
+            "action": "/api/contact",
+            "method": "POST"
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "hero",
+      "id": "new-hero-parallax",
+      "enabled": true,
+      "order": 6,
+      "variant": "simple",
+      "layout": {
+        "minHeight": "80vh",
+        "parallax": true,
+        "justifyContent": "center",
+        "alignItems": "center"
+      },
+      "style": {
+        "textAlign": "center",
+        "backgroundImage": "url(https://via.placeholder.com/1500x800/8fbc8f/ffffff?text=Parallax+Hero)",
+        "backgroundSize": "cover",
+        "backgroundPosition": "center"
+      },
+      "components": [
+        {
+          "id": "new-hero-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Hello, I'm [Your Name]",
+            "level": "h1",
+            "style": {
+              "color": "#ffffff",
+              "textShadow": "2px 2px 4px rgba(0,0,0,0.5)"
+            }
+          }
+        },
+        {
+          "id": "new-hero-tagline",
+          "type": "subheading",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Crafting digital experiences with a creative touch.",
+            "style": {
+              "color": "#ffffff",
+              "textShadow": "1px 1px 3px rgba(0,0,0,0.5)"
+            }
+          }
+        }
+      ],
+      "content": {}
+    },
+    {
+      "type": "contact",
+      "id": "contact-links",
+      "enabled": true,
+      "order": 7,
+      "variant": "social-links",
+      "layout": {
+        "justifyContent": "center",
+        "alignItems": "center"
+      },
+      "style": {
+        "textAlign": "center",
+        "paddingTop": "64px",
+        "paddingBottom": "64px",
+        "backgroundColor": "#f8f8f0"
+      },
+      "components": [
+        {
+          "id": "contact-links-heading",
+          "type": "heading",
+          "enabled": true,
+          "order": 1,
+          "props": {
+            "text": "Connect With Me",
+            "level": "h2",
+            "style": {
+              "marginBottom": "24px"
+            }
+          }
+        },
+        {
+          "id": "contact-email-link",
+          "type": "link",
+          "enabled": true,
+          "order": 2,
+          "props": {
+            "text": "Email Me",
+            "link": "mailto:bradley.ross@example.com",
+            "variant": "primary",
+            "style": {
+              "marginRight": "16px"
+            }
+          }
+        },
+        {
+          "id": "contact-twitter-link",
+          "type": "link",
+          "enabled": true,
+          "order": 3,
+          "props": {
+            "text": "Follow on Twitter",
+            "link": "https://twitter.com/bradleyross",
+            "variant": "secondary"
+          }
+        }
+      ],
+      "content": {}
+    }
+  ]
+}
