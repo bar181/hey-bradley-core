@@ -1,7 +1,4 @@
-Elevator pitch: This site is Bradley Ross's visual design portfolio, showcasing his work and design approach. It serves as a direct point of contact for new opportunities.
-Audience: Prospective clients and collaborators seeking visual design expertise.
-Win condition: The visitor initiates a direct inquiry about a potential design project.
-
-Non-goals:
-- To function as a blog or thought leadership platform.
-- To offer design services not directly related to visual design.
+Elevator pitch: Bradley Ross | Visual Designer showcases a curated portfolio of visual design work, inviting prospective clients and collaborators to explore thoughtful design experiences. It presents a video reel and project grid to highlight capabilities and expertise.
+Audience: Agency creative directors seeking freelance visual designers for upcoming projects.
+Win condition: A prospective client clicks one of the contact links in the footer, indicating interest in a project inquiry or collaboration.
+Differentiator: Unlike a generic social media profile, this site provides a dedicated, immersive portfolio experience focused solely on Bradley Ross's visual design capabilities.

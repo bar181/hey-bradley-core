@@ -99,7 +99,7 @@ export const PROGRESS_ITEMS: ProgressItem[] = [
     name: 'Listen mode (voice → spec → code)',
     score: 9,
     verdict: 'excellent',
-    evidence: 'Web-Speech PTT capture flows through the unified review-first voice UX and lands as a spec-layer patch, not a transcript blob. ListenReviewCard closes the loop.',
+    evidence: 'Web-Speech PTT capture fires patches immediately on silence/stop (P128 F1 removed the review-first gate per owner directive); P126 F5 low-confidence persona-message + Chat-History deep-link is the safety gate. Transcript persists as a spec-layer patch.',
     reference: 'ADR-065 / ADR-066',
   },
   {

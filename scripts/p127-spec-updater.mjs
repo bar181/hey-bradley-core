@@ -327,6 +327,31 @@ async function runSite(client, site) {
     if (spec.id === 'human-spec') {
       varsExtra.northStar = (outputs['north-star'] || '').slice(0, 1500)
       varsExtra.featuresTop5 = ((outputs.features || '').split('\n').slice(0, 5).join('\n'))
+      // Extract the exact primary-CTA button text + theme-mode-vs-luminance check so the human-spec
+      // template can quote them verbatim instead of paraphrasing (P128 loop-3 fix per reviewer).
+      const sectionsArr = Array.isArray(cfg.sections) ? cfg.sections : []
+      const heroSec = sectionsArr.find((s) => s?.type === 'hero')
+      const heroCta = heroSec?.components?.find((c) => /button|cta/.test(c?.type || c?.id || '') && c?.props?.text)
+      const fallbackCta = sectionsArr.flatMap((s) => s?.components || []).find((c) => /button|cta/.test(c?.type || '') && c?.props?.text)
+      varsExtra.exactCta = String((heroCta || fallbackCta)?.props?.text || '').trim()
+      // Luminance check on bgPrimary
+      const hex = String(cfg.theme?.palette?.bgPrimary || '').replace('#', '')
+      const lum = (() => {
+        const m = /^([0-9a-f]{6})$/i.exec(hex)
+        if (!m) return null
+        const n = parseInt(m[1], 16)
+        const r = (n >> 16) & 0xff, g = (n >> 8) & 0xff, b = n & 0xff
+        return (0.299 * r + 0.587 * g + 0.114 * b) / 255
+      })()
+      const declared = String(cfg.theme?.mode || '').toLowerCase()
+      let mismatch = false, observed = ''
+      if (lum != null) {
+        observed = lum < 0.3 ? 'dark' : lum > 0.5 ? 'light' : 'medium'
+        if ((declared === 'light' && lum < 0.3) || (declared === 'dark' && lum > 0.5)) mismatch = true
+      }
+      varsExtra.themeModeNote = mismatch
+        ? `Note: theme.mode declared ${declared} but palette luminance is closer to ${observed}.`
+        : '' // empty = no note line; avoids tautological "declared dark, observed dark" noise
     }
     const userPrompt = substitute(tpl.userPromptTpl, varsExtra)
     log(`[${site.id}] ${spec.id} ...`)

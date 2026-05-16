@@ -150,3 +150,60 @@ Owner-locked $10 phase budget. Headroom: 65× expected spend.
 - Pure-deterministic generators: `src/lib/specGenerators/` (ADR-072)
 - P127 preflight: `plans/hitl/phase-127-spec-update/preflight.md`
 - Owner directive (this session): "use adr, create any templates for prompts or examples as required, plan, implement, verify, optimize, then finally run the spec update process for the 3 examples already available from the phase 126 examples"
+
+---
+
+## Mini-ADR addenda — P128 template quality lift (2026-05-16)
+
+Owner gate (P128 Step 3): all 6 non-AISP templates must score ≥80/100 on brutal-honest reviewer rubric before UI work proceeds. Audience: capable developer or AI agent (not junior). 3 iteration loops authorized.
+
+**Result:** All 6 templates cleared ≥80 (composite 84.7/100, up from 53.8/100 baseline) across 1 full loop + 2 targeted loops on Human Spec.
+
+### Addendum 1 — `north-star.json` (51.7 → 84.0, +32.3)
+
+- Required 4 sections (Elevator pitch / Audience / Win condition / Differentiator).
+- Audience must be a named persona archetype (role + stage + trigger); reject "general users", "businesses", "creators".
+- Win condition must contain a measurable verb tied to a CTA from the structural summary.
+- Differentiator must name a real competitor (Squarespace, Medium, Linktree, etc.).
+
+### Addendum 2 — `features.json` (58.0 → 84.0, +26.0)
+
+- Required per-feature `Section: #<id>` + `Depends: <#id,#id|none>`.
+- Force-rank cap: max 4 P0s; P0 may only depend on P0.
+- Reject layout-as-feature padding ("Compelling Hero Section").
+- Mermaid `flowchart LR` dependency graph at end (quality > quantity).
+
+### Addendum 3 — `architecture.json` (38.0 → 82.0, +44.0 — biggest single-template lift)
+
+- Site-class branching as first line: `## Site class: static-brochure | content-driven | interactive-app`.
+- DDD bounded-contexts block RESERVED for `interactive-app` only (kills cargo-cult on static sites).
+- Required sections: Stack (with pinned versions) / Routing / Hosting / Integrations (named services + fallbacks) / Runtime states / Quality budgets / SEO & social / Data flow.
+- Mermaid `flowchart LR` data-flow diagram required.
+
+### Addendum 4 — `css.json` (69.0 → 88.0, +19.0 — highest absolute score)
+
+- Both `palette.light` and `palette.dark` variants always (6 keys each).
+- 2026 responsive breakpoints: `sm:480 / md:768 / lg:1024 / xl:1280 / 2xl:1536`.
+- `motion.default` + `motion.reduced` for WCAG 2.3.3 compliance.
+- All hex must include `#` prefix + 6 chars; `_warnings` array for mode/luminance contradictions.
+
+### Addendum 5 — `build-plan.json` (40.3 → 84.7, +44.4 — tied biggest lift)
+
+- Required columns: `Phase | Scope | Depends on | Effort | DoD`.
+- Effort budget formula: 0.25–0.5 day per static section + 0.5/integration + 1 a11y/Lighthouse + 0.5 deploy.
+- DoD must include a measurable threshold (Lighthouse score / HTTP 2xx / contrast / breakpoint check / bundle KB / LCP ms). Banned tautologies.
+- Phase 1 names the stack, hosting, and third-party services.
+- Mermaid `gantt` chart visualizing phases and dependencies.
+- `Total effort: N–M day(s)` line required.
+
+### Addendum 6 — `human-spec.json` (66.0 → 85.7, +19.7) — required 3 loops
+
+- **Loop 1** (66.0 → 75.3): Banned vocabulary list; competitor must be a real brand; if `site.tagline` empty say so.
+- **Loop 2** (75.3 → 76.7): Competitor allowlist (Squarespace, Webflow, Framer, Medium, Substack, Toptal, etc.); reject vague placeholders.
+- **Loop 3** (76.7 → 85.7): **Programmatic CTA extraction.** Pipeline pulls hero `primaryCta.props.text` and injects as `{{exactCta}}` template variable; template requires literal double-quoted match in paragraph 3. Theme-mode mismatch also pre-computed (only fires on genuine `theme.mode` vs palette luminance contradiction; no more tautological "declared dark, observed dark" noise).
+
+### Engine changes (`scripts/p127-spec-updater.mjs`)
+
+- Added `exactCta` extraction: walks sections to find the hero CTA (or first button/CTA component); injects as template variable for the human-spec stage.
+- Added `themeModeNote` pre-computation: compares `theme.mode` to `bgPrimary` luminance (`r*0.299 + g*0.587 + b*0.114`); emits a `Note:` line only on contradiction.
+- These two are the only spec-specific extras the engine computes; everything else remains template-driven.

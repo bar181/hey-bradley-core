@@ -1,7 +1,8 @@
-Elevator pitch: This site is a dynamic whiteboard platform that uses AI to refine raw ideas into structured narratives and actionable insights. It helps users articulate complex concepts simply and effectively.
-Audience: Creators and innovators looking to refine conceptual visions into tangible plans.
-Win condition: The user successfully transforms a nascent idea into a clear, actionable narrative or technical blueprint.
+Elevator pitch: Hey Bradley is a personal site that transforms visitor ideas into reality through intuitive storytelling. It delivers AI-driven insights to unlock the story behind their next big thing.
+  Audience: An aspiring creator, early in their journey, seeking inspiration and tools after hitting a creative block.
+  Win condition: The visitor clicks the primary hero "button" to begin exploring new ideas they haven't yet imagined.
+  Differentiator: Unlike Medium, this site directly aids the ideation process for personal projects, rather than just publishing completed work.
 
-Non-goals:
-- To be a generic note-taking application.
-- To replace dedicated project management tools.
+  Non-goals:
+  - Facilitating direct collaboration between users.
+  - Serving as a full-fledged project management tool.

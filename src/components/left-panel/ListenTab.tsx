@@ -8,7 +8,8 @@
  *
  * P74 / Track B / A4 — highlight applied at chat surface; full text in log.
  * The listen-tab transcript surface is short-form by construction (live STT
- * partials + a single confirmed line via ListenTranscript / ListenReviewCard).
+ * partials + a single confirmed line via ListenTranscript). P128 F1 removed
+ * the pre-pipeline review card; patches now fire immediately on silence/stop.
  * If a future revision starts surfacing long bradley replies inline here,
  * wrap the displayed reply in `extractHighlight(text, { minWords: 5,
  * maxWords: 25 })` and keep the raw transcript in pipeline state so the

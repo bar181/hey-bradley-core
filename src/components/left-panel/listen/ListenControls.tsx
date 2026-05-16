@@ -22,7 +22,6 @@ export interface ListenControlsProps {
     | 'pttSupported'
     | 'pttRecording'
     | 'pttBusy'
-    | 'pttReview'
     | 'pttClarification'
     | 'pttPrivacyOpen'
   >
@@ -37,7 +36,6 @@ export function ListenControls({ state, handlers }: ListenControlsProps) {
     pttSupported,
     pttRecording,
     pttBusy,
-    pttReview,
     pttClarification,
     pttPrivacyOpen,
   } = state
@@ -86,19 +84,13 @@ export function ListenControls({ state, handlers }: ListenControlsProps) {
         onTouchStart={handlePttPressStart}
         onTouchEnd={handlePttPressEnd}
         aria-pressed={pttRecording}
-        aria-label={
-          pttRecording
-            ? 'Listening'
-            : pttReview
-              ? 'Resolve review first'
-              : 'Hold to talk'
-        }
-        disabled={pttBusy || pttReview !== null || pttClarification !== null}
+        aria-label={pttRecording ? 'Listening' : 'Hold to talk'}
+        disabled={pttBusy || pttClarification !== null}
         // P53 A11 — Mobile polish: larger tappable target (max-md:w-24/h-24
         // centered), touch-none to prevent scroll-jacking on press-and-hold,
         // active:scale + tinted bg for haptic-feel feedback.
         className={`w-full max-w-[300px] max-md:mx-auto max-md:w-24 max-md:h-24 max-md:rounded-full max-md:max-w-none flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold tracking-wider uppercase border transition-all select-none touch-none active:scale-95 active:bg-hb-accent/20 ${
-          pttBusy || pttReview || pttClarification
+          pttBusy || pttClarification
             ? 'bg-white/5 text-white/40 border-white/10 opacity-60 cursor-not-allowed'
             : pttRecording
               ? 'bg-hb-accent text-white scale-95 border-hb-accent'
@@ -110,11 +102,9 @@ export function ListenControls({ state, handlers }: ListenControlsProps) {
           ? 'Sending…'
           : pttRecording
             ? 'Listening…'
-            : pttReview
-              ? 'Review first ↑'
-              : pttClarification
-                ? 'Clarify ↑'
-                : 'Hold to talk'}
+            : pttClarification
+              ? 'Clarify ↑'
+              : 'Hold to talk'}
       </button>
       {pttPrivacyOpen && (
         <div
@@ -140,7 +130,7 @@ export function ListenControls({ state, handlers }: ListenControlsProps) {
           Surfaces only when the user is idle (not recording, not busy, no
           review/clarification cards). Lists the highest-leverage voice
           phrasings so users discover commands without reading docs. */}
-      {!pttRecording && !pttBusy && !pttReview && !pttClarification && (
+      {!pttRecording && !pttBusy && !pttClarification && (
         <div
           data-testid="listen-command-hint"
           className="w-full max-w-[300px] text-[10px] text-white/55 leading-relaxed text-center"

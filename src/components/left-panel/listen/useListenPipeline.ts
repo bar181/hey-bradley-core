@@ -31,19 +31,12 @@ import {
 } from '@/contexts/intelligence/aisp'
 // R2 S2 — listen-write redaction symmetry: BYOK leak guard at persist boundary.
 import { redactKeyShapes } from '@/contexts/intelligence/llm/keys'
-import { buildActionPreview } from './listenActionPreview'
 import { PTT_HOLD_GATE_MS, PTT_AUTO_STOP_MS, PRIVACY_ACK_KEY } from './listenHelpers'
 
 export interface ListenAispChip {
   verb: string
   target: string | null
   templateId: string | null
-}
-
-export interface ListenReviewState {
-  transcript: string
-  preview: string
-  confidence: number
 }
 
 export interface ListenClarificationState {
@@ -63,7 +56,6 @@ export interface ListenPipelineState {
   pttReply: string
   pttBusy: boolean
   pttAisp: ListenAispChip | null
-  pttReview: ListenReviewState | null
   pttClarification: ListenClarificationState | null
   pttHint: string
   pttPrivacyOpen: boolean
@@ -72,9 +64,6 @@ export interface ListenPipelineState {
 export interface ListenPipelineHandlers {
   handlePttPressStart: () => void
   handlePttPressEnd: () => void
-  handleListenApprove: () => Promise<void>
-  handleListenEdit: () => void
-  handleListenCancel: () => void
   handleListenClarificationAccept: (a: Assumption) => Promise<void>
   setPttPrivacyOpen: (open: boolean | ((prev: boolean) => boolean)) => void
   dismissError: () => void
@@ -104,7 +93,6 @@ export function useListenPipeline(): UseListenPipelineReturn {
   const [pttReply, setPttReply] = useState<string>('')
   const [pttBusy, setPttBusy] = useState<boolean>(false)
   const [pttAisp, setPttAisp] = useState<ListenAispChip | null>(null)
-  const [pttReview, setPttReview] = useState<ListenReviewState | null>(null)
   const [pttClarification, setPttClarification] = useState<ListenClarificationState | null>(null)
   const [pttHint, setPttHint] = useState<string>('')
   const [pttPrivacyOpen, setPttPrivacyOpen] = useState<boolean>(false)
@@ -174,9 +162,15 @@ export function useListenPipeline(): UseListenPipelineReturn {
   }, [])
 
   /**
-   * P36 (A2) — Build the pre-pipeline review card for the final transcript.
-   * Empty input → no_speech banner. Non-empty → review state populated; the
-   * chat pipeline is NOT called yet. Approve fires `runListenPipeline`.
+   * P128 F1 fix — Listen mode now fires patches IMMEDIATELY on silence/stop.
+   * The prior P36 review-card gate (build preview → approve click → run pipeline)
+   * defeated the core listen-mode value prop (site updates while you're still
+   * talking). Per owner directive 2026-05-16: the P126 F5 low-confidence
+   * persona-message-with-Chat-History-deep-link is the safety gate now.
+   *
+   * Flow: empty → no_speech banner. Non-empty → high-confidence command
+   * short-circuit (slash/voice phrases) OR direct dispatch into the chat
+   * pipeline. No review card.
    */
   const submitListenFinal = useCallback(async (final: string): Promise<void> => {
     const text = final.trim()
@@ -191,11 +185,9 @@ export function useListenPipeline(): UseListenPipelineReturn {
     setPttReply('')
     setPttAisp(null)
     setPttClarification(null)
-    // P37 Sprint F P2 (A1) — Command-trigger gate runs BEFORE the review
-    // card. High-confidence slash/voice phrases bypass review. ADR-066.
-    // P38 Sprint F end-of-sprint R4 F1 fix-pass — switch consolidated into
-    // shared dispatchCommand so chat + voice never drift again. R2 F2 fix:
-    // template-help now handled on voice (was unhandled silent dead-end).
+    // P37 Sprint F P2 (A1) — Command-trigger gate. High-confidence slash /
+    // voice phrases run a directive directly (ADR-066). All other text now
+    // falls through to the chat pipeline immediately (no review card).
     const cmd = parseCommand(text)
     if (cmd) {
       const directive = dispatchCommand(cmd)
@@ -222,44 +214,13 @@ export function useListenPipeline(): UseListenPipelineReturn {
           }
         }
       }
-      // 'fallthrough' (hide/show passthroughs) — let review card render.
+      // 'fallthrough' (hide/show passthroughs) — fall through to pipeline below.
     }
-    const preview = buildActionPreview(text)
-    setPttReview({
-      transcript: text,
-      preview: preview.text,
-      confidence: preview.intent.confidence,
-    })
-  }, [])
-
-  /**
-   * P36 (A2) — Approve handler. `approveInFlightRef` guards against
-   * double-clicks before pttBusy commits (standard React state-flip race).
-   */
-  const approveInFlightRef = useRef(false)
-  const handleListenApprove = useCallback(async () => {
-    if (!pttReview || approveInFlightRef.current) return
-    approveInFlightRef.current = true
-    try {
-      const { transcript } = pttReview
-      setPttReview(null)
-      await runListenPipeline(transcript)
-    } finally {
-      approveInFlightRef.current = false
-    }
-  }, [pttReview, runListenPipeline])
-
-  const handleListenEdit = useCallback(() => {
-    if (!pttReview) return
-    const { transcript } = pttReview
-    setPttReview(null)
-    useUIStore.getState().setPendingChatPrefill(transcript)
-    useUIStore.getState().setLeftPanelTab('chat')
-  }, [pttReview])
-
-  const handleListenCancel = useCallback(() => {
-    setPttReview(null)
-  }, [])
+    // P128 F1 — No review card. Run the chat pipeline directly. Low-confidence
+    // safety is handled by the P126 F5 persona-message + Chat-History deep-link
+    // emitted by the chat pipeline itself.
+    await runListenPipeline(text)
+  }, [runListenPipeline])
 
   const handleListenClarificationAccept = useCallback(
     async (a: Assumption) => {
@@ -377,7 +338,6 @@ export function useListenPipeline(): UseListenPipelineReturn {
       pttReply,
       pttBusy,
       pttAisp,
-      pttReview,
       pttClarification,
       pttHint,
       pttPrivacyOpen,
@@ -385,9 +345,6 @@ export function useListenPipeline(): UseListenPipelineReturn {
     handlers: {
       handlePttPressStart,
       handlePttPressEnd,
-      handleListenApprove,
-      handleListenEdit,
-      handleListenCancel,
       handleListenClarificationAccept,
       setPttPrivacyOpen,
       dismissError,

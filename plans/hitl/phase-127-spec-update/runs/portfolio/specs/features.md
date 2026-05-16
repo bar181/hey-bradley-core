@@ -1,7 +1,14 @@
-1. **Navigation Menu** — Provides quick access to different sections of the site, branded with "Bradley Ross". _Priority: P0_
-2. **Hero Section with Value Proposition** — Immediately communicates the designer's name, profession, and crafting thoughtful visual experiences. _Priority: P0_
-3. **Call to Action (Hero)** — Encourages users to take a primary action, likely to view work or contact. _Priority: P0_
-4. **Video Reel Display** — Showcases dynamic work or an introduction through an embedded video. _Priority: P0_
-5. **Project Grid Display** — Presents a collection of six project cards in a clear, organized layout for easy browsing. _Priority: P0_
-6. **Individual Project Cards** — Each card within the grid likely offers a preview of a project, encouraging deeper engagement. _Priority: P0_
-7. **Contact Links** — Offers direct links for users to get in touch with the designer. _Priority: P1_
+1. **Navigate site pages** — Users can easily move between different sections of the portfolio to find information. _Priority: P0_ _Section: #navbar-01_ _Depends: none_
+2. **Understand designer's role** — Visitors immediately grasp Bradley Ross's profession and core offering upon landing. _Priority: P0_ _Section: #hero-01_ _Depends: none_
+3. **Showcase design capabilities** — Users can watch a curated reel demonstrating the designer's visual work and style. _Priority: P0_ _Section: #video-01_ _Depends: none_
+4. **Browse past projects** — Users can explore individual project examples to understand the designer's skills and experience in detail. _Priority: P0_ _Section: #projects-01_ _Depends: none_
+5. **Initiate contact with designer** — Users can easily find and use links to reach out to Bradley Ross for inquiries or collaborations. _Priority: P1_ _Section: #contact-01_ _Depends: #navbar-01_
+6. **Learn designer's unique value** — Users understand the designer's specific approach to visual experiences. _Priority: P1_ _Section: #hero-01_ _Depends: #hero-01_
+7. **Request portfolio download/link** — Users can click a button to potentially access more detailed information or a contact form. _Priority: P2_ _Section: #hero-01_ _Depends: #hero-01_
+
+## Dependency graph
+```mermaid
+flowchart LR
+    P0_1[1. Navigate site pages] --> P1_1[5. Initiate contact with designer]
+    P0_2[2. Understand designer's role] --> P1_2[6. Learn designer's unique value]
+    P0_2 --> P2_1[7. Request portfolio download/link]
