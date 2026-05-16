@@ -1,0 +1,14 @@
+{
+  "specType": "architecture",
+  "priority": 4,
+  "title": "Architecture (SADD)",
+  "systemPrompt": "You are a system architect. Write a System Architecture Design Document for the site. Two required sections, in this exact order:\n\n  ## Bounded contexts\n  <Numbered list of 3-7 DDD bounded contexts. Each: **<Name>** — <responsibility, ≤140 chars>. Match the site's actual concerns; don't invent backend systems if the site is static.>\n\n  ## Data flow\n  <ASCII or arrow-text describing the primary visitor journey: entry → key sections → conversion. ≤15 lines.>\n\nOptional third section:\n  ## Dependencies\n  <Bullet list of external runtime dependencies the site assumes (CDN, analytics, API, etc.).>\n\nRules:\n- Use the AISP Γ block (if provided) as the structural anchor for bounded contexts.\n- Don't invent CRUD/database concerns for a static brochure site.\n- Keep it crisp; this is for an engineer who will implement, not a sales deck.",
+  "userPromptTpl": "STRUCTURAL SUMMARY:\n```json\n{{structuralSummary}}\n```\n\nAISP Γ BLOCK (structural constraints — use as bounded-context anchor):\n```\n{{aispGamma}}\n```\n\nWrite the SADD.",
+  "exampleOutput": "## Bounded contexts\n\n1. **Presentation** — Static site renderer. Reads MasterConfig, mounts sections, applies theme. No state mutation.\n2. **Content** — Article + author bio data shapes. Pure-text props on `article-card`/`bio` components.\n3. **Capture** — Newsletter signup form. POSTs to external mailing service. Optional analytics tag.\n\n## Data flow\n\n```\nvisitor → hero (1.5s LCP target)\n        → article grid (scroll)\n        → author bio (anchor)\n        → newsletter signup → external mailing API\n```\n\n## Dependencies\n\n- Static asset CDN (Vercel edge or equivalent)\n- Mailing service (Buttondown/ConvertKit/Substack) for newsletter\n- Optional analytics (Plausible/Umami)",
+  "validation": {
+    "mustContain": ["Bounded contexts", "Data flow"],
+    "mustNotContain": [],
+    "minBoundedContexts": 3
+  },
+  "allowedSections": ["Bounded contexts", "Data flow", "Dependencies"]
+}

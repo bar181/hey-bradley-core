@@ -1,0 +1,68 @@
+{
+  "site": "portfolio",
+  "timestamp": "2026-05-16T20:26:01.982Z",
+  "aispPath": "runs/portfolio/specs/aisp.md",
+  "gates": {
+    "ambiguity": {
+      "value": 0,
+      "threshold": 0.02,
+      "pass": true
+    },
+    "reproduction": {
+      "value": 1,
+      "threshold": 0.98,
+      "pass": true
+    },
+    "mathFirst": {
+      "value": 0,
+      "threshold": 0.3,
+      "pass": true
+    },
+    "symbolCov": {
+      "value": 20,
+      "threshold": 18,
+      "pass": true
+    }
+  },
+  "passCount": 4,
+  "overallPass": true,
+  "detail": {
+    "mathFirst": {
+      "proseLines": 0,
+      "symbolLines": 128,
+      "totalLines": 134,
+      "proseDensity": 0,
+      "proseExamples": [],
+      "pass": true
+    },
+    "symbolCov": {
+      "distinctAtoms": 20,
+      "definitions": 118,
+      "universals": 1,
+      "pass": true
+    },
+    "reproduction": {
+      "score": 1,
+      "axes": {
+        "palette": 1,
+        "typography": 1,
+        "sections": 1,
+        "brand": 1,
+        "mode": 1
+      },
+      "reasons": [],
+      "cost": 0.0063692,
+      "wallClockMs": 8680
+    },
+    "ambiguity": {
+      "totalFacts": 72,
+      "factsPresent": 72,
+      "factsMissing": 0,
+      "completeness": 1,
+      "ambiguityScore": 0,
+      "missingExamples": [],
+      "pass": true
+    }
+  },
+  "cost": 0.0063692
+}

@@ -1,0 +1,97 @@
+{
+  "timestamp": "2026-05-16T20:26:07.667Z",
+  "thresholds": {
+    "ambiguity": 0.02,
+    "reproduction": 0.98,
+    "proseDensityMax": 0.3,
+    "minDistinctAtoms": 18
+  },
+  "sites": [
+    {
+      "site": "blog",
+      "overallPass": true,
+      "passCount": 4,
+      "gates": {
+        "ambiguity": {
+          "value": 0,
+          "threshold": 0.02,
+          "pass": true
+        },
+        "reproduction": {
+          "value": 1,
+          "threshold": 0.98,
+          "pass": true
+        },
+        "mathFirst": {
+          "value": 0,
+          "threshold": 0.3,
+          "pass": true
+        },
+        "symbolCov": {
+          "value": 18,
+          "threshold": 18,
+          "pass": true
+        }
+      },
+      "cost": 0.0056215
+    },
+    {
+      "site": "portfolio",
+      "overallPass": true,
+      "passCount": 4,
+      "gates": {
+        "ambiguity": {
+          "value": 0,
+          "threshold": 0.02,
+          "pass": true
+        },
+        "reproduction": {
+          "value": 1,
+          "threshold": 0.98,
+          "pass": true
+        },
+        "mathFirst": {
+          "value": 0,
+          "threshold": 0.3,
+          "pass": true
+        },
+        "symbolCov": {
+          "value": 20,
+          "threshold": 18,
+          "pass": true
+        }
+      },
+      "cost": 0.0063692
+    },
+    {
+      "site": "marketing",
+      "overallPass": true,
+      "passCount": 4,
+      "gates": {
+        "ambiguity": {
+          "value": 0,
+          "threshold": 0.02,
+          "pass": true
+        },
+        "reproduction": {
+          "value": 1,
+          "threshold": 0.98,
+          "pass": true
+        },
+        "mathFirst": {
+          "value": 0,
+          "threshold": 0.3,
+          "pass": true
+        },
+        "symbolCov": {
+          "value": 19,
+          "threshold": 18,
+          "pass": true
+        }
+      },
+      "cost": 0.0108579
+    }
+  ],
+  "totalCost": 0.0228486,
+  "overallVerdict": "PASS"
+}

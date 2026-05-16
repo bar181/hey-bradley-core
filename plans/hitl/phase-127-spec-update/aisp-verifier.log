@@ -1,0 +1,8 @@
+[2026-05-16T20:25:53.297Z] === P127 AISP verifier — Ambig<2%, repro≥98%, prose<30%, atoms≥30 ===
+[2026-05-16T20:25:53.299Z] [blog] running 4-axis verification (2 deterministic + 2 LLM in parallel)
+[2026-05-16T20:25:53.301Z] [portfolio] running 4-axis verification (2 deterministic + 2 LLM in parallel)
+[2026-05-16T20:25:53.302Z] [marketing] running 4-axis verification (2 deterministic + 2 LLM in parallel)
+[2026-05-16T20:26:01.211Z] [blog] gates: ambig=0.000 ✓ · repro=100.0% ✓ · prose=0.0% ✓ · atoms=18 ✓ · cost=$0.005621
+[2026-05-16T20:26:01.982Z] [portfolio] gates: ambig=0.000 ✓ · repro=100.0% ✓ · prose=0.0% ✓ · atoms=20 ✓ · cost=$0.006369
+[2026-05-16T20:26:07.667Z] [marketing] gates: ambig=0.000 ✓ · repro=100.0% ✓ · prose=0.0% ✓ · atoms=19 ✓ · cost=$0.010858
+[2026-05-16T20:26:07.667Z] === verifier done: verdict=PASS cost=$0.022849 ===

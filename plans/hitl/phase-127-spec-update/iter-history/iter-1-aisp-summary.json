@@ -1,0 +1,97 @@
+{
+  "timestamp": "2026-05-16T20:11:29.824Z",
+  "thresholds": {
+    "ambiguity": 0.02,
+    "reproduction": 0.98,
+    "proseDensityMax": 0.3,
+    "minDistinctAtoms": 30
+  },
+  "sites": [
+    {
+      "site": "blog",
+      "overallPass": false,
+      "passCount": 3,
+      "gates": {
+        "ambiguity": {
+          "value": 0.05,
+          "threshold": 0.02,
+          "pass": false
+        },
+        "reproduction": {
+          "value": 1.03125,
+          "threshold": 0.98,
+          "pass": true
+        },
+        "mathFirst": {
+          "value": 0,
+          "threshold": 0.3,
+          "pass": true
+        },
+        "symbolCov": {
+          "value": 37,
+          "threshold": 30,
+          "pass": true
+        }
+      },
+      "cost": 0.0035428
+    },
+    {
+      "site": "portfolio",
+      "overallPass": false,
+      "passCount": 3,
+      "gates": {
+        "ambiguity": {
+          "value": 0.05,
+          "threshold": 0.02,
+          "pass": false
+        },
+        "reproduction": {
+          "value": 1,
+          "threshold": 0.98,
+          "pass": true
+        },
+        "mathFirst": {
+          "value": 0,
+          "threshold": 0.3,
+          "pass": true
+        },
+        "symbolCov": {
+          "value": 31,
+          "threshold": 30,
+          "pass": true
+        }
+      },
+      "cost": 0.0054681
+    },
+    {
+      "site": "marketing",
+      "overallPass": false,
+      "passCount": 2,
+      "gates": {
+        "ambiguity": {
+          "value": 1,
+          "threshold": 0.02,
+          "pass": false
+        },
+        "reproduction": {
+          "value": 0.3559523809523809,
+          "threshold": 0.98,
+          "pass": false
+        },
+        "mathFirst": {
+          "value": 0.005681818181818182,
+          "threshold": 0.3,
+          "pass": true
+        },
+        "symbolCov": {
+          "value": 40,
+          "threshold": 30,
+          "pass": true
+        }
+      },
+      "cost": 0.0050844
+    }
+  ],
+  "totalCost": 0.014095300000000002,
+  "overallVerdict": "FAIL"
+}

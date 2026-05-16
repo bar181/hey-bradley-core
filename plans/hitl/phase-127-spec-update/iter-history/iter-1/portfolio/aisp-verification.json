@@ -1,0 +1,71 @@
+{
+  "site": "portfolio",
+  "timestamp": "2026-05-16T20:11:29.823Z",
+  "aispPath": "runs/portfolio/specs/aisp.md",
+  "gates": {
+    "ambiguity": {
+      "value": 0.05,
+      "threshold": 0.02,
+      "pass": false
+    },
+    "reproduction": {
+      "value": 1,
+      "threshold": 0.98,
+      "pass": true
+    },
+    "mathFirst": {
+      "value": 0,
+      "threshold": 0.3,
+      "pass": true
+    },
+    "symbolCov": {
+      "value": 31,
+      "threshold": 30,
+      "pass": true
+    }
+  },
+  "passCount": 3,
+  "overallPass": false,
+  "detail": {
+    "mathFirst": {
+      "proseLines": 0,
+      "symbolLines": 128,
+      "totalLines": 163,
+      "proseDensity": 0,
+      "proseExamples": [],
+      "pass": true
+    },
+    "symbolCov": {
+      "distinctAtoms": 31,
+      "definitions": 41,
+      "universals": 7,
+      "pass": true
+    },
+    "reproduction": {
+      "score": 1,
+      "axes": {
+        "palette": 1,
+        "typography": 1,
+        "sections": 1,
+        "brand": 1,
+        "mode": 1
+      },
+      "reasons": [],
+      "cost": 0.0039062,
+      "wallClockMs": 4856
+    },
+    "ambiguity": {
+      "ambiguityScore": 0.05,
+      "ambiguityCount": 3,
+      "examples": [
+        "The 'variant' field in `Section` is a `𝕊` but has no explicit constraints or examples, making its valid values ambiguous.",
+        "The `Site` type includes `voiceAttributes: Vec[𝕊]`, `tone: 𝕊`, `audience: 𝕊`, and `purpose: 𝕊` but provides no specific examples or constraints for their values, leading to ambiguity in what constitutes a 'valid' value for these fields.",
+        "The `Site` type has `brandName`, `author`, `voiceAttributes`, `tone`, `audience`, and `purpose` fields which are explicitly set to empty/default values in the `Γ` facts, suggesting they might be optional or unused, yet they are required parts of the `Site` type. This creates ambiguity about their intended use and whether they can ever hold non-empty values in a valid `SiteSpec`."
+      ],
+      "totalFactsObserved": 60,
+      "cost": 0.0015619000000000002,
+      "wallClockMs": 1809
+    }
+  },
+  "cost": 0.0054681
+}

@@ -1,0 +1,97 @@
+{
+  "timestamp": "2026-05-16T20:15:18.926Z",
+  "thresholds": {
+    "ambiguity": 0.02,
+    "reproduction": 0.98,
+    "proseDensityMax": 0.3,
+    "minDistinctAtoms": 30
+  },
+  "sites": [
+    {
+      "site": "blog",
+      "overallPass": false,
+      "passCount": 3,
+      "gates": {
+        "ambiguity": {
+          "value": 0,
+          "threshold": 0.02,
+          "pass": true
+        },
+        "reproduction": {
+          "value": 1,
+          "threshold": 0.98,
+          "pass": true
+        },
+        "mathFirst": {
+          "value": 0,
+          "threshold": 0.3,
+          "pass": true
+        },
+        "symbolCov": {
+          "value": 20,
+          "threshold": 30,
+          "pass": false
+        }
+      },
+      "cost": 0.0027551
+    },
+    {
+      "site": "portfolio",
+      "overallPass": false,
+      "passCount": 3,
+      "gates": {
+        "ambiguity": {
+          "value": 0,
+          "threshold": 0.02,
+          "pass": true
+        },
+        "reproduction": {
+          "value": 1,
+          "threshold": 0.98,
+          "pass": true
+        },
+        "mathFirst": {
+          "value": 0,
+          "threshold": 0.3,
+          "pass": true
+        },
+        "symbolCov": {
+          "value": 19,
+          "threshold": 30,
+          "pass": false
+        }
+      },
+      "cost": 0.0038305
+    },
+    {
+      "site": "marketing",
+      "overallPass": false,
+      "passCount": 3,
+      "gates": {
+        "ambiguity": {
+          "value": 0,
+          "threshold": 0.02,
+          "pass": true
+        },
+        "reproduction": {
+          "value": 1,
+          "threshold": 0.98,
+          "pass": true
+        },
+        "mathFirst": {
+          "value": 0,
+          "threshold": 0.3,
+          "pass": true
+        },
+        "symbolCov": {
+          "value": 20,
+          "threshold": 30,
+          "pass": false
+        }
+      },
+      "cost": 0.0054985
+    }
+  ],
+  "totalCost": 0.0120841,
+  "overallVerdict": "FAIL"
+}

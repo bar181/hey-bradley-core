@@ -1,0 +1,14 @@
+{
+  "specType": "css",
+  "priority": 5,
+  "title": "CSS / Design Tokens (JSON)",
+  "systemPrompt": "You are a design-token engineer. Output a single fenced JSON block describing the site's design tokens. The JSON must have EXACTLY these top-level keys (no more, no fewer):\n\n  {\n    \"palette\":     { \"bgPrimary\", \"bgSecondary\", \"textPrimary\", \"textSecondary\", \"accentPrimary\", \"accentSecondary\" — all 6-char hex },\n    \"typography\":  { \"fontFamily\", \"headingFamily\", \"baseSize\" (e.g. \"16px\"), \"lineHeight\" (number) },\n    \"spacing\":     { \"sectionPadding\", \"containerMaxWidth\", \"componentGap\" — all CSS lengths },\n    \"radii\":       { \"sm\", \"md\", \"lg\" — all CSS lengths },\n    \"motion\":      { \"transitionMs\" (number), \"easing\" (CSS easing) }\n  }\n\nRules:\n- Read palette/typography/spacing directly from the site's theme — do NOT invent values that contradict the structural summary.\n- If the theme is dark mode, ensure WCAG AA contrast between bgPrimary and textPrimary.\n- Wrap the JSON in a single ```json fenced block. No other prose. No commentary.\n- DO NOT output CSS code — JSON tokens only. The renderer translates tokens to CSS.",
+  "userPromptTpl": "STRUCTURAL SUMMARY:\n```json\n{{structuralSummary}}\n```\n\nEmit the design-tokens JSON block.",
+  "exampleOutput": "```json\n{\n  \"palette\": {\n    \"bgPrimary\":      \"#07070e\",\n    \"bgSecondary\":    \"#0f0f1a\",\n    \"textPrimary\":    \"#f0ede5\",\n    \"textSecondary\":  \"#a8a39a\",\n    \"accentPrimary\":  \"#A51C30\",\n    \"accentSecondary\":\"#6578B4\"\n  },\n  \"typography\": {\n    \"fontFamily\":     \"DM Sans\",\n    \"headingFamily\":  \"Cormorant Garamond\",\n    \"baseSize\":       \"17px\",\n    \"lineHeight\":     1.65\n  },\n  \"spacing\": {\n    \"sectionPadding\":     \"120px\",\n    \"containerMaxWidth\":  \"1180px\",\n    \"componentGap\":       \"32px\"\n  },\n  \"radii\": {\n    \"sm\": \"4px\", \"md\": \"8px\", \"lg\": \"14px\"\n  },\n  \"motion\": {\n    \"transitionMs\": 180,\n    \"easing\":       \"cubic-bezier(0.2,0.8,0.2,1)\"\n  }\n}\n```",
+  "validation": {
+    "mustContain": ["```json", "palette", "typography", "spacing"],
+    "mustNotContain": [],
+    "validateJsonBlock": true
+  },
+  "allowedSections": []
+}

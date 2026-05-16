@@ -1,0 +1,68 @@
+{
+  "site": "marketing",
+  "timestamp": "2026-05-16T20:15:18.926Z",
+  "aispPath": "runs/marketing/specs/aisp.md",
+  "gates": {
+    "ambiguity": {
+      "value": 0,
+      "threshold": 0.02,
+      "pass": true
+    },
+    "reproduction": {
+      "value": 1,
+      "threshold": 0.98,
+      "pass": true
+    },
+    "mathFirst": {
+      "value": 0,
+      "threshold": 0.3,
+      "pass": true
+    },
+    "symbolCov": {
+      "value": 20,
+      "threshold": 30,
+      "pass": false
+    }
+  },
+  "passCount": 3,
+  "overallPass": false,
+  "detail": {
+    "mathFirst": {
+      "proseLines": 0,
+      "symbolLines": 57,
+      "totalLines": 68,
+      "proseDensity": 0,
+      "proseExamples": [],
+      "pass": true
+    },
+    "symbolCov": {
+      "distinctAtoms": 20,
+      "definitions": 44,
+      "universals": 1,
+      "pass": false
+    },
+    "reproduction": {
+      "score": 1,
+      "axes": {
+        "palette": 1,
+        "typography": 1,
+        "sections": 1.2142857142857144,
+        "brand": 1,
+        "mode": 1
+      },
+      "reasons": [],
+      "cost": 0.0054985,
+      "wallClockMs": 7975
+    },
+    "ambiguity": {
+      "totalFacts": 31,
+      "factsPresent": 31,
+      "factsMissing": 0,
+      "completeness": 1,
+      "ambiguityScore": 0,
+      "missingExamples": [],
+      "pass": true
+    }
+  },
+  "cost": 0.0054985
+}
