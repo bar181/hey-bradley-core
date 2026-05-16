@@ -1,0 +1,10 @@
+[2026-05-16T18:33:59.646Z] === P126 F6 retry — direct Gemini API, max 5 iterations, $10 budget ===
+[2026-05-16T18:33:59.657Z] iter-1 session-1 → "Update the hero section"
+[2026-05-16T18:34:00.958Z]   ↳ 1292ms  $0.000475  grade=1.00  OK
+[2026-05-16T18:34:00.958Z] iter-1 session-2 → "Change the hero headline to Ship faster"
+[2026-05-16T18:34:01.875Z]   ↳ 915ms  $0.000434  grade=1.00  OK
+[2026-05-16T18:34:01.875Z] iter-1 session-3 → "Make it pop"
+[2026-05-16T18:34:03.059Z]   ↳ 1183ms  $0.000563  grade=1.00  OK
+[2026-05-16T18:34:03.060Z] iter-1 composite=1.00  cost=$0.001472
+[2026-05-16T18:34:03.060Z] Converged at iter-1 (composite=1.00)
+[2026-05-16T18:34:03.061Z] === overall best composite=1.00 verdict=PASS totalCost=$0.001472 ===

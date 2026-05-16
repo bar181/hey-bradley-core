@@ -1,0 +1,22 @@
+{
+  "iteration": 1,
+  "compositeScore": 1,
+  "iterationCostUsd": 0.0014718,
+  "sessions": [
+    {
+      "session": 1,
+      "score": 1,
+      "reasons": []
+    },
+    {
+      "session": 2,
+      "score": 1,
+      "reasons": []
+    },
+    {
+      "session": 3,
+      "score": 1,
+      "reasons": []
+    }
+  ]
+}
