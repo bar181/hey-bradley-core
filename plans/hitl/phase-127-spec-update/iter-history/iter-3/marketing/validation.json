@@ -1,0 +1,30 @@
+{
+  "aisp": {
+    "pass": true,
+    "failures": []
+  },
+  "north-star": {
+    "pass": true,
+    "failures": []
+  },
+  "features": {
+    "pass": true,
+    "failures": []
+  },
+  "architecture": {
+    "pass": true,
+    "failures": []
+  },
+  "css": {
+    "pass": true,
+    "failures": []
+  },
+  "build-plan": {
+    "pass": true,
+    "failures": []
+  },
+  "human-spec": {
+    "pass": true,
+    "failures": []
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "site": "marketing",
+  "timestamp": "2026-05-16T20:11:29.563Z",
+  "aispPath": "runs/marketing/specs/aisp.md",
+  "gates": {
+    "ambiguity": {
+      "value": 1,
+      "threshold": 0.02,
+      "pass": false
+    },
+    "reproduction": {
+      "value": 0.3559523809523809,
+      "threshold": 0.98,
+      "pass": false
+    },
+    "mathFirst": {
+      "value": 0.005681818181818182,
+      "threshold": 0.3,
+      "pass": true
+    },
+    "symbolCov": {
+      "value": 40,
+      "threshold": 30,
+      "pass": true
+    }
+  },
+  "passCount": 2,
+  "overallPass": false,
+  "detail": {
+    "mathFirst": {
+      "proseLines": 1,
+      "symbolLines": 153,
+      "totalLines": 176,
+      "proseDensity": 0.005681818181818182,
+      "proseExamples": [
+        "Scope: Digital marketing site structure, metadata, styling, content arrangement."
+      ],
+      "pass": true
+    },
+    "symbolCov": {
+      "distinctAtoms": 40,
+      "definitions": 32,
+      "universals": 26,
+      "pass": true
+    },
+    "reproduction": {
+      "score": 0.3559523809523809,
+      "axes": {
+        "palette": 0.16666666666666666,
+        "typography": 0.3333333333333333,
+        "sections": 0.5571428571428572,
+        "brand": 0,
+        "mode": 1
+      },
+      "reasons": [
+        "palette 1/6 keys match",
+        "typography 1/3 keys match",
+        "sections: orig=10 reproduced=4, type Jaccard=0.71",
+        "brand mismatch: \"atlas ai consulting\" vs \"my awesome site\""
+      ],
+      "cost": 0.0033906,
+      "wallClockMs": 4592
+    },
+    "ambiguity": {
+      "ambiguityScore": 1,
+      "ambiguityCount": -1,
+      "examples": [
+        "probe returned no JSON"
+      ],
+      "cost": 0.0016937999999999999,
+      "wallClockMs": 2315
+    }
+  },
+  "cost": 0.0050844
+}

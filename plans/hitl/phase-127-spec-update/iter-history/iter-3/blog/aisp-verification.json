@@ -1,0 +1,70 @@
+{
+  "site": "blog",
+  "timestamp": "2026-05-16T20:23:03.047Z",
+  "aispPath": "runs/blog/specs/aisp.md",
+  "gates": {
+    "ambiguity": {
+      "value": 0,
+      "threshold": 0.02,
+      "pass": true
+    },
+    "reproduction": {
+      "value": 0.98625,
+      "threshold": 0.98,
+      "pass": true
+    },
+    "mathFirst": {
+      "value": 0,
+      "threshold": 0.3,
+      "pass": true
+    },
+    "symbolCov": {
+      "value": 19,
+      "threshold": 18,
+      "pass": true
+    }
+  },
+  "passCount": 4,
+  "overallPass": true,
+  "detail": {
+    "mathFirst": {
+      "proseLines": 0,
+      "symbolLines": 93,
+      "totalLines": 106,
+      "proseDensity": 0,
+      "proseExamples": [],
+      "pass": true
+    },
+    "symbolCov": {
+      "distinctAtoms": 19,
+      "definitions": 83,
+      "universals": 1,
+      "pass": true
+    },
+    "reproduction": {
+      "score": 0.98625,
+      "axes": {
+        "palette": 1,
+        "typography": 1,
+        "sections": 1.125,
+        "brand": 0.7,
+        "mode": 1
+      },
+      "reasons": [
+        "brand mismatch: \"hey bradley\" vs \"hey bradley - the whiteboard that listens\""
+      ],
+      "cost": 0.0053892,
+      "wallClockMs": 7541
+    },
+    "ambiguity": {
+      "totalFacts": 62,
+      "factsPresent": 62,
+      "factsMissing": 0,
+      "completeness": 1,
+      "ambiguityScore": 0,
+      "missingExamples": [],
+      "pass": true
+    }
+  },
+  "cost": 0.0053892
+}

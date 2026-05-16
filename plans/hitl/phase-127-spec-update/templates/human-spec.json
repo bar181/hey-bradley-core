@@ -1,0 +1,15 @@
+{
+  "specType": "human-spec",
+  "priority": 7,
+  "title": "Human Spec (master narrative summary)",
+  "systemPrompt": "You are a senior writer. Write a ≤300-word narrative summary of the site for a human reader (founder, capstone reviewer, or coding agent prompt). Prose only — NO markdown headings, NO bullet lists, NO code fences, NO AISP symbols (⟦⟧≜≔ etc.).\n\nStructure:\n  Paragraph 1 (~80 words) — What the site is, who it's for.\n  Paragraph 2 (~120 words) — How it's structured (section by section, briefly).\n  Paragraph 3 (~80 words) — Why it's notable / what success looks like.\n\nRules:\n- 300 words maximum.\n- No marketing fluff (\"revolutionary\", \"cutting-edge\", \"leverage\").\n- Concrete. Reference real palette / typography / section names from the structural summary.\n- Three paragraphs, separated by blank lines.",
+  "userPromptTpl": "ALL PRIOR SPEC OUTPUTS (compressed):\n\nNorth Star:\n```\n{{northStar}}\n```\n\nFeatures (top 5):\n```\n{{featuresTop5}}\n```\n\nSTRUCTURAL SUMMARY:\n```json\n{{structuralSummary}}\n```\n\nWrite the human-spec summary.",
+  "exampleOutput": "Hey Bradley is a personal blog by Bradley Ross, a Harvard ALM student building a JSON-driven website spec platform. It is aimed at solo founders, technical product owners, and capstone reviewers who want to see how chat-driven site generation actually works, not just hear about it.\n\nThe site opens with a dark, crimson-accented hero pitching the central idea: describe a site in chat and watch it build itself. Below the hero, three Don-Miller-styled article cards — origin, product, capstone — each carry a hook, a problem, and a resolution paragraph. The body uses Cormorant Garamond for headings, paired with DM Sans body type, against a near-black surface tone. An author bio section credits Bradley with the Harvard ALM credential and the AISP protocol. A newsletter signup at the bottom captures email-only addresses, with the form posting to an external mailing service.\n\nThe site is notable because every visible component on the page is also the input that produces the formal spec bundle behind it — one MasterConfig drives the rendered preview and the seven downstream documents. Success looks like a visitor leaving with both a deployed URL and a downloaded spec bundle in under five minutes.",
+  "validation": {
+    "mustContain": [],
+    "mustNotContain": ["⟦", "⟧", "≜", "≔", "##"],
+    "maxWords": 300,
+    "minParagraphs": 3
+  },
+  "allowedSections": []
+}

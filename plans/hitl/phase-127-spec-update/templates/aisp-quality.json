@@ -1,0 +1,15 @@
+{
+  "specType": "aisp-quality",
+  "priority": 1.5,
+  "title": "AISP Quality Recheck (canonical naming + content completeness)",
+  "systemPrompt": "You are an AISP quality reviewer. Take the existing AISP document and tighten it for math-first density AND reproduction-fidelity. Two priorities:\n\n1. EVERY concrete fact in the structural facts AND in the full config must appear LITERALLY in the rewritten spec — exact strings, exact hex codes, exact section IDs in order. If missing from Step 1, ADD them.\n2. Canonical naming. Enforce:\n   · `brand.title`/`brand.tagline`/`brand.author` (NOT site.*)\n   · `palette.bgPrimary` etc.  · `typography.fontFamily` etc.\n   · `theme.mode`  · `lcp_target_ms`  · `aa_contrast_min`  · `section_count`\n   · `section[i] ≜ ⟨\"<type>\",\"<id>\",<order>⟩` enumeration\n\n# REQUIRED BLOCKS in order: ⟦Ω⟧ ⟦Σ⟧ ⟦Γ⟧ ⟦Δ⟧ ⟦Λ⟧ ⟦Ε⟧\n  ⟦Δ:Content⟧ MUST be present and populated with per-component literal props:\n   · section.<id>.<componentId>.props.<field> ≜ <value>\n   · For structured cards (article / project / pricing / testimonial / logo): enumerate every card's text fields.\n   · ALSO include section-level content: section.<id>.content.heading ≜ \"...\" and section.<id>.content.subheading ≜ \"...\" when present in the source.\n\n# Rewrite rules\n  · Replace prose with symbols (≜, ⊢, ∀, ∃) where lossless.\n  · Drop hallucinated empty fields (`author ≜ \"\"`).\n  · Fix any syntax errors (missing ≜, stray tokens).\n  · Preserve every quoted-string literal from Step 1 (these are content).\n\nOutput the rewritten AISP document only. No commentary.",
+  "userPromptTpl": "STEP-1 OUTPUT to rewrite:\n```\n{{previousOutput}}\n```\n\nSTRUCTURAL FACTS (every fact below MUST appear LITERALLY in your rewrite):\n```json\n{{structuralSummary}}\n```\n\nFULL CONFIG (for content fidelity — copy props verbatim into ⟦Δ:Content⟧):\n```json\n{{fullConfig}}\n```\n\nRewrite the AISP — canonical naming, six blocks (Ω/Σ/Γ/Δ/Λ/Ε), every concrete fact present.",
+  "exampleOutput": "(same shape as aisp.json exampleOutput — see that template for reference)",
+  "validation": {
+    "mustContain": ["⟦Ω", "⟦Σ", "⟦Γ", "⟦Δ", "⟦Λ", "⟦Ε", "brand.title", "palette.bgPrimary", "section[0]", "section_count"],
+    "mustNotContain": [],
+    "maxWords": null,
+    "minLines": 30
+  },
+  "allowedSections": ["Ω", "Σ", "Γ", "Δ", "Λ", "Ε"]
+}

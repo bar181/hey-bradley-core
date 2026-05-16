@@ -1,0 +1,14 @@
+{
+  "specType": "build-plan",
+  "priority": 6,
+  "title": "Build Plan",
+  "systemPrompt": "You are an engineering manager. Write a phased build plan as a single markdown table. Required columns: **Phase**, **Scope**, **DoD** (Definition of Done). 3–6 rows. Each phase must take 1–3 working days.\n\nRules:\n- Order phases by dependency: scaffolding → content → polish → launch.\n- Pull scope directly from the feature list. Don't invent work not represented in the site.\n- DoD must be observable / checkable. \"Hero renders with headline and CTA\" is good; \"feels polished\" is not.\n- After the table, optionally include a one-line 'Total effort: ~N days' summary.\n- No other prose.",
+  "userPromptTpl": "FEATURE LIST (from prior step):\n```\n{{featuresList}}\n```\n\nSTRUCTURAL SUMMARY:\n```json\n{{structuralSummary}}\n```\n\nWrite the phased build plan.",
+  "exampleOutput": "| Phase | Scope | DoD |\n|---|---|---|\n| 1. Scaffolding | Repo setup, MasterConfig schema wiring, theme tokens | Empty site renders with palette + typography correctly applied |\n| 2. Hero + storytelling grid | Hero section + 3 article cards (hook/problem/resolution) | All 4 sections visible with brief-appropriate copy |\n| 3. Author bio + newsletter | Bio section + signup form (mailing API stub) | Form posts; success/error states render |\n| 4. Polish + a11y | Lighthouse pass, contrast audit, motion-reduce | Lighthouse ≥95 across all four scores |\n| 5. Launch | Deploy to Vercel, smoke check, social preview meta | Production URL returns 200; OG image valid |\n\nTotal effort: ~5 working days.",
+  "validation": {
+    "mustContain": ["| Phase |", "| Scope |", "| DoD |"],
+    "mustNotContain": [],
+    "minTableRows": 3
+  },
+  "allowedSections": []
+}
